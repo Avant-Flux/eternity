@@ -35,37 +35,6 @@ class Character < Entity
 		
 	end
 	
-	def to_s
-		output = ""
-		output += "LVL | HP  MP  | STR CON DEX AGI MND PER LUK"
-		output += ls_stats
-	end
-	
-	def ls element
-		current_lvl = @lvl
-		self.lvl = 1
-	
-		puts "LVL | HP   MP   | STR CON DEX AGI MND PER LUK"
-		
-		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
-		9.times do
-			lvl_up
-			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
-		end
-		
-		@element = element
-		
-		90.times do
-			lvl_up
-			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
-		end
-		
-		self.lvl = current_lvl
-	end
-	
 	private
 	
 	def set_atk
@@ -270,65 +239,5 @@ class Character < Entity
 			when 1
 				((((88.0)/(9.0))*(@lvl-10))+20).floor
 		end
-	end
-	
-	
-	def ls_stats	
-		output = ""
-		output += @lvl.to_s
-		output += (calc_space @lvl) + "| "
-		
-		output += @hp.to_s 
-		output += calc_space_long @hp
-		
-		output += @mp.to_s 
-		output += calc_space_long @mp
-		
-		output += "| "
-		
-		output += @str.to_s 
-		output += calc_space @str
-		
-		output += @con.to_s 
-		output += calc_space @con
-		
-		output += @dex.to_s 
-		output += calc_space @dex
-		
-		output += @agi.to_s 
-		output += calc_space @agi
-		
-		output += @mnd.to_s 
-		output += calc_space @mnd
-		
-		output += @per.to_s 
-		output += calc_space @per
-		
-		output += @luk.to_s 
-		output += calc_space @luk
-		
-		output
-	end
-	
-	def calc_space arg
-		num_of_spaces = 4-(arg.to_s.size)
-		output = ""
-		
-		num_of_spaces.times do
-			output += " "
-		end
-		
-		output
-	end
-	
-	def calc_space_long arg
-		num_of_spaces = 5-(arg.to_s.size)
-		output = ""
-		
-		num_of_spaces.times do
-			output += " "
-		end
-		
-		output
 	end
 end
