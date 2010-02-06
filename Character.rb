@@ -270,7 +270,7 @@ class Character < Entity
 	end
 	
 	
-	def ls_stats
+	def ls_stats	
 		output = ""
 		output += @lvl.to_s
 		output += (calc_space @lvl) + "| "

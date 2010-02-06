@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 01.24.2010
+#~ Date last edited: 02.05.2010
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
@@ -84,34 +84,46 @@ class Entity
 	end
 	
 	def attack(entity)
-		unless @def >= entity.atk
-			check = @dex - entity.agi
-		
-			hit_chance =	if check >= 95
-								100
-							elsif check >= 85
-								95
-							elsif check >= 0
-								80
-							elsif check >= -20
-								50
-							elsif check >= -60
-								20
-							elsif check >= -85
-								5
-							elsif check <= -95
-								0
-							end
-			hit =	if(rand(100) < hit_chance)#Check if the attack hits based purely on dex
-						true
-					elsif @luk > 9000	#See if the attack can hit by luck
-						true
-					else
-						false
-					end
+		unless @atk <= entity.def
+			hit = melee_hit?(entity) || melee_rebound?(entity)
+			
 			if hit#If the attack hits them...
-				entity.hp -= (@atk)
+				entity.hp -= (@atk )
 			end
+		else
+			nil	#No change to hp
+		end
+	end
+	
+	def melee_hit?(entity)
+		check = @dex-entity.agi
+		
+		hit_chance = if check >= 95
+						100
+					elsif check >= 85
+						95
+					elsif check >= 0
+						80
+					elsif check >= -20
+						50
+					elsif check >= -60
+						20
+					elsif check >= -85
+						5
+					elsif check <= -95
+						0
+					end
+		
+		rand(100) < hit_chance
+	end
+	
+	def melee_rebound?
+		if @luk > 9000	#See if the attack can hit by luck
+			true
+		elsif @luk > 
+			nil
+		else
+			false
 		end
 	end
 	
