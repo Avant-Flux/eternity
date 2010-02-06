@@ -47,17 +47,20 @@ class Character < Entity
 	
 		puts "LVL | HP   MP   | STR CON DEX AGI MND PER LUK"
 		
-		puts ls_stats
+		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
+					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 		9.times do
 			lvl_up
-			puts ls_stats
+			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
+					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 		end
 		
 		@element = element
 		
 		90.times do
 			lvl_up
-			puts ls_stats
+			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
+					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 		end
 		
 		self.lvl = current_lvl
