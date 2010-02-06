@@ -110,7 +110,7 @@ class Entity
 						false
 					end
 			if hit#If the attack hits them...
-				entity.hp -= (@atk * (1))
+				entity.hp -= (@atk)
 			end
 		end
 	end
