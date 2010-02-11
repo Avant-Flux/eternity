@@ -92,7 +92,7 @@ module Test
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
 		p player
-						puts ""
+		print "\n"
 		player.titles.sort! :points
 		p player
 	end
@@ -102,15 +102,19 @@ module Test
 		puts "Fire"
 		p.ls :fire
 		print "\n\n\n"
+		
 		puts "Water"
 		p.ls :water
 		print "\n\n\n"
+		
 		puts "Wind"
 		p.ls :wind
 		print "\n\n\n"
+		
 		puts "Lighting"
 		p.ls :lightning
 		print "\n\n\n"
+		
 		puts "Earth"
 		p.ls :earth
 	end
