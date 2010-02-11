@@ -83,21 +83,21 @@ class Entity
 		end
 	end
 	
-	def attack(entity)
-		unless @atk <= entity.def
-			hit = melee_hit? entity						#Check for hit
-			(hit = melee_rebound? entity) unless hit	#Check rebound unless already hit
+	def attack(enemy)
+		unless @atk <= enemy.def
+			hit = melee_hit? enemy						#Check for hit
+			(hit = melee_rebound? enemy) unless hit	#Check rebound unless already hit
 			
 			if hit										#If the attack hits them...
-				entity.hp -= (@atk )
+				enemy.hp -= (@atk )
 			end
 		else
 			nil	#No change to hp
 		end
 	end
 	
-	def melee_hit?(entity)
-		check = @dex-entity.agi
+	def melee_hit?(enemy)
+		check = @dex-enemy.agi
 		
 		hit_chance = if check >= 95
 						100
@@ -128,11 +128,11 @@ class Entity
 		end
 	end
 	
-	def shoot(entity)
+	def shoot(enemy)
 		
 	end
 	
-	def use_skill(entity)
+	def use_skill(enemy)
 		
 	end
 end

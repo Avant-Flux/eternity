@@ -10,8 +10,6 @@ require "NPC"
 
 require "Creature"
 
-#~ require "Constants"
-
 require "rubygems"
 require "gosu"
 
