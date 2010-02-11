@@ -21,21 +21,18 @@ class Character
 		self.lvl = 1
 	
 		puts "LVL | HP   MP   | STR CON DEX AGI MND PER LUK"
+		ls_stats
 		
-		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 		9.times do
 			lvl_up
-			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
+			ls_stats
 		end
 		
 		@element = element
 		
 		90.times do
 			lvl_up
-			printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
+			ls_stats
 		end
 		
 		self.lvl = current_lvl
@@ -44,40 +41,8 @@ class Character
 	private 
 	
 	def ls_stats	
-		output = ""
-		output += @lvl.to_s
-		output += (calc_space @lvl) + "| "
-		
-		output += @hp.to_s 
-		output += calc_space_long @hp
-		
-		output += @mp.to_s 
-		output += calc_space_long @mp
-		
-		output += "| "
-		
-		output += @str.to_s 
-		output += calc_space @str
-		
-		output += @con.to_s 
-		output += calc_space @con
-		
-		output += @dex.to_s 
-		output += calc_space @dex
-		
-		output += @agi.to_s 
-		output += calc_space @agi
-		
-		output += @mnd.to_s 
-		output += calc_space @mnd
-		
-		output += @per.to_s 
-		output += calc_space @per
-		
-		output += @luk.to_s 
-		output += calc_space @luk
-		
-		output
+		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
+					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 	end
 	
 	def calc_space arg
