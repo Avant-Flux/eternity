@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 01.25.2010
+#~ Date last edited: 02.11.2010
 
 require "Entity"
 require "Character"
@@ -44,28 +44,6 @@ class Character
 		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
 					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 	end
-	
-	def calc_space arg
-		num_of_spaces = 4-(arg.to_s.size)
-		output = ""
-		
-		num_of_spaces.times do
-			output += " "
-		end
-		
-		output
-	end
-	
-	def calc_space_long arg
-		num_of_spaces = 5-(arg.to_s.size)
-		output = ""
-		
-		num_of_spaces.times do
-			output += " "
-		end
-		
-		output
-	end
 end
 
 class Test
@@ -89,16 +67,7 @@ class Test
 	end
 end
 
-module Movement
-	Up = 2
-	Down = 3
-	Left = 5
-	Right = 7
-	Up_right = Up * Right
-	Up_left = Up * Left
-	Down_right = Down * Right
-	Down_left = Down * Left
-end
+
 
 t = Test.new
 p t.entity
@@ -146,5 +115,16 @@ puts "Earth"
 p.ls :earth
 
 module Test
+	module Movement
+		Up = 2
+		Down = 3
+		Left = 5
+		Right = 7
+		Up_right = Up * Right
+		Up_left = Up * Left
+		Down_right = Down * Right
+		Down_left = Down * Left
+	end	
+	
 	
 end
