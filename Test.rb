@@ -92,7 +92,7 @@ module Test
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
 		p player
-		print "\n"
+		puts
 		player.titles.sort! :points
 		p player
 	end
