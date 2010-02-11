@@ -56,6 +56,11 @@ class Installer
 			`gksudo gem install chipmunk`
 		end
 	end
+	
+	def devil
+		`sudo apt-get install libdevil1c2 libdevil-dev`
+		`sudo gem install devil texplay`
+	end
 end
 
 

@@ -179,3 +179,7 @@ p.ls :lightning
 print "\n\n\n"
 puts "Earth"
 p.ls :earth
+
+module Test
+	
+end

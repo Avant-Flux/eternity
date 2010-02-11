@@ -85,9 +85,10 @@ class Entity
 	
 	def attack(entity)
 		unless @atk <= entity.def
-			hit = melee_hit?(entity) || melee_rebound?(entity)
+			hit = melee_hit? entity						#Check for hit
+			(hit = melee_rebound? entity) unless hit	#Check rebound unless already hit
 			
-			if hit#If the attack hits them...
+			if hit										#If the attack hits them...
 				entity.hp -= (@atk )
 			end
 		else
