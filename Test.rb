@@ -61,7 +61,7 @@ module Test
 		Down_left = Down * Left
 	end
 	
-	def test_entity_creation
+	def self.test_entity_creation
 		animations = {:up => 1,
 					:down => 2,
 					:left => 3,
@@ -86,7 +86,16 @@ module Test
 		p creature
 	end
 	
-	def test_title
+	def self.test_title
+		animations = {:up => 1,
+					:down => 2,
+					:left => 3,
+					:right => 4,
+					:up_right => 5,
+					:up_left => 6,
+					:down_right => 7,
+					:down_left => 8}
+		
 		player = Player.new(animations)
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
@@ -96,7 +105,16 @@ module Test
 		p player
 	end
 	
-	def test_element_based_lvl_up
+	def self.test_element_based_lvl_up
+		animations = {:up => 1,
+					:down => 2,
+					:left => 3,
+					:right => 4,
+					:up_right => 5,
+					:up_left => 6,
+					:down_right => 7,
+					:down_left => 8}
+		
 		p = Player.new(animations)
 		puts "Fire"
 		p.ls :fire
@@ -114,3 +132,6 @@ module Test
 		p.ls :earth
 	end
 end
+Test::test_entity_creation
+Test::test_title
+Test::test_element_based_lvl_up
