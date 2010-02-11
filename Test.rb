@@ -68,8 +68,8 @@ module Test
 					:down_right => 7,
 					:down_left => 8}
 	
-	
-	def self.test_entity_creation
+	class << self
+	def test_entity_creation
 		entity = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
 		character = Character.new(@animations)
@@ -85,7 +85,7 @@ module Test
 		p creature
 	end
 	
-	def self.test_title		
+	def test_title		
 		player = Player.new(@animations)
 		
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
@@ -99,7 +99,7 @@ module Test
 		p player.titles
 	end
 	
-	def self.test_element_based_lvl_up	
+	def test_element_based_lvl_up	
 		p = Player.new(@animations)
 		puts "Fire"
 		p.ls :fire
@@ -120,8 +120,10 @@ module Test
 		puts "Earth"
 		p.ls :earth
 	end
+	
+	end
 end
 
-#~ Test::test_entity_creation
+Test::test_entity_creation
 Test::test_title
-#~ Test::test_element_based_lvl_up
+Test::test_element_based_lvl_up
