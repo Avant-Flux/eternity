@@ -71,29 +71,29 @@ module Test
 					:down_right => 7,
 					:down_left => 8}
 		
-		@entity = Entity.new(animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+		entity = Entity.new(animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		@character = Character.new(animations)
-		@player = Player.new(animations)
-		@creature = Creature.new(animations)
+		character = Character.new(animations)
+		player = Player.new(animations)
+		creature = Creature.new(animations)
 		
-		t = Test.new
-		p t.entity
+		p entity
 		puts
-		p t.character
+		p character
 		puts
-		p t.player
+		p player
 		puts
-		p t.creature
+		p creature
 	end
 	
 	def test_title
-		t.player.titles << (Title.new("sue", "this is sue", 1, 100))
-		t.player.titles << (Title.new("bob", "this is bob", 1, 200))
-		p t.player
+		player = Player.new(animations)
+		player.titles << (Title.new("sue", "this is sue", 1, 100))
+		player.titles << (Title.new("bob", "this is bob", 1, 200))
+		p player
 						puts ""
-		t.player.titles.sort! :points
-		p t.player
+		player.titles.sort! :points
+		p player
 	end
 	
 	def test_element_based_lvl_up
