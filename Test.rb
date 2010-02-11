@@ -49,8 +49,6 @@ end
 #~ require 'ruby-debug'
 #~ debugger
 
-#~ t.player.ls :fire	
-
 module Test
 	module Movement
 		Up = 2
