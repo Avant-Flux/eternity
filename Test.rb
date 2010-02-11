@@ -61,8 +61,7 @@ module Test
 		Down_left = Down * Left
 	end
 	
-	def self.test_entity_creation
-		animations = {:up => 1,
+	@animations = {:up => 1,
 					:down => 2,
 					:left => 3,
 					:right => 4,
@@ -70,12 +69,14 @@ module Test
 					:up_left => 6,
 					:down_right => 7,
 					:down_left => 8}
-		
-		entity = Entity.new(animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+	
+	
+	def self.test_entity_creation
+		entity = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		character = Character.new(animations)
-		player = Player.new(animations)
-		creature = Creature.new(animations)
+		character = Character.new(@animations)
+		player = Player.new(@animations)
+		creature = Creature.new(@animations)
 		
 		p entity
 		puts
@@ -86,17 +87,8 @@ module Test
 		p creature
 	end
 	
-	def self.test_title
-		animations = {:up => 1,
-					:down => 2,
-					:left => 3,
-					:right => 4,
-					:up_right => 5,
-					:up_left => 6,
-					:down_right => 7,
-					:down_left => 8}
-		
-		player = Player.new(animations)
+	def self.test_title		
+		player = Player.new(@animations)
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
 		p player
@@ -105,17 +97,8 @@ module Test
 		p player
 	end
 	
-	def self.test_element_based_lvl_up
-		animations = {:up => 1,
-					:down => 2,
-					:left => 3,
-					:right => 4,
-					:up_right => 5,
-					:up_left => 6,
-					:down_right => 7,
-					:down_left => 8}
-		
-		p = Player.new(animations)
+	def self.test_element_based_lvl_up	
+		p = Player.new(@animations)
 		puts "Fire"
 		p.ls :fire
 		print "\n\n\n"
@@ -132,6 +115,7 @@ module Test
 		p.ls :earth
 	end
 end
+
 Test::test_entity_creation
 Test::test_title
 Test::test_element_based_lvl_up
