@@ -46,10 +46,24 @@ class Character
 	end
 end
 
-class Test
-	attr_reader :entity, :character, :player, :creature
+#~ require 'ruby-debug'
+#~ debugger
 
-	def initialize
+#~ t.player.ls :fire	
+
+module Test
+	module Movement
+		Up = 2
+		Down = 3
+		Left = 5
+		Right = 7
+		Up_right = Up * Right
+		Up_left = Up * Left
+		Down_right = Down * Right
+		Down_left = Down * Left
+	end
+	
+	def test_entity_creation
 		animations = {:up => 1,
 					:down => 2,
 					:left => 3,
@@ -64,67 +78,41 @@ class Test
 		@character = Character.new(animations)
 		@player = Player.new(animations)
 		@creature = Creature.new(animations)
+		
+		t = Test.new
+		p t.entity
+		puts
+		p t.character
+		puts
+		p t.player
+		puts
+		p t.creature
 	end
-end
-
-
-
-t = Test.new
-p t.entity
-puts
-p t.character
-puts
-p t.player
-puts
-p t.creature
-
-#~ t.player.titles << (Title.new("sue", "this is sue", 1, 100))
-#~ t.player.titles << (Title.new("bob", "this is bob", 1, 200))
-#~ p t.player
-				#~ puts ""
-#~ t.player.titles.sort! :points
-#~ p t.player
-
-#~ require 'ruby-debug'
-#~ debugger
-
-#~ t.player.ls :fire
-animations = {:up => 1,
-					:down => 2,
-					:left => 3,
-					:right => 4,
-					:up_right => 5,
-					:up_left => 6,
-					:down_right => 7,
-					:down_left => 8}
-
-p = Player.new(animations)
-puts "Fire"
-p.ls :fire
-print "\n\n\n"
-puts "Water"
-p.ls :water
-print "\n\n\n"
-puts "Wind"
-p.ls :wind
-print "\n\n\n"
-puts "Lighting"
-p.ls :lightning
-print "\n\n\n"
-puts "Earth"
-p.ls :earth
-
-module Test
-	module Movement
-		Up = 2
-		Down = 3
-		Left = 5
-		Right = 7
-		Up_right = Up * Right
-		Up_left = Up * Left
-		Down_right = Down * Right
-		Down_left = Down * Left
-	end	
 	
+	def test_title
+		t.player.titles << (Title.new("sue", "this is sue", 1, 100))
+		t.player.titles << (Title.new("bob", "this is bob", 1, 200))
+		p t.player
+						puts ""
+		t.player.titles.sort! :points
+		p t.player
+	end
 	
+	def test_element_based_lvl_up
+		p = Player.new(animations)
+		puts "Fire"
+		p.ls :fire
+		print "\n\n\n"
+		puts "Water"
+		p.ls :water
+		print "\n\n\n"
+		puts "Wind"
+		p.ls :wind
+		print "\n\n\n"
+		puts "Lighting"
+		p.ls :lightning
+		print "\n\n\n"
+		puts "Earth"
+		p.ls :earth
+	end
 end
