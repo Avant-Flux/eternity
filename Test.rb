@@ -89,12 +89,16 @@ module Test
 	
 	def self.test_title		
 		player = Player.new(@animations)
+		
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
-		p player
+		
+		p player.titles
+		
 		puts
+		
 		player.titles.sort! :points
-		p player
+		p player.titles
 	end
 	
 	def self.test_element_based_lvl_up	
@@ -120,6 +124,6 @@ module Test
 	end
 end
 
-Test::test_entity_creation
+#~ Test::test_entity_creation
 Test::test_title
-Test::test_element_based_lvl_up
+#~ Test::test_element_based_lvl_up
