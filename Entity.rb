@@ -85,11 +85,10 @@ class Entity
 	
 	def attack(enemy)
 		unless @atk <= enemy.def
-			hit = melee_hit? enemy						#Check for hit
-			(hit = melee_rebound? enemy) unless hit	#Check rebound unless already hit
+			hit = melee_hit? || melee_rebound?			#Check rebound unless already hit
 			
 			if hit										#If the attack hits them...
-				enemy.hp -= (@atk )
+				enemy.hp -= (@atk)
 			end
 		else
 			nil	#No change to hp
@@ -119,10 +118,14 @@ class Entity
 	end
 	
 	def melee_rebound?
+		#~ The BigMath class has methods to compute e and e^(x)
+			#~ puts 1/(1+3*exp(BigDecimal.new('-3')*x, 10))
+
+		
 		if @luk > 9000	#See if the attack can hit by luck
 			true
-		elsif @luk > 
-			nil
+		elsif @luk > 2000
+			true
 		else
 			false
 		end
