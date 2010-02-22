@@ -84,19 +84,19 @@ class Entity
 	end
 	
 	#Returns the amount of damage dealt, or nil if the attack missed
-	def attack(enemy)
+	def melee_attack(enemy)
 		unless @atk <= enemy.def
-			if melee_hit? || melee_rebound?				#Check rebound unless already hit
+			if hit? || rebound?					#Check rebound unless already hit
 				#If the attack hits them...
 				damage = @atk - enemy.def
 				enemy.hp -= damage
 				
 				return damage
 			else
-				return nil
+				return nil	#Missed~~~
 			end
 		else
-			return 0	#No change to hp
+			return 0		#No change to hp
 		end
 	end
 	

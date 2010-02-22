@@ -121,9 +121,18 @@ module Test
 		p.ls :earth
 	end
 	
+	def test_melee_attack
+		e1 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+					stats=[1,1,1,1,1,1,1], faction = 0)
+		e2 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+					stats=[1,1,1,1,1,1,1], faction = 0)
+		e1.Melee::attack(e2)
+	end
+	
 	end
 end
 
-Test::test_entity_creation
-Test::test_title
-Test::test_element_based_lvl_up
+#~ Test::test_entity_creation
+#~ Test::test_title
+#~ Test::test_element_based_lvl_up
+Test::test_melee_attack
