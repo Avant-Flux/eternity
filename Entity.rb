@@ -116,7 +116,7 @@ class Entity
 					elsif check >= -85
 						5
 					elsif check <= -95
-						0
+						return false #no chance to hit
 					end
 		
 		percent_check hit_chance
@@ -149,7 +149,7 @@ class Entity
 							elsif @luk > 8
 								1
 							else
-								0
+								return false #no chance to hit
 							end
 							
 		percent_check rebound_chance
