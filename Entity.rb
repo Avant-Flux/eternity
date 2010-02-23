@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.21.2010
+#~ Date last edited: 02.23.2010
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
@@ -119,21 +119,40 @@ class Entity
 						0
 					end
 		
-		rand(100) < hit_chance
+		percent_check hit_chance
 	end
 	
 	def melee_rebound?(enemy)
 		#~ The BigMath class has methods to compute e and e^(x)
 			#~ puts 1/(1+3*exp(BigDecimal.new('-3')*x, 10))
 		
-		
-		if @luk > 9000	#See if the attack can hit by luck
-			true
-		elsif @luk > 2000
-			true
-		else
-			false
-		end
+		rebound_chance =	if @luk > 9000	#See if the attack can hit by luck
+								50
+							elsif @luk > 4500
+								48
+							elsif @luk > 2250
+								45
+							elsif @luk > 1125
+								40
+							elsif @luk > 562
+								30
+							elsif @luk > 281
+								10
+							elsif @luk > 140
+								5
+							elsif @luk > 70
+								4
+							elsif @luk > 35
+								3
+							elsif @luk > 17
+								2
+							elsif @luk > 8
+								1
+							else
+								0
+							end
+							
+		percent_check rebound_chance
 	end
 	
 	def shoot(enemy)
@@ -142,5 +161,9 @@ class Entity
 	
 	def use_skill(enemy)
 		
+	end
+	
+	def percent_check(percent)
+		rand(100) < percent
 	end
 end
