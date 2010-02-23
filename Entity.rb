@@ -116,10 +116,13 @@ class Entity
 					elsif check >= -85
 						5
 					elsif check <= -95
-						return false #no chance to hit
+						0
 					end
-		
-		percent_check hit_chance
+		if hit_chance == 0
+			false
+		else
+			percent_check hit_chance
+		end
 	end
 	
 	def melee_rebound?(enemy)
@@ -149,10 +152,13 @@ class Entity
 							elsif @luk > 8
 								1
 							else
-								return false #no chance to hit
+								0
 							end
-							
-		percent_check rebound_chance
+		if hit_chance == 0
+			false
+		else
+			percent_check hit_chance
+		end
 	end
 	
 	def shoot(enemy)
@@ -163,6 +169,10 @@ class Entity
 		
 	end
 	
+	private 
+	
+	#Description:	Checks if an operation succeeds using a percentage chance
+	#				Analogous to rolling a 100-sided die
 	def percent_check(percent)
 		rand(100) < percent
 	end
