@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.05.2010
+#~ Date last edited: 02.21.2010
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
@@ -85,8 +85,8 @@ class Entity
 	
 	#Returns the amount of damage dealt, or nil if the attack missed
 	def melee_attack(enemy)
-		unless @atk <= enemy.def
-			if hit? || rebound?					#Check rebound unless already hit
+		if @atk > enemy.def
+			if melee_hit?(enemy) || melee_rebound?(enemy)		#Check rebound unless already hit
 				#If the attack hits them...
 				damage = @atk - enemy.def
 				enemy.hp -= damage
@@ -122,10 +122,10 @@ class Entity
 		rand(100) < hit_chance
 	end
 	
-	def melee_rebound?
+	def melee_rebound?(enemy)
 		#~ The BigMath class has methods to compute e and e^(x)
 			#~ puts 1/(1+3*exp(BigDecimal.new('-3')*x, 10))
-
+		
 		
 		if @luk > 9000	#See if the attack can hit by luck
 			true

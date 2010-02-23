@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.11.2010
+#~ Date last edited: 02.21.2010
 
 require "Entity"
 require "Character"
@@ -122,11 +122,13 @@ module Test
 	end
 	
 	def test_melee_attack
-		e1 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+		attacker = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+					stats=[10,1,1,1,1,1,1], faction = 0)
+		defender = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e2 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
-		e1.Melee::attack(e2)
+		10.times do
+			p attacker.melee_attack defender
+		end
 	end
 	
 	end
