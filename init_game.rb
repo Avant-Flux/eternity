@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 12.09.2009
+#~ Date last edited: 02.25.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -9,16 +9,18 @@ rescue LoadError
   # In case you don't.
 end
 begin
-require 'lib/gosu'
+	require 'lib/gosu'
+	require 'lib/chingu'
 rescue LoadError
-require 'gosu'
+	require 'gosu'
+	require 'chingu'
 end
 
 require "FPSCounter"
 
 class Game_Window < Gosu::Window
-	attr_reader :screen_x
-	attr_reader :screen_y
+	attr_reader :screen_x, :screen_y
+	
 	def initialize
 		super(800, 600, false)
 		self.caption = "Project ETERNITY"
@@ -41,5 +43,4 @@ class Game_Window < Gosu::Window
 	end
 end
 
-window = Game_Window.new
-window.show
+Game_Window.new.show
