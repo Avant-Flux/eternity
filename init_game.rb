@@ -17,6 +17,7 @@ rescue LoadError
 end
 
 require "FPSCounter"
+require "InputHandler"
 require "ManageAssets"
 
 class Game_Window < Gosu::Window
