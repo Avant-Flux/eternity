@@ -17,6 +17,7 @@ rescue LoadError
 end
 
 require "FPSCounter"
+require "ManageAssets"
 
 class Game_Window < Gosu::Window
 	attr_reader :screen_x, :screen_y
@@ -25,6 +26,8 @@ class Game_Window < Gosu::Window
 		super(800, 600, false)
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
+		
+		@player = ManageAssets::new_player
 	end
 	
 	def update
