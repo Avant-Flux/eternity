@@ -9,11 +9,15 @@ class Entity
 	attr_accessor :element, :faction, :hidden
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
+	
+	@@all = Array.new
 
 	def initialize(animations, pos, lvl, hp, mp, element, stats, faction)
+		@@all << self
+	
 		@animations = animations
 		@current_animation = @animations[:down]
-
+		
 		@x = pos[0]
 		@y = pos[1]
 		@z = pos[2]
@@ -34,6 +38,14 @@ class Entity
 		@mnd = stats[4]
 		@per = stats[5]
 		@luk = stats[6]
+	end
+	
+	def self.all
+		@@all
+	end
+	
+	def draw
+		
 	end
 
 	def warp(x, y, z=@z)
