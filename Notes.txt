@@ -1,0 +1,11 @@
+Dimentions for imagemagick are in widthxheight format
+	Units are pixels
+
+Command to convert raw spritesheet into usable spritesheet
+	convert -crop 330x80+35+145 Sprites.png ./slices/Sprites_rip
+
+
+
+Ruby Installation on Ubuntu
+	sudo apt-get install ruby1.9.1-full rubygems1.9.1
+	sudo RubyVersion 1.9.1
