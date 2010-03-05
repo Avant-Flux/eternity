@@ -35,6 +35,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
+		@player.draw
 	end
 	
 	def button_down(id)

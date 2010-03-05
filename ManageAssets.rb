@@ -17,10 +17,10 @@ module ManageAssets
 					:down_left => 8}
 
 	def new_player
-		Player.new
+		Player.new(@animations)
 	end
-	
+
 	def load_player
-		
+
 	end
 end

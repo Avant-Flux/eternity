@@ -18,6 +18,10 @@ class Player < Character
 		@titles = Title_Holder.new
 	end
 	
+	def draw
+		
+	end
+	
 	def lvl_up
 		self.lvl = @lvl + 1 unless @lvl == Lvl_cap
 	end

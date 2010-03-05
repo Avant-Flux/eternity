@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 01.18.2010
+#~ Date last edited: 03.05.2010
 require 'rbconfig' 
 
 class Installer
@@ -17,6 +17,8 @@ class Installer
 		chingu
 		chipmunk
 		opengl
+		devil_and_texplay
+		imagemagick
 	end
 	
 	def rake
@@ -57,9 +59,18 @@ class Installer
 		end
 	end
 	
-	def devil
-		`sudo apt-get install libdevil1c2 libdevil-dev`
-		`sudo gem install devil texplay`
+	def devil_and_texplay
+		`gksudo apt-get install libdevil1c2 libdevil-dev`
+		`gksudo gem install devil texplay`
+	end
+	
+	def imagemagick
+		`gksudo apt-get install libmagickcore-dev libmagickwand-dev`
+		`gksudo gem install rmagick`
+		
+		if @os == "Windows"
+			`gem install rmagick-win32`
+		end
 	end
 end
 
