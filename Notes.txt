@@ -1,3 +1,44 @@
+http://serpent231.tripod.com/cliche.shtml
+Supposed to be bad cliches 
+
+Obligatory Dungeons. Every game has a mountain, at least one cave, some type of icy dungeon, a tower, a castle, a high-tech dungeon, a forest, and a shrine. Most have volcanoes.
+Obligatory Status Changes. All RPGs have the following status changes: poison, blindness, sleep, confusion, and paralysis.
+Obligatory Tool Rule. Every action-RPG, or game with action-RPG style puzzles (like Wild Arms or Lufia 2), has bombs and a hookshot.
+Wandering Mercenary. Another stereotypical character in almost every RPG. A wandering ninja or mercenary that is helping the party, but doesn't really care about what they are fighting for. Frequently a popular character. (see Shadow, Magus, Boomerang, etc.). Usually wants revenge on one of the main bad guys (as in Magus or Vincent's case), and rarely talks.
+
+
+
+
+Some are actually legitimate criticism
+
+Obstacle Course Rule. Simple objects such as pots and chairs serve as major obstacles, forcing you to walk around them, rather than just step over them.
+Rambo Rule. Having a higher Strength statistic increases the amount of damage guns do (exception: Chrono Trigger). This makes no sense whatsoever.
+Randomly Drops. Words every gamer dreads. Means you have to spend countless hours fighting an enemy over and over so it will drop the super-duper piece of equipment that you have a 1 in 127 chance in getting. See FF4, Earthbound, and the BOF games.
+Revival Law. Logical loophole that allows you to revive dead characters in battle with items and magic, but keeps characters dead that are killed for plot purposes. (Exception: In Final Fantasy 5, Galuf is killed, but it makes sense. He fights Exdeath, going way beyond unconsciousness, being stuck at 0 hp most the time but still able to fight. After he's spent, the party tries using revival items and spells on him, but his spirit is too lost for them to work. This is -the- only game I know of which explains the Revival Law, and they did it perfectly, imo. -- Minami)See also Soft-Hard Rule.
+Safety Net. Characters can jump or fall unlimited heights without ever getting hurt.
+Shadowboxing Rule. In the majority of RPGs, characters fight by simply swinging their weapons in the air and not coming at all close the enemies. (This is not true for games with polygonal battles or Chrono Trigger)
+Shooting Blanks. Guns are always weaker than swords.
+Size Doesn't Matter. Characters can perform martial arts moves on enemies many times larger than they are. Want to have Sabin do a suplex on a train? No problem!
+Smokey's Rule. Fire spells do not start fires; they can be used in thick forests with no repercussions. (Exception: Kartia and Bahamut Lagoon)
+Soft / Hard rule. Characters can get hit with all sorts of attacks (lightning bolts, earthquakes, meteors, etc.) during battle and still be standing, but for purposes of the storyline, they can be killed by a lowly dagger or sword.
+Sound Sleeper. Characters put to sleep during battle can sleep through the various sounds of battles, including meteor strikes, summoned dragons, exploding bombs, and never wake up -- not to mention being actually attacked and not waking up. In addition, almost all RPG characters either sleep kneeling or standing up. (Chrono Trigger is the only game where your characters actually lay down when they're put to sleep)
+Status Change rule. All bosses are immune to status changes (poison, sleep, etc.) and instant death spells.
+Universal System Rule. All game worlds (er, except Evermore) have a universal currency system, and a universal language (except FF1). This is despite most worlds having lost cities, remote elf villages, warring kingdoms, obscure islands, etc.
+Unlimited Warranty. Weapons and armor never break. (Exceptions: Zelda 64 and FF Rods)
+Warm-up Battle. Rather than just have you wander around town talking to people, many games start with a really easy dungeon or battle (sometimes a Deja Vu Dungeon). See the bombing mission in FF7, attack on Narshe in FF6, opening battle against Zoot in Vandal~Hearts.
+Weapon Specialization Rule. Each character is very limited in the type of weapons they can use (except in the SaGa games and FF games with Jobs), usually only having one type (swords, axes, staffs, etc.) that they can use.
+
+
+
+
+Forumlae Etc
+	Create some kind of random variance in Entity
+		Allows for enemies that are slightly different
+		Allows for players that are slightly different
+		Increases realism
+			People with the same nature are merely similar, not clones
+
+
 Dimentions for imagemagick are in widthxheight format
 	Units are pixels
 
