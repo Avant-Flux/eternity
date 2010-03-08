@@ -12,8 +12,8 @@ class Player < Character
 	attr_accessor :titles
 	Lvl_cap = 100
 
-	def initialize(animations, pos = [0, 0, 0])
-		super(animations, pos)
+	def initialize(animations, pos = [0, 0, 0], dir=:down)
+		super(animations, pos, dir)
 		
 		@titles = Title_Holder.new
 	end

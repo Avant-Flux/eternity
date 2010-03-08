@@ -18,11 +18,12 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(animations, pos, lvl, hp, mp, element, stats, faction)
+	def initialize(animations, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		
 		@animations = animations
-		@current_animation = @animations[:down]
+		@current_animation = @animations[dir]
+		@direction = dir
 		
 		@x = pos[0]
 		@y = pos[1]
@@ -30,7 +31,7 @@ class Entity
 
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
-		@direction = 0		#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos
+		#~ @direction = 0	#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos
 		@visible = true		#Controls whether or not to render the Entity
 		@moving = false
 

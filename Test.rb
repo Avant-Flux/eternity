@@ -146,7 +146,7 @@ module Test
 end
 
 #~ Test::test_entity_creation
-Test::test_multiple_entity_array
+#~ Test::test_multiple_entity_array
 #~ Test::test_title
 #~ Test::test_element_based_lvl_up
 #~ Test::test_melee_attack
