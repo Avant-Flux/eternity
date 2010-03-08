@@ -1,12 +1,15 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.23.2010
+#~ Date last edited: 03.08.2010
+
+require 'rubygems'
+require 'gosu'
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	attr_accessor :x, :y, :z, :direction
-	attr_reader :animations, :current_animation
-	attr_accessor :element, :faction, :hidden
+	attr_reader :animations, :current_animation, :moving
+	attr_accessor :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
 	
@@ -25,7 +28,8 @@ class Entity
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
 		@direction = 0		#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos
-		@hidden = false		#Controls physical hiding; might not actually be needed
+		@visible = true		#Controls whether or not to render the Entity
+		@moving = false
 
 		@lvl = lvl
 		@max_hp = @hp = hp
@@ -45,7 +49,12 @@ class Entity
 	end
 	
 	def draw
-		
+		if @moving
+			#Animate at 10 fps
+			@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
+		else
+			@current_animation[0]
+		end
 	end
 
 	def warp(x, y, z=@z)
@@ -72,8 +81,8 @@ class Entity
 		@z += inc
 	end
 
-	def hidden?			#Controls physical hiding (ie, in shadows)
-		@hidden
+	def visible?
+		@visible
 	end
 
 	def randomize_stats

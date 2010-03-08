@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.07.2010
+#~ Date last edited: 03.08.2010
 
 begin
   # In case you use Gosu via rubygems.
