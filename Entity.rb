@@ -14,7 +14,7 @@ class Entity
 
 	def initialize(animations, pos, lvl, hp, mp, element, stats, faction)
 		@@all << self
-	
+		
 		@animations = animations
 		@current_animation = @animations[:down]
 		

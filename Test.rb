@@ -96,7 +96,7 @@ module Test
 		p Entity.all
 	end
 	
-	def test_title		
+	def test_title
 		player = Player.new(@animations)
 		
 		player.titles << (Title.new("sue", "this is sue", 1, 100))

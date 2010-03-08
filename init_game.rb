@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.25.2010
+#~ Date last edited: 03.07.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -28,14 +28,23 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
 		
-		@player = ManageAssets::new_player
+		
+		@animations = Gosu::Image::load_tiles(self, "Sprites/Sprites.png", 40, 80, false)
+		p @animations
+		#~ @player = Player.new(animations, [0,0,0])
 	end
 	
 	def update
 	end
 	
 	def draw
-		@player.draw
+		#@player.draw
+		x = y = 20
+		@animations.each do |a|
+			a.draw(x, y, 1, 1, 1)
+			x += 80 
+			#~ y += 85
+		end
 	end
 	
 	def button_down(id)

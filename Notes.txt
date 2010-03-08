@@ -43,7 +43,15 @@ Dimentions for imagemagick are in widthxheight format
 	Units are pixels
 
 Command to convert raw spritesheet into usable spritesheet
-	convert -crop 330x80+35+145 Sprites.png ./slices/Sprites_rip
+	Old version
+		convert -crop 330x80+35+145 Sprites.png ./slices/Sprites_rip
+	New Version - USE THIS ONE
+		convert -crop 320x80+40+145 Sprites.png ./slices/Sprites_rip
+		
+		Chops into 8 40x80 pixel sprites
+			Little more could come off the bottom, but I think it's ok
+
+
 
 
 
