@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.04.2010
+#~ Date last edited: 03.07.2010
 
 require "Entity"
 #To be used for NPCs, such as enemy units
@@ -20,6 +20,10 @@ class Character < Entity
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}
 		@equipment =	{:head => nil, :right_hand => nil, :left_hand => nil, 
 						:upper_body => nil, :lower_body => nil, :feet => nil, :title => nil}
+	end
+	
+	def draw
+		
 	end
 	
 	def lvl=(arg)

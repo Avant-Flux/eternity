@@ -90,10 +90,9 @@ module Test
 					stats=[1,1,1,1,1,1,1], faction = 0)
 		e2 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:water, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e3 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:lightning, 
+		e3 = Creature.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:lightning, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e4 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:earth, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
+		e4 = Player.new(@animations, pos=[0, 0, 0])
 		p Entity.all
 	end
 	
@@ -151,3 +150,4 @@ Test::test_multiple_entity_array
 #~ Test::test_title
 #~ Test::test_element_based_lvl_up
 #~ Test::test_melee_attack
+	
