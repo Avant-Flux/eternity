@@ -27,7 +27,7 @@ class InputHandler
 		
 		@sequence_hist = []
 		
-		@time = 0
+		@time = Gosu::milliseconds
 	end
 	
 	def button_down(id)
@@ -114,7 +114,7 @@ class InputHandler
 	end
 	
 	def update
-		@time += 1
+		#~ @time += 1
 		
 		# Update chords from end state to idle
 		# Invalidate old chords
@@ -123,7 +123,7 @@ class InputHandler
 				c[:state] = :active
 			elsif c[:state] == :finish
 				c[:state] = :idle
-			elsif c[:state] == :process and c[:time] < @time - 10
+			elsif c[:state] == :process and c[:time] < @time - 100
 				c[:state] = :idle
 				c[:active].fill(false)
 			end

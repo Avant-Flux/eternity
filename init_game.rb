@@ -36,10 +36,6 @@ class Game_Window < Gosu::Window
 		
 		@inpman = InputHandler.new()
 		
-		@chordstate = ""
-		@sequencestate = ""
-		@actionstate = ""
-		
 		@inpman.createAction(:up)
 		@inpman.bindAction(:up, Gosu::Button::KbUp)
 		@inpman.createAction(:down)
@@ -49,7 +45,6 @@ class Game_Window < Gosu::Window
 		@inpman.createAction(:right)
 		@inpman.bindAction(:right, Gosu::Button::KbRight)
 		
-		#~ @animations = Gosu::Image::load_tiles(self, "Sprites/Sprites.png", 40, 80, false)
 		@player = Player.new(Animations.player(self), [30,50,0])
 	end
 	
@@ -83,7 +78,7 @@ class Game_Window < Gosu::Window
 	def button_down(id)
 		@inpman.button_down(id)
 		
-		if id == Gosu::Button::KbEscape then
+		if id == Gosu::Button::KbEscape
 			close
 		end
 		if id == Gosu::Button::KbF
@@ -98,13 +93,13 @@ end
 
 class InputHandler
 	def direction
-		result = 1
-		self.query(:up)
-		
-		if self.query(:up) == :active		then result *= 2
-		if self.query(:down) == :active		then result *= 3
-		if self.query(:left) == :active		then result *= 5
-		if self.query(:right) == :active	then result *= 7
+		#~ result = 1
+		#~ self.query(:up)
+		#~ 
+		#~ if self.query(:up) == :active		then result *= 2
+		#~ if self.query(:down) == :active		then result *= 3
+		#~ if self.query(:left) == :active		then result *= 5
+		#~ if self.query(:right) == :active	then result *= 7
 	end
 end
 
