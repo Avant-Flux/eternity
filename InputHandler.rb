@@ -114,7 +114,7 @@ class InputHandler
 	end
 	
 	def update
-		#~ @time += 1
+		@time += Gosu::milliseconds
 		
 		# Update chords from end state to idle
 		# Invalidate old chords
@@ -123,7 +123,8 @@ class InputHandler
 				c[:state] = :active
 			elsif c[:state] == :finish
 				c[:state] = :idle
-			elsif c[:state] == :process and c[:time] < @time - 100
+			elsif c[:state] == :process and c[:time] < @time - 100 
+														#Time in milliseconds between chord "notes"
 				c[:state] = :idle
 				c[:active].fill(false)
 			end

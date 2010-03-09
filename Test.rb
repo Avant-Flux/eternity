@@ -142,6 +142,15 @@ module Test
 		end
 	end
 	
+	def test_draw
+		#~ x = y = 20
+		#~ @animations.each do |a|
+			#~ a.draw(x, y, 1, 1, 1)
+			#~ x += 80 
+			#~ y += 85
+		#~ end
+	end
+	
 	end
 end
 

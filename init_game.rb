@@ -35,29 +35,15 @@ class Game_Window < Gosu::Window
 		@fpscounter = FPSCounter.new(self)
 		
 		@inpman = InputHandler.new()
-		
-		@inpman.createAction(:up)
-		@inpman.bindAction(:up, Gosu::Button::KbUp)
-		@inpman.createAction(:down)
-		@inpman.bindAction(:down, Gosu::Button::KbDown)
-		@inpman.createAction(:left)
-		@inpman.bindAction(:left, Gosu::Button::KbLeft)
-		@inpman.createAction(:right)
-		@inpman.bindAction(:right, Gosu::Button::KbRight)
+		def_kb_bindings
 		
 		@player = Player.new(Animations.player(self), [30,50,0])
 	end
 	
 	def update
-		case
-			when @inpman.query(:up) == :active
-				@player.direction = :up
-			when @inpman.query(:down) == :active
-				@player.direction = :down
-			when @inpman.query(:left) == :active
-				@player.direction = :left
-			when @inpman.query(:right) == :active
-				@player.direction = :right
+		
+		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
+			@player.direction = dir
 		end
 		
 		@inpman.update()
@@ -65,13 +51,6 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		@player.draw
-		
-		#~ x = y = 20
-		#~ @animations.each do |a|
-			#~ a.draw(x, y, 1, 1, 1)
-			#~ x += 80 
-			#~ y += 85
-		#~ end
 	end
 	
 	
@@ -89,17 +68,49 @@ class Game_Window < Gosu::Window
 	def button_up(id)
 		@inpman.button_up(id)
 	end
+	
+	private 
+	
+	def def_kb_bindings
+		@inpman.createAction(:up)
+		@inpman.bindAction(:up, Gosu::Button::KbUp)
+		@inpman.createAction(:down)
+		@inpman.bindAction(:down, Gosu::Button::KbDown)
+		@inpman.createAction(:left)
+		@inpman.bindAction(:left, Gosu::Button::KbLeft)
+		@inpman.createAction(:right)
+		@inpman.bindAction(:right, Gosu::Button::KbRight)
+	end
 end
 
 class InputHandler
 	def direction
-		#~ result = 1
-		#~ self.query(:up)
-		#~ 
-		#~ if self.query(:up) == :active		then result *= 2
-		#~ if self.query(:down) == :active		then result *= 3
-		#~ if self.query(:left) == :active		then result *= 5
-		#~ if self.query(:right) == :active	then result *= 7
+		up =	self.query(:up) == :active
+		down =	self.query(:down) == :active
+		left =	self.query(:left) == :active
+		right =	self.query(:right) == :active
+		
+		result = if up && left
+			:up_left
+		elsif up && right
+			:up_right
+		elsif down && left
+			:down_left
+		elsif down && right
+			:down_right
+		elsif up
+			:up
+		elsif down
+			:down
+		elsif left
+			:left
+		elsif right
+			:right
+		else
+			nil #No button for direction pressed
+		end
+
+		result
 	end
 end
 
