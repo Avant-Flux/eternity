@@ -4,7 +4,7 @@
  
 require "Entity"
 class Creature < Entity
-	def initialize(animations, pos=[0, 0, 0], dir=:down
+	def initialize(animations, pos=[0, 0, 0], dir=:down,
 					lvl=1, hp=5, mp=0, element=:none, 
 					stats=[1,1,1,1,1,1,1,1], 
 					faction = 0)

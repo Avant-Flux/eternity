@@ -5,8 +5,8 @@ require 'rubygems'
 require 'gosu' 
 
 module Animations
-	def player
-		sprites = Gosu::Image::load_tiles(self, "Sprites/Sprites.png", 40, 80, false)
+	def Animations.player(window)
+		sprites = Gosu::Image::load_tiles(window, "Sprites/Sprites.png", 40, 80, false)
 		#Map each hash key in animations to an empty array
 		animations = {:up => [], :down => [], :left => [], :right => [], 
 					:up_right => [], :up_left => [], :down_right => [], :down_left => []}
@@ -16,21 +16,21 @@ module Animations
 			#the frames to use in one direction
 			key = case i % 8
 				when 0
-					:up
-				when 1
-					:down
-				when 2
-					:left
-				when 3
-					:right
-				when 4
-					:up_right
-				when 5
 					:up_left
-				when 6
-					:down_right
-				when 7
+				when 1
+					:left
+				when 2
 					:down_left
+				when 3
+					:down
+				when 4
+					:down_right
+				when 5
+					:right
+				when 6
+					:up_right
+				when 7
+					:up
 			end
 		
 			animations[key] << sprite

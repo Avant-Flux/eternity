@@ -18,10 +18,6 @@ class Player < Character
 		@titles = Title_Holder.new
 	end
 	
-	def draw
-		
-	end
-	
 	def create
 		
 	end

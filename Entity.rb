@@ -10,8 +10,8 @@ require 'Combative'
 class Entity
 	include Combative
 
-	attr_accessor :x, :y, :z, :direction
-	attr_reader :animations, :current_animation, :moving
+	attr_accessor :x, :y, :z
+	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
@@ -60,6 +60,11 @@ class Entity
 					@current_animation[0]
 				end
 		img.draw(@x - img.width / 2.0, @y - img.height / 2.0, @z, 1, 1)
+	end
+	
+	def direction=(arg)
+		@direction = arg
+		@current_animation = @animations[@direction]
 	end
 
 	def warp(x, y, z=@z)

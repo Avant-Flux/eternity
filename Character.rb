@@ -22,10 +22,6 @@ class Character < Entity
 						:upper_body => nil, :lower_body => nil, :feet => nil, :title => nil}
 	end
 	
-	def draw
-		
-	end
-	
 	def lvl=(arg)
 		@lvl = arg
 		

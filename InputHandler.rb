@@ -1,6 +1,8 @@
 # File created by
 #	Chad Godsey
 #	Feb 21, 2010
+#Modified by Jason Ko
+#	Date last edited: 03.09.2010
 #
 #	InputHandler class
 #		used to manage button mappings to several types of high level input
@@ -8,6 +10,13 @@
 #			chords - multiple buttons at once
 #			sequences - combos
 #
+begin
+  # In case you use Gosu via RubyGems.
+  require 'rubygems'
+rescue LoadError
+  # In case you don't.
+end
+require 'gosu'
 
 class InputHandler
 	
