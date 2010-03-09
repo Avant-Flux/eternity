@@ -22,6 +22,18 @@ class Player < Character
 		
 	end
 	
+	def create
+		
+	end
+	
+	def load
+		
+	end
+	
+	def save
+		
+	end
+	
 	def lvl_up
 		self.lvl = @lvl + 1 unless @lvl == Lvl_cap
 	end

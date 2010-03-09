@@ -53,12 +53,13 @@ class Entity
 	end
 	
 	def draw
-		if @moving
-			#Animate at 10 fps
-			@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
-		else
-			@current_animation[0]
-		end
+		img =	if @moving
+					#Animate at 10 fps
+					@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
+				else
+					@current_animation[0]
+				end
+		img.draw(@x - img.width / 2.0, @y - img.height / 2.0, @z, 1, 1)
 	end
 
 	def warp(x, y, z=@z)
@@ -89,10 +90,6 @@ class Entity
 		@visible
 	end
 
-	def randomize_stats
-
-	end
-
 	def set_random_element
 		@element = case rand 5
 			when 0
@@ -106,5 +103,17 @@ class Entity
 			when 4
 				:lightning
 		end
+	end
+	
+	def create
+		
+	end
+	
+	def load
+		
+	end
+	
+	def save
+		
 	end
 end
