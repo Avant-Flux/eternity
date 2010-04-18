@@ -15,6 +15,7 @@ rescue LoadError
 	require 'gosu'
 	require 'chingu'
 end
+require 'RMagick'
 
 #~ require 'ManageAssets'
 require 'Entity'
@@ -38,19 +39,23 @@ class Game_Window < Gosu::Window
 		def_kb_bindings
 		
 		@player = Player.new(Animations.player(self), [30,50,0])
+		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
+		@cur = @anim[0]
 	end
 	
 	def update
-		
 		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
 			@player.direction = dir
 		end
+		@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
 		@inpman.update()
 	end
 	
 	def draw
 		@player.draw
+		#~ @cur.transparent("#000000").draw(0,0,3)
+		@cur.draw(60,60,3)
 	end
 	
 	

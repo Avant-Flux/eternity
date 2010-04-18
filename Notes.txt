@@ -52,6 +52,29 @@ Command to convert raw spritesheet into usable spritesheet
 			Little more could come off the bottom, but I think it's ok
 
 
+New Stat System
+	Split stats into two categories:
+		Physical attributes
+			Strength
+			Defense
+			Agility
+			Health
+			Ability to hit
+		Mental(Magical) Attributes
+			Power
+			Dispersion rate		/	Chaos/Order(Control?) level
+			Maximum rate of flux
+			Amount of mana
+			Detection / Empathy
+Counters of stuff that are not really "stats" in the traditional RPG sense
+	Maximum combo
+		Current combo count
+	Overkill bonus
+		Perhaps a mouseover tooltip that explains how overkill damage is applied
+	Amount of certain enemies killed
+		Gain a title which bestows affinity to a certain type of enemy when enough are killed
+		Title for killing a diverse population of enemies
+	
 
 
 
