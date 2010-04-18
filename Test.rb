@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.21.2010
+#~ Date last edited: 04.18.2010
 
 require "Entity"
 require "Character"
@@ -70,11 +70,11 @@ module Test
 	
 	class << self
 	def test_entity_creation
-		entity = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+		entity = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		character = Character.new(@animations)
-		player = Player.new(@animations)
-		creature = Creature.new(@animations)
+		character = Character.new("Bob", @animations)
+		player = Player.new("Bob", @animations)
+		creature = Creature.new("Bob", @animations)
 		
 		p entity
 		puts
@@ -86,18 +86,18 @@ module Test
 	end
 	
 	def test_multiple_entity_array
-		e1 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:fire, 
+		e1 = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:fire, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e2 = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:water, 
+		e2 = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:water, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e3 = Creature.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:lightning, 
+		e3 = Creature.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:lightning, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
-		e4 = Player.new(@animations, pos=[0, 0, 0])
+		e4 = Player.new("Bob", @animations, pos=[0, 0, 0])
 		p Entity.all
 	end
 	
 	def test_title
-		player = Player.new(@animations)
+		player = Player.new("Bob", @animations)
 		
 		player.titles << (Title.new("sue", "this is sue", 1, 100))
 		player.titles << (Title.new("bob", "this is bob", 1, 200))
@@ -111,7 +111,7 @@ module Test
 	end
 	
 	def test_element_based_lvl_up	
-		p = Player.new(@animations)
+		p = Player.new("Bob", @animations)
 		puts "Fire"
 		p.ls :fire
 		print "\n\n\n"
@@ -133,9 +133,9 @@ module Test
 	end
 	
 	def test_melee_attack
-		attacker = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+		attacker = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[10,1,1,1,1,1,1], faction = 0)
-		defender = Entity.new(@animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
+		defender = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
 					stats=[1,1,1,1,1,1,1], faction = 0)
 		10.times do
 			p attacker.melee_attack defender

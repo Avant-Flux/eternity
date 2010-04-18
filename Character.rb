@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.07.2010
+#~ Date last edited: 04.18.2010
 
 require "Entity"
 #To be used for NPCs, such as enemy units
@@ -9,8 +9,8 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(animations, pos = [0, 0, 0], dir=:down)
-		super(animations, pos, dir, lvl=1, hp=10, mp=10, element = :none, 
+	def initialize(name, animations, pos = [0, 0, 0], dir=:down)
+		super(name, animations, pos, dir, lvl=1, hp=10, mp=10, element = :none, 
 				stats = [10, 10, 10, 10, 10, 10, 10], faction = 0)
 				
 		@str = stats[0]

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 02.04.2010
+#~ Date last edited: 04.18.2010
 
 require "Title"
 require "Title_Holder"
@@ -12,8 +12,8 @@ class Player < Character
 	attr_accessor :titles
 	Lvl_cap = 100
 
-	def initialize(animations, pos = [0, 0, 0], dir=:down)
-		super(animations, pos, dir)
+	def initialize(name, animations, pos = [0, 0, 0], dir=:down)
+		super(name, animations, pos, dir)
 		
 		@titles = Title_Holder.new
 	end

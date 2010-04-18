@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.08.2010
+#~ Date last edited: 04.18.2010
 
 require 'rubygems'
 require 'gosu'
@@ -12,13 +12,13 @@ class Entity
 
 	attr_accessor :x, :y, :z
 	attr_reader :animations, :current_animation, :moving, :direction
-	attr_accessor :element, :faction, :visible
+	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
 	
 	@@all = Array.new
 
-	def initialize(animations, pos, dir, lvl, hp, mp, element, stats, faction)
+	def initialize(name, animations, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		
 		@animations = animations
@@ -28,7 +28,8 @@ class Entity
 		@x = pos[0]
 		@y = pos[1]
 		@z = pos[2]
-
+		
+		@name = name
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
 		#~ @direction = 0	#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos

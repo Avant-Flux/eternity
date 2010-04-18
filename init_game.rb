@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.08.2010
+#~ Date last edited: 04.18.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -38,7 +38,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new()
 		def_kb_bindings
 		
-		@player = Player.new(Animations.player(self), [30,50,0])
+		@player = Player.new("Bob", Animations.player(self), [30,50,0])
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		@cur = @anim[0]
 	end
