@@ -70,8 +70,8 @@ module Test
 	
 	class << self
 	def test_entity_creation
-		entity = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
+		entity = Entity.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :none, 
+					[1,1,1,1,1,1,1], 0)
 		character = Character.new("Bob", @animations)
 		player = Player.new("Bob", @animations)
 		creature = Creature.new("Bob", @animations)
@@ -86,13 +86,13 @@ module Test
 	end
 	
 	def test_multiple_entity_array
-		e1 = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:fire, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
-		e2 = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:water, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
-		e3 = Creature.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:lightning, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
-		e4 = Player.new("Bob", @animations, pos=[0, 0, 0])
+		e1 = Entity.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :fire, 
+					[1,1,1,1,1,1,1], 0)
+		e2 = Entity.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :water, 
+					[1,1,1,1,1,1,1], 0)
+		e3 = Creature.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :lightning, 
+					[1,1,1,1,1,1,1], 0)
+		e4 = Player.new("Bob", @animations, [0, 0, 0])
 		p Entity.all
 	end
 	
@@ -133,10 +133,10 @@ module Test
 	end
 	
 	def test_melee_attack
-		attacker = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
-					stats=[10,1,1,1,1,1,1], faction = 0)
-		defender = Entity.new("Bob", @animations, pos=[0, 0, 0], lvl=1, hp=10, mp=10, element=:none, 
-					stats=[1,1,1,1,1,1,1], faction = 0)
+		attacker = Entity.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :none, 
+					[10,1,1,1,1,1,1], 0)
+		defender = Entity.new("Bob", @animations, [0, 0, 0], :down, 1, 10, 10, :none, 
+					[1,1,1,1,1,1,1], 0)
 		10.times do
 			p attacker.melee_attack defender
 		end
@@ -154,9 +154,9 @@ module Test
 	end
 end
 
-#~ Test::test_entity_creation
-#~ Test::test_multiple_entity_array
-#~ Test::test_title
-#~ Test::test_element_based_lvl_up
-#~ Test::test_melee_attack
+Test::test_entity_creation
+Test::test_multiple_entity_array
+Test::test_title
+Test::test_element_based_lvl_up
+Test::test_melee_attack
 	
