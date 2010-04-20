@@ -40,7 +40,7 @@ class Character
 	
 	def ls_stats	
 		printf("%-3d | %-4d %-4d | %-3d %-3d %-3d %-3d %-3d %-3d %-3d\n", 
-					@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
+				@lvl, @hp, @mp, @str, @con, @dex, @agi, @mnd, @per, @luk)
 	end
 end
 
@@ -154,9 +154,9 @@ module Test
 	end
 end
 
-Test::test_entity_creation
-Test::test_multiple_entity_array
-Test::test_title
-Test::test_element_based_lvl_up
-Test::test_melee_attack
+#~ Test::test_entity_creation
+#~ Test::test_multiple_entity_array
+#~ Test::test_title
+#~ Test::test_element_based_lvl_up
+#~ Test::test_melee_attack
 	

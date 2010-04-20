@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.18.2010
+#~ Date last edited: 04.20.2010
 
 require "Entity"
 #To be used for NPCs, such as enemy units
@@ -10,8 +10,8 @@ class Character < Entity
 	attr_accessor :inventory, :equipment
 	
 	def initialize(name, animations, pos = [0, 0, 0], dir=:down)
-		super(name, animations, pos, dir, lvl=1, hp=10, mp=10, element = :none, 
-				stats = [10, 10, 10, 10, 10, 10, 10], faction = 0)
+		super(name, animations, pos, dir, 1, 10, 10, :none, 
+				[10, 10, 10, 10, 10, 10, 10], 0)
 				
 		@str = stats[0]
 		@con = stats[1]
@@ -19,7 +19,8 @@ class Character < Entity
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}
 		@equipment =	{:head => nil, :right_hand => nil, :left_hand => nil, 
-						:upper_body => nil, :lower_body => nil, :feet => nil, :title => nil}
+						:upper_body => nil, :lower_body => nil, :feet => nil, 
+						:title => Title_Holder.new}
 	end
 	
 	def lvl=(arg)
