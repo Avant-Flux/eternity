@@ -2,6 +2,8 @@
 #~ Name: Jason
 #~ Date last edited: 04.20.2010
 
+require "Title"
+require "Title_Holder"
 require "Entity"
 #To be used for NPCs, such as enemy units
 #Townspeople (ie shopkeeper etc) should be under a different class
@@ -49,7 +51,7 @@ class Character < Entity
 	end
 	
 	def set_stats
-		if lvl > 10
+		if @lvl > 10
 			compute_hp
 			compute_mp
 			compute_str
