@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.18.2010
+#~ Date last edited: 04.22.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -16,6 +16,9 @@ rescue LoadError
 	require 'chingu'
 end
 require 'RMagick'
+
+require 'chipmunk'
+require 'ChipmunkInterfaceMod'
 
 #~ require 'ManageAssets'
 require 'Entity'
@@ -35,12 +38,14 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
 		
-		@inpman = InputHandler.new()
-		def_kb_bindings
+		@inpman = InputHandler.new
+		@inpman.def_kb_bindings
 		
 		@player = Player.new("Bob", Animations.player(self), [30,50,0])
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		@cur = @anim[0]
+		
+		init_chipmunk
 	end
 	
 	def update
@@ -74,17 +79,10 @@ class Game_Window < Gosu::Window
 		@inpman.button_up(id)
 	end
 	
-	private 
+	private
 	
-	def def_kb_bindings
-		@inpman.createAction(:up)
-		@inpman.bindAction(:up, Gosu::Button::KbUp)
-		@inpman.createAction(:down)
-		@inpman.bindAction(:down, Gosu::Button::KbDown)
-		@inpman.createAction(:left)
-		@inpman.bindAction(:left, Gosu::Button::KbLeft)
-		@inpman.createAction(:right)
-		@inpman.bindAction(:right, Gosu::Button::KbRight)
+	def init_chipmunk
+		@space = CP::Space_3D.new
 	end
 end
 
@@ -116,6 +114,17 @@ class InputHandler
 		end
 
 		result
+	end
+	
+	def def_kb_bindings
+		createAction(:up)
+		bindAction(:up, Gosu::Button::KbUp)
+		createAction(:down)
+		bindAction(:down, Gosu::Button::KbDown)
+		createAction(:left)
+		bindAction(:left, Gosu::Button::KbLeft)
+		createAction(:right)
+		bindAction(:right, Gosu::Button::KbRight)
 	end
 end
 

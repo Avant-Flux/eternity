@@ -2,6 +2,7 @@
 #~ Name: Jason
 #~ Date last edited: 04.20.2010
 
+require 'ChipmunkInterfaceMod'
 require "Title"
 require "Title_Holder"
 require "Entity"
@@ -15,8 +16,8 @@ class Character < Entity
 		super(name, animations, pos, dir, 1, 10, 10, :none, 
 				[10, 10, 10, 10, 10, 10, 10], 0)
 				
-		@str = stats[0]
-		@con = stats[1]
+		@str = @atk
+		@con = @def
 		
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}
