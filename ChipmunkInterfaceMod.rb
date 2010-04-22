@@ -23,9 +23,24 @@ module CP
 			@xz = Space.new
 		end
 		
+		def add(arg)
+			#Not all dependencies implemented yet
+			@xy.add(arg.xy)
+			@xz.add(arg.xz)
+		end
+		
 		def step
 			@xy.step(@dt)
 			@xz.step(@dt)
+		end
+	end
+	
+	module bound
+		class Rect_Prism
+		#Get the vertices in an array and convert them into a bounding shape
+			def initialize(vert)
+				
+			end
 		end
 	end
 end
