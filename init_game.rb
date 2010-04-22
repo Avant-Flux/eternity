@@ -31,6 +31,9 @@ require 'InputHandler'
 require 'Animations'
 
 class Game_Window < Gosu::Window
+	# The number of steps to process every Gosu update
+	SUBSTEPS = 6
+	
 	attr_reader :screen_x, :screen_y
 	
 	def initialize
@@ -45,7 +48,7 @@ class Game_Window < Gosu::Window
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		@cur = @anim[0]
 		
-		init_chipmunk
+		@space = init_chipmunk
 	end
 	
 	def update
@@ -55,6 +58,10 @@ class Game_Window < Gosu::Window
 		@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
 		@inpman.update()
+		
+		SUBSTEPS.times do
+			@space.step
+		end
 	end
 	
 	def draw
@@ -82,7 +89,7 @@ class Game_Window < Gosu::Window
 	private
 	
 	def init_chipmunk
-		@space = CP::Space_3D.new
+		return CP::Space_3D.new
 	end
 end
 

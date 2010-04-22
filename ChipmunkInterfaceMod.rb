@@ -35,7 +35,7 @@ module CP
 		end
 	end
 	
-	module bound
+	module Bound
 		class Rect_Prism
 		#Get the vertices in an array and convert them into a bounding shape
 			def initialize(vert)
