@@ -14,11 +14,18 @@ module CP
 	end
 	
 	class Space_3D
-		attr_reader :xy, :xz
+		attr_reader :xy, :xz, :dt
 	
-		def initialize
+		def initialize(dt=(1.0/60.0))
+			@dt = dt
+			
 			@xy = Space.new
 			@xz = Space.new
+		end
+		
+		def step
+			@xy.step(@dt)
+			@xz.step(@dt)
 		end
 	end
 end
