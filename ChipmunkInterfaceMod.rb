@@ -19,6 +19,9 @@ module CP
 		def initialize(dt=(1.0/60.0))
 			@dt = dt
 			
+			#X is horizontal
+			#Y is vertical
+			#Z is depth
 			@xy = Space.new
 			@xz = Space.new
 		end
