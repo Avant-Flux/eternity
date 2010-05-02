@@ -24,6 +24,8 @@ module CP
 			#Z is depth
 			@xy = Space.new
 			@xz = Space.new
+			
+			@xz.gravity = P::Vec2.new(0, 100);		#Gravity should not function in the horiz plane
 		end
 		
 		def add(arg)
