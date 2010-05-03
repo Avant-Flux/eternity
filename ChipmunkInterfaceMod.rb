@@ -26,6 +26,8 @@ module CP
 			@xz = Space.new
 			
 			@xz.gravity = P::Vec2.new(0, 100);		#Gravity should not function in the horiz plane
+			
+			self.damping = 0;
 		end
 		
 		def add(arg)
@@ -37,6 +39,16 @@ module CP
 		def step
 			@xy.step(@dt)
 			@xz.step(@dt)
+		end
+		
+		def damping=(arg)
+			@xy.damping = arg
+			@xz.damping = arg
+		end
+		
+		def add_static_shape=(arg)
+			@xy.add_static_shape = arg
+			@xz.add_static_shape = arg
 		end
 	end
 	
