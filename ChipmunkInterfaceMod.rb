@@ -83,6 +83,22 @@ module CP
 		end; end
 	end
 	
+	module Vector
+		class Vec2 < CP::Vec2
+			
+		end
+	end
+	
+	class Vec2
+		def z
+			self.y
+		end
+		
+		def z=(arg)
+			self.y=arg
+		end
+	end
+	
 	module Bound
 		class Rect_Prism
 		#Get the vertices in an array and convert them into a bounding shape
@@ -91,4 +107,12 @@ module CP
 			end
 		end
 	end
+end
+
+
+class Numeric 
+	#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
+   def radians_to_vec2
+       CP::Vec2.new(Math::cos(self), Math::sin(self))
+   end
 end

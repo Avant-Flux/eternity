@@ -28,12 +28,19 @@ class Entity
 		@current_animation = @animations[dir]
 		@direction = dir
 		
-		xy_body = CP::Body.new(10, 150)
-		@xy = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
+		x = pos[0]
+		y = pos[1]
+		z = pos[2]
 		
-		@x = pos[0]
-		@y = pos[1]
-		@z = pos[2]
+		#Bounding box sizes are place holders.  Change them later.
+		@xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
+									CP::Shape::Polygon.vertices(4, 10), 	#Bounding box of 10 sq units
+									CP::Vec2.new(x, y))
+		@xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
+									CP::Shape::Polygon.vertices(4, 10),	#Bounding box of 10 sq units
+									CP::Vec2.new(x, z))
+		
+	
 		
 		@name = name
 		@element = element
@@ -66,7 +73,7 @@ class Entity
 				else
 					@current_animation[0]
 				end
-		img.draw(@x - img.width / 2.0, @y - img.height / 2.0, @z, 1, 1)
+		img.draw(@xy.body.p.x - img.width / 2.0, @xy.body.p.y - img.height / 2.0, @xz.body.p.z, 1, 1)
 	end
 	
 	def direction=(arg)
