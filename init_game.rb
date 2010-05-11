@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.22.2010
+#~ Date last edited: 05.10.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -45,17 +45,18 @@ class Game_Window < Gosu::Window
 		@inpman.def_kb_bindings
 		
 		@player = Player.new("Bob", Animations.player(self), [30,50,0])
-		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
-		@cur = @anim[0]
+		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
+		#~ @cur = @anim[0]
 		
-		@space = init_chipmunk
+		@space = CP::Space_3D.new
+		@space.add(@player)
 	end
 	
 	def update
 		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
 			@player.direction = dir
 		end
-		@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
+		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
 		@inpman.update()
 		
@@ -67,7 +68,7 @@ class Game_Window < Gosu::Window
 	def draw
 		@player.draw
 		#~ @cur.transparent("#000000").draw(0,0,3)
-		@cur.draw(60,60,3)
+		#~ @cur.draw(60,60,3)
 	end
 	
 	
@@ -84,12 +85,6 @@ class Game_Window < Gosu::Window
 	
 	def button_up(id)
 		@inpman.button_up(id)
-	end
-	
-	private
-	
-	def init_chipmunk
-		return CP::Space_3D.new
 	end
 end
 

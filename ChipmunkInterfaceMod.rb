@@ -1,15 +1,17 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.22.2010
+#~ Date last edited: 05.10.2010
 
 require 'rubygems'
 require 'chipmunk'
+require 'gosu'
+require 'RMagick'
 
 module CP
 	class Space
-		def add(arg)
-			add_body arg.shape.body
-			add_shape arg.shape
+		def add(shape)
+			add_body shape.body
+			add_shape shape
 		end
 	end
 	
@@ -25,9 +27,9 @@ module CP
 			@xy = Space.new
 			@xz = Space.new
 			
-			@xz.gravity = P::Vec2.new(0, 100);		#Gravity should not function in the horiz plane
+			@xz.gravity = CP::Vec2.new(0, 100)		#Gravity should not function in the horiz plane
 			
-			self.damping = 0;
+			self.damping = 0
 		end
 		
 		def add(arg)
@@ -50,6 +52,35 @@ module CP
 			@xy.add_static_shape = arg
 			@xz.add_static_shape = arg
 		end
+	end
+	
+	module Shape
+		module Polygon; class << self
+			#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
+			#modified by Jason Ko to be more usable and ruby-like
+			
+			# Produces the vertices of a regular polygon.
+			def vertices(sides, size)
+			   vertices = []
+			   sides.times do |i|
+				   angle = -2 * Math::PI * i / sides
+				   vertices << angle.radians_to_vec2() * size
+			   end
+			   return vertices
+			end
+			
+			# Produces the image of a polygon.
+			def image(vertices)
+			   box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
+			   gc = Magick::Draw.new
+			   gc.stroke('red')
+			   gc.fill('plum')
+			   draw_vertices = vertices.map { |v| [v.x + EDGE_SIZE, v.y + EDGE_SIZE] }.flatten
+			   gc.polygon(*draw_vertices)
+			   gc.draw(box_image)
+			   return Gosu::Image.new(self, box_image, false)
+			end
+		end; end
 	end
 	
 	module Bound

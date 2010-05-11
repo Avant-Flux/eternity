@@ -1,16 +1,19 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.18.2010
+#~ Date last edited: 05.10.2010
 
 require 'rubygems'
 require 'gosu'
+require 'chipmunk'
+
+require 'ChipmunkInterfaceMod'
 require 'Combative'
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
 
-	attr_accessor :x, :y, :z
+	attr_accessor :xy, :xz
 	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -24,6 +27,9 @@ class Entity
 		@animations = animations
 		@current_animation = @animations[dir]
 		@direction = dir
+		
+		xy_body = CP::Body.new(10, 150)
+		@xy = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
 		
 		@x = pos[0]
 		@y = pos[1]

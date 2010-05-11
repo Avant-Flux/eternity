@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.18.2010
+#~ Date last edited: 05.10.2010
 
 require "Entity"
 require "Character"
@@ -12,6 +12,9 @@ require "Creature"
 
 require "rubygems"
 require "gosu"
+
+require 'chipmunk'
+require 'ChipmunkInterfaceMod'
 
 class Character
 	def ls element
@@ -149,8 +152,6 @@ module Test
 			#~ x += 80 
 			#~ y += 85
 		#~ end
-	end
-	
 	end
 end
 

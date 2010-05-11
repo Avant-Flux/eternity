@@ -1,6 +1,9 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.05.2010
+#~ Date last edited: 05.08.2010
+
+#Note: Program crashes after installing opengl
+#Files install, but there is no command line notification of anything happening
 require 'rbconfig' 
 
 class Installer
