@@ -100,6 +100,14 @@ Sprite rendering and Chipmunk
 	Currently rendering based on top left point.
 	
 	Currently is not taking the given position.
+	
+	The coordinate system is not what is expected of physics.
+		The CS coordinate system is used (Or something similar)
+			Right is positive
+			Down is POSITIVE
+	
+	Apply a force in the z direction instead of using gravity in order
+	to be able to toggle gravity on and off for different objects independently.  
 
 
 Ruby Installation on Ubuntu

@@ -44,7 +44,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30,50,20])
+		@player = Player.new("Bob", Animations.player(self), [30,50,50])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
