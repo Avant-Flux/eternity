@@ -68,12 +68,8 @@ class Game_Window < Gosu::Window
 		SUBSTEPS.times do
 			@space.step
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			if @player.body.z <= 0
-				@player.body.reset_forces :xz
-				@player.body.z = 0
-			else
-				@player.body.apply_gravity
-			end
+			
+			@player.body.apply_gravity
 		end
 	end
 	
