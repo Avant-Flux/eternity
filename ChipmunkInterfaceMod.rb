@@ -35,8 +35,17 @@ module CP
 			@xz = Space.new
 			
 			@xz.gravity = CP::Vec2.new(0, 0)	#Gravity should not function in the horiz plane
+			@xy.gravity = CP::Vec2.new(0, 50)	#Gravity in the vertical plane, Z-direction only
 			
 			self.damping = 0
+		end
+		
+		def gravity
+			@xy.gravity
+		end
+		
+		def gravity= arg
+			@xy.gravity = arg
 		end
 		
 		def add(arg)
@@ -50,12 +59,12 @@ module CP
 			@xz.step(@dt)
 		end
 		
-		def damping=(arg)
+		def damping= arg
 			@xy.damping = arg
 			@xz.damping = arg
 		end
 		
-		def add_static_shape=(arg)
+		def add_static_shape= arg
 			@xy.add_static_shape = arg
 			@xz.add_static_shape = arg
 		end
