@@ -93,6 +93,9 @@ Quotes / Possible Dialogue
 		Life is inseparable from sin.  Let us purge the sin from this world.
 		Let The Gate shine once more.  Let the judgment of god resume once more."
 
+Sprite rendering and Chipmunk
+	Refactor the drawing code and the Chipmunk code so the player's position vector
+	points at his feet instead of his center.
 
 
 Ruby Installation on Ubuntu
