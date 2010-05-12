@@ -2,7 +2,7 @@
 #~ Name: Jason
 #~ Date last edited: 03.08.2010
 require 'rubygems'
-require 'gosu' 
+require 'gosu'
 
 module Animations
 	def Animations.player(window)

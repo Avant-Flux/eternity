@@ -34,7 +34,7 @@ module CP
 			@xy = Space.new
 			@xz = Space.new
 			
-			@xz.gravity = CP::Vec2.new(0, 100)		#Gravity should not function in the horiz plane
+			@xz.gravity = CP::Vec2.new(0, 0)	#Gravity should not function in the horiz plane
 			
 			self.damping = 0
 		end
@@ -115,7 +115,6 @@ module CP
 		end
 	end
 end
-
 
 class Numeric 
 	#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos

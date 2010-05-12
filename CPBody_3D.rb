@@ -39,5 +39,36 @@ module CP
 		def z= arg
 			@xz.body.p.y = arg
 		end
+		
+		#Setters and getters for velocity
+		def v
+			#Compute the magnitude of the velocity in 3D space
+			#Use the cross product function in chipmunk
+			#CROSS_PRODUCT @xy.body.v, @xz.body.v
+		end
+		
+		def vx
+			@xy.body.v.x
+		end
+		
+		def vy
+			@xy.body.v.y
+		end
+		
+		def vz
+			@xz.body.v.y
+		end
+		
+		def vx= arg
+			@xy.body.v.x = arg
+		end
+		
+		def vy= arg
+			@xy.body.v.y = arg
+		end
+		
+		def vz= arg
+			@xz.body.v.y = arg
+		end
 	end
 end
