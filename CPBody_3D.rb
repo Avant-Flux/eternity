@@ -28,7 +28,15 @@ module CP
 				self.z = 0
 			else
 				gravity = @xz.body.m * 9.8 * -1
-				@xz.body.apply_force(CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
+				apply_force(:xz, CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
+			end
+		end
+		
+		def apply_force(plane, force_vector, relative_offset)
+			if plane == :xy
+				@xy.body.apply_force(force_vector, relative_offset)
+			elsif plane == :xz
+				@xz.body.apply_force(force_vector, relative_offset)
 			end
 		end
 		

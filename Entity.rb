@@ -73,7 +73,7 @@ class Entity
 	end
 	
 	def jump
-		@body.xz.body.apply_force(CP::Vec2.new(0,8000),CP::Vec2.new(0,0))
+		@body.apply_force(:xz, CP::Vec2.new(0,8000), CP::Vec2.new(0,0))
 	end
 	
 	def direction=(arg)
