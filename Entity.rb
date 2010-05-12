@@ -73,7 +73,7 @@ class Entity
 				else
 					@current_animation[0]
 				end
-		img.draw(@body.x, @body.y, @body.z, 1, 1)
+		img.draw(@body.x, @body.y + @body.z, @body.z, 1, 1)
 	end
 	
 	def direction=(arg)
