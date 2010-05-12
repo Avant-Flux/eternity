@@ -6,9 +6,13 @@ module CP
 	class Body_3D
 		def initialize
 			#Bounding box sizes are place holders.  Change them later.
+			
+			#Top shape
 			@xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
 										CP::Shape::Polygon.vertices(4, 10), #10 sq units square
 										CP::Vec2.new(x, y))
+										
+			#Bottom shape
 			@xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
 										CP::Shape::Polygon.vertices(4, 10),	#10 sq units square
 										CP::Vec2.new(x, z))
