@@ -72,6 +72,10 @@ class Entity
 		img.draw(@body.x, @body.y - @body.z, @body.z, 1, 1)
 	end
 	
+	def jump
+		@body.xz.body.apply_force(CP::Vec2.new(0,8000),CP::Vec2.new(0,0))
+	end
+	
 	def direction=(arg)
 		@direction = arg
 		@current_animation = @animations[@direction]

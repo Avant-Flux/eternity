@@ -57,7 +57,7 @@ class Game_Window < Gosu::Window
 			@player.direction = dir
 		end
 		if @inpman.active?(:jump)
-			@player.body.xz.body.apply_force(CP::Vec2.new(0,8000),CP::Vec2.new(0,0))
+			@player.jump
 		end
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
