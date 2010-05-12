@@ -67,9 +67,12 @@ class Game_Window < Gosu::Window
 		
 		SUBSTEPS.times do
 			@space.step
+			
+			Entity.all.each do |e|
+				e.body.apply_gravity
+			end
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
-			@player.body.apply_gravity
 		end
 	end
 	
