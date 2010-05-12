@@ -62,6 +62,12 @@ class Entity
 		@@all
 	end
 	
+	def self.apply_gravity_to_all
+		Entity.all.each do |e|
+			e.body.apply_gravity
+		end
+	end
+	
 	def draw
 		img =	if @moving
 					#Animate at 10 fps

@@ -60,19 +60,16 @@ class Game_Window < Gosu::Window
 			@player.jump
 		end
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
-		
-		
+
 		
 		@inpman.update()
 		
 		SUBSTEPS.times do
 			@space.step
 			
-			Entity.all.each do |e|
-				e.body.apply_gravity
-			end
+			Entity.apply_gravity_to_all
+
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			
 		end
 	end
 	
