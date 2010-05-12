@@ -105,6 +105,9 @@ Sprite rendering and Chipmunk
 		The CS coordinate system is used (Or something similar)
 			Right is positive
 			Down is POSITIVE
+		HOWEVER
+			Use down as negative for the z direction
+			This allows for using the z axis for height as well as z index
 	
 	Apply a force in the z direction instead of using gravity in order
 	to be able to toggle gravity on and off for different objects independently.  

@@ -44,7 +44,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30,50,50])
+		@player = Player.new("Bob", Animations.player(self), [30,50,00])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
@@ -55,6 +55,9 @@ class Game_Window < Gosu::Window
 	def update
 		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
 			@player.direction = dir
+		end
+		if @inpman.active?(:jump)
+			@player.body.xz.body.apply_force(CP::Vec2.new(0,500),CP::Vec2.new(0,0))
 		end
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
@@ -136,6 +139,12 @@ class InputHandler
 		bindAction(:left, Gosu::Button::KbLeft)
 		createAction(:right)
 		bindAction(:right, Gosu::Button::KbRight)
+		createAction(:jump)
+		bindAction(:jump, Gosu::Button::KbLeftShift)
+	end
+	
+	def active?(action)
+		self.query(action) == :active
 	end
 end
 
