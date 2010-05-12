@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.08.2010
+#~ Date last edited: 05.12.2010
 require 'rubygems'
 require 'gosu'
 
 module Animations
-	def Animations.player(window)
-		sprites = Gosu::Image::load_tiles(window, "Sprites/Sprites.png", 40, 80, false)
+	def Animations.player(window, filepath="Sprites/Sprites.png")
+		sprites = Gosu::Image::load_tiles(window, filepath, 40, 80, false)
 		#Map each hash key in animations to an empty array
 		animations = {:up => [], :down => [], :left => [], :right => [], 
 					:up_right => [], :up_left => [], :down_right => [], :down_left => []}

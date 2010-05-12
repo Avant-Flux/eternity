@@ -13,7 +13,7 @@ require 'Combative'
 class Entity
 	include Combative
 
-	attr_accessor :body
+	attr_reader :body
 	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -48,6 +48,9 @@ class Entity
 		@mnd = stats[4]
 		@per = stats[5]
 		@luk = stats[6]
+		
+		@jumping = false
+		@jump_count = 0
 	end
 	
 	def self.all
@@ -55,7 +58,7 @@ class Entity
 	end
 	
 	def self.apply_gravity_to_all
-		Entity.all.each do |e|
+		@@all.each do |e|
 			e.body.apply_gravity
 		end
 	end
@@ -71,6 +74,7 @@ class Entity
 	end
 	
 	def jump
+		#Current implementation could allow you to hover...
 		@body.apply_force(:xz, CP::Vec2.new(0,8000), CP::Vec2.new(0,0))
 	end
 	

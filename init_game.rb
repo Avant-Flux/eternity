@@ -56,6 +56,7 @@ class Game_Window < Gosu::Window
 		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
 			@player.direction = dir
 		end
+		
 		if @inpman.active?(:jump)
 			@player.jump
 		end
