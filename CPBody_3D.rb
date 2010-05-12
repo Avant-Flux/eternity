@@ -27,6 +27,14 @@ module CP
 			@xz.body.apply_force(CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
 		end
 		
+		def reset_forces(plane)
+			if plane == :xy
+				@xz.body.reset_forces
+			elsif plane == :xz
+				@xz.body.reset_forces
+			end
+		end
+		
 		#Setters and getters should be changed to use aliases
 		#Setters and Getters for Position
 		def x

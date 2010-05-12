@@ -69,7 +69,7 @@ class Game_Window < Gosu::Window
 			@space.step
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			if @player.body.z <= 0
-				@player.body.xz.body.reset_forces
+				@player.body.reset_forces :xz
 				@player.body.z = 0
 			else
 				@player.body.apply_gravity
