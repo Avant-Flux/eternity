@@ -44,7 +44,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30,50,0])
+		@player = Player.new("Bob", Animations.player(self), [30,50,20])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
@@ -65,10 +65,11 @@ class Game_Window < Gosu::Window
 		SUBSTEPS.times do
 			@space.step
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			if @player.body.z == 0
-				@player.body.xy.body.reset_forces
-				@player.body.xy.body.apply_force(CP::Vec2.new(0,-50),CP::Vec2.new(0,0))
-				
+			if @player.body.z <= 0
+				@player.body.xz.body.reset_forces
+				@player.body.z = 0
+			else
+				@player.body.xz.body.apply_force(CP::Vec2.new(0,-50),CP::Vec2.new(0,0))
 			end
 		end
 	end

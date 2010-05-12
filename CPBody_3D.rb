@@ -8,16 +8,18 @@ module CP
 	
 		def initialize(x, y, z)
 			#Bounding box sizes are place holders.  Change them later.
-			
-			#Top shape
+
+			#Bottom Shape
 			@xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
 										CP::Shape::Polygon.vertices(4, 10), #10 sq units square
-										CP::Vec2.new(x, y))
+										CP::Vec2.new(0, 0))	#This vector is the offset
+			@xy.body.p = CP::Vec2.new(x, y)
 										
-			#Bottom shape
+			#Side Shape
 			@xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
 										CP::Shape::Polygon.vertices(4, 10),	#10 sq units square
-										CP::Vec2.new(x, z))
+										CP::Vec2.new(0, 0))
+			@xz.body.p = CP::Vec2.new(x, z)
 		end
 		
 		#Setters and getters should be changed to use aliases
