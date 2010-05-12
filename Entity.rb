@@ -27,14 +27,6 @@ class Entity
 		@animations = animations
 		@current_animation = @animations[dir]
 		@direction = dir
-				
-		#Bounding box sizes are place holders.  Change them later.
-		#~ @xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
-									#~ CP::Shape::Polygon.vertices(4, 10), 	#Bounding box of 10 sq units
-									#~ CP::Vec2.new(x, y))
-		#~ @xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
-									#~ CP::Shape::Polygon.vertices(4, 10),	#Bounding box of 10 sq units
-									#~ CP::Vec2.new(x, z))
 		
 		@body = CP::Body_3D.new(pos[0], pos[1], pos[2])
 		
