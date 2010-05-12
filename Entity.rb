@@ -13,7 +13,7 @@ require 'Combative'
 class Entity
 	include Combative
 
-	attr_accessor :xy, :xz
+	attr_accessor :xy, :xz, :body
 	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -33,14 +33,14 @@ class Entity
 		z = pos[2]
 		
 		#Bounding box sizes are place holders.  Change them later.
-		@xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
-									CP::Shape::Polygon.vertices(4, 10), 	#Bounding box of 10 sq units
-									CP::Vec2.new(x, y))
-		@xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
-									CP::Shape::Polygon.vertices(4, 10),	#Bounding box of 10 sq units
-									CP::Vec2.new(x, z))
+		#~ @xy = CP::Shape::Poly.new(CP::Body.new(10, 150), 
+									#~ CP::Shape::Polygon.vertices(4, 10), 	#Bounding box of 10 sq units
+									#~ CP::Vec2.new(x, y))
+		#~ @xz = CP::Shape::Poly.new(CP::Body.new(10, 150), 
+									#~ CP::Shape::Polygon.vertices(4, 10),	#Bounding box of 10 sq units
+									#~ CP::Vec2.new(x, z))
 		
-	
+		@body = CP::Body_3D.new(x, y, z)
 		
 		@name = name
 		@element = element
@@ -73,7 +73,7 @@ class Entity
 				else
 					@current_animation[0]
 				end
-		img.draw(@xy.body.p.x, @xy.body.p.y, @xz.body.p.z, 1, 1)
+		img.draw(@body.x, @body.y, @body.z, 1, 1)
 	end
 	
 	def direction=(arg)

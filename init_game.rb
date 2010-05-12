@@ -58,10 +58,18 @@ class Game_Window < Gosu::Window
 		end
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
+		
+		
 		@inpman.update()
 		
 		SUBSTEPS.times do
 			@space.step
+			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			if @player.body.z == 0
+				#~ @player.body.xy.body.reset_forces
+				#~ @player.body.xy.body.apply_force(CP::Vec2.new(0,-50),CP::Vec2.new(0,0))
+				
+			end
 		end
 	end
 	

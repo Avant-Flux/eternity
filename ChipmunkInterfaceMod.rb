@@ -30,12 +30,13 @@ module CP
 			
 			#X is horizontal
 			#Y is vertical
-			#Z is depth
+			#Z is height
 			@xy = Space.new
 			@xz = Space.new
 			
-			@xz.gravity = CP::Vec2.new(0, 0)	#Gravity should not function in the horiz plane
-			@xy.gravity = CP::Vec2.new(0, 50)	#Gravity in the vertical plane, Z-direction only
+			#Gravity should not function in the horiz plane			
+			@xz.gravity = CP::Vec2.new(0, 50)	
+			@xy.gravity = CP::Vec2.new(0, 0)
 			
 			self.damping = 0
 		end
@@ -50,8 +51,8 @@ module CP
 		
 		def add(arg)
 			#Not all dependencies implemented yet
-			@xy.add(arg.xy)
-			@xz.add(arg.xz)
+			@xy.add(arg.body.xy)
+			@xz.add(arg.body.xz)
 		end
 		
 		def step

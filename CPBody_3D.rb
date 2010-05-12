@@ -4,7 +4,9 @@
 
 module CP
 	class Body_3D
-		def initialize
+		attr_reader :xy, :xz
+	
+		def initialize(x, y, z)
 			#Bounding box sizes are place holders.  Change them later.
 			
 			#Top shape
@@ -18,6 +20,7 @@ module CP
 										CP::Vec2.new(x, z))
 		end
 		
+		#Setters and getters should be changed to use aliases
 		#Setters and Getters for Position
 		def x
 			@xy.body.p.x
