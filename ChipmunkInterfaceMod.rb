@@ -71,6 +71,7 @@ module CP
 										CP::Vec2.new(x, z))
 		end
 		
+		#Setters and Getters for Position
 		def x
 			@xy.body.p.x
 		end
