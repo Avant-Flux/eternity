@@ -72,8 +72,7 @@ class Game_Window < Gosu::Window
 				@player.body.xz.body.reset_forces
 				@player.body.z = 0
 			else
-				gravity = @player.body.xz.body.m * 9.8 * -1
-				@player.body.xz.body.apply_force(CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
+				@player.body.apply_gravity
 			end
 		end
 	end

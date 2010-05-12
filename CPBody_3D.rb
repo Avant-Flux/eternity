@@ -22,6 +22,11 @@ module CP
 			@xz.body.p = CP::Vec2.new(x, z)
 		end
 		
+		def apply_gravity
+			gravity = @xz.body.m * 9.8 * -1
+			@xz.body.apply_force(CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
+		end
+		
 		#Setters and getters should be changed to use aliases
 		#Setters and Getters for Position
 		def x
