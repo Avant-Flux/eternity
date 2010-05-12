@@ -57,7 +57,7 @@ class Game_Window < Gosu::Window
 			@player.direction = dir
 		end
 		if @inpman.active?(:jump)
-			@player.body.xz.body.apply_force(CP::Vec2.new(0,500),CP::Vec2.new(0,0))
+			@player.body.xz.body.apply_force(CP::Vec2.new(0,8000),CP::Vec2.new(0,0))
 		end
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
@@ -72,7 +72,8 @@ class Game_Window < Gosu::Window
 				@player.body.xz.body.reset_forces
 				@player.body.z = 0
 			else
-				@player.body.xz.body.apply_force(CP::Vec2.new(0,-50),CP::Vec2.new(0,0))
+				gravity = @player.body.xz.body.m * 9.8 * -1
+				@player.body.xz.body.apply_force(CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
 			end
 		end
 	end
