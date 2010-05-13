@@ -70,18 +70,20 @@ class Entity
 				else
 					@current_animation[0]
 				end
-		img.draw(@body.x * 10, (@body.y - @body.z) * 10, @body.z * 10, 1, 1)
+		img.draw(@body.x, (@body.y - @body.z), @body.z, 1, 1)
 	end
 	
 	def jump
 		#Current implementation could allow you to hover...
 		#~ @body.reset_forces(:xz)
 		#~ if @body.z == 0
-			@body.apply_force(:xz, CP::Vec2.new(0,80), CP::Vec2.new(0,0))
+			@body.apply_force(:xz, CP::Vec2.new(0,80000), CP::Vec2.new(0,0))
 		#~ end
 	end
 	
 	def move dir
+		#~ unless @body.xy.body.v.length > 10
+		unless dir == nil
 		unit_vector =	case dir
 							when :up
 								((3*Math::PI)/2.0).radians_to_vec2
@@ -100,20 +102,21 @@ class Entity
 							when :down_right
 								((Math::PI)/4.0).radians_to_vec2
 						end
-		force = unit_vector * 30
+		proj = (unit_vector * (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector)))
+		#~ unless proj.length > 10
+		
+		force = unit_vector * 1500
+		
 		
 		@body.apply_force :xy, force , CP::Vec2.new(0,0)
+		else
+			@body.reset_forces :all
+		end
 	end
 	
 	def direction=(arg)
 		@direction = arg
 		@current_animation = @animations[@direction]
-	end
-
-	def warp(x, y, z=@z)
-		@x = x
-		@y = y
-		@z = z
 	end
 
 	def visible?

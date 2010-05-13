@@ -44,7 +44,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30/10.0, 400/10.0 ,0])
+		@player = Player.new("Bob", Animations.player(self), [30, 400 ,0])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
@@ -66,14 +66,18 @@ class Game_Window < Gosu::Window
 		@inpman.update()
 		
 		SUBSTEPS.times do
-			@space.step
+			@player.body.reset_forces :xy
+			@player.body.reset_forces :xz
 			
-			@player.move @inpman.direction if @inpman.direction != nil
+			
+			@player.move @inpman.direction
 			
 			Entity.apply_gravity_to_all
 
 			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			@player.body.reset_forces :xy
+			#~ puts @inpman.direction
+			
+			@space.step
 		end
 	end
 	

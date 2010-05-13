@@ -10,16 +10,20 @@ module CP
 			#Bounding box sizes are place holders.  Change them later.
 
 			#Bottom Shape
-			@xy = CP::Shape::Poly.new(CP::Body.new(70, 150), 
-										CP::Shape::Polygon.vertices(4, 10), #10 sq units square
-										CP::Vec2.new(0, 0))	#This vector is the offset
+			@xy = CP::Shape::Circle.new(CP::Body.new(100, 150), 10, CP::Vec2.new(0.0, 0.0))
+			#~ @xy = CP::Shape::Poly.new(CP::Body.new(70, 150), 
+										#~ CP::Shape::Polygon.vertices(4, 10), #10 sq units square
+										#~ CP::Vec2.new(0, 0))	#This vector is the offset
 			@xy.body.p = CP::Vec2.new(x, y)
 										
 			#Side Shape
-			@xz = CP::Shape::Poly.new(CP::Body.new(70, Float::INFINITY), #Eliminate rotation 
+			@xz = CP::Shape::Poly.new(CP::Body.new(100, Float::INFINITY), #Eliminate rotation 
 										CP::Shape::Polygon.vertices(4, 10),	#10 sq units square
 										CP::Vec2.new(0, 0))
 			@xz.body.p = CP::Vec2.new(x, z)
+			
+			@xy.body.a = (3*Math::PI/2.0)
+			@xz.body.a = (3*Math::PI/2.0)
 		end
 		
 		def apply_gravity
@@ -28,7 +32,7 @@ module CP
 				self.z = 0
 			else
 				gravity = @xz.body.m * 9.8 * -1
-				apply_force(:xz, CP::Vec2.new(0, gravity),CP::Vec2.new(0,0))
+				apply_force(:xz, CP::Vec2.new(0, gravity), CP::Vec2.new(0,0))
 			end
 		end
 		
@@ -42,10 +46,24 @@ module CP
 		
 		def reset_forces(plane)
 			if plane == :xy
-				@xz.body.reset_forces
+				@xy.body.reset_forces
 			elsif plane == :xz
 				@xz.body.reset_forces
+			elsif plane == :all
+				@xy.body.reset_forces
+				@xz.body.reset_forces
 			end
+		end
+		
+		#Setters and getters for force
+		def f plane
+			p = if plane == :xy
+				@xy
+			elsif plane == :xz
+				@xz
+			end
+			
+			p.body.f
 		end
 		
 		#Setters and getters should be changed to use aliases
@@ -80,6 +98,7 @@ module CP
 			#Compute the magnitude of the velocity in 3D space
 			#Use the cross product function in chipmunk
 			#CROSS_PRODUCT @xy.body.v, @xz.body.v
+			@xy.body.v.cross(@xz.body.v)
 		end
 		
 		def vx

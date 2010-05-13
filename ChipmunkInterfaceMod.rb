@@ -35,12 +35,12 @@ module CP
 			@xz = Space.new
 			
 			#Gravity should not function in the horiz plane			
-			@xz.gravity = CP::Vec2.new(0, 0)	
+			@xz.gravity = CP::Vec2.new(0, 0)
 			@xy.gravity = CP::Vec2.new(0, 0)
 			
 			#0.2 Seems like a good damping for ice
-			@xy.damping = 0
-			@xz.damping = 1
+			@xy.damping = 0.5
+			@xz.damping = 0
 		end
 		
 		def gravity
