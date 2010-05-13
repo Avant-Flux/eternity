@@ -69,8 +69,11 @@ class Game_Window < Gosu::Window
 			@player.body.reset_forces :xy
 			@player.body.reset_forces :xz
 			
-			
-			@player.move @inpman.direction
+			unless @inpman.active? :run
+				@player.move @inpman.direction
+			else
+				@player.run @inpman.direction
+			end
 			
 			Entity.apply_gravity_to_all
 
@@ -143,8 +146,12 @@ class InputHandler
 		bindAction(:left, Gosu::Button::KbLeft)
 		createAction(:right)
 		bindAction(:right, Gosu::Button::KbRight)
+		
 		createAction(:jump)
 		bindAction(:jump, Gosu::Button::KbLeftShift)
+		
+		createAction(:run)
+		bindAction(:run, Gosu::Button::KbLeftControl)
 	end
 	
 	def active?(action)

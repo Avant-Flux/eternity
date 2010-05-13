@@ -12,6 +12,9 @@ require 'Combative'
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
+	
+	MOVE_CONSTANT = 1500
+	RUN_CONSTANT = 5000
 
 	attr_reader :body
 	attr_reader :animations, :current_animation, :moving, :direction
@@ -81,37 +84,42 @@ class Entity
 		#~ end
 	end
 	
-	def move dir
-		#~ unless @body.xy.body.v.length > 10
+	def move(dir, constant=MOVE_CONSTANT)
 		unless dir == nil
-		unit_vector =	case dir
-							when :up
-								((3*Math::PI)/2.0).radians_to_vec2
-							when :down
-								((Math::PI)/2.0).radians_to_vec2 
-							when :left
-								(Math::PI).radians_to_vec2
-							when :right
-								(2*Math::PI).radians_to_vec2
-							when :up_left
-								((5*Math::PI)/4.0).radians_to_vec2
-							when :up_right
-								((7*Math::PI)/4.0).radians_to_vec2
-							when :down_left
-								((3*Math::PI)/4.0).radians_to_vec2
-							when :down_right
-								((Math::PI)/4.0).radians_to_vec2
-						end
-		proj = (unit_vector * (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector)))
-		#~ unless proj.length > 10
-		
-		force = unit_vector * 1500
-		
-		
-		@body.apply_force :xy, force , CP::Vec2.new(0,0)
+			angle =	case dir
+						when :up
+							((3*Math::PI)/2.0)
+						when :down
+							((Math::PI)/2.0)
+						when :left
+							(Math::PI)
+						when :right
+							(2*Math::PI)
+						when :up_left
+							((5*Math::PI)/4.0)
+						when :up_right
+							((7*Math::PI)/4.0)
+						when :down_left
+							((3*Math::PI)/4.0)
+						when :down_right
+							((Math::PI)/4.0)
+					end
+			
+			unit_vector = angle.radians_to_vec2				
+			scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
+			proj = (unit_vector * scalar)
+			#~ unless proj.length > 10
+			
+			force = unit_vector * constant
+			
+			@body.apply_force :xy, force , CP::Vec2.new(0,0)
 		else
 			@body.reset_forces :all
 		end
+	end
+	
+	def run(dir)
+		move(dir, RUN_CONSTANT)
 	end
 	
 	def direction=(arg)
