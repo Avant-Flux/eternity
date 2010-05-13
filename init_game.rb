@@ -52,33 +52,36 @@ class Game_Window < Gosu::Window
 		@space.add(@player)
 	end
 	
-	def update
-		if dir = @inpman.direction	#Get the direction to face from input and make sure it is not nil
-			@player.direction = dir
-		end
-		
-		if @inpman.active?(:jump)
-			@player.jump
-		end
+	def update		
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 
 		
-		@inpman.update()
 		
 		SUBSTEPS.times do
 			@player.body.reset_forces :xy
 			@player.body.reset_forces :xz
 			
+			@inpman.update()
+			
+			@player.direction = @inpman.direction
+			
 			unless @inpman.active? :run
-				@player.move @inpman.direction
+				@player.move
 			else
-				@player.run @inpman.direction
+				@player.run
+			end
+			
+			if @inpman.active?(:jump)
+				@player.jump
 			end
 			
 			Entity.apply_gravity_to_all
 
-			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			#~ puts @inpman.direction
+			puts "#{@player.body.x}(#{@player.body.xz.body.p.x}), " +
+					"#{@player.body.y}, " +
+					"#{@player.body.z} "
+
+
 			
 			@space.step
 		end

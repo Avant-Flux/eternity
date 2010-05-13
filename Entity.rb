@@ -13,9 +13,6 @@ require 'Combative'
 class Entity
 	include Combative
 	
-	MOVE_CONSTANT = 1500
-	RUN_CONSTANT = 5000
-
 	attr_reader :body
 	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
@@ -26,6 +23,9 @@ class Entity
 
 	def initialize(name, animations, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
+		
+		@move_constant = 1500
+		@run_constant = 5000
 		
 		@animations = animations
 		@current_animation = @animations[dir]
@@ -84,9 +84,9 @@ class Entity
 		#~ end
 	end
 	
-	def move(dir, constant=MOVE_CONSTANT)
-		unless dir == nil
-			angle =	case dir
+	def move(constant=@move_constant)
+		unless @direction == nil
+			angle =	case @direction
 						when :up
 							((3*Math::PI)/2.0)
 						when :down
@@ -108,7 +108,6 @@ class Entity
 			unit_vector = angle.radians_to_vec2				
 			scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 			proj = (unit_vector * scalar)
-			#~ unless proj.length > 10
 			
 			force = unit_vector * constant
 			
@@ -118,13 +117,15 @@ class Entity
 		end
 	end
 	
-	def run(dir)
-		move(dir, RUN_CONSTANT)
+	def run()
+		move(@run_constant)
 	end
 	
 	def direction=(arg)
 		@direction = arg
-		@current_animation = @animations[@direction]
+		unless @direction == nil
+			@current_animation = @animations[@direction]
+		end
 	end
 
 	def visible?
