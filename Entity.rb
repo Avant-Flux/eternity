@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.10.2010
+#~ Date last edited: 05.12.2010
 
 require 'rubygems'
 require 'gosu'
@@ -70,12 +70,39 @@ class Entity
 				else
 					@current_animation[0]
 				end
-		img.draw(@body.x, @body.y - @body.z, @body.z, 1, 1)
+		img.draw(@body.x * 10, (@body.y - @body.z) * 10, @body.z * 10, 1, 1)
 	end
 	
 	def jump
 		#Current implementation could allow you to hover...
-		@body.apply_force(:xz, CP::Vec2.new(0,8000), CP::Vec2.new(0,0))
+		#~ @body.reset_forces(:xz)
+		#~ if @body.z == 0
+			@body.apply_force(:xz, CP::Vec2.new(0,80), CP::Vec2.new(0,0))
+		#~ end
+	end
+	
+	def move dir
+		unit_vector =	case dir
+							when :up
+								((3*Math::PI)/2.0).radians_to_vec2
+							when :down
+								((Math::PI)/2.0).radians_to_vec2 
+							when :left
+								(Math::PI).radians_to_vec2
+							when :right
+								(2*Math::PI).radians_to_vec2
+							when :up_left
+								((5*Math::PI)/4.0).radians_to_vec2
+							when :up_right
+								((7*Math::PI)/4.0).radians_to_vec2
+							when :down_left
+								((3*Math::PI)/4.0).radians_to_vec2
+							when :down_right
+								((Math::PI)/4.0).radians_to_vec2
+						end
+		force = unit_vector * 30
+		
+		@body.apply_force :xy, force , CP::Vec2.new(0,0)
 	end
 	
 	def direction=(arg)
@@ -87,24 +114,6 @@ class Entity
 		@x = x
 		@y = y
 		@z = z
-	end
-
-	def move(x,y,z=0)
-		move_x x
-		move_y y
-		move_z z
-	end
-
-	def move_x(inc)
-		@x += inc
-	end
-
-	def move_y(inc)
-		@y += inc
-	end
-
-	def move_z(inc)
-		@z += inc
 	end
 
 	def visible?

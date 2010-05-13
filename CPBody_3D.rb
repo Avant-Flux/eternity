@@ -28,7 +28,7 @@ module CP
 				self.z = 0
 			else
 				gravity = @xz.body.m * 9.8 * -1
-				apply_force(:xz, CP::Vec2.new(0,gravity),CP::Vec2.new(0,0))
+				apply_force(:xz, CP::Vec2.new(0, gravity),CP::Vec2.new(0,0))
 			end
 		end
 		

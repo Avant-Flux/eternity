@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.10.2010
+#~ Date last edited: 05.12.2010
 
 require 'rubygems'
 require 'chipmunk'
@@ -38,7 +38,9 @@ module CP
 			@xz.gravity = CP::Vec2.new(0, 0)	
 			@xy.gravity = CP::Vec2.new(0, 0)
 			
-			self.damping = 0
+			#0.2 Seems like a good damping for ice
+			@xy.damping = 0
+			@xz.damping = 1
 		end
 		
 		def gravity
