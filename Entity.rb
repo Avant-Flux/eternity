@@ -80,7 +80,7 @@ class Entity
 		#Current implementation could allow you to hover...
 		#~ @body.reset_forces(:xz)
 		#~ if @body.z == 0
-			@body.apply_force(:xz, CP::Vec2.new(0,2000), CP::Vec2.new(0,0))
+			@body.apply_force(:xz, CP::Vec2.new(0,4000), CP::Vec2.new(0,0))
 		#~ end
 	end
 	
@@ -106,8 +106,8 @@ class Entity
 					end
 			
 			unit_vector = angle.radians_to_vec2				
-			scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
-			proj = (unit_vector * scalar)
+			#~ scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
+			#~ proj = (unit_vector * scalar)
 			
 			force = unit_vector * constant
 			

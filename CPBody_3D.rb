@@ -26,11 +26,14 @@ module CP
 			@xz.body.a = (3*Math::PI/2.0)
 		end
 		
+		def transfer_x
+			apply_force :xy, CP::Vec2.new(f(:xz).x,0)
+			@xz.body.p.x = @xy.body.p.x
+		end
+		
 		def apply_gravity
 			if self.z < 0
-				#~ reset_forces :xz
 				self.z = 0
-				puts "ground"
 			else
 				gravity = @xz.body.m * 9.8 * -1
 				apply_force(:xz, CP::Vec2.new(0, gravity), CP::Vec2.new(0,0))

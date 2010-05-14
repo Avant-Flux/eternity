@@ -43,7 +43,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30, 400 ,40])
+		@player = Player.new("Bob", Animations.player(self), [30, 400 ,00])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
@@ -57,11 +57,9 @@ class Game_Window < Gosu::Window
 		SUBSTEPS.times do
 			#Transfer the x component of force on xz to xy
 			#Then, copy the x component of position from xy to xz
-			@player.body.apply_force :xy, CP::Vec2.new(@player.body.f(:xz).x,0)
-			@player.body.xz.body.p.x = @player.body.x
-		
-			@player.body.reset_forces :xy
-			@player.body.reset_forces :xz
+			@player.body.transfer_x
+			
+			@player.body.reset_forces :all
 			
 			@inpman.update()
 			
@@ -70,10 +68,7 @@ class Game_Window < Gosu::Window
 				@player.run
 			else
 				@player.move
-			end
-			
-			#Application of gravity needs to come before jump otherwise the jump doesn't work
-			
+			end			
 			
 			if @inpman.active?(:jump)
 				@player.jump
@@ -81,12 +76,9 @@ class Game_Window < Gosu::Window
 			
 			Entity.apply_gravity_to_all
 			
-
-			#~ puts "#{@player.body.x}(#{@player.body.xz.body.p.x}), " +
-					#~ "#{@player.body.y}, " +
-					#~ "#{@player.body.z} "
-
-
+			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			
+			
 			
 			@space.step
 		end
@@ -97,7 +89,6 @@ class Game_Window < Gosu::Window
 		#~ @cur.transparent("#000000").draw(0,0,3)
 		#~ @cur.draw(60,60,3)
 	end
-	
 	
 	def button_down(id)
 		@inpman.button_down(id)
