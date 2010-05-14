@@ -44,17 +44,18 @@ class Game_Window < Gosu::Window
 		@inpman.def_kb_bindings
 		
 		@player = Player.new("Bob", Animations.player(self), [30, 400 ,00])
-		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
-		#~ @cur = @anim[0]
+		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
+		@cur = @anim[0]
 		
 		@space = CP::Space_3D.new
 		@space.add(@player)
 	end
 	
-	def update		
-		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
-		
+	def update
+		@fpscounter.update
 		SUBSTEPS.times do
+			@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
+
 			@player.body.transfer_x
 			
 			@player.body.reset_forces :all
@@ -87,9 +88,11 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
+		@fpscounter.draw
+	
 		@player.draw
 		#~ @cur.transparent("#000000").draw(0,0,3)
-		#~ @cur.draw(60,60,3)
+		@cur.draw(60,60,3)
 	end
 	
 	def button_down(id)

@@ -1,3 +1,6 @@
+#FPS Counter taken from Dahrkael RPG Template
+#Modified by: Jason Ko 
+#Date laste edited: 05.14.2010
 
 require "rubygems"
 require "gosu"
@@ -21,6 +24,9 @@ require "gosu"
 				@frames_counter = 0
 				@milliseconds_before = Gosu::milliseconds
 			end
+		end
+		
+		def draw
 			@font.draw("FPS: "+@fps.to_s, 0, 0, 20) if @show_fps
 		end
 	end
