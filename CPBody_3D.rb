@@ -28,7 +28,7 @@ module CP
 		
 		def apply_gravity
 			if self.z < 0
-				reset_forces :xz
+				#~ reset_forces :xz
 				self.z = 0
 				puts "ground"
 			else

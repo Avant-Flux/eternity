@@ -73,12 +73,13 @@ class Game_Window < Gosu::Window
 			end
 			
 			#Application of gravity needs to come before jump otherwise the jump doesn't work
-			Entity.apply_gravity_to_all
+			
 			
 			if @inpman.active?(:jump)
 				@player.jump
 			end
 			
+			Entity.apply_gravity_to_all
 			
 
 			#~ puts "#{@player.body.x}(#{@player.body.xz.body.p.x}), " +
