@@ -36,7 +36,7 @@ module CP
 			end
 		end
 		
-		def apply_force(plane, force_vector, relative_offset)
+		def apply_force(plane, force_vector, relative_offset=CP::Vec2.new(0,0))
 			if plane == :xy
 				@xy.body.apply_force(force_vector, relative_offset)
 			elsif plane == :xz

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.12.2010
+#~ Date last edited: 05.13.2010
 
 require 'rubygems'
 require 'gosu'

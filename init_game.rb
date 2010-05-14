@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.12.2010
+#~ Date last edited: 05.13.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -20,7 +20,6 @@ require 'RMagick'
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
 
-#~ require 'ManageAssets'
 require 'Entity'
 require "Creature"
 require 'Character'
@@ -54,21 +53,23 @@ class Game_Window < Gosu::Window
 	
 	def update		
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
-
-		
 		
 		SUBSTEPS.times do
+			#Transfer the x component of force on xz to xy
+			#Then, copy the x component of position from xy to xz
+			@player.body.apply_force :xy, CP::Vec2.new(@player.body.f(:xz).x,0)
+			@player.body.xz.body.p.x = @player.body.x
+		
 			@player.body.reset_forces :xy
 			@player.body.reset_forces :xz
 			
 			@inpman.update()
 			
 			@player.direction = @inpman.direction
-			
-			unless @inpman.active? :run
-				@player.move
-			else
+			if @inpman.active? :run
 				@player.run
+			else
+				@player.move
 			end
 			
 			if @inpman.active?(:jump)
