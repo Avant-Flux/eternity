@@ -80,7 +80,7 @@ class Entity
 		#Current implementation could allow you to hover...
 		#~ @body.reset_forces(:xz)
 		#~ if @body.z == 0
-			@body.apply_force(:xz, CP::Vec2.new(0,80000), CP::Vec2.new(0,0))
+			@body.apply_force(:xz, CP::Vec2.new(0,8000), CP::Vec2.new(0,0))
 		#~ end
 	end
 	

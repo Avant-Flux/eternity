@@ -27,9 +27,10 @@ module CP
 		end
 		
 		def apply_gravity
-			if self.z <= 0
+			if self.z < 0
 				reset_forces :xz
 				self.z = 0
+				puts "ground"
 			else
 				gravity = @xz.body.m * 9.8 * -1
 				apply_force(:xz, CP::Vec2.new(0, gravity), CP::Vec2.new(0,0))

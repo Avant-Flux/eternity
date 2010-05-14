@@ -40,7 +40,7 @@ module CP
 			
 			#0.2 Seems like a good damping for ice
 			@xy.damping = 0.5
-			@xz.damping = 0
+			@xz.damping = 1
 		end
 		
 		def gravity

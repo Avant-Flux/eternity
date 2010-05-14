@@ -43,7 +43,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30, 400 ,0])
+		@player = Player.new("Bob", Animations.player(self), [30, 400 ,40])
 		#~ @anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
 		#~ @cur = @anim[0]
 		
@@ -72,15 +72,18 @@ class Game_Window < Gosu::Window
 				@player.move
 			end
 			
+			#Application of gravity needs to come before jump otherwise the jump doesn't work
+			Entity.apply_gravity_to_all
+			
 			if @inpman.active?(:jump)
 				@player.jump
 			end
 			
-			Entity.apply_gravity_to_all
+			
 
-			puts "#{@player.body.x}(#{@player.body.xz.body.p.x}), " +
-					"#{@player.body.y}, " +
-					"#{@player.body.z} "
+			#~ puts "#{@player.body.x}(#{@player.body.xz.body.p.x}), " +
+					#~ "#{@player.body.y}, " +
+					#~ "#{@player.body.z} "
 
 
 			
