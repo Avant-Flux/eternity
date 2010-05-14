@@ -55,24 +55,13 @@ class Game_Window < Gosu::Window
 		#~ @cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 		
 		SUBSTEPS.times do
-			#Transfer the x component of force on xz to xy
-			#Then, copy the x component of position from xy to xz
 			@player.body.transfer_x
 			
 			@player.body.reset_forces :all
 			
 			@inpman.update()
 			
-			@player.direction = @inpman.direction
-			if @inpman.active? :run
-				@player.run
-			else
-				@player.move
-			end			
-			
-			if @inpman.active?(:jump)
-				@player.jump
-			end
+			process_input
 			
 			Entity.apply_gravity_to_all
 			
@@ -81,6 +70,19 @@ class Game_Window < Gosu::Window
 			
 			
 			@space.step
+		end
+	end
+	
+	def process_input
+		@player.direction = @inpman.direction
+		if @inpman.active? :run
+			@player.run
+		else
+			@player.move
+		end			
+		
+		if @inpman.active?(:jump)
+			@player.jump
 		end
 	end
 	

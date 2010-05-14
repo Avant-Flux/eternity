@@ -27,6 +27,8 @@ module CP
 		end
 		
 		def transfer_x
+			#Transfer the x component of force on xz to xy
+			#Then, copy the x component of position from xy to xz
 			apply_force :xy, CP::Vec2.new(f(:xz).x,0)
 			@xz.body.p.x = @xy.body.p.x
 		end
