@@ -50,11 +50,15 @@ class Game_Window < Gosu::Window
 		@inpman.def_kb_bindings
 		
 		@player = Player.new("Bob", Animations.player(self), [30, 400, 0])
+		@entity = Character.new("NPC", Animations.player(self), [30, 200, 0])
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
+		
+		
 		@space = CP::Space_3D.new
 		@space.add(@player)
+		@space.add(@entity)
 		
 		#Temporary background
 		@gl_background = GLBackground.new(self)
@@ -66,16 +70,15 @@ class Game_Window < Gosu::Window
 			@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 			
 			@player.body.transfer_x
-			
 			@player.body.reset_forces :all
 			
 			@inpman.update()
-			
 			process_input
 			
 			Entity.apply_gravity_to_all
+			Entity.update_all
 			
-			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			#~ puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
 			
 			
@@ -108,7 +111,7 @@ class Game_Window < Gosu::Window
 	
 		@fpscounter.draw
 		
-		@player.draw
+		Entity.draw_all
 		#~ @cur.transparent("#000000").draw(0,0,3)
 		@cur.draw(60,60,3)
 	end

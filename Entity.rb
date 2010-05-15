@@ -29,6 +29,7 @@ class Entity
 		
 		@animations = animations
 		@current_animation = @animations[dir]
+		@current_frame = @animations[dir][0]
 		@direction = dir
 		
 		@body = CP::Body_3D.new(pos[0], pos[1], pos[2])
@@ -66,16 +67,31 @@ class Entity
 				e.body.apply_gravity
 			end
 		end
+		
+		def draw_all
+			@@all.each do |e|
+				e.draw
+			end
+		end
+		
+		def update_all
+			@@all.each do |e|
+				e.update
+			end
+		end
 	end
 	
 	def draw
-		img =	if @moving
-					#Animate at 10 fps
-					@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
-				else
-					@current_animation[0]
-				end
-		img.draw(@body.x, (@body.y - @body.z), @body.z, 1, 1)
+		@current_frame.draw(@body.x, (@body.y - @body.z), @body.z, 1, 1)
+	end
+	
+	def update
+		@current_frame =if @moving
+							#Animate at 10 fps
+							@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
+						else
+							@current_animation[0]
+						end
 	end
 	
 	def jump
