@@ -79,7 +79,7 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 2
+		if @jump_count < 1
 			@jump_count += 1
 			@body.xz.body.v.y += 30
 		elsif @body.z <= 0

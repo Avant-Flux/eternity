@@ -1,6 +1,6 @@
 #FPS Counter taken from Dahrkael RPG Template
 #Modified by: Jason Ko 
-#Date laste edited: 05.14.2010
+#Date laste edited: 05.15.2010
 
 require "rubygems"
 require "gosu"
