@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.13.2010
+#~ Date last edited: 05.14.2010
 
 require 'rubygems'
 require 'gosu'
@@ -55,14 +55,16 @@ class Entity
 		@jumping = false
 		@jump_count = 0
 	end
-	
-	def self.all
-		@@all
-	end
-	
-	def self.apply_gravity_to_all
-		@@all.each do |e|
-			e.body.apply_gravity
+		
+	class << self
+		def all
+			@@all
+		end
+		
+		def apply_gravity_to_all
+			@@all.each do |e|
+				e.body.apply_gravity
+			end
 		end
 	end
 	
@@ -77,11 +79,12 @@ class Entity
 	end
 	
 	def jump
-		#Current implementation could allow you to hover...
-		#~ @body.reset_forces(:xz)
-		#~ if @body.z == 0
-			@body.apply_force(:xz, CP::Vec2.new(0,4000), CP::Vec2.new(0,0))
-		#~ end
+		if @jump_count < 2
+			@jump_count += 1
+			@body.xz.body.v.y += 30
+		elsif @body.z <= 0
+			@jump_count = 0
+		end
 	end
 	
 	def move(constant=@move_constant)

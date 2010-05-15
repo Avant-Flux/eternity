@@ -10,7 +10,7 @@ require "gosu"
 		attr_reader :fps
 		
 		def initialize(window)
-			@font = Gosu::Font.new(window, "Times New Roman", 12)
+			@font = Gosu::Font.new(window, "Times New Roman", 25)
 			@frames_counter = 0
 			@milliseconds_before = Gosu::milliseconds
 			@show_fps = false

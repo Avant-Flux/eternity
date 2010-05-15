@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.13.2010
+#~ Date last edited: 05.14.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -16,6 +16,12 @@ rescue LoadError
 	require 'chingu'
 end
 require 'RMagick'
+
+require 'gl'
+require 'glu'
+
+include Gl
+include Glu
 
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
@@ -43,19 +49,22 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30, 400 ,00])
-		@anim = Gosu::Image::load_tiles(self, "Sprites/Lightning_Ray.png", 192, 192, false)
+		@player = Player.new("Bob", Animations.player(self), [30, 400, 0])
+		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
 		@space = CP::Space_3D.new
 		@space.add(@player)
+		
+		#Temporary background
+		@gl_background = GLBackground.new(self)
 	end
 	
 	def update
 		@fpscounter.update
 		SUBSTEPS.times do
 			@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
-
+			
 			@player.body.transfer_x
 			
 			@player.body.reset_forces :all
@@ -88,8 +97,17 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		@fpscounter.draw
+		#Temporary background
+		gl do
+	      glClearColor(0.0, 0.2, 0.5, 1.0)
+	      glClearDepth(0)
+	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+	     
+	      @gl_background.exec_gl
+	    end
 	
+		@fpscounter.draw
+		
 		@player.draw
 		#~ @cur.transparent("#000000").draw(0,0,3)
 		@cur.draw(60,60,3)
@@ -161,6 +179,86 @@ class InputHandler
 	def active?(action)
 		self.query(action) == :active
 	end
+end
+
+#Taken from OpenGLIntegration.rb from the gosu tutorials
+#Remove/replace later with code to generate the real background
+#Using this as a test to be able to see stuff more clearly.
+class GLBackground
+  # Height map size
+  POINTS_X = 7
+  POINTS_Y = 7
+  # Scrolling speed
+  SCROLLS_PER_STEP = 50
+
+  def initialize(window)
+    @image = Gosu::Image.new(window, "/home/ravenskrag/GameDev/Examples/Gosu Examples/media/Earth.png", true)
+    @scrolls = 0
+    @height_map = Array.new(POINTS_Y) { Array.new(POINTS_X) { rand } }
+  end
+  
+  def scroll
+    @scrolls += 1
+    if @scrolls == SCROLLS_PER_STEP then
+      @scrolls = 0
+      @height_map.shift
+      @height_map.push Array.new(POINTS_X) { rand }
+    end
+  end
+  
+  def exec_gl
+    # Get the name of the OpenGL texture the Image resides on, and the
+    # u/v coordinates of the rect it occupies.
+    # gl_tex_info can return nil if the image was too large to fit onto
+    # a single OpenGL texture and was internally split up.
+    info = @image.gl_tex_info
+    return unless info
+
+    # Pretty straightforward OpenGL code.
+    
+    glDepthFunc(GL_GEQUAL)
+    glEnable(GL_DEPTH_TEST)
+    glEnable(GL_BLEND)
+
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity
+    glFrustum(-0.10, 0.10, -0.075, 0.075, 1, 100)
+
+    glMatrixMode(GL_MODELVIEW)
+    glLoadIdentity
+    glTranslate(0, 0, -4)
+  
+    glEnable(GL_TEXTURE_2D)
+    glBindTexture(GL_TEXTURE_2D, info.tex_name)
+    
+    offs_y = 1.0 * @scrolls / SCROLLS_PER_STEP
+    
+    0.upto(POINTS_Y - 2) do |y|
+      0.upto(POINTS_X - 2) do |x|
+        glBegin(GL_TRIANGLE_STRIP)
+          z = @height_map[y][x]
+          glColor4d(1, 1, 1, z)
+          glTexCoord2d(info.left, info.top)
+          glVertex3d(-0.5 + (x - 0.0) / (POINTS_X-1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y-2), z)
+
+          z = @height_map[y+1][x]
+          glColor4d(1, 1, 1, z)
+          glTexCoord2d(info.left, info.bottom)
+          glVertex3d(-0.5 + (x - 0.0) / (POINTS_X-1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y-2), z)
+        
+          z = @height_map[y][x + 1]
+          glColor4d(1, 1, 1, z)
+          glTexCoord2d(info.right, info.top)
+          glVertex3d(-0.5 + (x + 1.0) / (POINTS_X-1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y-2), z)
+
+          z = @height_map[y+1][x + 1]
+          glColor4d(1, 1, 1, z)
+          glTexCoord2d(info.right, info.bottom)
+          glVertex3d(-0.5 + (x + 1.0) / (POINTS_X-1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y-2), z)
+        glEnd
+      end
+    end
+  end
 end
 
 Game_Window.new.show

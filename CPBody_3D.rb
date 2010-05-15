@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.11.2010
+#~ Date last edited: 05.14.2010
 
 module CP
 	class Body_3D
