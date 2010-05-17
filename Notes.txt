@@ -111,8 +111,14 @@ Sprite rendering and Chipmunk
 	
 	Apply a force in the z direction instead of using gravity in order
 	to be able to toggle gravity on and off for different objects independently.  
+	
+	The Chipmunk bodies are coming un-aligned with respect to the sprites
+		Write code to draw the bounding boxes to acertain the position of the boxes
 
 
 Ruby Installation on Ubuntu
 	sudo apt-get install ruby1.9.1-full rubygems1.9.1
 	sudo RubyVersion 1.9.1
+
+dns1.freehostia.com
+dns.freehostia.com
