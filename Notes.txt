@@ -119,6 +119,3 @@ Sprite rendering and Chipmunk
 Ruby Installation on Ubuntu
 	sudo apt-get install ruby1.9.1-full rubygems1.9.1
 	sudo RubyVersion 1.9.1
-
-dns1.freehostia.com
-dns.freehostia.com
