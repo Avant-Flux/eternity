@@ -21,7 +21,7 @@ module CP
 										shape_array, CP::Vec2.new(0, 0))#This vector is the offset
 			@xz.body.p = CP::Vec2.new(x, z)
 			
-			@xy.body.a = (3*Math::PI/2.0)
+			@xy.body.a = (1*Math::PI/2.0)
 			@xz.body.a = (3*Math::PI/2.0)
 			
 			@xy.collision_type = :bottom
@@ -132,6 +132,15 @@ module CP
 		
 		def vz= arg
 			@xz.body.v.y = arg
+		end
+		
+		#Setters and getters for angle
+		def a
+			@xy.body.a
+		end
+		
+		def a= arg
+			@xy.body.a = arg
 		end
 	end
 end

@@ -57,8 +57,7 @@ class Game_Window < Gosu::Window
 		
 		
 		@space = CP::Space_3D.new
-		@space.add(@player)
-		@space.add(@entity)
+		Entity.add_all_to_space @space
 		
 		#Temporary background
 		@gl_background = GLBackground.new(self)
@@ -78,7 +77,7 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			#~ puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
 			
 			

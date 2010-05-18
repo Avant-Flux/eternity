@@ -9,6 +9,12 @@ require 'chipmunk'
 require 'ChipmunkInterfaceMod'
 require 'Combative'
 
+class Fixnum
+	def between?(a, b)
+		return true if self >= a && self < b
+	end
+end
+
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
@@ -40,7 +46,6 @@ class Entity
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
 		#~ @direction = 0	#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos
 		@visible = true		#Controls whether or not to render the Entity
-		@moving = false
 
 		@lvl = lvl
 		@max_hp = @hp = hp
@@ -69,6 +74,12 @@ class Entity
 			end
 		end
 		
+		def add_all_to_space space
+			@@all.each do |e|
+				space.add(e)
+			end
+		end
+		
 		def draw_all
 			@@all.each do |e|
 				e.draw
@@ -87,12 +98,13 @@ class Entity
 	end
 	
 	def update
-		@current_frame =if @moving
+		@current_frame =if false #If it is moving
 							#Animate at 10 fps
 							@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
 						else
 							@current_animation[0]
 						end
+		self.direction = compute_direction
 	end
 	
 	def jump
@@ -143,7 +155,7 @@ class Entity
 	
 	def direction=(arg)
 		@direction = arg
-		unless @direction == nil
+		unless arg == nil
 			@current_animation = @animations[@direction]
 		end
 	end
@@ -177,5 +189,27 @@ class Entity
 	
 	def save
 		
+	end
+	
+	private
+	def compute_direction
+		puts @body.a
+		if @body.a.between?((15*Math::PI/8), (1*Math::PI/8))
+			:right
+		elsif @body.a.between?((1*Math::PI/8), (3*Math::PI/8))
+			:down_right
+		elsif @body.a.between?((3*Math::PI/8), (5*Math::PI/8))
+			:down
+		elsif @body.a.between?((5*Math::PI/8), (7*Math::PI/8))
+			:down_left
+		elsif @body.a.between?((7*Math::PI/8), (9*Math::PI/8))
+			:left
+		elsif @body.a.between?((9*Math::PI/8), (11*Math::PI/8))
+			:up_left
+		elsif @body.a.between?((11*Math::PI/8), (13*Math::PI/8))
+			:up
+		elsif @body.a.between?((13*Math::PI/8), (15*Math::PI/8))
+			:up_right
+		end
 	end
 end
