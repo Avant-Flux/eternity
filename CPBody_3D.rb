@@ -23,6 +23,9 @@ module CP
 			
 			@xy.body.a = (3*Math::PI/2.0)
 			@xz.body.a = (3*Math::PI/2.0)
+			
+			@xy.collision_type = :bottom
+			@xz.collision_type = :side
 		end
 		
 		def transfer_x
