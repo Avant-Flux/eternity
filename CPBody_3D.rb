@@ -122,6 +122,14 @@ module CP
 			@xz.body.v.y
 		end
 		
+		def vxy
+			@xy.body.v
+		end
+		
+		def vxz
+			@xz.body.v
+		end
+		
 		def vx= arg
 			@xy.body.v.x = arg
 		end
@@ -132,6 +140,14 @@ module CP
 		
 		def vz= arg
 			@xz.body.v.y = arg
+		end
+		
+		def vxy= arg
+			@xy.body.v = arg
+		end
+		
+		def vxz= arg
+			@xz.body.v = arg
 		end
 		
 		#Setters and getters for angle

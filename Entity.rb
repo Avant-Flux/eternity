@@ -98,15 +98,9 @@ class Entity
 	end
 	
 	def update
-		dir = compute_direction
-		#~ if dir != nil
-			@current_animation = @animations[compute_direction]
-		#~ else
-			#~ puts @jump_count
-			#~ @jump_count +=1
-		#~ end
+		@current_animation = @animations[compute_direction]
 		
-		@current_frame =if true #If it is moving
+		@current_frame =if moving? #If it is moving
 							#Animate at 10 fps
 							@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
 						else
@@ -157,11 +151,8 @@ class Entity
 		move(dir, @run_constant)
 	end
 	
-	def direction=(arg)
-		@direction = arg
-		unless arg == nil
-			
-		end
+	def moving?
+		@body
 	end
 
 	def visible?
