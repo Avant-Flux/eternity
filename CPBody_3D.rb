@@ -1,25 +1,24 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.14.2010
+#~ Date last edited: 05.17.2010
 
 module CP
 	class Body_3D
 		attr_reader :xy, :xz
 	
-		def initialize(x, y, z)
+		def initialize(x, y, z, width, height, mass=100, moment=150)
 			#Bounding box sizes are place holders.  Change them later.
 
+			half_width = width/2
 			#Bottom Shape
-			@xy = CP::Shape::Circle.new(CP::Body.new(100, 150), 10, CP::Vec2.new(0.0, 0.0))
-			#~ @xy = CP::Shape::Poly.new(CP::Body.new(70, 150), 
-										#~ CP::Shape::Polygon.vertices(4, 10), #10 sq units square
-										#~ CP::Vec2.new(0, 0))	
+			@xy = CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0.0, 0.0))
 			@xy.body.p = CP::Vec2.new(x, y)
 										
 			#Side Shape
-			@xz = CP::Shape::Poly.new(CP::Body.new(100, Float::INFINITY), #Eliminate rotation 
-										CP::Shape::Polygon.vertices(4, 10),	#10 sq units square
-										CP::Vec2.new(0, 0))				#This vector is the offset
+			shape_array =	[CP::Vec2.new(0, -1*half_width), CP::Vec2.new(0, half_width), 
+							CP::Vec2.new(height, half_width), CP::Vec2.new(height, -1*half_width)]
+			@xz = CP::Shape::Poly.new(CP::Body.new(mass, Float::INFINITY), #Eliminate rotation 
+										shape_array, CP::Vec2.new(0, 0))#This vector is the offset
 			@xz.body.p = CP::Vec2.new(x, z)
 			
 			@xy.body.a = (3*Math::PI/2.0)
@@ -30,6 +29,7 @@ module CP
 			#Transfer the x component of force on xz to xy
 			#Then, copy the x component of position from xy to xz
 			apply_force :xy, CP::Vec2.new(f(:xz).x,0)
+			f(:xz).x = 0
 			@xz.body.p.x = @xy.body.p.x
 		end
 		

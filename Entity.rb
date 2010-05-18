@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.14.2010
+#~ Date last edited: 05.17.2010
 
 require 'rubygems'
 require 'gosu'
@@ -32,7 +32,8 @@ class Entity
 		@current_frame = @animations[dir][0]
 		@direction = dir
 		
-		@body = CP::Body_3D.new(pos[0], pos[1], pos[2])
+		@body = CP::Body_3D.new(pos[0], pos[1], pos[2], 
+								@current_frame.width, @current_frame.height)
 		
 		@name = name
 		@element = element
