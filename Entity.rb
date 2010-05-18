@@ -152,7 +152,7 @@ class Entity
 	end
 	
 	def moving?
-		@body
+		@body.vxy.length >= 0
 	end
 
 	def visible?
