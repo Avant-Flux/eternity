@@ -77,7 +77,7 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			#~ puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
 			
 			
@@ -86,12 +86,14 @@ class Game_Window < Gosu::Window
 	end
 	
 	def process_input
-		@player.direction = @inpman.direction
-		if @inpman.active? :run
-			@player.run
-		else
-			@player.move
-		end			
+		dir = @inpman.direction
+		if dir != nil
+			if @inpman.active? :run
+				@player.run dir
+			else
+				@player.move dir
+			end
+		end
 		
 		if @inpman.active?(:jump)
 			@player.jump

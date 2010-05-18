@@ -116,41 +116,38 @@ class Entity
 		end
 	end
 	
-	def move(constant=@move_constant)
-		unless @direction == nil
-			angle =	case @direction
-						when :up
-							((3*Math::PI)/2.0)
-						when :down
-							((Math::PI)/2.0)
-						when :left
-							(Math::PI)
-						when :right
-							(2*Math::PI)
-						when :up_left
-							((5*Math::PI)/4.0)
-						when :up_right
-							((7*Math::PI)/4.0)
-						when :down_left
-							((3*Math::PI)/4.0)
-						when :down_right
-							((Math::PI)/4.0)
-					end
-			
-			unit_vector = angle.radians_to_vec2				
-			#~ scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
-			#~ proj = (unit_vector * scalar)
-			
-			force = unit_vector * constant
-			
-			@body.apply_force :xy, force , CP::Vec2.new(0,0)
-		else
-			@body.reset_forces :all
-		end
+	def move(dir, constant=@move_constant)
+		angle =	case dir
+					when :up
+						((3*Math::PI)/2.0)
+					when :down
+						((Math::PI)/2.0)
+					when :left
+						(Math::PI)
+					when :right
+						(2*Math::PI)
+					when :up_left
+						((5*Math::PI)/4.0)
+					when :up_right
+						((7*Math::PI)/4.0)
+					when :down_left
+						((3*Math::PI)/4.0)
+					when :down_right
+						((Math::PI)/4.0)
+				end
+		
+		unit_vector = angle.radians_to_vec2
+		#~ scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
+		#~ proj = (unit_vector * scalar)
+		
+		force = unit_vector * constant
+		
+		@body.apply_force :xy, force , CP::Vec2.new(0,0)
+		@body.a = angle
 	end
 	
-	def run()
-		move(@run_constant)
+	def run(dir)
+		move(dir, @run_constant)
 	end
 	
 	def direction=(arg)
@@ -193,7 +190,7 @@ class Entity
 	
 	private
 	def compute_direction
-		puts @body.a
+		#~ puts @body.a
 		if @body.a.between?((15*Math::PI/8), (1*Math::PI/8))
 			:right
 		elsif @body.a.between?((1*Math::PI/8), (3*Math::PI/8))
