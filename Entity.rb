@@ -98,13 +98,20 @@ class Entity
 	end
 	
 	def update
-		@current_frame =if false #If it is moving
+		dir = compute_direction
+		#~ if dir != nil
+			@current_animation = @animations[compute_direction]
+		#~ else
+			#~ puts @jump_count
+			#~ @jump_count +=1
+		#~ end
+		
+		@current_frame =if true #If it is moving
 							#Animate at 10 fps
 							@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
 						else
 							@current_animation[0]
 						end
-		self.direction = compute_direction
 	end
 	
 	def jump
@@ -125,7 +132,7 @@ class Entity
 					when :left
 						(Math::PI)
 					when :right
-						(2*Math::PI)
+						0
 					when :up_left
 						((5*Math::PI)/4.0)
 					when :up_right
@@ -153,7 +160,7 @@ class Entity
 	def direction=(arg)
 		@direction = arg
 		unless arg == nil
-			@current_animation = @animations[@direction]
+			
 		end
 	end
 
@@ -207,6 +214,8 @@ class Entity
 			:up
 		elsif @body.a.between?((13*Math::PI/8), (15*Math::PI/8))
 			:up_right
+		else
+			:right #Workaround to catch the case where facing right is not being detected
 		end
 	end
 end
