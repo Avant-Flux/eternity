@@ -9,7 +9,7 @@ class Hash
 	def splice(other_hash)
 		self.each_pair do |key, value|
 			other_hash[key].each_with_index do |other_sprite, index|
-				self[key][index].splice other_sprite
+				self[key][index].splice(other_sprite, 0, 0)
 			end			
 		end
 	end
