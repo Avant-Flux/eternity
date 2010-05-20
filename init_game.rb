@@ -69,12 +69,12 @@ class Game_Window < Gosu::Window
 		@c14 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
 		@c15 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
 		
-		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
+		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
 		Entity.add_all_to_space
 		
-		@background = Background.new(self,"Sprites/grass_texture_repeating_patter.jpg")
+		@background = Background.new(self,"Sprites/Textures/grass_texture2.png")
 	end
 	
 	def update

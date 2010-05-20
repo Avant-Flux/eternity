@@ -165,6 +165,7 @@ module CP
 		
 		def def_collision_functions
 			@space.xy.add_collision_func(:bottom, :bottom) do |b1_shape, b2_shape|
+				#Apply torque to spin objects on collision
 				1
 			end
 			

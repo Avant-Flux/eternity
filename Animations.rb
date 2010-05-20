@@ -1,19 +1,47 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.12.2010
+#~ Date last edited: 05.20.2010
 require 'rubygems'
 require 'gosu'
+require 'texplay'
 
-module Animations
-	def Animations.player(window, filepath="Sprites/Sprites.png")
-		sprites = Gosu::Image::load_tiles(window, filepath, 40, 80, false)
+class Hash
+	def splice(other_hash)
+		self.each_pair do |key, value|
+			other_hash[key].each_with_index do |other_sprite, index|
+				self[key][index].splice other_sprite
+			end			
+		end
+	end
+end
+
+module Animations; class << self
+	FILEPATH = "Sprites/People/Body/1.png"
+
+	def Animations.player(window)
+		@sprites = Gosu::Image::load_tiles(window, FILEPATH, 40, 80, false)
+		
 		#Map each hash key in animations to an empty array
-		animations = {:up => [], :down => [], :left => [], :right => [], 
+		@animations = {:up => [], :down => [], :left => [], :right => [], 
 					:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 		
-		sprites.each_with_index do |sprite, i|
-			#Assumes that the spritesheet is broken up into rows of 8, with each column representing
-			#the frames to use in one direction
+		create_base
+		splice_hair
+		splice_face
+		splice_upper_body
+		splice_lower_body
+		splice_footwear
+		
+		return @animations
+	end
+	
+	
+	private
+	
+	def create_base
+		@sprites.each_with_index do |sprite, i|
+			#Assumes that the spritesheet is broken up into rows of 8, 
+			#with each column representing the frames to use in one direction
 			key = case i % 8
 				when 0
 					:up_left
@@ -33,9 +61,27 @@ module Animations
 					:up
 			end
 		
-			animations[key] << sprite
+			@animations[key] << sprite
 		end
-		
-		animations
 	end
-end
+	
+	def splice_hair
+		
+	end
+	
+	def splice_face
+		
+	end
+	
+	def splice_upper_body
+		
+	end
+	
+	def splice_lower_body
+		
+	end
+	
+	def splice_footwear
+		
+	end
+end; end
