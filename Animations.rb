@@ -8,33 +8,15 @@ require 'texplay'
 class Animations
 	FILEPATH = "Sprites/People/Body/1.png"
 
-	def Animations.player(window)
-		@sprites = Gosu::Image::load_tiles(window, FILEPATH, 40, 80, false)
+	def initialize(window, type=:people, sector=:body, number=1)
+		filepath = "Sprites/#{type}/#{sector}/#{number}.png"
+		sprites = Gosu::Image::load_tiles(window, FILEPATH, 40, 80, false)
 		
 		#Map each hash key in animations to an empty array
 		@animations = {:up => [], :down => [], :left => [], :right => [], 
 					:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 		
-		create_base
-		splice_hair
-		splice_face
-		splice_upper_body
-		splice_lower_body
-		splice_footwear
-	end
-	
-	def splice arg
-		@animations.each_pair do |key, value|
-			arg.animations[key].each_with_index do |other_sprite, index|
-				@animations[key][index].splice(other_sprite, 0, 0)
-			end
-		end
-	end
-	
-	private
-	
-	def create_base
-		@sprites.each_with_index do |sprite, i|
+		sprites.each_with_index do |sprite, i|
 			#Assumes that the spritesheet is broken up into rows of 8, 
 			#with each column representing the frames to use in one direction
 			key = case i % 8
@@ -60,23 +42,15 @@ class Animations
 		end
 	end
 	
-	def splice_hair
-		
+	def [](key)
+		@animations[key]
 	end
 	
-	def splice_face
-		
-	end
-	
-	def splice_upper_body
-		
-	end
-	
-	def splice_lower_body
-		
-	end
-	
-	def splice_footwear
-		
+	def splice arg
+		@animations.each_pair do |key, value|
+			arg.animations[key].each_with_index do |other_sprite, index|
+				@animations[key][index].splice(other_sprite, 0, 0)
+			end
+		end
 	end
 end

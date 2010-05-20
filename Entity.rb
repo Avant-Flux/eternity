@@ -28,20 +28,22 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(space, name, pos, dir, lvl, hp, mp, element, stats, faction)
+	def initialize(window, space, name, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		@space = space
 		
 		@move_constant = 1500
 		@run_constant = 5000
 		
-		@animations = Animations.new
-		@current_animation = @animations[dir]
-		@current_frame = @animations[dir][0]
+		@animations = Animations.new window
+		@current_animation = @animations[:down]
+		@current_frame = @current_animation[0]
 		@direction = dir
-		
+			
 		@body = CP::Body_3D.new(pos[0], pos[1], pos[2], 
 								@current_frame.width, @current_frame.height, space)
+		
+		
 		
 		@name = name
 		@element = element
