@@ -8,6 +8,7 @@ require 'chipmunk'
 
 require 'ChipmunkInterfaceMod'
 require 'Combative'
+require 'Animations'
 
 class Fixnum
 	def between?(a, b)
@@ -27,14 +28,14 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(space, name, animations, pos, dir, lvl, hp, mp, element, stats, faction)
+	def initialize(space, name, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		@space = space
 		
 		@move_constant = 1500
 		@run_constant = 5000
 		
-		@animations = animations
+		@animations = Animations.new
 		@current_animation = @animations[dir]
 		@current_frame = @animations[dir][0]
 		@direction = dir

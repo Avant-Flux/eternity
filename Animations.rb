@@ -5,17 +5,7 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-class Hash
-	def splice(other_hash)
-		self.each_pair do |key, value|
-			other_hash[key].each_with_index do |other_sprite, index|
-				self[key][index].splice(other_sprite, 0, 0)
-			end			
-		end
-	end
-end
-
-module Animations; class << self
+class Animations
 	FILEPATH = "Sprites/People/Body/1.png"
 
 	def Animations.player(window)
@@ -31,10 +21,15 @@ module Animations; class << self
 		splice_upper_body
 		splice_lower_body
 		splice_footwear
-		
-		return @animations
 	end
 	
+	def splice arg
+		@animations.each_pair do |key, value|
+			arg.animations[key].each_with_index do |other_sprite, index|
+				@animations[key][index].splice(other_sprite, 0, 0)
+			end
+		end
+	end
 	
 	private
 	
@@ -84,4 +79,4 @@ module Animations; class << self
 	def splice_footwear
 		
 	end
-end; end
+end
