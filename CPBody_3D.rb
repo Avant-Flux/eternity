@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.17.2010
+#~ Date last edited: 05.20.2010
 
 module CP
 	class Body_3D
@@ -21,11 +21,13 @@ module CP
 										shape_array, CP::Vec2.new(0, 0))#This vector is the offset
 			@xz.body.p = CP::Vec2.new(x, z)
 			
-			@xy.body.a = (1*Math::PI/2.0)
-			@xz.body.a = (3*Math::PI/2.0)
+			@xy.body.a = (3*Math::PI/2.0)
+			@xz.body.a = (1*Math::PI/2.0)
 			
 			@xy.collision_type = :bottom
 			@xz.collision_type = :side
+			
+			def_collision_functions
 		end
 		
 		def transfer_x
@@ -161,6 +163,14 @@ module CP
 		
 		private
 		
-		
+		def def_collision_functions
+			@space.xy.add_collision_func(:bottom, :bottom) do |b1, b2|
+				nil
+			end
+			
+			@space.xz.add_collision_func(:side, :side) do |s1, s2|
+				nil
+			end
+		end
 	end
 end

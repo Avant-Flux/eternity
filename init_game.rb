@@ -53,6 +53,7 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(@space, "Bob", Animations.player(self), [30, 400, 0])
 		@entity = Character.new(@space, "NPC", Animations.player(self), [30, 200, 0])
+		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
