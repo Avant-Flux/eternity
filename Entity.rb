@@ -92,6 +92,18 @@ class Entity
 				e.update
 			end
 		end
+		
+		def reset_all
+			@@all.each do |e|
+				e.body.reset_forces :all
+			end
+		end
+		
+		def transfer_x_for_all
+			@@all.each do |e|
+				e.body.transfer_x
+			end
+		end
 	end
 	
 	def draw

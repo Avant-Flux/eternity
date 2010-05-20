@@ -164,11 +164,11 @@ module CP
 		private
 		
 		def def_collision_functions
-			@space.xy.add_collision_func(:bottom, :bottom) do |b1, b2|
-				nil
+			@space.xy.add_collision_func(:bottom, :bottom) do |b1_shape, b2_shape|
+				1
 			end
 			
-			@space.xz.add_collision_func(:side, :side) do |s1, s2|
+			@space.xz.add_collision_func(:side, :side) do |s1_shape, s2_shape|
 				nil
 			end
 		end

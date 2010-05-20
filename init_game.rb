@@ -37,7 +37,7 @@ require 'Animations'
 
 class Game_Window < Gosu::Window
 	# The number of steps to process every Gosu update
-	SUBSTEPS = 6
+	SUBSTEPS = 10
 	
 	attr_reader :screen_x, :screen_y
 	
@@ -52,7 +52,9 @@ class Game_Window < Gosu::Window
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(@space, "Bob", Animations.player(self), [30, 400, 0])
-		@entity = Character.new(@space, "NPC", Animations.player(self), [30, 200, 0])
+		@character = Character.new(@space, "NPC", Animations.player(self), [30, 200, 0])
+		@c2 = Character.new(@space, "NPC", Animations.player(self), [70, 200, 0])
+		@c3 = Character.new(@space, "NPC", Animations.player(self), [120, 200, 0])
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
@@ -68,8 +70,8 @@ class Game_Window < Gosu::Window
 		SUBSTEPS.times do
 			@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
 			
-			@player.body.transfer_x
-			@player.body.reset_forces :all
+			Entity.transfer_x_for_all
+			Entity.reset_all
 			
 			@inpman.update()
 			process_input
@@ -77,8 +79,8 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			#~ puts "#{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			
+			puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			puts "Character: #{@character.body.x}, #{@character.body.y}, #{@character.body.z}"
 			
 			
 			@space.step
