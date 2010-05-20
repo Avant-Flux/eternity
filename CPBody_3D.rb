@@ -6,7 +6,7 @@ module CP
 	class Body_3D
 		attr_reader :xy, :xz
 	
-		def initialize(x, y, z, width, height, mass=100, moment=150)
+		def initialize(x, y, z, width, height, space, mass=100, moment=150)
 			#Bounding box sizes are place holders.  Change them later.
 
 			half_width = width/2
@@ -158,5 +158,9 @@ module CP
 		def a= arg
 			@xy.body.a = arg
 		end
+		
+		private
+		
+		
 	end
 end

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.20.2010
+#~ Date last edited: 05.20.2010
 
 require 'ChipmunkInterfaceMod'
 require "Title"
@@ -12,8 +12,8 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(name, animations, pos = [0, 0, 0], dir=:down)
-		super(name, animations, pos, dir, 1, 10, 10, :none, 
+	def initialize(space, name, animations, pos = [0, 0, 0], dir=:down)
+		super(space, name, animations, pos, dir, 1, 10, 10, :none, 
 				[10, 10, 10, 10, 10, 10, 10], 0)
 				
 		@str = @atk

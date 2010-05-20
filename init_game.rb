@@ -49,13 +49,13 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.def_kb_bindings
 		
-		@player = Player.new("Bob", Animations.player(self), [30, 400, 0])
-		@entity = Character.new("NPC", Animations.player(self), [30, 200, 0])
+		@space = CP::Space_3D.new
+		
+		@player = Player.new(@space, "Bob", Animations.player(self), [30, 400, 0])
+		@entity = Character.new(@space, "NPC", Animations.player(self), [30, 200, 0])
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
-		@space = CP::Space_3D.new
-		Entity.space = @space
 		Entity.add_all_to_space
 		
 		#Temporary background

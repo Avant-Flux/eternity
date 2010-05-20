@@ -19,7 +19,7 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :body
+	attr_reader :body, :space
 	attr_reader :animations, :current_animation, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -27,8 +27,9 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(name, animations, pos, dir, lvl, hp, mp, element, stats, faction)
+	def initialize(space, name, animations, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
+		@space = space
 		
 		@move_constant = 1500
 		@run_constant = 5000
@@ -39,7 +40,7 @@ class Entity
 		@direction = dir
 		
 		@body = CP::Body_3D.new(pos[0], pos[1], pos[2], 
-								@current_frame.width, @current_frame.height)
+								@current_frame.width, @current_frame.height, space)
 		
 		@name = name
 		@element = element
@@ -67,11 +68,7 @@ class Entity
 		def all
 			@@all
 		end
-		
-		def space= s
-			@@space = s
-		end
-		
+
 		def apply_gravity_to_all
 			@@all.each do |e|
 				e.body.apply_gravity
@@ -80,7 +77,7 @@ class Entity
 		
 		def add_all_to_space
 			@@all.each do |e|
-				@@space.add(e)
+				e.space.add(e)
 			end
 		end
 		
