@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.17.2010
+#~ Date last edited: 05.20.2010
 
 require 'rubygems'
 require 'gosu'
@@ -68,15 +68,19 @@ class Entity
 			@@all
 		end
 		
+		def space= s
+			@@space = s
+		end
+		
 		def apply_gravity_to_all
 			@@all.each do |e|
 				e.body.apply_gravity
 			end
 		end
 		
-		def add_all_to_space space
+		def add_all_to_space
 			@@all.each do |e|
-				space.add(e)
+				@@space.add(e)
 			end
 		end
 		

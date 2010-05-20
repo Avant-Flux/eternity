@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.14.2010
+#~ Date last edited: 05.20.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -54,10 +54,9 @@ class Game_Window < Gosu::Window
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
-		
-		
 		@space = CP::Space_3D.new
-		Entity.add_all_to_space @space
+		Entity.space = @space
+		Entity.add_all_to_space
 		
 		#Temporary background
 		@gl_background = GLBackground.new(self)
