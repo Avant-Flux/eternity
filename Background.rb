@@ -5,6 +5,8 @@ require 'rubygems'
 require 'gosu'
 
 class Background
+	Z_INDEX = -500
+
 	def initialize(window, picture)
 		@window = window
 		@image = Gosu::Image.new(window, picture, true)
@@ -15,9 +17,14 @@ class Background
 	end
 	
 	def draw
-		(0..(@window.height)).step(@image.height) do |h|
-			(0..(@window.width)).step(@image.width) do |w|
-				@image.draw(h,w, -500)
+		vert_times = (@window.height / @image.height) + 1
+		horiz_times = (@window.width / @image.width) + 1
+		
+		#~ puts "#{@window.height}  #{@image.height}" 
+		
+		vert_times.times do |y|
+			horiz_times.times do |x|
+				@image.draw(@image.width * x, @image.height * y, Z_INDEX)
 			end
 		end
 	end

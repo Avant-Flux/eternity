@@ -74,10 +74,7 @@ class Game_Window < Gosu::Window
 		
 		Entity.add_all_to_space
 		
-		#Temporary background
-		#~ @gl_background = GLBackground.new(self)
-		
-		@background = Background.new(self,"Sprites/grass_texture.png")
+		@background = Background.new(self,"Sprites/grass_texture_repeating_patter.jpg")
 	end
 	
 	def update
