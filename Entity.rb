@@ -77,7 +77,7 @@ class Entity
 		
 		def add_all_to_space
 			@@all.each do |e|
-				e.space.add(e)
+				e.body.space.add(e)
 			end
 		end
 		

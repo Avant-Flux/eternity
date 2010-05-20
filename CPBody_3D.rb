@@ -4,11 +4,11 @@
 
 module CP
 	class Body_3D
-		attr_reader :xy, :xz
+		attr_reader :xy, :xz, :space
 	
 		def initialize(x, y, z, width, height, space, mass=100, moment=150)
-			#Bounding box sizes are place holders.  Change them later.
-
+			@space = space
+			
 			half_width = width/2
 			#Bottom Shape
 			@xy = CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0.0, 0.0))
