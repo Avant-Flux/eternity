@@ -34,10 +34,11 @@ require 'Player'
 require 'FPSCounter'
 require 'InputHandler'
 require 'Animations'
+require 'Background'
 
 class Game_Window < Gosu::Window
 	# The number of steps to process every Gosu update
-	SUBSTEPS = 10
+	SUBSTEPS = 6
 	
 	attr_reader :screen_x, :screen_y
 	
@@ -55,6 +56,18 @@ class Game_Window < Gosu::Window
 		@character = Character.new(@space, "NPC", Animations.player(self), [30, 200, 0])
 		@c2 = Character.new(@space, "NPC", Animations.player(self), [70, 200, 0])
 		@c3 = Character.new(@space, "NPC", Animations.player(self), [120, 200, 0])
+		@c4 = Character.new(@space, "NPC", Animations.player(self), [50, 225, 0])
+		@c5 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c6 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c7 = Character.new(@space, "NPC", Animations.player(self), [70, 200, 0])
+		@c8 = Character.new(@space, "NPC", Animations.player(self), [120, 200, 0])
+		@c9 = Character.new(@space, "NPC", Animations.player(self), [50, 225, 0])
+		@c10 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c11 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c12 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c13 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c14 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
+		@c15 = Character.new(@space, "NPC", Animations.player(self), [80, 225, 0])
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
@@ -62,7 +75,9 @@ class Game_Window < Gosu::Window
 		Entity.add_all_to_space
 		
 		#Temporary background
-		@gl_background = GLBackground.new(self)
+		#~ @gl_background = GLBackground.new(self)
+		
+		@background = Background.new(self,"Sprites/grass_texture.png")
 	end
 	
 	def update
@@ -79,8 +94,7 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
-			puts "Character: #{@character.body.x}, #{@character.body.y}, #{@character.body.z}"
+			#~ puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
 			
 			@space.step
@@ -103,20 +117,13 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		#Temporary background
-		gl do
-	      glClearColor(0.0, 0.2, 0.5, 1.0)
-	      glClearDepth(0)
-	      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-	     
-	      @gl_background.exec_gl
-	    end
-	
+		@background.draw
 		@fpscounter.draw
 		
 		Entity.draw_all
 		#~ @cur.transparent("#000000").draw(0,0,3)
 		@cur.draw(60,60,3)
+		
 	end
 	
 	def button_down(id)
@@ -198,7 +205,7 @@ class GLBackground
   SCROLLS_PER_STEP = 50
 
   def initialize(window)
-    @image = Gosu::Image.new(window, "/home/ravenskrag/GameDev/Examples/Gosu Examples/media/Earth.png", true)
+    @image = Gosu::Image.new(window, "./Sprites/grass_texture.png", true)
     @scrolls = 0
     @height_map = Array.new(POINTS_Y) { Array.new(POINTS_X) { rand } }
   end
