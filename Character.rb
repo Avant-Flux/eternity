@@ -12,8 +12,8 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(window, space, name, pos = [0, 0, 0], dir=:down)
-		super(window, space, name, pos, dir, 1, 10, 10, :none, 
+	def initialize(window, space, name, pos = [0, 0, 0])
+		super(window, space, name, pos, 1, 10, 10, :none, 
 				[10, 10, 10, 10, 10, 10, 10], 0)
 				
 		@str = @atk

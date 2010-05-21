@@ -28,7 +28,7 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(window, space, name, pos, dir, lvl, hp, mp, element, stats, faction)
+	def initialize(window, space, name, pos, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		
 		@move_constant = 1500
@@ -36,11 +36,11 @@ class Entity
 		
 		@animations = Animations.new window
 		hair = Animations.new window, :people, :hair, 1
+		p hair
 		@animations.splice hair
 		
 		@current_animation = @animations[:down]
 		@current_frame = @current_animation[0]
-		@direction = dir
 			
 		@body = CP::Body_3D.new(pos[0], pos[1], pos[2], 
 								@current_frame.width, @current_frame.height, space)
@@ -50,7 +50,6 @@ class Entity
 		@name = name
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
-		#~ @direction = 0	#Angle in degrees using Gosu's coordinate system of pos-y = 0, cw = pos
 		@visible = true		#Controls whether or not to render the Entity
 
 		@lvl = lvl

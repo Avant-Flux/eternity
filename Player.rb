@@ -12,8 +12,8 @@ class Player < Character
 	attr_accessor :titles, :max_combo, :combo, :overkill_bonus
 	Lvl_cap = 100
 
-	def initialize(window, space, name, pos = [0, 0, 0], dir=:down)
-		super(window, space, name, pos, dir)
+	def initialize(window, space, name, pos = [0, 0, 0])
+		super(window, space, name, pos)
 		
 		@max_combo = 0
 		@combo = 0

@@ -11,7 +11,7 @@ class Animations
 	attr_reader :animations
 
 	def initialize(window, type=:people, sector=:body, number=1)
-		filepath = "Sprites/#{type}/#{sector}/#{number}.png"
+		filepath = "Sprites/#{type.to_s.capitalize}/#{sector.to_s.capitalize}/#{number}.png"
 		sprites = Gosu::Image::load_tiles(window, FILEPATH, 40, 80, false)
 		
 		#Map each hash key in animations to an empty array
@@ -49,10 +49,16 @@ class Animations
 	end
 	
 	def splice arg
-		@animations.each_pair do |key, value|
-			arg.animations[key].each_with_index do |other_sprite, index|
-				@animations[key][index].splice(other_sprite, 0, 0)
-			end
-		end
+		#~ @animations[:up][0].splice arg.animations[:up][0], 0, 0
+		#~ @animations[:down][0].splice arg.animations[:down][0], 0, 0
+		#~ @animations[:left][0].splice arg.animations[:left][0], 0, 0
+		#~ @animations[:right][0].splice arg.animations[:right][0], 0, 0
+	
+		#~ @animations.each_pair do |key, value|
+			#~ arg.animations[key].each_with_index do |other_sprite, index|
+				#~ puts "#{other_sprite} => #{index}"
+				#~ @animations[key][index].splice(other_sprite, 0, 0)
+			#~ end
+		#~ end
 	end
 end
