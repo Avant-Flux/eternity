@@ -72,8 +72,6 @@ class Game_Window < Gosu::Window
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
 		
-		Entity.add_all_to_space
-		
 		@background = Background.new(self,"Sprites/Textures/grass_texture2.png")
 	end
 	

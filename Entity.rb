@@ -30,12 +30,14 @@ class Entity
 
 	def initialize(window, space, name, pos, dir, lvl, hp, mp, element, stats, faction)
 		@@all << self
-		@space = space
 		
 		@move_constant = 1500
 		@run_constant = 5000
 		
 		@animations = Animations.new window
+		hair = Animations.new window, :people, :hair, 1
+		@animations.splice hair
+		
 		@current_animation = @animations[:down]
 		@current_frame = @current_animation[0]
 		@direction = dir
@@ -65,6 +67,8 @@ class Entity
 		
 		@jumping = false
 		@jump_count = 0
+		
+		space.add self
 	end
 		
 	class << self

@@ -7,6 +7,8 @@ require 'texplay'
 
 class Animations
 	FILEPATH = "Sprites/People/Body/1.png"
+	
+	attr_reader :animations
 
 	def initialize(window, type=:people, sector=:body, number=1)
 		filepath = "Sprites/#{type}/#{sector}/#{number}.png"
