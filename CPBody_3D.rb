@@ -26,8 +26,6 @@ module CP
 			
 			@xy.collision_type = xy_collision_type
 			@xz.collision_type = xz_collision_type
-			
-			def_collision_functions xy_collision_type, xz_collision_type
 		end
 		
 		def transfer_x
@@ -163,14 +161,15 @@ module CP
 		
 		private
 		
-		def def_collision_functions xy_collision_type, xz_collision_type
-			@space.xy.add_collision_func(xy_collision_type, xy_collision_type) do |b1_shape, b2_shape|
-				#Apply torque to spin objects on collision
-				1
+		def xy_collision_fx(&block)
+			@space.xy.add_collision_func(@xy.collision_type, @xy.collision_type) do |b1_shape, b2_shape|
+				yield b1_shape, b2_shape
 			end
-			
-			@space.xz.add_collision_func(xz_collision_type, xz_collision_type) do |s1_shape, s2_shape|
-				nil
+		end
+		
+		def xz_collision_fx(&block)
+			@space.xz.add_collision_func(@xz.collision_type, @xz.collision_type) do |s1_shape, s2_shape|
+				yield s1_shape, s2_shape
 			end
 		end
 	end
@@ -178,6 +177,14 @@ module CP
 	class Entity_Body < Body_3D
 		def initialize(space, x, y, z, width, height, mass=100, moment=150)
 			super(space, x, y, z, width, height, :entity_bottom, :entity_side, mass, moment)
+			
+			xy_collision_fx do |b1_shape, b2_shape|
+				1
+			end
+			
+			xz_collision_fx do |s1_shape, s2_shape|
+				nil
+			end
 		end
 	end
 	
