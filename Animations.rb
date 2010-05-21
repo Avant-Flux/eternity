@@ -1,9 +1,15 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 05.21.2010
 require 'rubygems'
 require 'gosu'
 require 'texplay'
+
+module Gosu
+class Image
+	
+end
+end
 
 class Animations
 	FILEPATH = "Sprites/People/Body/1.png"

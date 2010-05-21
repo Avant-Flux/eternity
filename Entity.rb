@@ -35,18 +35,17 @@ class Entity
 		@run_constant = 5000
 		
 		@animations = Animations.new window
-		hair = Animations.new window, :people, :hair, 1
-		@animations.splice hair
-		face = Animations.new window, :people, :face, 1
-		@animations.splice face
-		footwear = Animations.new window, :people, :footwear, "shoes1"
-		@animations.splice footwear
-		
+		#~ hair = Animations.new window, :people, :hair, 1
+		#~ @animations.splice hair
+		#~ face = Animations.new window, :people, :face, 1
+		#~ @animations.splice face
+		#~ footwear = Animations.new window, :people, :footwear, "shoes1"
+		#~ @animations.splice footwear
 		@current_animation = @animations[:down]
 		@current_frame = @current_animation[0]
 			
-		@body = CP::Body_3D.new(pos[0], pos[1], pos[2], 
-								@current_frame.width, @current_frame.height, space)
+		@body = CP::Entity_Body.new(space, pos[0], pos[1], pos[2], 
+								@current_frame.width, @current_frame.height)
 		
 		
 		

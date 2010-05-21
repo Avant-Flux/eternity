@@ -177,6 +177,7 @@ module Test
 				@body.splice(footwear, 0,0, :alpha_blend => true)
 				@body.splice(upper, 0,0, :alpha_blend => true)
 				@body.splice(lower, 0,0, :alpha_blend => true)
+				@sprites = Gosu::Image::load_tiles(self, , 40, 80, false)
 			end
 		
 			def draw

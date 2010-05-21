@@ -6,7 +6,7 @@ module CP
 	class Body_3D
 		attr_reader :xy, :xz, :space
 	
-		def initialize(x, y, z, width, height, space, mass=100, moment=150)
+		def initialize(space, x, y, z, width, height, xy_collision_type, xz_collision_type, mass=100, moment=150)
 			@space = space
 			
 			half_width = width/2
@@ -24,10 +24,10 @@ module CP
 			@xy.body.a = (3*Math::PI/2.0)
 			@xz.body.a = (1*Math::PI/2.0)
 			
-			@xy.collision_type = :bottom
-			@xz.collision_type = :side
+			@xy.collision_type = xy_collision_type
+			@xz.collision_type = xz_collision_type
 			
-			def_collision_functions
+			def_collision_functions xy_collision_type, xz_collision_type
 		end
 		
 		def transfer_x
@@ -163,15 +163,21 @@ module CP
 		
 		private
 		
-		def def_collision_functions
-			@space.xy.add_collision_func(:bottom, :bottom) do |b1_shape, b2_shape|
+		def def_collision_functions xy_collision_type, xz_collision_type
+			@space.xy.add_collision_func(xy_collision_type, xy_collision_type) do |b1_shape, b2_shape|
 				#Apply torque to spin objects on collision
 				1
 			end
 			
-			@space.xz.add_collision_func(:side, :side) do |s1_shape, s2_shape|
+			@space.xz.add_collision_func(xz_collision_type, xz_collision_type) do |s1_shape, s2_shape|
 				nil
 			end
+		end
+	end
+	
+	class Entity_Body < Body_3D
+		def initialize(space, x, y, z, width, height, mass=100, moment=150)
+			super(space, x, y, z, width, height, :entity_bottom, :entity_side, mass, moment)
 		end
 	end
 end
