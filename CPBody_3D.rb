@@ -190,7 +190,7 @@ module CP
 	
 	class Building_Body < Body_3D
 		def initialize(space, x, y, z, width, height)
-			super(space, x, y, z, width, height, :entity_bottom, :entity_side, 
+			super(space, x, y, z, width, height, :building_bottom, :building_side, 
 					Float::INFINITY, Float::INFINITY)
 			
 			xy_collision_fx do |b1_shape, b2_shape|
