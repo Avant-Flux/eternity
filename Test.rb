@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.10.2010
+#~ Date last edited: 05.21.2010
 
 require "Entity"
 require "Character"
@@ -12,6 +12,8 @@ require "Creature"
 
 require "rubygems"
 require "gosu"
+
+require 'texplay'
 
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
@@ -153,6 +155,39 @@ module Test
 			#~ y += 85
 		#~ end
 	end
+	
+	
+	end
+	
+	module Test_splice
+		class T < Gosu::Window
+			def	initialize
+				super(800, 600, false)
+				self.caption = "Project ETERNITY"
+				
+				@body = Gosu::Image.new(self, "./Sprites/People/Body/1.png", false)
+				face = Gosu::Image.new(self, "./Sprites/People/Face/1.png", false)
+				hair = Gosu::Image.new(self, "./Sprites/People/Hair/1.png", false)
+				footwear = Gosu::Image.new(self, "./Sprites/People/Footwear/shoes1.png", false)
+				upper = Gosu::Image.new(self, "./Sprites/People/Upper/shirt1.png", false)
+				lower = Gosu::Image.new(self, "./Sprites/People/Lower/pants1.png", false)
+				
+				@body.splice(face, 0,0, :alpha_blend => true)
+				@body.splice(hair, 0,0, :alpha_blend => true)
+				@body.splice(footwear, 0,0, :alpha_blend => true)
+				@body.splice(upper, 0,0, :alpha_blend => true)
+				@body.splice(lower, 0,0, :alpha_blend => true)
+			end
+		
+			def draw
+				@body.draw(0,0,0)
+			end
+			
+			def update
+				
+			end
+		end		
+	end
 end
 
 #~ Test::test_entity_creation
@@ -160,4 +195,4 @@ end
 #~ Test::test_title
 #~ Test::test_element_based_lvl_up
 #~ Test::test_melee_attack
-	
+Test::Test_splice::T.new.show

@@ -118,7 +118,6 @@ class Game_Window < Gosu::Window
 		Entity.draw_all
 		#~ @cur.transparent("#000000").draw(0,0,3)
 		@cur.draw(60,60,3)
-		
 	end
 	
 	def button_down(id)
