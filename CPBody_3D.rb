@@ -180,4 +180,11 @@ module CP
 			super(space, x, y, z, width, height, :entity_bottom, :entity_side, mass, moment)
 		end
 	end
+	
+	class Building_Body < Body_3D
+		def initialize(space, x, y, z, width, height)
+			super(space, x, y, z, width, height, :entity_bottom, :entity_side, 
+					Float::INFINITY, Float::INFINITY)
+		end
+	end
 end
