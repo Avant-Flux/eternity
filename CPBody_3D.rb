@@ -1,17 +1,18 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 05.21.2010
 
 module CP
 	class Body_3D
 		attr_reader :xy, :xz, :space
 	
-		def initialize(space, x, y, z, width, height, xy_collision_type, xz_collision_type, mass=100, moment=150)
+		def initialize(space, x, y, z, width, height, 
+		xy_collision_type, xz_collision_type, mass, moment)
 			@space = space
 			
 			half_width = width/2
 			#Bottom Shape
-			@xy = CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0.0, 0.0))
+			@xy = CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
 			@xy.body.p = CP::Vec2.new(x, y)
 										
 			#Side Shape
