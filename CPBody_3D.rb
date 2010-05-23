@@ -8,6 +8,9 @@ module CP
 	
 		def initialize(space, x, y, z, width, height, 
 		xy_collision_type, xz_collision_type, mass, moment)
+			@width = width
+			@height = height
+			
 			@space = space
 			
 			half_width = width/2
@@ -180,7 +183,11 @@ module CP
 			super(space, x, y, z, width, height, :entity_bottom, :entity_side, mass, moment)
 			
 			xy_collision_fx do |b1_shape, b2_shape|
-				1
+				if 
+					
+				else
+					nil
+				end
 			end
 			
 			xz_collision_fx do |s1_shape, s2_shape|
