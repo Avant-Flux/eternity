@@ -105,6 +105,12 @@ module Animation
 			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
 		end
 		
+		class << self
+			def load path
+				
+			end
+		end
+		
 		def body= arg
 			set_subsprite :body, arg
 		end
