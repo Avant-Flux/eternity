@@ -92,12 +92,13 @@ module Animation
 			@window = window
 			
 			Dir.chdir("./Sprites/People/") do
-				@parts = {:body => Gosu::Image.new(@window, "./Body/#{body}.png", false)
-						:face => Gosu::Image.new(@window, "./Face/#{face}.png", false),
-						:hair => Gosu::Image.new(@window, "./Hair/#{hair}.png", false),
-					:footwear => Gosu::Image.new(@window, "./Footwear/#{footwear}.png", false),
-						:upper => Gosu::Image.new(@window, "./Upper/#{upper}.png", false),
-						:lower => Gosu::Image.new(@window, "./Lower/#{lower}.png", false)}
+				@parts = Hash.new
+				self.body = body
+				self.face = face
+				self.hair = hair
+				self.footwear = footwear
+				self.upper = upper
+				self.lower = lower
 				
 				generate_spritesheet
 			end
