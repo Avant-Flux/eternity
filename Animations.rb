@@ -85,25 +85,38 @@ class Animations
 end
 
 module Animation
-	class Character	
+	class Character
+		attr_reader :sprites
+		attr_accessor :body, :face, :hair, :footwear, :upper, :lower
+	
 		def initialize body, face, hair, footwear, upper, lower
+			@body = body
+			@face = face
+			@hair = hair
+			@footwear = footwear
+			@upper = upper
+			@lower = lower
+		
 			Dir.chdir("./Sprites/People/") do |dir|
-				@body = Gosu::Image.new(self, "./Body/#{body}.png", false)
-				parts = {:face => Gosu::Image.new(self, "./Face/#{face}.png", false),
+				@base_image = Gosu::Image.new(self, "./Body/#{body}.png", false)
+				@parts = {:face => Gosu::Image.new(self, "./Face/#{face}.png", false),
 						:hair => Gosu::Image.new(self, "./Hair/#{hair}.png", false),
 						:footwear => Gosu::Image.new(self, "./Footwear/#{footwear}.png", false),
 						:upper => Gosu::Image.new(self, "./Upper/#{upper}.png", false),
 						:lower => Gosu::Image.new(self, "./Lower/#{lower}.png", false)}
 				
 				parts.each_value do |part|
-					@body.splice(part, 0,0, :alpha_blend => true)
+					@base_image.splice(part, 0,0, :alpha_blend => true)
 				end
 			end
 			
-			
-			@sprites = Gosu::Image::load_tiles(self, @body, 40, 80, false)
+			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
 		end
 		
+		private
 		
+		def generate_sprites
+			
+		end
 	end
 end
