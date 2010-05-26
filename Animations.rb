@@ -146,11 +146,9 @@ module Animation
 		end
 		
 		def set_subsprite type, subsprite_name
-			Dir.chdir("./Sprites/People/") do
 				@parts[type] = Gosu::Image.new(@window, 
-											"./#{type.to_s.capitalize}/#{subsprite_name}.png", 
-											false)
-			end
+								"./Sprites/People/#{type.to_s.capitalize}/#{subsprite_name}.png", 
+								false)
 		end
 	end
 end
