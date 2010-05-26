@@ -91,17 +91,15 @@ module Animation
 		def initialize window, body, face, hair, footwear, upper, lower
 			@window = window
 			
-			Dir.chdir("./Sprites/People/") do
-				@parts = Hash.new
-				self.body = body
-				self.face = face
-				self.hair = hair
-				self.footwear = footwear
-				self.upper = upper
-				self.lower = lower
+			@parts = Hash.new
+			self.body = body
+			self.face = face
+			self.hair = hair
+			self.footwear = footwear
+			self.upper = upper
+			self.lower = lower
 				
-				generate_spritesheet
-			end
+			generate_spritesheet
 			
 			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
 		end
