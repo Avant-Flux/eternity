@@ -87,18 +87,10 @@ end
 module Animation
 	class Character
 		attr_reader :sprites
-		attr_accessor :body, :face, :hair, :footwear, :upper, :lower
 	
 		def initialize window, body, face, hair, footwear, upper, lower
 			@window = window
-		
-			@body = body
-			@face = face
-			@hair = hair
-			@footwear = footwear
-			@upper = upper
-			@lower = lower
-		
+			
 			Dir.chdir("./Sprites/People/") do
 				@base_image = Gosu::Image.new(@window, "./Body/#{body}.png", false)
 				@parts = {:face => Gosu::Image.new(@window, "./Face/#{face}.png", false),
