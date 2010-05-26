@@ -99,7 +99,7 @@ module Animation
 						:upper => Gosu::Image.new(@window, "./Upper/#{upper}.png", false),
 						:lower => Gosu::Image.new(@window, "./Lower/#{lower}.png", false)}
 				
-				generate_sprites
+				generate_spritesheet
 			end
 			
 			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
@@ -133,7 +133,7 @@ module Animation
 		
 		private
 		
-		def generate_sprites
+		def generate_spritesheet
 			@parts.each_value do |part|
 				@base_image.splice(part, 0,0, :alpha_blend => true)
 			end
