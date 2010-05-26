@@ -111,26 +111,38 @@ module Animation
 		
 		def body= arg
 			set_subsprite :body, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		def face= arg
 			set_subsprite :face, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		def hair= arg
 			set_subsprite :hair, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		def footwear= arg
 			set_subsprite :footwear, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		def upper= arg
 			set_subsprite :upper, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		def lower= arg
 			set_subsprite :lower, arg
+			generate_spritesheet
+			generate_sprites
 		end
 		
 		private
