@@ -100,8 +100,7 @@ module Animation
 			self.lower = lower
 				
 			generate_spritesheet
-			
-			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
+			generate_sprites
 		end
 		
 		class << self
@@ -147,6 +146,37 @@ module Animation
 				@parts[type] = Gosu::Image.new(@window, 
 								"./Sprites/People/#{type.to_s.capitalize}/#{subsprite_name}.png", 
 								false)
+		end
+		
+		def generate_sprites
+			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
+			@sprites = {:up => [], :down => [], :left => [], :right => [], 
+						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
+			
+			sprite_array.each_with_index do |sprite, i|
+				#Assumes that the spritesheet is broken up into rows of 8, 
+				#with each column representing the frames to use in one direction
+				key = case i % 8
+					when 0
+						:up_left
+					when 1
+						:left
+					when 2
+						:down_left
+					when 3
+						:down
+					when 4
+						:down_right
+					when 5
+						:right
+					when 6
+						:up_right
+					when 7
+						:up
+				end
+			
+				@sprites[key] << sprite
+			end
 		end
 	end
 end
