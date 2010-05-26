@@ -89,7 +89,9 @@ module Animation
 		attr_reader :sprites
 		attr_accessor :body, :face, :hair, :footwear, :upper, :lower
 	
-		def initialize body, face, hair, footwear, upper, lower
+		def initialize window, body, face, hair, footwear, upper, lower
+			@window = window
+		
 			@body = body
 			@face = face
 			@hair = hair
@@ -97,26 +99,60 @@ module Animation
 			@upper = upper
 			@lower = lower
 		
-			Dir.chdir("./Sprites/People/") do |dir|
-				@base_image = Gosu::Image.new(self, "./Body/#{body}.png", false)
-				@parts = {:face => Gosu::Image.new(self, "./Face/#{face}.png", false),
-						:hair => Gosu::Image.new(self, "./Hair/#{hair}.png", false),
-						:footwear => Gosu::Image.new(self, "./Footwear/#{footwear}.png", false),
-						:upper => Gosu::Image.new(self, "./Upper/#{upper}.png", false),
-						:lower => Gosu::Image.new(self, "./Lower/#{lower}.png", false)}
+			Dir.chdir("./Sprites/People/") do
+				@base_image = Gosu::Image.new(@window, "./Body/#{body}.png", false)
+				@parts = {:face => Gosu::Image.new(@window, "./Face/#{face}.png", false),
+						:hair => Gosu::Image.new(@window, "./Hair/#{hair}.png", false),
+					:footwear => Gosu::Image.new(@window, "./Footwear/#{footwear}.png", false),
+						:upper => Gosu::Image.new(@window, "./Upper/#{upper}.png", false),
+						:lower => Gosu::Image.new(@window, "./Lower/#{lower}.png", false)}
 				
-				parts.each_value do |part|
-					@base_image.splice(part, 0,0, :alpha_blend => true)
-				end
+				generate_sprites
 			end
 			
 			@sprites = Gosu::Image::load_tiles(self, @base_image, 40, 80, false)
 		end
 		
+		def body= arg
+			Dir.chdir("./Sprites/People/") do
+				@base_image = Gosu::Image.new(@window, "./Body/#{arg}.png", false)
+			end
+		end
+		
+		def face= arg
+			set_subsprite :face, arg
+		end
+		
+		def hair= arg
+			set_subsprite :hair, arg
+		end
+		
+		def footwear= arg
+			set_subsprite :footwear, arg
+		end
+		
+		def upper= arg
+			set_subsprite :upper, arg
+		end
+		
+		def lower= arg
+			set_subsprite :lower, arg
+		end
+		
 		private
 		
 		def generate_sprites
-			
+			@parts.each_value do |part|
+				@base_image.splice(part, 0,0, :alpha_blend => true)
+			end
+		end
+		
+		def set_subsprite type, subsprite_name
+			Dir.chdir("./Sprites/People/") do
+				@parts[type] = Gosu::Image.new(@window, 
+											"./#{type.to_s.capitalize}/#{subsprite_name}.png", 
+											false)
+			end
 		end
 	end
 end
