@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.21.2010
+#~ Date last edited: 05.26.2010
 
 require "Entity"
 require "Character"
@@ -17,6 +17,11 @@ require 'texplay'
 
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
+
+class Gosu::Image
+   alias_method :rows, :height
+   alias_method :columns, :width
+end
 
 class Character
 	def ls element
@@ -165,23 +170,32 @@ module Test
 				super(800, 600, false)
 				self.caption = "Project ETERNITY"
 				
-				@body = Gosu::Image.new(self, "./Sprites/People/Body/1.png", false)
-				face = Gosu::Image.new(self, "./Sprites/People/Face/1.png", false)
-				hair = Gosu::Image.new(self, "./Sprites/People/Hair/1.png", false)
-				footwear = Gosu::Image.new(self, "./Sprites/People/Footwear/shoes1.png", false)
-				upper = Gosu::Image.new(self, "./Sprites/People/Upper/shirt1.png", false)
-				lower = Gosu::Image.new(self, "./Sprites/People/Lower/pants1.png", false)
+				body = 1
+				face = 1
+				hair = 1
+				footwear = "shoes1"
+				upper = "shirt1"
+				lower = "pants1"
 				
-				@body.splice(face, 0,0, :alpha_blend => true)
-				@body.splice(hair, 0,0, :alpha_blend => true)
-				@body.splice(footwear, 0,0, :alpha_blend => true)
-				@body.splice(upper, 0,0, :alpha_blend => true)
-				@body.splice(lower, 0,0, :alpha_blend => true)
-				@sprites = Gosu::Image::load_tiles(self, , 40, 80, false)
+				Dir.chdir("./Sprites/People/") do |dir|
+					@body = Gosu::Image.new(self, "./Body/#{body}.png", false)
+					parts = {:face => Gosu::Image.new(self, "./Face/#{face}.png", false),
+							:hair => Gosu::Image.new(self, "./Hair/#{hair}.png", false),
+						:footwear => Gosu::Image.new(self, "./Footwear/#{footwear}.png", false),
+							:upper => Gosu::Image.new(self, "./Upper/#{upper}.png", false),
+							:lower => Gosu::Image.new(self, "./Lower/#{lower}.png", false)}
+					
+					parts.each_value do |part|
+						@body.splice(part, 0,0, :alpha_blend => true)
+					end
+					
+					@sprites = Gosu::Image::load_tiles(self, @body, 40, 80, false)
+				end
 			end
 		
 			def draw
-				@body.draw(0,0,0)
+				#~ @body.draw(0,0,0)
+				@sprites[0].draw(0,0,0)
 			end
 			
 			def update

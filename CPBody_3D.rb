@@ -184,7 +184,7 @@ module CP
 			
 			xy_collision_fx do |b1_shape, b2_shape|
 				if 
-					
+					nil
 				else
 					nil
 				end

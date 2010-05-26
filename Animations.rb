@@ -1,14 +1,14 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.21.2010
+#~ Date last edited: 05.26.2010
 require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-module Gosu
-class Image
-	
-end
+#Texplay modification to allow for chopping texplay images into tiles
+class Gosu::Image
+   alias_method :rows, :height
+   alias_method :columns, :width
 end
 
 class Animations
@@ -39,7 +39,7 @@ class Animations
 		#~ @animations[:down][0].splice arg.animations[:down][0], 0, 0
 		#~ @animations[:left][0].splice arg.animations[:left][0], 0, 0
 		#~ @animations[:right][0].splice arg.animations[:right][0], 0, 0
-	#~ 
+	
 		@animations.each_pair do |key, value|
 			arg.animations[key].each_with_index do |other_sprite, index|
 				#~ puts "#{other_sprite} => #{index}"
@@ -81,5 +81,29 @@ class Animations
 		end
 		
 		return animations
+	end
+end
+
+module Animation
+	class Character	
+		def initialize body, face, hair, footwear, upper, lower
+			Dir.chdir("./Sprites/People/") do |dir|
+				@body = Gosu::Image.new(self, "./Body/#{body}.png", false)
+				parts = {:face => Gosu::Image.new(self, "./Face/#{face}.png", false),
+						:hair => Gosu::Image.new(self, "./Hair/#{hair}.png", false),
+						:footwear => Gosu::Image.new(self, "./Footwear/#{footwear}.png", false),
+						:upper => Gosu::Image.new(self, "./Upper/#{upper}.png", false),
+						:lower => Gosu::Image.new(self, "./Lower/#{lower}.png", false)}
+				
+				parts.each_value do |part|
+					@body.splice(part, 0,0, :alpha_blend => true)
+				end
+			end
+			
+			
+			@sprites = Gosu::Image::load_tiles(self, @body, 40, 80, false)
+		end
+		
+		
 	end
 end
