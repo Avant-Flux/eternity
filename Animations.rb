@@ -92,8 +92,8 @@ module Animation
 			@window = window
 			
 			Dir.chdir("./Sprites/People/") do
-				@base_image = Gosu::Image.new(@window, "./Body/#{body}.png", false)
-				@parts = {:face => Gosu::Image.new(@window, "./Face/#{face}.png", false),
+				@parts = {:body => Gosu::Image.new(@window, "./Body/#{body}.png", false)
+						:face => Gosu::Image.new(@window, "./Face/#{face}.png", false),
 						:hair => Gosu::Image.new(@window, "./Hair/#{hair}.png", false),
 					:footwear => Gosu::Image.new(@window, "./Footwear/#{footwear}.png", false),
 						:upper => Gosu::Image.new(@window, "./Upper/#{upper}.png", false),
@@ -106,9 +106,7 @@ module Animation
 		end
 		
 		def body= arg
-			Dir.chdir("./Sprites/People/") do
-				@base_image = Gosu::Image.new(@window, "./Body/#{arg}.png", false)
-			end
+			set_subsprite :body, arg
 		end
 		
 		def face= arg
@@ -134,8 +132,9 @@ module Animation
 		private
 		
 		def generate_spritesheet
-			@parts.each_value do |part|
-				@base_image.splice(part, 0,0, :alpha_blend => true)
+			@spritesheet = @parts[:body]
+			@parts.each_pair do |key, value|
+				@spritesheet.splice(part, 0,0, :alpha_blend => true) unless key == :body
 			end
 		end
 		
