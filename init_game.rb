@@ -52,7 +52,7 @@ class Game_Window < Gosu::Window
 		
 		@space = CP::Space_3D.new
 		
-		@player = Player.new(self, @space, "Bob", [30, 400, 0])
+		@player = Player.new(self, @space, "Bob", [0, 0, 0])
 		@character = Character.new(self, @space, "NPC", [30, 200, 0])
 		@c2 = Character.new(self, @space, "NPC", [70, 200, 0])
 		@c3 = Character.new(self, @space, "NPC", [120, 200, 0])
@@ -89,7 +89,7 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			#~ puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
 			
 			@space.step
