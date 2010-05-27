@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 05.27.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -52,7 +52,7 @@ class Game_Window < Gosu::Window
 		
 		@space = CP::Space_3D.new
 		
-		@player = Player.new(self, @space, "Bob", [0, 0, 0])
+		@player = Player.new(self, @space, "Bob", [30, 400, 0])
 		@character = Character.new(self, @space, "NPC", [30, 200, 0])
 		@c2 = Character.new(self, @space, "NPC", [70, 200, 0])
 		@c3 = Character.new(self, @space, "NPC", [120, 200, 0])
@@ -68,6 +68,10 @@ class Game_Window < Gosu::Window
 		@c13 = Character.new(self, @space, "NPC", [80, 225, 0])
 		@c14 = Character.new(self, @space, "NPC", [80, 225, 0])
 		@c15 = Character.new(self, @space, "NPC", [80, 225, 0])
+		@c16 = Character.new(self, @space, "NPC", [80, 225, 0])
+		@c17 = Character.new(self, @space, "NPC", [80, 225, 0])
+		@c18 = Character.new(self, @space, "NPC", [80, 225, 0])
+		@c19 = Character.new(self, @space, "NPC", [80, 225, 0])
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
@@ -89,9 +93,9 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			#~ puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
-			
+						
 			@space.step
 		end
 	end

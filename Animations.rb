@@ -109,6 +109,14 @@ module Animation
 			end
 		end
 		
+		def [](key)
+			@sprites[key]
+		end
+		
+		def []=(key, arg)
+			@sprites[key] = arg
+		end
+		
 		def body= arg
 			set_subsprite :body, arg
 			generate_spritesheet
@@ -150,7 +158,7 @@ module Animation
 		def generate_spritesheet
 			@spritesheet = @parts[:body]
 			@parts.each_pair do |key, value|
-				@spritesheet.splice(part, 0,0, :alpha_blend => true) unless key == :body
+				@spritesheet.splice(value, 0,0, :alpha_blend => true) unless key == :body
 			end
 		end
 		

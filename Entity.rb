@@ -31,10 +31,12 @@ class Entity
 	def initialize(window, space, name, pos, lvl, hp, mp, element, stats, faction)
 		@@all << self
 		
-		@move_constant = 150
-		@run_constant = 500
+		@move_constant = 1500
+		@run_constant = 5000
 		
-		@animations = Animations.new window
+		@animations = Animation::Character.new window, 1, 1, 1, "shoes1", "shirt1", "pants1"
+		#~ @animations = Animations.new window
+		
 		@current_animation = @animations[:down]
 		@current_frame = @current_animation[0]
 			
@@ -110,7 +112,7 @@ class Entity
 	
 	def draw
 		if visible
-			@current_frame.draw(@body.x * 10, (@body.y - @body.z) * 10, @body.z + @body.y, 1, 1)
+			@current_frame.draw(@body.x, (@body.y - @body.z), @body.z + @body.y, 1, 1)
 		end
 	end
 	
