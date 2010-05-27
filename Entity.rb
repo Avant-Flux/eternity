@@ -35,12 +35,6 @@ class Entity
 		@run_constant = 5000
 		
 		@animations = Animations.new window
-		#~ hair = Animations.new window, :people, :hair, 1
-		#~ @animations.splice hair
-		#~ face = Animations.new window, :people, :face, 1
-		#~ @animations.splice face
-		#~ footwear = Animations.new window, :people, :footwear, "shoes1"
-		#~ @animations.splice footwear
 		@current_animation = @animations[:down]
 		@current_frame = @current_animation[0]
 			
