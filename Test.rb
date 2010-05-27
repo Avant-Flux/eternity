@@ -203,6 +203,10 @@ module Test
 			end
 		end		
 	end
+	
+	class Test_colorize < Gosu::Window
+		
+	end
 end
 
 #~ Test::test_entity_creation

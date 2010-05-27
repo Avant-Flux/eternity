@@ -11,7 +11,11 @@ class Gosu::Image
    alias_method :columns, :width
 end
 
-module Animation
+module Animations
+	class Entity
+		
+	end
+
 	class Character
 		attr_reader :sprites
 	

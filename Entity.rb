@@ -34,7 +34,7 @@ class Entity
 		@move_constant = 1500
 		@run_constant = 5000
 		
-		@animations = Animation::Character.new window, 1, 1, 1, "shoes1", "shirt1", "pants1"
+		@animations = Animations::Character.new window, 1, 1, 1, "shoes1", "shirt1", "pants1"
 		#~ @animations = Animations.new window
 		
 		@current_animation = @animations[:down]
