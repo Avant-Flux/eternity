@@ -53,25 +53,13 @@ class Game_Window < Gosu::Window
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(self, @space, "Bob", [30, 400, 0])
-		@character = Character.new(self, @space, "NPC", [30, 200, 0])
-		@c2 = Character.new(self, @space, "NPC", [70, 200, 0])
-		@c3 = Character.new(self, @space, "NPC", [120, 200, 0])
-		@c4 = Character.new(self, @space, "NPC", [50, 225, 0])
-		@c5 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c6 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c7 = Character.new(self, @space, "NPC", [70, 200, 0])
-		@c8 = Character.new(self, @space, "NPC", [120, 200, 0])
-		@c9 = Character.new(self, @space, "NPC", [50, 225, 0])
-		@c10 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c11 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c12 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c13 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c14 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c15 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c16 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c17 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c18 = Character.new(self, @space, "NPC", [80, 225, 0])
-		@c19 = Character.new(self, @space, "NPC", [80, 225, 0])
+		characters = Array.new
+		19.times do |i|
+			x = (i * 30) % 800
+			y = (i * 100) % 600
+			
+			characters << Character.new(self, @space, "NPC", [x, y, 0])
+		end
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
