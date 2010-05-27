@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.26.2010
+#~ Date last edited: 05.27.2010
 require 'rubygems'
 require 'gosu'
 require 'texplay'
@@ -92,12 +92,12 @@ module Animation
 			@window = window
 			
 			@parts = Hash.new
-			self.body = body
-			self.face = face
-			self.hair = hair
-			self.footwear = footwear
-			self.upper = upper
-			self.lower = lower
+			set_subsprite :body, body
+			set_subsprite :face, face
+			set_subsprite :hair, hair
+			set_subsprite :footwear, footwear
+			set_subsprite :upper, upper
+			set_subsprite :lower, lower
 				
 			generate_spritesheet
 			generate_sprites
