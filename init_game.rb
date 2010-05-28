@@ -160,6 +160,7 @@ class InputHandler
 	def def_kb_bindings
 		createAction(:up)
 		bindAction(:up, Gosu::KbUp)
+		bindAction(:up, Gosu::KbA)
 		createAction(:down)
 		bindAction(:down, Gosu::KbDown)
 		createAction(:left)
@@ -175,7 +176,7 @@ class InputHandler
 	end
 	
 	def active?(action)
-		self.query(action) == :active
+		query(action) == :active
 	end
 end
 
