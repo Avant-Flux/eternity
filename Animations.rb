@@ -21,6 +21,16 @@ module Animations
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 		end
 		
+		class << self
+			def load path
+				
+			end
+		end
+		
+		def save
+				
+		end
+		
 		def [](key)
 			@sprites[key]
 		end
@@ -28,6 +38,8 @@ module Animations
 		def []=(key, arg)
 			@sprites[key] = arg
 		end
+		
+		private
 		
 		def make_sprites
 			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
@@ -58,8 +70,6 @@ module Animations
 			end
 		end
 		
-		private
-		
 		def subsprites basepath, type, subsprite_name
 			return Gosu::Image.new(@window, 
 						"#{basepath}/#{type.to_s.capitalize}/#{subsprite_name}.png", false)
@@ -80,16 +90,6 @@ module Animations
 			
 			make_spritesheet
 			make_sprites
-		end
-		
-		class << self
-			def load path
-				
-			end
-		end
-		
-		def save
-				
 		end
 		
 		private
