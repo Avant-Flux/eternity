@@ -134,25 +134,25 @@ class InputHandler
 		left =	self.query(:left) == :active
 		right =	self.query(:right) == :active
 		
-		result = if up && left
-			:up_left
-		elsif up && right
-			:up_right
-		elsif down && left
-			:down_left
-		elsif down && right
-			:down_right
-		elsif up
-			:up
-		elsif down
-			:down
-		elsif left
-			:left
-		elsif right
-			:right
-		else
-			nil #No button for direction pressed
-		end
+		result =	if up && left
+						:up_left
+					elsif up && right
+						:up_right
+					elsif down && left
+						:down_left
+					elsif down && right
+						:down_right
+					elsif up
+						:up
+					elsif down
+						:down
+					elsif left
+						:left
+					elsif right
+						:right
+					else
+						nil #No button for direction pressed
+					end
 
 		result
 	end
