@@ -88,6 +88,10 @@ module Animations
 			end
 		end
 		
+		def save
+				
+		end
+		
 		private
 		
 		def make_spritesheet
