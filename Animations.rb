@@ -12,10 +12,11 @@ class Gosu::Image
 end
 
 module Animations
-	class Entity
+	class Entity			#Only inherit from this class, never create objects of it
 		attr_reader :sprites
 		
-		def initialize
+		def initialize(window)
+			@window = window
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 		end
@@ -69,8 +70,7 @@ module Animations
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
 		def initialize window, body, face, hair, upper, lower, footwear
-			super()		
-			@window = window
+			super(window)		
 			@body = body
 			@face = face
 			@hair = hair
