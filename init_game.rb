@@ -159,19 +159,19 @@ class InputHandler
 	
 	def def_kb_bindings
 		createAction(:up)
-		bindAction(:up, Gosu::Button::KbUp)
+		bindAction(:up, Gosu::KbUp)
 		createAction(:down)
-		bindAction(:down, Gosu::Button::KbDown)
+		bindAction(:down, Gosu::KbDown)
 		createAction(:left)
-		bindAction(:left, Gosu::Button::KbLeft)
+		bindAction(:left, Gosu::KbLeft)
 		createAction(:right)
-		bindAction(:right, Gosu::Button::KbRight)
+		bindAction(:right, Gosu::KbRight)
 		
 		createAction(:jump)
-		bindAction(:jump, Gosu::Button::KbLeftShift)
+		bindAction(:jump, Gosu::KbLeftShift)
 		
 		createAction(:run)
-		bindAction(:run, Gosu::Button::KbLeftControl)
+		bindAction(:run, Gosu::KbLeftControl)
 	end
 	
 	def active?(action)
