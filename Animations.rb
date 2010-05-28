@@ -14,11 +14,22 @@ end
 module Animations
 	class Entity
 		attr_reader :sprites
-	
-		def make_sprites
-			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
+		
+		def initialize
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
+		end
+		
+		def [](key)
+			@sprites[key]
+		end
+		
+		def []=(key, arg)
+			@sprites[key] = arg
+		end
+		
+		def make_sprites
+			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
 			
 			sprite_array.each_with_index do |sprite, i|
 				#Assumes that the spritesheet is broken up into rows of 8, 
@@ -58,6 +69,7 @@ module Animations
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
 		def initialize window, body, face, hair, upper, lower, footwear
+			super()		
 			@window = window
 			@body = body
 			@face = face
@@ -74,14 +86,6 @@ module Animations
 			def load path
 				
 			end
-		end
-		
-		def [](key)
-			@sprites[key]
-		end
-		
-		def []=(key, arg)
-			@sprites[key] = arg
 		end
 		
 		private
