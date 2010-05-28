@@ -13,10 +13,39 @@ end
 
 module Animations
 	class Entity
-		
+		def make_sprites
+			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
+			@sprites = {:up => [], :down => [], :left => [], :right => [], 
+						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
+			
+			sprite_array.each_with_index do |sprite, i|
+				#Assumes that the spritesheet is broken up into rows of 8, 
+				#with each column representing the frames to use in one direction
+				key = case i % 8
+					when 0
+						:up_left
+					when 1
+						:left
+					when 2
+						:down_left
+					when 3
+						:down
+					when 4
+						:down_right
+					when 5
+						:right
+					when 6
+						:up_right
+					when 7
+						:up
+				end
+			
+				@sprites[key] << sprite
+			end
+		end
 	end
 
-	class Character
+	class Character < Entity
 		attr_reader :sprites
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
@@ -61,37 +90,6 @@ module Animations
 			@spritesheet.splice(subsprites(:upper, @upper) ,0,0, :alpha_blend => true)
 			@spritesheet.splice(subsprites(:lower, @lower) ,0,0, :alpha_blend => true)
 			@spritesheet.splice(subsprites(:footwear, @footwear) ,0,0, :alpha_blend => true)
-		end
-		
-		def make_sprites
-			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
-			@sprites = {:up => [], :down => [], :left => [], :right => [], 
-						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
-			
-			sprite_array.each_with_index do |sprite, i|
-				#Assumes that the spritesheet is broken up into rows of 8, 
-				#with each column representing the frames to use in one direction
-				key = case i % 8
-					when 0
-						:up_left
-					when 1
-						:left
-					when 2
-						:down_left
-					when 3
-						:down
-					when 4
-						:down_right
-					when 5
-						:right
-					when 6
-						:up_right
-					when 7
-						:up
-				end
-			
-				@sprites[key] << sprite
-			end
 		end
 	end
 end
