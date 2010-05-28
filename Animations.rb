@@ -13,6 +13,8 @@ end
 
 module Animations
 	class Entity
+		attr_reader :sprites
+	
 		def make_sprites
 			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
@@ -43,10 +45,16 @@ module Animations
 				@sprites[key] << sprite
 			end
 		end
+		
+		private
+		
+		def subsprites basepath, type, subsprite_name
+			return Gosu::Image.new(@window, 
+						"#{basepath}/#{type.to_s.capitalize}/#{subsprite_name}.png", false)
+		end
 	end
 
 	class Character < Entity
-		attr_reader :sprites
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
 		def initialize window, body, face, hair, upper, lower, footwear
@@ -78,11 +86,6 @@ module Animations
 		
 		private
 		
-		def subsprites type, subsprite_name
-			return Gosu::Image.new(@window, 
-						"./Sprites/People/#{type.to_s.capitalize}/#{subsprite_name}.png", false)
-		end
-		
 		def make_spritesheet
 			@spritesheet = subsprites :body, @body
 			@spritesheet.splice(subsprites(:face, @face) ,0,0, :alpha_blend => true)
@@ -90,6 +93,10 @@ module Animations
 			@spritesheet.splice(subsprites(:upper, @upper) ,0,0, :alpha_blend => true)
 			@spritesheet.splice(subsprites(:lower, @lower) ,0,0, :alpha_blend => true)
 			@spritesheet.splice(subsprites(:footwear, @footwear) ,0,0, :alpha_blend => true)
+		end
+		
+		def subsprites type, subsprite_name
+			super "./Sprites/People", type, subsprite_name
 		end
 	end
 end
