@@ -118,7 +118,7 @@ class Game_Window < Gosu::Window
 			close
 		end
 		if id == Gosu::Button::KbF
-			@fpscounter.show_fps = !@fpscounter.show_fps
+			@fpscounter.toggle
 		end
 	end
 	
