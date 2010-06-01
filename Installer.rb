@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.08.2010
+#~ Date last edited: 05.30.2010
 
 #Note: Program crashes after installing opengl
 #Files install, but there is no command line notification of anything happening
@@ -45,7 +45,7 @@ class Installer
 	
 	def gosu
 		if @os == "linux"
-			`gksudo apt-get install g++ libgl1-mesa-dev libpango1.0-dev libboost-dev libsdl-mixer1.2-dev`
+			`gksudo apt-get install g++ libgl1-mesa-dev libpango1.0-dev libboost-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev`
 			`gksudo gem install gosu`
 		end
 	end

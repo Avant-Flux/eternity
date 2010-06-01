@@ -96,11 +96,11 @@ module Animations
 		
 		def make_spritesheet
 			@spritesheet = subsprites :body, @body
-			@spritesheet.splice(subsprites(:face, @face) ,0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:hair, @hair) ,0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:upper, @upper) ,0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:lower, @lower) ,0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:footwear, @footwear) ,0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:face, @face), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:hair, @hair), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:upper, @upper), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:lower, @lower), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:footwear, @footwear), 0,0, :alpha_blend => true)
 		end
 		
 		def subsprites type, subsprite_name

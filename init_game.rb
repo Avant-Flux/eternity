@@ -15,13 +15,6 @@ rescue LoadError
 	require 'gosu'
 	require 'chingu'
 end
-require 'RMagick'
-
-require 'gl'
-require 'glu'
-
-include Gl
-include Glu
 
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
@@ -43,7 +36,7 @@ class Game_Window < Gosu::Window
 	attr_reader :screen_x, :screen_y
 	
 	def initialize
-		super(800, 600, false)
+		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
 		
