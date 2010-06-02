@@ -40,10 +40,22 @@ class Tracking_Overlay
 	end
 	
 	def update
-		
+		@tracked.each do |entity|
+			
+		end
 	end
 	
 	def draw
+		
+	end
+	
+	private
+	
+	def add_blip(entity)
+		
+	end
+	
+	def remove_blip
 		
 	end
 end
