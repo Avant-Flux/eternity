@@ -24,8 +24,19 @@ end
 #	Calculate the position of the blip by getting the angle between the player and the entity
 #	to be tracked.
 class Tracking_Overlay
-	def initialize
-		
+	def initialize(player)
+		@player = player
+		@tracked = Array.new
+		@blips = Array.new
+	end
+	
+	def track(entity)
+		@tracked << entity
+	end
+	
+	def untrack(entity)
+		#Remove from @tracked
+		@tracked.delete_if {|e| e == entity}
 	end
 	
 	def update
