@@ -1,7 +1,19 @@
 #!/usr/bin/ruby
 #~ Name: Jason
 #~ Date last edited: 06.01.2010
- 
+
+require 'rubygems'
+require 'gosu'
+require 'chingu'
+
+require 'chipmunk'
+require 'ChipmunkInterfaceMod'
+
+require 'Entity'
+require "Creature"
+require 'Character'
+require 'Player'
+
 class Hud
 	def initialize
 		
@@ -27,7 +39,6 @@ class Tracking_Overlay
 	def initialize(player)
 		@player = player
 		@tracked = Array.new
-		@blips = Array.new
 	end
 	
 	def track(entity)
@@ -46,7 +57,7 @@ class Tracking_Overlay
 	end
 	
 	def draw
-		
+		Blip.all.each {|b| b.draw}
 	end
 	
 	private
@@ -57,5 +68,19 @@ class Tracking_Overlay
 	
 	def remove_blip
 		
+	end
+	
+	class Blip
+		@@all = Array.new
+		
+		def initialize
+			@@all << Self
+		end
+		
+		class << self
+			def all
+				@@all
+			end
+		end
 	end
 end
