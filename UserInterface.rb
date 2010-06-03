@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.01.2010
+#~ Date last edited: 06.02.2010
 
 require 'rubygems'
 require 'gosu'
@@ -96,7 +96,7 @@ class Tracking_Overlay
 		end
 		
 		def draw
-			
+			@image.draw x, y, z
 		end
 	end
 end

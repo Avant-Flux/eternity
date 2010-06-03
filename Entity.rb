@@ -111,7 +111,7 @@ class Entity
 	
 	def draw
 		if visible
-			@current_frame.draw(@body.x, (@body.y - @body.z), @body.z + @body.y, 1, 1)
+			@current_frame.draw(@body.x, (@body.y - @body.z), @body.z + @body.y)
 		end
 	end
 	
