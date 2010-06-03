@@ -74,11 +74,14 @@ class Tracking_Overlay
 		@@all = Array.new
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
+		Z_INDEX = 1
 		
-		attr_accessor :radius
+		attr_accessor :x, :y, :radius
 		
-		def initialize(window, radius)
+		def initialize(window, x, y, radius)
 			@@all << self
+			@x = x
+			@y = y
 			@radius = radius
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
@@ -96,7 +99,7 @@ class Tracking_Overlay
 		end
 		
 		def draw
-			@image.draw x, y, z
+			@image.draw @x-CENTER, @y-CENTER, Z_INDEX
 		end
 	end
 end
