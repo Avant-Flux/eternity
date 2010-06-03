@@ -103,7 +103,6 @@ class Tracking_Overlay
 	end
 	
 	class Blip
-		@@all = Array.new
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
 		Z_INDEX = 1
@@ -111,17 +110,10 @@ class Tracking_Overlay
 		attr_accessor :x, :y, :radius
 		
 		def initialize(window, x, y, radius)
-			@@all << self
 			@x = x
 			@y = y
 			@radius = radius
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
-		end
-		
-		class << self
-			def all
-				@@all
-			end
 		end
 		
 		def update	
