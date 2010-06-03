@@ -84,8 +84,11 @@ class Tracking_Overlay
 	end
 	
 	def draw
-		Blip.all.each {|b| b.draw}
-		@ellipse.draw @player.body.x-IMAGE_WIDTH/2, @player.body.y-IMAGE_HEIGHT/2, @player.body.z+10
+		x = @player.body.x-IMAGE_WIDTH/2
+		y = @player.body.y-IMAGE_HEIGHT/2
+		z = @player.body.z+10
+		
+		@ellipse.draw x, y, z
 	end
 	
 	private
