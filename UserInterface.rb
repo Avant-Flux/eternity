@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.02.2010
+#~ Date last edited: 06.03.2010
 
 require 'rubygems'
 require 'gosu'
@@ -50,7 +50,7 @@ class Tracking_Overlay
 		gc.fill_opacity(0)
 		gc.ellipse(120,80, 120, 80, 0, 360)
 		
-		gc.draw(canvas)		
+		gc.draw(canvas)
 		@ellipse = Gosu::Image.new(window, canvas, false)
 		
 		#~ @ellipse = TexPlay.create_blank_image(window, 500,500)

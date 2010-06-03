@@ -21,7 +21,7 @@ class Player < Character
 		@combo = 0
 		@overkill_bonus = 0
 		
-		@tracker = Tracking_Overlay.new(window, @player)
+		@tracker = Tracking_Overlay.new(window, self)
 	end
 	
 	def update
