@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 06.03.2010
 
 require 'rubygems'
 require 'gosu'
@@ -111,7 +111,8 @@ class Entity
 	
 	def draw
 		if visible
-			@current_frame.draw(@body.x-@current_frame.width/2, (@body.y - @body.z)-@current_frame.height+10, @body.z + @body.y)
+			@current_frame.draw(@body.x-@current_frame.width/2, 
+								(@body.y - @body.z)-@current_frame.height+10, @body.z + @body.y)
 		end
 	end
 	
