@@ -9,6 +9,8 @@ require 'chingu'
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
 
+require 'RMagick'
+
 require 'Entity'
 require "Creature"
 require 'Character'
@@ -39,9 +41,21 @@ class Tracking_Overlay
 	def initialize(window, player)
 		@player = player
 		@tracked = Array.new
-		@ellipse = TexPlay.create_blank_image(window, 500,500)
-		@ellipse.bezier [10,250,  50,100,  130,50,  240,250]
-		@ellipse.bezier [10,250,  130,450,  240,250]
+		
+		canvas = Magick::Image.new(240, 160) {self.background_color = "transparent"}
+		gc = Magick::Draw.new
+		
+		gc.stroke('red')
+		gc.stroke_width(3)
+		gc.fill_opacity(0)
+		gc.ellipse(120,80, 120, 80, 0, 360)
+		
+		gc.draw(canvas)		
+		@ellipse = Gosu::Image.new(window, canvas, false)
+		
+		#~ @ellipse = TexPlay.create_blank_image(window, 500,500)
+		#~ @ellipse.bezier [10,250,  50,100,  130,50,  240,250]
+		#~ @ellipse.bezier [10,250,  130,450,  240,250]
 	end
 	
 	def track(entity)
