@@ -71,7 +71,7 @@ class Tracking_Overlay
 	
 	def draw
 		Blip.all.each {|b| b.draw}
-		@ellipse.draw 12, 12, 12+10
+		@ellipse.draw @player.body.x-120, @player.body.y-80, @player.body.z+10
 	end
 	
 	private
