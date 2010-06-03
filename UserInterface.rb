@@ -89,6 +89,10 @@ class Tracking_Overlay
 		z = @player.body.z+10
 		
 		@ellipse.draw x, y, z
+		
+		@tracked.each_value do |blip|
+			blip.draw z
+		end
 	end
 	
 	private
@@ -100,7 +104,6 @@ class Tracking_Overlay
 	class Blip
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
-		Z_INDEX = 1
 		
 		attr_accessor :x, :y, :radius
 		
@@ -121,8 +124,8 @@ class Tracking_Overlay
 			end
 		end
 		
-		def draw
-			@image.draw @x-CENTER, @y-CENTER, Z_INDEX
+		def draw(z_index=1)
+			@image.draw @x-CENTER, @y-CENTER, z_index
 		end
 		
 		def clear_image
