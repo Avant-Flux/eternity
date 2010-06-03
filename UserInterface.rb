@@ -48,8 +48,9 @@ class Tracking_Overlay
 	IMAGE_HEIGHT = RY*2+PADDING*2
 	
 	def initialize(window, player)
+		@window = window
 		@player = player
-		@tracked = Array.new
+		@tracked = Hash.new
 		
 		canvas = Magick::Image.new(IMAGE_WIDTH, IMAGE_HEIGHT) do
 			self.background_color = "transparent"
@@ -62,20 +63,22 @@ class Tracking_Overlay
 		gc.ellipse(IMAGE_WIDTH/2,IMAGE_HEIGHT/2, RX,RY, 0,360)
 		
 		gc.draw(canvas)
-		@ellipse = Gosu::Image.new(window, canvas, false)
+		@ellipse = Gosu::Image.new(@window, canvas, false)
 	end
 	
 	def track(entity)
-		@tracked << entity
+		@tracked[entity] = Blip.new(@window, 1,1, 10)
 	end
 	
 	def untrack(entity)
 		#Remove from @tracked
-		@tracked.delete_if {|e| e == entity}
+		@tracked.delete_if do |key, val|
+			key == entity
+		end
 	end
 	
 	def update
-		@tracked.each do |entity|
+		@tracked.each_pair do |key, val|
 			
 		end
 	end
