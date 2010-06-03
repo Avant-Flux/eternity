@@ -90,14 +90,6 @@ class Tracking_Overlay
 	
 	private
 	
-	def add_blip(entity)
-		
-	end
-	
-	def remove_blip
-		
-	end
-	
 	def calculate_position
 		
 	end
@@ -116,7 +108,7 @@ class Tracking_Overlay
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
 		
-		def update	
+		def update
 			
 		end
 		
