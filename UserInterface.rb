@@ -30,15 +30,19 @@ end
 
 #This class renders the overlay which shows the position of tracked entities
 #	In order to render this effect is psudo-perspective without a global perspective warp,
-#	render the tracking blips along an elipse which simulates a circle in perpective.
+#	render the tracking blips along an ellipse which simulates a circle in perspective.
 #
-#	Calculate an elipse and project the rendering of the blip onto it.
+#	Calculate an ellipse and project the rendering of the blip onto it.
 #	Calculate the position of the blip by getting the angle between the player and the entity
 #	to be tracked.
 class Tracking_Overlay
-	def initialize(player)
+	def initialize(window, player)
 		@player = player
 		@tracked = Array.new
+		@ellipse = TexPlay.create_blank_image(window, 500,500)
+		@ellipse.paint do
+			bezier[10,250,  250,50,  240,250]
+		end
 	end
 	
 	def track(entity)
@@ -58,6 +62,7 @@ class Tracking_Overlay
 	
 	def draw
 		Blip.all.each {|b| b.draw}
+		@ellipse.draw
 	end
 	
 	private
@@ -67,6 +72,10 @@ class Tracking_Overlay
 	end
 	
 	def remove_blip
+		
+	end
+	
+	def calculate_position
 		
 	end
 	
@@ -92,6 +101,10 @@ class Tracking_Overlay
 			end
 		end
 		
+		def update			
+			
+		end
+		
 		def render
 			@image.paint do
 				circle CENTER, CENTER, @radius
@@ -100,6 +113,10 @@ class Tracking_Overlay
 		
 		def draw
 			@image.draw @x-CENTER, @y-CENTER, Z_INDEX
+		end
+		
+		def clear_image
+			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
 	end
 end
