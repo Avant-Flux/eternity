@@ -52,10 +52,6 @@ class Tracking_Overlay
 		
 		gc.draw(canvas)
 		@ellipse = Gosu::Image.new(window, canvas, false)
-		
-		#~ @ellipse = TexPlay.create_blank_image(window, 500,500)
-		#~ @ellipse.bezier [10,250,  50,100,  130,50,  240,250]
-		#~ @ellipse.bezier [10,250,  130,450,  240,250]
 	end
 	
 	def track(entity)
