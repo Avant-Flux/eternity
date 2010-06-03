@@ -1,10 +1,12 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 04.20.2010
+#~ Date last edited: 06.03.2010
+
+require "Character"
 
 require "Title"
 require "Title_Holder"
-require "Character"
+require "UserInterface"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific
 		#IE input-driven movement, mechanics of leveling up, etc
@@ -18,6 +20,17 @@ class Player < Character
 		@max_combo = 0
 		@combo = 0
 		@overkill_bonus = 0
+		
+		@tracker = Tracking_Overlay.new(window, @player)
+	end
+	
+	def update
+		super
+	end
+	
+	def draw
+		super
+		@tracker.draw
 	end
 	
 	def create

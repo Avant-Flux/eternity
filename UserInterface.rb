@@ -40,9 +40,8 @@ class Tracking_Overlay
 		@player = player
 		@tracked = Array.new
 		@ellipse = TexPlay.create_blank_image(window, 500,500)
-		@ellipse.paint do
-			bezier[10,250,  250,50,  240,250]
-		end
+		@ellipse.bezier [10,250,  50,100,  130,50,  240,250]
+		@ellipse.bezier [10,250,  130,450,  240,250]
 	end
 	
 	def track(entity)
@@ -62,7 +61,7 @@ class Tracking_Overlay
 	
 	def draw
 		Blip.all.each {|b| b.draw}
-		@ellipse.draw
+		@ellipse.draw 12, 12, 12+10
 	end
 	
 	private
