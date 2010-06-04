@@ -21,7 +21,7 @@ class Entity
 	include Combative
 	
 	attr_reader :body, :space
-	attr_reader :animations, :current_animation, :moving, :direction
+	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
@@ -63,12 +63,6 @@ class Entity
 		def apply_gravity_to_all
 			@@all.each do |e|
 				e.body.apply_gravity
-			end
-		end
-		
-		def add_all_to_space
-			@@all.each do |e|
-				e.body.space.add(e)
 			end
 		end
 		

@@ -45,8 +45,8 @@ class Game_Window < Gosu::Window
 		
 		@space = CP::Space_3D.new
 		
-		@player = Player.new(self, @space, "Bob", [30, 400, 0])
-		characters = Array.new
+		@player = Player.new(self, @space, "Bob", [300, 400, 0])
+		#~ characters = Array.new
 		#~ 19.times do |i|
 			#~ x = (i * 30) % 800
 			#~ y = (i * 100) % 600
@@ -68,7 +68,7 @@ class Game_Window < Gosu::Window
 			Entity.transfer_x_for_all
 			Entity.reset_all
 			
-			@inpman.update()
+			@inpman.update
 			process_input
 			
 			Entity.apply_gravity_to_all
