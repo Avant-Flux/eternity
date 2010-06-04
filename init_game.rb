@@ -47,12 +47,12 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(self, @space, "Bob", [30, 400, 0])
 		characters = Array.new
-		19.times do |i|
-			x = (i * 30) % 800
-			y = (i * 100) % 600
+		#~ 19.times do |i|
+			#~ x = (i * 30) % 800
+			#~ y = (i * 100) % 600
 			
-			characters << Character.new(self, @space, "NPC", [x, y, 0])
-		end
+			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
+		#~ end
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]

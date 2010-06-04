@@ -72,13 +72,11 @@ class Tracking_Overlay
 	
 	def untrack(entity)
 		#Remove from @tracked
-		@tracked.delete_if do |key, val|
-			key == entity
-		end
+		@tracked.delete_if {|key, val| key == entity}
 	end
 	
 	def update
-		@tracked.each_pair do |key, val|
+		@tracked.each_pair do |entity, blip|
 			
 		end
 	end
@@ -107,10 +105,12 @@ class Tracking_Overlay
 		
 		attr_accessor :x, :y, :radius
 		
-		def initialize(window, x, y, radius)
+		def initialize(window, x, y, distance)
 			@x = x
 			@y = y
-			@radius = radius
+			@distance = distance
+			@radius = calculate_radius
+			
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
 		
@@ -128,8 +128,15 @@ class Tracking_Overlay
 			@image.draw @x-CENTER, @y-CENTER, z_index
 		end
 		
+		private
+		
 		def clear_image
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
+		end
+		
+		def calculate_radius
+			constant = 25
+			(constant/@distance)*Math.sqrt(2/Math::PI)
 		end
 	end
 end
