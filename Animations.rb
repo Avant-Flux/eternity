@@ -20,7 +20,6 @@ module Animations
 			@window = window
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
-			@frame_index = 0
 			@moving = false
 			@direction = :down
 			@current_frame = @sprites[@direction][0]
@@ -56,17 +55,8 @@ module Animations
 			if @moving
 				#Advance the animation to the next appropriate frame
 				#Do not include the logic of WHEN to advance (or maybe...?)
-				if @direction == direction
-					#Increment @frame_index, and if it exceeds the maximum index, reset it to 0
-					@frame_index += 1
-					if @frame_index > @sprites[direction].size-1
-						@frame_index = 0
-					end
-				else
-					@direction = direction
-				end
-				
-				@current_frame = @sprites[@direction][@frame_index]
+				@direction = direction
+				@current_frame = @sprites[@direction][Gosu::milliseconds/100%@sprites[@direction].size]
 			else
 				@current_frame = @sprites[@direction][0]
 			end
