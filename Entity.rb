@@ -106,7 +106,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animations.draw
+			@animations.draw @body.x, @body.y, @body.z
 		end
 	end
 	

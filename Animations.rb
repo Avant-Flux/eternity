@@ -21,8 +21,6 @@ module Animations
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 			@moving = false
-			@direction = :down
-			@current_frame = @sprites[@direction][0]
 		end
 		
 		class << self
@@ -51,21 +49,20 @@ module Animations
 			@current_frame.height
 		end
 		
-		def update(direction)
+		def update
 			if @moving
 				#Advance the animation to the next appropriate frame
 				#Do not include the logic of WHEN to advance (or maybe...?)
-				@direction = direction
 				@current_frame = @sprites[@direction][Gosu::milliseconds/100%@sprites[@direction].size]
 			else
 				@current_frame = @sprites[@direction][0]
 			end
 		end
 		
-		def draw
-			@current_frame.draw(@body.x-@current_frame.width/2, 
-								(@body.y - @body.z)-@current_frame.height+10, 
-								@body.z + @body.y)
+		def draw(x,y,z)
+			@current_frame.draw(x-@current_frame.width/2, 
+								(y - z)-@current_frame.height+10, 
+								z + y)
 		end
 		
 		private
@@ -119,6 +116,9 @@ module Animations
 			
 			make_spritesheet
 			make_sprites
+			
+			@direction = :down
+			@current_frame = @sprites[@direction][0]
 		end
 		
 		private
