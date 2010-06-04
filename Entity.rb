@@ -47,15 +47,8 @@ class Entity
 		@lvl = lvl
 		@max_hp = @hp = hp
 		@max_mp = @mp = mp
-
-		@atk = stats[0]
-		@def = stats[1]
-		@dex = stats[2]
-		@agi = stats[3]
-		@mnd = stats[4]
-		@per = stats[5]
-		@luk = stats[6]
-		
+		@atk, @def,	@dex, @agi, @mnd, @per, @luk = stats
+				
 		@jumping = false
 		@jump_count = 0
 		
