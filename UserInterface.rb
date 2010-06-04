@@ -83,8 +83,8 @@ class Tracking_Overlay
 	
 	def draw
 		x = @player.body.x-IMAGE_WIDTH/2
-		y = @player.body.y-IMAGE_HEIGHT/2
-		z = @player.body.z+10
+		y = @player.body.y-IMAGE_HEIGHT/2-@player.body.z
+		z = @player.body.z+10+@player.body.y
 		
 		@ellipse.draw x, y, z
 		
@@ -125,7 +125,7 @@ class Tracking_Overlay
 		end
 		
 		def draw(z_index=1)
-			@image.draw @x-CENTER, @y-CENTER, z_index
+			@image.draw @x-CENTER, @y-z_index-CENTER, z_index + @y
 		end
 		
 		private

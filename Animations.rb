@@ -94,6 +94,9 @@ module Animations
 			
 				@sprites[key] << sprite
 			end
+			
+			@direction = :down
+			@current_frame = @sprites[@direction][0]
 		end
 		
 		def subsprites basepath, type, subsprite_name
@@ -116,9 +119,6 @@ module Animations
 			
 			make_spritesheet
 			make_sprites
-			
-			@direction = :down
-			@current_frame = @sprites[@direction][0]
 		end
 		
 		private
