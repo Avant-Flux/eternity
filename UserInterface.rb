@@ -95,8 +95,12 @@ class Tracking_Overlay
 	
 	private
 	
-	def calculate_position
+	def angle_to(entity)	#This method needs a better name which make sense when it's called
+		x = entity.body.x - @player.body.x
+		y = entity.body.y - @player.body.y
 		
+		#Produce an angle in degrees in the Gosu reference frame
+		CP::Vec2.new(x,y).to_angle*(180/Math::PI)-90
 	end
 	
 	class Blip
