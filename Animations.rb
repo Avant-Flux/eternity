@@ -14,15 +14,16 @@ end
 module Animations
 	class Entity			#Only inherit from this class, never create objects of it
 		attr_reader :sprites
-		attr_accessor :direction
+		attr_accessor :direction, :moving
 		
 		def initialize(window)
 			@window = window
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
-						
-			@current_animation = @animations[:down]
-			@current_frame = @current_animation[0]					
+			@frame_index = 0
+			@moving = false
+			@direction = :down
+			@current_frame = @sprites[@direction][0]
 		end
 		
 		class << self
@@ -51,8 +52,24 @@ module Animations
 			@current_frame.height
 		end
 		
-		def update
-			#Advance the animation to the next appropriate frame
+		def update(direction)
+			if @moving
+				#Advance the animation to the next appropriate frame
+				#Do not include the logic of WHEN to advance (or maybe...?)
+				if @direction == direction
+					#Increment @frame_index, and if it exceeds the maximum index, reset it to 0
+					@frame_index += 1
+					if @frame_index > @sprites[direction].size-1
+						@frame_index = 0
+					end
+				else
+					@direction = direction
+				end
+				
+				@current_frame = @sprites[@direction][@frame_index]
+			else
+				@current_frame = @sprites[@direction][0]
+			end
 		end
 		
 		def draw

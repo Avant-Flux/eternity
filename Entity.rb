@@ -36,13 +36,8 @@ class Entity
 		
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
-		#~ @current_animation = @animations[:down]
-		#~ @current_frame = @current_animation[0]
-			
 		@body = CP::Entity_Body.new(space, pos[0], pos[1], pos[2], 
-								@current_frame.width, @current_frame.height)
-		
-		
+								@animations.width, @animations.height)
 		
 		@name = name
 		@element = element
@@ -111,20 +106,14 @@ class Entity
 	
 	def draw
 		if visible
-			@current_frame.draw(@body.x-@current_frame.width/2, 
-								(@body.y - @body.z)-@current_frame.height+10, @body.z + @body.y)
+			@animations.draw
 		end
 	end
 	
 	def update
-		@current_animation = @animations[compute_direction]
-		
-		@current_frame =if moving? #If it is moving
-							#Animate at 10 fps
-							@current_animation[Gosu::milliseconds / 100 % @current_animation.size]
-						else
-							@current_animation[0]
-						end
+		@animations.direction = compute_direction
+		@animations.moving = moving?
+		@animations.update
 	end
 	
 	def jump
