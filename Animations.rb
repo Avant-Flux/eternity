@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.27.2010
+#~ Date last edited: 06.03.2010
 require 'rubygems'
 require 'gosu'
 require 'texplay'
@@ -14,11 +14,15 @@ end
 module Animations
 	class Entity			#Only inherit from this class, never create objects of it
 		attr_reader :sprites
+		attr_accessor :direction
 		
 		def initialize(window)
 			@window = window
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
+						
+			@current_animation = @animations[:down]
+			@current_frame = @current_animation[0]					
 		end
 		
 		class << self
@@ -37,6 +41,24 @@ module Animations
 		
 		def []=(key, arg)
 			@sprites[key] = arg
+		end
+		
+		def width
+			@current_frame.width
+		end
+		
+		def height
+			@current_frame.height
+		end
+		
+		def update
+			#Advance the animation to the next appropriate frame
+		end
+		
+		def draw
+			@current_frame.draw(@body.x-@current_frame.width/2, 
+								(@body.y - @body.z)-@current_frame.height+10, 
+								@body.z + @body.y)
 		end
 		
 		private

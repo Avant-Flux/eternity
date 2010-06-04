@@ -36,8 +36,8 @@ class Entity
 		
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
-		@current_animation = @animations[:down]
-		@current_frame = @current_animation[0]
+		#~ @current_animation = @animations[:down]
+		#~ @current_frame = @current_animation[0]
 			
 		@body = CP::Entity_Body.new(space, pos[0], pos[1], pos[2], 
 								@current_frame.width, @current_frame.height)
