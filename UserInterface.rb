@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.03.2010
+#~ Date last edited: 06.06.2010
 
 require 'rubygems'
 require 'gosu'
@@ -50,7 +50,7 @@ class Tracking_Overlay
 	def initialize(window, player)
 		@window = window
 		@player = player
-		@tracked = Hash.new
+		@tracked = Array.new
 		
 		canvas = Magick::Image.new(IMAGE_WIDTH, IMAGE_HEIGHT) do
 			self.background_color = "transparent"
@@ -67,7 +67,7 @@ class Tracking_Overlay
 	end
 	
 	def track(entity)
-		@tracked[entity] = Blip.new(@window, 1,1, 10)
+		@tracked  << Blip.new(@window, @player, entity)
 	end
 	
 	def untrack(entity)
@@ -109,7 +109,7 @@ class Tracking_Overlay
 		
 		attr_accessor :x, :y, :radius
 		
-		def initialize(window, x, y, distance)
+		def initialize(window, player, entity)
 			@x = x
 			@y = y
 			@distance = distance
@@ -133,6 +133,12 @@ class Tracking_Overlay
 		end
 		
 		private
+		
+		def elliptical_projection(entity)
+			#Calculate the corresponding position of a tracking blip for a given entity
+			#The trig functions in ruby take the angle in radians
+			x = @player.body.x + RX*Math.cos()
+		end
 		
 		def clear_image
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
