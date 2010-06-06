@@ -16,6 +16,8 @@ require "Creature"
 require 'Character'
 require 'Player'
 
+require 'TrackingOverlay.rb'
+
 class Hud
 	def initialize
 		
