@@ -72,7 +72,7 @@ class Tracking_Overlay
 	
 	def untrack(entity)
 		#Remove from @tracked
-		@tracked.delete_if {|key, val| key == entity}
+		@tracked.delete_if {|x| x.entity == entity}
 	end
 	
 	def update
@@ -107,7 +107,7 @@ class Tracking_Overlay
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
 		
-		attr_accessor :x, :y, :radius
+		attr_accessor :entity
 		
 		def initialize(window, player, entity)
 			@x = x
