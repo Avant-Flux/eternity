@@ -38,37 +38,15 @@ end
 #	Calculate the position of the blip by getting the angle between the player and the entity
 #	to be tracked.
 class Tracking_Overlay
-	STROKE_WIDTH = 3
-	PADDING = STROKE_WIDTH/2+10
-
-	RX = 120
-	RY = 80
-	
-	IMAGE_WIDTH = RX*2+PADDING*2
-	IMAGE_HEIGHT = RY*2+PADDING*2
-	
-	def initialize(window, player)
+	def initialize(window, player)#, a, b, cx, cy)
 		@window = window
 		@player = player
 		@tracked = Array.new
-		
-		
-		canvas = Magick::Image.new(IMAGE_WIDTH, IMAGE_HEIGHT) do
-			self.background_color = "transparent"
-		end
-		gc = Magick::Draw.new
-		
-		gc.stroke('red')
-		gc.stroke_width(STROKE_WIDTH)
-		gc.fill_opacity(0)
-		gc.ellipse(IMAGE_WIDTH/2,IMAGE_HEIGHT/2, RX,RY, 0,360)
-		
-		gc.draw(canvas)
-		@ring = Gosu::Image.new(@window, canvas, false)
+		@ellipse = Ellipse.new(120, 80, @player.body.x, @player.body.y)
 	end
 	
 	def track(entity)
-		@tracked  << Blip.new(@window, @player, entity)
+		@tracked << Blip.new(@window, @player, entity)
 	end
 	
 	def untrack(entity)
@@ -95,6 +73,43 @@ class Tracking_Overlay
 	end
 	
 	private
+	
+	class Ellipse
+		attr_accessor :a, :b, :cx, :cy
+		
+		def initialize(a, b, cx, cy, stroke_width=3)
+			@a = a
+			@b = b
+			@cx = cx
+			@cy = cy
+			
+			padding = stroke_width/2+10
+			
+			width = (@a+padding)*2
+			height = (@b+padding)*2
+			
+			canvas = Magick::Image.new(width, height) do
+				self.background_color = "transparent"
+			end
+			gc = Magick::Draw.new
+			
+			gc.stroke('red')
+			gc.stroke_width(stroke_width)
+			gc.fill_opacity(0)
+			gc.ellipse(width/2,height/2, a,b, 0,360)
+			
+			gc.draw(canvas)
+			@img = Gosu::Image.new(@window, canvas, false)
+		end
+		
+		def update
+			
+		end
+		
+		def draw
+			@img.draw
+		end
+	end
 	
 	class Blip
 		MAX_RADIUS = 20
