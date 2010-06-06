@@ -76,7 +76,7 @@ class Tracking_Overlay
 	end
 	
 	def update
-		@tracked.each_pair do |entity, blip|
+		@tracked.each do |blip|
 			
 		end
 	end
@@ -95,24 +95,16 @@ class Tracking_Overlay
 	
 	private
 	
-	def angle_to(entity)	#This method needs a better name which make sense when it's called
-		x = entity.body.x - @player.body.x
-		y = entity.body.y - @player.body.y
-		
-		#Produce an angle in degrees in the Gosu reference frame
-		CP::Vec2.new(x,y).to_angle*(180/Math::PI)-90
-	end
-	
 	class Blip
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
 		
 		attr_accessor :entity
 		
-		def initialize(window, player, entity)
+		def initialize(window, player, tracked_entity)
 			@player = player
-			@entity = entity
-			@vector = vector_between @entity, @player
+			@tracked = tracked_entity
+			@vector = vector_between @tracked, @player
 			
 			@distance = @vector.length
 			
@@ -120,7 +112,7 @@ class Tracking_Overlay
 		end
 		
 		def update
-			new_vect = vector_between @entity, @player
+			new_vect = vector_between @tracked, @player
 			new_dist = vector.length
 			if new_dist != @distance
 				@vector = new_vect
@@ -128,6 +120,7 @@ class Tracking_Overlay
 				clear_image
 				render
 			end
+			
 		end
 		
 		def render
@@ -148,10 +141,18 @@ class Tracking_Overlay
 			CP::Vec2.new(x,y)
 		end
 		
-		def elliptical_projection(entity)
+		def angle_to_tracked
+			#Returns angle in radians
+			@vector.to_angle
+		end
+		
+		def elliptical_projection
 			#Calculate the corresponding position of a tracking blip for a given entity
 			#The trig functions in ruby take the angle in radians
-			x = @player.body.x + RX*Math.cos()
+			angle = angle_to_tracked
+			x = @player.body.x + RX*Math.cos(angle)
+			y = @player.body.y + RY*Math.sin(angle)
+			return x,y
 		end
 		
 		def clear_image
