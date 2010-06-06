@@ -110,16 +110,19 @@ class Tracking_Overlay
 		attr_accessor :entity
 		
 		def initialize(window, player, entity)
-			@x = x
-			@y = y
-			@distance = distance
-			@radius = calculate_radius
+			#~ @x = x
+			#~ @y = y
+			#~ @distance = distance
+			#~ @radius = calculate_radius
+			@player = player
+			@entity = entity
+			@vector = vector_between @entity, @player
 			
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
 		
 		def update
-			
+			@vector = vector_between @entity, @player
 		end
 		
 		def render
@@ -133,6 +136,12 @@ class Tracking_Overlay
 		end
 		
 		private
+		
+		def vector_between(arg1, arg2)
+			x = arg1.body.x - arg2.body.x
+			y = arg1.body.y - arg2.body.y
+			CP::Vec2.new(x,y)
+		end
 		
 		def elliptical_projection(entity)
 			#Calculate the corresponding position of a tracking blip for a given entity
