@@ -65,7 +65,7 @@ class Tracking_Overlay
 		y = @player.body.y-IMAGE_HEIGHT/2-@player.body.z-@player.animations.height/6
 		z = @player.body.z+10+@player.body.y
 		
-		@ring.draw x, y, z
+		@ellipse.draw x, y, z
 		
 		@tracked.each do |blip|
 			blip.draw z
@@ -106,8 +106,8 @@ class Tracking_Overlay
 			
 		end
 		
-		def draw
-			@img.draw
+		def draw(x,y,z)
+			@img.draw x, y, z
 		end
 	end
 	
