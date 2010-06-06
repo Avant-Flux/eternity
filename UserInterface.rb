@@ -52,6 +52,7 @@ class Tracking_Overlay
 		@player = player
 		@tracked = Array.new
 		
+		
 		canvas = Magick::Image.new(IMAGE_WIDTH, IMAGE_HEIGHT) do
 			self.background_color = "transparent"
 		end
@@ -63,7 +64,7 @@ class Tracking_Overlay
 		gc.ellipse(IMAGE_WIDTH/2,IMAGE_HEIGHT/2, RX,RY, 0,360)
 		
 		gc.draw(canvas)
-		@ellipse = Gosu::Image.new(@window, canvas, false)
+		@ring = Gosu::Image.new(@window, canvas, false)
 	end
 	
 	def track(entity)
@@ -77,7 +78,7 @@ class Tracking_Overlay
 	
 	def update
 		@tracked.each do |blip|
-			
+			blip.update
 		end
 	end
 	
@@ -86,9 +87,9 @@ class Tracking_Overlay
 		y = @player.body.y-IMAGE_HEIGHT/2-@player.body.z-@player.animations.height/6
 		z = @player.body.z+10+@player.body.y
 		
-		@ellipse.draw x, y, z
+		@ring.draw x, y, z
 		
-		@tracked.each_value do |blip|
+		@tracked.each do |blip|
 			blip.draw z
 		end
 	end
@@ -99,16 +100,20 @@ class Tracking_Overlay
 		MAX_RADIUS = 20
 		CENTER = MAX_RADIUS/2
 		
-		attr_accessor :entity
+		attr_accessor :tracked
 		
 		def initialize(window, player, tracked_entity)
 			@player = player
 			@tracked = tracked_entity
+			
 			@vector = vector_between @tracked, @player
-			
 			@distance = @vector.length
+			angle_to_tracked
 			
+			@x, @y = elliptical_projection
+						
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
+			render
 		end
 		
 		def update
@@ -120,7 +125,7 @@ class Tracking_Overlay
 				clear_image
 				render
 			end
-			
+			@x, @y = elliptical_projection
 		end
 		
 		def render
@@ -130,7 +135,7 @@ class Tracking_Overlay
 		end
 		
 		def draw(z_index=1)
-			@image.draw @x-CENTER, @y-z_index-CENTER, z_index + @y
+			@image.draw @x-CENTER, @y-CENTER-z_index, z_index+@y
 		end
 		
 		private
