@@ -42,7 +42,7 @@ class Tracking_Overlay
 		@window = window
 		@player = player
 		@tracked = Array.new
-		@ellipse = Ellipse.new(120, 80, @player.body.x, @player.body.y)
+		@ellipse = Ellipse.new(@window, @player, 120, 80, @player.body.x, @player.body.y)
 	end
 	
 	def track(entity)
@@ -61,11 +61,7 @@ class Tracking_Overlay
 	end
 	
 	def draw
-		x = @player.body.x-IMAGE_WIDTH/2
-		y = @player.body.y-IMAGE_HEIGHT/2-@player.body.z-@player.animations.height/6
-		z = @player.body.z+10+@player.body.y
-		
-		@ellipse.draw x, y, z
+		@ellipse.draw# @player.body.x, @player.body.y, @player.body.z
 		
 		@tracked.each do |blip|
 			blip.draw z
@@ -77,7 +73,9 @@ class Tracking_Overlay
 	class Ellipse
 		attr_accessor :a, :b, :cx, :cy
 		
-		def initialize(a, b, cx, cy, stroke_width=3)
+		def initialize(window, player, a, b, cx, cy, stroke_width=3)
+			@window = window
+			@player = player
 			@a = a
 			@b = b
 			@cx = cx
@@ -106,7 +104,11 @@ class Tracking_Overlay
 			
 		end
 		
-		def draw(x,y,z)
+		def draw
+			x = @player.body.x-@img.width/2
+			y = @player.body.y-@img.height/2-@player.body.z-@player.animations.height/6
+			z = @player.body.z+10+@player.body.y
+		
 			@img.draw x, y, z
 		end
 	end
