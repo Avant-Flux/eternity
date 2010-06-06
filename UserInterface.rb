@@ -118,11 +118,14 @@ class Tracking_Overlay
 			@entity = entity
 			@vector = vector_between @entity, @player
 			
+			@distance = @vector.length
+			
 			@image = TexPlay.create_blank_image(window, MAX_RADIUS*2, MAX_RADIUS*2)
 		end
 		
 		def update
 			@vector = vector_between @entity, @player
+			@distance = @vector.length
 		end
 		
 		def render
