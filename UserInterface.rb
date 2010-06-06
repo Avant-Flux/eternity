@@ -110,10 +110,6 @@ class Tracking_Overlay
 		attr_accessor :entity
 		
 		def initialize(window, player, entity)
-			#~ @x = x
-			#~ @y = y
-			#~ @distance = distance
-			#~ @radius = calculate_radius
 			@player = player
 			@entity = entity
 			@vector = vector_between @entity, @player
@@ -124,8 +120,14 @@ class Tracking_Overlay
 		end
 		
 		def update
-			@vector = vector_between @entity, @player
-			@distance = @vector.length
+			new_vect = vector_between @entity, @player
+			new_dist = vector.length
+			if new_dist != @distance
+				@vector = new_vect
+				@distance = new_dist
+				clear_image
+				render
+			end
 		end
 		
 		def render
