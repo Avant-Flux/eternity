@@ -6,7 +6,7 @@ require "Character"
 
 require "Title"
 require "Title_Holder"
-require "UserInterface"
+require "UI/UserInterface"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific
 		#IE input-driven movement, mechanics of leveling up, etc

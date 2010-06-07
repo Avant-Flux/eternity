@@ -14,7 +14,7 @@ require "Creature"
 require 'Character'
 require 'Player'
 
-require 'TrackingOverlay.rb'
+require 'UI/TrackingOverlay.rb'
 
 module HUD
 	class Health_mana_and_exp_overlay
