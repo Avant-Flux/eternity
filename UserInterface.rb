@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.06.2010
+#~ Date last edited: 06.07.2010
 
 require 'rubygems'
 require 'gosu'
@@ -18,16 +18,18 @@ require 'Player'
 
 require 'TrackingOverlay.rb'
 
-class Hud
-	def initialize
+module Hud
+	class Health_mana_and_exp_overlay
+		def initialize
+			
+		end
 		
-	end
-	
-	def update
+		def update
+			
+		end
 		
-	end
-	
-	def draw
-		
+		def draw
+			
+		end
 	end
 end

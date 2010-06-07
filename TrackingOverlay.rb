@@ -18,7 +18,7 @@ class Tracking_Overlay
 	end
 	
 	def track(entity)
-		@tracked << Blip.new(@window, @player, entity)
+		@tracked << Blip.new(@window, @player, entity, @ellipse)
 	end
 	
 	def untrack(entity)
@@ -27,6 +27,9 @@ class Tracking_Overlay
 	end
 	
 	def update
+		@ellipse.cx = @player.body.x
+		@ellipse.cy = @player.body.y
+	
 		@tracked.each do |blip|
 			blip.update
 		end
@@ -77,9 +80,9 @@ class Tracking_Overlay
 		end
 		
 		def draw
-			x = @player.body.x-@img.width/2
-			y = @player.body.y-@img.height/2-@player.body.z-@player.animations.height/6
-			z = @player.body.z+10+@player.body.y
+			x = @cx-@img.width/2
+			y = @cy-@img.height/2-@player.body.z-@player.animations.height/6
+			z = @player.body.z+10+@cy
 		
 			@img.draw x, y, z
 		end
@@ -91,9 +94,10 @@ class Tracking_Overlay
 		
 		attr_accessor :tracked
 		
-		def initialize(window, player, tracked_entity)
+		def initialize(window, player, tracked_entity, ellipse)
 			@player = player
 			@tracked = tracked_entity
+			@ellipse = ellipse
 			
 			@vector = vector_between @tracked, @player
 			@distance = @vector.length
@@ -144,8 +148,8 @@ class Tracking_Overlay
 			#Calculate the corresponding position of a tracking blip for a given entity
 			#The trig functions in ruby take the angle in radians
 			angle = angle_to_tracked
-			x = @player.body.x + RX*Math.cos(angle)
-			y = @player.body.y + RY*Math.sin(angle)
+			x = @ellipse.cx + @ellipse.a*Math.cos(angle)
+			y = @ellipse.cy + @ellipse.b*Math.sin(angle)
 			return x,y
 		end
 		

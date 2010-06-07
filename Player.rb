@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.03.2010
+#~ Date last edited: 06.06.2010
 
 require "Character"
 
@@ -26,6 +26,7 @@ class Player < Character
 	
 	def update
 		super
+		@tracker.update
 	end
 	
 	def draw
