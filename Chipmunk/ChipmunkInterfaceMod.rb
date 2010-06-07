@@ -6,7 +6,7 @@ require 'rubygems'
 require 'chipmunk'
 require 'gosu'
 require 'RMagick'
-require 'CPBody_3D'
+require 'Chipmunk/CPBody_3D'
 
 #NOTES
 #Implement a 3D body
