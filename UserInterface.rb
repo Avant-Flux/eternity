@@ -9,8 +9,6 @@ require 'chingu'
 require 'chipmunk'
 require 'ChipmunkInterfaceMod'
 
-require 'RMagick'
-
 require 'Entity'
 require "Creature"
 require 'Character'

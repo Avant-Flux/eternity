@@ -1,7 +1,10 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.06.2010
+#~ Date last edited: 06.07.2010
  
+require 'rubygems'
+require 'RMagick'
+
 #This class renders the overlay which shows the position of tracked entities
 #	In order to render this effect is psudo-perspective without a global perspective warp,
 #	render the tracking blips along an ellipse which simulates a circle in perspective.
