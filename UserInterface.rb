@@ -18,7 +18,7 @@ require 'Player'
 
 require 'TrackingOverlay.rb'
 
-module Hud
+module HUD
 	class Health_mana_and_exp_overlay
 		def initialize(window, player)
 			#Perhaps the structure of Player should be changed so that only the
