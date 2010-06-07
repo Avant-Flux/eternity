@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.27.2010
+#~ Date last edited: 06.07.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -10,14 +10,13 @@ rescue LoadError
 end
 begin
 	require 'lib/gosu'
-	require 'lib/chingu'
 rescue LoadError
 	require 'gosu'
-	require 'chingu'
 end
+require 'chingu'
 
 require 'chipmunk'
-require 'ChipmunkInterfaceMod'
+require 'Chipmunk/ChipmunkInterfaceMod'
 
 require 'Entity'
 require "Creature"

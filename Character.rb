@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 06.07.2010
 
-require 'ChipmunkInterfaceMod'
+require 'Chipmunk/ChipmunkInterfaceMod'
 require "Title"
 require "Title_Holder"
 require "Entity"

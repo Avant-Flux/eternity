@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.26.2010
+#~ Date last edited: 06.07.2010
 
 require "Entity"
 require "Character"
@@ -16,7 +16,7 @@ require "gosu"
 require 'texplay'
 
 require 'chipmunk'
-require 'ChipmunkInterfaceMod'
+require 'Chipmunk/ChipmunkInterfaceMod'
 
 class Gosu::Image
    alias_method :rows, :height

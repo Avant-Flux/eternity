@@ -7,7 +7,7 @@ require 'gosu'
 require 'chingu'
 
 require 'chipmunk'
-require 'ChipmunkInterfaceMod'
+require 'Chipmunk/ChipmunkInterfaceMod'
 
 require 'Entity'
 require "Creature"

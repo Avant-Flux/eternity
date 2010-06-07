@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.03.2010
+#~ Date last edited: 06.07.2010
 
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
 
-require 'ChipmunkInterfaceMod'
+require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Combative'
 require 'Animations'
 
