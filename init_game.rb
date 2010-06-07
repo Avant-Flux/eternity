@@ -23,8 +23,8 @@ require "Creature"
 require 'Character'
 require 'Player'
 
-require 'FPSCounter'
-require 'InputHandler'
+require 'Utilities/FPSCounter'
+require 'Utilities/InputHandler'
 require 'Animations'
 require 'Background'
 
