@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.07.2010
+#~ Date last edited: 06.08.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -165,10 +165,6 @@ class InputHandler
 		
 		createAction(:run)
 		bindAction(:run, Gosu::KbLeftControl)
-	end
-	
-	def active?(action)
-		query(action) == :active
 	end
 end
 

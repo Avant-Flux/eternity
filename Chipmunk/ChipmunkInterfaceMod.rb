@@ -1,18 +1,12 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.12.2010
+#~ Date last edited: 06.08.2010
 
 require 'rubygems'
 require 'chipmunk'
 require 'gosu'
 require 'RMagick'
 require 'Chipmunk/CPBody_3D'
-
-#NOTES
-#Implement a 3D body
-#	This allows for calls to look like this
-#		body = CP::Body_3D
-#		body.x
 
 module CP
 	class Space
@@ -76,7 +70,7 @@ module CP
 	module Shape
 		module Polygon; class << self
 			#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
-			#modified by Jason Ko to be more usable and ruby-like
+			#modified to be more usable and ruby-like
 			
 			# Produces the vertices of a regular polygon.
 			def vertices(sides, size)
