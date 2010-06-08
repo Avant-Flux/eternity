@@ -121,10 +121,10 @@ end
 
 class InputHandler
 	def direction
-		up =	self.query(:up) == :active
-		down =	self.query(:down) == :active
-		left =	self.query(:left) == :active
-		right =	self.query(:right) == :active
+		up =	active? :up
+		down =	active? :down
+		left =	active? :left
+		right =	active? :right
 		
 		result =	if up && left
 						:up_left
