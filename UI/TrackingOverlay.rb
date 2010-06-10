@@ -12,6 +12,10 @@ require 'RMagick'
 #	Calculate an ellipse and project the rendering of the blip onto it.
 #	Calculate the position of the blip by getting the angle between the player and the entity
 #	to be tracked.
+#
+#	Calculate the position of all elements in the tracking overlay, then displace by a certain
+#	amount to allow the overlay to be rendered at the level of the Player's waist instead of
+#	the normal location at foot-level.'
 class Tracking_Overlay
 	def initialize(window, player)#, a, b, cx, cy)
 		@window = window
@@ -31,7 +35,7 @@ class Tracking_Overlay
 	
 	def update
 		@ellipse.update
-	
+		
 		@tracked.each do |blip|
 			blip.update
 		end
@@ -48,6 +52,7 @@ end
 
 class Ellipse
 	attr_accessor :a, :b, :cx, :cy
+	attr_reader :z
 	
 	def initialize(window, player, a, b, cx, cy, stroke_width=3)
 		@window = window
@@ -83,16 +88,16 @@ class Ellipse
 	
 	def draw
 		x = @cx-@img.width/2
-		y = @cy-@img.height/2-@player.body.z-@player.animations.height/6
-		z = @player.body.z+10+@cy
+		y = @cy-@img.height/2-@player.body.z-@player.animations.height/5
+		@z = @player.body.z+@cy+10
 	
-		@img.draw x, y, z
+		@img.draw x, y, @z
 	end
 end
 
 class Blip
-	MAX_RADIUS = 20
-	CENTER = MAX_RADIUS/2
+	MAX_RADIUS = 25
+	CENTER = MAX_RADIUS
 	
 	attr_accessor :tracked, :player
 	
@@ -103,7 +108,7 @@ class Blip
 		@ellipse = ellipse
 		
 		@vector = vector_between @tracked, @player
-		@distance = @vector.length
+		@distance = @vector.length.ceil
 		angle_to_tracked
 		
 		@x, @y = elliptical_projection
@@ -115,23 +120,25 @@ class Blip
 	
 	def update
 		new_vect = vector_between @tracked, @player
-		new_dist = new_vect.length
+		new_dist = new_vect.length.ceil
 		if new_dist != @distance
 			@vector = new_vect
 			@distance = new_dist
-			#~ clear_image
+			clear_image
 			render
 		end
 		@x, @y = elliptical_projection
 	end
 	
 	def render
+		@radius = calculate_radius
+		puts @radius
 		@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
 	end
 	
 	def draw(z_index=1)
-		@image.draw @x-CENTER, @y-CENTER-z_index, z_index+@y
-		puts "#{@distance}   (#{@x}, #{@y})"
+		@image.draw @x-CENTER, @y-CENTER-z_index, @ellipse.z
+		#~ puts "#{@distance}   (#{@x}, #{@y})"
 	end
 	
 	private
@@ -161,7 +168,7 @@ class Blip
 	end
 	
 	def calculate_radius
-		constant = 25
-		(constant/@distance)*Math.sqrt(2/Math::PI)
+		constant = 12000
+		((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
 	end
 end
