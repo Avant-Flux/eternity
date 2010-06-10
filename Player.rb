@@ -46,6 +46,10 @@ class Player < Character
 		
 	end
 	
+	def track(entity)
+		@tracker.track(entity)
+	end
+	
 	def lvl_up
 		self.lvl = @lvl + 1 unless @lvl == Lvl_cap
 	end

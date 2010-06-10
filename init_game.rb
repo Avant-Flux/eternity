@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.08.2010
+#~ Date last edited: 06.09.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -45,13 +45,15 @@ class Game_Window < Gosu::Window
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
-		#~ characters = Array.new
+		characters = Array.new
 		#~ 19.times do |i|
 			#~ x = (i * 30) % 800
 			#~ y = (i * 100) % 600
-			
+			#~ 
 			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
 		#~ end
+		characters << Character.new(self, @space, "NPC", [200, 100, 0])
+		@player.track(characters[0])
 		
 		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
 		@cur = @anim[0]
