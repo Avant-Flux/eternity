@@ -28,6 +28,8 @@ require 'Utilities/InputHandler'
 require 'Animations'
 require 'Background'
 
+require 'UI/UserInterface'
+
 class Game_Window < Gosu::Window
 	# The number of steps to process every Gosu update
 	SUBSTEPS = 6

@@ -22,16 +22,19 @@ class Player < Character
 		@overkill_bonus = 0
 		
 		@tracker = Tracking_Overlay.new(window, self)
+		@UI = HUD::Status_Window.new(window, self)
 	end
 	
 	def update
 		super
 		@tracker.update
+		@UI.update
 	end
 	
 	def draw
 		super
 		@tracker.draw
+		@UI.draw
 	end
 	
 	def create

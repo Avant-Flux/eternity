@@ -47,9 +47,15 @@ module HUD
 			width = 500
 			height = 300
 			@img = TexPlay.create_blank_image(@window, width, height)
-			#~ @img.paint {
-				#~ 
-			#~ }
+			
+			color = :red
+			cx = 80
+			cy = 85
+			@img.circle cx, cy, 75, :color => color, :fill => true
+			@img.rect cx,cy, 280,140, :color => color, :fill => true
+			
+			@font = Gosu::Font.new(@window, font="Times New Roman", font_size=25)
+			
 		end
 		
 		def update
@@ -57,7 +63,7 @@ module HUD
 		end
 		
 		def draw
-			
+			@img.draw(0,0,1000)
 		end
 	end
 end
