@@ -52,10 +52,11 @@ module HUD
 			cx = 80
 			cy = 85
 			@img.circle cx, cy, 75, :color => color, :fill => true
-			@img.rect cx,cy, 280,140, :color => color, :fill => true
+			@img.rect cx,cy, 290,140, :color => color, :fill => true
 			
 			@font = Gosu::Font.new(@window, font="Times New Roman", font_size=25)
-			
+			@mana = "7500 / 10000"
+			@hp = "1852 / 2000"
 		end
 		
 		def update
@@ -64,6 +65,11 @@ module HUD
 		
 		def draw
 			@img.draw(0,0,1000)
+			@font.draw(@mana, 35,110, 1001)
+			@font.draw(@hp, 200,85, 1001)
+			
+			@font.draw("HP", 160, 85, 1001)
+			#~ @font.draw("Lvl", 150,120, 1001)
 		end
 	end
 end

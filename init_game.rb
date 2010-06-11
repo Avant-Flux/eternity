@@ -85,7 +85,7 @@ class Game_Window < Gosu::Window
 	def draw
 		@background.draw
 		@fpscounter.draw
-		@effect.draw(60,60,3)
+		@effect.draw(500,60,3)
 		
 		Entity.draw_all
 	end
