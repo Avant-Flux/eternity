@@ -32,15 +32,11 @@ class Game_Window < Gosu::Window
 	# The number of steps to process every Gosu update
 	SUBSTEPS = 6
 	
-	attr_reader :screen_x, :screen_y
-	
 	def initialize
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
-		
 		@inpman = InputHandler.new
-		
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
@@ -57,7 +53,7 @@ class Game_Window < Gosu::Window
 		#~ @player.track(characters[3])
 		#~ @player.track(characters[18])
 		
-		@effect = Animations::Effect.new(self, "Fireball")
+		@effect = Animations::Effect.new(self, "Gale")
 		
 		@background = Background.new(self,"Sprites/Textures/grass_texture2.png")
 	end
