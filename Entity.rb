@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.07.2010
+#~ Date last edited: 06.11.2010
 
 require 'rubygems'
 require 'gosu'
@@ -101,6 +101,14 @@ class Entity
 		@animations.direction = compute_direction
 		@animations.moving = moving?
 		@animations.update
+		
+		if @body.x <= 0
+			@body.x = 0
+		end
+		
+		if @body.y <= 0
+			@body.y = 0
+		end
 	end
 	
 	def jump

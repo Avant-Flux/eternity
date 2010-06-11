@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.09.2010
+#~ Date last edited: 06.11.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -44,15 +44,18 @@ class Game_Window < Gosu::Window
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
-		characters = Array.new
+		#~ characters = Array.new
 		#~ 19.times do |i|
-			#~ x = (i * 30) % 800
-			#~ y = (i * 100) % 600
+			#~ x = (i * 30) % 800 + 100
+			#~ y = (i * 100) % 600 + 100
 			#~ 
 			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
 		#~ end
-		characters << Character.new(self, @space, "NPC", [200, 100, 0])
-		@player.track(characters[0])
+		#~ @player.track(characters[0])
+		#~ @player.track(characters[9])
+		#~ @player.track(characters[12])
+		#~ @player.track(characters[3])
+		#~ @player.track(characters[18])
 		
 		@effect = Animations::Effect.new(self, "Fireball")
 		
