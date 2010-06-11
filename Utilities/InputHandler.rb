@@ -2,14 +2,14 @@
 #	Chad Godsey
 #	Feb 21, 2010
 #Modified by Jason Ko
-#	Date last edited: 06.08.2010
+#	Date last edited: 06.11.2010
 #
 #	InputHandler class
 #		used to manage button mappings to several types of high level input
 #			simple named actions
 #			chords - multiple buttons at once
 #			sequences - combos
-#
+#	Now, if user defines def_kb_bindings, that method will be called on init.
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'
@@ -28,6 +28,11 @@ class InputHandler
 		@sequence_hist = []
 		
 		@time = Gosu::milliseconds
+		
+		def_kb_bindings
+	end
+	
+	def def_kb_bindings
 	end
 	
 	def button_down(id)

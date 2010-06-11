@@ -40,7 +40,6 @@ class Game_Window < Gosu::Window
 		@fpscounter = FPSCounter.new(self)
 		
 		@inpman = InputHandler.new
-		@inpman.def_kb_bindings
 		
 		@space = CP::Space_3D.new
 		
