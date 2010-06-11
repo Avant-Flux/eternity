@@ -124,16 +124,9 @@ class Blip
 		if new_dist != @distance
 			@vector = new_vect
 			@distance = new_dist
-			clear_image
 			render
 		end
 		@x, @y = elliptical_projection
-	end
-	
-	def render
-		@radius = calculate_radius
-		puts @radius
-		@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
 	end
 	
 	def draw(z_index=1)
@@ -143,6 +136,31 @@ class Blip
 	
 	private
 	
+	def clear_image
+		@image = TexPlay.create_blank_image(@window, MAX_RADIUS*2, MAX_RADIUS*2)
+	end
+	
+	def render
+		radius = calculate_radius
+		puts radius
+		if radius > MAX_RADIUS
+			radius = MAX_RADIUS
+		elsif radius < 1
+			radius = 1
+		end
+		
+		if radius > @radius
+			@radius = radius
+			@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
+		elsif radius < @radius
+			@radius = radius
+			clear_image
+			@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
+		else#radius == @radius
+			nil
+		end
+	end
+
 	def vector_between(arg1, arg2)
 		x = arg1.body.x - arg2.body.x
 		y = arg1.body.y - arg2.body.y
@@ -163,9 +181,6 @@ class Blip
 		return x,y
 	end
 	
-	def clear_image
-		@image = TexPlay.create_blank_image(@window, MAX_RADIUS*2, MAX_RADIUS*2)
-	end
 	
 	def calculate_radius
 		constant = 12000
