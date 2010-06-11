@@ -16,6 +16,8 @@ require 'Player'
 
 require 'UI/TrackingOverlay.rb'
 
+require 'texplay'
+
 module HUD
 	class Status_Window
 		def initialize(window, player)
@@ -42,6 +44,12 @@ module HUD
 			#		for the mana gauge because some moves (notably those under
 			#		the lightning element) use a percentage of the total mana,
 			#		and not a strict amount.
+			width = 500
+			height = 300
+			@img = TexPlay.create_blank_image(@window, width, height)
+			#~ @img.paint {
+				#~ 
+			#~ }
 		end
 		
 		def update
