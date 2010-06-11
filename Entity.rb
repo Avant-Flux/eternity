@@ -102,12 +102,12 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @body.x <= 0
-			@body.x = 0
+		if @body.x - @animations.width <= 0
+			@body.x = @animations.width
 		end
 		
-		if @body.y <= 0
-			@body.y = 0
+		if @body.y - @animations.height <= 0
+			@body.y = @animations.height
 		end
 	end
 	
