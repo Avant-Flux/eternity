@@ -55,17 +55,17 @@ class Game_Window < Gosu::Window
 		characters << Character.new(self, @space, "NPC", [200, 100, 0])
 		@player.track(characters[0])
 		
-		@anim = Gosu::Image::load_tiles(self, "Sprites/Effects/Fireball.png", 192, 192, false)
-		@cur = @anim[0]
+		@effect = Animations::Effect.new(self, "Fireball")
 		
 		@background = Background.new(self,"Sprites/Textures/grass_texture2.png")
 	end
 	
 	def update
 		@fpscounter.update
+		
 		SUBSTEPS.times do
-			@cur = @anim[Gosu::milliseconds / 100 % @anim.size]
-			
+			@effect.update
+
 			Entity.transfer_x_for_all
 			Entity.reset_all
 			
@@ -82,27 +82,12 @@ class Game_Window < Gosu::Window
 		end
 	end
 	
-	def process_input
-		dir = @inpman.direction
-		if dir != nil
-			if @inpman.active? :run
-				@player.run dir
-			else
-				@player.move dir
-			end
-		end
-		
-		if @inpman.active?(:jump)
-			@player.jump
-		end
-	end
-	
 	def draw
 		@background.draw
 		@fpscounter.draw
+		@effect.draw(60,60,3)
 		
 		Entity.draw_all
-		@cur.draw(60,60,3)
 	end
 	
 	def button_down(id)
@@ -118,6 +103,23 @@ class Game_Window < Gosu::Window
 	
 	def button_up(id)
 		@inpman.button_up(id)
+	end
+	
+	private 
+	
+	def process_input
+		dir = @inpman.direction
+		if dir != nil
+			if @inpman.active? :run
+				@player.run dir
+			else
+				@player.move dir
+			end
+		end
+		
+		if @inpman.active?(:jump)
+			@player.jump
+		end
 	end
 end
 

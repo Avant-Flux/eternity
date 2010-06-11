@@ -136,4 +136,24 @@ module Animations
 			super "./Sprites/People", type, subsprite_name
 		end
 	end
+	
+	class Effect
+		attr_reader :name, :current_frame
+	
+		def initialize(window, name_of_effect)
+			@window = window
+			@name = name_of_effect
+			@sprites = Gosu::Image::load_tiles(@window, "./Sprites/Effects/#{@name}.png", 
+												192, 192, false)
+			update
+		end
+		
+		def update
+			@current_frame = @sprites[Gosu::milliseconds / 100 % @sprites.size]
+		end
+		
+		def draw(x,y,z)
+			@current_frame.draw(x,y,z)
+		end
+	end
 end

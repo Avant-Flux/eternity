@@ -17,7 +17,7 @@ require 'Player'
 require 'UI/TrackingOverlay.rb'
 
 module HUD
-	class Health_mana_and_exp_overlay
+	class Status_Window
 		def initialize(window, player)
 			#Perhaps the structure of Player should be changed so that only the
 			#	stats have to be passed and not the whole player.  Such a limitation
