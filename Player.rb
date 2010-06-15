@@ -22,7 +22,7 @@ class Player < Character
 		@overkill_bonus = 0
 		
 		@tracker = UI::Overlay::Tracking.new(window, self)
-		@UI = UI::Status_Window.new(window, self)
+		@UI = UI::Overlay::Status.new(window, self)
 	end
 	
 	def update
