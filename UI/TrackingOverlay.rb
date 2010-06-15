@@ -3,6 +3,7 @@
 #~ Date last edited: 06.14.2010
  
 require 'rubygems'
+require 'texplay'
 require 'RMagick'
 
 #This class renders the overlay which shows the position of tracked entities
