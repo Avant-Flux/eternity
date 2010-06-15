@@ -94,6 +94,21 @@ module UI
 					5.times do |i|
 						@rings << Ring_Bar.new(window, outer_radius-(width*i))
 					end
+					render
+				end
+				
+				def update
+					
+				end
+				
+				def draw
+					
+				end
+				
+				def render
+					@rings.each do |ring|
+						ring.render
+					end
 				end
 			end
 		end
