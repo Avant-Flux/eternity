@@ -48,7 +48,7 @@ module HUD
 			height = 300
 			@img = TexPlay.create_blank_image(@window, width, height)
 			
-			color = :black
+			color = Gosu::Color.new(0xff666666)
 			cx = 80
 			cy = 85
 			@img.circle cx, cy, 75, :color => color, :fill => true
@@ -73,6 +73,41 @@ module HUD
 			@font.draw("HP", 160, 85, 1001)
 			@font.draw("Lvl", 150,120, 1001)
 			@font.draw("Exp", 220, 120, 1001)
+		end
+	end
+	
+	class Ring_Bar
+		def initialize(window, radius, starting_percent=0)
+			@window = window
+			@radius = radius
+			@percent = starting_percent
+			render
+		end
+		
+		def update
+			
+		end
+		
+		def draw
+			
+		end
+		
+		def render
+			
+		end
+	end
+	
+	class Mana_Ring
+		def initialize(window, player)
+			@rings = Array.new
+			
+			outer_radius = 10
+			width = 2
+			#~ buffer = 2
+			
+			5.times do |i|
+				@rings << Ring_Bar.new(window, outer_radius-(width*i))
+			end
 		end
 	end
 end
