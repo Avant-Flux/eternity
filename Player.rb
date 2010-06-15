@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.06.2010
+#~ Date last edited: 06.14.2010
 
 require "Character"
 
@@ -21,8 +21,8 @@ class Player < Character
 		@combo = 0
 		@overkill_bonus = 0
 		
-		@tracker = Tracking_Overlay.new(window, self)
-		@UI = HUD::Status_Window.new(window, self)
+		@tracker = UI::Overlay::Tracking.new(window, self)
+		@UI = UI::Status_Window.new(window, self)
 	end
 	
 	def update

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.07.2010
+#~ Date last edited: 06.14.2010
 
 require 'rubygems'
 require 'gosu'
@@ -18,7 +18,7 @@ require 'UI/TrackingOverlay.rb'
 
 require 'texplay'
 
-module HUD
+module UI
 	class Status_Window
 		def initialize(window, player)
 			#Perhaps the structure of Player should be changed so that only the
