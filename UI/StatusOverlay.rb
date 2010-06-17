@@ -63,8 +63,10 @@ module UI
 			end
 			
 			class Ring_Bar
-				def initialize(window, radius, starting_percent=0)
+				def initialize(window, cx,cy, radius, starting_percent=0)
 					@window = window
+					@cx = cx
+					@cy = cy
 					@radius = radius
 					@percent = starting_percent
 					render
@@ -75,11 +77,22 @@ module UI
 				end
 				
 				def draw
-					
+					@img.draw
 				end
 				
 				def render
+					canvas = Magick::Image.new(width, height) do
+						self.background_color = "transparent"
+					end
+					gc = Magick::Draw.new
 					
+					gc.stroke('red')
+					gc.stroke_width(stroke_width)
+					gc.fill_opacity(0)
+					gc.ellipse(width/2,height/2, a,b, 0,360)
+					
+					gc.draw(canvas)
+					@img = Gosu::Image.new(@window, canvas, false)
 				end
 			end
 			
