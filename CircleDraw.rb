@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
+#~ Basic algorithm for drawing circle by kyonides
 #~ Date last edited: 06.17.2010
 
 require 'rubygems'
@@ -34,11 +35,21 @@ class Window < Gosu::Window
 	end
 	
 	def draw_ring(cx, cy, r, angle, colors)
-		0.step(angle, 0.1) do |a1|
-			a2 = a1 + 1
-			@img.line(cx + Gosu.offset_x(a1, r+40), cy + Gosu.offset_y(a1, r+40),
-					cx + Gosu.offset_x(a2, r-28), cy + Gosu.offset_y(a2, r-28))
-		end
+		#~ 0.step(angle, 0.1) do |a1|
+			#~ a2 = a1 + 1
+			#~ @img.line(cx + Gosu.offset_x(a1, r+40), cy + Gosu.offset_y(a1, r+40),
+					#~ cx + Gosu.offset_x(a2, r-28), cy + Gosu.offset_y(a2, r-28))
+		#~ end
+		
+		
+		#Assume that the ring starts to fill in from the 0 deg dir in the Gosu plane
+		@img.circle cx,cy,r
+		@img.circle cx,cy,r-20
+		
+		@img.line cx,cy, cx,cy-r
+		@img.line cx,cy, cx+r,cy
+		
+		@img.fill cx+1,cy-r+1
 	end
 end
 

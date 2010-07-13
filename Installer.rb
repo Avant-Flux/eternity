@@ -4,6 +4,8 @@
 
 #Note: Program crashes after installing opengl
 #Files install, but there is no command line notification of anything happening
+
+#To install ruby on ubuntu, install ruby1.9.1-full and rubygems1.9.1
 require 'rbconfig' 
 
 class Installer
@@ -63,7 +65,7 @@ class Installer
 	end
 	
 	def devil_and_texplay
-		`gksudo apt-get install libdevil1c2 libdevil-dev`
+		#~ `gksudo apt-get install libdevil1c2 libdevil-dev`
 		`gksudo gem install devil texplay`
 	end
 	
