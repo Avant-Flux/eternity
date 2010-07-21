@@ -1,6 +1,10 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.08.2010
+#~ Date last edited: 07.21.2010
+
+#~ Notes:
+#~ Remove the xz CP::Space and store the z-based gravity application function in this class
+#~ Rewrite Space_3D as a descendant of CP::Space
 
 require 'rubygems'
 require 'chipmunk'
@@ -16,61 +20,42 @@ module CP
 		end
 	end
 	
-	class Space_3D
-		attr_reader :xy, :xz, :dt
-	
-		def initialize(dt=(1.0/60.0))
-			@dt = dt
+	class Space_3D < Space
+		attr_reader :dt, :g
+		
+		def initialize(g=9.8, dt=(1.0/60.0))
+			super()
+			@g = g		#Controls acceleration due to gravity in the z direction
+			@dt = dt	#Controls the timestep of the space.  
+						#	Could be falsified as slower than update rate for bullet time
 			
 			#X is horizontal
 			#Y is vertical
 			#Z is height
-			@xy = Space.new
-			@xz = Space.new
 			
-			#Gravity should not function in the horiz plane			
-			@xz.gravity = CP::Vec2.new(0, 0)
-			@xy.gravity = CP::Vec2.new(0, 0)
+			#This CP::Space functions as the xy plane, while the gravity is controlled as if 
+			#	it was in the z direction.
+			#Gravity should not function in the horiz plane
+			gravity CP::Vec2.new(0, 0)	#Controls gravity in the XY plane.
 			
 			#0.2 Seems like a good damping for ice
-			@xy.damping = 0.5
-			@xz.damping = 1
-		end
-		
-		def gravity
-			@xy.gravity
-		end
-		
-		def gravity= arg
-			@xy.gravity = arg
-		end
-		
-		def add(arg)
-			#Not all dependencies implemented yet
-			@xy.add(arg.body.xy)
-			@xz.add(arg.body.xz)
+			damping 0.5
 		end
 		
 		def step
-			@xy.step(@dt)
-			@xz.step(@dt)
+			super @dt
 		end
-		
-		def damping= arg
-			@xy.damping = arg
-			@xz.damping = arg
-		end
-		
-		def add_static_shape= arg
-			@xy.add_static_shape = arg
-			@xz.add_static_shape = arg
+				
+		def add(arg)
+			#Not all dependencies implemented yet
+			super arg.body
 		end
 	end
 	
 	module Shape
 		module Polygon; class << self
 			#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
-			#modified to be more usable and ruby-like
+			#modified to be more usable and ruby-like <- work in progress
 			
 			# Produces the vertices of a regular polygon.
 			def vertices(sides, size)
@@ -94,22 +79,6 @@ module CP
 			   return Gosu::Image.new(self, box_image, false)
 			end
 		end; end
-	end
-	
-	module Vector
-		class Vec2 < CP::Vec2
-			
-		end
-	end
-	
-	class Vec2
-		def z
-			self.y
-		end
-		
-		def z=(arg)
-			self.y=arg
-		end
 	end
 	
 	module Bound
