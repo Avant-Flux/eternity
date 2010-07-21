@@ -41,7 +41,9 @@ class Installer
 	def opengl
 		if @os == "linux"
 			`gksudo apt-get install libgl1-mesa-dri libglu1-mesa freeglut3 libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev`
-			`gksudo gem install ruby-opengl`
+			#Use this command now on Ubuntu as this gem is packaged separately
+			`gksudo apt-get install libopengl-ruby1.9`
+			#~ `gksudo gem install ruby-opengl`
 		end
 	end
 	
@@ -66,7 +68,7 @@ class Installer
 	
 	def devil_and_texplay
 		#~ `gksudo apt-get install libdevil1c2 libdevil-dev`
-		`gksudo gem install devil texplay`
+		`gksudo gem install texplay`
 	end
 	
 	def imagemagick

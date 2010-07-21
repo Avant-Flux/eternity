@@ -42,18 +42,18 @@ class Game_Window < Gosu::Window
 		@space = CP::Space_3D.new
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
-		#~ characters = Array.new
-		#~ 19.times do |i|
-			#~ x = (i * 30) % 800 + 100
-			#~ y = (i * 100) % 600 + 100
-			#~ 
-			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
-		#~ end
-		#~ @player.track(characters[0])
-		#~ @player.track(characters[9])
-		#~ @player.track(characters[12])
-		#~ @player.track(characters[3])
-		#~ @player.track(characters[18])
+		characters = Array.new
+		19.times do |i|
+			x = (i * 30) % 800 + 100
+			y = (i * 100) % 600 + 100
+			
+			characters << Character.new(self, @space, "NPC", [x, y, 0])
+		end
+		@player.track(characters[0])
+		@player.track(characters[9])
+		@player.track(characters[12])
+		@player.track(characters[3])
+		@player.track(characters[18])
 		
 		@effect = Animations::Effect.new(self, "Gale")
 		
@@ -77,7 +77,7 @@ class Game_Window < Gosu::Window
 			
 			#~ puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
 			
-						
+			
 			@space.step
 		end
 	end
