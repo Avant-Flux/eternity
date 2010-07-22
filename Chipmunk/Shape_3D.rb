@@ -105,13 +105,15 @@ module CP
 			include CP::Collide
 			include CP::Position
 			
-			def initialize(space, collision, mass, moment, radius, offset)
+			def initialize(space, collision, pos, mass, moment, radius, offset)
+				super CP::Body.new(mass, moment), radius, offset
+				
 				@space = space
 				collision_type = collision
 				
-				body = CP::Body.new mass, moment
-				super body, radius, offset
 				self.body.a = (3*Math::PI/2.0)
+				self.body.p = CP::Vec2.new(pos[0], pos[1])
+				@z = pos[2]
 				#~ CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
 			end
 		end
@@ -121,12 +123,14 @@ module CP
 			include CP::Position
 		
 			def initialize(space, center, width, height, mass, moment, offset)
+				super CP::Body.new(mass, moment), center, width, height, offset
+			
 				@space = space
 				collision_type = collision
 				
-				body = CP::Body.new(mass, moment)
-				super body, center, width, height, offset
 				self.body.a = (3*Math::PI/2.0)
+				self.body.p = CP::Vec2.new(pos[0], pos[1])
+				@z = pos[2]
 				#~ super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
 			end
 		end

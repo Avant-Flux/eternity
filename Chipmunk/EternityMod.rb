@@ -5,6 +5,8 @@ require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
 
+#This file should contain all Eternity-specific Chipmunk-related code 
+
 class Entity_Body < Body_3D
 	def initialize(space, x, y, z, width, height, mass=100, moment=150)
 		super(space, x, y, z, width, height, :entity_bottom, :entity_side, mass, moment)
