@@ -190,6 +190,10 @@ class Entity
 		
 	end
 	
+	def position
+		"#{@name}: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+	end
+	
 	private
 	def compute_direction
 		#~ puts @shape.a

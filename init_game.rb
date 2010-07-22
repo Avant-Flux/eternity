@@ -75,7 +75,7 @@ class Game_Window < Gosu::Window
 			Entity.apply_gravity_to_all
 			Entity.update_all
 			
-			#~ puts "Player: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+			#~ puts @player.position
 			
 			
 			@space.step
