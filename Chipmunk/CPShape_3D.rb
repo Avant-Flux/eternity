@@ -7,6 +7,15 @@
 require 'rubygems'
 require 'chipmunk'
 
+#Allows collision functions to be defined from within the shape
+module Collide
+	def collision_fx(type1, type2, &block)
+		@space.add_collision_func(type1, type2) do |shape1, shape2|
+			yield shape1, shape2
+		end
+	end
+end
+
 module CP
 	module Shape
 		class Rect < CP::Shape::Poly
@@ -82,6 +91,8 @@ module CP
 
 	module Shape_3D
 		class Circle < CP::Shape::Circle
+			include Collide
+			
 			def initialize(space, collision, mass, moment, radius, offset)
 				@space = space
 				collision_type = collision
