@@ -131,91 +131,13 @@ module CP
 			end
 		end
 	end
-	
 
-	#~ class Shape_3D
-		#~ #Setters and getters should be changed to use aliases
-		#~ #Setters and Getters for Position
-		#~ def x
-			#~ @xy.body.p.x
-		#~ end
-		#~ 
-		#~ def y
-			#~ @xy.body.p.y
-		#~ end
-		#~ 
-		#~ def z
-			#~ @xz.body.p.y
-		#~ end
-		#~ 
-		#~ def x= arg
-			#~ @xy.body.p.x = arg
-			#~ @xz.body.p.x = arg
-		#~ end
-		#~ 
-		#~ def y= arg
-			#~ @xy.body.p.y = arg
-		#~ end
-		#~ 
-		#~ def z= arg
-			#~ @xz.body.p.y = arg
-		#~ end
-		#~ 
 		#~ #Setters and getters for velocity
 		#~ def v
 			#~ #Compute the magnitude of the velocity in 3D space
 			#~ #Use the cross product function in chipmunk
 			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
 			#~ @xy.body.v.cross(@xz.body.v)
-		#~ end
-		#~ 
-		#~ def vx
-			#~ @xy.body.v.x
-		#~ end
-		#~ 
-		#~ def vy
-			#~ @xy.body.v.y
-		#~ end
-		#~ 
-		#~ def vz
-			#~ @xz.body.v.y
-		#~ end
-		#~ 
-		#~ def vxy
-			#~ @xy.body.v
-		#~ end
-		#~ 
-		#~ def vxz
-			#~ @xz.body.v
-		#~ end
-		#~ 
-		#~ def vx= arg
-			#~ @xy.body.v.x = arg
-		#~ end
-		#~ 
-		#~ def vy= arg
-			#~ @xy.body.v.y = arg
-		#~ end
-		#~ 
-		#~ def vz= arg
-			#~ @xz.body.v.y = arg
-		#~ end
-		#~ 
-		#~ def vxy= arg
-			#~ @xy.body.v = arg
-		#~ end
-		#~ 
-		#~ def vxz= arg
-			#~ @xz.body.v = arg
-		#~ end
-		#~ 
-		#~ #Setters and getters for angle
-		#~ def a
-			#~ @xy.body.a
-		#~ end
-		#~ 
-		#~ def a= arg
-			#~ @xy.body.a = arg
 		#~ end
 end
 
