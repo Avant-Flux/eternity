@@ -29,7 +29,7 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(window, space, name, pos, lvl, hp, mp, element, stats, faction)
+	def initialize(window, space, name, pos, lvl, element, stats, faction)
 		@@all << self
 		
 		@move_constant = 1500

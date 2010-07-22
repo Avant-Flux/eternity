@@ -5,10 +5,10 @@
 require "Entity"
 class Creature < Entity
 	def initialize(window, space, name, pos=[0, 0, 0], dir=:down,
-					lvl=1, hp=5, mp=0, element=:none, 
+					lvl=1, element=:none, 
 					stats={:str => 1, :con => 1, :dex => 1, :agi => 1, :luk => 1,
 							:pwr => 1, :ctl => 1, :per => 1}, 
 					faction = 0)
-		super(window, space, name, pos, dir, lvl, hp, mp, element, stats, faction)
+		super(window, space, name, pos, dir, lvl, element, stats, faction)
 	end
 end

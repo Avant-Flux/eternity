@@ -13,7 +13,7 @@ class Character < Entity
 	attr_accessor :inventory, :equipment
 	
 	def initialize(window, space, name, pos = [0, 0, 0])
-		super(window, space, name, pos, 1, 10, 10, :none, 
+		super(window, space, name, pos, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
 				
