@@ -38,7 +38,7 @@ class Entity
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
 		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
-										12000, 20) #Mass, moment of inertia
+										120, 20) #Mass, moment of inertia
 		
 		@name = name
 		@element = element
@@ -80,9 +80,9 @@ class Entity
 		end
 		
 		def reset_all
-			#~ @@all.each do |e|
-				#~ e.body.reset_forces :all
-			#~ end
+			@@all.each do |e|
+				e.shape.body.reset_forces
+			end
 		end
 		
 		def transfer_x_for_all
