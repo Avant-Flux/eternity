@@ -17,6 +17,7 @@ require 'chingu'
 
 require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
+require 'Chipmunk/EternityMod'
 
 require 'Entity'
 require "Creature"

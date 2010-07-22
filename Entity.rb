@@ -7,6 +7,7 @@ require 'gosu'
 require 'chipmunk'
 
 require 'Chipmunk/ChipmunkInterfaceMod'
+require 'Chipmunk/EternityMod'
 require 'Combative'
 require 'Animations'
 
