@@ -31,8 +31,8 @@ class Character < Entity
 		
 		set_stats
 		
-		@hp = @max_hp
-		@mp = @max_mp
+		@hp[:current] = @hp[:max]
+		@mp[:current] = @mp[:max]
 	end
 	
 	def use_item
@@ -68,7 +68,7 @@ class Character < Entity
 	end
 	
 	def stats_to_10
-		@max_hp = @max_mp = @str = @con = @dex = @agi = @mnd = @per = @luk = 
+		@hp[:max] = @mp[:max] = @str = @con = @dex = @agi = @mnd = @per = @luk = 
 			if @lvl < 10
 				@lvl+9
 			else
@@ -77,7 +77,7 @@ class Character < Entity
 	end
 	
 	def compute_hp
-		@max_hp = energy case @element
+		@hp[:max] = energy case @element
 							when :fire
 								4
 							when :water
@@ -92,7 +92,7 @@ class Character < Entity
 	end
 	
 	def compute_mp
-		@max_mp = energy case @element
+		@mp[:max] = energy case @element
 							when :fire
 								2
 							when :water
