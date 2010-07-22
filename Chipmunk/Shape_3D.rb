@@ -26,6 +26,14 @@ module CP
 		
 		def z
 		end
+		
+		#~ #Setters and getters for velocity
+		#~ def v
+			#~ #Compute the magnitude of the velocity in 3D space
+			#~ #Use the cross product function in chipmunk
+			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
+			#~ @xy.body.v.cross(@xz.body.v)
+		#~ end
 	end
 
 	module Shape
@@ -115,7 +123,6 @@ module CP
 				self.body.a = (3*Math::PI/2.0)
 				self.body.p = CP::Vec2.new(pos[0], pos[1])
 				@z = pos[2]
-				#~ CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
 			end
 		end
 		
@@ -133,18 +140,9 @@ module CP
 				self.body.a = (3*Math::PI/2.0)
 				self.body.p = CP::Vec2.new(pos[0], pos[1])
 				@z = pos[2]
-				#~ super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
 			end
 		end
 	end
-
-		#~ #Setters and getters for velocity
-		#~ def v
-			#~ #Compute the magnitude of the velocity in 3D space
-			#~ #Use the cross product function in chipmunk
-			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
-			#~ @xy.body.v.cross(@xz.body.v)
-		#~ end
 end
 
 space = CP::Space.new
