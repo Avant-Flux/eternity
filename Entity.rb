@@ -25,7 +25,6 @@ class Entity
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
-	attr_accessor :atk, :def
 	
 	@@all = Array.new
 
