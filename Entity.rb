@@ -21,11 +21,11 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :shape
+	attr_reader :shape, :raw_stats
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
-	attr_accessor :atk, :def, :dex, :agi, :mnd, :per, :luk
+	attr_accessor :atk, :def
 	
 	@@all = Array.new
 
@@ -39,7 +39,7 @@ class Entity
 		
 		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
 										220, 20) #Mass, moment of inertia
-		@shape.space.add self
+		space.add self
 		
 		@name = name
 		@element = element
@@ -47,10 +47,11 @@ class Entity
 		@visible = true		#Controls whether or not to render the Entity
 
 		@lvl = lvl
-		@max_hp = @hp = hp
-		@max_mp = @mp = mp
-		#~ @atk, @def,	@dex, @agi, @mnd, @per, @luk = stats #Turn this into a hash called @raw_stats
+		@max_hp = @hp = 10	#Arbitrary number for now
+		@max_mp = @mp = 10
 		@raw_stats = stats
+		@atk = @raw_stats[:str]
+		@def = @raw_stats[:con]
 				
 		@jumping = false
 		@jump_count = 0
