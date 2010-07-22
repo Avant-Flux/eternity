@@ -21,7 +21,7 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :shape, :raw_stats
+	attr_reader :shape, :stats
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -49,9 +49,9 @@ class Entity
 		@lvl = lvl
 		@max_hp = @hp = 10	#Arbitrary number for now
 		@max_mp = @mp = 10
-		@raw_stats = stats
-		@atk = @raw_stats[:str]
-		@def = @raw_stats[:con]
+		@stats = Hash.new
+		@stats[:raw] = stats
+		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 				
 		@jumping = false
 		@jump_count = 0
