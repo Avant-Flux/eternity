@@ -10,7 +10,7 @@ require 'rubygems'
 require 'chipmunk'
 require 'gosu'
 require 'RMagick'
-require 'Chipmunk/CPBody_3D'
+require 'Chipmunk/Shape_3D'
 
 module CP
 	class Space
