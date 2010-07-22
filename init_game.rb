@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		@fpscounter = FPSCounter.new(self)
 		@inpman = InputHandler.new
-		@space = CP::Space_3D.new
+		@space = init_CP_Space3D
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
 		characters = Array.new
@@ -106,6 +106,16 @@ class Game_Window < Gosu::Window
 	end
 	
 	private 
+	
+	def init_CP_Space3D
+		space = CP::Space_3D.new
+		
+		space.add_collision_func :type, :type do |first_shape, second_shape|
+			
+		end
+		
+		return space
+	end
 	
 	def process_input
 		dir = @inpman.direction
