@@ -21,7 +21,7 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :shape, :space
+	attr_reader :shape
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -38,7 +38,8 @@ class Entity
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
 		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
-										120, 20) #Mass, moment of inertia
+										220, 20) #Mass, moment of inertia
+		@shape.space.add self
 		
 		@name = name
 		@element = element
@@ -48,12 +49,11 @@ class Entity
 		@lvl = lvl
 		@max_hp = @hp = hp
 		@max_mp = @mp = mp
-		@atk, @def,	@dex, @agi, @mnd, @per, @luk = stats
+		@atk, @def,	@dex, @agi, @mnd, @per, @luk = stats #Turn this into a hash called @raw_stats
+		#~ @raw_stats = stats
 				
 		@jumping = false
 		@jump_count = 0
-		
-		space.add self
 	end
 		
 	class << self
@@ -115,7 +115,7 @@ class Entity
 	def jump
 		if @jump_count < 1
 			@jump_count += 1
-			#~ @shape.xz.body.v.y += 30 #On jump, add velocity in the z direction
+			#~ @shape.body.v.y += 30 #On jump, add velocity in the z direction
 		elsif @shape.z <= 0
 			@jump_count = 0
 		end

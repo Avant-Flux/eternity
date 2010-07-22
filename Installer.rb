@@ -42,8 +42,9 @@ class Installer
 		if @os == "linux"
 			`gksudo apt-get install libgl1-mesa-dri libglu1-mesa freeglut3 libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev`
 			#Use this command now on Ubuntu as this gem is packaged separately
+			#	Actually, that is false.  This package is just needed FIRST
 			`gksudo apt-get install libopengl-ruby1.9`
-			#~ `gksudo gem install ruby-opengl`
+			`gksudo gem install ruby-opengl`
 		end
 	end
 	

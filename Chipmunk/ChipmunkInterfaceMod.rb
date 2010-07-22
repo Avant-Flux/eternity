@@ -14,9 +14,14 @@ require 'Chipmunk/Shape_3D'
 
 module CP
 	class Space
-		def add(shape)
+		def add(shape, static=:nonstatic)
 			add_body shape.body
-			add_shape shape
+			
+			if static == :nonstatic
+				add_shape shape
+			elsif static == :static
+				add_static_shape shape
+			end
 		end
 	end
 	
@@ -46,9 +51,9 @@ module CP
 			super @dt
 		end
 				
-		def add(arg)
+		def add(arg, static=:nonstatic)
 			#Not all dependencies implemented yet
-			super arg.shape
+			super arg.shape, static
 		end
 	end
 	

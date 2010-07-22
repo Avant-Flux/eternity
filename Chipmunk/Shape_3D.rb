@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.21.2010
+#~ Date last edited: 07.22.2010
 
 #~ Notes:
 #~ Should contain one CP::Shape and a z coordinate, as well as other z related attributes 
@@ -129,6 +129,8 @@ module CP
 		class Circle < CP::Shape::Circle
 			include CP::Collide
 			include CP::Position
+			
+			attr_reader :space
 			
 			def initialize(space, collision, pos, radius, height,
 			mass, moment, offset=CP::Vec2.new(0, 0))
