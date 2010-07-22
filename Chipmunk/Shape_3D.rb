@@ -105,7 +105,8 @@ module CP
 			include CP::Collide
 			include CP::Position
 			
-			def initialize(space, collision, pos, height, radius, mass, moment, offset=CP::Vec2.new(0, 0))
+			def initialize(space, collision, pos, radius, height,
+			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), radius, offset
 				
 				@space = space
@@ -122,8 +123,9 @@ module CP
 			include CP::Collide
 			include CP::Position
 		
-			def initialize(space, collision, center, width, height, mass, moment, offset=CP::Vec2.new(0, 0))
-				super CP::Body.new(mass, moment), center, width, height, offset
+			def initialize(space, collision, center, width, depth, height, 
+			mass, moment, offset=CP::Vec2.new(0, 0))
+				super CP::Body.new(mass, moment), center, width, depth, offset
 				
 				@space = space
 				collision_type = collision
