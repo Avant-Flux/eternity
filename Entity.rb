@@ -191,7 +191,7 @@ class Entity
 	end
 	
 	def position
-		"#{@name}: #{@player.body.x}, #{@player.body.y}, #{@player.body.z}"
+		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
 	end
 	
 	private
