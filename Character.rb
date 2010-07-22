@@ -16,9 +16,8 @@ class Character < Entity
 		super(window, space, name, pos, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
-				
-		@str = @raw_stats[:str]
-		@con = @raw_stats[:con]
+
+		#Remember to set atk and def based on str and con as well as other factors
 		
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}

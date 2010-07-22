@@ -5,10 +5,10 @@
 module Combative
 	#Returns the amount of damage dealt, or nil if the attack missed
 	def melee_attack(enemy)
-		if @atk > enemy.def
+		if @stats[:composite][:atk] > enemy.stats[:composite][:def]
 			if melee_hit?(enemy) || melee_rebound?(enemy)		#Check rebound unless already hit
 				#If the attack hits them...
-				damage = @atk - enemy.def
+				damage = @stats[:composite][:atk] - enemy.stats[:composite][:def]
 				enemy.hp -= damage
 
 				return damage
@@ -21,7 +21,7 @@ module Combative
 	end
 
 	def melee_hit?(enemy)
-		check = @dex-enemy.agi
+		check = @stats[:raw][:dex]-enemy.stats[:raw][:agi]
 
 		hit_chance = if check >= 95
 						100
@@ -49,27 +49,27 @@ module Combative
 		#~ The BigMath class has methods to compute e and e^(x)
 			#~ puts 1/(1+3*exp(BigDecimal.new('-3')*x, 10))
 
-		rebound_chance =	if @luk > 9000	#See if the attack can hit by luck
+		rebound_chance =	if @stats[:raw][:luk] > 9000	#See if the attack can hit by luck
 								50
-							elsif @luk > 4500
+							elsif @stats[:raw][:luk] > 4500
 								48
-							elsif @luk > 2250
+							elsif @stats[:raw][:luk] > 2250
 								45
-							elsif @luk > 1125
+							elsif @stats[:raw][:luk] > 1125
 								40
-							elsif @luk > 562
+							elsif @stats[:raw][:luk] > 562
 								30
-							elsif @luk > 281
+							elsif @stats[:raw][:luk] > 281
 								10
-							elsif @luk > 140
+							elsif @stats[:raw][:luk] > 140
 								5
-							elsif @luk > 70
+							elsif @stats[:raw][:luk] > 70
 								4
-							elsif @luk > 35
+							elsif @stats[:raw][:luk] > 35
 								3
-							elsif @luk > 17
+							elsif @stats[:raw][:luk] > 17
 								2
-							elsif @luk > 8
+							elsif @stats[:raw][:luk] > 8
 								1
 							else
 								0
