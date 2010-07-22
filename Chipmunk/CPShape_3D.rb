@@ -19,14 +19,13 @@ module CP
 			end
 		end
 		
-		class Rect < CP::Shape::Poly
-			def initialize(space, width, height, shape_array, offset)
+		class Rect < CP::Shape::Rect
+			def initialize(space, center, width, height, mass, moment, offset)
 				@space = space
-				half_width = width/2
-				shape_array =	[CP::Vec2.new(0, -1*half_width), CP::Vec2.new(0, half_width), 
-							CP::Vec2.new(height, half_width), CP::Vec2.new(height, -1*half_width)]
-				body = CP::Body.new(mass, Float::INFINITY) #Eliminate rotation
-				super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
+				
+				body = CP::Body.new(mass, moment)
+				super body, center, width, height, offset
+				#~ super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
 			end
 		end
 	end
@@ -36,9 +35,6 @@ module CP
 			def initialize(body, center=:bottom, width, height, offset)
 				#Initially design vectors such that the object is pointing to the right (0 rad)
 				#Obj. will be rotated to face the top of screen before game starts
-
-				#~ in the middle of a side, the coord of that side is half
-				#~ on top the x coords are 
 				
 				
 				#Only compute the coord for the lower left corner and the upper right corner.

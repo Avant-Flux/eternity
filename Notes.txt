@@ -56,6 +56,8 @@ Psudo-3D Chipmunk-based Engine
 	"Render" the bases in Chipmunk using the shapes provided.
 	Additionally, a hight map of sorts will be stored, either as a single number or a proc
 		depending on the type of terrain.
+		
+	Eliminate rotation with Float::INFINITY as the moment of inertia
 
 New Stat System
 	Split stats into two categories:
