@@ -96,7 +96,7 @@ module CP
 		class Rect < CP::Shape::Rect
 			def initialize(space, center, width, height, mass, moment, offset)
 				@space = space
-				collision_type collision
+				collision_type = collision
 				
 				body = CP::Body.new(mass, moment)
 				super body, center, width, height, offset
