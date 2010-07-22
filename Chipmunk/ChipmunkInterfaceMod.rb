@@ -40,8 +40,8 @@ module CP
 			
 			#This CP::Space functions as the xy plane, while the gravity is controlled as if 
 			#	it was in the z direction.
-			#Gravity should not function in the horiz plane
-			self.gravity = CP::Vec2.new(0, 0)	#Controls gravity in the XY plane.
+			#Gravity should not function in the horiz plane, thus gravity is always <0, 0>
+			self.gravity = CP::Vec2.new(0, 0)
 			
 			#0.2 Seems like a good damping for ice
 			self.damping = damping
@@ -52,7 +52,6 @@ module CP
 		end
 				
 		def add(arg, static=:nonstatic)
-			#Not all dependencies implemented yet
 			super arg.shape, static
 		end
 	end
