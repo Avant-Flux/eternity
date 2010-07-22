@@ -19,11 +19,11 @@ module CP
 	
 	module Position #Have setters and getters for position and velocity
 		def x
-			self.p.x
+			self.body.p.x
 		end
 		
 		def y
-			self.p.y
+			self.body.p.y
 		end
 		
 		def z
@@ -31,11 +31,11 @@ module CP
 		end
 		
 		def x= arg
-			self.p.x = arg
+			self.body.p.x = arg
 		end
 		
 		def y= arg
-			self.p.y = arg
+			self.body.p.y = arg
 		end
 		
 		def z= arg
@@ -164,7 +164,7 @@ module CP
 	end
 end
 
-space = CP::Space.new
-
-CP::Shape_3D::Circle.new(space, :collide, [0,0,0], 200, 120, 20, 50)
-CP::Shape_3D::Rect.new(space, :collide, [0,0,0], :bottom, 100, 100, 500, 500, 20)
+#~ space = CP::Space.new
+#~ 
+#~ CP::Shape_3D::Circle.new(space, :collide, [0,0,0], 200, 120, 20, 50)
+#~ CP::Shape_3D::Rect.new(space, :collide, [0,0,0], :bottom, 100, 100, 500, 500, 20)

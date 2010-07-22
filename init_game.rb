@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.11.2010
+#~ Date last edited: 07.22.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -44,17 +44,17 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
 		characters = Array.new
-		19.times do |i|
-			x = (i * 30) % 800 + 100
-			y = (i * 100) % 600 + 100
-			
-			characters << Character.new(self, @space, "NPC", [x, y, 0])
-		end
-		@player.track(characters[0])
-		@player.track(characters[9])
-		@player.track(characters[12])
-		@player.track(characters[3])
-		@player.track(characters[18])
+		#~ 19.times do |i|
+			#~ x = (i * 30) % 800 + 100
+			#~ y = (i * 100) % 600 + 100
+			#~ 
+			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
+		#~ end
+		#~ @player.track(characters[0])
+		#~ @player.track(characters[9])
+		#~ @player.track(characters[12])
+		#~ @player.track(characters[3])
+		#~ @player.track(characters[18])
 		
 		@effect = Animations::Effect.new(self, "Gale")
 		
@@ -63,11 +63,10 @@ class Game_Window < Gosu::Window
 	
 	def update
 		@fpscounter.update
+		@effect.update
 		
 		SUBSTEPS.times do
-			@effect.update
-
-			Entity.transfer_x_for_all
+			#~ Entity.transfer_x_for_all
 			Entity.reset_all
 			
 			@inpman.update

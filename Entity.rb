@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.11.2010
+#~ Date last edited: 07.22.2010
 
 require 'rubygems'
 require 'gosu'
@@ -21,7 +21,7 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :body, :space
+	attr_reader :shape, :space
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -37,8 +37,8 @@ class Entity
 		
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
-		@body = CP::Entity_Body.new(space, pos[0], pos[1], pos[2], 
-								@animations.width, @animations.height)
+		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
+										12000, 20) #Mass, moment of inertia
 		
 		@name = name
 		@element = element
@@ -62,9 +62,9 @@ class Entity
 		end
 
 		def apply_gravity_to_all
-			@@all.each do |e|
-				e.body.apply_gravity
-			end
+			#~ @@all.each do |e|
+				#~ e.body.apply_gravity
+			#~ end
 		end
 		
 		def draw_all
@@ -80,9 +80,9 @@ class Entity
 		end
 		
 		def reset_all
-			@@all.each do |e|
-				e.body.reset_forces :all
-			end
+			#~ @@all.each do |e|
+				#~ e.body.reset_forces :all
+			#~ end
 		end
 		
 		def transfer_x_for_all
@@ -94,7 +94,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animations.draw @body.x, @body.y, @body.z
+			@animations.draw @shape.x, @shape.y, @shape.z
 		end
 	end
 	
@@ -103,20 +103,20 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @body.x - @animations.width <= 0
-			@body.x = @animations.width
+		if @shape.x - @animations.width <= 0
+			@shape.x = @animations.width
 		end
 		
-		if @body.y - @animations.height <= 0
-			@body.y = @animations.height
+		if @shape.y - @animations.height <= 0
+			@shape.y = @animations.height
 		end
 	end
 	
 	def jump
 		if @jump_count < 1
 			@jump_count += 1
-			@body.xz.body.v.y += 30
-		elsif @body.z <= 0
+			#~ @shape.xz.body.v.y += 30 #On jump, add velocity in the z direction
+		elsif @shape.z <= 0
 			@jump_count = 0
 		end
 	end
@@ -142,13 +142,13 @@ class Entity
 				end
 		
 		unit_vector = angle.radians_to_vec2
-		#~ scalar = (@body.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
+		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 		#~ proj = (unit_vector * scalar)
 		
 		force = unit_vector * constant
 		
-		@body.apply_force :xy, force , CP::Vec2.new(0,0)
-		@body.a = angle
+		@shape.body.apply_force force, CP::Vec2.new(0,0)
+		@shape.body.a = angle
 	end
 	
 	def run(dir)
@@ -156,7 +156,7 @@ class Entity
 	end
 	
 	def moving?
-		@body.vxy.length >= 0
+		@shape.body.v.length >= 0
 	end
 
 	def visible?
@@ -192,22 +192,23 @@ class Entity
 	
 	private
 	def compute_direction
-		#~ puts @body.a
-		if @body.a.between?((15*Math::PI/8), (1*Math::PI/8))
+		#~ puts @shape.a
+		angle = @shape.body.a
+		if angle.between?((15*Math::PI/8), (1*Math::PI/8))
 			:right
-		elsif @body.a.between?((1*Math::PI/8), (3*Math::PI/8))
+		elsif angle.between?((1*Math::PI/8), (3*Math::PI/8))
 			:down_right
-		elsif @body.a.between?((3*Math::PI/8), (5*Math::PI/8))
+		elsif angle.between?((3*Math::PI/8), (5*Math::PI/8))
 			:down
-		elsif @body.a.between?((5*Math::PI/8), (7*Math::PI/8))
+		elsif angle.between?((5*Math::PI/8), (7*Math::PI/8))
 			:down_left
-		elsif @body.a.between?((7*Math::PI/8), (9*Math::PI/8))
+		elsif angle.between?((7*Math::PI/8), (9*Math::PI/8))
 			:left
-		elsif @body.a.between?((9*Math::PI/8), (11*Math::PI/8))
+		elsif angle.between?((9*Math::PI/8), (11*Math::PI/8))
 			:up_left
-		elsif @body.a.between?((11*Math::PI/8), (13*Math::PI/8))
+		elsif angle.between?((11*Math::PI/8), (13*Math::PI/8))
 			:up
-		elsif @body.a.between?((13*Math::PI/8), (15*Math::PI/8))
+		elsif angle.between?((13*Math::PI/8), (15*Math::PI/8))
 			:up_right
 		else
 			:right #Workaround to catch the case where facing right is not being detected

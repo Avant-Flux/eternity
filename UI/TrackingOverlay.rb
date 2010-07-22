@@ -24,7 +24,7 @@ module UI
 				@window = window
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, 120, 80, @player.body.x, @player.body.y)
+				@ellipse = Ellipse.new(@window, @player, 120, 80, @player.shape.x, @player.shape.y)
 			end
 			
 			def track(entity)
@@ -48,7 +48,7 @@ module UI
 				@ellipse.draw
 				
 				@tracked.each do |blip|
-					blip.draw @player.body.z+10
+					blip.draw @player.shape.z+10
 				end
 			end
 			
@@ -84,14 +84,14 @@ module UI
 				end
 				
 				def update
-					@cx = @player.body.x
-					@cy = @player.body.y
+					@cx = @player.shape.x
+					@cy = @player.shape.y
 				end
 				
 				def draw
 					x = @cx-@img.width/2
-					y = @cy-@img.height/2-@player.body.z-@player.animations.height/5
-					@z = @player.body.z+@cy+10
+					y = @cy-@img.height/2-@player.shape.z-@player.animations.height/5
+					@z = @player.shape.z+@cy+10
 				
 					@img.draw x, y, @z
 				end
