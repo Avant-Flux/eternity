@@ -19,12 +19,27 @@ module CP
 	
 	module Position #Have setters and getters for position and velocity
 		def x
+			self.p.x
 		end
 		
 		def y
+			self.p.y
 		end
 		
 		def z
+			@z
+		end
+		
+		def x= arg
+			self.p.x = arg
+		end
+		
+		def y= arg
+			self.p.y = arg
+		end
+		
+		def z= arg
+			@z = arg
 		end
 		
 		#~ #Setters and getters for velocity
@@ -46,7 +61,7 @@ module CP
 				#Only compute the coord for the lower left corner and the upper right corner.
 				#The other coordinates can be deduced based on these coords.
 				
-				x1,y1, x2,y2 = corners center
+				x1,y1, x2,y2 = corners center, height, width
 				
 				top_left = CP::Vec2.new(x1, y2)
 				top_right = CP::Vec2.new(x2, y2)
@@ -104,6 +119,8 @@ module CP
 						x2 = height
 						y2 = -width
 				end
+				
+				return x1,y1, x2,y2
 			end
 		end
 	end
@@ -118,6 +135,7 @@ module CP
 				super CP::Body.new(mass, moment), radius, offset
 				
 				@space = space
+				@height = height
 				collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
@@ -130,11 +148,12 @@ module CP
 			include CP::Collide
 			include CP::Position
 		
-			def initialize(space, collision, center, width, depth, height, 
+			def initialize(space, collision, pos, center, width, depth, height, 
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), center, width, depth, offset
 				
 				@space = space
+				@height = height
 				collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
@@ -148,4 +167,4 @@ end
 space = CP::Space.new
 
 CP::Shape_3D::Circle.new(space, :collide, [0,0,0], 200, 120, 20, 50)
-CP::Shape_3D::Rect.new(space, :collide, 120, 20, 50)
+CP::Shape_3D::Rect.new(space, :collide, [0,0,0], :bottom, 100, 100, 500, 500, 20)
