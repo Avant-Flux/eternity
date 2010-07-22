@@ -7,12 +7,12 @@
 require 'rubygems'
 require 'chipmunk'
 
-
 module CP
 	module Shape_3D
 		class Circle < CP::Shape::Circle
-			def initialize(space, mass, moment, radius, offset)
+			def initialize(space, collision, mass, moment, radius, offset)
 				@space = space
+				collision_type collision
 				
 				body = CP::Body.new mass, moment
 				super body, radius, offset
@@ -24,6 +24,7 @@ module CP
 		class Rect < CP::Shape::Rect
 			def initialize(space, center, width, height, mass, moment, offset)
 				@space = space
+				collision_type collision
 				
 				body = CP::Body.new(mass, moment)
 				super body, center, width, height, offset
