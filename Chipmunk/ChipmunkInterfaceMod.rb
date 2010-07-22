@@ -28,7 +28,7 @@ module CP
 	class Space_3D < Space
 		attr_reader :dt, :g
 		
-		def initialize(g=9.8, dt=(1.0/60.0))
+		def initialize(damping=0.5, g=9.8, dt=(1.0/60.0))
 			super()
 			@g = g		#Controls acceleration due to gravity in the z direction
 			@dt = dt	#Controls the timestep of the space.  
@@ -44,7 +44,7 @@ module CP
 			self.gravity = CP::Vec2.new(0, 0)	#Controls gravity in the XY plane.
 			
 			#0.2 Seems like a good damping for ice
-			self.damping = 0.5
+			self.damping = damping
 		end
 		
 		def step
