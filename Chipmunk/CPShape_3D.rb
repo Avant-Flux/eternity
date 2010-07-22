@@ -12,9 +12,11 @@ module CP
 	module Shape_3D
 		class Circle < CP::Shape::Circle
 			def initialize(space, mass, moment, radius, offset)
+				@space = space
+				
 				body = CP::Body.new mass, moment
 				super body, radius, offset
-				@space = space
+				
 				#~ CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
 			end
 		end
