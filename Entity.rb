@@ -84,12 +84,6 @@ class Entity
 				e.shape.body.reset_forces
 			end
 		end
-		
-		def transfer_x_for_all
-			@@all.each do |e|
-				e.body.transfer_x
-			end
-		end
 	end
 	
 	def draw

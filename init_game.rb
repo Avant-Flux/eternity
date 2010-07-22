@@ -66,7 +66,6 @@ class Game_Window < Gosu::Window
 		@effect.update
 		
 		SUBSTEPS.times do
-			#~ Entity.transfer_x_for_all
 			Entity.reset_all
 			
 			@inpman.update
