@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.07.2010
+#~ Date last edited: 07.22.2010
 
 require 'Chipmunk/ChipmunkInterfaceMod'
 require "Title"
@@ -14,10 +14,11 @@ class Character < Entity
 	
 	def initialize(window, space, name, pos = [0, 0, 0])
 		super(window, space, name, pos, 1, 10, 10, :none, 
-				[10, 10, 10, 10, 10, 10, 10], 0)
+				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
+				:pwr => 10, :ctl => 10, :per => 10}, 0)
 				
-		@str = @atk
-		@con = @def
+		@str = @raw_stats[:str]
+		@con = @raw_stats[:con]
 		
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}

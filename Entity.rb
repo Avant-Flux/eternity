@@ -49,8 +49,8 @@ class Entity
 		@lvl = lvl
 		@max_hp = @hp = hp
 		@max_mp = @mp = mp
-		@atk, @def,	@dex, @agi, @mnd, @per, @luk = stats #Turn this into a hash called @raw_stats
-		#~ @raw_stats = stats
+		#~ @atk, @def,	@dex, @agi, @mnd, @per, @luk = stats #Turn this into a hash called @raw_stats
+		@raw_stats = stats
 				
 		@jumping = false
 		@jump_count = 0

@@ -1,12 +1,13 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.20.2010
+#~ Date last edited: 07.22.2010
  
 require "Entity"
 class Creature < Entity
 	def initialize(window, space, name, pos=[0, 0, 0], dir=:down,
 					lvl=1, hp=5, mp=0, element=:none, 
-					stats=[1,1,1,1,1,1,1,1], 
+					stats={:str => 1, :con => 1, :dex => 1, :agi => 1, :luk => 1,
+							:pwr => 1, :ctl => 1, :per => 1}, 
 					faction = 0)
 		super(window, space, name, pos, dir, lvl, hp, mp, element, stats, faction)
 	end
