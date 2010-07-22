@@ -105,7 +105,7 @@ module CP
 			include CP::Collide
 			include CP::Position
 			
-			def initialize(space, collision, pos, mass, moment, radius, offset)
+			def initialize(space, collision, pos, height, radius, mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), radius, offset
 				
 				@space = space
@@ -122,9 +122,9 @@ module CP
 			include CP::Collide
 			include CP::Position
 		
-			def initialize(space, center, width, height, mass, moment, offset)
+			def initialize(space, collision, center, width, height, mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), center, width, height, offset
-			
+				
 				@space = space
 				collision_type = collision
 				
@@ -145,5 +145,7 @@ module CP
 		#~ end
 end
 
+space = CP::Space.new
 
-CP::Shape_3D::Circle.new(CP::Space.new, :collide, 120, 20, 50, CP::Vec2.new(0,0))
+CP::Shape_3D::Circle.new(space, :collide, [0,0,0], 200, 120, 20, 50)
+CP::Shape_3D::Rect.new(space, :collide, 120, 20, 50)
