@@ -46,12 +46,12 @@ class Entity
 		@visible = true		#Controls whether or not to render the Entity
 
 		@lvl = lvl
-		@max_hp = @hp = 10	#Arbitrary number for now
-		@max_mp = @mp = 10
+		@hp[:current] = @hp[:max] = 10	#Arbitrary number for now
+		@mp[:current] = @mp[:max] = 10
 		@stats = Hash.new
 		@stats[:raw] = stats
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
-				
+		
 		@jumping = false
 		@jump_count = 0
 	end
