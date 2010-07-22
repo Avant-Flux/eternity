@@ -8,31 +8,6 @@ require 'rubygems'
 require 'chipmunk'
 
 module CP
-	module Shape_3D
-		class Circle < CP::Shape::Circle
-			def initialize(space, collision, mass, moment, radius, offset)
-				@space = space
-				collision_type collision
-				
-				body = CP::Body.new mass, moment
-				super body, radius, offset
-				
-				#~ CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
-			end
-		end
-		
-		class Rect < CP::Shape::Rect
-			def initialize(space, center, width, height, mass, moment, offset)
-				@space = space
-				collision_type collision
-				
-				body = CP::Body.new(mass, moment)
-				super body, center, width, height, offset
-				#~ super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
-			end
-		end
-	end
-	
 	module Shape
 		class Rect < CP::Shape::Poly
 			def initialize(body, center=:bottom, width, height, offset)
@@ -104,6 +79,33 @@ module CP
 			end
 		end
 	end
+
+	module Shape_3D
+		class Circle < CP::Shape::Circle
+			def initialize(space, collision, mass, moment, radius, offset)
+				@space = space
+				collision_type = collision
+				
+				body = CP::Body.new mass, moment
+				super body, radius, offset
+				self.body.a = (3*Math::PI/2.0)
+				#~ CP::Shape::Circle.new(CP::Body.new(mass, moment), half_width, CP::Vec2.new(0, 0))
+			end
+		end
+		
+		class Rect < CP::Shape::Rect
+			def initialize(space, center, width, height, mass, moment, offset)
+				@space = space
+				collision_type collision
+				
+				body = CP::Body.new(mass, moment)
+				super body, center, width, height, offset
+				self.body.a = (3*Math::PI/2.0)
+				#~ super body, shape_array, CP::Vec2.new(0, 0)#This vector is the offset
+			end
+		end
+	end
+	
 
 	#~ class Shape_3D
 		#~ attr_reader :xy, :xz, :space
@@ -305,3 +307,6 @@ module CP
 		#~ end
 	#~ end
 end
+
+
+CP::Shape_3D::Circle.new(CP::Space.new, :collide, 120, 20, 50, CP::Vec2.new(0,0))
