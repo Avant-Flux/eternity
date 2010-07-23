@@ -37,7 +37,7 @@ class Entity
 		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
 		
 		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
-										220, 20) #Mass, moment of inertia
+										120, 20) #Mass, moment of inertia
 		space.add self
 		
 		@name = name
@@ -46,6 +46,8 @@ class Entity
 		@visible = true		#Controls whether or not to render the Entity
 
 		@lvl = lvl
+		@hp = Hash.new
+		@mp = Hash.new
 		@hp[:current] = @hp[:max] = 10	#Arbitrary number for now
 		@mp[:current] = @mp[:max] = 10
 		@stats = Hash.new
