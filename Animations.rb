@@ -105,17 +105,12 @@ module Animations
 		end
 	end
 
-	class Character < Entity
+	class Character < Animations::Entity
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
-		def initialize window, body, face, hair, upper, lower, footwear
-			super(window)		
-			@body = body
-			@face = face
-			@hair = hair
-			@upper = upper
-			@lower = lower
-			@footwear = footwear
+		def initialize window, sprites
+			super(window)
+			@select = sprites
 			
 			make_spritesheet
 			make_sprites
@@ -124,12 +119,12 @@ module Animations
 		private
 		
 		def make_spritesheet
-			@spritesheet = subsprites :body, @body
-			@spritesheet.splice(subsprites(:face, @face), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:hair, @hair), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:upper, @upper), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:lower, @lower), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:footwear, @footwear), 0,0, :alpha_blend => true)
+			@spritesheet = subsprites :body, @select[:body]
+			@spritesheet.splice(subsprites(:face, @select[:face]), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:hair, @select[:hair]), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:upper, @select[:upper]), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:lower, @select[:lower]), 0,0, :alpha_blend => true)
+			@spritesheet.splice(subsprites(:footwear, @select[:footwear]), 0,0, :alpha_blend => true)
 		end
 		
 		def subsprites type, subsprite_name
