@@ -28,16 +28,16 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(window, space, name, pos, lvl, element, stats, faction)
+	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
 		@move_constant = 1500
 		@run_constant = 5000
 		
-		@animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
+		@animations = animations
 		
 		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
-										120, 20) #Mass, moment of inertia
+										mass, moment)
 		space.add self
 		
 		@name = name

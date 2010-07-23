@@ -12,8 +12,9 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(window, space, name, pos = [0, 0, 0])
-		super(window, space, name, pos, 1, :none, 
+	def initialize(window, space, name, pos = [0, 0, 0], mass=120, moment=20)
+		animations = Animations::Character.new window, 1, 1, 1, "shirt1", "pants1", "shoes1"
+		super(window, space, animations, name, pos, mass, moment, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
 
