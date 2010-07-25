@@ -73,6 +73,65 @@ New Stat System
 			Maximum rate of flux
 			Amount of mana
 			Detection / Empathy
+			
+		Also, stats are divided into two over-arching groups
+			Raw
+				Stats that determine physical or mental attributes
+			Composite
+				Stats based on one or more raw stats
+Stat Menu
+	Give different options for how much information to show
+		Should be toggle-able on the stat page itself, not on some other "options" menu/page
+	Default
+		Show only Composite stats
+	Advanced
+		Show Composite stats and Raw stats
+			Show what stats flow into what
+	Hardcore
+		Show stat calculations as well
+			Allows player to see how many raw stat points he needs to up a certain composite stat
+			
+STATS
+	Raw										(based on the attributes of that Entity in and of itself)
+		Strength
+		Constitution
+		Dexterity
+		Agility
+		Luck
+		
+		Power			(Mental/Spiritual power)
+		Perception		(Ki sense)
+		Control			(dictates dispersion rate)
+		Flux			(controls mana fluctuation tolerance)
+		
+	Composite				(most, if not all, composite stats can take bonuses from equipment, etc)
+		HP							Constitution
+		MP							Power
+		Attack						Weapon Stats, Strength, Dexterity
+		Defense						Armor Stats, Constitution
+		Accuracy					Dexterity
+		Critical Hit Rate			Dexterity, Luck
+		Dodge Rate					Agility, Luck, weight, weapon size
+		
+		Weight Limit				Strength
+		Weight						Constitution, Armor Weight, Weapon Weight
+		Movement speed				Weight Agility, Strength
+		Jump height					Strength, Agility
+		Attack Speed				Dexterity, Agility
+		Area of Effect				Power
+		AoE Density					Control, Perception, Luck
+		Ki Sensing					Perception
+		
+		
+Stat based mechanics
+	If you have high control, you can use effects that require lower control, but not vice versa
+	--	AoE tends to require less control, but without a good amount of control, the spread will be
+		fairly random.  With higher control, the spread will become more favorable.
+	Attack power of firearms does not depend on strength
+	--	Firearms have higher attack power, but their strength depends solely on how good the
+		weapon is.  
+	--	They do, however, have a kickback which is mitigated by strength and weight
+	
 Counters of stuff that are not really "stats" in the traditional RPG sense
 	Maximum combo
 		Current combo count
@@ -97,28 +156,10 @@ Quotes / Possible Dialogue
 		Let The Gate shine once more.  Let the judgment of god resume once more."
 
 Sprite rendering and Chipmunk
-	Refactor the drawing code and the Chipmunk code so the player's position vector
-	points at his feet instead of his center.
-	
-	Currently rendering based on top left point.
-	
-	Currently is not taking the given position.
-	
 	The coordinate system is not what is expected of physics.
-		The CS coordinate system is used (Or something similar)
+		The CS coordinate system is used (or something similar)
 			Right is positive
 			Down is POSITIVE
 		HOWEVER
 			Use down as negative for the z direction
 			This allows for using the z axis for height as well as z index
-	
-	Apply a force in the z direction instead of using gravity in order
-	to be able to toggle gravity on and off for different objects independently.  
-	
-	The Chipmunk bodies are coming un-aligned with respect to the sprites
-		Write code to draw the bounding boxes to acertain the position of the boxes
-
-
-Ruby Installation on Ubuntu
-	sudo apt-get install ruby1.9.1-full rubygems1.9.1
-	sudo RubyVersion 1.9.1
