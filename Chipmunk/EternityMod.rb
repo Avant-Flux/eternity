@@ -1,9 +1,26 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.21.2010
+#~ Date last edited: 07.25.2010
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
+
+module CollisionHandler
+	#Control collisions between multiple Entity objects
+	class Entity
+		attr_reader :begin_called
+		
+		def begin(a,b,arbiter)
+			@begin_called = [a,b]
+		end
+	end
+	
+	#Control collisions between an Entity and the environment
+	#	ie, a character and a building or land mass
+	class Entity_Env
+		
+	end
+end
 
 #This file should contain all Eternity-specific Chipmunk-related code 
 
