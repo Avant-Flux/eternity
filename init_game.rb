@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.22.2010
+#~ Date last edited: 07.26.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -113,7 +113,8 @@ class Game_Window < Gosu::Window
 			#~ 
 		#~ end
 		
-		space.add_collision_handler :type, :type, CollisionHandler::Entity.new 
+		space.add_collision_handler :entity, :environment, CollisionHandler::Entity_Env.new
+		space.add_collision_handler :entity, :building, CollisionHandler::Entity_Env.new
 		
 		return space
 	end

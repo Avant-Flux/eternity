@@ -37,14 +37,16 @@ module CollisionHandler
 			#~ @begin_called = [a,b]
 		#~ end
 		#~ 
-		#~ def pre(a,b,arbiter) #Determine whether to process collision or not
-		#~ end
+		def pre(a,b,arbiter) #Determine whether to process collision or not
+			#Process actions involving what to do when on top, as well as side collisions
+		end
 		#~ 
 		#~ def post(a,b,arbiter) #Do stuff after the collision has be evaluated
+			#~ 
 		#~ end
 		#~ 
 		def sep(a,b,arbiter)	#Stuff to do after the shapes separate
-			
+			a.z = 0
 		end
 	end
 end
