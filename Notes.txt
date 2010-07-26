@@ -121,7 +121,7 @@ STATS
 		Area of Effect				Power
 		AoE Density					Control, Perception, Luck
 		Ki Sensing					Perception
-		
+
 		
 Stat based mechanics
 	If you have high control, you can use effects that require lower control, but not vice versa
