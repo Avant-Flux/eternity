@@ -132,10 +132,11 @@ module CP
 			
 			attr_reader :space
 			
-			def initialize(space, collision, pos, radius, height,
+			def initialize(entity, space, collision, pos, radius, height,
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), radius, offset
 				
+				@entity = entity
 				@space = space
 				@height = height
 				collision_type = collision
@@ -150,10 +151,11 @@ module CP
 			include CP::Collide
 			include CP::Position
 		
-			def initialize(space, collision, pos, center, width, depth, height, 
+			def initialize(entity, space, collision, pos, center, width, depth, height, 
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), center, width, depth, offset
 				
+				@entity = entity
 				@space = space
 				@height = height
 				collision_type = collision

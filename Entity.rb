@@ -36,8 +36,9 @@ class Entity
 		
 		@animations = animations
 		
-		@shape = CP::Shape_3D::Circle.new(space, :entity, pos, @animations.width/2, @animations.height,
-										mass, moment)
+		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 
+											@animations.width/2, @animations.height,
+											mass, moment)
 		space.add self
 		
 		@name = name
