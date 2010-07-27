@@ -42,6 +42,8 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
+		@building = Building.new(@space, space, width, height, depth, pos)
+		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
 		characters = Array.new
 		#~ 19.times do |i|
@@ -64,6 +66,7 @@ class Game_Window < Gosu::Window
 	def update
 		@fpscounter.update
 		@effect.update
+		@building.update
 		
 		SUBSTEPS.times do
 			Entity.reset_all
@@ -84,6 +87,7 @@ class Game_Window < Gosu::Window
 	def draw
 		@background.draw
 		@fpscounter.draw
+		@building.draw
 		@effect.draw(500,60,3) 
 		
 		Entity.draw_all

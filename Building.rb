@@ -16,6 +16,14 @@ class Building
 		space.add self
 	end
 	
+	def draw
+		
+	end
+	
+	def update
+		
+	end
+	
 	def width
 		@shape.width
 	end
