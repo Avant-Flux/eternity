@@ -136,6 +136,8 @@ module CP
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), radius, offset
 				
+				#~ CP.moment_for_circle mass, inner_r, outer_r, CP::Vec2
+				
 				@entity = entity
 				@space = space
 				@height = height
@@ -150,13 +152,19 @@ module CP
 		class Rect < CP::Shape::Rect
 			include CP::Collide
 			include CP::Position
-		
+			
+			attr_accessor :width, :depth, :height
+			
 			def initialize(entity, space, collision, pos, center, width, depth, height, 
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), center, width, depth, offset
 				
+				 #~ CP.moment_for_poly(90, verts, vec2(0,0)).should == 420.0
+				
 				@entity = entity
 				@space = space
+				@width = width
+				@depth = depth
 				@height = height
 				collision_type = collision
 				

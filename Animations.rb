@@ -134,7 +134,7 @@ module Animations
 	
 	class Effect
 		attr_reader :name, :current_frame
-	
+		
 		def initialize(window, name_of_effect)
 			@window = window
 			@name = name_of_effect
