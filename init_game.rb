@@ -42,7 +42,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(@space, space, width, height, depth, pos)
+		@building = Building.new(self, @space, space, width, height, depth, pos)
 		
 		@player = Player.new(self, @space, "Bob", [300, 400, 0])
 		characters = Array.new
