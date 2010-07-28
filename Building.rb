@@ -12,7 +12,7 @@ class Building
 	def initialize(window, space, width, height, depth, pos, offset=CP::Vec2.new(0,0))
 		@window = window
 		@space = space
-		@shape = CP::Shape_3D.new(self, space, :building, pos, :bottom_left, width, depth, height, 
+		@shape = CP::Shape_3D::Rect.new(self, space, :building, pos, :bottom_left, width, depth, height, 
 							Float::INFINITY, Float::INFINITY, offset)
 		space.add self
 	end

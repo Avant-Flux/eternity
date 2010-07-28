@@ -141,7 +141,7 @@ module CP
 				@entity = entity
 				@space = space
 				@height = height
-				collision_type = collision
+				self.collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
 				self.body.p = CP::Vec2.new(pos[0], pos[1])
@@ -166,7 +166,7 @@ module CP
 				@width = width
 				@depth = depth
 				@height = height
-				collision_type = collision
+				self.collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
 				self.body.p = CP::Vec2.new(pos[0], pos[1])
