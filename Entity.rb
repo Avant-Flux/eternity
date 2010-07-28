@@ -87,12 +87,6 @@ class Entity
 		end
 	end
 	
-	def draw
-		if visible
-			@animations.draw @shape.x, @shape.y, @shape.z
-		end
-	end
-	
 	def update
 		@animations.direction = compute_direction
 		@animations.moving = moving?
@@ -104,6 +98,13 @@ class Entity
 		
 		if @shape.y - @animations.height <= 0
 			@shape.y = @animations.height
+		end
+	end
+	
+	
+	def draw
+		if visible
+			@animations.draw @shape.x, @shape.y, @shape.z
 		end
 	end
 	

@@ -10,7 +10,16 @@ module Wireframe
 	end
 
 	class Rect
-		def initialize
+		def initialize(window, shape)
+			@window = window
+			@shape = shape
+		end
+		
+		def update
+			
+		end
+		
+		def draw
 			
 		end
 	end

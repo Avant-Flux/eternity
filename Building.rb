@@ -7,6 +7,8 @@ require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Chipmunk/EternityMod'
 
+require 'Wireframe'
+
 class Building
 	attr_reader :space, :shape
 
@@ -16,6 +18,10 @@ class Building
 		@shape = CP::Shape_3D::Rect.new(self, space, :building, pos, :bottom_left, width, depth, height, 
 							Float::INFINITY, Float::INFINITY, offset)
 		space.add self
+	end
+	
+	def update
+		
 	end
 	
 	def draw
@@ -31,10 +37,6 @@ class Building
 		#Left
 		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
 						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
-	end
-	
-	def update
-		
 	end
 	
 	def width
