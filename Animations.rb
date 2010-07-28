@@ -59,9 +59,9 @@ module Animations
 			end
 		end
 		
-		def draw(x,y,z)
+		def draw(x,y,z, elevation)
 			@current_frame.draw(x-@current_frame.width/2, 
-								(y - z)-@current_frame.height, 
+								(y - z)-@current_frame.height - elevation, 
 								z + y)
 		end
 		

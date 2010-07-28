@@ -40,7 +40,7 @@ module CollisionHandler
 		#~ 
 		def pre_solve(a,b,arbiter) #Determine whether to process collision or not
 			#Process actions involving what to do when on top, as well as side collisions
-			a.z = b.height
+			a.elevation = b.height
 			return false #Still not ignoring collisions
 		end
 		#~ 
@@ -49,7 +49,7 @@ module CollisionHandler
 		end
 		#~ 
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
-			a.z = 0
+			a.elevation = 0
 		end
 	end
 end

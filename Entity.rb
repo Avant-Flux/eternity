@@ -23,7 +23,7 @@ class Entity
 	
 	attr_reader :shape, :stats
 	attr_reader :animations, :moving, :direction
-	attr_accessor :name, :element, :faction, :visible
+	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
 	@@all = Array.new
@@ -36,7 +36,7 @@ class Entity
 		
 		@animations = animations
 		
-		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 
+		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
 											@animations.width/2, @animations.height,
 											mass, moment)
 		space.add self
@@ -104,7 +104,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animations.draw @shape.x, @shape.y, @shape.z
+			@animations.draw @shape.x, @shape.y, @shape.z, @shape.elevation
 		end
 	end
 	
