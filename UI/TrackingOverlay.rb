@@ -89,9 +89,14 @@ module UI
 				end
 				
 				def draw
+					#Adjust x and y to compensate for storing the coordinates of the center point
+					#	when the image is drawn from the corner.
 					x = @cx-@img.width/2
-					y = @cy-@img.height/2-@player.shape.z-@player.animations.height/5-@player.shape.elevation
-					@z = @player.shape.z+@cy+10
+					y = @cy-@img.height/2
+					
+					#Move the y-coordinate to compensate for the player's z coordinate and elevation
+					y -= @player.shape.z-@player.animations.height/5
+					@z = @player.shape.z+y
 				
 					@img.draw x, y, @z
 				end

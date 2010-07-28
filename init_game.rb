@@ -80,7 +80,7 @@ class Game_Window < Gosu::Window
 			Entity.update_all
 			
 			#~ puts @player.position
-			puts @player.shape.z
+			puts @player.shape.elevation
 			
 			@space.step
 		end

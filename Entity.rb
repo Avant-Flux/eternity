@@ -104,7 +104,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animations.draw @shape.x, @shape.y, @shape.z, @shape.elevation
+			@animations.draw @shape.x, @shape.y, @shape.z
 		end
 	end
 	
