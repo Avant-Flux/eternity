@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.14.2010
+#~ Date last edited: 07.28.2010
  
 require 'rubygems'
 require 'texplay'
@@ -90,7 +90,7 @@ module UI
 				
 				def draw
 					x = @cx-@img.width/2
-					y = @cy-@img.height/2-@player.shape.z-@player.animations.height/5
+					y = @cy-@img.height/2-@player.shape.z-@player.animations.height/5-@player.shape.elevation
 					@z = @player.shape.z+@cy+10
 				
 					@img.draw x, y, @z
