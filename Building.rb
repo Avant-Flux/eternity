@@ -17,26 +17,16 @@ class Building
 		@space = space
 		@shape = CP::Shape_3D::Rect.new(self, space, :building, pos, :bottom_left, width, depth, height, 
 							Float::INFINITY, Float::INFINITY, offset)
+		@wireframe = Wireframe::Rect.new(@window, @shape)
 		space.add self
 	end
 	
 	def update
-		
+		@wireframe.update
 	end
 	
 	def draw
-		#Bottom
-		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
-						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
-		#Right
-		@window.draw_line(@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK, 
-						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
-		#Top
-		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
-						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
-		#Left
-		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
-						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
+		@wireframe.draw
 	end
 	
 	def width
