@@ -130,7 +130,7 @@ module CP
 			include CP::Collide
 			include CP::Position
 			
-			attr_reader :space
+			attr_reader :space, :height
 			
 			def initialize(entity, space, collision, pos, radius, height,
 			mass, moment, offset=CP::Vec2.new(0, 0))

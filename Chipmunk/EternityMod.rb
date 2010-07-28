@@ -35,7 +35,6 @@ module CollisionHandler
 		
 		def begin(a,b,arbiter)
 			@begin_called = [a,b]
-			#~ puts "start"
 			return true
 		end
 		#~ 

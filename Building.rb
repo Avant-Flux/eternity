@@ -1,7 +1,8 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.26.2010
+#~ Date last edited: 07.28.2010
 require 'rubygems'
+require 'gosu'
 require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Chipmunk/EternityMod'
@@ -18,7 +19,18 @@ class Building
 	end
 	
 	def draw
-		
+		#Bottom
+		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
+						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
+		#Right
+		@window.draw_line(@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK, 
+						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
+		#Top
+		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
+						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
+		#Left
+		@window.draw_line(@shape.x, @shape.y, Gosu::Color::BLACK, 
+						@shape.x + @shape.width, @shape.y, Gosu::Color::BLACK)
 	end
 	
 	def update
@@ -47,5 +59,11 @@ class Building
 	
 	def height= arg
 		@shape.height = arg
+	end
+	
+	private
+	
+	def draw_wireframe
+		
 	end
 end
