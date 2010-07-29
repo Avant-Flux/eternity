@@ -27,7 +27,7 @@ require "gosu"
 		end
 		
 		def draw
-			@font.draw("FPS: "+@fps.to_s, 0, 0, 20) if @show_fps
+			@font.draw("FPS: "+@fps.to_s, 0, 0, 9999) if @show_fps
 		end
 		
 		def toggle
