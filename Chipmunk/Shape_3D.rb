@@ -21,10 +21,14 @@ module CP
 		#Rules for applying gravity in the z-direction
 		#	The z-axis is defined as positive in the upwards direction
 		def apply_gravity dt
-			@az = -1.8
+			@az = -9.8
 			@vz += @az*dt
 			@z += @vz*dt
-			puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
+			#~ puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
+			
+			#~ if @z <= 0.00000001
+				#~ @z = 500
+			#~ end
 		end
 		
 		def reset_gravity

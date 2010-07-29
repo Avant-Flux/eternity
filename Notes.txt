@@ -58,6 +58,9 @@ Psudo-3D Chipmunk-based Engine
 		depending on the type of terrain.
 		
 	Eliminate rotation with Float::INFINITY as the moment of inertia
+	
+	Remember to change forces applied to the character for movement when it is in the air.
+		Movement in the air should be extremely restricted.
 
 New Stat System
 	Split stats into two categories:

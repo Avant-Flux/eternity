@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.21.2010
+#~ Date last edited: 07.29.2010
 
 #~ Notes:
 #~ Remove the xz CP::Space and store the z-based gravity application function in this class
@@ -56,6 +56,7 @@ module CP
 					entity.shape.apply_gravity @dt
 				else
 					entity.shape.z = entity.shape.elevation
+					entity.shape.reset_gravity
 				end 
 			end
 		end
