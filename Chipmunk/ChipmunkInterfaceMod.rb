@@ -49,6 +49,15 @@ module CP
 		
 		def step
 			super @dt
+			
+			#Add code for one-dimensional movement in the z-direction here
+			Entity.all.each do |entity|
+				if entity.shape.z > entity.shape.elevation
+					entity.shape.apply_gravity @dt
+				else
+					entity.shape.z = entity.shape.elevation
+				end 
+			end
 		end
 				
 		def add(arg, static=:nonstatic)

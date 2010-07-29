@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.22.2010
+#~ Date last edited: 07.29.2010
 
 #~ Notes:
 #~ Should contain one CP::Shape and a z coordinate, as well as other z related attributes 
@@ -17,7 +17,26 @@ module CP
 		end
 	end
 	
+	module Gravitation
+		#Rules for applying gravity in the z-direction
+		#	The z-axis is defined as positive in the upwards direction
+		def apply_gravity dt
+			#~ @az = -9.8
+			#~ @vz += @az*dt
+			@z += -9.8**dt
+		end
+		
+		def reset_gravity
+			@az = 0
+			@vz = 0
+		end
+	end
+	
 	module Position #Have setters and getters for position and velocity
+		attr_accessor :az, :vz
+		@az = 0
+		@vz = 0
+		
 		def x
 			self.body.p.x
 		end
@@ -129,6 +148,7 @@ module CP
 		class Circle < CP::Shape::Circle
 			include CP::Collide
 			include CP::Position
+			include CP::Gravitation
 			
 			attr_accessor :elevation
 			attr_reader :space, :height
@@ -143,6 +163,7 @@ module CP
 				@space = space
 				@height = height
 				@elevation = elevation
+				@az = @vz = 0
 				self.collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
@@ -154,6 +175,7 @@ module CP
 		class Rect < CP::Shape::Rect
 			include CP::Collide
 			include CP::Position
+			include CP::Gravitation
 			
 			attr_accessor :width, :depth, :height, :elevation
 			
@@ -169,6 +191,7 @@ module CP
 				@depth = depth
 				@height = height
 				@elevation = elevation
+				@az = @vz = 0
 				self.collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
