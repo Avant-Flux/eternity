@@ -76,7 +76,6 @@ class Game_Window < Gosu::Window
 			@inpman.update
 			process_input
 			
-			Entity.apply_gravity_to_all
 			Entity.update_all
 			
 			#~ puts @player.position

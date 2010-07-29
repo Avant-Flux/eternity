@@ -61,12 +61,6 @@ class Entity
 		def all
 			@@all
 		end
-
-		def apply_gravity_to_all
-			#~ @@all.each do |e|
-				#~ e.body.apply_gravity
-			#~ end
-		end
 		
 		def draw_all
 			@@all.each do |e|
