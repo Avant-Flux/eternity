@@ -103,7 +103,7 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 2 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
+		if @jump_count < 5 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
 			@shape.vz = 50 #On jump, set the velocity in the z direction
 		elsif @shape.z <= @shape.elevation

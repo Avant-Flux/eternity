@@ -35,7 +35,7 @@ module CP
 		end
 		
 		def iterate dt
-			puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
+			#~ puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
 			@vz += @az*dt
 			@z += @vz*dt
 		end
