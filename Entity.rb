@@ -103,13 +103,12 @@ class Entity
 	end
 	
 	def jump
-		#~ if @jump_count < 1
-			#~ @jump_count += 1
-			#~ @shape.body.v.y += 30 #On jump, add velocity in the z direction
-			@shape.vz = 50
-		#~ elsif @shape.z <= 0
-			#~ @jump_count = 0
-		#~ end
+		if @jump_count < 2 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
+			@jump_count += 1
+			@shape.vz = 50 #On jump, set the velocity in the z direction
+		elsif @shape.z <= @shape.elevation
+			@jump_count = 0
+		end
 	end
 	
 	def jumping?
