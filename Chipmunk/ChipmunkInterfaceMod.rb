@@ -64,23 +64,20 @@ module CP
 					shape.reset_gravity
 				end
 				
+				if shape.entity.jumping?
+					shape.entity.jump
+				end
+				shape.entity.jumping = false
 				shape.iterate @dt
 			end
 			#~ Entity.all.each do |entity|
-				#~ if entity.shape.z > entity.shape.elevation
-					#~ entity.shape.apply_gravity @dt
-				#~ else
-					#~ entity.shape.z = entity.shape.elevation
-					#~ entity.shape.reset_gravity
-				#~ end
 				#~ if entity.jumping?
 					#~ entity.jump
 				#~ end
-				#~ 
-				#~ 
+								#~ 
 				#~ entity.jumping = false				
-				#~ entity.shape.iterate @dt
 			#~ end
+			
 		end
 				
 		def add(arg, static=:nonstatic)
