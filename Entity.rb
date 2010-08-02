@@ -106,7 +106,7 @@ class Entity
 		#~ if @jump_count < 1
 			#~ @jump_count += 1
 			#~ @shape.body.v.y += 30 #On jump, add velocity in the z direction
-			@shape.vz += 50
+			@shape.vz = 50
 		#~ elsif @shape.z <= 0
 			#~ @jump_count = 0
 		#~ end

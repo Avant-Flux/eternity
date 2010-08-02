@@ -31,11 +31,11 @@ module CP
 		def reset_gravity
 			@az = 0
 			@vz = 0
-			@z = @elevation*1.0
+			@z = @elevation
 		end
 		
 		def iterate dt
-			#~ puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
+			puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
 			@vz += @az*dt
 			@z += @vz*dt
 		end

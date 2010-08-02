@@ -54,13 +54,15 @@ module CP
 			Entity.all.each do |entity|
 				if entity.shape.z > entity.shape.elevation
 					entity.shape.apply_gravity @dt
-				elsif entity.jumping?
-					entity.jump
 				else
-
-					entity.shape.z = entity.shape.elevation*1.0
+					entity.shape.z = entity.shape.elevation
 					entity.shape.reset_gravity
 				end
+				if entity.jumping?
+					entity.jump
+				end
+				
+				
 				entity.jumping = false				
 				entity.shape.iterate @dt
 			end
