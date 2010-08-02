@@ -79,7 +79,7 @@ class Game_Window < Gosu::Window
 			Entity.update_all
 			
 			#~ puts @player.position
-			#~ puts @player.shape.elevation
+			#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 			
 			@space.step
 		end
@@ -135,7 +135,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		if @inpman.active?(:jump)
-			@player.jump
+			@player.jumping = true
 		end
 	end
 end

@@ -23,7 +23,7 @@ class Entity
 	
 	attr_reader :shape, :stats
 	attr_reader :animations, :moving, :direction
-	attr_accessor :name, :elevation, :element, :faction, :visible
+	attr_accessor :name, :elevation, :jumping, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
 	@@all = Array.new
@@ -103,12 +103,17 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 1
-			@jump_count += 1
+		#~ if @jump_count < 1
+			#~ @jump_count += 1
 			#~ @shape.body.v.y += 30 #On jump, add velocity in the z direction
-		elsif @shape.z <= 0
-			@jump_count = 0
-		end
+			@shape.vz += 50
+		#~ elsif @shape.z <= 0
+			#~ @jump_count = 0
+		#~ end
+	end
+	
+	def jumping?
+		@jumping
 	end
 	
 	def move(dir, constant=@move_constant)

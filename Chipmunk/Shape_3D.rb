@@ -22,9 +22,6 @@ module CP
 		#	The z-axis is defined as positive in the upwards direction
 		def apply_gravity dt
 			@az = -9.8
-			@vz += @az*dt
-			@z += @vz*dt
-			#~ puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
 			
 			#~ if @z <= 0.00000001
 				#~ @z = 500
@@ -34,6 +31,13 @@ module CP
 		def reset_gravity
 			@az = 0
 			@vz = 0
+			@z = @elevation*1.0
+		end
+		
+		def iterate dt
+			#~ puts "acc:#{@az}, vel:#{@vz}, pos:#{@z}"
+			@vz += @az*dt
+			@z += @vz*dt
 		end
 	end
 	
