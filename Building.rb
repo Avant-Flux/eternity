@@ -19,7 +19,7 @@ class Building
 							:bottom_left, width, depth, height, 
 							Float::INFINITY, Float::INFINITY, offset)
 		@wireframe = Wireframe::Rect.new(@window, @shape)
-		space.add self
+		space.add self, :static
 	end
 	
 	def update

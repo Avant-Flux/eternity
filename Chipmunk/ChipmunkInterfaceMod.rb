@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.29.2010
+#~ Date last edited: 08.02.2010
 
 #~ Notes:
 #~ Remove the xz CP::Space and store the z-based gravity application function in this class
@@ -23,13 +23,18 @@ module CP
 				add_static_shape shape
 			end
 		end
+		
+		def remove
+			
+		end
 	end
 	
 	class Space_3D < Space
-		attr_reader :dt, :g
+		attr_reader :dt, :g, :shapes
 		
 		def initialize(damping=0.5, g=9.8, dt=(1.0/60.0))
 			super()
+			@shapes = {:static => Array.new, :nonstatic => Array.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
 			@dt = dt	#Controls the timestep of the space.  
 						#	Could be falsified as slower than update rate for bullet time
@@ -51,25 +56,40 @@ module CP
 			super @dt
 			
 			#Add code for one-dimensional movement in the z-direction here
-			Entity.all.each do |entity|
-				if entity.shape.z > entity.shape.elevation
-					entity.shape.apply_gravity @dt
+			@shapes[:nonstatic].each do |shape|
+				if shape.z > shape.elevation
+					shape.apply_gravity @dt
 				else
-					entity.shape.z = entity.shape.elevation
-					entity.shape.reset_gravity
-				end
-				if entity.jumping?
-					entity.jump
+					shape.z = shape.elevation
+					shape.reset_gravity
 				end
 				
-				
-				entity.jumping = false				
-				entity.shape.iterate @dt
+				shape.iterate @dt
 			end
+			#~ Entity.all.each do |entity|
+				#~ if entity.shape.z > entity.shape.elevation
+					#~ entity.shape.apply_gravity @dt
+				#~ else
+					#~ entity.shape.z = entity.shape.elevation
+					#~ entity.shape.reset_gravity
+				#~ end
+				#~ if entity.jumping?
+					#~ entity.jump
+				#~ end
+				#~ 
+				#~ 
+				#~ entity.jumping = false				
+				#~ entity.shape.iterate @dt
+			#~ end
 		end
 				
 		def add(arg, static=:nonstatic)
 			super arg.shape, static
+			@shapes[static] << arg.shape 
+		end
+		
+		def remove
+			
 		end
 	end
 	

@@ -29,9 +29,12 @@ module CP
 		end
 		
 		def reset_gravity
+			old_az = @az
+			old_vz = @vz
 			@az = 0
 			@vz = 0
 			@z = @elevation
+			return old_az, old_vz
 		end
 		
 		def iterate dt
