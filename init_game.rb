@@ -34,9 +34,6 @@ require 'Background'
 require 'UI/UserInterface'
 
 class Game_Window < Gosu::Window
-	# The number of steps to process every Gosu update
-	SUBSTEPS = 6
-	
 	def initialize
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
@@ -70,19 +67,17 @@ class Game_Window < Gosu::Window
 		@effect.update
 		@building.update
 		
-		SUBSTEPS.times do
-			Entity.reset_all
-			
-			@inpman.update
-			process_input
-			
-			Entity.update_all
-			
-			#~ puts @player.position
-			#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
-			
-			@space.step
-		end
+		Entity.reset_all
+		
+		@inpman.update
+		process_input
+		
+		Entity.update_all
+		
+		#~ puts @player.position
+		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
+		
+		@space.step
 	end
 	
 	def draw

@@ -32,7 +32,7 @@ module CP
 	class Space_3D < Space
 		attr_reader :dt, :g, :shapes
 		
-		def initialize(damping=0.5, g=9.8, dt=(1.0/60.0))
+		def initialize(damping=0.5, g=-9.8, dt=(1.0/60.0))
 			super()
 			@shapes = {:static => Array.new, :nonstatic => Array.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
