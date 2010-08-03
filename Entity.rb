@@ -23,7 +23,7 @@ class Entity
 	
 	attr_reader :shape, :stats
 	attr_reader :animations, :moving, :direction
-	attr_accessor :name, :elevation, :jumping, :element, :faction, :visible
+	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
 	@@all = Array.new
@@ -53,7 +53,6 @@ class Entity
 		@stats[:raw] = stats
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
-		@jumping = false
 		@jump_count = 0
 	end
 		
@@ -103,16 +102,12 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 5 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
+		if @jump_count < 500000000 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
 			@shape.vz = 50 #On jump, set the velocity in the z direction
 		elsif @shape.z <= @shape.elevation
 			@jump_count = 0
 		end
-	end
-	
-	def jumping?
-		@jumping
 	end
 	
 	def move(dir, constant=@move_constant)

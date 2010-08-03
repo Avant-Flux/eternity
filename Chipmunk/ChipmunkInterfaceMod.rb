@@ -56,28 +56,24 @@ module CP
 			super @dt
 			
 			#Add code for one-dimensional movement in the z-direction here
-			@shapes[:nonstatic].each do |shape|
-				if shape.z > shape.elevation
-					shape.apply_gravity @dt
-				else
-					shape.z = shape.elevation
-					shape.reset_gravity
-				end
-				
-				if shape.entity.jumping?
-					shape.entity.jump
-				end
-				shape.entity.jumping = false
-				shape.iterate @dt
-			end
 			#~ Entity.all.each do |entity|
 				#~ if entity.jumping?
 					#~ entity.jump
 				#~ end
-								#~ 
+				#~ 
 				#~ entity.jumping = false				
 			#~ end
 			
+			@shapes[:nonstatic].each do |shape|
+				if shape.z > shape.elevation
+					shape.apply_gravity @dt
+				elsif shape.z < shape.elevation
+					shape.z = shape.elevation
+					shape.reset_gravity
+				end
+				
+				shape.iterate @dt
+			end
 		end
 				
 		def add(arg, static=:nonstatic)

@@ -135,7 +135,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		if @inpman.active?(:jump)
-			@player.jumping = true
+			@player.jump
 		end
 	end
 end
