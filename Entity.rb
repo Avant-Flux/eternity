@@ -31,8 +31,8 @@ class Entity
 	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
-		@move_constant = 1500
-		@run_constant = 5000
+		@move_constant = 150*44
+		@run_constant = 500*44
 		
 		@animations = animations
 		
@@ -98,13 +98,14 @@ class Entity
 	def draw
 		if visible
 			@animations.draw @shape.x, @shape.y, @shape.z
+			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 		end
 	end
 	
 	def jump
-		if @jump_count < 500000000 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
+		if @jump_count < 10000000 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
-			@shape.vz = 50 #On jump, set the velocity in the z direction
+			@shape.vz = 200 #On jump, set the velocity in the z direction
 		elsif @shape.z <= @shape.elevation
 			@jump_count = 0
 		end

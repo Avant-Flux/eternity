@@ -43,7 +43,7 @@ class Game_Window < Gosu::Window
 		
 		@building = Building.new(self, @space, 500, 300, 200, [500,500,0])
 		
-		@player = Player.new(self, @space, "Bob", [300, 400, 0])
+		@player = Player.new(self, @space, "Bob", [1, 1, 0])
 		characters = Array.new
 		#~ 19.times do |i|
 			#~ x = (i * 30) % 800 + 100
