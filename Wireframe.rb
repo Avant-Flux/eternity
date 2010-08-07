@@ -9,7 +9,10 @@ module Gosu
 	class Image
 		def triangle(x1,y1, x2,y2, x3,y3, hash={})
 			hash[:closed] = true
-			self.polyline [x1,y1, x2,y2, x3,y3], hash
+			self.polyline [x1,y1, x2,y2, x3,y3], :closed => true
+			#~ self.line x1,y1, x2,y2, :color => hash[:color]
+			#~ self.line x2,y2, x3,y3, :color => hash[:color]
+			#~ self.line x1,y1, x3,y3, :color => hash[:color]
 			
 			if hash[:fill] || hash[:filled]
 				midpoint = [(x2+x3)/2, (y2+y3)/2]
@@ -19,7 +22,7 @@ module Gosu
 					hash[:color] = :black
 				end
 				
-				self.fill pt[0], pt[1], hash
+				self.fill pt[0], pt[1], :color => hash[:color]
 			end
 		end
 	end
@@ -45,43 +48,45 @@ module Wireframe
 			@window = window
 			@shape = shape
 			
-			
-			color = Gosu::Color::BLACK
-			side_thickness = 10
-			front_edge = 10
-			back_edge = 5
-			consealed_edge = 2
+			@color = :white
+			@side_thickness = 4
+			@front_edge = 10
+			@back_edge = 5
+			@consealed_edge = 2
 			z = 10
-			front_offset = front_edge / 2.0
+			@front_offset = @front_edge / 2.0
 			
 			scale = 1
 			width = @shape.width*scale
 			height = @shape.height*scale
 			depth = @shape.depth*scale
-			x = @shape.x*scale
-			y = @shape.y*scale
+			x = @side_thickness
+			y = @shape.height + @shape.depth
 			
 			point = Struct.new(:x, :y)
 			
 			points = Array.new()
 			points << point.new(x, y - height - depth)
 			points << point.new(x + width, y - height - depth)
-			points << point.new(x - side_thickness, y - height)
+			points << point.new(x - @side_thickness, y - height)
 			points << point.new(x, y - height)
 			points << point.new(x + width, y - height)
-			points << point.new(x + width + side_thickness, y - height)
+			points << point.new(x + width + @side_thickness, y - height)
 			points << point.new(x, y - depth)
 			points << point.new(x + width, y - depth)
 			points << point.new(x, y)
 			points << point.new(x + width, y)
 			
-			color = :black
 			
-			@img = TexPlay.create_blank_image @window, @shape.width + 100, @shape.height + @shape.height
+			
+			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2, 
+														height + depth
 			@img.triangle points[0].x, points[0].y, 
 						points[2].x, points[2].y, 
-						points[3].x, points[3].y, :color => color, :fill => true
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
+						points[3].x, points[3].y, :color => @color, :fill => true
+			#~ @img.line x,y, 100,100, :color => color
+			#~ @img.line x,y, 100,y, :color => color
+			#~ @img.line x,y, x,100, :color => color
 			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
 			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
 			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
@@ -104,7 +109,7 @@ module Wireframe
 			consealed_edge = 2
 			z = 10
 			
-			@img.draw @shape.x, @shape.y + @shape.z, @shape.z
+			@img.draw @shape.x - @side_thickness, @shape.y - @img.height - @shape.z, 100000
 			
 			#NOTE: Need to modify the triangles slightly to compensate for the thicker front edge
 				#Also, remember, up is neg-y
