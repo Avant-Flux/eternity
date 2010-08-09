@@ -47,18 +47,21 @@ module Wireframe
 			
 			@color = :white
 			@side_thickness = 4
-			@front_edge = 10
-			@back_edge = 5
-			@consealed_edge = 2
-			z = 10
-			@front_offset = @front_edge / 2.0
 			
+			front_edge = 10
+			back_edge = 5
+			consealed_edge = 2
+			bottom_edge = 2
+			@front_offset = front_edge / 2.0
+			bottom_buffer = (bottom_edge/2.0).ceil
+			
+			z = 10
 			scale = 1
 			width = @shape.width*scale
 			height = @shape.height*scale
 			depth = @shape.depth*scale
 			x = @side_thickness
-			y = @shape.height + @shape.depth
+			y = @shape.height + @shape.depth - bottom_buffer
 			
 			point = Struct.new(:x, :y)
 			
@@ -77,7 +80,7 @@ module Wireframe
 			
 			
 			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2, 
-														height + depth
+														height + depth + bottom_buffer
 			@img.paint do
 				#Top side, left edge
 				triangle	points[0].x, points[0].y, 
@@ -97,16 +100,16 @@ module Wireframe
 							points[9].x, points[9].y, :color => @color, :fill => true
 				#Top side, back edge
 				line 	points[0].x, points[0].y,
-						points[1].x, points[1].y, :color => @color
+						points[1].x, points[1].y, :color => @color, :thickness => back_edge
 				#Top side, front edge
 				line	points[2].x, points[2].y,
-						points[5].x, points[5].y, :color => @color
+						points[5].x, points[5].y, :color => @color, :thickness => front_edge
 				#Concealed edge
 				line	points[6].x, points[6].y,
-						points[7].x, points[7].y, :color => @color
+						points[7].x, points[7].y, :color => @color, :thickness => consealed_edge
 				#Front side, bottom edge
 				line	points[8].x, points[8].y,
-						points[9].x, points[9].y, :color => @color
+						points[9].x, points[9].y, :color => @color, :thickness => bottom_edge
 			end
 		end
 		
@@ -115,41 +118,7 @@ module Wireframe
 		end
 		
 		def draw
-			color = Gosu::Color::BLACK
-			side_thickness = 10
-			front_edge = 10
-			back_edge = 5
-			consealed_edge = 2
-			z = 10
-			
 			@img.draw @shape.x - @side_thickness, @shape.y - @img.height - @shape.z, 100000
-			
-			#NOTE: Need to modify the triangles slightly to compensate for the thicker front edge
-				#Also, remember, up is neg-y
-			
-			#~ front_offset = front_edge / 2.0
-			#~ 
-			#~ scale = 1
-			#~ width = @shape.width*scale
-			#~ height = @shape.height*scale
-			#~ depth = @shape.depth*scale
-			#~ x = @shape.x*scale
-			#~ y = @shape.y*scale
-			
-			#~ point = Struct.new(:x, :y)
-			#~ 
-			#~ points = Array.new()
-			#~ 
-			#~ points << point.new(x, y - height - depth)
-			#~ points << point.new(x + width, y - height - depth)
-			#~ points << point.new(x - side_thickness, y - height)
-			#~ points << point.new(x, y - height)
-			#~ points << point.new(x + width, y - height)
-			#~ points << point.new(x + width + side_thickness, y - height)
-			#~ points << point.new(x, y - depth)
-			#~ points << point.new(x + width, y - depth)
-			#~ points << point.new(x, y)
-			#~ points << point.new(x + width, y)
 		end
 		
 		def draw_line window, x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
