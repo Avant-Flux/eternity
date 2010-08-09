@@ -41,11 +41,10 @@ module Wireframe
 	end
 
 	class Rect
-		def initialize(window, shape)
+		def initialize(window, shape, color = :black)
 			@window = window
 			@shape = shape
 			
-			color = :white
 			@side_thickness = 4
 			
 			front_edge = 10
@@ -54,9 +53,7 @@ module Wireframe
 			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			@x = @shape.x - @side_thickness
-			@y = @shape.y - @img.height - @shape.z
-			@z = 10
+			
 			scale = 1
 			width = @shape.width*scale
 			height = @shape.height*scale
@@ -110,6 +107,10 @@ module Wireframe
 				line	points[8].x, points[8].y,
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			end
+			
+			@x = @shape.x - @side_thickness
+			@y = @shape.y - @img.height - @shape.z
+			@z = 10
 		end
 		
 		def update
