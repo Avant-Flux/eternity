@@ -45,14 +45,13 @@ module Wireframe
 			@window = window
 			@shape = shape
 			
-			@color = :white
+			color = :white
 			@side_thickness = 4
 			
 			front_edge = 10
 			back_edge = 5
-			consealed_edge = 2
 			bottom_edge = 2
-			@front_offset = front_edge / 2.0
+			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
 			z = 10
@@ -85,31 +84,31 @@ module Wireframe
 				#Top side, left edge
 				triangle	points[0].x, points[0].y, 
 							points[2].x, points[2].y, 
-							points[3].x, points[3].y, :color => @color, :fill => true
+							points[3].x, points[3].y, :color => color, :fill => true
 				#Top side, right edge
 				triangle	points[1].x, points[1].y, 
 							points[4].x, points[4].y, 
-							points[5].x, points[5].y, :color => @color, :fill => true
+							points[5].x, points[5].y, :color => color, :fill => true
 				#Front side, left edge
 				triangle	points[2].x, points[2].y, 
 							points[3].x, points[3].y, 
-							points[8].x, points[8].y, :color => @color, :fill => true
+							points[8].x, points[8].y, :color => color, :fill => true
 				#Front side, left edge
 				triangle	points[4].x, points[4].y, 
 							points[5].x, points[5].y, 
-							points[9].x, points[9].y, :color => @color, :fill => true
+							points[9].x, points[9].y, :color => color, :fill => true
 				#Top side, back edge
 				line 	points[0].x, points[0].y,
-						points[1].x, points[1].y, :color => @color, :thickness => back_edge
+						points[1].x, points[1].y, :color => color, :thickness => back_edge
 				#Top side, front edge
 				line	points[2].x, points[2].y,
-						points[5].x, points[5].y, :color => @color, :thickness => front_edge
+						points[5].x, points[5].y, :color => color, :thickness => front_edge
 				#Concealed edge
 				line	points[6].x, points[6].y,
-						points[7].x, points[7].y, :color => @color, :thickness => consealed_edge
+						points[7].x, points[7].y, :color => color, :thickness => consealed_edge
 				#Front side, bottom edge
 				line	points[8].x, points[8].y,
-						points[9].x, points[9].y, :color => @color, :thickness => bottom_edge
+						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			end
 		end
 		
