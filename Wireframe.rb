@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.08.2010
+#~ Date last edited: 08.09.2010
 
 require 'rubygems'
 require 'texplay'
@@ -54,7 +54,9 @@ module Wireframe
 			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			z = 10
+			@x = @shape.x - @side_thickness
+			@y = @shape.y - @img.height - @shape.z
+			@z = 10
 			scale = 1
 			width = @shape.width*scale
 			height = @shape.height*scale
@@ -75,8 +77,6 @@ module Wireframe
 			points << point.new(x + width, y - depth)
 			points << point.new(x, y)
 			points << point.new(x + width, y)
-			
-			
 			
 			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2, 
 														height + depth + bottom_buffer
@@ -117,7 +117,7 @@ module Wireframe
 		end
 		
 		def draw
-			@img.draw @shape.x - @side_thickness, @shape.y - @img.height - @shape.z, 100000
+			@img.draw @x, @y, @z
 		end
 		
 		def draw_line window, x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
