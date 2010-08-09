@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.04.2010
+#~ Date last edited: 08.08.2010
 
 require 'rubygems'
 require 'texplay'
@@ -10,9 +10,6 @@ module Gosu
 		def triangle(x1,y1, x2,y2, x3,y3, hash={})
 			hash[:closed] = true
 			self.polyline [x1,y1, x2,y2, x3,y3], :closed => true
-			#~ self.line x1,y1, x2,y2, :color => hash[:color]
-			#~ self.line x2,y2, x3,y3, :color => hash[:color]
-			#~ self.line x1,y1, x3,y3, :color => hash[:color]
 			
 			if hash[:fill] || hash[:filled]
 				midpoint = [(x2+x3)/2, (y2+y3)/2]
@@ -101,17 +98,6 @@ module Wireframe
 				
 				
 			end
-			#~ @img.line x,y, 100,100, :color => color
-			#~ @img.line x,y, 100,y, :color => color
-			#~ @img.line x,y, x,100, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
-			#~ @img.line points[0].x, points[0].y, points[2].x, points[2].y, :color => color
 		end
 		
 		def update
@@ -154,61 +140,6 @@ module Wireframe
 			#~ points << point.new(x + width, y - depth)
 			#~ points << point.new(x, y)
 			#~ points << point.new(x + width, y)
-			#~ 
-			#~ @window.draw_triangle points[0].x, points[0].y, color,
-								#~ points[2].x, points[2].y-front_offset, color,
-								#~ points[3].x, points[3].y-front_offset, color
-								#~ 
-			#~ @window.draw_triangle points[1].x, points[1].y, color,
-								#~ points[4].x, points[4].y-front_offset, color,
-								#~ points[5].x, points[5].y-front_offset, color
-								#~ 
-			#~ @window.draw_triangle points[2].x, points[2].y+front_offset, color,
-								#~ points[3].x, points[3].y+front_offset, color,
-								#~ points[8].x, points[8].y, color
-			#~ 
-			#~ @window.draw_triangle points[4].x, points[4].y+front_offset, color,
-								#~ points[5].x, points[5].y+front_offset, color,
-								#~ points[9].x, points[9].y, color
-								#~ 
-			#~ @window.draw_quad(points[2].x, (points[2].y - front_offset), color,
-							#~ points[5].x, (points[5].y + front_offset), color,
-							#~ points[2].x, (points[2].y - front_offset), color,
-							#~ points[5].x, (points[5].y + front_offset), color)
-			#~ @window.draw_line points[2].x, points[2].y+front_offset, color,
-							#~ points[5].x, points[5].y+front_offset, color
-			
-			#~ #Front side, left edge
-			#~ @window.draw_triangle(@shape.x, @shape.y, color, 
-									#~ @shape.x, @shape.y - @shape.height, color,
-									#~ @shape.x - side_thickness, @shape.y - @shape.height, color, z)
-			#~ #Front side, right edge
-			#~ @window.draw_triangle(@shape.x + @shape.width, @shape.y, color, 
-							#~ @shape.x + @shape.width, @shape.y - @shape.height, color,
-							#~ @shape.x + @shape.width + side_thickness, @shape.y - @shape.height, color, z)
-			#~ #Top side, left edge
-			#~ @window.draw_triangle(@shape.x, @shape.y - @shape.height, color,
-									#~ @shape.x, @shape.y - @shape.height - @shape.depth, color,
-									#~ @shape.x - side_thickness, @shape.y - @shape.height, color, z)
-			#~ #Top side, right edge
-			#~ @window.draw_triangle(@shape.x + @shape.width, @shape.y - @shape.height, color,
-							#~ @shape.x + @shape.width, @shape.y - @shape.height - @shape.depth, color,
-							#~ @shape.x + @shape.width + side_thickness, @shape.y - @shape.height, color)
-			#~ 
-			#~ #Top side, back edge
-			#~ @window.draw_line(@shape.x, @shape.y - @shape.height - @shape.depth, color,
-								#~ @shape.x + @shape.width, @shape.y - @shape.height - @shape.depth, color)
-			#~ #Top side, front edge, AKA front side, top edge
-			#~ @window.draw_line(@shape.x, @shape.y - @shape.height, color,
-								#~ @shape.x + @shape.width, @shape.y - @shape.height, color)
-			#~ #Front side, bottom edge
-			#~ @window.draw_line(@shape.x, @shape.y, color,
-								#~ @shape.x + @shape.width, @shape.y, color)
-			#~ #Back side, bottom edge
-			#~ @window.draw_line(@shape.x, @shape.y - @shape.depth, color,
-								#~ @shape.x + @shape.width, @shape.y - @shape.depth, color)
-								
-			
 		end
 		
 		def draw_line window, x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
