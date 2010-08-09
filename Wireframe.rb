@@ -81,9 +81,22 @@ module Wireframe
 			
 			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2, 
 														height + depth
-			@img.triangle points[0].x, points[0].y, 
-						points[2].x, points[2].y, 
-						points[3].x, points[3].y, :color => @color, :fill => true
+			@img.paint do
+				triangle	points[0].x, points[0].y, 
+							points[2].x, points[2].y, 
+							points[3].x, points[3].y, :color => @color, :fill => true
+				triangle	points[1].x, points[1].y, 
+							points[4].x, points[4].y, 
+							points[5].x, points[5].y, :color => @color, :fill => true
+				triangle	points[2].x, points[2].y, 
+							points[3].x, points[3].y, 
+							points[8].x, points[8].y, :color => @color, :fill => true
+				triangle	points[4].x, points[4].y, 
+							points[5].x, points[5].y, 
+							points[9].x, points[9].y, :color => @color, :fill => true
+				
+				
+			end
 			#~ @img.line x,y, 100,100, :color => color
 			#~ @img.line x,y, 100,y, :color => color
 			#~ @img.line x,y, x,100, :color => color
