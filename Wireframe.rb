@@ -95,8 +95,18 @@ module Wireframe
 				triangle	points[4].x, points[4].y, 
 							points[5].x, points[5].y, 
 							points[9].x, points[9].y, :color => @color, :fill => true
-				
-				
+				#Top side, back edge
+				line 	points[0].x, points[0].y,
+						points[1].x, points[1].y, :color => @color
+				#Top side, front edge
+				line	points[2].x, points[2].y,
+						points[5].x, points[5].y, :color => @color
+				#Concealed edge
+				line	points[6].x, points[6].y,
+						points[7].x, points[7].y, :color => @color
+				#Front side, bottom edge
+				line	points[8].x, points[8].y,
+						points[9].x, points[9].y, :color => @color
 			end
 		end
 		
