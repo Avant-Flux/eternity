@@ -112,9 +112,10 @@ STATS
 		MP							Power
 		Attack						Weapon Stats, Strength, Dexterity
 		Defense						Armor Stats, Constitution
+		Magical Attack				Power
 		Accuracy					Dexterity
 		Critical Hit Rate			Dexterity, Luck
-		Dodge Rate					Agility, Luck, weight, weapon size
+		Dodge Rate					Agility, weight, weapon size, Luck
 		
 		Weight Limit				Strength
 		Weight						Constitution, Armor Weight, Weapon Weight
@@ -124,6 +125,8 @@ STATS
 		Area of Effect				Power
 		AoE Density					Control, Perception, Luck
 		Ki Sensing					Perception
+
+		Kickback (firearms only)	weapon type, weapon power, weight, Strength
 
 		
 Stat based mechanics

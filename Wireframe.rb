@@ -53,7 +53,6 @@ module Wireframe
 			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			
 			scale = 1
 			width = @shape.width*scale
 			height = @shape.height*scale
