@@ -110,23 +110,34 @@ STATS
 	Composite				(most, if not all, composite stats can take bonuses from equipment, etc)
 		HP							Constitution
 		MP							Power
+		HP Recovery Rate			Constitution
+		MP Recovery Rate			Flux
 		Attack						Weapon Stats, Strength, Dexterity
 		Defense						Armor Stats, Constitution
 		Magical Attack				Power
+		Fluctuation Tolerance		Flux
+		
 		Accuracy					Dexterity
 		Critical Hit Rate			Dexterity, Luck
 		Dodge Rate					Agility, weight, weapon size, Luck
 		
+		Attack Range (Weapons)		Weapon type, Weapon size
+		Attack Range (Magic)		Power
+		Attack Speed (Weapons)		Weapon type, weapon size(non-firearms), Dexterity, Agility
+		Attack Speed (Magic)		Flux
+		
 		Weight Limit				Strength
 		Weight						Constitution, Armor Weight, Weapon Weight
+		
 		Movement speed				Weight Agility, Strength
 		Jump height					Strength, Agility
-		Attack Speed				Dexterity, Agility
+		
 		Area of Effect				Power
 		AoE Density					Control, Perception, Luck
 		Ki Sensing					Perception
 
-		Kickback (firearms only)	weapon type, weapon power, weight, Strength
+		Recoil (firearms only)		weapon type, weapon power, weight, Strength
+		Reload Time (firearms)		weapon type, Power, Flux
 
 		
 Stat based mechanics
