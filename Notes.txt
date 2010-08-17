@@ -63,7 +63,7 @@ Psudo-3D Chipmunk-based Engine
 		Movement in the air should be extremely restricted.
 
 New Stat System
-	Split stats into two categories:
+	Split stats into two categories: o
 		Physical attributes
 			Strength
 			Defense
