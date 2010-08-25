@@ -63,7 +63,7 @@ Psudo-3D Chipmunk-based Engine
 		Movement in the air should be extremely restricted.
 
 New Stat System
-	Split stats into two categories: o
+	Split stats into two categories:
 		Physical attributes
 			Strength
 			Defense
@@ -180,3 +180,10 @@ Sprite rendering and Chipmunk
 		HOWEVER
 			Use down as negative for the z direction
 			This allows for using the z axis for height as well as z index
+
+For stackable objects
+	All objects in the "stack" should have a pointer to the top item in the stack
+	
+	The major problem with stackable objects in toppling
+		Thus, do not allow for n-dimensional stacks
+			If you lift a box, etc, it should thus be unable to jump.
