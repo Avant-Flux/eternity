@@ -149,6 +149,13 @@ module CP
 						y1 = 0
 						x2 = height
 						y2 = -width
+					when :center
+						half_width = width/2
+						half_height = height/2
+						x1 = -half_height
+						y1 = half_width
+						x2 = half_height
+						y2 = -half_width
 				end
 				
 				return x1,y1, x2,y2
