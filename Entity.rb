@@ -11,6 +11,8 @@ require 'Chipmunk/EternityMod'
 require 'Combative'
 require 'Animations'
 
+require 'Stats'
+
 class Fixnum
 	def between?(a, b)
 		return true if self >= a && self < b
@@ -184,7 +186,7 @@ class Entity
 		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
 	end
 	
-	private
+	private	
 	def compute_direction
 		#~ puts @shape.a
 		angle = @shape.body.a
