@@ -137,7 +137,8 @@ STATS
 		Ki Sensing					Perception
 
 		Recoil (firearms only)		weapon type, weapon power, weight, Strength
-		Reload Time (firearms)		weapon type, Power, Flux
+		Reload Time (firearms)		weapon type, Flux, Power
+		Attack Speed (firearms)		weapon type, weapon modifiers, Dexterity
 
 		
 Stat based mechanics
