@@ -1,7 +1,10 @@
 #!/usr/bin/ruby
 #~ Name: Jason
 #~ Date last edited: 08.28.2010
- 
+
+#~ The module Compute_Stats should be used as a mix-in with some class
+#~ which contains the composite stats.
+
 module Compute_Stats
 	def hp
 		#~ con
