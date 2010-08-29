@@ -3,9 +3,9 @@
 #~ Date last edited: 07.22.2010
 
 require 'Chipmunk/ChipmunkInterfaceMod'
-require "Title"
-require "Title_Holder"
-require "Entity"
+require "Titles/Title"
+require "Titles/Title_Holder"
+require "GameObjects/Entity"
 #To be used for NPCs, such as enemy units
 #Townspeople (ie shopkeeper etc) should be under a different class
 class Character < Entity

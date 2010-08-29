@@ -9,10 +9,10 @@ require 'chingu'
 require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
 
-require 'Entity'
-require "Creature"
-require 'Character'
-require 'Player'
+require 'GameObjects/Entity'
+require "GameObjects/Creature"
+require 'GameObjects/Character'
+require 'GameObjects/Player'
 
 require 'UI/TrackingOverlay.rb'
 require 'UI/StatusOverlay.rb'

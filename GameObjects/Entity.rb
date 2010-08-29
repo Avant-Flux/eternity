@@ -8,10 +8,10 @@ require 'chipmunk'
 
 require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Chipmunk/EternityMod'
-require 'Combative'
-require 'Animations'
+require 'Combat/Combative'
+require 'Drawing/Animations'
 
-require 'Stats'
+require 'Stats/Stats'
 
 class Fixnum
 	def between?(a, b)

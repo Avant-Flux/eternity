@@ -19,17 +19,16 @@ require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Chipmunk/EternityMod'
 
-require 'Building'
-
-require 'Entity'
-require "Creature"
-require 'Character'
-require 'Player'
+require 'GameObjects/Building'
+require 'GameObjects/Entity'
+require "GameObjects/Creature"
+require 'GameObjects/Character'
+require 'GameObjects/Player'
 
 require 'Utilities/FPSCounter'
 require 'Utilities/InputHandler'
-require 'Animations'
-require 'Background'
+require 'Drawing/Animations'
+require 'Drawing/Background'
 
 require 'UI/UserInterface'
 

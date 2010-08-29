@@ -7,7 +7,7 @@ require 'chipmunk'
 require 'Chipmunk/ChipmunkInterfaceMod'
 require 'Chipmunk/EternityMod'
 
-require 'Wireframe'
+require 'Drawing/Wireframe'
 
 class Building
 	attr_reader :space, :shape

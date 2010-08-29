@@ -2,10 +2,10 @@
 #~ Name: Jason
 #~ Date last edited: 06.14.2010
 
-require "Character"
+require "GameObjects/Character"
 
-require "Title"
-require "Title_Holder"
+require "Titles/Title"
+require "Titles/Title_Holder"
 require "UI/UserInterface"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific
