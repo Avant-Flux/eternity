@@ -4,7 +4,7 @@
 
 require "rubygems"
 require "gosu"
-# FPS Counter based in fguillens fpscounter
+# FPS Counter based in fguillen's fpscounter
 	class FPSCounter
 		attr_accessor :show_fps
 		attr_reader :fps

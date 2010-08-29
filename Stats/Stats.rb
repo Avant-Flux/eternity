@@ -91,7 +91,7 @@ module Compute_Stats
 		#~ perception
 	end
 	
-	module Firearms
+	module Firearms; class << self;
 		def recoil
 			#~ weapon type, weapon power, weight, Strength
 		end
@@ -103,5 +103,5 @@ module Compute_Stats
 		def attack_speed
 			#~ weapon type, weapon modifiers, Dexterity
 		end 
-	end
+	end; end
 end
