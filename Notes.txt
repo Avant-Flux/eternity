@@ -134,11 +134,11 @@ STATS
 		Movement speed				Speed Modifier, Agility, Strength
 		Jump height					Strength, Agility
 		
+		Magic Accuracy				Perception
 		Area of Effect				Power
 		AoE Density					Control, Perception, Luck
 		Ki Sensing					Perception
 		Skill Mastery Rate			Control
-		Skill Tree Visibility		Perception
 		
 		Decomposition Rate			Control (< Max Fluctuation)
 		Manifestation Rate			Control (< Max Fluctuation)
