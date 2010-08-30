@@ -112,6 +112,7 @@ STATS
 		MP							Power
 		HP Recovery Rate			Constitution
 		MP Recovery Rate			Flux
+		Active MP Recovery Rate		Flux, Power
 		Attack						Weapon Stats, Strength, Dexterity
 		Defense						Armor Stats, Constitution
 		Magical Attack				Power
@@ -119,7 +120,7 @@ STATS
 		
 		Accuracy					Dexterity
 		Critical Hit Rate			Dexterity, Luck
-		Dodge Rate					Agility, weight, weapon size, Luck
+		Dodge Rate					Agility, weight, weapon size, Luck, dodge mod (based on per)
 		
 		Attack Range (Weapons)		Weapon type, Weapon size
 		Attack Range (Magic)		Power
@@ -136,6 +137,11 @@ STATS
 		Area of Effect				Power
 		AoE Density					Control, Perception, Luck
 		Ki Sensing					Perception
+		Skill Mastery Rate			Control
+		Skill Tree Visibility		Perception
+		
+		Decomposition Rate			Control (< Max Fluctuation)
+		Manifestation Rate			Control (< Max Fluctuation)
 
 		Recoil (firearms only)		weapon type, weapon power, weight, Strength
 		Reload Time (firearms)		weapon type, Flux, Power
