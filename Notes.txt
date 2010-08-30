@@ -123,13 +123,14 @@ STATS
 		
 		Attack Range (Weapons)		Weapon type, Weapon size
 		Attack Range (Magic)		Power
-		Attack Speed (Weapons)		Weapon type, weapon size(non-firearms), Dexterity, Agility
+		Attack Speed (Weapons)	Weapon type, weapon size(non-firearms), Dexterity, Agility, Speed Modifier
 		Attack Speed (Magic)		Flux
+		Speed Modifier				Weight in proportion to weight limit
 		
 		Weight Limit				Strength
 		Weight						Constitution, Armor Weight, Weapon Weight
 		
-		Movement speed				Weight Agility, Strength
+		Movement speed				Speed Modifier, Agility, Strength
 		Jump height					Strength, Agility
 		
 		Area of Effect				Power
