@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.25.2010
+#~ Date last edited: 08.31.2010
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
@@ -11,8 +11,6 @@ module CollisionHandler
 
 	#Control collisions between multiple Entity objects
 	class Entity
-		#~ attr_reader :begin_called, :pre_called, :post_called, :sep_called
-		
 		#~ def begin(a,b,arbiter)
 			#~ @begin_called = [a,b]
 		#~ end
@@ -31,8 +29,6 @@ module CollisionHandler
 	#Control collisions between an Entity and the environment
 	#	ie, a character and a building or land mass
 	class Entity_Env #Specify entity first, then the environment piece
-		#~ attr_reader :begin_called, :pre_called, :post_called, :sep_called
-		
 		def begin(a,b,arbiter)
 			#~ @begin_called = [a,b]
 			return true
@@ -49,7 +45,7 @@ module CollisionHandler
 		end
 		
 		def post_solve(a,b,arbiter) #Do stuff after the collision has be evaluated
-			puts "you"
+			#~ puts "you"
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
