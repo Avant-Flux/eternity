@@ -195,3 +195,9 @@ For stackable objects
 	The major problem with stackable objects in toppling
 		Thus, do not allow for n-dimensional stacks
 			If you lift a box, etc, it should thus be unable to jump.
+
+For gravity/force management
+	Store all forces on a object in a data structure, and then iterate over the structure to
+		calculate the acceleration of the object.
+	This process only needs to be processed for the z-direction, as the xy plane should be handled
+		by the existing code in the Chipmunk engine.
