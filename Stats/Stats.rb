@@ -57,9 +57,13 @@ module Compute_Stats
 		@flux
 	end
 	
-	def accuracy
+	def hit
 		#~ dex
 		@dex
+	end
+	
+	def accuracy
+		
 	end
 	
 	def crit_rate
