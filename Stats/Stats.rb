@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.02.2010
+#~ Date last edited: 09.03.2010
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
@@ -64,6 +64,9 @@ module Compute_Stats
 	
 	def crit_rate
 		#~ dex, luck
+		#~ max @ 50%
+		#~ store as a number 0-100
+		#~ non-linear growth, probably logarithmic or logistic
 	end
 	
 	def dodge_rate
@@ -81,7 +84,7 @@ module Compute_Stats
 	def weapon_speed
 		#~ Weapon type, weapon size(non-firearms), Dexterity, Agility
 	end
-	
+
 	def magic_speed
 		#~ flux
 	end
