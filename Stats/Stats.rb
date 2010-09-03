@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.29.2010
+#~ Date last edited: 09.02.2010
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
@@ -24,6 +24,13 @@ module Compute_Stats
 	
 	def attack
 		#~ Weapon Stats, Strength, Dexterity
+		#~ Max @ 5000
+		#~ 60/40 split		3000 based on stats, 2000 based on weapon
+		#~ 85/15 split		2550 based on atk, 450 based on dex
+		a = 0.51
+		b = 0.09
+		
+		@weap_atk + a*@str + b*@dex
 	end
 	
 	def defense
@@ -32,14 +39,17 @@ module Compute_Stats
 	
 	def magical_attack
 		#~ power
+		#~ Max @ 5000
 	end
 	
 	def flux
 		#~ flux
+		@flux
 	end
 	
 	def accuracy
 		#~ dex
+		@dex
 	end
 	
 	def crit_rate
