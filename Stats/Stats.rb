@@ -36,7 +36,12 @@ module Compute_Stats
 	
 	def defense
 		#~ Armor Stats, Constitution
+		#~ Max @ 5000
 		#~ 60/40 split
+		a = 10
+		b = 20/3.0
+		
+		return a*@armor_def + b*@con
 	end
 	
 	def magical_attack
