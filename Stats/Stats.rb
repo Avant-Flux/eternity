@@ -4,7 +4,7 @@
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
-#~ Set maximum for raw stats at 500
+#~ Set maximum for raw stats at 300
 
 module Compute_Stats
 	def hp
@@ -28,8 +28,8 @@ module Compute_Stats
 		#~ Max @ 5000
 		#~ 60/40 split		3000 based on stats, 2000 based on weapon
 		#~ 85/15 split		2550 based on atk, 450 based on dex
-		a = 5.1
-		b = 0.9
+		a = 8.5
+		b = 1.5
 		
 		@weap_atk + a*@str + b*@dex
 	end
@@ -42,7 +42,9 @@ module Compute_Stats
 	def magical_attack
 		#~ power
 		#~ Max @ 5000
+		a= 50/3.0
 		
+		(a*@power).ceil
 	end
 	
 	def flux
