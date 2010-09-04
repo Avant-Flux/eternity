@@ -9,6 +9,10 @@
 module Compute_Stats
 	def hp
 		#~ con
+		#~ Max # 10,000
+		a = 100/3.0
+		
+		(a*@con)
 	end
 	
 	def mp
@@ -41,7 +45,7 @@ module Compute_Stats
 		a = 10
 		b = 20/3.0
 		
-		return a*@armor_def + b*@con
+		a*@armor_def + b*@con
 	end
 	
 	def magical_attack
