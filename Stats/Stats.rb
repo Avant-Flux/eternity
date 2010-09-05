@@ -18,6 +18,10 @@ module Compute_Stats
 	
 	def mp
 		#~ power
+		#~ Max @ 10,000 (in an attempt to make HP and MP seem similar)
+		a = 100/3.0
+		
+		(a*@mp)
 	end
 	
 	def hp_recovery
