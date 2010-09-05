@@ -13,7 +13,7 @@ module Compute_Stats
 		#~ Max # 10,000
 		a = 100/3.0
 		
-		(a*@con)
+		(a*@con).round
 	end
 	
 	def mp
@@ -21,7 +21,7 @@ module Compute_Stats
 		#~ Max @ 10,000 (in an attempt to make HP and MP seem similar)
 		a = 100/3.0
 		
-		(a*@mp)
+		(a*@mp).round
 	end
 	
 	def hp_recovery
