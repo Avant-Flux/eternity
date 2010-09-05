@@ -1,10 +1,11 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.03.2010
+#~ Date last edited: 09.05.2010
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
 #~ Set maximum for raw stats at 300
+#~ Allow user to level up to 200, with the remaining 100 being gained from titles.
 
 module Compute_Stats
 	def hp
@@ -57,8 +58,20 @@ module Compute_Stats
 	end
 	
 	def flux
-		#~ flux
-		@flux
+		#~ flux and mp
+		#~ Store as the amount of mana that can be transmitted per second
+		#~ Calculate as a percentage of the maximum amount of MP one can have
+		percentage = (@flux/300.0)
+		
+		#~ @mp * percentage
+	end
+	
+	def max_flux_input
+		
+	end
+	
+	def max_flux_output
+		
 	end
 	
 	def hit
