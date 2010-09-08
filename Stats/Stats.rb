@@ -1,13 +1,17 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.05.2010
+#~ Date last edited: 09.08.2010
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
 #~ Set maximum for raw stats at 300
 #~ Allow user to level up to 200, with the remaining 100 being gained from titles.
+#~ At this level of code, mana and flux must advance at the same rate. (ie, by the same formula)
 
 module Compute_Stats
+	MAX_HP = 10000
+	MAX_MP = 10000
+
 	def hp
 		#~ con
 		#~ Max # 10,000
@@ -30,6 +34,9 @@ module Compute_Stats
 	
 	def mp_recovery
 		#~ flux
+		#~ This stat controls only the passive recovery of mana
+		#~ At max, the passive recovery should take 60 sec to fully recharge max mana
+		#~ max @ 166.666667 (500/3)
 	end
 	
 	def attack
@@ -71,11 +78,15 @@ module Compute_Stats
 	end
 	
 	def max_flux_input
-		
+		#~ Should be related to the mp recovery (proportional?)
+		percentage = (@flux/300.0)
 	end
 	
 	def max_flux_output
-		
+		#~ Should be related to the maximum MP, so that the amount of MP and max output
+		#~ 	are related, but separate.  Thus, it would be possible to have low mana and high output
+		percentage = (@flux/300.0)
+		percentage*MAX_MP 
 	end
 	
 	def hit
