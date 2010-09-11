@@ -11,6 +11,7 @@
 module Compute_Stats
 	MAX_HP = 10000
 	MAX_MP = 10000
+	MAX_ACTIVE_MP_RECOVERY_RATE = 5			#List as a multiplier on the recovery rate
 
 	def hp
 		#~ con
@@ -70,23 +71,31 @@ module Compute_Stats
 	
 	def flux
 		#~ flux and mp
-		#~ Store as the amount of mana that can be transmitted per second
-		#~ Calculate as a percentage of the maximum amount of MP one can have
-		percentage = (@flux/300.0)
-		
-		#~ @mp * percentage
-	end
-	
-	def max_flux_input
-		#~ Should be related to the mp recovery (proportional?)
-		percentage = (@flux/300.0)
-	end
-	
-	def max_flux_output
 		#~ Should be related to the maximum MP, so that the amount of MP and max output
 		#~ 	are related, but separate.  Thus, it would be possible to have low mana and high output
 		percentage = (@flux/300.0)
 		percentage*MAX_MP 
+	end
+	
+	def flux_input
+		#~ Should be related to the mp recovery (proportional?)
+		#~ At max, allow for 5x the recovery rate
+		#~ Actually, set the recovery rate as a fraction of this
+		#~ This value should be similar to the output flux
+		#~ Perhaps a percentage of the output flux dictated by the power stat in proportional to
+		#~ 	total power
+		percentage = (@flux/300.0)
+	end
+	
+	def flux_output
+		#~ Should be related to the maximum MP, so that the amount of MP and max output
+		#~ 	are related, but separate.  Thus, it would be possible to have low mana and high output
+		percentage = (@flux/300.0)
+		percentage*MAX_MP 
+	end
+	
+	def flux_decompose
+		#~ Flux for decomposition
 	end
 	
 	def hit
