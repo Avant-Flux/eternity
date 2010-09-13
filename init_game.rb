@@ -42,7 +42,7 @@ class Game_Window < Gosu::Window
 		
 		@building = Building.new(self, @space, 500, 300, 200, [500,500,0])
 		
-		@player = Player.new(self, @space, "Bob", [300, 300, 0])
+		@player = Player.new(self, @space, "Bob", [3, 3, 0])
 		characters = Array.new
 		#~ 19.times do |i|
 			#~ x = (i * 30) % 800 + 100
@@ -73,7 +73,7 @@ class Game_Window < Gosu::Window
 		
 		Entity.update_all
 		
-		#~ puts @player.position
+		puts @player.position
 		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 		
 		@space.step

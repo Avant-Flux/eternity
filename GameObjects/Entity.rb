@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.28.2010
+#~ Date last edited: 09.13.2010
 
 require 'rubygems'
 require 'gosu'
@@ -28,13 +28,14 @@ class Entity
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
+	@@scale = 44
 	@@all = Array.new
 
 	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
-		@move_constant = 150*44
-		@run_constant = 500*44
+		@move_constant = 150
+		@run_constant = 500
 		
 		@animations = animations
 		
@@ -87,19 +88,19 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @shape.x - @animations.width <= 0
-			@shape.x = @animations.width
+		if @shape.x*@@scale - @animations.width <= 0
+			@shape.x = @animations.width/(@@scale * 1.0)
 		end
 		
-		if @shape.y - @animations.height <= 0
-			@shape.y = @animations.height
+		if @shape.y*@@scale - @animations.height <= 0
+			@shape.y = @animations.height/(@@scale * 1.0)
 		end
 	end
 	
 	
 	def draw
 		if visible
-			@animations.draw @shape.x, @shape.y, @shape.z
+			@animations.draw @shape.x*@@scale, @shape.y*@@scale, @shape.z*@@scale
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 		end
 	end
