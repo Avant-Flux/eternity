@@ -201,3 +201,8 @@ For gravity/force management
 		calculate the acceleration of the object.
 	This process only needs to be processed for the z-direction, as the xy plane should be handled
 		by the existing code in the Chipmunk engine.
+		
+For scaling
+	Try to monkey patch Gosu::Image in order to scale all draw commands automatically.
+	To do this, alias Gosu::Image#draw to something else, then overwrite the method to call the new
+		method, calling the correct parameters scaled appropriately.
