@@ -28,7 +28,6 @@ class Entity
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
-	@@scale = 44
 	@@all = Array.new
 
 	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
@@ -88,19 +87,19 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @shape.x*@@scale - @animations.width <= 0
-			@shape.x = @animations.width/(@@scale * 1.0)
+		if @shape.x*CP::Space_3D.scale - @animations.width <= 0
+			@shape.x = @animations.width/(CP::Space_3D.scale * 1.0)
 		end
 		
-		if @shape.y*@@scale - @animations.height <= 0
-			@shape.y = @animations.height/(@@scale * 1.0)
+		if @shape.y*CP::Space_3D.scale - @animations.height <= 0
+			@shape.y = @animations.height/(CP::Space_3D.scale * 1.0)
 		end
 	end
 	
 	
 	def draw
 		if visible
-			@animations.draw @shape.x*@@scale, @shape.y*@@scale, @shape.z*@@scale
+			@animations.draw @shape.x*CP::Space_3D.scale, @shape.y*CP::Space_3D.scale, @shape.z*CP::Space_3D.scale
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 		end
 	end
@@ -108,7 +107,7 @@ class Entity
 	def jump
 		if @jump_count < 10000000 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
-			@shape.vz = 200 #On jump, set the velocity in the z direction
+			@shape.vz = 5 #On jump, set the velocity in the z direction
 		elsif @shape.z <= @shape.elevation
 			@jump_count = 0
 		end

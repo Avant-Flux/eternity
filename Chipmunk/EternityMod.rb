@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.31.2010
+#~ Date last edited: 09.13.2010
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
@@ -89,3 +89,15 @@ end
 		#~ end
 	#~ end
 #~ end
+
+module CP
+	class Space_3D
+		@@scale = 44
+		
+		class << self
+			def scale
+				@@scale
+			end
+		end
+	end
+end
