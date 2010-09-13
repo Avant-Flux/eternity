@@ -98,6 +98,10 @@ module CP
 			def scale
 				@@scale
 			end
+			
+			def scale= arg
+				@@scale = arg
+			end
 		end
 	end
 end
