@@ -206,3 +206,7 @@ For scaling
 	Try to monkey patch Gosu::Image in order to scale all draw commands automatically.
 	To do this, alias Gosu::Image#draw to something else, then overwrite the method to call the new
 		method, calling the correct parameters scaled appropriately.
+		
+Chipmunk Shape_3D function arguments
+	Take position and dimensions as an array marked by a hash tag
+	ie	:pos => [0,0,0], :dimensions => [0,0,0]
