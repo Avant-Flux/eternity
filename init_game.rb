@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.10.2010
+#~ Date last edited: 09.15.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(self, @space, 10, 10, 2, [10, 10, 0])
+		@building = Building.new(self, @space, :dimensions => [5, 5, 2], :position => [10, 10, 0])
 		
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
@@ -73,8 +73,8 @@ class Game_Window < Gosu::Window
 		
 		Entity.update_all
 		
-		puts @player.position
-		puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
+		#~ puts @player.position
+		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
 		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 		
 		@space.step

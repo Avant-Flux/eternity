@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.28.2010
+#~ Date last edited: 09.15.2010
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
@@ -12,12 +12,17 @@ require 'Drawing/Wireframe'
 class Building
 	attr_reader :space, :shape
 
-	def initialize(window, space, width, depth, height, pos, offset=CP::Vec2.new(0,0))
+	def initialize(window, space, hash={})
+		#~ Set default values for hash values if they are not already set.
+		hash[:dimensions] = [1,1,1] unless hash[:dimensions]
+		hash[:position] = [0,0,0] unless hash[:position]
+		hash[:offset] = CP::Vec2.new(0,0) unless hash[:offset]
+		
 		@window = window
 		@space = space
-		@shape = CP::Shape_3D::Rect.new(self, space, :building, pos, 0, 
-							:bottom_left, width, depth, height, 
-							Float::INFINITY, Float::INFINITY, offset)
+		@shape = CP::Shape_3D::Rect.new(self, space, :building, hash[:position], 0, :bottom_left, 
+							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
+							Float::INFINITY, Float::INFINITY, hash[:offset])
 		@wireframe = Wireframe::Rect.new(@window, @shape, :white)
 		space.add self, :static
 	end
