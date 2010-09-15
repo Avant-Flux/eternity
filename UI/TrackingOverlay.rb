@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.28.2010
- 
+#~ Date last edited: 09.15.2010
+
 require 'rubygems'
 require 'texplay'
 require 'RMagick'
@@ -24,7 +24,7 @@ module UI
 				@window = window
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, 120, 80, @player.shape.x, @player.shape.y)
+				@ellipse = Ellipse.new(@window, @player, 4, 2, @player.shape.x*CP::Space_3D.scale, @player.shape.y*CP::Space_3D.scale)
 			end
 			
 			def track(entity)
@@ -53,16 +53,21 @@ module UI
 			end
 			
 			class Ellipse
+				#~ Dimensions for the Ellipse should be given in meters.
+				#~ The initial rendering of the Ellipse will be done using the initial conversion 
+				#~ 		rate between pixels and meters.  subsequent resizing will be done using
+				#~ 		OpenGL to scale the generated sprite.
+
 				attr_accessor :a, :b, :cx, :cy
 				attr_reader :z
 				
 				def initialize(window, player, a, b, cx, cy, stroke_width=3)
 					@window = window
 					@player = player
-					@a = a
-					@b = b
-					@cx = cx
-					@cy = cy
+					@a = a*CP::Space_3D.scale
+					@b = b*CP::Space_3D.scale
+					@cx = cx*CP::Space_3D.scale
+					@cy = cy*CP::Space_3D.scale
 					
 					padding = stroke_width/2+10
 					
@@ -77,7 +82,7 @@ module UI
 					gc.stroke('red')
 					gc.stroke_width(stroke_width)
 					gc.fill_opacity(0)
-					gc.ellipse(width/2,height/2, a,b, 0,360)
+					gc.ellipse(width/2,height/2, @a,@b, 0,360)
 					
 					gc.draw(canvas)
 					@img = Gosu::Image.new(@window, canvas, false)
@@ -91,12 +96,12 @@ module UI
 				def draw
 					#Adjust x and y to compensate for storing the coordinates of the center point
 					#	when the image is drawn from the corner.
-					x = @cx-@img.width/2
-					y = @cy-@img.height/2
+					x = @cx*CP::Space_3D.scale-@img.width/2
+					y = @cy*CP::Space_3D.scale-@img.height/2
 					
 					#Move the y-coordinate to compensate for the player's z coordinate and elevation
-					y -= @player.shape.z-@player.animations.height/5
-					@z = @player.shape.z+y
+					y -= @player.shape.z*CP::Space_3D.scale-@player.animations.height/5
+					@z = @player.shape.z*CP::Space_3D.scale+y
 				
 					@img.draw x, y, @z
 				end
@@ -149,7 +154,7 @@ module UI
 				
 				def render
 					radius = calculate_radius
-					puts radius
+					#~ puts radius
 					if radius > MAX_RADIUS
 						radius = MAX_RADIUS
 					elsif radius < 1
@@ -169,8 +174,8 @@ module UI
 				end
 			
 				def vector_between(arg1, arg2)
-					x = arg1.body.x - arg2.body.x
-					y = arg1.body.y - arg2.body.y
+					x = arg1.shape.x - arg2.shape.x
+					y = arg1.shape.y - arg2.shape.y
 					CP::Vec2.new(x,y)
 				end
 				
