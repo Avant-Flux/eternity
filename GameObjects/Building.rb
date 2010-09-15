@@ -23,7 +23,7 @@ class Building
 		@shape = CP::Shape_3D::Rect.new(self, space, :building, hash[:position], 0, :bottom_left, 
 							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, hash[:offset])
-		@wireframe = Wireframe::Rect.new(@window, @shape, :white)
+		@wireframe = Wireframe::Building.new(@window, @shape, :white)
 		space.add self, :static
 	end
 	

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 08.09.2010
+#~ Date last edited: 09.15.2010
 
 require 'rubygems'
 require 'texplay'
@@ -26,7 +26,10 @@ module Gosu
 end
 
 module Wireframe
-	class Circle
+	class Creature
+	end
+
+	class Character
 		def initialize
 			
 		end
@@ -40,7 +43,7 @@ module Wireframe
 		end
 	end
 
-	class Rect
+	class Building
 		def initialize(window, shape, color = :black)
 			@window = window
 			@shape = shape
@@ -53,12 +56,11 @@ module Wireframe
 			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			scale = 1
-			width = @shape.width*scale
-			height = @shape.height*scale
-			depth = @shape.depth*scale
+			width = @shape.width*CP::Space_3D.scale
+			height = @shape.height*CP::Space_3D.scale
+			depth = @shape.depth*CP::Space_3D.scale
 			x = @side_thickness
-			y = @shape.height + @shape.depth - bottom_buffer
+			y = @shape.height*CP::Space_3D.scale + @shape.depth*CP::Space_3D.scale - bottom_buffer
 			
 			point = Struct.new(:x, :y)
 			
@@ -107,8 +109,8 @@ module Wireframe
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			end
 			
-			@x = @shape.x - @side_thickness
-			@y = @shape.y - @img.height - @shape.z
+			@x = @shape.x*CP::Space_3D.scale - @side_thickness
+			@y = @shape.y*CP::Space_3D.scale - @img.height - @shape.z*CP::Space_3D.scale
 			@z = 10
 		end
 		
