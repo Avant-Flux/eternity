@@ -12,7 +12,7 @@ require 'Drawing/Wireframe'
 class Building
 	attr_reader :space, :shape
 
-	def initialize(window, space, width, height, depth, pos, offset=CP::Vec2.new(0,0))
+	def initialize(window, space, width, depth, height, pos, offset=CP::Vec2.new(0,0))
 		@window = window
 		@space = space
 		@shape = CP::Shape_3D::Rect.new(self, space, :building, pos, 0, 
