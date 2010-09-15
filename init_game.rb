@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(self, @space, 500, 300, 200, [500,500,0])
+		@building = Building.new(self, @space, 5, 5, 2, [10, 10, 0])
 		
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
@@ -73,7 +73,8 @@ class Game_Window < Gosu::Window
 		
 		Entity.update_all
 		
-		#~ puts @player.position
+		puts @player.position
+		puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
 		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 		
 		@space.step

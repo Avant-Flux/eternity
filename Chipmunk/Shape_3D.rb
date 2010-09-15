@@ -92,7 +92,7 @@ module CP
 				#Only compute the coord for the lower left corner and the upper right corner.
 				#The other coordinates can be deduced based on these coords.
 				
-				x1,y1, x2,y2 = corners center, height, width
+				x1,y1, x2,y2 = corners(center, height, width)
 				
 				top_left = CP::Vec2.new(x1, y2)
 				top_right = CP::Vec2.new(x2, y2)
