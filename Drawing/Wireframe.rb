@@ -50,10 +50,10 @@ module Wireframe
 			
 			@side_thickness = 4
 			
-			front_edge = 10
-			back_edge = 5
+			front_edge = 7
+			back_edge = 6
 			bottom_edge = 2
-			consealed_edge = 2
+			consealed_edge = 1
 			side_buffer = 10
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
