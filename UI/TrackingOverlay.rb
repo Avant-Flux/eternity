@@ -125,7 +125,7 @@ module UI
 					
 					@x, @y = elliptical_projection
 								
-					@image = TexPlay.create_blank_image(@window, MAX_RADIUS*2, MAX_RADIUS*2)
+					clear_image
 					@radius = 10
 					render
 				end
