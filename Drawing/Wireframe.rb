@@ -54,6 +54,7 @@ module Wireframe
 			back_edge = 5
 			bottom_edge = 2
 			consealed_edge = 2
+			side_buffer = 10
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
 			width = @shape.width.to_px
@@ -76,7 +77,7 @@ module Wireframe
 			points << point.new(x, y)
 			points << point.new(x + width, y)
 			
-			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2, 
+			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2 + side_buffer*2, 
 														height + depth + bottom_buffer
 			@img.paint do
 				#Top side, left edge
@@ -109,7 +110,7 @@ module Wireframe
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			end
 			
-			@x = @shape.x.to_px - @side_thickness
+			@x = @shape.x.to_px - @side_thickness - 10 + side_buffer
 			@y = @shape.y.to_px - @img.height - @shape.z.to_px
 			@z = 10
 		end
