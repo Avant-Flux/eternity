@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.15.2010
+#~ Date last edited: 09.16.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -45,8 +45,8 @@ class Game_Window < Gosu::Window
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
 		19.times do |i|
-			x = (i * 30) % 800 + 100
-			y = (i * 100) % 600 + 100
+			x = (i * 3) % 8 + 1
+			y = (i * 10) % 6 + 1
 			
 			characters << Character.new(self, @space, "NPC", [x, y, 0])
 		end
