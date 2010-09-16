@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.15.2010
+#~ Date last edited: 09.16.2010
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
@@ -57,11 +57,5 @@ class Building
 	
 	def height= arg
 		@shape.height = arg
-	end
-	
-	private
-	
-	def draw_wireframe
-		
 	end
 end
