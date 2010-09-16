@@ -20,11 +20,11 @@ require 'RMagick'
 module UI
 	module Overlay
 		class Tracking
-			def initialize(window, player)#, a, b, cx, cy)
+			def initialize(window, player, a=4, b=2)
 				@window = window
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, 4, 2, 
+				@ellipse = Ellipse.new(@window, @player, a, b, 
 										@player.shape.x, @player.shape.y)
 			end
 			
