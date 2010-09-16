@@ -58,6 +58,9 @@ module UI
 				#~ The initial rendering of the Ellipse will be done using the initial conversion 
 				#~ 		rate between pixels and meters.  subsequent resizing will be done using
 				#~ 		OpenGL to scale the generated sprite.
+				#~ Arguments are accepted with units of meters, but are immediately converted to
+				#~ 		pixels.  This is because the generation of the ellipse requires pixel
+				#~ 		dimensions.
 
 				attr_accessor :a, :b, :cx, :cy
 				attr_reader :z
@@ -90,15 +93,15 @@ module UI
 				end
 				
 				def update
-					@cx = @player.shape.x
-					@cy = @player.shape.y
+					@cx = @player.shape.x.to_px
+					@cy = @player.shape.y.to_px
 				end
 				
 				def draw
 					#Adjust x and y to compensate for storing the coordinates of the center point
 					#	when the image is drawn from the corner.
-					x = @cx.to_px-@img.width/2
-					y = @cy.to_px-@img.height/2
+					x = @cx-@img.width/2
+					y = @cy-@img.height/2
 					
 					#Move the y-coordinate to compensate for the player's z coordinate and elevation
 					y -= @player.shape.z.to_px-@player.animations.height/5
@@ -183,8 +186,11 @@ module UI
 					#Calculate the corresponding position of a tracking blip for a given entity
 					#The trig functions in ruby take the angle in radians
 					angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
-					x = @ellipse.cx.to_px + @ellipse.a*Math.cos(angle)
-					y = @ellipse.cy.to_px + @ellipse.b*Math.sin(angle)
+					
+					#~ The distances here should already be in pixels, as that is how the data
+					#~ 		is stored in the ellipse.
+					x = @ellipse.cx + @ellipse.a*Math.cos(angle)
+					y = @ellipse.cy + @ellipse.b*Math.sin(angle)
 					return x,y
 				end
 				
