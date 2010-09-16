@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.15.2010
+#~ Date last edited: 09.16.2010
 
 require 'rubygems'
 require 'texplay'
@@ -24,7 +24,8 @@ module UI
 				@window = window
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, 4, 2, @player.shape.x.to_px, @player.shape.y.to_px)
+				@ellipse = Ellipse.new(@window, @player, 4, 2, 
+										@player.shape.x, @player.shape.y)
 			end
 			
 			def track(entity)
@@ -48,7 +49,7 @@ module UI
 				@ellipse.draw
 				
 				@tracked.each do |blip|
-					blip.draw @player.shape.z+10
+					blip.draw @player.shape.z.to_px+10
 				end
 			end
 			
@@ -121,7 +122,6 @@ module UI
 					
 					@vector = vector_between @tracked, @player
 					@distance = @vector.length.ceil
-					angle_to_tracked
 					
 					@x, @y = elliptical_projection
 								
@@ -178,24 +178,19 @@ module UI
 					y = arg1.shape.y - arg2.shape.y
 					CP::Vec2.new(x,y)
 				end
-				
-				def angle_to_tracked
-					#Returns angle in radians
-					@vector.to_angle
-				end
-				
+					
 				def elliptical_projection
 					#Calculate the corresponding position of a tracking blip for a given entity
 					#The trig functions in ruby take the angle in radians
-					angle = angle_to_tracked
-					x = @ellipse.cx + @ellipse.a*Math.cos(angle)
-					y = @ellipse.cy + @ellipse.b*Math.sin(angle)
+					angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
+					x = @ellipse.cx.to_px + @ellipse.a*Math.cos(angle)
+					y = @ellipse.cy.to_px + @ellipse.b*Math.sin(angle)
 					return x,y
 				end
 				
 				
 				def calculate_radius
-					constant = 12000
+					constant = 120
 					((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
 				end
 			end
