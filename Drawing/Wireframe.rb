@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.15.2010
+#~ Date last edited: 09.16.2010
 
 require 'rubygems'
 require 'texplay'
@@ -56,11 +56,11 @@ module Wireframe
 			consealed_edge = 2
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			width = @shape.width*CP::Space_3D.scale
-			height = @shape.height*CP::Space_3D.scale
-			depth = @shape.depth*CP::Space_3D.scale
+			width = @shape.width.to_px
+			height = @shape.height.to_px
+			depth = @shape.depth.to_px
 			x = @side_thickness
-			y = @shape.height*CP::Space_3D.scale + @shape.depth*CP::Space_3D.scale - bottom_buffer
+			y = @shape.height.to_px + @shape.depth.to_px - bottom_buffer
 			
 			point = Struct.new(:x, :y)
 			
@@ -109,8 +109,8 @@ module Wireframe
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			end
 			
-			@x = @shape.x*CP::Space_3D.scale - @side_thickness
-			@y = @shape.y*CP::Space_3D.scale - @img.height - @shape.z*CP::Space_3D.scale
+			@x = @shape.x.to_px - @side_thickness
+			@y = @shape.y.to_px - @img.height - @shape.z.to_px
 			@z = 10
 		end
 		

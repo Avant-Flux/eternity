@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.13.2010
+#~ Date last edited: 09.16.2010
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
@@ -67,5 +67,17 @@ module CP
 				@@scale = arg
 			end
 		end
+	end
+end
+
+class Numeric
+	def to_px
+		#~ Convert from meters to pixels
+		self*CP::Space_3D.scale
+	end
+	
+	def to_meters
+		#~ Convert from pixels to meters
+		self/CP::Space_3D.scale
 	end
 end
