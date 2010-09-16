@@ -24,7 +24,7 @@ module UI
 				@window = window
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, 4, 2, @player.shape.x*CP::Space_3D.scale, @player.shape.y*CP::Space_3D.scale)
+				@ellipse = Ellipse.new(@window, @player, 4, 2, @player.shape.x.to_px, @player.shape.y.to_px)
 			end
 			
 			def track(entity)
@@ -64,10 +64,10 @@ module UI
 				def initialize(window, player, a, b, cx, cy, stroke_width=3)
 					@window = window
 					@player = player
-					@a = a*CP::Space_3D.scale
-					@b = b*CP::Space_3D.scale
-					@cx = cx*CP::Space_3D.scale
-					@cy = cy*CP::Space_3D.scale
+					@a = a.to_px
+					@b = b.to_px
+					@cx = cx.to_px
+					@cy = cy.to_px
 					
 					padding = stroke_width/2+10
 					
@@ -96,12 +96,12 @@ module UI
 				def draw
 					#Adjust x and y to compensate for storing the coordinates of the center point
 					#	when the image is drawn from the corner.
-					x = @cx*CP::Space_3D.scale-@img.width/2
-					y = @cy*CP::Space_3D.scale-@img.height/2
+					x = @cx.to_px-@img.width/2
+					y = @cy.to_px-@img.height/2
 					
 					#Move the y-coordinate to compensate for the player's z coordinate and elevation
-					y -= @player.shape.z*CP::Space_3D.scale-@player.animations.height/5
-					@z = @player.shape.z*CP::Space_3D.scale+y
+					y -= @player.shape.z.to_px-@player.animations.height/5
+					@z = @player.shape.z.to_px+y
 				
 					@img.draw x, y, @z
 				end

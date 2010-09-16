@@ -39,8 +39,8 @@ class Entity
 		@animations = animations
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
-											@animations.width/2/CP::Space_3D.scale, 
-											@animations.height/CP::Space_3D.scale,
+											(@animations.width/2).to_meters, 
+											@animations.height.to_meters,
 											mass, moment)
 		space.add self
 		
@@ -88,19 +88,19 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @shape.x*CP::Space_3D.scale - @animations.width <= 0
-			@shape.x = @animations.width/(CP::Space_3D.scale * 1.0)
+		if @shape.x.to_px - @animations.width <= 0
+			@shape.x = @animations.width.to_meters
 		end
 		
-		if @shape.y*CP::Space_3D.scale - @animations.height <= 0
-			@shape.y = @animations.height/(CP::Space_3D.scale * 1.0)
+		if @shape.y.to_px - @animations.height <= 0
+			@shape.y = @animations.height.to_meters
 		end
 	end
 	
 	
 	def draw
 		if visible
-			@animations.draw @shape.x*CP::Space_3D.scale, @shape.y*CP::Space_3D.scale, @shape.z*CP::Space_3D.scale
+			@animations.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 		end
 	end
