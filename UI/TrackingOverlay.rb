@@ -49,7 +49,7 @@ module UI
 				@ellipse.draw
 				
 				@tracked.each do |blip|
-					blip.draw @player.shape.z.to_px+10
+					blip.draw
 				end
 			end
 			
@@ -63,7 +63,7 @@ module UI
 				#~ 		dimensions.
 
 				attr_accessor :a, :b, :cx, :cy
-				attr_reader :z
+				attr_reader :x, :y, :z
 				
 				def initialize(window, player, a, b, cx, cy, stroke_width=3)
 					@window = window
@@ -95,19 +95,19 @@ module UI
 				def update
 					@cx = @player.shape.x.to_px
 					@cy = @player.shape.y.to_px
+					
+					#Adjust x and y to compensate for storing the coordinates of the center point
+					#	when the image is drawn from the corner.
+					@x = @cx-@img.width/2
+					@y = @cy-@img.height/2
+					@z = @player.shape.z.to_px+y
+					
+					#Move the y-coordinate to compensate for the player's z coordinate and elevation
+					@y -= @player.shape.z.to_px#-@player.animations.height/5
 				end
 				
 				def draw
-					#Adjust x and y to compensate for storing the coordinates of the center point
-					#	when the image is drawn from the corner.
-					x = @cx-@img.width/2
-					y = @cy-@img.height/2
-					
-					#Move the y-coordinate to compensate for the player's z coordinate and elevation
-					y -= @player.shape.z.to_px-@player.animations.height/5
-					@z = @player.shape.z.to_px+y
-				
-					@img.draw x, y, @z
+					@img.draw @x, @y, @z
 				end
 			end
 			
@@ -144,8 +144,8 @@ module UI
 					@x, @y = elliptical_projection
 				end
 				
-				def draw(z_index=1)
-					@image.draw @x-CENTER, @y-CENTER-z_index, @ellipse.z
+				def draw
+					@image.draw @x-CENTER, @y-CENTER-@player.shape.z.to_px, @ellipse.z
 					#~ puts "#{@distance}   (#{@x}, #{@y})"
 				end
 				

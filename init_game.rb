@@ -44,17 +44,20 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
-		19.times do |i|
-			x = (i * 3) % 8 + 1
-			y = (i * 10) % 6 + 1
-			
-			characters << Character.new(self, @space, "NPC", [x, y, 0])
-		end
-		@player.track(characters[0])
-		@player.track(characters[9])
-		@player.track(characters[12])
-		@player.track(characters[3])
+		#~ 5.times do |i|
+			#~ x = (i * 3) % 8 + 1
+			#~ y = (i * 10) % 6 + 1
+			#~ 
+			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
+		#~ end
+		#~ @player.track(characters[0])
+		#~ @player.track(characters[9])
+		#~ @player.track(characters[12])
+		#~ @player.track(characters[3])
 		#~ @player.track(characters[18])
+		
+		characters << Character.new(self, @space, "NPC", [5, 8, 0])
+		@player.track characters[0]
 		
 		@effect = Animations::Effect.new(self, "Gale")
 		
