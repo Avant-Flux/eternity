@@ -114,7 +114,7 @@ class Entity
 		end
 	end
 	
-	def move(dir, constant=@move_constant)
+	def move(dir)
 		angle =	case dir
 					when :up
 						((3*Math::PI)/2.0)
@@ -138,7 +138,7 @@ class Entity
 		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 		#~ proj = (unit_vector * scalar)
 		
-		force = unit_vector * constant
+		force = unit_vector * @move_constant
 		
 		@shape.body.apply_force force, CP::Vec2.new(0,0)
 		@shape.body.a = angle
