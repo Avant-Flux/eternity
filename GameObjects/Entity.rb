@@ -6,7 +6,7 @@ require 'rubygems'
 require 'gosu'
 require 'chipmunk'
 
-require 'Chipmunk/ChipmunkInterfaceMod'
+require 'Chipmunk/Space_3D'
 require 'Chipmunk/EternityMod'
 require 'Combat/Combative'
 require 'Drawing/Animations'

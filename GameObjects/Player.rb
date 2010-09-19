@@ -2,6 +2,8 @@
 #~ Name: Jason
 #~ Date last edited: 06.14.2010
 
+require 'Chipmunk/Space_3D'
+
 require "GameObjects/Character"
 
 require "Titles/Title"

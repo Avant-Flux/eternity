@@ -1,10 +1,10 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.16.2010
+#~ Date last edited: 09.18.2010
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
-require 'Chipmunk/ChipmunkInterfaceMod'
+require 'Chipmunk/Space_3D'
 require 'Chipmunk/EternityMod'
 
 require 'Drawing/Wireframe'

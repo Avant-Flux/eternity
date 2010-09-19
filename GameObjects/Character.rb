@@ -2,8 +2,7 @@
 #~ Name: Jason
 #~ Date last edited: 07.22.2010
 
-require 'Chipmunk/ChipmunkInterfaceMod'
-require "Titles/Title"
+require 'Chipmunk/Space_3D'
 require "Titles/Title_Holder"
 require "GameObjects/Entity"
 #To be used for NPCs, such as enemy units
