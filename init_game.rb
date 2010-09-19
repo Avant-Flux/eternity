@@ -119,6 +119,9 @@ class Game_Window < Gosu::Window
 		space.add_collision_handler :entity, :environment, CollisionHandler::Entity_Env.new
 		space.add_collision_handler :entity, :building, CollisionHandler::Entity_Env.new
 		
+		space.add_collision_handler :camera, :entity, CollisionHandler::Camera.new(@camera)
+		space.add_collision_handler :camera, :building, CollisionHandler::Camera.new(@camera)
+		
 		return space
 	end
 	
