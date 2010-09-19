@@ -9,15 +9,7 @@ require 'chipmunk'
 require 'Chipmunk/Shape'
 
 #Allows collision functions to be defined from within the shape
-module CP
-	module Collide
-		def collision_fx(type1, type2=self, &block)
-			@space.add_collision_func(type1, type2) do |shape1, shape2|
-				yield shape1, shape2
-			end
-		end
-	end
-	
+module CP	
 	module Gravitation
 		#Rules for applying gravity in the z-direction
 		#	The z-axis is defined as positive in the upwards direction
@@ -85,7 +77,6 @@ module CP
 
 	module Shape_3D
 		class Circle < CP::Shape::Circle
-			include CP::Collide
 			include CP::Position
 			include CP::Gravitation
 			
@@ -112,7 +103,6 @@ module CP
 		end
 		
 		class Rect < CP::Shape::Rect
-			include CP::Collide
 			include CP::Position
 			include CP::Gravitation
 			
