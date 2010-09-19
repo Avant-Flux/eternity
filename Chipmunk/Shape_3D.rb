@@ -1,11 +1,12 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.29.2010
+#~ Date last edited: 09.18.2010
 
 #~ Notes:
 #~ Should contain one CP::Shape and a z coordinate, as well as other z related attributes 
 require 'rubygems'
 require 'chipmunk'
+require 'Chipmunk/Shape'
 
 #Allows collision functions to be defined from within the shape
 module CP
@@ -80,87 +81,6 @@ module CP
 			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
 			#~ @xy.body.v.cross(@xz.body.v)
 		#~ end
-	end
-
-	module Shape
-		class Rect < CP::Shape::Poly
-			def initialize(body, center=:bottom, width, height, offset)
-				#Initially design vectors such that the object is pointing to the right (0 rad)
-				#Obj. will be rotated to face the top of screen before game starts
-				
-				
-				#Only compute the coord for the lower left corner and the upper right corner.
-				#The other coordinates can be deduced based on these coords.
-				
-				x1,y1, x2,y2 = corners(center, height, width)
-				
-				top_left = CP::Vec2.new(x1, y2)
-				top_right = CP::Vec2.new(x2, y2)
-				bottom_left = CP::Vec2.new(x1, y1)
-				bottom_right = CP::Vec2.new(x2, y1)
-				
-				shape_array =	[top_left, top_right, bottom_right, bottom_left]
-				super body, shape_array, offset
-			end
-			
-			private 
-			
-			#Given the position of the center point, and the lengths of the sides,
-			#	compute the coordinates of the lower-left corner and the upper-right corner
-			def corners(center, height, width)
-				case center
-					when :bottom
-						x1 = 0
-						y1 = -(width/2)
-						x2 = height
-						y2 = width/2
-					when :top
-						x1 = 0
-						y1 = -(width/2)
-						x2 = -height
-						y2 = width/2
-					when :left
-						x1 = -(height/2)
-						y1 = 0
-						x2 = height/2
-						y2 = width
-					when :right
-						x1 = -(height/2)
-						y1 = 0
-						x2 = height/2
-						y2 = -width
-					when :top_left
-						x1 = 0
-						y1 = 0
-						x2 = -height
-						y2 = width
-					when :top_right
-						x1 = 0
-						y1 = 0
-						x2 = -height
-						y2 = -width
-					when :bottom_left
-						x1 = 0
-						y1 = 0
-						x2 = height
-						y2 = width
-					when :bottom_right
-						x1 = 0
-						y1 = 0
-						x2 = height
-						y2 = -width
-					when :center
-						half_width = width/2
-						half_height = height/2
-						x1 = -half_height
-						y1 = half_width
-						x2 = half_height
-						y2 = -half_width
-				end
-				
-				return x1,y1, x2,y2
-			end
-		end
 	end
 
 	module Shape_3D

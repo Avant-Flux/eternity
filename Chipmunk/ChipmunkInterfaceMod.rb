@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.13.2010
+#~ Date last edited: 09.18.2010
 
 #~ Notes:
 #~ Remove the xz CP::Space and store the z-based gravity application function in this class
@@ -84,35 +84,6 @@ module CP
 		def remove
 			
 		end
-	end
-	
-	module Shape
-		module Polygon; class << self
-			#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
-			#modified to be more usable and ruby-like <- work in progress
-			
-			# Produces the vertices of a regular polygon.
-			def vertices(sides, size)
-			   vertices = []
-			   sides.times do |i|
-				   angle = -2 * Math::PI * i / sides
-				   vertices << angle.radians_to_vec2() * size
-			   end
-			   return vertices
-			end
-			
-			# Produces the image of a polygon.
-			def image(vertices)
-			   box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
-			   gc = Magick::Draw.new
-			   gc.stroke('red')
-			   gc.fill('plum')
-			   draw_vertices = vertices.map { |v| [v.x + EDGE_SIZE, v.y + EDGE_SIZE] }.flatten
-			   gc.polygon(*draw_vertices)
-			   gc.draw(box_image)
-			   return Gosu::Image.new(self, box_image, false)
-			end
-		end; end
 	end
 	
 	module Bound
