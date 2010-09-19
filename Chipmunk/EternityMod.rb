@@ -52,26 +52,6 @@ module CollisionHandler
 			a.elevation = 0
 		end
 	end
-	
-	#~ Collision type for usage with the CP::Shape and CP::Body used for the camera
-	#~ This is the collision handler for a sensor object
-	class Camera
-		def initialize(camera) #Argument should be the actual camera
-			@camera = camera
-		end
-		
-		def begin(camera, b, arbiter)
-			return true
-		end
-		
-		def pre(camera, b, arbiter) #Determine whether to process collision or not
-			@camera.queue.add b
-		end
-		
-		def sep(camera, b, arbiter)	#Stuff to do after the shapes separate
-			@camera.queue.delete b
-		end
-	end
 end
 
 module CP
