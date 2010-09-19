@@ -5,7 +5,7 @@
 module CP
 	module Shape
 		class Rect < CP::Shape::Poly
-			def initialize(body, center=:bottom, width, height, offset)
+			def initialize(body, center=:bottom, width, height, offset=offset=CP::Vec2.new(0, 0))
 				#Initially design vectors such that the object is pointing to the right (0 rad)
 				#Obj. will be rotated to face the top of screen before game starts
 				
