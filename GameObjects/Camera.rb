@@ -10,10 +10,15 @@ require 'Chipmunk/Shape'
 require 'Chipmunk/EternityMod'
  
 class Camera
-	def initialize(width, depth, entity)
+	attr_reader :shape
+
+	def initialize(space, width, depth, entity)
 		mass = entity.shape.body.m
 		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, width, depth)
 		@entity = entity
+		
+		space.add self
+		shapes = space.shapes[:nonstatic].delete(@shape)
 		
 		@queue = Set.new
 	end
