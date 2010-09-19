@@ -24,6 +24,7 @@ require 'GameObjects/Entity'
 require "GameObjects/Creature"
 require 'GameObjects/Character'
 require 'GameObjects/Player'
+require 'GameObjects/Camera'
 
 require 'Utilities/FPSCounter'
 require 'Utilities/InputHandler'
@@ -58,6 +59,8 @@ class Game_Window < Gosu::Window
 		
 		characters << Character.new(self, @space, "NPC", [5, 8, 0])
 		@player.track characters[0]
+		
+		@camera = Camera.new(@space, self.width.to_meters, self.height.to_meters, @player)
 		
 		@effect = Animations::Effect.new(self, "Gale")
 		
