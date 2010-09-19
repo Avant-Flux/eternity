@@ -69,15 +69,6 @@ module CP
 			
 		end
 	end
-	
-	module Bound
-		class Rect_Prism
-		#Get the vertices in an array and convert them into a bounding shape
-			def initialize(vert)
-				
-			end
-		end
-	end
 end
 
 class Numeric
