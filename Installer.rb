@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 05.30.2010
+#~ Date last edited: 09.19.2010
 
 #Note: Program crashes after installing opengl
 #Files install, but there is no command line notification of anything happening
@@ -78,6 +78,12 @@ class Installer
 		
 		if @os == "Windows"
 			`gem install rmagick-win32`
+		end
+	end
+	
+	def eventmachine
+		if @os == "linux"
+			`gksudo gem install eventmachine`
 		end
 	end
 end
