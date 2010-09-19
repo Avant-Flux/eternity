@@ -12,23 +12,7 @@ require 'gosu'
 require 'RMagick'
 require 'Chipmunk/Shape_3D'
 
-module CP
-	class Space
-		def add(shape, static=:nonstatic)
-			add_body shape.body
-			
-			if static == :nonstatic
-				add_shape shape
-			elsif static == :static
-				add_static_shape shape
-			end
-		end
-		
-		def remove
-			
-		end
-	end
-	
+module CP	
 	class Space_3D < Space
 		attr_reader :dt, :g, :shapes
 		
@@ -96,7 +80,7 @@ module CP
 	end
 end
 
-class Numeric 
+class Numeric
 	#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
    def radians_to_vec2
        CP::Vec2.new(Math::cos(self), Math::sin(self))
