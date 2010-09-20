@@ -78,6 +78,7 @@ class Game_Window < Gosu::Window
 		process_input
 		
 		Entity.update_all
+		#~ @camera.move(@)
 		
 		#~ puts @player.position
 		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
