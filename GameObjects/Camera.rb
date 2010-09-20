@@ -10,7 +10,7 @@ require 'Chipmunk/Shape'
 require 'Chipmunk/EternityMod'
  
 class Camera
-	attr_reader :shape
+	attr_reader :shape, :queue
 
 	def initialize(space, width, depth, entity)
 		mass = entity.shape.body.m
