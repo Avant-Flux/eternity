@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.13.2010
+#~ Date last edited: 09.20.2010
 
 require 'rubygems'
 require 'gosu'
@@ -23,7 +23,7 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :shape, :stats
+	attr_reader :shape, :stats, :move_constant
 	attr_reader :animations, :moving, :direction
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
@@ -33,7 +33,7 @@ class Entity
 	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
-		@move_constant = 150
+		@walk_constant = 150
 		@run_constant = 500
 		
 		@animations = animations
@@ -114,7 +114,7 @@ class Entity
 		end
 	end
 	
-	def move(dir, constant=@move_constant)
+	def move(dir)
 		angle =	case dir
 					when :up
 						((3*Math::PI)/2.0)
@@ -138,14 +138,18 @@ class Entity
 		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 		#~ proj = (unit_vector * scalar)
 		
-		force = unit_vector * constant
+		force = unit_vector * @move_constant
 		
 		@shape.body.apply_force force, CP::Vec2.new(0,0)
 		@shape.body.a = angle
 	end
 	
-	def run(dir)
-		move(dir, @run_constant)
+	def walk
+		@move_constant = @walk_constant
+	end
+	
+	def run
+		@move_constant = @run_constant
 	end
 	
 	def moving?

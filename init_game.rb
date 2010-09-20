@@ -133,10 +133,12 @@ class Game_Window < Gosu::Window
 		dir = @inpman.direction
 		if dir != nil
 			if @inpman.active? :run
-				@player.run dir
+				@player.run
 			else
-				@player.move dir
+				@player.walk
 			end
+			
+			@player.move dir
 		end
 		
 		if @inpman.active?(:jump)
