@@ -76,9 +76,9 @@ class Game_Window < Gosu::Window
 		
 		@inpman.update
 		process_input
+		@camera.move(@player.movement_force/10.0)
 		
 		Entity.update_all
-		#~ @camera.move(@)
 		
 		#~ puts @player.position
 		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
@@ -89,11 +89,14 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		#~ @background.draw
+		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
 		@fpscounter.draw
-		@building.draw
-		@effect.draw(500,60,3)
-		
-		Entity.draw_all
+		#~ Gosu.translate(-10, -10) do
+			@building.draw
+			@effect.draw(500,60,3)
+			
+			Entity.draw_all
+		#~ end
 	end
 	
 	def button_down(id)
