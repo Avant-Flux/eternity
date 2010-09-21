@@ -93,7 +93,7 @@ class Game_Window < Window
 	
 	def draw
 		#~ @background.draw
-		puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
+		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
 		@fpscounter.draw
 		@UI.draw
 		translate(-@camera.x.to_px, -@camera.y.to_px) do
@@ -101,6 +101,10 @@ class Game_Window < Window
 			@effect.draw(500,60,3)
 			
 			Entity.draw_all
+			#~ p @camera.queue
+			#~ @camera.queue.each do |i|
+				#~ i.draw
+			#~ end
 		end
 	end
 	
@@ -127,12 +131,14 @@ class Game_Window < Window
 		#~ space.add_collision_func :type, :type do |first_shape, second_shape|
 			#~ 
 		#~ end
+		entity_env_handler = CollisionHandler::Entity_Env.new
+		camera_collision = CollisionHandler::Camera.new(@camera)
 		
-		space.add_collision_handler :entity, :environment, CollisionHandler::Entity_Env.new
-		space.add_collision_handler :entity, :building, CollisionHandler::Entity_Env.new
+		space.add_collision_handler :entity, :environment, entity_env_handler
+		space.add_collision_handler :entity, :building, entity_env_handler
 		
-		space.add_collision_handler :camera, :entity, CollisionHandler::Camera.new(@camera)
-		space.add_collision_handler :camera, :building, CollisionHandler::Camera.new(@camera)
+		space.add_collision_handler :camera, :entity, camera_collision
+		space.add_collision_handler :camera, :building, camera_collision
 		
 		return space
 	end
