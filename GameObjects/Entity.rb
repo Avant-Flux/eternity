@@ -23,8 +23,8 @@ end
 class Entity
 	include Combative
 	
-	attr_reader :shape, :stats, :move_constant
-	attr_reader :animations, :moving, :direction
+	attr_reader :shape, :stats, :animations
+	attr_reader  :moving, :direction, :move_constant, :movement_force
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
@@ -33,6 +33,7 @@ class Entity
 	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
+		@movement_force = CP::Vec2.new(0,0)
 		@walk_constant = 150
 		@run_constant = 500
 		
@@ -138,9 +139,9 @@ class Entity
 		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 		#~ proj = (unit_vector * scalar)
 		
-		force = unit_vector * @move_constant
+		@movement_force = unit_vector * @move_constant
 		
-		@shape.body.apply_force force, CP::Vec2.new(0,0)
+		@shape.body.apply_force @movement_force, CP::Vec2.new(0,0)
 		@shape.body.a = angle
 	end
 	
