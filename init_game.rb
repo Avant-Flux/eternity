@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.16.2010
+#~ Date last edited: 09.21.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -13,6 +13,7 @@ begin
 rescue LoadError
 	require 'gosu'
 end
+include Gosu
 require 'chingu'
 
 require 'chipmunk'
@@ -33,7 +34,7 @@ require 'Drawing/Background'
 
 require 'UI/UserInterface'
 
-class Game_Window < Gosu::Window
+class Game_Window < Window
 	def initialize
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
@@ -75,11 +76,11 @@ class Game_Window < Gosu::Window
 		@effect.update
 		@building.update
 		
+		@camera.update
 		Entity.reset_all
 		
 		@inpman.update
 		process_input
-		@camera.move(@player.movement_force/10.0)
 		
 		Entity.update_all
 		
@@ -92,24 +93,24 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		#~ @background.draw
-		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
+		puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
 		@fpscounter.draw
 		@UI.draw
-		#~ Gosu.translate(-10, -10) do
+		translate(-@camera.x.to_px, -@camera.y.to_px) do
 			@building.draw
 			@effect.draw(500,60,3)
 			
 			Entity.draw_all
-		#~ end
+		end
 	end
 	
 	def button_down(id)
 		@inpman.button_down(id)
 		
-		if id == Gosu::Button::KbEscape
+		if id == Gosu::KbEscape
 			close
 		end
-		if id == Gosu::Button::KbF
+		if id == Gosu::KbF
 			@fpscounter.toggle
 		end
 	end
@@ -146,6 +147,7 @@ class Game_Window < Gosu::Window
 			end
 			
 			@player.move dir
+			@camera.move(@player.movement_force)
 		end
 		
 		if @inpman.active?(:jump)

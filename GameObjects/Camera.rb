@@ -16,11 +16,17 @@ class Camera
 		mass = entity.shape.body.m
 		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, width, depth)
 		@entity = entity
+		@shape.body.a = (3*Math::PI/2.0)
+		@shape.body.p = CP::Vec2.new(@entity.shape.x-width/2.0, @entity.shape.y-depth/2.0)
 		
 		space.add self
 		shapes = space.shapes[:nonstatic].delete(@shape)
 		
 		@queue = Set.new
+	end
+	
+	def update
+		@shape.body.reset_forces
 	end
 	
 	def move(force, offset=CP::Vec2.new(0,0))
