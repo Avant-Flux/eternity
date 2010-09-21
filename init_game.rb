@@ -60,6 +60,8 @@ class Game_Window < Gosu::Window
 		characters << Character.new(self, @space, "NPC", [5, 8, 0])
 		@player.track characters[0]
 		
+		@UI = UI::Overlay::Status.new(self, @player)
+		
 		@camera = Camera.new(@space, self.width.to_meters, self.height.to_meters, @player)
 		
 		@effect = Animations::Effect.new(self, "Gale")
@@ -69,6 +71,7 @@ class Game_Window < Gosu::Window
 	
 	def update
 		@fpscounter.update
+		@UI.update
 		@effect.update
 		@building.update
 		
@@ -91,6 +94,7 @@ class Game_Window < Gosu::Window
 		#~ @background.draw
 		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
 		@fpscounter.draw
+		@UI.draw
 		#~ Gosu.translate(-10, -10) do
 			@building.draw
 			@effect.draw(500,60,3)
