@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.20.2010
+#~ Date last edited: 09.21.2010
 require 'set'
 
 require 'rubygems'
@@ -25,6 +25,14 @@ class Camera
 	
 	def move(force, offset=CP::Vec2.new(0,0))
 		@shape.body.apply_force force, offset
+	end
+	
+	def x
+		@shape.body.p.x
+	end
+	
+	def y
+		@shape.body.p.y
 	end
 end
 
