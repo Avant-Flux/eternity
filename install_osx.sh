@@ -1,5 +1,5 @@
-sudo gem install rake
-sudo gem install ruby-opengl
+#~ sudo gem install rake #rake is installed by default
+sudo gem install ruby-opengl #no dependencies
 sudo gem install gosu
 sudo gem install chingu
 sudo gem install chipmunk

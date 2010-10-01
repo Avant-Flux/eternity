@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.19.2010
+#~ Date last edited: 09.25.2010
 
 #Note: Program crashes after installing opengl
 #Files install, but there is no command line notification of anything happening
@@ -34,7 +34,7 @@ class Installer
 	
 	def ruby_dev
 		if @os == "linux"
-			`gksudo apt-get install ruby1.9.1-dev`
+			`gksudo apt-get install ruby1.9.1-dev` #This is part of ruby1.9.1-full
 		end
 	end
 	
