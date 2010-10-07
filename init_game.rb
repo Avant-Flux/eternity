@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.25.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -37,11 +36,13 @@ class Game_Window < Gosu::Window
 	def initialize
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
+		$window = self
+		
 		@fpscounter = FPSCounter.new(self)
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(self, @space, :dimensions => [5, 5, 2], :position => [6, 11, 0])
+		@building = Building.new(@space, :dimensions => [5, 5, 2], :position => [6, 11, 0])
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
 		#~ 20.times do |i|

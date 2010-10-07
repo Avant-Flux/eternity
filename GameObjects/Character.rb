@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 07.22.2010
 
 require 'Chipmunk/Space_3D'
 require "Titles/Title_Holder"

@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 03.08.2010
 
 module Combative
 	#Returns the amount of damage dealt, or nil if the attack missed

@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.21.2010
 
 require 'Chipmunk/Space_3D'
 

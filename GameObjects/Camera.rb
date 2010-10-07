@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.25.2010
 require 'set'
 
 require 'rubygems'

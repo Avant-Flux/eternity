@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
 #~ Basic algorithm for drawing circle by kyonides
-#~ Date last edited: 06.17.2010
 
 require 'rubygems'
 require 'gosu'

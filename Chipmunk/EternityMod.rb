@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.18.2010
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'

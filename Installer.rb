@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.25.2010
 
 #Note: Program crashes after installing opengl
 #Files install, but there is no command line notification of anything happening
