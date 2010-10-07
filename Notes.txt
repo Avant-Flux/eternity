@@ -31,6 +31,10 @@ Weapon Specialization Rule. Each character is very limited in the type of weapon
 
 
 
+Style Conventions and Other Similar Notes
+	Make things such as the window global variables so that they do not have to passed to practically
+		every object.
+
 Forumlae Etc
 	Create some kind of random variance in Entity
 		Allows for enemies that are slightly different
