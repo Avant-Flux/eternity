@@ -1,0 +1,8 @@
+gem install rake
+gem install ruby-opengl
+gem install gosu
+gem install chingu
+gem install chipmunk
+gem install rmagick-win32
+gem install texplay
+gem install eventmachine
