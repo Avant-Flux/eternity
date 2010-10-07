@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 09.21.2010
+#~ Date last edited: 09.25.2010
 
 begin
   # In case you use Gosu via rubygems.
@@ -13,7 +13,6 @@ begin
 rescue LoadError
 	require 'gosu'
 end
-include Gosu
 require 'chingu'
 
 require 'chipmunk'
@@ -34,7 +33,7 @@ require 'Drawing/Background'
 
 require 'UI/UserInterface'
 
-class Game_Window < Window
+class Game_Window < Gosu::Window
 	def initialize
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
@@ -43,10 +42,9 @@ class Game_Window < Window
 		@space = init_CP_Space3D
 		
 		@building = Building.new(self, @space, :dimensions => [5, 5, 2], :position => [6, 11, 0])
-		
 		@player = Player.new(self, @space, "Bob", [5, 5, 0])
 		characters = Array.new
-		#~ 5.times do |i|
+		#~ 20.times do |i|
 			#~ x = (i * 3) % 8 + 1
 			#~ y = (i * 10) % 6 + 1
 			#~ 
@@ -57,22 +55,20 @@ class Game_Window < Window
 		#~ @player.track(characters[12])
 		#~ @player.track(characters[3])
 		#~ @player.track(characters[18])
-		
+		#~ 
 		characters << Character.new(self, @space, "NPC", [5, 8, 0])
-		@player.track characters[0]
+		#~ @player.track characters[0]
 		
-		@UI = UI::Overlay::Status.new(self, @player)
-		
+		#~ @UI = UI::Overlay::Status.new(self, @player)
 		@camera = Camera.new(@space, self.width.to_meters, self.height.to_meters, @player)
 		
 		@effect = Animations::Effect.new(self, "Gale")
-		
 		@background = Background.new(self,"Sprites/Textures/grass_texture2.png")
 	end
 	
 	def update
 		@fpscounter.update
-		@UI.update
+		#~ @UI.update
 		@effect.update
 		@building.update
 		
@@ -95,7 +91,7 @@ class Game_Window < Window
 		#~ @background.draw
 		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
 		@fpscounter.draw
-		@UI.draw
+		#~ @UI.draw
 		translate(-@camera.x.to_px, -@camera.y.to_px) do
 			@building.draw
 			@effect.draw(500,60,3)
@@ -133,7 +129,7 @@ class Game_Window < Window
 		#~ end
 		entity_env_handler = CollisionHandler::Entity_Env.new
 		camera_collision = CollisionHandler::Camera.new(@camera)
-		
+
 		space.add_collision_handler :entity, :environment, entity_env_handler
 		space.add_collision_handler :entity, :building, entity_env_handler
 		

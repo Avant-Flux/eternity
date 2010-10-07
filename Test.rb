@@ -1,22 +1,37 @@
 #!/usr/bin/ruby
 #~ Name: Jason
-#~ Date last edited: 06.07.2010
+#~ Date last edited: 09.25.2010
 
-require "Entity"
-require "Character"
-require "Player"
-
-require "NPC"
-
-require "Creature"
-
-require "rubygems"
-require "gosu"
-
-require 'texplay'
+begin
+  # In case you use Gosu via rubygems.
+  require 'rubygems'
+rescue LoadError
+  # In case you don't.
+end
+begin
+	require 'lib/gosu'
+rescue LoadError
+	require 'gosu'
+end
+require 'chingu'
 
 require 'chipmunk'
-require 'Chipmunk/ChipmunkInterfaceMod'
+require 'Chipmunk/Space_3D'
+require 'Chipmunk/EternityMod'
+
+require 'GameObjects/Building'
+require 'GameObjects/Entity'
+require "GameObjects/Creature"
+require 'GameObjects/Character'
+require 'GameObjects/Player'
+require 'GameObjects/Camera'
+
+require 'Utilities/FPSCounter'
+require 'Utilities/InputHandler'
+require 'Drawing/Animations'
+require 'Drawing/Background'
+
+require 'UI/UserInterface'
 
 class Gosu::Image
    alias_method :rows, :height
@@ -207,6 +222,42 @@ module Test
 	class Test_colorize < Gosu::Window
 		
 	end
+	
+	class Test_camera < Gosu::Window
+		def	initialize
+			super(800, 600, false)
+			self.caption = "Project ETERNITY"
+			
+			@fpscounter = FPSCounter.new(self)
+			@inpman = InputHandler.new
+			
+			@space = CP::Space_3D.new
+			
+		end
+	
+		def draw
+			@fpscounter.draw
+		end
+		
+		def update
+			@fpscounter.update
+		end
+			
+		def button_down(id)
+			@inpman.button_down(id)
+			
+			if id == Gosu::KbEscape
+				close
+			end
+			if id == Gosu::KbF
+				@fpscounter.toggle
+			end
+		end
+		
+		def button_up(id)
+			@inpman.button_up(id)
+		end
+	end
 end
 
 #~ Test::test_entity_creation
@@ -214,4 +265,5 @@ end
 #~ Test::test_title
 #~ Test::test_element_based_lvl_up
 #~ Test::test_melee_attack
-Test::Test_splice::T.new.show
+#~ Test::Test_splice::T.new.show
+Test::Test_camera.new.show
