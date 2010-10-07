@@ -1,6 +1,5 @@
 #FPS Counter taken from Dahrkael RPG Template
 #Modified by: Jason Ko 
-#Date laste edited: 05.27.2010
 
 require "rubygems"
 require "gosu"
@@ -9,8 +8,8 @@ require "gosu"
 		attr_accessor :show_fps
 		attr_reader :fps
 		
-		def initialize(window, font_size=25, font="Times New Roman")
-			@font = Gosu::Font.new(window, font, font_size)
+		def initialize(font_size=25, font="Times New Roman")
+			@font = Gosu::Font.new($window, font, font_size)
 			@frames_counter = 0
 			@milliseconds_before = Gosu::milliseconds
 			@show_fps = false

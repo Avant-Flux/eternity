@@ -20,16 +20,15 @@ require 'RMagick'
 module UI
 	module Overlay
 		class Tracking
-			def initialize(window, player, a=4, b=2)
-				@window = window
+			def initialize(player, a=4, b=2)
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new(@window, @player, a, b, 
+				@ellipse = Ellipse.new($window, @player, a, b, 
 										@player.shape.x, @player.shape.y)
 			end
 			
 			def track(entity)
-				@tracked << Blip.new(@window, @player, entity, @ellipse)
+				@tracked << Blip.new($window, @player, entity, @ellipse)
 			end
 			
 			def untrack(entity)

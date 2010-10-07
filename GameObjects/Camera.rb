@@ -12,22 +12,22 @@ require 'Chipmunk/EternityMod'
 class Camera
 	attr_reader :shape, :queue
 
-	def initialize(space, width, depth, entity)
+	def initialize(space, entity)
 		@entity = entity
 		@space = space
+		@width = $window.width.to_meters
+		@depth = $window.height.to_meters
 		
 		mass = @entity.shape.body.m
-		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, width, depth)
+		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, @width, @depth)
 		
 		@shape.collision_type = :camera
 		@shape.body.a = (3*Math::PI/2.0)
-		@shape.body.p = CP::Vec2.new(@entity.shape.x-width/2.0, @entity.shape.y-depth/2.0)
+		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
 		
 		#~ @shape = CP::Shape_3D::Rect.new(self, space, :camera, [@entity.shape.x-width/2.0, @entity.shape.y-depth/2.0, 0], 0, :top_left, width, depth, 1, mass, Float::INFINITY)
 		
 		@shape.sensor = true
-		@width = width
-		@depth = depth
 		
 		space.add_shape @shape
 		space.add_body @shape.body

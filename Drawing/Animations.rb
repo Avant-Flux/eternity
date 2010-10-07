@@ -19,8 +19,7 @@ module Animations
 		attr_reader :sprites
 		attr_accessor :direction, :moving
 		
-		def initialize(window)
-			@window = window
+		def initialize
 			@sprites = {:up => [], :down => [], :left => [], :right => [], 
 						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
 			@moving = false
@@ -71,7 +70,7 @@ module Animations
 		private
 		
 		def make_sprites
-			sprite_array = Gosu::Image::load_tiles(@window, @spritesheet, 40, 80, false)
+			sprite_array = Gosu::Image::load_tiles($window, @spritesheet, 40, 80, false)
 			
 			sprite_array.each_with_index do |sprite, i|
 				#Assumes that the spritesheet is broken up into rows of 8, 
@@ -103,7 +102,7 @@ module Animations
 		end
 		
 		def subsprites basepath, type, subsprite_name
-			return Gosu::Image.new(@window, 
+			return Gosu::Image.new($window, 
 						"#{basepath}/#{type.to_s.capitalize}/#{subsprite_name}.png", false)
 		end
 	end
@@ -111,8 +110,8 @@ module Animations
 	class Character < Animations::Entity
 		attr_accessor :body, :face, :hair, :upper, :lower, :footwear
 	
-		def initialize window, sprites
-			super(window)
+		def initialize sprites
+			super()
 			@select = sprites
 			
 			make_spritesheet

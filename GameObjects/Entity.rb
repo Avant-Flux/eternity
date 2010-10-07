@@ -29,7 +29,7 @@ class Entity
 	
 	@@all = Array.new
 
-	def initialize(window, space, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@@all << self
 		
 		@movement_force = CP::Vec2.new(0,0)

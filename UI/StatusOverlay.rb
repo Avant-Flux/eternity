@@ -7,11 +7,10 @@ require 'texplay'
 module UI
 	module Overlay
 		class Status
-			def initialize(window, player)
+			def initialize(player)
 				#Perhaps the structure of Player should be changed so that only the
 				#	stats have to be passed and not the whole player.  Such a limitation
 				#	would be better in terms of information hiding.
-				@window = window
 				@player = player
 				
 				#Draw a circle with a rectangle coming out of the right side
@@ -33,7 +32,7 @@ module UI
 				#		and not a strict amount.
 				width = 500
 				height = 300
-				@img = TexPlay.create_blank_image(@window, width, height)
+				@img = TexPlay.create_blank_image($window, width, height)
 				
 				color = Gosu::Color.new(0xff666666)
 				cx = 80
@@ -41,7 +40,7 @@ module UI
 				@img.circle cx, cy, 75, :color => color, :fill => true
 				@img.rect cx,cy, 350,140, :color => color, :fill => true
 				
-				@font = Gosu::Font.new(@window, font="Times New Roman", font_size=25)
+				@font = Gosu::Font.new($window, font="Times New Roman", font_size=25)
 				@mana = "7500 / 10000"
 				@hp = "1852 / 2000"
 			end
@@ -63,8 +62,7 @@ module UI
 			end
 			
 			class Ring_Bar
-				def initialize(window, cx,cy, radius, starting_percent=0)
-					@window = window
+				def initialize(cx,cy, radius, starting_percent=0)
 					@cx = cx
 					@cy = cy
 					@radius = radius
@@ -92,12 +90,12 @@ module UI
 					gc.ellipse(width/2,height/2, a,b, 0,360)
 					
 					gc.draw(canvas)
-					@img = Gosu::Image.new(@window, canvas, false)
+					@img = Gosu::Image.new($window, canvas, false)
 				end
 			end
 			
 			class Mana_Ring
-				def initialize(window, player)
+				def initialize(player)
 					@rings = Array.new
 					
 					outer_radius = 10
@@ -105,7 +103,7 @@ module UI
 					#~ buffer = 2
 					
 					5.times do |i|
-						@rings << Ring_Bar.new(window, outer_radius-(width*i))
+						@rings << Ring_Bar.new($window, outer_radius-(width*i))
 					end
 					render
 				end
