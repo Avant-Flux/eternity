@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
 
 require 'Chipmunk/Space_3D'
 require "Titles/Title_Holder"

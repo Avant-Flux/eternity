@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
 
 begin
   # In case you use Gosu via rubygems.

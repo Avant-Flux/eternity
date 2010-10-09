@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
 
 #~ The module Compute_Stats should be used as a mix-in with some class
 #~ which contains the composite stats.
