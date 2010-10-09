@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 06.03.2010
+
 require 'rubygems'
 require 'gosu'
 require 'texplay'

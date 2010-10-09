@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
  
 module GUI
 	class Tooltip

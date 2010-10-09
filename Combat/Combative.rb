@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
 
 module Combative
 	#Returns the amount of damage dealt, or nil if the attack missed

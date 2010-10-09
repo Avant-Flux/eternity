@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-#~ Name: Jason
+
 require 'set'
 
 require 'rubygems'

@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-#~ Name: Jason
+
 require 'rubygems'
 require 'chipmunk'
 require 'Chipmunk/Shape_3D'
