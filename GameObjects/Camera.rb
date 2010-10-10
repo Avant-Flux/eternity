@@ -29,18 +29,15 @@ class Camera
 		@shape.body.a = (3*Math::PI/2.0)
 		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
 		
-		space.add_shape @shape
-		space.add_body @shape.body
-		#~ space.add self
-		#~ shapes = space.shapes[:nonstatic].delete(@shape)
+		space.add self
+		shapes = space.shapes[:nonstatic].delete(@shape)
 		
 		@queue = Set.new
 	end
 	
 	def update
 		@shape.body.reset_forces
-		#~ @queue = @space.active_shapes_hash.query_by_bb BB.new(0,0,@width,@height)
-		p @queue
+		#~ p @queue
 	end
 	
 	def move(force, offset=CP::Vec2.new(0,0))
@@ -63,17 +60,7 @@ module CollisionHandler
 		def begin(a, b, arbiter)
 			$camera.queue.add b.entity
 		end
-		
-		#~ def pre_solve(a, b, arbiter) #Determine whether to process collision or not
-			#~ puts "on"
-			#~ @camera.queue.add b
-		#~ end
-		#~ 
-		#~ def post_solve(a, b, arbiter)
-			#~ puts "yo"
-			#~ @camera.queue.add b
-		#~ end
-		
+				
 		def separate(a, b, arbiter)	#Stuff to do after the shapes separate
 			$camera.queue.delete b.entity
 		end
