@@ -22,7 +22,7 @@ class Camera
 		mass = @entity.shape.body.m
 		#~ @shape = CP::Shape_3D::Rect.new(self, space, :camera, [@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0, 0], 0, :top_left, 20, 20, 1, mass, Float::INFINITY)
 		#~ @shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, @width, @depth)
-		@shape = CP::Shape::Circle.new(CP::Body.new(mass, Float::INFINITY), @depth, CP::Vec2.new(0,0))
+		@shape = CP::Shape::Circle.new(CP::Body.new(mass, Float::INFINITY), @width, CP::Vec2.new(0,0))
 		
 		@shape.sensor = true
 		@shape.collision_type = :camera
