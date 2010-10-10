@@ -96,11 +96,11 @@ class Game_Window < Gosu::Window
 			@building.draw
 			@effect.draw(500,60,3)
 			
-			Entity.draw_all
+			#~ Entity.draw_all
 			#~ p $camera.queue
-			#~ $camera.queue.each do |i|
-				#~ i.draw
-			#~ end
+			$camera.queue.each do |i|
+				i.draw
+			end
 		end
 	end
 	
