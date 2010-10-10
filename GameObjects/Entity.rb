@@ -63,12 +63,6 @@ class Entity
 			@@all
 		end
 		
-		def draw_all
-			@@all.each do |e|
-				e.draw
-			end
-		end
-		
 		def update_all
 			@@all.each do |e|
 				e.update
