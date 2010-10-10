@@ -61,7 +61,7 @@ module CollisionHandler
 	#~ This is the collision handler for a sensor object
 	class Camera
 		def begin(a, b, arbiter)
-			$camera.queue.add b
+			$camera.queue.add b.entity
 		end
 		
 		#~ def pre_solve(a, b, arbiter) #Determine whether to process collision or not
@@ -75,7 +75,7 @@ module CollisionHandler
 		#~ end
 		
 		def separate(a, b, arbiter)	#Stuff to do after the shapes separate
-			$camera.queue.delete b
+			$camera.queue.delete b.entity
 		end
 	end
 end
