@@ -60,7 +60,7 @@ class Game_Window < Gosu::Window
 		#~ @player.track characters[0]
 		
 		#~ @UI = UI::Overlay::Status.new(self, @player)
-		@camera = Camera.new(@space, @player)
+		$camera = Camera.new(@space, @player)
 		
 		@effect = Animations::Effect.new($window, "Gale")
 		@background = Background.new($window,"Sprites/Textures/grass_texture2.png")
@@ -72,7 +72,7 @@ class Game_Window < Gosu::Window
 		@effect.update
 		@building.update
 		
-		@camera.update
+		$camera.update
 		Entity.reset_all
 		
 		@inpman.update
@@ -89,16 +89,16 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		#~ @background.draw
-		#~ puts "#{@camera.x.to_px}, #{@camera.y.to_px}"
+		#~ puts "#{$camera.x.to_px}, #{$camera.y.to_px}"
 		@fpscounter.draw
 		#~ @UI.draw
-		translate(-@camera.x.to_px, -@camera.y.to_px) do
+		translate(-$camera.x.to_px, -$camera.y.to_px) do
 			@building.draw
 			@effect.draw(500,60,3)
 			
 			Entity.draw_all
-			#~ p @camera.queue
-			#~ @camera.queue.each do |i|
+			#~ p $camera.queue
+			#~ $camera.queue.each do |i|
 				#~ i.draw
 			#~ end
 		end
@@ -119,7 +119,7 @@ class Game_Window < Gosu::Window
 		@inpman.button_up(id)
 	end
 	
-	private 
+	private
 	
 	def init_CP_Space3D
 		space = CP::Space_3D.new
@@ -128,7 +128,7 @@ class Game_Window < Gosu::Window
 			#~ 
 		#~ end
 		entity_env_handler = CollisionHandler::Entity_Env.new
-		camera_collision = CollisionHandler::Camera.new(@camera)
+		camera_collision = CollisionHandler::Camera.new
 
 		space.add_collision_handler :entity, :environment, entity_env_handler
 		space.add_collision_handler :entity, :building, entity_env_handler
@@ -149,7 +149,7 @@ class Game_Window < Gosu::Window
 			end
 			
 			@player.move dir
-			@camera.move(@player.movement_force)
+			$camera.move(@player.movement_force)
 		end
 		
 		if @inpman.active?(:jump)

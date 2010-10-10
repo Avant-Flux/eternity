@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 
 #~ Notes:
 #~ Should contain one CP::Shape and a z coordinate, as well as other z related attributes 
