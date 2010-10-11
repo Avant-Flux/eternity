@@ -93,7 +93,7 @@ class Game_Window < Gosu::Window
 		@fpscounter.draw
 		#~ @UI.draw
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
-			@building.draw
+			#~ @building.draw
 			@effect.draw(500,60,3)
 			
 			#~ Entity.draw_all
