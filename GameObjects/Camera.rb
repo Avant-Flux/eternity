@@ -20,13 +20,14 @@ class Camera
 		@depth = $window.height.to_meters
 		
 		mass = @entity.shape.body.m
-		#~ @shape = CP::Shape_3D::Rect.new(self, space, :camera, [@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0, 0], 0, :top_left, 20, 20, 1, mass, Float::INFINITY)
-		#~ @shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :top_left, @width, @depth)
-		@shape = CP::Shape::Circle.new(CP::Body.new(mass, Float::INFINITY), @width, CP::Vec2.new(0,0))
 		
+		array = [CP::Vec2.new(0,0), CP::Vec2.new(@width, 0), 
+				CP::Vec2.new(@width, @depth), CP::Vec2.new(0, @depth)]
+		@shape = CP::Shape::Poly.new(CP::Body.new(mass, Float::INFINITY), array, CP::Vec2.new(0,0))
+				
 		@shape.sensor = true
 		@shape.collision_type = :camera
-		@shape.body.a = (3*Math::PI/2.0)
+		#~ @shape.body.a = (3*Math::PI/2.0)
 		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
 		
 		space.add self
