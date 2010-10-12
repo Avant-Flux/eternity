@@ -21,13 +21,10 @@ class Camera
 		
 		mass = @entity.shape.body.m
 		
-		array = [CP::Vec2.new(0,0), CP::Vec2.new(@width, 0), 
-				CP::Vec2.new(@width, @depth), CP::Vec2.new(0, @depth)]
-		@shape = CP::Shape::Poly.new(CP::Body.new(mass, Float::INFINITY), array, CP::Vec2.new(0,0))
-				
+		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, @depth, @width)
+		
 		@shape.sensor = true
 		@shape.collision_type = :camera
-		#~ @shape.body.a = (3*Math::PI/2.0)
 		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
 		
 		space.add self
@@ -38,7 +35,6 @@ class Camera
 	
 	def update
 		@shape.body.reset_forces
-		#~ p @queue
 	end
 	
 	def move(force, offset=CP::Vec2.new(0,0))

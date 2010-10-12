@@ -41,21 +41,21 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(@space, :dimensions => [5, 5, 2], :position => [6, 11, 0])
+		@building = Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
 		@player = Player.new(@space, "Bob", [5, 5, 0])
 		characters = Array.new
 		#~ 20.times do |i|
 			#~ x = (i * 3) % 8 + 1
 			#~ y = (i * 10) % 6 + 1
 			#~ 
-			#~ characters << Character.new(self, @space, "NPC", [x, y, 0])
+			#~ characters << Character.new(@space, "NPC", [x, y, 0])
 		#~ end
 		#~ @player.track(characters[0])
 		#~ @player.track(characters[9])
 		#~ @player.track(characters[12])
 		#~ @player.track(characters[3])
 		#~ @player.track(characters[18])
-		#~ 
+		
 		characters << Character.new(@space, "NPC", [5, 8, 0])
 		#~ @player.track characters[0]
 		
