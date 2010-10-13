@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 
 #~ Notes:
 #~ Remove the xz CP::Space and store the z-based gravity application function in this class
