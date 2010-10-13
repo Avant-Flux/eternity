@@ -48,14 +48,15 @@ module CP
 			#~ end
 			
 			@shapes[:nonstatic].each do |shape|
+				shape.iterate @dt
+			
 				if shape.z > shape.elevation
 					shape.apply_gravity @dt
 				elsif shape.z < shape.elevation
 					shape.z = shape.elevation
 					shape.reset_gravity
+					shape.entity.step @dt
 				end
-				
-				shape.iterate @dt
 			end
 		end
 				
