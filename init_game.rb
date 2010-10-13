@@ -59,7 +59,7 @@ class Game_Window < Gosu::Window
 		characters << Character.new(@space, "NPC", [5, 8, 0])
 		#~ @player.track characters[0]
 		
-		#~ @UI = UI::Overlay::Status.new(self, @player)
+		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
 		
 		@effect = Animations::Effect.new($window, "Gale")
@@ -68,7 +68,7 @@ class Game_Window < Gosu::Window
 	
 	def update
 		@fpscounter.update
-		#~ @UI.update
+		@UI.update
 		@effect.update
 		@building.update
 		
