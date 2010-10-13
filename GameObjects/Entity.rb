@@ -98,17 +98,16 @@ class Entity
 		end
 	end
 	
+	def step(dt)
+		if @shape.z <= @shape.elevation
+			@jump_count = 0
+		end
+	end
+	
 	def jump
 		if @jump_count < 3 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
 			@shape.vz = 5 #On jump, set the velocity in the z direction
-		end
-	end
-	
-	def step(dt)
-		if @shape.z <= @shape.elevation
-			@jump_count = 0
-			@shape.z = @shape.elevation
 		end
 	end
 	
