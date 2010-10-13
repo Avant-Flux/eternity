@@ -82,14 +82,11 @@ class Game_Window < Gosu::Window
 		
 		Entity.update_all
 		
-		puts @player.position
+		#~ puts @player.position
 		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
 		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 		
 		@space.step
-		Entity.all.each do |e|
-			e.step @space.dt
-		end
 	end
 	
 	def draw
