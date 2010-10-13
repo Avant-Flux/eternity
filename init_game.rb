@@ -42,6 +42,8 @@ class Game_Window < Gosu::Window
 		@space = init_CP_Space3D
 		
 		@building = Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		@building2 = Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
+		@building3 = Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
 		@player = Player.new(@space, "Bob", [5, 5, 0])
 		characters = Array.new
 		#~ 20.times do |i|
@@ -80,24 +82,24 @@ class Game_Window < Gosu::Window
 		
 		Entity.update_all
 		
-		#~ puts @player.position
+		puts @player.position
 		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
 		#~ puts "elevation:#{@player.shape.elevation} z:#{@player.shape.z}"
 		
 		@space.step
+		Entity.all.each do |e|
+			e.step @space.dt
+		end
 	end
 	
 	def draw
 		#~ @background.draw
 		#~ puts "#{$camera.x.to_px}, #{$camera.y.to_px}"
 		@fpscounter.draw
-		#~ @UI.draw
+		@UI.draw
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
-			#~ @building.draw
 			@effect.draw(500,60,3)
 			
-			#~ Entity.draw_all
-			#~ p $camera.queue
 			$camera.queue.each do |i|
 				i.draw
 			end
