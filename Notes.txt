@@ -217,4 +217,7 @@ Chipmunk Shape_3D function arguments
 
 Bugs
 	CP::Shape_3D::Rect has a problem with collisions.  When the player comes down from a jump, the
-		player is offset by amount toward the outside of the rectangle.
+	player is offset by amount toward the outside of the rectangle.
+		This bug can be fixed by adding physics code which is executed after the physics environment
+		steps.  However, it does not work if the same code is executed while the space is stepping.
+		---This is a bug in and of itself
