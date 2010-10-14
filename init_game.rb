@@ -80,7 +80,12 @@ class Game_Window < Gosu::Window
 		@inpman.update
 		process_input
 		
-		Entity.update_all
+		@space.shapes[:nonstatic].each do |shape|
+			shape.entity.update
+		end
+		@space.shapes[:static].each do |shape|
+			shape.entity.update
+		end
 		
 		#~ puts @player.position
 		#~ puts "Building: #{@building.shape.x}, #{@building.shape.y}, #{@building.shape.z}"
