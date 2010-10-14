@@ -41,9 +41,10 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
 		
-		@building = Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
-		@building2 = Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
-		@building3 = Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		Building.new(@space, :dimensions => [3, 3, 1], :position => [8, 14, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
 		@player = Player.new(@space, "Bob", [5, 5, 0])
 		characters = Array.new
 		#~ 20.times do |i|
@@ -72,7 +73,6 @@ class Game_Window < Gosu::Window
 		@fpscounter.update
 		@UI.update
 		@effect.update
-		@building.update
 		
 		$camera.update
 		Entity.reset_all
