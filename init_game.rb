@@ -90,11 +90,11 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		#~ @background.draw
-		#~ puts "#{$camera.x.to_px}, #{$camera.y.to_px}"
 		@fpscounter.draw
 		@UI.draw
+		
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
+			#~ @background.draw
 			@effect.draw(500,60,3)
 			
 			$camera.queue.each do |i|
