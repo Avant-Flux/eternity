@@ -4,7 +4,7 @@
 #~ Should contain one CP::Shape and a z coordinate, as well as other z related attributes 
 require 'rubygems'
 require 'chipmunk'
-require 'Chipmunk/Shape'
+require './Chipmunk/Shape'
 
 #Allows collision functions to be defined from within the shape
 module CP	

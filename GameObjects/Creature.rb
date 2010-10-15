@@ -2,7 +2,7 @@
 #~ Name: Jason
 #~ Date last edited: 07.22.2010
  
-require "GameObjects/Entity"
+require "./GameObjects/Entity"
 class Creature < Entity
 	def initialize(window, space, animations, name, pos=[0, 0, 0], mass=50, moment=10, dir=:down,
 					lvl=1, element=:none, 

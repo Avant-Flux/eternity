@@ -4,12 +4,12 @@ require 'rubygems'
 require 'gosu'
 require 'chipmunk'
 
-require 'Chipmunk/Space_3D'
-require 'Chipmunk/EternityMod'
-require 'Combat/Combative'
-require 'Drawing/Animations'
+require './Chipmunk/Space_3D'
+require './Chipmunk/EternityMod'
+require './Combat/Combative'
+require './Drawing/Animations'
 
-require 'Stats/Stats'
+require './Stats/Stats'
 
 class Fixnum
 	def between?(a, b)

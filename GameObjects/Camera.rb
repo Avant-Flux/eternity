@@ -5,9 +5,9 @@ require 'set'
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
-require 'Chipmunk/Shape'
-require 'Chipmunk/Space_3D'
-require 'Chipmunk/EternityMod'
+require './Chipmunk/Shape'
+require './Chipmunk/Space_3D'
+require './Chipmunk/EternityMod'
  
 class Camera
 	attr_reader :shape, :queue
