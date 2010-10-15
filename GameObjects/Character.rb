@@ -247,4 +247,15 @@ class Character < Entity
 				((((88.0)/(9.0))*(@lvl-10))+20).floor
 		end
 	end
+	
+	def text_box arg
+		# Call this method when character is in a certain state (???)
+		# Call draw method from Entity class?
+		
+		# Draw box to hold character text
+		$window.draw_quad (0, 0, green, 300, 0, green, 0, 150, green, 300, 150, green, 0, mode=:default)
+		
+		# Draw triangle that points to character while speaking
+		$window.draw_triangle (0, 0, c1, x2, y2, c2, x3, y3, c3, z=0, mode=:default)
+	end
 end
