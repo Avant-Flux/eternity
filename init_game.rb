@@ -45,6 +45,9 @@ class Game_Window < Gosu::Window
 		Building.new(@space, :dimensions => [3, 3, 1], :position => [8, 14, 0])
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
 		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
+		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
 		@player = Player.new(@space, "Bob", [5, 5, 0])
 		characters = Array.new
 		#~ 20.times do |i|
