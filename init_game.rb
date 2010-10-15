@@ -14,22 +14,22 @@ end
 require 'chingu'
 
 require 'chipmunk'
-require 'Chipmunk/Space_3D'
-require 'Chipmunk/EternityMod'
+require './Chipmunk/Space_3D'
+require './Chipmunk/EternityMod'
 
-require 'GameObjects/Building'
-require 'GameObjects/Entity'
-require "GameObjects/Creature"
-require 'GameObjects/Character'
-require 'GameObjects/Player'
-require 'GameObjects/Camera'
+require './GameObjects/Building'
+require './GameObjects/Entity'
+require "./GameObjects/Creature"
+require './GameObjects/Character'
+require './GameObjects/Player'
+require './GameObjects/Camera'
 
-require 'Utilities/FPSCounter'
-require 'Utilities/InputHandler'
-require 'Drawing/Animations'
-require 'Drawing/Background'
+require './Utilities/FPSCounter'
+require './Utilities/InputHandler'
+require './Drawing/Animations'
+require './Drawing/Background'
 
-require 'UI/UserInterface'
+require './UI/UserInterface'
 
 class Game_Window < Gosu::Window
 	def initialize
@@ -68,14 +68,14 @@ class Game_Window < Gosu::Window
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
 		
-		@effect = Animations::Effect.new($window, "Gale")
+		#@effect = Animations::Effect.new($window, "Gale")
 		@background = Background.new($window,"Sprites/Textures/grass_texture2.png")
 	end
 	
 	def update
 		@fpscounter.update
 		@UI.update
-		@effect.update
+		#~ @effect.update
 		
 		$camera.update
 		Entity.reset_all
@@ -103,7 +103,7 @@ class Game_Window < Gosu::Window
 		
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ @background.draw
-			@effect.draw(500,60,3)
+			#~ @effect.draw(500,60,3)
 			
 			$camera.queue.each do |i|
 				i.draw

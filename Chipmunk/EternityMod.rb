@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'chipmunk'
-require 'Chipmunk/Shape_3D'
+require './Chipmunk/Shape_3D'
 
 module CollisionHandler
 	#a corresponds to the shape of the first type passed to add_collision_handler
