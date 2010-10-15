@@ -184,6 +184,14 @@ class Entity
 		
 	end
 	
+	def elevation
+		@shape.elevation
+	end
+	
+	def elevation=(arg)
+		@shape.elevation = arg
+	end
+	
 	def position
 		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
 	end
