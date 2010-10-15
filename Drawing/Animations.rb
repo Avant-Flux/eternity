@@ -139,7 +139,7 @@ module Animations
 		def initialize(window, name_of_effect)
 			@window = window
 			@name = name_of_effect
-			@sprites = Gosu::Image::load_tiles(@window, "/home/pc2/eternity/Sprites/Effects/#{@name}.png", 
+			@sprites = Gosu::Image::load_tiles(@window, "./Sprites/Effects/#{@name}.png", 
 												192, 192, false)
 			update
 		end
