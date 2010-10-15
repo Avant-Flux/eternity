@@ -218,3 +218,6 @@ Chipmunk Shape_3D function arguments
 Bugs
 	There is a point at the edge of a building where you will be kicked off the roof.  This only
 	happens on the shared edge of two buildings of unequal height.
+		This bug only seems to occur on the left edge of the higher building.
+		
+		This is probably because elevation is not actually being used like I thought it was ^_^;
