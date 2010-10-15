@@ -90,7 +90,7 @@ class Game_Window < Gosu::Window
 			shape.entity.update
 		end
 		
-		puts "#{@player.position} + #{@player.elevation}"
+		#~ puts "#{@player.position} + #{@player.elevation}"
 		
 		@space.step
 	end
