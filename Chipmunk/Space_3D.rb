@@ -65,8 +65,9 @@ module CP
 			@shapes[static].add arg.shape 
 		end
 		
-		def remove
-			
+		def remove(arg, static=:nonstatic)
+			super arg.shape, static
+			@shapes[static].delete arg.shape
 		end
 	end
 end
