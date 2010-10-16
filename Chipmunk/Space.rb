@@ -4,25 +4,23 @@ require 'chipmunk'
 
 module CP
 	class Space
-		def add(shape, static=:nonstatic)
+		def add(shape)
 			add_body shape.body
 			
-			case static
-				when :nonstatic
-					add_shape shape
-				when :static
-					add_static_shape shape
+			if shape.body.m == Float::INFINITY
+				add_static_shape shape
+			else
+				add_shape shape
 			end
 		end
 		
-		def remove(shape, static=:nonstatic)
-			case static
-				when :nonstatic
-					remove_shape shape
-				when :static
-					remove_static_shape shape
+		def remove(shape)
+			if shape.body.m == Float::INFINITY
+				remove_static_shape shape
+			else
+				remove_shape shape
 			end
-			
+		
 			remove_body shape.body
 		end
 	end

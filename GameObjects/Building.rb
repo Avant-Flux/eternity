@@ -22,7 +22,7 @@ class Building
 							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, hash[:offset])
 		@wireframe = Wireframe::Building.new($window, @shape, :white)
-		space.add self, :static
+		space.add self
 	end
 	
 	def update

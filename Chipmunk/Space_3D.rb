@@ -50,14 +50,14 @@ module CP
 			end
 		end
 				
-		def add(arg, static=:nonstatic)
-			super arg.shape, static
-			@shapes[static].add arg.shape 
+		def add(arg)
+			super arg.shape
+			@shapes[static?(arg.shape)].add arg.shape
 		end
 		
-		def remove(arg, static=:nonstatic)
-			super arg.shape, static
-			@shapes[static].delete arg.shape
+		def remove(arg)
+			super arg.shape
+			@shapes[static?(arg.shape)].delete arg.shape
 		end
 		
 		def clear
@@ -67,6 +67,16 @@ module CP
 				end
 				
 				set.clear
+			end
+		end
+		
+		private
+		
+		def static?(shape)
+			if shape.body.m == Float::INFINITY
+				return :static
+			else
+				return :nonstatic
 			end
 		end
 	end
