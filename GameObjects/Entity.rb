@@ -99,7 +99,7 @@ class Entity
 	end
 	
 	def step(dt)
-		if @shape.z <= @shape.elevation
+		if @shape.z == @shape.elevation
 			@jump_count = 0
 		end
 	end
