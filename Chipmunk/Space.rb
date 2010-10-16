@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 require 'rubygems'
 require 'chipmunk'
 
@@ -9,15 +7,23 @@ module CP
 		def add(shape, static=:nonstatic)
 			add_body shape.body
 			
-			if static == :nonstatic
-				add_shape shape
-			elsif static == :static
-				add_static_shape shape
+			case static
+				when :nonstatic
+					add_shape shape
+				when :static
+					add_static_shape shape
 			end
 		end
 		
-		def remove
+		def remove(shape, static=:nonstatic)
+			case static
+				when :nonstatic
+					remove_shape shape
+				when :static
+					remove_static_shape shape
+			end
 			
+			remove_body shape.body
 		end
 	end
 end
