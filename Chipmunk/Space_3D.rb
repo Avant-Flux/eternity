@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'set'
+
 require 'rubygems'
 require 'chipmunk'
 require 'gosu'
