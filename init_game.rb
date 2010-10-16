@@ -19,7 +19,7 @@ require './Chipmunk/EternityMod'
 
 require './GameObjects/Building'
 require './GameObjects/Entity'
-require "./GameObjects/Creature"
+require './GameObjects/Creature'
 require './GameObjects/Character'
 require './GameObjects/Player'
 require './GameObjects/Camera'
@@ -43,6 +43,7 @@ class Game_Window < Gosu::Window
 		
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
 		Building.new(@space, :dimensions => [3, 3, 1], :position => [8, 14, 0])
+		
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
 		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
 		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
