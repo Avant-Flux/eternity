@@ -78,7 +78,9 @@ class Game_Window < Gosu::Window
 		#~ @effect.update
 		
 		$camera.update
-		Entity.reset_all
+		@space.shapes[:nonstatic].each do |shape|
+			shape.body.reset_forces
+		end
 		
 		@inpman.update
 		process_input
