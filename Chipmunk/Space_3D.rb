@@ -1,9 +1,5 @@
 #!/usr/bin/ruby
 
-#~ Notes:
-#~ Remove the xz CP::Space and store the z-based gravity application function in this class
-#~ Rewrite Space_3D as a descendant of CP::Space
-
 require 'rubygems'
 require 'chipmunk'
 require 'gosu'
