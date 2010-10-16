@@ -38,15 +38,7 @@ module CP
 		def step
 			super @dt
 			
-			#Add code for one-dimensional movement in the z-direction here
-			#~ Entity.all.each do |entity|
-				#~ if entity.jumping?
-					#~ entity.jump
-				#~ end
-				#~ 
-				#~ entity.jumping = false				
-			#~ end
-			
+			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
 				shape.iterate @dt
 			
