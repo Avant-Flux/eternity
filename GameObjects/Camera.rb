@@ -35,6 +35,7 @@ class Camera
 	
 	def update
 		@shape.body.reset_forces
+		self.move(@entity.shape.body.f)
 	end
 	
 	def move(force, offset=CP::ZERO_VEC_2)

@@ -93,7 +93,8 @@ class Game_Window < Gosu::Window
 			shape.entity.update
 		end
 		
-		#~ puts "#{@player.position} + #{@player.elevation}"
+		puts "#{@player.position} + #{@player.elevation}"
+		#~ puts @player.shape.body.f
 		
 		@space.step
 	end
@@ -157,7 +158,6 @@ class Game_Window < Gosu::Window
 			end
 			
 			@player.move dir
-			$camera.move(@player.movement_force)
 		end
 		
 		if @inpman.active?(:jump)
