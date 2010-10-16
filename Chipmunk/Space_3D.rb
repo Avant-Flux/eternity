@@ -17,7 +17,7 @@ module CP
 		
 		def initialize(damping=0.5, g=-9.8, dt=(1.0/60.0))
 			super()
-			@shapes = {:static => Array.new, :nonstatic => Array.new}
+			@shapes = {:static => Set.new, :nonstatic => Set.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
 			@dt = dt	#Controls the timestep of the space.  
 						#	Could be falsified as slower than update rate for bullet time
@@ -62,7 +62,7 @@ module CP
 				
 		def add(arg, static=:nonstatic)
 			super arg.shape, static
-			@shapes[static] << arg.shape 
+			@shapes[static].add arg.shape 
 		end
 		
 		def remove
