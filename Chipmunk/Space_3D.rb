@@ -57,6 +57,16 @@ module CP
 			super arg.shape, static
 			@shapes[static].delete arg.shape
 		end
+		
+		def clear
+			@shapes.each do |static, set|
+				set.each do |shape|
+					super.remove shape, static
+				end
+				
+				set.clear
+			end
+		end
 	end
 end
 
