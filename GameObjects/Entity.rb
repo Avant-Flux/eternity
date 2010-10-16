@@ -26,11 +26,7 @@ class Entity
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
-	@@all = Array.new
-
 	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
-		@@all << self
-		
 		@movement_force = CP::Vec2.new(0,0)
 		@walk_constant = 150
 		@run_constant = 500
@@ -56,24 +52,6 @@ class Entity
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
-	end
-		
-	class << self
-		def all
-			@@all
-		end
-		
-		def update_all
-			@@all.each do |e|
-				e.update
-			end
-		end
-		
-		def reset_all
-			@@all.each do |e|
-				e.shape.body.reset_forces
-			end
-		end
 	end
 	
 	def update
