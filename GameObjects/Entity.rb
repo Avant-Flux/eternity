@@ -28,8 +28,8 @@ class Entity
 	
 	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@movement_force = CP::Vec2.new(0,0)
-		@walk_constant = 150
-		@run_constant = 500
+		@walk_constant = 500
+		@run_constant = 1200
 		
 		@animations = animations
 		
