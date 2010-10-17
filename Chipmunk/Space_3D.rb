@@ -29,7 +29,7 @@ module CP
 			#Gravity should not function in the horiz plane, thus gravity is always <0, 0>
 			self.gravity = CP::Vec2.new(0, 0)
 			
-			#0.2 Seems like a good damping for ice
+			#0.9 Seems like a good damping for ice
 			self.damping = damping
 		end
 		
