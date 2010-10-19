@@ -10,6 +10,9 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
+	COLOR_1 = Gosu::Color.new(0xFF1EB1FA)
+	COLOR_2 = Gosu::Color.new(0xFF1D4DB5)
+	
 	def initialize(space, name, pos = [0, 0, 0], 
 					subsprites={:body => 1, :face => 1, :hair => 1, 
 								:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"},
@@ -248,14 +251,28 @@ class Character < Entity
 		end
 	end
 	
-	def text_box arg
+	def say arg # Arg = whatever the character says
 		# Call this method when character is in a certain state (???)
 		# Call draw method from Entity class?
 		
+		# convert meters to pixels
+		
+		#1.to_px
+		#@shape.x.to_px
+		#@shape.y.to_px
+		#@shape.z.to_px # z-index higher than index that character is on
+		
 		# Draw box to hold character text
-		$window.draw_quad (0, 0, green, 300, 0, green, 0, 150, green, 300, 150, green, 0, mode=:default)
+		$window.draw_quad (@shape.x.to_px - 100, @shape.y.to_px + 100, COLOR_1, 
+						   @shape.x.to_px + 100, @shape.y.to_px + 100, COLOR_1, 
+						   @shape.x.to_px - 100, @shape.y.to_px + 50, COLOR_2, 
+						   @shape.x.to_px + 100, @shape.y.to_px + 50, COLOR_2, 0)
 		
 		# Draw triangle that points to character while speaking
-		$window.draw_triangle (0, 0, c1, x2, y2, c2, x3, y3, c3, z=0, mode=:default)
+		$window.draw_triangle (0, 0, COLOR_1, 100, 100, COLOR_1, 
+							   @shape.x.to_px, @shape.y.to_px, COLOR_2)
+		
+		# Draw text in text box
+		$window.draw_text(arg)
 	end
 end
