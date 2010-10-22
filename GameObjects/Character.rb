@@ -26,6 +26,8 @@ class Character < Entity
 		@equipment =	{:head => nil, :right_hand => nil, :left_hand => nil, 
 						:upper_body => nil, :lower_body => nil, :feet => nil, 
 						:title => Title_Holder.new}
+						
+		@test = Gosu::Font.new($window, "Times New Roman", 25)
 	end
 	
 	def lvl=(arg)
@@ -39,6 +41,35 @@ class Character < Entity
 	
 	def use_item
 		
+	end
+	
+	def say arg # Arg = whatever the character says
+		
+		# Character sprite is 80 pixels tall
+		
+		# Store each point of the text box in an ordered pair (x,y)
+		point = Struct.new(:x,:y)
+		point1 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animations.height - 100
+		point2 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animations.height - 100
+		point3 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animations.height - 30
+		point4 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animations.height - 30
+		
+		# Define color for text box
+		color = Gosu::Color::GREEN
+		
+		# Draw box to hold character text
+		$window.draw_quad(point1.x, point1.y, color, 
+						   point2.x, point2.y, color, 
+						   point3.x, point3.y, color, 
+						   point4.x, point4.y, color, @shape.z)
+		
+		# Draw triangle that points to character that is speaking
+		$window.draw_triangle(@shape.x.to_px - 25, @shape.y.to_px - @animations.height - 30, Gosu::Color::GREEN, 
+							  @shape.x.to_px + 25, @shape.y.to_px - @animations.height - 30, Gosu::Color::GREEN, 
+							  @shape.x.to_px, @shape.y.to_px - @animations.height, Gosu::Color::GREEN)
+		
+		# Draw text in text box
+		@test.draw(arg, @shape.x.to_px - 49, @shape.y.to_px - @animations.height - 95, @shape.z.to_px + 5)
 	end
 	
 	private
@@ -246,4 +277,5 @@ class Character < Entity
 				((((88.0)/(9.0))*(@lvl-10))+20).floor
 		end
 	end
+	
 end
