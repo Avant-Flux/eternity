@@ -59,13 +59,13 @@ class Entity
 		@animations.moving = moving?
 		@animations.update
 		
-		if @shape.x.to_px - @animations.width <= 0
-			@shape.x = @animations.width.to_meters
-		end
-		
-		if @shape.y.to_px - @animations.height <= 0
-			@shape.y = @animations.height.to_meters
-		end
+		#~ if @shape.x.to_px - @animations.width <= 0
+			#~ @shape.x = @animations.width.to_meters
+		#~ end
+		#~ 
+		#~ if @shape.y.to_px - @animations.height <= 0
+			#~ @shape.y = @animations.height.to_meters
+		#~ end
 	end
 	
 	
