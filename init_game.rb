@@ -72,6 +72,7 @@ class Game_Window < Gosu::Window
 		
 		#@effect = Animations::Effect.new($window, "Gale")
 		@background = Background.new($window,"Sprites/Textures/grass_texture2.png")
+		characters[0].say("hello world")
 	end
 	
 	def update
