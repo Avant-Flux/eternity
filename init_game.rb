@@ -51,7 +51,7 @@ class Game_Window < Gosu::Window
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
 		
 		@player = Player.new(@space, "Bob", [5, 5, 0])
-		characters = Array.new
+		@characters = Array.new
 		#~ 20.times do |i|
 			#~ x = (i * 3) % 8 + 1
 			#~ y = (i * 10) % 6 + 1
@@ -64,7 +64,7 @@ class Game_Window < Gosu::Window
 		#~ @player.track(characters[3])
 		#~ @player.track(characters[18])
 		
-		characters << Character.new(@space, "NPC", [5, 8, 0])
+		@characters << Character.new(@space, "NPC", [5, 8, 0])
 		#~ @player.track characters[0]
 		
 		@UI = UI::Overlay::Status.new(@player)
@@ -72,7 +72,6 @@ class Game_Window < Gosu::Window
 		
 		#@effect = Animations::Effect.new($window, "Gale")
 		@background = Background.new($window,"Sprites/Textures/grass_texture2.png")
-		characters[0].say("hello world")
 	end
 	
 	def update
@@ -112,6 +111,7 @@ class Game_Window < Gosu::Window
 			$camera.queue.each do |i|
 				i.draw
 			end
+			@characters[0].say("hello world")
 		end
 	end
 	
