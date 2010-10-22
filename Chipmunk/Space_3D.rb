@@ -1,25 +1,21 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 
-#~ Notes:
-#~ Remove the xz CP::Space and store the z-based gravity application function in this class
-#~ Rewrite Space_3D as a descendant of CP::Space
+require 'set'
 
 require 'rubygems'
 require 'chipmunk'
 require 'gosu'
 require 'RMagick'
-require 'Chipmunk/Space'
-require 'Chipmunk/Shape_3D'
+require './Chipmunk/Space'
+require './Chipmunk/Shape_3D'
 
 module CP	
 	class Space_3D < Space
 		attr_reader :dt, :g, :shapes
 		
-		def initialize(damping=0.5, g=-9.8, dt=(1.0/60.0))
+		def initialize(damping=0.12, g=-9.8, dt=(1.0/60.0))
 			super()
-			@shapes = {:static => Array.new, :nonstatic => Array.new}
+			@shapes = {:static => Set.new, :nonstatic => Set.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
 			@dt = dt	#Controls the timestep of the space.  
 						#	Could be falsified as slower than update rate for bullet time
@@ -33,41 +29,55 @@ module CP
 			#Gravity should not function in the horiz plane, thus gravity is always <0, 0>
 			self.gravity = CP::Vec2.new(0, 0)
 			
-			#0.2 Seems like a good damping for ice
+			#0.9 Seems like a good damping for ice
 			self.damping = damping
 		end
 		
 		def step
 			super @dt
 			
-			#Add code for one-dimensional movement in the z-direction here
-			#~ Entity.all.each do |entity|
-				#~ if entity.jumping?
-					#~ entity.jump
-				#~ end
-				#~ 
-				#~ entity.jumping = false				
-			#~ end
-			
+			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
+				shape.iterate @dt
+			
 				if shape.z > shape.elevation
 					shape.apply_gravity @dt
 				elsif shape.z < shape.elevation
 					shape.z = shape.elevation
 					shape.reset_gravity
+					shape.entity.step @dt
 				end
-				
-				shape.iterate @dt
 			end
 		end
 				
-		def add(arg, static=:nonstatic)
-			super arg.shape, static
-			@shapes[static] << arg.shape 
+		def add(arg)
+			super arg.shape
+			@shapes[static?(arg.shape)].add arg.shape
 		end
 		
-		def remove
-			
+		def remove(arg)
+			super arg.shape
+			@shapes[static?(arg.shape)].delete arg.shape
+		end
+		
+		def clear
+			@shapes.each do |static, set|
+				set.each do |shape|
+					super.remove shape, static
+				end
+				
+				set.clear
+			end
+		end
+		
+		private
+		
+		def static?(shape)
+			if shape.body.m == Float::INFINITY
+				return :static
+			else
+				return :nonstatic
+			end
 		end
 	end
 end

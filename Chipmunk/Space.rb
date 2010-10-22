@@ -1,23 +1,27 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 require 'rubygems'
 require 'chipmunk'
 
 module CP
 	class Space
-		def add(shape, static=:nonstatic)
+		def add(shape)
 			add_body shape.body
 			
-			if static == :nonstatic
-				add_shape shape
-			elsif static == :static
+			if shape.body.m == Float::INFINITY
 				add_static_shape shape
+			else
+				add_shape shape
 			end
 		end
 		
-		def remove
-			
+		def remove(shape)
+			if shape.body.m == Float::INFINITY
+				remove_static_shape shape
+			else
+				remove_shape shape
+			end
+		
+			remove_body shape.body
 		end
 	end
 end

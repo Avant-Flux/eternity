@@ -1,16 +1,15 @@
 #!/usr/bin/ruby
-#~ Name: Jason
 
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
 
-require 'Chipmunk/Space_3D'
-require 'Chipmunk/EternityMod'
-require 'Combat/Combative'
-require 'Drawing/Animations'
+require './Chipmunk/Space_3D'
+require './Chipmunk/EternityMod'
+require './Combat/Combative'
+require './Drawing/Animations'
 
-require 'Stats/Stats'
+require './Stats/Stats'
 
 class Fixnum
 	def between?(a, b)
@@ -27,14 +26,10 @@ class Entity
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
-	@@all = Array.new
-
 	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
-		@@all << self
-		
 		@movement_force = CP::Vec2.new(0,0)
-		@walk_constant = 150
-		@run_constant = 500
+		@walk_constant = 500
+		@run_constant = 1200
 		
 		@animations = animations
 		
@@ -57,30 +52,6 @@ class Entity
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
-	end
-		
-	class << self
-		def all
-			@@all
-		end
-		
-		def draw_all
-			@@all.each do |e|
-				e.draw
-			end
-		end
-		
-		def update_all
-			@@all.each do |e|
-				e.update
-			end
-		end
-		
-		def reset_all
-			@@all.each do |e|
-				e.shape.body.reset_forces
-			end
-		end
 	end
 	
 	def update
@@ -105,12 +76,16 @@ class Entity
 		end
 	end
 	
+	def step(dt)
+		if @shape.z == @shape.elevation
+			@jump_count = 0
+		end
+	end
+	
 	def jump
 		if @jump_count < 3 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
 			@shape.vz = 5 #On jump, set the velocity in the z direction
-		elsif @shape.z <= @shape.elevation
-			@jump_count = 0
 		end
 	end
 	
@@ -185,6 +160,14 @@ class Entity
 	
 	def save
 		
+	end
+	
+	def elevation
+		@shape.elevation
+	end
+	
+	def elevation=(arg)
+		@shape.elevation = arg
 	end
 	
 	def position

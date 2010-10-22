@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 09.18.2010
 require 'rubygems'
 require 'chipmunk'
 
@@ -16,11 +14,11 @@ module CP
 				#The other coordinates can be deduced based on these coords.
 				
 				x1,y1, x2,y2 = corners(center, height, width)
-				
+
 				top_left = CP::Vec2.new(x1, y2)
 				top_right = CP::Vec2.new(x2, y2)
-				bottom_left = CP::Vec2.new(x1, y1)
 				bottom_right = CP::Vec2.new(x2, y1)
+				bottom_left = CP::Vec2.new(x1, y1)
 				
 				shape_array =	[top_left, top_right, bottom_right, bottom_left]
 				super body, shape_array, offset

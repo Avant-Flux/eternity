@@ -1,12 +1,12 @@
 #!/usr/bin/ruby
-#~ Name: Jason
+
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
-require 'Chipmunk/Space_3D'
-require 'Chipmunk/EternityMod'
+require './Chipmunk/Space_3D'
+require './Chipmunk/EternityMod'
 
-require 'Drawing/Wireframe'
+require './Drawing/Wireframe'
 
 class Building
 	attr_reader :space, :shape
@@ -22,7 +22,7 @@ class Building
 							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, hash[:offset])
 		@wireframe = Wireframe::Building.new($window, @shape, :white)
-		space.add self, :static
+		space.add self
 	end
 	
 	def update

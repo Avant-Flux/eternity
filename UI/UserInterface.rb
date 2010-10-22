@@ -9,12 +9,12 @@ require 'gosu'
 require 'chingu'
 
 require 'chipmunk'
-require 'Chipmunk/Space_3D'
+require './Chipmunk/Space_3D'
 
-require 'GameObjects/Entity'
-require "GameObjects/Creature"
-require 'GameObjects/Character'
-require 'GameObjects/Player'
+require './GameObjects/Entity'
+require "./GameObjects/Creature"
+require './GameObjects/Character'
+require './GameObjects/Player'
 
-require 'UI/TrackingOverlay.rb'
-require 'UI/StatusOverlay.rb'
+require './UI/TrackingOverlay.rb'
+require './UI/StatusOverlay.rb'
