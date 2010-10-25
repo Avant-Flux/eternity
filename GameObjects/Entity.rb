@@ -6,6 +6,7 @@ require 'chipmunk'
 
 require './Chipmunk/Space_3D'
 require './Chipmunk/EternityMod'
+require './GameObjects/Physics'
 require './Combat/Combative'
 require './Drawing/Animations'
 
@@ -20,6 +21,7 @@ end
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
+	include PhysicsInterface
 	
 	attr_reader :shape, :stats, :animations
 	attr_reader  :moving, :direction, :move_constant, :movement_force
