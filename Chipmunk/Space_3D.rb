@@ -70,7 +70,7 @@ module CP
 			end
 		end
 		
-		alias :clear, :remove_all
+		alias :remove_all :clear
 		
 		private
 		
