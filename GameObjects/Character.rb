@@ -14,8 +14,8 @@ class Character < Entity
 								:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"},
 					mass=120, moment=20)
 					
-		animations = Animations::Character.new subsprites
-		super(space, animations, name, pos, mass, moment, 1, :none, 
+		animation = Animations::Character.new subsprites
+		super(space, animation, name, pos, mass, moment, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
 
