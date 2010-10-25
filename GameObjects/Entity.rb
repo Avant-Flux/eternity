@@ -8,7 +8,7 @@ require './Chipmunk/Space_3D'
 require './Chipmunk/EternityMod'
 require './GameObjects/Physics'
 require './Combat/Combative'
-require './Drawing/Animations'
+require './Drawing/Animation'
 
 require './Stats/Stats'
 

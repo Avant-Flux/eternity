@@ -26,7 +26,7 @@ require './GameObjects/Camera'
 
 require './Utilities/FPSCounter'
 require './Utilities/InputHandler'
-require './Drawing/Animations'
+require './Drawing/Animation'
 require './Drawing/Background'
 
 require './UI/UserInterface'
