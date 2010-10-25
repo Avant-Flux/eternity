@@ -3,6 +3,29 @@
 module PhysicalProperties
 	#Assume only that the class this is mixed-in to has the variable @shape defined
 	#	@shape is some class in CP::Shape_3D
+	#Assume also that there is a variable @animations which holds the 
+	
+	#======Methods for dimention======
+	#Setters
+		#None - these properties can not be dynamically changed
+	#Getters
+	def height units=:px
+		case units
+			when :px
+				@animations.height
+			when :meters
+				@animations.height.to_meters
+		end
+	end
+	
+	def width units=:px
+		case units
+			when :px
+				@animations.width
+			when :meters
+				@animations.width.to_meters
+		end
+	end
 	
 	#======Methods for positon======
 	#---Setters
