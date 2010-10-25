@@ -68,7 +68,7 @@ class Character < Entity
 		
 		# Draw text in text box
 		@font = Gosu::Font.new($window, "Times New Roman", 25) unless @font
-		@font.draw(arg, x.to_px - 49, y.to_px - height - 95, z.to_px + 5)
+		@font.draw(text, x.to_px - 49, y.to_px - height - 95, z.to_px + 5)
 	end
 	
 	private
