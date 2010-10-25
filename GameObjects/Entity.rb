@@ -21,7 +21,7 @@ end
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
-	include PhysicsInterface
+	include PhysicalProperties
 	
 	attr_reader :shape, :stats, :animations
 	attr_reader  :moving, :direction, :move_constant, :movement_force

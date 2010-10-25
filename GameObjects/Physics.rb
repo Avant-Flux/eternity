@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
  
-module PhysicsInterface
+module PhysicalProperties
 	#Assume only that the class this is mixed-in to has the variable @shape defined
 	#	@shape is some class in CP::Shape_3D
 	
