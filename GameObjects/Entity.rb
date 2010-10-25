@@ -23,7 +23,7 @@ class Entity
 	include Combative
 	include PhysicalProperties
 	
-	attr_reader :shape, :stats, :animations
+	attr_reader :shape, :stats
 	attr_reader  :moving, :direction, :move_constant, :movement_force
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
