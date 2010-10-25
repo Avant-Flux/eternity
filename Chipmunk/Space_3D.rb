@@ -70,6 +70,8 @@ module CP
 			end
 		end
 		
+		alias :clear, :remove_all
+		
 		private
 		
 		def static?(shape)
