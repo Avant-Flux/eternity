@@ -41,7 +41,7 @@ class Character < Entity
 		
 	end
 	
-	def say arg # Arg = whatever the character says
+	def say text
 		
 		# Character sprite is 80 pixels tall
 		
