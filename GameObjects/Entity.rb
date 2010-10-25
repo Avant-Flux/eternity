@@ -33,11 +33,11 @@ class Entity
 		@walk_constant = 500
 		@run_constant = 1200
 		
-		@animations = animations
+		@animation = animations
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
-											(@animations.width/2).to_meters, 
-											@animations.height.to_meters,
+											(@animation.width/2).to_meters, 
+											@animation.height.to_meters,
 											mass, moment)
 		space.add self
 		
@@ -57,23 +57,23 @@ class Entity
 	end
 	
 	def update
-		@animations.direction = compute_direction
-		@animations.moving = moving?
-		@animations.update
+		@animation.direction = compute_direction
+		@animation.moving = moving?
+		@animation.update
 		
-		#~ if @shape.x.to_px - @animations.width <= 0
-			#~ @shape.x = @animations.width.to_meters
+		#~ if @shape.x.to_px - @animation.width <= 0
+			#~ @shape.x = @animation.width.to_meters
 		#~ end
 		#~ 
-		#~ if @shape.y.to_px - @animations.height <= 0
-			#~ @shape.y = @animations.height.to_meters
+		#~ if @shape.y.to_px - @animation.height <= 0
+			#~ @shape.y = @animation.height.to_meters
 		#~ end
 	end
 	
 	
 	def draw
 		if visible
-			@animations.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
+			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 		end
 	end

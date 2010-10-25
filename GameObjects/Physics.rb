@@ -12,18 +12,18 @@ module PhysicalProperties
 	def height units=:px
 		case units
 			when :px
-				@animations.height
+				@animation.height
 			when :meters
-				@animations.height.to_meters
+				@animation.height.to_meters
 		end
 	end
 	
 	def width units=:px
 		case units
 			when :px
-				@animations.width
+				@animation.width
 			when :meters
-				@animations.width.to_meters
+				@animation.width.to_meters
 		end
 	end
 	

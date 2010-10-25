@@ -49,10 +49,10 @@ class Character < Entity
 		
 		# Store each point of the text box in an ordered pair (x,y)
 		point = Struct.new(:x,:y)
-		point1 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animations.height - 100
-		point2 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animations.height - 100
-		point3 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animations.height - 30
-		point4 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animations.height - 30
+		point1 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animation.height - 100
+		point2 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animation.height - 100
+		point3 = point.new @shape.x.to_px - 50, @shape.y.to_px - @animation.height - 30
+		point4 = point.new @shape.x.to_px + 50, @shape.y.to_px - @animation.height - 30
 		
 		# Define color for text box
 		color = Gosu::Color::GREEN
@@ -64,12 +64,12 @@ class Character < Entity
 						   point4.x, point4.y, color, @shape.z)
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle(@shape.x.to_px - 25, @shape.y.to_px - @animations.height - 30, Gosu::Color::GREEN, 
-							  @shape.x.to_px + 25, @shape.y.to_px - @animations.height - 30, Gosu::Color::GREEN, 
-							  @shape.x.to_px, @shape.y.to_px - @animations.height, Gosu::Color::GREEN)
+		$window.draw_triangle(@shape.x.to_px - 25, @shape.y.to_px - @animation.height - 30, Gosu::Color::GREEN, 
+							  @shape.x.to_px + 25, @shape.y.to_px - @animation.height - 30, Gosu::Color::GREEN, 
+							  @shape.x.to_px, @shape.y.to_px - @animation.height, Gosu::Color::GREEN)
 		
 		# Draw text in text box
-		@test.draw(arg, @shape.x.to_px - 49, @shape.y.to_px - @animations.height - 95, @shape.z.to_px + 5)
+		@test.draw(arg, @shape.x.to_px - 49, @shape.y.to_px - @animation.height - 95, @shape.z.to_px + 5)
 	end
 	
 	private
