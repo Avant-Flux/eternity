@@ -26,8 +26,6 @@ class Character < Entity
 		@equipment =	{:head => nil, :right_hand => nil, :left_hand => nil, 
 						:upper_body => nil, :lower_body => nil, :feet => nil, 
 						:title => Title_Holder.new}
-						
-		@font = Gosu::Font.new($window, "Times New Roman", 25)
 	end
 	
 	def lvl=(arg)
@@ -69,6 +67,7 @@ class Character < Entity
 							  x.to_px, y.to_px - height, Gosu::Color::GREEN)
 		
 		# Draw text in text box
+		@font = Gosu::Font.new($window, "Times New Roman", 25) unless @font
 		@font.draw(arg, x.to_px - 49, y.to_px - height - 95, z.to_px + 5)
 	end
 	
