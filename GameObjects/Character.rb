@@ -43,17 +43,17 @@ class Character < Entity
 	
 	def say text
 		
-		# Character sprite is 80 pixels tall
+		# Create new point class
+		point = Struct.new(:x,:y)
 		
 		# Store each point of the text box in an ordered pair (x,y)
-		point = Struct.new(:x,:y)
-		point1 = point.new x.to_px - 50, y.to_px - height - 100
-		point2 = point.new x.to_px + 50, y.to_px - height - 100
-		point3 = point.new x.to_px - 50, y.to_px - height - 30
-		point4 = point.new x.to_px + 50, y.to_px - height - 30
+		point1 = point.new x.to_px - 60, y.to_px - height - 100
+		point2 = point.new x.to_px + 60, y.to_px - height - 100
+		point3 = point.new x.to_px - 60, y.to_px - height - 30
+		point4 = point.new x.to_px + 60, y.to_px - height - 30
 		
 		# Define color for text box
-		color = Gosu::Color::GREEN
+		color = Gosu::Color::RED
 		
 		# Draw box to hold character text
 		$window.draw_quad(point1.x, point1.y, color, 
@@ -62,13 +62,13 @@ class Character < Entity
 						   point4.x, point4.y, color, z)
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle(x.to_px - 25, y.to_px - height - 30, Gosu::Color::GREEN, 
-							  x.to_px + 25, y.to_px - height - 30, Gosu::Color::GREEN, 
-							  x.to_px, y.to_px - height, Gosu::Color::GREEN)
+		$window.draw_triangle x.to_px - 25, y.to_px - height - 30, color, 
+							  x.to_px + 25, y.to_px - height - 30, color, 
+							  x.to_px, y.to_px - height, color
 		
 		# Draw text in text box
-		@font = Gosu::Font.new($window, "Times New Roman", 25) unless @font
-		@font.draw(text, x.to_px - 49, y.to_px - height - 95, z.to_px + 5)
+		@font = Gosu::Font.new $window, "Times New Roman", 25 unless @font
+		@font.draw text, point1.x + 1, point1.y + 1, z.to_px + 5 
 	end
 	
 	private
