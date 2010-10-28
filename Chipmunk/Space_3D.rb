@@ -11,7 +11,7 @@ require './Chipmunk/Shape_3D'
 
 module CP	
 	class Space_3D < Space
-		attr_reader :dt, :g, :shapes
+		attr_reader :shapes, :g
 		
 		def initialize(damping=0.12, g=-9.8)
 			super()
@@ -33,10 +33,7 @@ module CP
 		end
 		
 		def step
-			time = Gosu::milliseconds
-			dt = time - @time_before
-			@time_before = time
-			dt /= 1000.0 #convert from milliseconds to seconds
+			dt = compute_dt
 			
 			super dt
 			
@@ -84,6 +81,13 @@ module CP
 			else
 				return :nonstatic
 			end
+		end
+		
+		def compute_dt
+			time = Gosu::milliseconds
+			dt = time - @time_before
+			@time_before = time
+			dt /= 1000.0 #convert from milliseconds to seconds
 		end
 	end
 end
