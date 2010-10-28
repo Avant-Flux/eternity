@@ -13,12 +13,11 @@ module CP
 	class Space_3D < Space
 		attr_reader :dt, :g, :shapes
 		
-		def initialize(damping=0.12, g=-9.8, dt=(1.0/60.0))
+		def initialize(damping=0.12, g=-9.8)
 			super()
 			@shapes = {:static => Set.new, :nonstatic => Set.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
-			@dt = dt	#Controls the timestep of the space.  
-						#	Could be falsified as slower than update rate for bullet time
+			@time_before = Gosu::milliseconds
 			
 			#X is horizontal
 			#Y is vertical
@@ -34,18 +33,23 @@ module CP
 		end
 		
 		def step
-			super @dt
+			time = Gosu::milliseconds
+			dt = time - @time_before
+			@time_before = time
+			dt /= 1000.0 #convert from milliseconds to seconds
+			
+			super dt
 			
 			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
-				shape.iterate @dt
+				shape.iterate dt
 			
 				if shape.z > shape.elevation
-					shape.apply_gravity @dt
+					shape.apply_gravity dt
 				elsif shape.z < shape.elevation
 					shape.z = shape.elevation
 					shape.reset_gravity
-					shape.entity.step @dt
+					shape.entity.step dt
 				end
 			end
 		end
