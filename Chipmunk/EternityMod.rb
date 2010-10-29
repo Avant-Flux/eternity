@@ -11,7 +11,6 @@ module CollisionHandler
 	#Control collisions between multiple Entity objects
 	class Entity
 		def begin(a,b,arbiter)
-			#~ @begin_called = [a,b]
 			return true
 		end
 		
@@ -41,7 +40,7 @@ module CollisionHandler
 		end
 		
 		def post_solve(a,b,arbiter) #Do stuff after the collision has be evaluated
-			#~ puts "you"
+			
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
@@ -53,7 +52,6 @@ module CollisionHandler
 	#	ie, a character and a building or land mass
 	class Entity_Env #Specify entity first, then the environment piece
 		def begin(a,b,arbiter)
-			#~ @begin_called = [a,b]
 			return true
 		end
 		
@@ -68,7 +66,7 @@ module CollisionHandler
 		end
 		
 		def post_solve(a,b,arbiter) #Do stuff after the collision has be evaluated
-			#~ puts "you"
+			
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
