@@ -33,16 +33,14 @@ module CP
 		end
 		
 		def step
-			dt = compute_dt
-			
-			super dt
+			super $dt
 			
 			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
-				shape.iterate dt
+				shape.iterate $dt
 			
 				if shape.z > shape.elevation
-					shape.apply_gravity dt
+					shape.apply_gravity $dt
 				elsif shape.z < shape.elevation
 					shape.z = shape.elevation
 					shape.reset_gravity
@@ -81,13 +79,6 @@ module CP
 			else
 				return :nonstatic
 			end
-		end
-		
-		def compute_dt
-			time = Gosu::milliseconds
-			dt = time - @time_before
-			@time_before = time
-			dt /= 1000.0 #convert from milliseconds to seconds
 		end
 	end
 end

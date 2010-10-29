@@ -37,6 +37,9 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		
+		@@time_before = Gosu::milliseconds
+		$dt = compute_dt
+		
 		@fpscounter = FPSCounter.new
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
@@ -93,6 +96,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
+		$dt = compute_dt
 		@fpscounter.update
 		@UI.update
 		#~ @effect.update
@@ -183,6 +187,13 @@ class Game_Window < Gosu::Window
 		if @inpman.active?(:jump)
 			@player.jump
 		end
+	end
+	
+	def compute_dt
+		time = Gosu::milliseconds
+		dt = time - @@time_before
+		@@time_before = time
+		dt /= 1000.0 #convert from milliseconds to seconds
 	end
 end
 
