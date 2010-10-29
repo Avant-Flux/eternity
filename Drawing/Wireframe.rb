@@ -42,8 +42,7 @@ module Wireframe
 	end
 
 	class Building
-		def initialize(window, shape, color = :black)
-			@window = window
+		def initialize(shape, color = :black)
 			@shape = shape
 			
 			@side_thickness = 4
@@ -75,7 +74,7 @@ module Wireframe
 			points << point.new(x, y)
 			points << point.new(x + width, y)
 			
-			@img = TexPlay.create_blank_image @window,	width + @side_thickness*2 + side_buffer*2, 
+			@img = TexPlay.create_blank_image $window,	width + @side_thickness*2 + side_buffer*2, 
 														height + depth + bottom_buffer
 			@img.paint do
 				#Top side, left edge
@@ -121,12 +120,12 @@ module Wireframe
 			@img.draw @x, @y, @z
 		end
 		
-		def draw_line window, x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
+		def draw_line x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
 			if thickness == 1
-				window.draw_line x1,y1, color, x2,y2, color, z
+				$window.draw_line x1,y1, color, x2,y2, color, z
 			else
 				offset = thickness/2.0
-				window.draw_quad x1,y1-offset, color, x2,y2-offset, color,
+				$window.draw_quad x1,y1-offset, color, x2,y2-offset, color,
 								x1,y1+offset, color, x2,y2+offset, color, z
 			end
 		end
