@@ -199,6 +199,7 @@ For stackable objects
 	The major problem with stackable objects in toppling
 		Thus, do not allow for n-dimensional stacks
 			If you lift a box, etc, it should thus be unable to jump.
+		One way to resolve this is to have objects snap into stacks.
 
 For gravity/force management
 	Store all forces on a object in a data structure, and then iterate over the structure to
@@ -215,7 +216,7 @@ Chipmunk Shape_3D function arguments
 	Take position and dimensions as an array marked by a hash tag
 	ie	:pos => [0,0,0], :dimensions => [0,0,0]
 
-Bugs
+Bugs/Additions
 	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
 		happens on the shared edge of two buildings of unequal height.
 			This bug only seems to occur on the left edge of the higher building.
@@ -226,5 +227,3 @@ Bugs
 		
 	===	Fix camera scrolling
 			Needs to stop when the character hits a wall or similar object
-		
-	===	Allow jumping over characters
