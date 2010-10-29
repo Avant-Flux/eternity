@@ -55,20 +55,22 @@ class Character < Entity
 		# Define color for text box
 		color = Gosu::Color::RED
 		
+		z_offset = 1000
+		
 		# Draw box to hold character text
 		$window.draw_quad(point1.x, point1.y, color, 
 						   point2.x, point2.y, color, 
 						   point3.x, point3.y, color, 
-						   point4.x, point4.y, color, z)
+						   point4.x, point4.y, color, z+z_offset)
 		
 		# Draw triangle that points to character that is speaking
 		$window.draw_triangle x.to_px - 25, y.to_px - height - 30, color, 
 							  x.to_px + 25, y.to_px - height - 30, color, 
-							  x.to_px, y.to_px - height, color
-		
+							  x.to_px, y.to_px - height, color, z+z_offset
+
 		# Draw text in text box
 		@font = Gosu::Font.new $window, "Times New Roman", 25 unless @font
-		@font.draw text, point1.x + 1, point1.y + 1, z.to_px + 5 
+		@font.draw text, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
 	end
 	
 	private
