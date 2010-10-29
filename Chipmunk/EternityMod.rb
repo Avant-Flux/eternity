@@ -10,19 +10,28 @@ module CollisionHandler
 
 	#Control collisions between multiple Entity objects
 	class Entity
-		#~ def begin(a,b,arbiter)
+		def begin(a,b,arbiter)
 			#~ @begin_called = [a,b]
-		#~ end
-		#~ 
-		#~ def pre(a,b,arbiter) #Determine whether to process collision or not
-		#~ end
-		#~ 
-		#~ def post(a,b,arbiter) #Do stuff after the collision has be evaluated
-		#~ end
-		#~ 
-		#~ def sep(a,b,arbiter)	#Stuff to do after the shapes separate
-			#~ 
-		#~ end
+			return true
+		end
+		
+		def pre_solve(a,b,arbiter) #Determine whether to process collision or not
+			#Process actions involving what to do when on top, as well as side collisions
+			if a.z < b.height #If the entity collides from the side, accept the collision
+				return true
+			else
+				a.elevation = b.height
+				return false
+			end
+		end
+		
+		def post_solve(a,b,arbiter) #Do stuff after the collision has be evaluated
+			#~ puts "you"
+		end
+		
+		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
+			a.elevation = 0
+		end
 	end
 	
 	#Control collisions between an Entity and the environment
