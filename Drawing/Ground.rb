@@ -50,12 +50,12 @@ class Ground
 	private
 	
 	def set_dimensions
-		if width = -1
+		if width == -1
 			@width = @texture.width
 		else
 			@width = @args[:width]
 		end
-		if depth = -1
+		if depth == -1
 			@depth = @texture.height
 		else
 			@depth = @args[:depth]
