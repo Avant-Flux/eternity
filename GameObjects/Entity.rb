@@ -78,10 +78,8 @@ class Entity
 		end
 	end
 	
-	def step(dt)
-		if @shape.z == @shape.elevation
-			@jump_count = 0
-		end
+	def resolve_ground_collision
+		@jump_count = 0
 	end
 	
 	def jump

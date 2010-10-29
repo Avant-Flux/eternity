@@ -46,7 +46,7 @@ module CP
 				elsif shape.z < shape.elevation
 					shape.z = shape.elevation
 					shape.reset_gravity
-					shape.entity.step dt
+					shape.entity.resolve_ground_collision
 				end
 			end
 		end
