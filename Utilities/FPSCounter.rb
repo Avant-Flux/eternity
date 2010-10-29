@@ -14,14 +14,20 @@ require "gosu"
 			@milliseconds_before = Gosu::milliseconds
 			@show_fps = false
 			@fps = 0
+			
+			@dt = 0
+			@refresh_interval = 1
+			@refresh_interval.to_f
 		end
 		
 		def update
 			@frames_counter += 1
-			if Gosu::milliseconds - @milliseconds_before >= 1000
-				@fps = @frames_counter.to_f / ((Gosu::milliseconds - @milliseconds_before) / 1000.0)
+			@dt += $dt
+			
+			if @dt >= @refresh_interval
+				@fps = @frames_counter.to_f / @dt.to_f
 				@frames_counter = 0
-				@milliseconds_before = Gosu::milliseconds
+				@dt = 0
 			end
 		end
 		

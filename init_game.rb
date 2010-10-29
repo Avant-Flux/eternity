@@ -37,6 +37,8 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		
+		#Create a variable to use to track the time elapsed in between frames.
+		#This value is stored is seconds
 		@@time_before = Gosu::milliseconds
 		$dt = compute_dt
 		
@@ -193,6 +195,7 @@ class Game_Window < Gosu::Window
 		time = Gosu::milliseconds
 		dt = time - @@time_before
 		@@time_before = time
+		#~ return dt
 		dt /= 1000.0 #convert from milliseconds to seconds
 	end
 end
@@ -243,6 +246,12 @@ class InputHandler
 		
 		createAction(:run)
 		bindAction(:run, Gosu::KbLeftControl)
+	end
+end
+
+class Numeric
+	def to_seconds
+		self / 1000
 	end
 end
 
