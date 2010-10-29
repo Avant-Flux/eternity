@@ -214,10 +214,6 @@ For scaling
 Chipmunk Shape_3D function arguments
 	Take position and dimensions as an array marked by a hash tag
 	ie	:pos => [0,0,0], :dimensions => [0,0,0]
-	
-Remove Entity#step and add Entity#hit_ground
-	Name is subject to change, but the method should control what happens when the entity hits the
-	ground.  This includes resetting the jump count and calculating fall damage.
 
 Bugs
 	There is a point at the edge of a building where you will be kicked off the roof.  This only
