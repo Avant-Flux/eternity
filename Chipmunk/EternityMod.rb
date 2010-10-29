@@ -16,7 +16,7 @@ module CollisionHandler
 		end
 		
 		def pre_solve(a, b, arbiter) #Determine whether to process collision or not
-			#Process actions involving what to do when on top, as well as side collisions\\
+			#Process actions involving what to do when on top, as well as side collisions
 			
 			#First, determine which one is higher
 			if a.z > b.z #a is higher
