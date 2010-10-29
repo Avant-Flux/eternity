@@ -77,6 +77,6 @@ class Numeric
 	
 	def to_meters
 		#~ Convert from pixels to meters
-		self/(CP::Space_3D.scale * 1.0) #Insure that integer division is not used
+		self/(CP::Space_3D.scale.to_f) #Insure that integer division is not used
 	end
 end
