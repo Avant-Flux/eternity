@@ -222,6 +222,8 @@ Bugs
 		
 		This is probably because elevation is not actually being used like I thought it was ^_^;
 		
+		Just use the workaround
+		
 	Fix camera scrolling
 		Needs to stop when the character hits a wall or similar object
 		
