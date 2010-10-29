@@ -15,12 +15,27 @@ module CollisionHandler
 			return true
 		end
 		
-		def pre_solve(a,b,arbiter) #Determine whether to process collision or not
-			#Process actions involving what to do when on top, as well as side collisions
-			if a.z < b.height #If the entity collides from the side, accept the collision
+		def pre_solve(a, b, arbiter) #Determine whether to process collision or not
+			#Process actions involving what to do when on top, as well as side collisions\\
+			
+			#First, determine which one is higher
+			if a.z > b.z #a is higher
+				higher = a
+				lower = b
+			elsif a.z < b.z #b is higher
+				higher = b
+				lower = a
+			else #They are at the same z position (z is a double, this will almost never happen)
+				return true	#When two things are at the same z position, there should be a collision
+			end
+			
+			#See if the higher one is high enough to pass over the lower one
+			if higher.z < lower.height
+				#The higher of the two is not high enough to clear the other one
 				return true
 			else
-				a.elevation = b.height
+				#The higher one was high enough.  Ignore the collision so the higher can pass 
+				#"though" (read: over) the lower one.
 				return false
 			end
 		end
@@ -30,7 +45,7 @@ module CollisionHandler
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
-			a.elevation = 0
+			
 		end
 	end
 	
