@@ -19,7 +19,7 @@ module Ground
 	class Renderer
 		attr_accessor :x, :y
 	
-		def initialize(texture, args={})#	:tileable, :pos, :width, :depth are hash arguments
+		def initialize(texture, width, depth, pos=[0,0])
 			#Texture must be in the Code/Sprites/Textures directory
 			#	Specify the name only.  It is assumed the image is a png.
 			#
@@ -28,15 +28,11 @@ module Ground
 			#Position is given in meters relative to the chipmunk space
 			#	Can not specify z coordinate, as the ground must always be rendered at z=0
 			
-			#Set default values
-			args[:tileable] = false unless args[:tileable]
-			args[:pos] = [0,0] unless args[:pos]
+			@width = width
+			@depth = depth
 			
 			@x = pos[0]
 			@y = pos[1]
-			
-			@width = 0
-			@depth = 0
 			
 			
 			image_path = "./Sprites/Textures/#{texture}.png"
