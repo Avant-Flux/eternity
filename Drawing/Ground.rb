@@ -11,54 +11,68 @@ require 'chipmunk'
 require './Chipmunk/Space_3D'
 require './Chipmunk/EternityMod'
 
-class Ground
-	attr_accessor :x, :y
-
-	def initialize(texture, args={})#	:tileable, :pos, :width, :depth are hash arguments
-		#Texture must be in the Code/Sprites/Textures directory
-		#	Specify the name only.  It is assumed the image is a png.
-		#
-		#The width and depth of the ground can each be specified as -1 to signify that the
-		#	width and height of the image should be used.
-		#Position is given in meters relative to the chipmunk space
-		#	Can not specify z coordinate, as the ground must always be rendered at z=0
-		
-		#Set default values
-		args[:tileable] = false unless args[:tileable]
-		args[:pos] = [0,0] unless args[:pos]
-		
-		@x = pos[0]
-		@y = pos[1]
-		@z = 0
-		
-		
-		image_path = "./Sprites/Textures/#{texture}.png"
-		
-		@texture = Gosu::Image.new($window, image_path, args[:tileable])
-		
-		set_dimensions
-	end
+module Ground
+	class Renderer
+		attr_accessor :x, :y
 	
-	def update
-		
-	end
-	
-	def draw
-		@texture.draw @x, @y, @z
-	end
-	
-	private
-	
-	def set_dimensions
-		if width == -1
-			@width = @texture.width
-		else
-			@width = @args[:width]
+		def initialize(texture, args={})#	:tileable, :pos, :width, :depth are hash arguments
+			#Texture must be in the Code/Sprites/Textures directory
+			#	Specify the name only.  It is assumed the image is a png.
+			#
+			#The width and depth of the ground can each be specified as -1 to signify that the
+			#	width and height of the image should be used.
+			#Position is given in meters relative to the chipmunk space
+			#	Can not specify z coordinate, as the ground must always be rendered at z=0
+			
+			#Set default values
+			args[:tileable] = false unless args[:tileable]
+			args[:pos] = [0,0] unless args[:pos]
+			
+			@x = pos[0]
+			@y = pos[1]
+			@z = 0
+			
+			
+			image_path = "./Sprites/Textures/#{texture}.png"
+			
+			@texture = Gosu::Image.new($window, image_path, args[:tileable])
+			
+			set_dimensions
 		end
-		if depth == -1
-			@depth = @texture.height
-		else
-			@depth = @args[:depth]
+		
+		def update
+			
 		end
+		
+		def draw
+			@texture.draw @x, @y, @z
+		end
+		
+		private
+		
+		def set_dimensions
+			if width == -1
+				@width = @texture.width
+			else
+				@width = @args[:width]
+			end
+			if depth == -1
+				@depth = @texture.height
+			else
+				@depth = @args[:depth]
+			end
+		end
+	end
+	
+	class Texture
+		#The texture should hold multiple Gosu::Image variables, which are combined
+		#in the Ground class with a texture map to form a cohesive renderable object.
+		def initialize
+			
+		end
+	end
+	
+	class Texture_Map
+		
 	end
 end
