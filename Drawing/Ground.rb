@@ -75,6 +75,10 @@ module Ground
 		end
 	end
 	
+	
+	#~ The texture and texture map are related.  As such, they should have the same
+	#~ file same, just different extensions to reflect the different types of data.
+	
 	class Texture
 		#The texture should hold multiple Gosu::Image variables, which are combined
 		#in the Ground class with a texture map to form a cohesive renderable object.
