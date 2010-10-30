@@ -27,10 +27,8 @@ module Ground
 			#	width and height of the image should be used.
 			#Position is given in meters relative to the chipmunk space
 			#	Can not specify z coordinate, as the ground must always be rendered at z=0
-			
 			@width = width
 			@depth = depth
-			
 			@x = pos[0]
 			@y = pos[1]
 			
@@ -51,21 +49,6 @@ module Ground
 			#exceed the desired boundary of the texture.
 			$window.clip_to @x, @y, @width, @depth do
 				@texture.draw @x, @y, 0
-			end
-		end
-		
-		private
-		
-		def set_dimensions
-			if width == -1
-				@width = @texture.width
-			else
-				@width = @args[:width]
-			end
-			if depth == -1
-				@depth = @texture.height
-			else
-				@depth = @args[:depth]
 			end
 		end
 	end
