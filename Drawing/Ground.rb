@@ -34,7 +34,6 @@ module Ground
 			
 			@x = pos[0]
 			@y = pos[1]
-			@z = 0
 			
 			@width = 0
 			@depth = 0
@@ -55,7 +54,7 @@ module Ground
 			#Use Gosu::Window#clip_to in order to restrain the drawing of images which may
 			#exceed the desired boundary of the texture.
 			$window.clip_to @x, @y, @width, @depth do
-				@texture.draw @x, @y, @z
+				@texture.draw @x, @y, 0
 			end
 		end
 		
