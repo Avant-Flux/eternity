@@ -3,6 +3,10 @@
 #This file describes how to draw a section of terrain, in it's most basic state, 
 #a image spread out on the lowest z-index across the xy-plane.
 
+#Internal coordinates should be handled in pixels so everything lines up,
+#but the coordinates accepted from the user should be in meters so that 
+#the texture can be rendered in the appropriate space.
+
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
@@ -32,6 +36,9 @@ module Ground
 			@y = pos[1]
 			@z = 0
 			
+			@width = 0
+			@depth = 0
+			
 			
 			image_path = "./Sprites/Textures/#{texture}.png"
 			
@@ -45,7 +52,11 @@ module Ground
 		end
 		
 		def draw
-			@texture.draw @x, @y, @z
+			#Use Gosu::Window#clip_to in order to restrain the drawing of images which may
+			#exceed the desired boundary of the texture.
+			$window.clip_to @x, @y, @width, @depth do
+				@texture.draw @x, @y, @z
+			end
 		end
 		
 		private
@@ -73,6 +84,10 @@ module Ground
 	end
 	
 	class Texture_Map
-		
+		#This is a class which holds the information to map the images in the 
+		#contained texture to their locations in the rendered grid.
+		def initialize
+			
+		end
 	end
 end
