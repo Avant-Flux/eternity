@@ -47,6 +47,9 @@ module Ground
 		def draw
 			#Use Gosu::Window#clip_to in order to restrain the drawing of images which may
 			#exceed the desired boundary of the texture.
+			
+			#The traversal code assumes that the texture map is a rectangular matrix.  
+			#It can not be a ragged array, or there will be problems.
 			$window.clip_to @x, @y, @width, @depth do
 				@texture.draw @x, @y, 0
 				
