@@ -49,6 +49,11 @@ module Ground
 			#exceed the desired boundary of the texture.
 			$window.clip_to @x, @y, @width, @depth do
 				@texture.draw @x, @y, 0
+				(0..((@width/@texture.width.to_f).ceil-1)).each do |x|
+					i = x % @texture_map.width
+					
+					@texture_map[i]
+				end
 			end
 		end
 	end
