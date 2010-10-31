@@ -68,8 +68,24 @@ module Ground
 	class Texture_Map
 		#This is a class which holds the information to map the images in the 
 		#contained texture to their locations in the rendered grid.
+		
+		
 		def initialize
-			
+			@map = Array.new
+		end
+		
+		
+	end
+	
+	class CircularArray < Array
+		def initialize(*args)
+			super args
+		end
+		
+		def next
+			x = self.shift	#Get the first element
+			self << x		#Stick it on the end
+			return x		#Return the former first element
 		end
 	end
 end
