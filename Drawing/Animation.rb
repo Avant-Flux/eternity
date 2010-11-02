@@ -4,15 +4,6 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-#Texplay modification to allow for chopping texplay images into tiles
-#~ class Gosu::Image
-   #~ alias_method :rows, :height
-   #~ alias_method :columns, :width
-#~ end
-class Gosu::Image
-	remove_method :to_blob
-end
-
 module Animations
 	class Entity			#Only inherit from this class, never create objects of it
 		attr_reader :sprites
