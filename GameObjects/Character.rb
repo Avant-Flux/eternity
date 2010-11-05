@@ -56,14 +56,14 @@ class Character < Entity
 		color = Gosu::Color::RED
 		
 		# Draw box to hold character text
-		$window.draw_quad(point1.x, point1.y, color, 
-						   point2.x, point2.y, color, 
-						   point3.x, point3.y, color, 
-						   point4.x, point4.y, color, z)
+		$window.draw_quad point1.x, point1.y, color, 
+						  point2.x, point2.y, color, 
+						  point3.x, point3.y, color, 
+						  point4.x, point4.y, color, z
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle x.to_px - 25, y.to_px - height - 30, color, 
-							  x.to_px + 25, y.to_px - height - 30, color, 
+		$window.draw_triangle x.to_px - 60, y.to_px - height - 30, color, 
+							  x.to_px - 30, y.to_px - height - 30, color, 
 							  x.to_px, y.to_px - height, color
 		
 		# Draw text in text box
