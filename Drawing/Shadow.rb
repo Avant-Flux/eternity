@@ -6,11 +6,13 @@ require 'texplay'
 require './Drawing/GosuPatch'
 
 class Shadow
-	def initialize
+	def initialize(radius)
 		color = Gosu::Color::BLUE
-	
-		@image = TexPlay.create_blank_image($window, 80, 80)
-		@image.circle 40, 40, 20, :color => color, :fill => true
+		
+		r2 = radius * 2
+		
+		@image = TexPlay.create_blank_image($window, r2+2, r2+2)
+		@image.circle radius+1, radius+1, radius, :color => color, :fill => true
 	end
 	
 	def update
