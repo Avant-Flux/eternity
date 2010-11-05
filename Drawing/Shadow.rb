@@ -35,7 +35,8 @@ class Shadow
 	end
 	
 	def opacity
-		0xff
+		percent = 0.2
+		0xFF * percent
 	end
 	
 	def scale
