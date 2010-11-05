@@ -36,9 +36,8 @@ module CP
 	end
 	
 	module Position #Have setters and getters for position and velocity
-		attr_accessor :az, :vz
-		@az = 0
-		@vz = 0
+		attr_accessor :z, :az, :vz
+		@z = 0;		@az = 0;	 	@vz = 0
 		
 		def x
 			self.body.p.x
@@ -48,20 +47,12 @@ module CP
 			self.body.p.y
 		end
 		
-		def z
-			@z
-		end
-		
 		def x= arg
 			self.body.p.x = arg
 		end
 		
 		def y= arg
 			self.body.p.y = arg
-		end
-		
-		def z= arg
-			@z = arg
 		end
 		
 		#~ #Setters and getters for velocity
@@ -89,7 +80,7 @@ module CP
 				
 				@entity = entity
 				@space = space
-				@height = height
+				@height = height	
 				@elevation = elevation
 				@az = @vz = 0
 				self.collision_type = collision

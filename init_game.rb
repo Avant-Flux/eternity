@@ -37,6 +37,11 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		
+		#Create a variable to use to track the time elapsed in between frames.
+		#This value is stored is seconds
+		@@time_before = Gosu::milliseconds
+		$dt = compute_dt
+		
 		@fpscounter = FPSCounter.new
 		@inpman = InputHandler.new
 		@space = init_CP_Space3D
@@ -93,6 +98,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
+		$dt = compute_dt
 		@fpscounter.update
 		@UI.update
 		#~ @effect.update
@@ -156,11 +162,14 @@ class Game_Window < Gosu::Window
 		#~ space.add_collision_func :type, :type do |first_shape, second_shape|
 			#~ 
 		#~ end
+		
+		entity_handler = CollisionHandler::Entity.new
 		entity_env_handler = CollisionHandler::Entity_Env.new
 		camera_collision = CollisionHandler::Camera.new
 
 		space.add_collision_handler :entity, :environment, entity_env_handler
 		space.add_collision_handler :entity, :building, entity_env_handler
+		space.add_collision_handler :entity, :entity, entity_handler
 		
 		space.add_collision_handler :camera, :entity, camera_collision
 		space.add_collision_handler :camera, :building, camera_collision
@@ -183,6 +192,14 @@ class Game_Window < Gosu::Window
 		if @inpman.active?(:jump)
 			@player.jump
 		end
+	end
+	
+	def compute_dt
+		time = Gosu::milliseconds
+		dt = time - @@time_before
+		@@time_before = time
+		#~ return dt
+		dt /= 1000.0 #convert from milliseconds to seconds
 	end
 end
 
@@ -232,6 +249,12 @@ class InputHandler
 		
 		createAction(:run)
 		bindAction(:run, Gosu::KbLeftControl)
+	end
+end
+
+class Numeric
+	def to_seconds
+		self / 1000
 	end
 end
 

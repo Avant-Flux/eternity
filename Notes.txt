@@ -199,6 +199,7 @@ For stackable objects
 	The major problem with stackable objects in toppling
 		Thus, do not allow for n-dimensional stacks
 			If you lift a box, etc, it should thus be unable to jump.
+		One way to resolve this is to have objects snap into stacks.
 
 For gravity/force management
 	Store all forces on a object in a data structure, and then iterate over the structure to
@@ -215,9 +216,24 @@ Chipmunk Shape_3D function arguments
 	Take position and dimensions as an array marked by a hash tag
 	ie	:pos => [0,0,0], :dimensions => [0,0,0]
 
-Bugs
-	There is a point at the edge of a building where you will be kicked off the roof.  This only
-	happens on the shared edge of two buildings of unequal height.
-		This bug only seems to occur on the left edge of the higher building.
+Bugs/Additions
+	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
+		happens on the shared edge of two buildings of unequal height.
+			This bug only seems to occur on the left edge of the higher building.
 		
-		This is probably because elevation is not actually being used like I thought it was ^_^;
+			This is probably because elevation is not actually being used like I thought it was ^_^;
+		
+			Just use the workaround
+		
+	===	Fix camera scrolling
+			Needs to stop when the character hits a wall or similar object
+			
+	=== In Entity#draw_shadow use this to modulate the opacity
+		Accept opacity as a percentage
+		convert to 2-digit hex number (number 0-255)
+		get the hex number to use in Gosu::Image#draw as follows.
+			0x1000000 * number_out_of_255
+				(this value will be the hex placed in the correct place value)
+			previous_line + 0x00ffffff
+				(add the color that will not change the color of the sprite.)
+				(I am unsure if this color is black or white, see which one works)

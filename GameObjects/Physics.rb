@@ -44,6 +44,10 @@ module PhysicalProperties
 	def pos
 		[x, y, z]
 	end
+	
+	def p
+		@shape.body.p
+	end
 	#---Getters
 	def x= arg
 		@shape.x = arg
@@ -61,6 +65,10 @@ module PhysicalProperties
 		x = arg[0]
 		y = arg[1]
 		x = arg[2]
+	end
+	
+	def p= arg
+		@shape.body.p = arg
 	end
 	
 	#======Methods for force======

@@ -8,24 +8,28 @@ require 'chipmunk'
 require './Chipmunk/Shape'
 require './Chipmunk/Space_3D'
 require './Chipmunk/EternityMod'
+
+require './GameObjects/Physics'
  
 class Camera
+	include PhysicalProperties
+	
 	attr_reader :shape, :queue
 
 	def initialize(space, entity)
 		@space = space
 		@entity = entity
 		
-		width = $window.width.to_meters
-		depth = $window.height.to_meters
+		@width = $window.width.to_meters
+		@depth = $window.height.to_meters
 		
 		mass = @entity.shape.body.m
 		
-		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, depth, width)
+		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, @depth, @width)
 		
 		@shape.sensor = true
 		@shape.collision_type = :camera
-		@shape.body.p = CP::Vec2.new(@entity.shape.x-width/2.0, @entity.shape.y-depth/2.0)
+		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
 		
 		space.add self
 		shapes = space.shapes[:nonstatic].delete(@shape)
@@ -34,12 +38,17 @@ class Camera
 	end
 	
 	def update
-		@shape.body.reset_forces
-		self.move(@entity.shape.body.f)
+		#~ @shape.body.reset_forces
+		#~ self.move(@entity.shape.body.f)
+		warp @entity.p
 	end
 	
 	def move(force, offset=CP::ZERO_VEC_2)
 		@shape.body.apply_force force, offset
+	end
+	
+	def warp(vec2)
+		self.p = CP::Vec2.new(vec2.x - @width/2.0, vec2.y - @depth/2.0)
 	end
 	
 	def x
