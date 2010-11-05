@@ -16,11 +16,12 @@ class Shadow
 	end
 	
 	def update
-		
+		@color = color
+		@scale = scale
 	end
 	
 	def draw(x, y, z, elevation)
-		@image.draw_centered x, y - elevation, z, 1,1, 0xff000000
+		@image.draw_centered x, y - elevation, z, @scale, @scale, @color
 	end
 	
 	private
@@ -28,14 +29,16 @@ class Shadow
 	def color
 		#~ Calculate the color of the shadow to be rendered, and mix in
 		#~ The correct opacity
-		
+		color = 0x0000FF
+		color += opacity * 0x1000000
 	end
 	
 	def opacity
-		
+		0xff
 	end
 	
 	def scale
 		#~ Calculate the amount by which to scale the shadow
+		1
 	end
 end
