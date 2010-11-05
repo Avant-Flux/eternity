@@ -29,6 +29,8 @@ require './Utilities/InputHandler'
 require './Drawing/Animation'
 require './Drawing/Background'
 
+require './Drawing/GosuPatch'
+
 require './UI/UserInterface'
 
 class Game_Window < Gosu::Window
