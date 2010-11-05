@@ -36,6 +36,7 @@ class Entity
 		@run_constant = 1200
 		
 		@animation = animations
+		@shadow = Shadow.new @animation.width/2
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
 											(@animation.width/2).to_meters, 
@@ -56,7 +57,6 @@ class Entity
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
-		@shadow = Shadow.new
 	end
 	
 	def update
