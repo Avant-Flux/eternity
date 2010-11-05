@@ -76,7 +76,7 @@ class Entity
 		if visible
 			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
-			@shadow.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
+			@shadow.draw_centered @shape.x.to_px, @shape.y.to_px - @shape.elevation.to_px, @shape.z.to_px
 		end
 	end
 
@@ -177,7 +177,7 @@ class Entity
 	end
 	
 	def generate_shadow
-		color = Gosu::Color::RED
+		color = Gosu::Color::BLUE
 	
 		image = TexPlay.create_blank_image($window, 80, 80)
 		
