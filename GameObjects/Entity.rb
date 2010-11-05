@@ -8,7 +8,9 @@ require './Chipmunk/Space_3D'
 require './Chipmunk/EternityMod'
 require './GameObjects/Physics'
 require './Combat/Combative'
+
 require './Drawing/Animation'
+require './Drawing/Shadow'
 
 require './Stats/Stats'
 
@@ -54,7 +56,7 @@ class Entity
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
-		@shadow = generate_shadow
+		@shadow = Shadow.new
 	end
 	
 	def update
@@ -76,7 +78,7 @@ class Entity
 		if visible
 			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
-			@shadow.draw_centered @shape.x.to_px, @shape.y.to_px - @shape.elevation.to_px, @shape.z.to_px
+			@shadow.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px, @shape.elevation.to_px
 		end
 	end
 
@@ -174,16 +176,6 @@ class Entity
 	
 	def position
 		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
-	end
-	
-	def generate_shadow
-		color = Gosu::Color::BLUE
-	
-		image = TexPlay.create_blank_image($window, 80, 80)
-		
-		image.circle 40, 40, 20, :color => color, :fill => true
-		
-		return image
 	end
 	
 	private	
