@@ -54,6 +54,7 @@ class Entity
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
+		@shadow = generate_shadow
 	end
 	
 	def update
@@ -75,6 +76,7 @@ class Entity
 		if visible
 			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
+			@shadow.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 		end
 	end
 
@@ -174,10 +176,14 @@ class Entity
 		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
 	end
 	
-	def draw_shadow
-	color = Gosu::Color::RED
-	circle x.to_px, y.to_px, x.to_px / 2, :color => :blue
+	def generate_shadow
+		color = Gosu::Color::RED
 	
+		image = TexPlay.create_blank_image($window, 80, 80)
+		
+		image.circle 40, 40, 20, :color => color, :fill => true
+		
+		return image
 	end
 	
 	private	
