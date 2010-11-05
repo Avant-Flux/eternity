@@ -63,6 +63,7 @@ class Entity
 		@animation.direction = compute_direction
 		@animation.moving = moving?
 		@animation.update
+		@shadow.update
 		
 		#~ if @shape.x.to_px - @animation.width <= 0
 			#~ @shape.x = @animation.width.to_meters
