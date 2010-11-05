@@ -79,16 +79,16 @@ class Game_Window < Gosu::Window
 			#~ x = (i * 3) % 8 + 1
 			#~ y = (i * 10) % 6 + 1
 			#~ 
-			#~ characters << Character.new(@space, "NPC", [x, y, 0])
+			#~ @characters << Character.new(@space, "NPC", [x, y, 0])
 		#~ end
-		#~ @player.track(characters[0])
-		#~ @player.track(characters[9])
-		#~ @player.track(characters[12])
-		#~ @player.track(characters[3])
-		#~ @player.track(characters[18])
+		#~ @player.track(@characters[0])
+		#~ @player.track(@characters[9])
+		#~ @player.track(@characters[12])
+		#~ @player.track(@characters[3])
+		#~ @player.track(@characters[18])
 		
 		@characters << Character.new(@space, "NPC", [5, 8, 0])
-		#~ @player.track characters[0]
+		@player.track @characters[0]
 		
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
@@ -148,6 +148,7 @@ class Game_Window < Gosu::Window
 		if id == Gosu::KbF
 			@fpscounter.toggle
 		end
+		#~ puts button_id_to_char id
 	end
 	
 	def button_up(id)
