@@ -21,8 +21,7 @@ class Shadow
 	end
 	
 	def draw(x, y, z, elevation)
-		@image.draw x - @image.width/2*@scale, y - @image.height/2*@scale - elevation, z, 
-					@scale, @scale, @color
+		@image.draw_centered x, y - elevation, z, @scale, @scale, @color
 	end
 	
 	private
