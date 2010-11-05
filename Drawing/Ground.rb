@@ -33,9 +33,11 @@ module Ground
 			@y = pos[1]
 			
 			
-			image_path = "./Sprites/Textures/#{texture}.png"
+			#~ image_path = "./Sprites/Textures/#{texture}.png"
 			
-			@texture = Gosu::Image.new($window, image_path, args[:tileable])
+			#~ @texture = Gosu::Image.new($window, image_path, args[:tileable])
+			
+			@texture = Texture.new(texture)
 			
 			set_dimensions
 		end
@@ -73,7 +75,7 @@ module Ground
 	class Texture
 		#The texture should hold multiple Gosu::Image variables, which are combined
 		#in the Ground class with a texture map to form a cohesive renderable object.
-		def initialize
+		def initialize(name)
 			
 		end
 	end
