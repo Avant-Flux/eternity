@@ -7,7 +7,7 @@ require './Drawing/GosuPatch'
 
 class Shadow
 	def initialize(radius)
-		color = Gosu::Color::BLUE
+		color = Gosu::Color::WHITE
 		
 		r2 = radius * 2
 		
@@ -20,6 +20,6 @@ class Shadow
 	end
 	
 	def draw(x, y, z, elevation)
-		@image.draw_centered x, y - elevation, z, 1,1, 0xffffffff
+		@image.draw_centered x, y - elevation, z, 1,1, 0xff000000
 	end
 end
