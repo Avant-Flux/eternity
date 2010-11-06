@@ -236,6 +236,10 @@ Bugs/Additions
 	
 	=== Create only one shadow for all Shadow objects and simply change color and scale
 	
+	=== Monkey patch Gosu::Image so the z-index does not need to be passed.  Instead, pass the 
+		x y and z coordinates in meters, and the method will automatically convert to pixels and 
+		draw.
+	
 	===Build New Tools
 		---Level Editor
 			( )	Can place art assets on screen, including characters, objects, parts of the 
