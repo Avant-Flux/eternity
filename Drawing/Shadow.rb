@@ -13,12 +13,12 @@ module Shadow
 			@entity = entity
 		
 			unless @@images[type]
-				color = Gosu::Color::WHITE
 				radius = @entity.width/2
 				r2 = radius * 2
 				
 				@@images[type] = TexPlay.create_blank_image($window, r2+2, r2+2)
-				@@images[type].circle radius+1, radius+1, radius, :color => color, :fill => true
+				@@images[type].circle(radius+1, radius+1, radius, 
+										:color => Gosu::Color::WHITE, :fill => true)
 			end
 		end
 		
