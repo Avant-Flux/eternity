@@ -36,7 +36,7 @@ class Entity
 		@run_constant = 1200
 		
 		@animation = animations
-		@shadow = Shadow.new @animation.width/2
+		@shadow = Shadow.new self, @animation.width/2
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
 											(@animation.width/2).to_meters, 
@@ -79,7 +79,7 @@ class Entity
 		if visible
 			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
-			@shadow.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px, @shape.elevation.to_px
+			@shadow.draw
 		end
 	end
 

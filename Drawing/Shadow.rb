@@ -6,7 +6,9 @@ require 'texplay'
 require './Drawing/GosuPatch'
 
 class Shadow
-	def initialize(radius)
+	def initialize(entity, radius)
+		@entity = entity
+	
 		unless defined? @@image
 			color = Gosu::Color::WHITE
 			
@@ -22,8 +24,9 @@ class Shadow
 		@scale = scale
 	end
 	
-	def draw(x, y, z, elevation)
-		@@image.draw_centered x, y - elevation, z, @scale, @scale, @color
+	def draw
+		@@image.draw_centered(@entity.x.to_px, @entity.y.to_px - @entity.elevation.to_px, @entity.z.to_px, 
+								@scale, @scale, @color)
 	end
 	
 	private
