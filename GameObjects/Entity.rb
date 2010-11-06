@@ -36,7 +36,7 @@ class Entity
 		@run_constant = 1200
 		
 		@animation = animations
-		@shadow = Shadow::Human.new self
+		@shadow = Shadow.new self
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
 											(@animation.width/2).to_meters, 
