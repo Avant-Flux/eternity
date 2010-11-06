@@ -6,17 +6,19 @@ require 'texplay'
 require './Drawing/GosuPatch'
 
 module Shadow
-	class Human
-		def initialize(entity, radius)
+	class ShadowObject
+		@@images = Hash.new
+		
+		def initialize(type, entity)
 			@entity = entity
 		
-			unless defined? @@image
+			unless @@images[type]
 				color = Gosu::Color::WHITE
-				
+				radius = @entity.width/2
 				r2 = radius * 2
 				
-				@@image = TexPlay.create_blank_image($window, r2+2, r2+2)
-				@@image.circle radius+1, radius+1, radius, :color => color, :fill => true
+				@@images[type] = TexPlay.create_blank_image($window, r2+2, r2+2)
+				@@images[type].circle radius+1, radius+1, radius, :color => color, :fill => true
 			end
 		end
 		
@@ -25,8 +27,8 @@ module Shadow
 			@scale = scale
 		end
 		
-		def draw
-			@@image.draw_centered(@entity.x.to_px, @entity.y.to_px - @entity.elevation.to_px, 
+		def draw(type)
+			@@images[type].draw_centered(@entity.x.to_px, @entity.y.to_px - @entity.elevation.to_px, 
 									@entity.z.to_px, @scale, @scale, @color)
 		end
 		
@@ -48,6 +50,20 @@ module Shadow
 			#~ Calculate the amount by which to scale the shadow
 			1
 			#~ (@entity.elevation + 1)
+		end
+	end
+	
+	class Human < ShadowObject
+		def initialize(entity)
+			super :human, entity
+		end
+		
+		def update
+			super
+		end
+		
+		def draw
+			super :human
 		end
 	end
 end
