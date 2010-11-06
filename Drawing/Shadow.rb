@@ -7,12 +7,14 @@ require './Drawing/GosuPatch'
 
 class Shadow
 	def initialize(radius)
-		color = Gosu::Color::WHITE
-		
-		r2 = radius * 2
-		
-		@image = TexPlay.create_blank_image($window, r2+2, r2+2)
-		@image.circle radius+1, radius+1, radius, :color => color, :fill => true
+		unless defined? @@image
+			color = Gosu::Color::WHITE
+			
+			r2 = radius * 2
+			
+			@@image = TexPlay.create_blank_image($window, r2+2, r2+2)
+			@@image.circle radius+1, radius+1, radius, :color => color, :fill => true
+		end
 	end
 	
 	def update
@@ -21,7 +23,7 @@ class Shadow
 	end
 	
 	def draw(x, y, z, elevation)
-		@image.draw_centered x, y - elevation, z, @scale, @scale, @color
+		@@image.draw_centered x, y - elevation, z, @scale, @scale, @color
 	end
 	
 	private
