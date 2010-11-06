@@ -60,9 +60,7 @@ class Entity
 	end
 	
 	def update
-		@animation.direction = compute_direction
-		@animation.moving = moving?
-		@animation.update
+		@animation.update(moving?, compute_direction)
 		@shadow.update
 		
 		#~ if @shape.x.to_px - @animation.width <= 0

@@ -15,10 +15,24 @@ module Animations
 			@moving = false
 		end
 		
-		class << self
-			def load path
-				
+		def update(moving, direction)
+			if moving
+				#Advance the animation to the next appropriate frame
+				#Do not include the logic of WHEN to advance (or maybe...?)
+				@current_frame = @sprites[direction][Gosu::milliseconds/100%@sprites[direction].size]
+			else
+				@current_frame = @sprites[direction][0]
 			end
+		end
+		
+		def draw(x,y,z)
+			@current_frame.draw(x-@current_frame.width/2, 
+								(y - z)-@current_frame.height, 
+								z + y)
+		end
+		
+		def self.load path
+			
 		end
 		
 		def save
@@ -41,21 +55,6 @@ module Animations
 			@current_frame.height
 		end
 		
-		def update
-			if @moving
-				#Advance the animation to the next appropriate frame
-				#Do not include the logic of WHEN to advance (or maybe...?)
-				@current_frame = @sprites[@direction][Gosu::milliseconds/100%@sprites[@direction].size]
-			else
-				@current_frame = @sprites[@direction][0]
-			end
-		end
-		
-		def draw(x,y,z)
-			@current_frame.draw(x-@current_frame.width/2, 
-								(y - z)-@current_frame.height, 
-								z + y)
-		end
 		
 		private
 		
@@ -87,8 +86,7 @@ module Animations
 				@sprites[key] << sprite
 			end
 			
-			@direction = :down
-			@current_frame = @sprites[@direction][0]
+			@current_frame = @sprites[:down][0]
 		end
 		
 		def subsprites basepath, type, subsprite_name
