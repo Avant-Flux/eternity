@@ -30,13 +30,13 @@ class Entity
 	attr_accessor :name, :elevation, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :max_hp, :mp, :max_mp
 	
-	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(space, animations, shadow, name, pos, mass, moment, lvl, element, stats, faction)
 		@movement_force = CP::Vec2.new(0,0)
 		@walk_constant = 500
 		@run_constant = 1200
 		
 		@animation = animations
-		@shadow = Shadow.new self
+		@shadow = shadow
 		
 		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
 											(@animation.width/2).to_meters, 

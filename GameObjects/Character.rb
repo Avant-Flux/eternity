@@ -15,7 +15,9 @@ class Character < Entity
 					mass=120, moment=20)
 					
 		animation = Animations::Character.new subsprites
-		super(space, animation, name, pos, mass, moment, 1, :none, 
+		shadow = Shadow.new self
+		
+		super(space, animation, shadow, name, pos, mass, moment, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
 
