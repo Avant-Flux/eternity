@@ -233,7 +233,9 @@ Bugs/Additions
 		
 	===	Fix camera scrolling
 			Needs to stop when the character hits a wall or similar object
-			
+	
+	=== Create only one shadow for all Shadow objects and simply change color and scale
+	
 	===Build New Tools
 		---Level Editor
 			( )	Can place art assets on screen, including characters, objects, parts of the 
