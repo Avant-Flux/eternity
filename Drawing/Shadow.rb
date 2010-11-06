@@ -9,7 +9,8 @@ module Shadow
 	class ShadowObject
 		@@images = Hash.new
 		
-		def initialize(type, entity)
+		def initialize(entity)
+			type = self.class.to_s.to_sym
 			@entity = entity
 		
 			unless @@images[type]
@@ -27,9 +28,10 @@ module Shadow
 			@scale = scale
 		end
 		
-		def draw(type)
-			@@images[type].draw_centered(@entity.x.to_px, @entity.y.to_px - @entity.elevation.to_px, 
-									@entity.z.to_px, @scale, @scale, @color)
+		def draw
+			img = @@images[self.class.to_s.to_sym]
+			img.draw_centered(@entity.x.to_px, @entity.y.to_px - @entity.elevation.to_px, 
+								@entity.z.to_px, @scale, @scale, @color)
 		end
 		
 		private
@@ -53,17 +55,5 @@ module Shadow
 		end
 	end
 	
-	class Human < ShadowObject
-		def initialize(entity)
-			super :human, entity
-		end
-		
-		def update
-			super
-		end
-		
-		def draw
-			super :human
-		end
-	end
+	class Human < ShadowObject; end;
 end
