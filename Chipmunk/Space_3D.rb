@@ -17,7 +17,6 @@ module CP
 			super()
 			@shapes = {:static => Set.new, :nonstatic => Set.new}
 			@g = g		#Controls acceleration due to gravity in the z direction
-			@time_before = Gosu::milliseconds
 			
 			#X is horizontal
 			#Y is vertical
