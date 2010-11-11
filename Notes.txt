@@ -222,13 +222,19 @@ Mac OSX Notes -- assumes installation though macports
 	
 	using "/usr/bin/env ruby" will not work on OSX, as it will use ruby 1.8 instead
 
+Overall Game Design Notes
+	Give the player things to do, and reasons to do them, but do not tell them in what order these
+	things should be done.
+	Also, explain through the principles of the world what needs to be done.
+		Show the player what needs to occur.  Do not insult their intelligence by telling them.
+
 Bugs/Additions
 	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
 		happens on the shared edge of two buildings of unequal height.
 			This bug only seems to occur on the left edge of the higher building.
 		
 			This is probably because elevation is not actually being used like I thought it was ^_^;
-		
+			
 			Just use the workaround
 		
 	===	Fix camera scrolling
