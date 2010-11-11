@@ -40,7 +40,7 @@ module CP
 			
 				if shape.z > shape.elevation
 					shape.apply_gravity $dt
-				elsif shape.z < shape.elevation
+				else# shape.z <= shape.elevation
 					shape.z = shape.elevation
 					shape.entity.resolve_ground_collision
 					shape.reset_gravity
