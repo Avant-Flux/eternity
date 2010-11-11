@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		$window = self
 		
 		#Create a variable to use to track the time elapsed in between frames.
-		#This value is stored is seconds
+		#This value is stored in seconds
 		@@time_before = Gosu::milliseconds
 		$dt = compute_dt
 		
