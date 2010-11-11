@@ -228,6 +228,13 @@ Overall Game Design Notes
 	Also, explain through the principles of the world what needs to be done.
 		Show the player what needs to occur.  Do not insult their intelligence by telling them.
 
+Dvorak Keyboard Button ID's for Gosu in Ubuntu 64-bit 
+49 50 51 52 53 54 55 56 57 48 91 93
+39 44 46 112 121 102 103 99 114 108 47 61 92
+97 111 101 117 105 100 104 116 110 115 45
+59 113 106 107 120 98 109 119 118 122
+
+
 Bugs/Additions
 	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
 		happens on the shared edge of two buildings of unequal height.
