@@ -38,11 +38,12 @@ class Entity
 		@animation = animations
 		@shadow = Shadow.new self
 		
-		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0,
+		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0.0,
 											(@animation.width/2).to_meters, 
 											@animation.height.to_meters,
 											mass, moment)
 		space.add self
+		set_elevation		
 		
 		@name = name
 		@element = element
@@ -199,6 +200,15 @@ class Entity
 			:up_right
 		else
 			:right #Workaround to catch the case where facing right is not being detected
+		end
+	end
+	
+	def set_elevation
+		all_ones = 2**32-1
+		@shape.space.point_query vec2(x,y), all_ones,0 do |env|
+			if env.height > self.elevation
+				self.elevation = env.height
+			end
 		end
 	end
 end
