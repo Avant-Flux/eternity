@@ -82,12 +82,12 @@ module CP
 				@space = space
 				@height = height	
 				@elevation = elevation
-				@az = @vz = 0
+				@az = @vz = 0.0
 				self.collision_type = collision
 				
 				self.body.a = (3*Math::PI/2.0)
 				self.body.p = CP::Vec2.new(pos[0], pos[1])
-				@z = pos[2]
+				@z = pos[2].to_f
 			end
 		end
 		
