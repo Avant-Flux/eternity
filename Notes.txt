@@ -253,6 +253,10 @@ Bugs/Additions
 		x y and z coordinates in meters, and the method will automatically convert to pixels and 
 		draw.
 	
+	===	Fix shadow placement error.
+			Shadows for Character objects are being placed slightly off center.   
+			This does not effect the player, however.
+	
 	===Build New Tools
 		---Level Editor
 			( )	Can place art assets on screen, including characters, objects, parts of the 
