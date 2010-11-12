@@ -43,7 +43,7 @@ class Entity
 											@animation.height.to_meters,
 											mass, moment)
 		space.add self
-		set_elevation		
+		set_elevation
 		
 		@name = name
 		@element = element

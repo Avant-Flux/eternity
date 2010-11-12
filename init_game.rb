@@ -90,13 +90,14 @@ class Game_Window < Gosu::Window
 		#~ @player.track(@characters[18])
 		
 		@characters << Character.new(@space, "NPC", [5, 8, 0])
+		@characters << Character.new(@space, "NPC", [21, 5, 0])
 		@player.track @characters[0]
 		
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
 		
 		#@effect = Animations::Effect.new($window, "Gale")
-		@background = Background.new($window,"Sprites/Textures/grass_texture2.png")
+		#~ @background = Background.new($window,"Sprites/Textures/grass_texture2.png")
 	end
 	
 	def update
@@ -104,7 +105,8 @@ class Game_Window < Gosu::Window
 		@fpscounter.update
 		@UI.update
 		#~ @effect.update
-		
+		#~ puts @characters[1].elevation
+		#~ puts @player.elevation
 		$camera.update
 		@space.shapes[:nonstatic].each do |shape|
 			shape.body.reset_forces
@@ -151,6 +153,7 @@ class Game_Window < Gosu::Window
 			@fpscounter.toggle
 		end
 		#~ puts button_id_to_char id
+		#~ puts id
 	end
 	
 	def button_up(id)
@@ -239,7 +242,6 @@ class InputHandler
 	def def_kb_bindings
 		createAction(:up)
 		bindAction(:up, Gosu::KbUp)
-		bindAction(:up, Gosu::KbA)
 		createAction(:down)
 		bindAction(:down, Gosu::KbDown)
 		createAction(:left)
@@ -248,10 +250,10 @@ class InputHandler
 		bindAction(:right, Gosu::KbRight)
 		
 		createAction(:jump)
-		bindAction(:jump, Gosu::KbLeftShift)
+		bindAction(:jump, Gosu::KbE)
 		
 		createAction(:run)
-		bindAction(:run, Gosu::KbLeftControl)
+		bindAction(:run, Gosu::KbLeftShift)
 	end
 end
 
