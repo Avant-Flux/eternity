@@ -260,7 +260,9 @@ Bugs/Additions
 			Just use the workaround
 		
 	===	Fix camera scrolling
-			Needs to stop when the character hits a wall or similar object
+		---	Needs to stop when the character hits a wall or similar object
+		---	Temporarily fixed by having the camera follow exactly the x and y position of 
+			the Entity being followed
 	
 	=== Create only one shadow for all Shadow objects and simply change color and scale
 	
@@ -271,6 +273,8 @@ Bugs/Additions
 	===	Fix shadow placement error.
 			Shadows for Character objects are being placed slightly off center.   
 			This does not effect the player, however.
+			---	Correction, this does effect the Player objects as well.
+			---	The problem is the that the down-facing sprite is slightly off.	
 	
 	===Build New Tools
 		---Level Editor
