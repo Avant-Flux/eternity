@@ -86,6 +86,10 @@ class Entity
 		@jump_count = 0
 	end
 	
+	def resolve_fall_damage(vz)
+		
+	end
+	
 	def jump
 		if @jump_count < 3 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1

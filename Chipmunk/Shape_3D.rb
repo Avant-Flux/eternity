@@ -31,11 +31,12 @@ module CP
 		def reset_gravity
 			@apply_gravity = true
 			
-			old_az = @az
 			old_vz = @vz
-			@az = 0
+			old_az = @az
 			@vz = 0
-			return old_az, old_vz
+			@az = 0
+			
+			return old_vz, old_az
 		end
 		
 		def iterate dt

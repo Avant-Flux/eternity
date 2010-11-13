@@ -43,7 +43,8 @@ module CP
 				else# shape.z <= shape.elevation
 					shape.z = shape.elevation
 					shape.entity.resolve_ground_collision
-					shape.reset_gravity
+					v,a = shape.reset_gravity
+					shape.entity.resolve_fall_damage v
 				end
 			end
 		end
