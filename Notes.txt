@@ -234,6 +234,21 @@ Dvorak Keyboard Button ID's for Gosu in Ubuntu 64-bit
 97 111 101 117 105 100 104 116 110 115 45
 59 113 106 107 120 98 109 119 118 122
 
+Control Notes (keys listed based on QWERTY layout)
+	S				Magic Attack
+	D				Jump
+	F				Standard Attack
+	R				Attack Up
+	V				Attack Down
+	
+	Q, W, E			Switch Weapon
+	
+	A				Charge/Focus
+	
+	Shift			Run(Perhaps more like the "high profile" from Assassin's Creed)
+	
+	Arrow Keys		Move
+
 
 Bugs/Additions
 	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
