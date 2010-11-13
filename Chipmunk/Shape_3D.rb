@@ -120,8 +120,3 @@ module CP
 		end
 	end
 end
-
-#~ space = CP::Space.new
-#~ 
-#~ CP::Shape_3D::Circle.new(space, :collide, [0,0,0], 200, 120, 20, 50)
-#~ CP::Shape_3D::Rect.new(space, :collide, [0,0,0], :bottom, 100, 100, 500, 500, 20)
