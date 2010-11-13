@@ -60,7 +60,19 @@ module CollisionHandler
 			if a.z < b.height #If the entity collides from the side, accept the collision
 				return true
 			else
-				a.elevation = b.height
+				#~ a.elevation = b.height
+				
+				all_ones = 2**32-1
+				a.space.point_query CP::Vec2.new(a.x,a.y), all_ones,0 do |env|
+					#~ puts env.class
+					if env.is_a?(CP::Shape_3D::Rect) || env.is_a?(CP::Shape_3D::Circle)
+						#~ p env
+						if env.height > a.elevation
+							a.elevation = env.height
+						end
+					end
+				end
+				
 				return false
 			end
 		end

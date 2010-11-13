@@ -205,7 +205,7 @@ class Entity
 	
 	def set_elevation
 		all_ones = 2**32-1
-		@shape.space.point_query vec2(x,y), all_ones,0 do |env|
+		@shape.space.point_query CP::Vec2.new(x,y), all_ones,0 do |env|
 			if env.height > self.elevation
 				self.elevation = env.height
 			end
