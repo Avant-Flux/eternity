@@ -71,7 +71,7 @@ module CollisionHandler
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
-			#~ a.elevation = 0
+			#~ a.set_elevation
 		end
 	end
 end
