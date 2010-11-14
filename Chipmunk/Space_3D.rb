@@ -37,6 +37,7 @@ module CP
 			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
 				shape.iterate $dt
+				shape.set_elevation
 				
 				if shape.z > shape.elevation
 					shape.apply_gravity $dt

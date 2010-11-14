@@ -106,7 +106,7 @@ class Game_Window < Gosu::Window
 		@UI.update
 		#~ @effect.update
 		#~ puts @characters[1].elevation
-		#~ puts @player.elevation
+		puts @player.elevation
 		$camera.update
 		@space.shapes[:nonstatic].each do |shape|
 			shape.body.reset_forces

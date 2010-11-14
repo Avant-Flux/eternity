@@ -47,7 +47,7 @@ module CP
 	end
 	
 	module Position #Have setters and getters for position and velocity
-		attr_accessor :z, :az, :vz
+		attr_accessor :z, :az, :vz, :elevation
 		@z = 0;		@az = 0;	 	@vz = 0
 		
 		def x
@@ -93,7 +93,6 @@ module CP
 			include CP::Position
 			include CP::Gravitation
 			
-			attr_accessor :elevation
 			attr_reader :space, :height, :entity
 			
 			def initialize(entity, space, collision, pos, elevation, radius, height,
@@ -105,7 +104,6 @@ module CP
 				@entity = entity
 				@space = space
 				@height = height	
-				@elevation = elevation
 				@az = @vz = 0.0
 				self.collision_type = collision
 				
@@ -120,7 +118,7 @@ module CP
 			include CP::Gravitation
 			
 			attr_reader :entity
-			attr_accessor :width, :depth, :height, :elevation
+			attr_accessor :width, :depth, :height
 			
 			def initialize(entity, space, collision, pos, elevation, center, width, depth, height, 
 			mass, moment, offset=CP::Vec2.new(0, 0))
@@ -133,7 +131,6 @@ module CP
 				@width = width
 				@depth = depth
 				@height = height
-				@elevation = elevation
 				@az = @vz = 0
 				self.collision_type = collision
 				
