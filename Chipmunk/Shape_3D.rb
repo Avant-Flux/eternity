@@ -75,9 +75,11 @@ module CP
 		#~ end
 		
 		def set_elevation
+			@elevation = 0
+		
 			all_ones = 2**32-1
 			self.space.point_query CP::Vec2.new(self.x,self.y), all_ones,0 do |env|
-				if env.is_a?(CP::Shape_3D::Rect) || env.is_a?(CP::Shape_3D::Circle)
+				if env.collision_type == :environment || env.collision_type == :building
 					if env.height > self.elevation
 						self.elevation = env.height
 					end
