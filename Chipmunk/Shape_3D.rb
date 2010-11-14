@@ -73,6 +73,17 @@ module CP
 			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
 			#~ @xy.body.v.cross(@xz.body.v)
 		#~ end
+		
+		def set_elevation
+			all_ones = 2**32-1
+			self.space.point_query CP::Vec2.new(self.x,self.y), all_ones,0 do |env|
+				if env.is_a?(CP::Shape_3D::Rect) || env.is_a?(CP::Shape_3D::Circle)
+					if env.height > self.elevation
+						self.elevation = env.height
+					end
+				end
+			end
+		end
 	end
 
 	module Shape_3D

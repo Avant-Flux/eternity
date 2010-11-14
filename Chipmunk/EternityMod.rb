@@ -60,7 +60,7 @@ module CollisionHandler
 			if a.z < b.height #If the entity collides from the side, accept the collision
 				return true
 			else
-				set_elevation(a,b)
+				a.set_elevation
 				
 				return false
 			end
@@ -72,19 +72,6 @@ module CollisionHandler
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
 			a.elevation = 0
-		end
-		
-		private
-		
-		def set_elevation(a, b)
-			all_ones = 2**32-1
-			a.space.point_query CP::Vec2.new(a.x,a.y), all_ones,0 do |env|
-				if env.is_a?(CP::Shape_3D::Rect) || env.is_a?(CP::Shape_3D::Circle)
-					if env.height > a.elevation
-						a.elevation = env.height
-					end
-				end
-			end
 		end
 	end
 end

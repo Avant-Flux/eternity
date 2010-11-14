@@ -43,7 +43,7 @@ class Entity
 											@animation.height.to_meters,
 											mass, moment)
 		space.add self
-		set_elevation
+		@shape.set_elevation
 		
 		@name = name
 		@element = element
@@ -204,15 +204,6 @@ class Entity
 			:up_right
 		else
 			:right #Workaround to catch the case where facing right is not being detected
-		end
-	end
-	
-	def set_elevation
-		all_ones = 2**32-1
-		@shape.space.point_query CP::Vec2.new(x,y), all_ones,0 do |env|
-			if env.height > self.elevation
-				self.elevation = env.height
-			end
 		end
 	end
 end
