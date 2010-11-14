@@ -200,6 +200,14 @@ class Game_Window < Gosu::Window
 		end
 	end
 	
+	def save_keybindings
+		
+	end
+	
+	def load_keybindings
+		
+	end
+	
 	def compute_dt
 		time = Gosu::milliseconds
 		dt = time - @@time_before
