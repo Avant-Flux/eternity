@@ -81,8 +81,8 @@ module CP
 			self.space.point_query CP::Vec2.new(self.x,self.y), all_ones,0 do |env|
 				if env.collision_type == :environment || env.collision_type == :building
 					#Raise elevation to the height of whatever is below.
-					if env.height > self.elevation
-						self.elevation = env.height
+					if env.height > @elevation
+						@elevation = env.height
 					end
 				end
 			end

@@ -60,8 +60,6 @@ module CollisionHandler
 			if a.z < b.height #If the entity collides from the side, accept the collision
 				return true
 			else
-				#~ a.set_elevation
-				
 				return false
 			end
 		end
@@ -71,7 +69,7 @@ module CollisionHandler
 		end
 		
 		def separate(a,b,arbiter)	#Stuff to do after the shapes separate
-			#~ a.set_elevation
+			
 		end
 	end
 end
