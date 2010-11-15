@@ -275,7 +275,11 @@ Bugs/Additions
 								
 		--- InputHandler data structure
 		
-			@chords={:super=>{:state=>:idle, :buttons=>[65505, 117], :active=>[false, false], :time=>-1}},
+			@chords={:super=>{
+						:state=>:idle, 
+						:buttons=>[65505, 117], 
+						:active=>[false, false], 
+						:time=>-1}},
 			@sequences={}, 
 			@actions={:up=>{:state=>:idle, 
 							:buttons=>[65362]}, 
