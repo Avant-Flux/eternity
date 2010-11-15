@@ -2,7 +2,6 @@
 #	Chad Godsey
 #	Feb 21, 2010
 #Modified by Jason Ko
-#	Date last edited: 06.11.2010
 #
 #	InputHandler class
 #		used to manage button mappings to several types of high level input
@@ -21,7 +20,7 @@ require 'gosu'
 class InputHandler
 	
 	def initialize()
-		@chords = { }
+		@chords = {}
 		@sequences = {}
 		@actions = {}
 		
@@ -39,7 +38,7 @@ class InputHandler
 		# Update chords
 		@chords.select{ |k,c| 
 			c[:buttons].include?(id) 
-		}.each{ |k,c| 
+		}.each{ |k,c| 	
 			i = c[:buttons].index(id)
 			c[:active][i] = true 
 			if c[:state] == :idle

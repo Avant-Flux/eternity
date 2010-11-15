@@ -98,6 +98,7 @@ class Game_Window < Gosu::Window
 		
 		#@effect = Animations::Effect.new($window, "Gale")
 		#~ @background = Background.new($window,"Sprites/Textures/grass_texture2.png")
+		@i = 0
 	end
 	
 	def update
@@ -197,6 +198,12 @@ class Game_Window < Gosu::Window
 		
 		if @inpman.active?(:jump)
 			@player.jump
+			p @inpman
+		end
+		
+		if @inpman.active?(:super)
+			puts "BAM!#{@i += 1}"
+			
 		end
 	end
 	
@@ -262,6 +269,10 @@ class InputHandler
 		
 		createAction(:run)
 		bindAction(:run, Gosu::KbLeftShift)
+		
+		createChord(:super)
+		bindChord(:super, Gosu::KbLeftShift)
+		bindChord(:super, Gosu::KbU)
 	end
 end
 
