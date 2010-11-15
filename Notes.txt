@@ -265,6 +265,8 @@ Bugs/Additions
 			This does not effect the player, however.
 			---	Correction, this does effect the Player objects as well.
 			---	The problem is the that the down-facing sprite is slightly off.	
+			
+	===	Re-write the InputHandler class is Ruby style for increased readability
 	
 	===Build New Tools
 		---Level Editor
