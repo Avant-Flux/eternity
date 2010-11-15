@@ -1,7 +1,7 @@
 # File created by
 #	Chad Godsey
 #	Feb 21, 2010
-#Modified by Jason Ko
+#Modified by Raven
 #
 #	InputHandler class
 #		used to manage button mappings to several types of high level input
@@ -18,7 +18,6 @@ end
 require 'gosu'
 
 class InputHandler
-	
 	def initialize()
 		@chords = {}
 		@sequences = {}
@@ -251,5 +250,22 @@ class InputHandler
 	def clearSequences()
 		@sequences.clear
 	end
+end
 
+module InputType
+	class Action
+		
+	end
+	
+	class Sequence
+		
+	end
+	
+	class Chord
+		
+	end
+	
+	class Combo
+		
+	end
 end
