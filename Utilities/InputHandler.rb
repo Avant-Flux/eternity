@@ -254,15 +254,20 @@ end
 
 module InputType
 	class Action
+		attr_accessor :name, :state, :buttons
+	
 		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
-			
+			@name = name
+			@state = :idle
+			@buttons = buttons
 		end
 	end
 	
 	class Sequence
-		attr_accessor :state, :buttons, :threshold
+		attr_accessor :name, :state, :buttons, :threshold
 	
 		def initialize(name, buttons=[], threshold=20)
+			@name = name
 			@state = :idle
 			@buttons = buttons
 			@threshold = threshold
@@ -270,9 +275,10 @@ module InputType
 	end
 	
 	class Chord
-		attr_accessor :state, :buttons, :active, :time
+		attr_accessor :name, :state, :buttons, :active, :time
 	
 		def initialize(name, buttons=[])
+			@name = name
 			@state = :idle
 			@buttons = buttons
 			@active = []
@@ -286,7 +292,7 @@ module InputType
 	
 	class Combo
 		def initialize(name, buttons=[])
-			
+			@name = name
 		end
 	end
 end
