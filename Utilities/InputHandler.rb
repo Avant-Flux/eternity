@@ -36,6 +36,11 @@ class InputHandler
 	
 	def button_down(id)
 		# Update chords
+		
+		#Get all the chords where the given button ID is part of that chord
+		#Set the corresponding index of the "active" array to true
+		#As one of the keys has been pressed, change the status to :process,
+		#	and store the time of the button press
 		@chords.select{ |k,c| 
 			c[:buttons].include?(id) 
 		}.each{ |k,c| 	
@@ -45,12 +50,12 @@ class InputHandler
 				c[:time] = @time
 				c[:state] = :process
 			end
-			unless c[:active].include?(false)
+			unless c[:active].include?(false) #If all buttons in the chord have been pushed
 				c[:state] = :begin
 			end
 		}
 		# Update sequences with start state
-		for seq in @sequence_hist
+		@sequence_hist.each do |seq|
 			if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
 				seq[:seq][:state] = :begin
 			end
