@@ -267,6 +267,31 @@ Bugs/Additions
 			---	The problem is the that the down-facing sprite is slightly off.	
 			
 	===	Re-write the InputHandler class is Ruby style for increased readability
+		---	Add new input type, combo
+			+++	Combo requires that the buttons be pressed with a certain time gap between them
+			+++	Also takes a leniency variable which will determine how much to pad the time.
+					***	Without this padding it would be near impossible to get a combo,
+						as the player would have to do so within a millisecond.
+								
+		--- InputHandler data structure
+		
+			@chords={:super=>{:state=>:idle, :buttons=>[65505, 117], :active=>[false, false], :time=>-1}},
+			@sequences={}, 
+			@actions={:up=>{:state=>:idle, 
+							:buttons=>[65362]}, 
+							:down=>{:state=>:idle, 
+							:buttons=>[65364]}, 
+					:left=>{:state=>:idle, 
+							:buttons=>[65361]}, 
+					:right=>{:state=>:idle, 
+							:buttons=>[65363]}, 
+					:jump=>{:state=>:active, 
+							:buttons=>[101]}, 
+					:run=>{:state=>:idle, 
+							:buttons=>[65505]}
+					}, 
+			@sequence_hist=[], @time=86828649825>
+
 	
 	===Build New Tools
 		---Level Editor
