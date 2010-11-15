@@ -261,6 +261,22 @@ module InputType
 			@state = :idle
 			@buttons = buttons
 		end
+		
+		def button_down
+			
+		end
+		
+		def button_up
+			
+		end
+		
+		def update
+			
+		end
+		
+		def active?
+			@state == :active
+		end
 	end
 	
 	class Sequence
@@ -271,6 +287,22 @@ module InputType
 			@state = :idle
 			@buttons = buttons
 			@threshold = threshold
+		end
+		
+		def button_down
+			
+		end
+		
+		def button_up
+			
+		end
+		
+		def update
+			
+		end
+		
+		def active?
+			@state == :active
 		end
 	end
 	
@@ -288,6 +320,22 @@ module InputType
 				@active << false
 			end
 		end
+		
+		def button_down
+			
+		end
+		
+		def button_up
+			
+		end
+		
+		def update
+			
+		end
+		
+		def active?
+			@state == :active
+		end
 	end
 	
 	class Combo
@@ -296,6 +344,22 @@ module InputType
 		def initialize(name, buttons=[])
 			@name = name
 			@buttons = buttons
+		end
+		
+		def button_down
+			
+		end
+		
+		def button_up
+			
+		end
+		
+		def update
+			
+		end
+		
+		def active?
+			@state == :active
 		end
 	end
 end
