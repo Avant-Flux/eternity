@@ -266,8 +266,17 @@ module InputType
 	end
 	
 	class Chord
+		attr_accessor :state, :buttons, :active, :time
+	
 		def initialize(name, buttons=[])
+			@state = :idle
+			@buttons = buttons
+			@active = []
+			@time = -1
 			
+			buttons.size.times do
+				@active << false
+			end
 		end
 	end
 	
