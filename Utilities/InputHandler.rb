@@ -254,18 +254,26 @@ end
 
 module InputType
 	class Action
-		
+		def initialize(name, button)
+			
+		end
 	end
 	
 	class Sequence
-		
+		def initialize(name, buttons=[], threshold=20)
+			
+		end
 	end
 	
 	class Chord
-		
+		def initialize(name, buttons=[])
+			
+		end
 	end
 	
 	class Combo
-		
+		def initialize(name, buttons=[])
+			
+		end
 	end
 end
