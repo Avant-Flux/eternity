@@ -260,8 +260,12 @@ module InputType
 	end
 	
 	class Sequence
+		attr_accessor :state, :buttons, :threshold
+	
 		def initialize(name, buttons=[], threshold=20)
-			
+			@state = :idle
+			@buttons = buttons
+			@threshold = threshold
 		end
 	end
 	
