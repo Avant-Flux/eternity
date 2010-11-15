@@ -254,7 +254,7 @@ end
 
 module InputType
 	class Action
-		def initialize(name, button)
+		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
 			
 		end
 	end
