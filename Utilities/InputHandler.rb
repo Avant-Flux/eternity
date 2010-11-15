@@ -291,8 +291,11 @@ module InputType
 	end
 	
 	class Combo
+		attr_accessor :name, :buttons
+		
 		def initialize(name, buttons=[])
 			@name = name
+			@buttons = buttons
 		end
 	end
 end
