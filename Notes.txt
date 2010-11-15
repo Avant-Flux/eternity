@@ -251,20 +251,10 @@ Control Notes (keys listed based on QWERTY layout)
 
 
 Bugs/Additions
-	===	There is a point at the edge of a building where you will be kicked off the roof.  This only
-		happens on the shared edge of two buildings of unequal height.
-			This bug only seems to occur on the left edge of the higher building.
-		
-			This is probably because elevation is not actually being used like I thought it was ^_^;
-			
-			Just use the workaround
-		
 	===	Fix camera scrolling
 		---	Needs to stop when the character hits a wall or similar object
 		---	Temporarily fixed by having the camera follow exactly the x and y position of 
 			the Entity being followed
-	
-	=== Create only one shadow for all Shadow objects and simply change color and scale
 	
 	=== Monkey patch Gosu::Image so the z-index does not need to be passed.  Instead, pass the 
 		x y and z coordinates in meters, and the method will automatically convert to pixels and 
