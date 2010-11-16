@@ -323,16 +323,6 @@ module InputType
 		end
 		
 		def button_down(id)
-			# Update sequences with start state
-			#~ @sequence_hist.each do |seq| #For each sequence
-				#~ #If the id is part of the sequence, and it is the last button in the sequence,
-				#~ #set the state to :begin
-				#~ if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
-					#~ seq[:seq][:state] = :begin
-				#~ end
-			#~ end
-			
-			
 			if i = @active.index(false) #Get the index of the next button in the sequence
 				@active[i] = true if @buttons[i] == id
 				@last_time = Gosu::milliseconds
