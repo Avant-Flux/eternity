@@ -262,7 +262,7 @@ module InputType
 			@buttons = buttons
 		end
 		
-		def button_down
+		def button_down(id)
 			# Update actions
 			@actions.select{ |k,a| 
 				a[:buttons].include?(id) 
@@ -271,7 +271,7 @@ module InputType
 			}
 		end
 		
-		def button_up
+		def button_up(id)
 			# Update actions
 			@actions.select{ |k,a| 
 				a[:buttons].include?(id) 
@@ -306,7 +306,7 @@ module InputType
 			@threshold = threshold
 		end
 		
-		def button_down
+		def button_down(id)
 			# Update sequences with start state
 			@sequence_hist.each do |seq|
 				if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
@@ -315,7 +315,7 @@ module InputType
 			end
 		end
 		
-		def button_up
+		def button_up(id)
 			# Invalidate current sequences
 			# Update current sequences
 			for seq in @sequence_hist
@@ -389,7 +389,7 @@ module InputType
 			end
 		end
 		
-		def button_down
+		def button_down(id)
 			# Update chords
 			
 			#Get all the chords where the given button ID is part of that chord
@@ -411,7 +411,7 @@ module InputType
 			}
 		end
 		
-		def button_up
+		def button_up(id)
 			# Invalidate chords
 			@chords.select{ |k,c| 
 				c[:buttons].include?(id) 
@@ -455,11 +455,11 @@ module InputType
 			@buttons = buttons
 		end
 		
-		def button_down
+		def button_down(id)
 			
 		end
 		
-		def button_up
+		def button_up(id)
 			
 		end
 		
