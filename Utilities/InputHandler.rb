@@ -342,6 +342,7 @@ module InputType
 			time = Gosu::milliseconds
 			if time - @last_time > @threshold
 				@state = :finish
+				reset
 			end
 			
 			#Update the state
@@ -354,6 +355,10 @@ module InputType
 		
 		def active?
 			@state == :active
+		end
+		
+		def reset
+			@active.fill false
 		end
 	end
 	
@@ -392,6 +397,8 @@ module InputType
 					c[:state] = :begin
 				end
 			}
+			
+			i = @active.index(false)
 		end
 		
 		def button_up(id)
@@ -428,6 +435,10 @@ module InputType
 		def active?
 			@state == :active
 		end
+		
+		def reset
+			@active.fill false
+		end
 	end
 	
 	class Combo
@@ -452,6 +463,10 @@ module InputType
 		
 		def active?
 			@state == :active
+		end
+		
+		def reset
+			@active.fill false
 		end
 	end
 end
