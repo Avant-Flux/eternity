@@ -342,36 +342,7 @@ module InputType
 		end
 		
 		def button_up(id)
-			# Invalidate current sequences
-			# Update current sequences
-			for seq in @sequence_hist
-				if id != seq[:seq][:buttons][seq[:index]] 
-					unless seq[:seq][:state] == :active
-						seq[:valid] =false
-						seq[:seq][:state] = :idle
-					end
-				else
-					seq[:lasttime] = @time
-					seq[:index] += 1
-					if seq[:index] == seq[:seq][:buttons].size
-						seq[:seq][:state] = :finish
-					end
-				end
-			end
-			@sequence_hist.delete_if { |s| not s[:valid] }
-		
-			# Start new sequences
-			for seq in @sequences.values
-				if id == seq[:buttons][0]
-					seq[:state] = :process
-					ns = {}
-					ns[:seq] = seq
-					ns[:lasttime] = @time
-					ns[:index] = 1
-					ns[:valid] = true
-					@sequence_hist << ns
-				end
-			end
+			
 		end
 		
 		def update
