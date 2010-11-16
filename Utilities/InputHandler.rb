@@ -315,7 +315,8 @@ module InputType
 			@buttons = buttons
 			@active = []
 			@threshold = threshold
-			
+			@last_time = Gosu::milliseconds
+						
 			@buttons.size.times do
 				@active << false
 			end
@@ -334,6 +335,7 @@ module InputType
 			
 			if i = @active.index(false) #Get the index of the next button in the sequence
 				@active[i] = true if @buttons[i] == id
+				@last_time = Gosu::milliseconds
 			else
 				#In this case, there are no more false values
 				#ie, all the buttons in the sequence have been pressed
@@ -346,24 +348,18 @@ module InputType
 		end
 		
 		def update
-			# Invalidate old sequences
-			@sequence_hist.select { |s| 
-				s[:lasttime] < (@time - s[:seq][:threshold]) and s[:seq][:state] != :active 
-			}.each{ |s|
-				s[:seq][:state] = :idle
-			}
-			@sequence_hist.delete_if { |s| s[:lasttime] < (@time - s[:seq][:threshold]) and s[:seq][:state] != :active }
-			# Update sequence states
-			@sequences.select{ |k,c| 
-				c[:state] == :begin
-			}.each{ |k,c| 
-				c[:state] = :active
-			}
-			@sequences.select{ |k,c| 
-				c[:state] == :finish
-			}.each{ |k,c| 
-				c[:state] = :idle
-			}
+			#Invalidate the sequence if too much time has passed.
+			time = Gosu::milliseconds
+			if time - @last_time > @threshold
+				@state = :finish
+			end
+			
+			#Update the state
+			if @state == :begin
+				@state = :active
+			elsif @state == :finish
+				@state = :idle
+			end
 		end
 		
 		def active?
