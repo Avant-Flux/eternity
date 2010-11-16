@@ -339,8 +339,7 @@ module InputType
 		
 		def update
 			#Invalidate the sequence if too much time has passed.
-			time = Gosu::milliseconds
-			if time - @last_time > @threshold
+			if timeout
 				@state = :finish
 				reset
 			end
@@ -360,6 +359,10 @@ module InputType
 		def reset
 			@active.fill false
 		end
+		
+		def timeout
+			Gosu::milliseconds - @last_time > @threshold
+		end
 	end
 	
 	class Chord
@@ -370,7 +373,9 @@ module InputType
 			@state = :idle
 			@buttons = buttons
 			@active = []
-			@time = -1
+			
+			@last_time = Gosu::milliseconds
+			@threshold = 100 #Max time in milliseconds to wait between buttons in the chord
 			
 			buttons.size.times do
 				@active << false
@@ -384,52 +389,41 @@ module InputType
 			#Set the corresponding index of the "active" array to true
 			#As one of the keys has been pressed, change the status to :process,
 			#	and store the time of the button press
-			@chords.select{ |k,c| 
-				c[:buttons].include?(id) 
-			}.each{ |k,c| 	
-				i = c[:buttons].index(id)
-				c[:active][i] = true 
-				if c[:state] == :idle
-					c[:time] = @time
-					c[:state] = :process
+			if i = @buttons.index id
+				if @active.include?(false)
+					 if timeout
+						@state = :idle
+					 else
+						@active[i] = true
+						@state = :process
+						@last_time = Gosu::milliseconds
+					end
+				else
+					#At this point, all buttons have been pressed
+					@state = :begin
 				end
-				unless c[:active].include?(false) #If all buttons in the chord have been pushed
-					c[:state] = :begin
-				end
-			}
-			
-			i = @active.index(false)
+			end
 		end
 		
 		def button_up(id)
 			# Invalidate chords
-			@chords.select{ |k,c| 
-				c[:buttons].include?(id) 
-			}.each{ |k,c| 
-				if c[:state] == :active
-					c[:state] = :finish 
-				else
-					c[:state] = :idle 
-				end
-				c[:time] = -1
-				c[:active].fill(false) 
-			}
+			reset if @buttons.include? id
+			@state = :finish
 		end
 		
 		def update
 			# Update chords from end state to idle
 			# Invalidate old chords
-			@chords.each{ |k,c| 
-				if c[:state] == :begin
-					c[:state] = :active
-				elsif c[:state] == :finish
-					c[:state] = :idle
-				elsif c[:state] == :process and c[:time] < @time - 100 
-															#Time in milliseconds between chord "notes"
-					c[:state] = :idle
-					c[:active].fill(false)
-				end
-			}
+			
+			if @state == :begin
+				@state = :active
+			elsif @state == :finish
+				@state = :idle
+			elsif @state == :process and timeout
+										#More time has elapsed than allotted by timeout
+				@state = :idle
+				reset
+			end
 		end
 		
 		def active?
@@ -438,6 +432,10 @@ module InputType
 		
 		def reset
 			@active.fill false
+		end
+		
+		def timeout
+			Gosu::milliseconds - @last_time > @threshold
 		end
 	end
 	
