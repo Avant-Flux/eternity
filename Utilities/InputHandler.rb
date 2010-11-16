@@ -307,21 +307,37 @@ module InputType
 	end
 	
 	class Sequence
-		attr_accessor :name, :state, :buttons, :threshold
+		attr_accessor :name, :state, :buttons, :active, :threshold
 	
 		def initialize(name, buttons=[], threshold=20)
 			@name = name
 			@state = :idle
 			@buttons = buttons
+			@active = []
 			@threshold = threshold
+			
+			@buttons.size.times do
+				@active << false
+			end
 		end
 		
 		def button_down(id)
 			# Update sequences with start state
-			@sequence_hist.each do |seq|
-				if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
-					seq[:seq][:state] = :begin
-				end
+			#~ @sequence_hist.each do |seq| #For each sequence
+				#~ #If the id is part of the sequence, and it is the last button in the sequence,
+				#~ #set the state to :begin
+				#~ if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
+					#~ seq[:seq][:state] = :begin
+				#~ end
+			#~ end
+			
+			
+			if i = @active.index(false) #Get the index of the next button in the sequence
+				@active[i] = true if @buttons[i] == id
+			else
+				#In this case, there are no more false values
+				#ie, all the buttons in the sequence have been pressed
+				@state = :begin
 			end
 		end
 		
