@@ -263,15 +263,32 @@ module InputType
 		end
 		
 		def button_down
-			
+			# Update actions
+			@actions.select{ |k,a| 
+				a[:buttons].include?(id) 
+			}.each{ |k,a| 
+				a[:state] = :begin
+			}
 		end
 		
 		def button_up
-			
+			# Update actions
+			@actions.select{ |k,a| 
+				a[:buttons].include?(id) 
+			}.each{ |k,a| 
+				a[:state] = :finish
+			}
 		end
 		
 		def update
-			
+			# Update actions
+			@actions.each{ |k,a| 
+				if a[:state] == :begin
+					a[:state] = :active
+				elsif a[:state] == :finish
+					a[:state] = :idle
+				end
+			}
 		end
 		
 		def active?
@@ -290,15 +307,66 @@ module InputType
 		end
 		
 		def button_down
-			
+			# Update sequences with start state
+			@sequence_hist.each do |seq|
+				if id == seq[:seq][:buttons][seq[:index]] and seq[:index] == (seq[:seq][:buttons].size-1)
+					seq[:seq][:state] = :begin
+				end
+			end
 		end
 		
 		def button_up
-			
+			# Invalidate current sequences
+			# Update current sequences
+			for seq in @sequence_hist
+				if id != seq[:seq][:buttons][seq[:index]] 
+					unless seq[:seq][:state] == :active
+						seq[:valid] =false
+						seq[:seq][:state] = :idle
+					end
+				else
+					seq[:lasttime] = @time
+					seq[:index] += 1
+					if seq[:index] == seq[:seq][:buttons].size
+						seq[:seq][:state] = :finish
+					end
+				end
+			end
+			@sequence_hist.delete_if { |s| not s[:valid] }
+		
+			# Start new sequences
+			for seq in @sequences.values
+				if id == seq[:buttons][0]
+					seq[:state] = :process
+					ns = {}
+					ns[:seq] = seq
+					ns[:lasttime] = @time
+					ns[:index] = 1
+					ns[:valid] = true
+					@sequence_hist << ns
+				end
+			end
 		end
 		
 		def update
-			
+			# Invalidate old sequences
+			@sequence_hist.select { |s| 
+				s[:lasttime] < (@time - s[:seq][:threshold]) and s[:seq][:state] != :active 
+			}.each{ |s|
+				s[:seq][:state] = :idle
+			}
+			@sequence_hist.delete_if { |s| s[:lasttime] < (@time - s[:seq][:threshold]) and s[:seq][:state] != :active }
+			# Update sequence states
+			@sequences.select{ |k,c| 
+				c[:state] == :begin
+			}.each{ |k,c| 
+				c[:state] = :active
+			}
+			@sequences.select{ |k,c| 
+				c[:state] == :finish
+			}.each{ |k,c| 
+				c[:state] = :idle
+			}
 		end
 		
 		def active?
@@ -322,15 +390,56 @@ module InputType
 		end
 		
 		def button_down
+			# Update chords
 			
+			#Get all the chords where the given button ID is part of that chord
+			#Set the corresponding index of the "active" array to true
+			#As one of the keys has been pressed, change the status to :process,
+			#	and store the time of the button press
+			@chords.select{ |k,c| 
+				c[:buttons].include?(id) 
+			}.each{ |k,c| 	
+				i = c[:buttons].index(id)
+				c[:active][i] = true 
+				if c[:state] == :idle
+					c[:time] = @time
+					c[:state] = :process
+				end
+				unless c[:active].include?(false) #If all buttons in the chord have been pushed
+					c[:state] = :begin
+				end
+			}
 		end
 		
 		def button_up
-			
+			# Invalidate chords
+			@chords.select{ |k,c| 
+				c[:buttons].include?(id) 
+			}.each{ |k,c| 
+				if c[:state] == :active
+					c[:state] = :finish 
+				else
+					c[:state] = :idle 
+				end
+				c[:time] = -1
+				c[:active].fill(false) 
+			}
 		end
 		
 		def update
-			
+			# Update chords from end state to idle
+			# Invalidate old chords
+			@chords.each{ |k,c| 
+				if c[:state] == :begin
+					c[:state] = :active
+				elsif c[:state] == :finish
+					c[:state] = :idle
+				elsif c[:state] == :process and c[:time] < @time - 100 
+															#Time in milliseconds between chord "notes"
+					c[:state] = :idle
+					c[:active].fill(false)
+				end
+			}
 		end
 		
 		def active?
