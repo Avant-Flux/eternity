@@ -342,13 +342,13 @@ module InputType
 			if timeout
 				@state = :finish
 				reset
-			end
-			
-			#Update the state
-			if @state == :begin
-				@state = :active
-			elsif @state == :finish
-				@state = :idle
+			else
+				#Update the state
+				if @state == :begin
+					@state = :active
+				elsif @state == :finish
+					@state = :idle
+				end
 			end
 		end
 		
