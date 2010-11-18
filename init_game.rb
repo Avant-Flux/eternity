@@ -183,7 +183,7 @@ class Game_Window < Gosu::Window
 		
 		return space
 	end
-	
+	  
 	def process_input
 		dir = @inpman.direction
 		if dir != nil
@@ -198,12 +198,10 @@ class Game_Window < Gosu::Window
 		
 		if @inpman.active?(:jump)
 			@player.jump
-			p @inpman
 		end
 		
 		if @inpman.active?(:super)
 			puts "BAM!#{@i += 1}"
-			
 		end
 	end
 	
@@ -255,24 +253,16 @@ class InputHandler
 	end
 	
 	def def_kb_bindings
-		createAction(:up)
-		bindAction(:up, Gosu::KbUp)
-		createAction(:down)
-		bindAction(:down, Gosu::KbDown)
-		createAction(:left)
-		bindAction(:left, Gosu::KbLeft)
-		createAction(:right)
-		bindAction(:right, Gosu::KbRight)
+		new_action :up, [Gosu::KbUp]
+		new_action :down, [Gosu::KbDown]
+		new_action:left, [Gosu::KbLeft]
+		new_action :right, [Gosu::KbRight]
 		
-		createAction(:jump)
-		bindAction(:jump, Gosu::KbE)
+		new_action :jump, [Gosu::KbE]
 		
-		createAction(:run)
-		bindAction(:run, Gosu::KbLeftShift)
+		new_action :run, [Gosu::KbLeftShift]
 		
-		createChord(:super)
-		bindChord(:super, Gosu::KbLeftShift)
-		bindChord(:super, Gosu::KbU)
+		new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 	end
 end
 
