@@ -77,37 +77,14 @@ module InputType
 		end
 		
 		def button_down(id)
-			# Update actions
-			#~ @actions.select{ |k,a| 
-				#~ a[:buttons].include?(id) 
-			#~ }.each{ |k,a| 
-				#~ a[:state] = :begin
-			#~ }
-			
 			@state = :begin if @buttons.include? id
 		end
 		
 		def button_up(id)
-			# Update actions
-			#~ @actions.select{ |k,a| 
-				#~ a[:buttons].include?(id) 
-			#~ }.each{ |k,a| 
-				#~ a[:state] = :finish
-			#~ }
-			
 			@state = :finish if @buttons.include? id
 		end
 		
 		def update
-			# Update actions
-			#~ @actions.each{ |k,a| 
-				#~ if a[:state] == :begin
-					#~ a[:state] = :active
-				#~ elsif a[:state] == :finish
-					#~ a[:state] = :idle
-				#~ end
-			#~ }
-			
 			if @state == :begin
 				@state = :active
 			elsif @state == :finish
