@@ -67,13 +67,24 @@ class InputHandler
 end
 
 module InputType
-	class Action
-		attr_accessor :name, :state, :buttons
-	
-		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
+	#Hold methods common to all classes under the InputType module
+	class BasicInput
+		attr_accessor :name, :buttons, :state
+		
+		def initialize(name, buttons=[])
 			@name = name
-			@state = :idle
 			@buttons = buttons
+			@state = :idle
+		end
+		
+		def active?
+			@state == :active
+		end
+	end
+
+	class Action < BasicInput
+		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
+			super(name, buttons)
 		end
 		
 		def button_down(id)
@@ -90,10 +101,6 @@ module InputType
 			elsif @state == :finish
 				@state = :idle
 			end
-		end
-		
-		def active?
-			@state == :active
 		end
 	end
 	
