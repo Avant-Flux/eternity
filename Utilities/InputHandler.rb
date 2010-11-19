@@ -123,7 +123,7 @@ module InputType
 	class Sequence
 		attr_accessor :name, :state, :buttons, :active, :threshold
 	
-		def initialize(name, buttons=[], threshold=20)
+		def initialize(name, buttons=[], threshold=100)
 			@name = name
 			@state = :idle
 			@buttons = buttons
@@ -140,7 +140,9 @@ module InputType
 			if i = @active.index(false) #Get the index of the next button in the sequence
 				@active[i] = true if @buttons[i] == id
 				@last_time = Gosu::milliseconds
-			else
+				@state = :process
+			end
+			if @active.last == true
 				#In this case, there are no more false values
 				#ie, all the buttons in the sequence have been pressed
 				@state = :begin
@@ -148,22 +150,26 @@ module InputType
 		end
 		
 		def button_up(id)
-			
+			reset if @buttons.include?(id)
+			@state = :finish
 		end
 		
 		def update
-			#Invalidate the sequence if too much time has passed.
-			if timeout
-				@state = :finish
-				reset
+			#Update the state
+			@state = case @state
+				when :begin
+					:active
+				when :finish
+					:idle
+				when :process
+					if timeout #Invalidate the sequence if too much time has passed.
+						:idle
+					else
+						:process
+					end
 			end
 			
-			#Update the state
-			if @state == :begin
-				@state = :active
-			elsif @state == :finish
-				@state = :idle
-			end
+			reset if @state == :idle
 		end
 		
 		def active?
