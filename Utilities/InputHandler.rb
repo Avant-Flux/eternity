@@ -182,7 +182,7 @@ module InputType
 	class Chord
 		attr_accessor :name, :state, :buttons, :active, :time
 	
-		def initialize(name, buttons=[], threshold=100)
+		def initialize(name, buttons=[], threshold=20)
 			@name = name
 			@state = :idle
 			@buttons = buttons
@@ -204,15 +204,11 @@ module InputType
 			#As one of the keys has been pressed, change the status to :process,
 			#	and store the time of the button press
 			if i = @buttons.index(id)
-				if @active.include?(false)
-					 if timeout
-						@state = :idle
-					 else
-						@active[i] = true
-						@state = :process
-						@last_time = Gosu::milliseconds
-					end
-				else
+				@active[i] = true
+				@state = :process
+				@last_time = Gosu::milliseconds
+				
+				unless @active.include?(false)
 					#At this point, all buttons have been pressed
 					@state = :begin
 				end
@@ -236,8 +232,9 @@ module InputType
 			elsif @state == :process and timeout
 										#More time has elapsed than allotted by timeout
 				@state = :idle
-				reset
 			end
+			
+			reset if @state == :idle
 		end
 		
 		def active?
