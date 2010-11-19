@@ -272,58 +272,9 @@ Bugs/Additions
 			+++	Also takes a leniency variable which will determine how much to pad the time.
 					***	Without this padding it would be near impossible to get a combo,
 						as the player would have to do so within a millisecond.
-		---	Restructure code to use separate classes to store the data for each input type,
-			instead of using hashes all over the place.
 			
-		--- Must completely reimplement sequence, as it is a waste
-		
 		---	Reimpelement InputHandler to only use :active and :idle states
 			+++ right now, the intermediate states of :begin and :finish seem unnecessary
-								
-		--- InputHandler data structure
-		
-			@chords={:super=>{
-						:state=>:idle, 
-						:buttons=>[65505, 117], 
-						:active=>[false, false], 
-						:time=>-1}},
-			@sequences={}, 
-			@actions={:up=>{:state=>:idle, 
-							:buttons=>[65362]}, 
-							:down=>{:state=>:idle, 
-							:buttons=>[65364]}, 
-					:left=>{:state=>:idle, 
-							:buttons=>[65361]}, 
-					:right=>{:state=>:idle, 
-							:buttons=>[65363]}, 
-					:jump=>{:state=>:active, 
-							:buttons=>[101]}, 
-					:run=>{:state=>:idle, 
-							:buttons=>[65505]}
-					}, 
-			@sequence_hist=[], @time=86828649825>
-			
-			
-			
-			@chords={
-				:up=>
-						{:state=>:process, 
-						:buttons=>[97, 111, 101], 
-						:active=>[false, true, false], 
-						:time=>59}
-					}, 
-			@sequences={
-				:attack=>
-					{:state=>:idle, 
-					:buttons=>[97, 98, 99], 
-					:threshold=>20}
-				}, 
-			@actions={
-				:jump=>
-					{:state=>:idle, 
-					:buttons=>[65362]}
-					}, 
-			@sequence_hist=[], @time=59
 
 
 	
