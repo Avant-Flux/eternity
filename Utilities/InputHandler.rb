@@ -82,6 +82,7 @@ module InputType
 		end
 	end
 	
+	#Hold methods common to all classes  that require multiple button presses.
 	class MultiButtonInput < BasicInput
 		attr_accessor :threshold
 	
@@ -134,7 +135,7 @@ module InputType
 	end
 	
 	class Sequence < MultiButtonInput
-		DEFAULT_THRESHOLD = 50000000
+		DEFAULT_THRESHOLD = 5000
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
 			super(name, buttons, threshold)
@@ -221,21 +222,46 @@ module InputType
 	end
 	
 	class Combo < MultiButtonInput
-		def initialize(name, buttons=[])
-			@name = name
-			@buttons = buttons
+		#Change @threshold to pertain to the next button
+	
+		def initialize(name, buttons=[], threshold=[100])
+			super(name, buttons, threshold[0])
 		end
 		
 		def button_down(id)
-			
+			if i = @active.index(false) #Get the index of the next button in the sequence
+				if @buttons[i] == id
+					@active[i] = true 
+					@last_time = Gosu::milliseconds
+					@state = :process
+				end
+			end
+			if @active.last == true
+				#In this case, there are no more false values
+				#ie, all the buttons in the sequence have been pressed
+				@state = :begin
+			end
 		end
 		
 		def update
+			#Update the state
+			@state = case @state
+				when :begin
+					:active
+				when :finish
+					:idle
+				when :process
+					if timeout #Invalidate the sequence if too much time has passed.
+						puts "hey"
+						:idle
+					else
+						:process
+					end
+				else
+					@state
+			end
 			
-		end
-		
-		def reset
-			@active.fill false
+			reset if @state == :idle
 		end
 	end
 end
