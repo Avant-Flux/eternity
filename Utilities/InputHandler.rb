@@ -39,6 +39,10 @@ class InputHandler
 		@event_handlers << InputType::Chord.new(name, buttons, threshold)
 	end
 	
+	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
+		
+	end
+	
 	def button_down(id)
 		@event_handlers.each do |i|
 			i.button_down id
@@ -205,9 +209,10 @@ module InputType
 	end
 	
 	class Combo < MultiButtonInput
+		DEFAULT_THRESHOLD = [100]
 		#Change @threshold to pertain to the next button
-	
-		def initialize(name, buttons=[], threshold=[100])
+		
+		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
 			super(name, buttons, threshold[0])
 		end
 		
