@@ -97,6 +97,11 @@ module InputType
 			end
 		end
 		
+		def button_up(id)
+			reset if @buttons.include?(id)
+			@state = :finish
+		end
+		
 		def reset
 			@active.fill false
 		end
@@ -150,11 +155,6 @@ module InputType
 			end
 		end
 		
-		def button_up(id)
-			reset if @buttons.include?(id)
-			@state = :finish
-		end
-		
 		def update
 			#Update the state
 			@state = case @state
@@ -203,12 +203,6 @@ module InputType
 			end
 		end
 		
-		def button_up(id)
-			# Invalidate chords
-			reset if @buttons.include?(id)
-			@state = :finish
-		end
-		
 		def update
 			# Update chords from end state to idle
 			# Invalidate old chords
@@ -233,10 +227,6 @@ module InputType
 		end
 		
 		def button_down(id)
-			
-		end
-		
-		def button_up(id)
 			
 		end
 		
