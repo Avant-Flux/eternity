@@ -81,6 +81,30 @@ module InputType
 			@state == :active
 		end
 	end
+	
+	class MultiButtonInput < BasicInput
+		attr_accessor :threshold
+	
+		def initialize(name, buttons, threshold)
+			super(name, buttons)
+			@threshold = threshold
+			
+			@active = []
+			@last_time = Gosu::milliseconds
+			
+			buttons.size.times do
+				@active << false
+			end
+		end
+		
+		def reset
+			@active.fill false
+		end
+		
+		def timeout
+			Gosu::milliseconds - @last_time > @threshold
+		end
+	end
 
 	class Action < BasicInput
 		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
@@ -104,22 +128,11 @@ module InputType
 		end
 	end
 	
-	class Sequence
-		attr_accessor :name, :state, :buttons, :active, :threshold
-		
+	class Sequence < MultiButtonInput
 		DEFAULT_THRESHOLD = 50000000
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
-			@name = name
-			@state = :idle
-			@buttons = buttons
-			@active = []
-			@threshold = threshold
-			@last_time = Gosu::milliseconds
-						
-			@buttons.size.times do
-				@active << false
-			end
+			super(name, buttons, threshold)
 		end
 		
 		def button_down(id)
@@ -162,37 +175,13 @@ module InputType
 			
 			reset if @state == :idle
 		end
-		
-		def active?
-			@state == :active
-		end
-		
-		def reset
-			@active.fill false
-		end
-		
-		def timeout
-			Gosu::milliseconds - @last_time > @threshold
-		end
 	end
 	
-	class Chord
-		attr_accessor :name, :state, :buttons, :active, :time
-		
+	class Chord < MultiButtonInput
 		DEFAULT_THRESHOLD = 20
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
-			@name = name
-			@state = :idle
-			@buttons = buttons
-			@active = []
-			
-			@last_time = Gosu::milliseconds
-			@threshold = threshold #Max time in milliseconds to wait between buttons in the chord
-			
-			buttons.size.times do
-				@active << false
-			end
+			super(name, buttons, threshold)
 		end
 		
 		def button_down(id)
@@ -235,23 +224,9 @@ module InputType
 			
 			reset if @state == :idle
 		end
-		
-		def active?
-			@state == :active
-		end
-		
-		def reset
-			@active.fill false
-		end
-		
-		def timeout
-			Gosu::milliseconds - @last_time > @threshold
-		end
 	end
 	
-	class Combo
-		attr_accessor :name, :buttons
-		
+	class Combo < MultiButtonInput
 		def initialize(name, buttons=[])
 			@name = name
 			@buttons = buttons
@@ -267,10 +242,6 @@ module InputType
 		
 		def update
 			
-		end
-		
-		def active?
-			@state == :active
 		end
 		
 		def reset
