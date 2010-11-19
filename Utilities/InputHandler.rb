@@ -31,11 +31,11 @@ class InputHandler
 		@event_handlers << InputType::Action.new(name, buttons)
 	end
 	
-	def new_sequence(name, buttons=[], threshold=20)
+	def new_sequence(name, buttons=[], threshold=InputType::Sequence::DEFAULT_THRESHOLD)
 		@event_handlers << InputType::Sequence.new(name, buttons, threshold)
 	end
 	
-	def new_chord(name, buttons=[], threshold=100)
+	def new_chord(name, buttons=[], threshold=InputType::Chord::DEFAULT_THRESHOLD)
 		@event_handlers << InputType::Chord.new(name, buttons, threshold)
 	end
 	
@@ -99,8 +99,10 @@ module InputType
 	
 	class Sequence
 		attr_accessor :name, :state, :buttons, :active, :threshold
-	
-		def initialize(name, buttons=[], threshold=100)
+		
+		DEFAULT_THRESHOLD = 50000000
+		
+		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
 			@name = name
 			@state = :idle
 			@buttons = buttons
@@ -115,9 +117,11 @@ module InputType
 		
 		def button_down(id)
 			if i = @active.index(false) #Get the index of the next button in the sequence
-				@active[i] = true if @buttons[i] == id
-				@last_time = Gosu::milliseconds
-				@state = :process
+				if @buttons[i] == id
+					@active[i] = true 
+					@last_time = Gosu::milliseconds
+					@state = :process
+				end
 			end
 			if @active.last == true
 				#In this case, there are no more false values
@@ -140,10 +144,13 @@ module InputType
 					:idle
 				when :process
 					if timeout #Invalidate the sequence if too much time has passed.
+						puts "hey"
 						:idle
 					else
 						:process
 					end
+				else
+					@state
 			end
 			
 			reset if @state == :idle
@@ -164,8 +171,10 @@ module InputType
 	
 	class Chord
 		attr_accessor :name, :state, :buttons, :active, :time
-	
-		def initialize(name, buttons=[], threshold=20)
+		
+		DEFAULT_THRESHOLD = 20
+		
+		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
 			@name = name
 			@state = :idle
 			@buttons = buttons

@@ -203,6 +203,9 @@ class Game_Window < Gosu::Window
 		if @inpman.active?(:super)
 			puts "BAM!#{@i += 1}"
 		end
+		if @inpman.active?(:super2)
+			puts "BAM!#{@i += 1}"
+		end
 	end
 	
 	def save_keybindings
@@ -263,6 +266,7 @@ class InputHandler
 		new_action :run, [Gosu::KbLeftShift]
 		
 		new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
+		new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 	end
 end
 
