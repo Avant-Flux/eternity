@@ -103,6 +103,26 @@ module InputType
 			@state = :finish
 		end
 		
+		def update
+			#Update the state
+			@state = case @state
+				when :begin
+					:active
+				when :finish
+					:idle
+				when :process
+					if timeout #Invalidate the sequence if too much time has passed.
+						:idle
+					else
+						:process
+					end
+				else
+					@state
+			end
+			
+			reset if @state == :idle
+		end
+		
 		def reset
 			@active.fill false
 		end
@@ -155,27 +175,6 @@ module InputType
 				@state = :begin
 			end
 		end
-		
-		def update
-			#Update the state
-			@state = case @state
-				when :begin
-					:active
-				when :finish
-					:idle
-				when :process
-					if timeout #Invalidate the sequence if too much time has passed.
-						puts "hey"
-						:idle
-					else
-						:process
-					end
-				else
-					@state
-			end
-			
-			reset if @state == :idle
-		end
 	end
 	
 	class Chord < MultiButtonInput
@@ -203,22 +202,6 @@ module InputType
 				end
 			end
 		end
-		
-		def update
-			# Update chords from end state to idle
-			# Invalidate old chords
-			
-			if @state == :begin
-				@state = :active
-			elsif @state == :finish
-				@state = :idle
-			elsif @state == :process and timeout
-										#More time has elapsed than allotted by timeout
-				@state = :idle
-			end
-			
-			reset if @state == :idle
-		end
 	end
 	
 	class Combo < MultiButtonInput
@@ -241,27 +224,6 @@ module InputType
 				#ie, all the buttons in the sequence have been pressed
 				@state = :begin
 			end
-		end
-		
-		def update
-			#Update the state
-			@state = case @state
-				when :begin
-					:active
-				when :finish
-					:idle
-				when :process
-					if timeout #Invalidate the sequence if too much time has passed.
-						puts "hey"
-						:idle
-					else
-						:process
-					end
-				else
-					@state
-			end
-			
-			reset if @state == :idle
 		end
 	end
 end
