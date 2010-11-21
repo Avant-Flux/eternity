@@ -275,6 +275,16 @@ Bugs/Additions
 			
 		---	Reimpelement InputHandler to only use :active and :idle states
 			+++ right now, the intermediate states of :begin and :finish seem unnecessary
+	
+	===	Fix implementation of speech bubbles
+		---	Move speech bubble into a separate class
+		---	Should automatically manage which bubbles are currently active
+			+++	Automatically destroy bubble after the timeout
+			+++	Change the text of the bubble instead of creating a new one if the text is
+				modified before the timeout
+		---	Use a custom class for a text box
+			+++	Class which controls rendering the text in a specific area, but does not
+				draw borders etc around the text.
 
 
 	
