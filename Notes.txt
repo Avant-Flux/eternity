@@ -259,6 +259,9 @@ Bugs/Additions
 	=== Monkey patch Gosu::Image so the z-index does not need to be passed.  Instead, pass the 
 		x y and z coordinates in meters, and the method will automatically convert to pixels and 
 		draw.
+		--- This should also include calculating the z-index of the image.  Thus, the coordinates
+			of the object in Chipmunk space could be passed, and the correct pixel coordinates
+			calculated.
 	
 	===	Fix shadow placement error.
 			Shadows for Character objects are being placed slightly off center.   
