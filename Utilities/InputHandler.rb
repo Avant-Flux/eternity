@@ -166,12 +166,10 @@ module InputType
 		end
 		
 		def button_down(id)
-			if i = @active.index(false) #Get the index of the next button in the sequence
-				if @buttons[i] == id
-					@active[i] = true 
-					@last_time = Gosu::milliseconds
-					@state = :process
-				end
+			if @buttons[i=@active.index(false)] == id #Get the index of the next button in the sequence
+				@active[i] = true 
+				@last_time = Gosu::milliseconds
+				@state = :process
 			end
 			if @active.last == true
 				#In this case, there are no more false values
