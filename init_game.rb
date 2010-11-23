@@ -200,10 +200,7 @@ class Game_Window < Gosu::Window
 			@player.jump
 		end
 		
-		if @inpman.active?(:super)
-			puts "BAM!#{@i += 1}"
-		end
-		if @inpman.active?(:super2)
+		if @inpman.active?(:super) || @inpman.active?(:super2) || @inpman.active?(:super3)
 			puts "BAM!#{@i += 1}"
 		end
 	end
@@ -267,6 +264,7 @@ class InputHandler
 		
 		new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 		new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
+		new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK]
 	end
 end
 

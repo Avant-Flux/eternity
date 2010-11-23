@@ -40,7 +40,7 @@ class InputHandler
 	end
 	
 	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
-		
+		@event_handlers << InputType::Combo.new(name, buttons, threshold)
 	end
 	
 	def button_down(id)
@@ -166,10 +166,12 @@ module InputType
 		end
 		
 		def button_down(id)
-			if @buttons[i=@active.index(false)] == id #Get the index of the next button in the sequence
-				@active[i] = true 
-				@last_time = Gosu::milliseconds
-				@state = :process
+			if i=@active.index(false) #Get the index of the next button in the sequence
+				if @buttons[i] == id
+					@active[i] = true 
+					@last_time = Gosu::milliseconds
+					@state = :process
+				end
 			end
 			if @active.last == true
 				#In this case, there are no more false values
@@ -207,26 +209,92 @@ module InputType
 	end
 	
 	class Combo < MultiButtonInput
-		DEFAULT_THRESHOLD = [100]
+		DEFAULT_THRESHOLD = [1000]
+		TIMING_BUFFER = 1000 #Amount of milliseconds to buffer the target time on each side.
 		#Change @threshold to pertain to the next button
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
 			super(name, buttons, threshold[0])
+			
+			#@thresholds[0] is the time to wait in between button1 and button2
+			@thresholds = threshold
+			
+			#Copy the last threshold value into other indexes of @thresholds
+			unless @thresholds.size == @buttons.size
+				max = @buttons.size-1
+				min = @thresholds.size-1
+				
+				time = @thresholds[min]
+				
+				((min+1)..max).each do |i|
+					@thresholds[i] = time
+				end
+			end
 		end
 		
 		def button_down(id)
 			if i = @active.index(false) #Get the index of the next button in the sequence
-				if @buttons[i] == id
-					@active[i] = true 
+				if @buttons[i] == id #If this is the button you are looking for
+					#If the time elapsed is within the desired timeframe
+					#then set the marker to true.
+					
+					#Then, get ready to receive the next input
+					
+					
+					#else, if the time is outside the timeframe, reset
+					
+					@active[i] = true
+					@threshold = @thresholds[i]
+					puts "#{Gosu::milliseconds - @last_time} --- #{@threshold}"
 					@last_time = Gosu::milliseconds
 					@state = :process
 				end
 			end
 			if @active.last == true
 				#In this case, there are no more false values
-				#ie, all the buttons in the sequence have been pressed
+				#ie, all the buttons in the combo have been pressed
 				@state = :begin
 			end
+		end
+		
+		def button_up(id)
+			
+		end
+		
+		#~ def update
+			#~ #Update the state
+			#~ @state = case @state
+				#~ when :begin
+					#~ :active
+				#~ when :finish
+					#~ :idle
+				#~ when :process
+					#~ if timeout #Invalidate the sequence if too much time has passed.
+						#~ :idle
+					#~ else
+						#~ :process
+						#~ puts Gosu::milliseconds - @last_time
+					#~ end
+				#~ else
+					#~ @state
+			#~ end
+			
+			#~ reset if @state == :idle
+		#~ end
+		
+		def update
+			super
+			#~ puts Gosu::milliseconds - @last_time
+		end
+		
+		def timeout
+			#Set the condition to be if the time is within a certain 
+			#range, then flip the truth values.  This flip is so that
+			#update does not have to be rewritten.
+			
+			time_elapsed = Gosu::milliseconds - @last_time
+			
+			!( time_elapsed > @threshold-TIMING_BUFFER && time_elapsed < @threshold+TIMING_BUFFER )
 		end
 	end
 end
