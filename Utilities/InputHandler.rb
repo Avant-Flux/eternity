@@ -288,13 +288,17 @@ module InputType
 		end
 		
 		def timeout
+			
+		end
+		
+		def within_range
 			#Set the condition to be if the time is within a certain 
 			#range, then flip the truth values.  This flip is so that
 			#update does not have to be rewritten.
 			
 			time_elapsed = Gosu::milliseconds - @last_time
 			
-			!( time_elapsed > @threshold-TIMING_BUFFER && time_elapsed < @threshold+TIMING_BUFFER )
+			time_elapsed > @threshold-TIMING_BUFFER && time_elapsed < @threshold+TIMING_BUFFER
 		end
 	end
 end
