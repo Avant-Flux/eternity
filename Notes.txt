@@ -271,22 +271,28 @@ Bugs/Additions
 			
 	===	Re-write the InputHandler class is Ruby style for increased readability
 		---	Add new input type, combo
-			+++	Combo requires that the buttons be pressed with a certain time gap between them
-			+++	Also takes a leniency variable which will determine how much to pad the time.
+			+	Combo requires that the buttons be pressed with a certain time gap between them
+			+	Also takes a leniency variable which will determine how much to pad the time.
 					***	Without this padding it would be near impossible to get a combo,
 						as the player would have to do so within a millisecond.
 			
 		---	Reimpelement InputHandler to only use :active and :idle states
-			+++ right now, the intermediate states of :begin and :finish seem unnecessary
+			+	right now, the intermediate states of :begin and :finish seem unnecessary
+		
+		---	Allow nested InputType instances
+			+	Currently can only use buttons in InputType
+			+	This would allow for truly complex input
+				*	Example, ask the user to press a button then double-tap something else.
+					This could be used for something like a smash attack.
 	
 	===	Fix implementation of speech bubbles
 		---	Move speech bubble into a separate class
 		---	Should automatically manage which bubbles are currently active
-			+++	Automatically destroy bubble after the timeout
-			+++	Change the text of the bubble instead of creating a new one if the text is
+			+	Automatically destroy bubble after the timeout
+			+	Change the text of the bubble instead of creating a new one if the text is
 				modified before the timeout
 		---	Use a custom class for a text box
-			+++	Class which controls rendering the text in a specific area, but does not
+			+	Class which controls rendering the text in a specific area, but does not
 				draw borders etc around the text.
 
 
