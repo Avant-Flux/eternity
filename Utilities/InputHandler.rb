@@ -236,18 +236,26 @@ module InputType
 			if i = @active.index(false) #Get the index of the next button in the sequence
 				if @buttons[i] == id #If this is the button you are looking for
 					#If the time elapsed is within the desired timeframe
-					#then set the marker to true.
-					
-					#Then, get ready to receive the next input
-					
-					
-					#else, if the time is outside the timeframe, reset
-					
-					@active[i] = true
-					@threshold = @thresholds[i]
-					puts "#{Gosu::milliseconds - @last_time} --- #{@threshold}"
-					@last_time = Gosu::milliseconds
-					@state = :process
+					if within_range	#only check if it is past the minimum time
+									#update will check to make sure it is not over the max
+						#then set the marker to true.
+						#Then, get ready to receive the next input
+						@active[i] = true
+						@threshold = @thresholds[i]
+						puts "#{Gosu::milliseconds - @last_time} --- #{@threshold}"
+						@last_time = Gosu::milliseconds
+						@state = :process
+						
+						
+						
+					else 
+						#else, if the time is outside the timeframe, reset
+						#This basically means that the button was pressed too early
+						#If it had been pressed too late, the problem would have been resolved by
+						#the method #update
+						
+						
+					end
 				end
 			end
 			if @active.last == true
@@ -261,44 +269,22 @@ module InputType
 			
 		end
 		
-		#~ def update
-			#~ #Update the state
-			#~ @state = case @state
-				#~ when :begin
-					#~ :active
-				#~ when :finish
-					#~ :idle
-				#~ when :process
-					#~ if timeout #Invalidate the sequence if too much time has passed.
-						#~ :idle
-					#~ else
-						#~ :process
-						#~ puts Gosu::milliseconds - @last_time
-					#~ end
-				#~ else
-					#~ @state
-			#~ end
-			
-			#~ reset if @state == :idle
-		#~ end
-		
 		def update
 			super
 			#~ puts Gosu::milliseconds - @last_time
 		end
 		
 		def timeout
-			
+			#make sure the time is not over the maximum time
+			time_elapsed = Gosu::milliseconds - @last_time
+			time_elapsed > @threshold + TIMING_BUFFER
 		end
 		
 		def within_range
-			#Set the condition to be if the time is within a certain 
-			#range, then flip the truth values.  This flip is so that
-			#update does not have to be rewritten.
+			#Return true if the time is at least passed the minimum time
 			
 			time_elapsed = Gosu::milliseconds - @last_time
-			
-			time_elapsed > @threshold-TIMING_BUFFER && time_elapsed < @threshold+TIMING_BUFFER
+			time_elapsed > @threshold - TIMING_BUFFER
 		end
 	end
 end
