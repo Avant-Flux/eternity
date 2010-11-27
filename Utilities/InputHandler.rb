@@ -113,9 +113,11 @@ module InputType
 				when :begin
 					:active
 				when :finish
+					reset
 					:idle
 				when :process
 					if timeout #Invalidate the sequence if too much time has passed.
+						reset
 						:idle
 					else
 						:process
@@ -123,8 +125,6 @@ module InputType
 				else
 					@state
 			end
-			
-			reset if @state == :idle
 		end
 		
 		def reset
