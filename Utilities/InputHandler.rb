@@ -253,8 +253,9 @@ module InputType
 						#This basically means that the button was pressed too early
 						#If it had been pressed too late, the problem would have been resolved by
 						#the method #update
-						
-						
+						@threshold = @thresholds[0]
+						@state = :idle
+						reset
 					end
 				end
 			end
