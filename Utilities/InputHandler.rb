@@ -210,7 +210,7 @@ module InputType
 	
 	class Combo < MultiButtonInput
 		DEFAULT_THRESHOLD = [1000]
-		TIMING_BUFFER = 1000 #Amount of milliseconds to buffer the target time on each side.
+		TIMING_BUFFER = 200 #Amount of milliseconds to buffer the target time on each side.
 		#Change @threshold to pertain to the next button
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
@@ -240,14 +240,12 @@ module InputType
 									#update will check to make sure it is not over the max
 						#then set the marker to true.
 						#Then, get ready to receive the next input
+						@last_time = Gosu::milliseconds
+						
 						@active[i] = true
 						@threshold = @thresholds[i]
-						puts "#{Gosu::milliseconds - @last_time} --- #{@threshold}"
-						@last_time = Gosu::milliseconds
+						
 						@state = :process
-						
-						
-						
 					else 
 						#else, if the time is outside the timeframe, reset
 						#This basically means that the button was pressed too early
@@ -259,20 +257,22 @@ module InputType
 					end
 				end
 			end
-			if @active.last == true
-				#In this case, there are no more false values
-				#ie, all the buttons in the combo have been pressed
-				@state = :begin
-			end
+			
+			#In this case, there are no more false values
+			#ie, all the buttons in the combo have been pressed
+			@state = :begin if @active.last == true
 		end
 		
 		def button_up(id)
-			
+			#Needs to be left blank to override the method inherited.
 		end
 		
 		def update
+			if @state == :active
+				@state = :finish if timeout 
+			end
+			
 			super
-			#~ puts Gosu::milliseconds - @last_time
 		end
 		
 		def timeout
