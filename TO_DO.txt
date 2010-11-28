@@ -35,6 +35,11 @@ To-do List
 		of the object in Chipmunk space could be passed, and the correct pixel coordinates
 		calculated.
 
+===	Allow using structs for the height of environment pieces
+	---	This allows for uneven tops of buildings etc.
+	
+===	Create ramp objects
+
 ===	Fix shadow placement error.
 		Shadows for Character objects are being placed slightly off center.   
 		This does not effect the player, however.
