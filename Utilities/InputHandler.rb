@@ -95,7 +95,7 @@ module InputType
 			@threshold = threshold
 			
 			@active = []
-			@last_time = Gosu::milliseconds
+			update_time
 			
 			buttons.size.times do
 				@active << false
@@ -134,6 +134,10 @@ module InputType
 		def timeout
 			Gosu::milliseconds - @last_time > @threshold
 		end
+		
+		def update_time
+			@last_time = Gosu::milliseconds
+		end
 	end
 
 	class Action < BasicInput
@@ -169,7 +173,7 @@ module InputType
 			if i=@active.index(false) #Get the index of the next button in the sequence
 				if @buttons[i] == id
 					@active[i] = true 
-					@last_time = Gosu::milliseconds
+					update_time
 					@state = :process
 				end
 			end
@@ -198,7 +202,7 @@ module InputType
 			if i = @buttons.index(id)
 				@active[i] = true
 				@state = :process
-				@last_time = Gosu::milliseconds
+				update_time
 				
 				unless @active.include?(false)
 					#At this point, all buttons have been pressed
@@ -240,7 +244,7 @@ module InputType
 									#update will check to make sure it is not over the max
 						#then set the marker to true.
 						#Then, get ready to receive the next input
-						@last_time = Gosu::milliseconds
+						update_time
 						
 						@active[i] = true
 						@threshold = @thresholds[i]
@@ -268,6 +272,7 @@ module InputType
 		end
 		
 		def update
+			#Allow timeout while @state is :active as well as :process
 			if @state == :active
 				@state = :finish if timeout 
 			end
@@ -276,14 +281,13 @@ module InputType
 		end
 		
 		def timeout
-			#make sure the time is not over the maximum time
+			#make sure the time elapsed is not over the maximum wait time
 			time_elapsed = Gosu::milliseconds - @last_time
 			time_elapsed > @threshold + TIMING_BUFFER
 		end
 		
 		def within_range
 			#Return true if the time is at least passed the minimum time
-			
 			time_elapsed = Gosu::milliseconds - @last_time
 			time_elapsed > @threshold - TIMING_BUFFER
 		end
