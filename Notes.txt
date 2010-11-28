@@ -255,6 +255,18 @@ Bugs/Additions
 		---	Needs to stop when the character hits a wall or similar object
 		---	Temporarily fixed by having the camera follow exactly the x and y position of 
 			the Entity being followed
+			
+	===	Cut-Away buildings
+		---	When the player opens a door into a building, the exterior world should fade
+			to black, and the interior of the building should be displayed on the same
+			foundation.
+	
+	===	Hide buildings to show alleys etc
+		---	When the character passes a building, it should fade a bit if there is a alley
+			behind it, so that if there are multiple buildings in a row with alleyways
+			between them, the player will be able to see the alleys.
+			+	This is extremely important when/if the buildings are taller than the 
+				viewport.
 	
 	=== Monkey patch Gosu::Image so the z-index does not need to be passed.  Instead, pass the 
 		x y and z coordinates in meters, and the method will automatically convert to pixels and 
