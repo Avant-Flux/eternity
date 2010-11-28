@@ -15,6 +15,7 @@ To-do List
 	---	Camera does not adjust elevation to match that of the Entity being tracked.
 		This results in the character not being at the center of the screen when
 		jumping or standing on a raised platform.
+		+	Allow smooth scrolling on this plane as well
 		
 ===	Cut-Away buildings
 	---	When the player opens a door into a building, the exterior world should fade
