@@ -1,5 +1,10 @@
 To-do List
 
+===	Finish stat system
+	---	Try to use as few stats as possible
+		+	Or, at the very least, as few raw stats as possible
+	---	Implement some sort of randomness in character creation
+		+	People with the same nature natures are similar not clones
 
 ===	Fix camera scrolling
 	---	Needs to stop when the character hits a wall or similar object
