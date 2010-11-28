@@ -270,12 +270,6 @@ Bugs/Additions
 			---	The problem is the that the down-facing sprite is slightly off.	
 			
 	===	Re-write the InputHandler class is Ruby style for increased readability
-		---	Add new input type, combo
-			+	Combo requires that the buttons be pressed with a certain time gap between them
-			+	Also takes a leniency variable which will determine how much to pad the time.
-					***	Without this padding it would be near impossible to get a combo,
-						as the player would have to do so within a millisecond.
-			
 		---	Reimpelement InputHandler to only use :active and :idle states
 			+	right now, the intermediate states of :begin and :finish seem unnecessary
 		
