@@ -15,7 +15,7 @@ require 'RMagick'
 #
 #	Calculate the position of all elements in the tracking overlay, then displace by a certain
 #	amount to allow the overlay to be rendered at the level of the Player's waist instead of
-#	the normal location at foot-level.'
+#	the normal location at foot-level.
 module UI
 	module Overlay
 		class Tracking
