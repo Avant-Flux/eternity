@@ -76,7 +76,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animation.draw @shape.x.to_px, @shape.y.to_px, @shape.z.to_px
+			@animation.draw @shape.x, @shape.y, @shape.z
 			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
 			@shadow.draw
 		end

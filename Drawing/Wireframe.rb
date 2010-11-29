@@ -107,9 +107,9 @@ module Wireframe
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			#~ end
 			
-			@x = @shape.x.to_px - @side_thickness - 10 + side_buffer
-			@y = @shape.y.to_px - @img.height - @shape.z.to_px
-			@z = 10
+			@x = @shape.x + (-@side_thickness - 10 + side_buffer).to_meters
+			@y = @shape.y - @img.height.to_meters - @shape.z
+			@z = @shape.z
 		end
 		
 		def update

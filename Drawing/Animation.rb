@@ -26,9 +26,7 @@ module Animations
 		end
 		
 		def draw(x,y,z)
-			@current_frame.draw(x-@current_frame.width/2, 
-								(y - z)-@current_frame.height, 
-								z + y)
+			@current_frame.draw(x,y,z, {:offset_x => :centered, :offset_y => :height})
 		end
 		
 		def self.load path
