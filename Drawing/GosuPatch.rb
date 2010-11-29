@@ -19,7 +19,7 @@ module Gosu
 			
 			options[:offset_x] = case options[:offset_x]
 				when :centered
-					self.width/2
+					self.width * options[:factor_x] / 2
 				when :width
 					self.width
 				else
@@ -28,7 +28,7 @@ module Gosu
 			
 			options[:offset_y] = case options[:offset_y]
 				when :centered
-					self.height/2
+					self.height * options[:factor_y] / 2
 				when :height
 					self.height
 				else
