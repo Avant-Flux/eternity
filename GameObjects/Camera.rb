@@ -20,16 +20,18 @@ class Camera
 		@space = space
 		@entity = entity
 		
-		@width = $window.width.to_meters
-		@depth = $window.height.to_meters
+		@center = Struct.new(:x, :y).new
+		@center.x = $window.width.to_meters / 2
+		@center.y = $window.height.to_meters / 2
 		
 		mass = @entity.shape.body.m
 		
-		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, @depth, @width)
+		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, 
+									$window.height.to_meters, $window.width.to_meters)
 		
 		@shape.sensor = true
 		@shape.collision_type = :camera
-		@shape.body.p = CP::Vec2.new(@entity.shape.x-@width/2.0, @entity.shape.y-@depth/2.0)
+		@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
 		
 		space.add self
 		shapes = space.shapes[:nonstatic].delete(@shape)
@@ -48,7 +50,7 @@ class Camera
 	end
 	
 	def warp(vec2)
-		self.p = CP::Vec2.new(vec2.x - @width/2.0, vec2.y - @depth/2.0)
+		self.p = CP::Vec2.new(vec2.x - @center.x, vec2.y - @center.y)
 	end
 	
 	def x
