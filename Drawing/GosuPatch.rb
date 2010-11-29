@@ -3,6 +3,7 @@
 module Gosu
 	class Image
 		alias :old_draw :draw
+		alias :draw_UI :draw
 		
 		#Completion of this method will require a rewrite of draw_centered
 		def draw(x, y, z, options={})

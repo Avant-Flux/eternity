@@ -50,7 +50,7 @@ module UI
 			end
 			
 			def draw
-				@img.draw(0,0,1000)
+				@img.draw_UI(0,0,1000)
 				@font.draw(@mana, 35,110, 1001)
 				@font.draw(@hp, 225,85, 1001)
 				@font.draw(@player.lvl, 185,120, 1001)
