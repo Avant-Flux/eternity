@@ -29,7 +29,7 @@ class Shadow
 		def draw
 			img = @@images[@entity.class]
 			img.draw_centered(@entity.x, @entity.y, @entity.elevation, 
-							{:factor_x => @scale, :factor_x => @scale, :color => @color})
+							{:factor_x => @scale, :factor_y => @scale, :color => @color})
 		end
 		
 		private
