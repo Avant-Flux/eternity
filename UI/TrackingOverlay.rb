@@ -22,8 +22,7 @@ module UI
 			def initialize(player, a=4, b=2)
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new($window, @player, a, b, 
-										@player.shape.x, @player.shape.y)
+				@ellipse = Ellipse.new($window, @player, a, b)
 			end
 			
 			def track(entity)
@@ -63,18 +62,19 @@ module UI
 				attr_accessor :a, :b, :cx, :cy
 				attr_reader :x, :y, :z
 				
-				def initialize(window, player, a, b, cx, cy, stroke_width=3)
+				def initialize(window, player, a, b, stroke_width=3)
 					@window = window
 					@player = player
-					@a = a.to_px
-					@b = b.to_px
-					@cx = cx.to_px
-					@cy = cy.to_px
+					@a = a
+					@b = b
+					
+					a = a.to_px
+					b = b.to_px
 					
 					padding = stroke_width/2+10
 					
-					width = (@a+padding)*2
-					height = (@b+padding)*2
+					width = (a+padding)*2
+					height = (b+padding)*2
 					
 					canvas = Magick::Image.new(width, height) do
 						self.background_color = "transparent"
@@ -84,28 +84,18 @@ module UI
 					gc.stroke('red')
 					gc.stroke_width(stroke_width)
 					gc.fill_opacity(0)
-					gc.ellipse(width/2,height/2, @a,@b, 0,360)
+					gc.ellipse(width/2,height/2, a,b, 0,360)
 					
 					gc.draw(canvas)
 					@img = Gosu::Image.new(@window, canvas, false)
 				end
 				
 				def update
-					@cx = @player.shape.x.to_px
-					@cy = @player.shape.y.to_px
 					
-					#Adjust x and y to compensate for storing the coordinates of the center point
-					#	when the image is drawn from the corner.
-					@x = @cx-@img.width/2
-					@y = @cy-@img.height/2
-					@z = @player.shape.z.to_px+y
-					
-					#Move the y-coordinate to compensate for the player's z coordinate and elevation
-					@y -= @player.shape.z.to_px#-@player.animations.height/5
 				end
 				
 				def draw
-					@img.draw @x, @y, @z
+					@img.draw_centered @player.x, @player.y, @player.z
 				end
 			end
 			
@@ -143,8 +133,7 @@ module UI
 				end
 				
 				def draw
-					@image.draw @x-CENTER, @y-CENTER-@player.shape.z.to_px, @ellipse.z
-					#~ puts "#{@distance}   (#{@x}, #{@y})"
+					@image.draw_centered @x, @y, @player.z
 				end
 				
 				private
@@ -185,10 +174,8 @@ module UI
 					#The trig functions in ruby take the angle in radians
 					angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
 					
-					#~ The distances here should already be in pixels, as that is how the data
-					#~ 		is stored in the ellipse.
-					x = @ellipse.cx + @ellipse.a*Math.cos(angle)
-					y = @ellipse.cy + @ellipse.b*Math.sin(angle)
+					x = @player.x + @ellipse.a*Math.cos(angle)
+					y = @player.y + @ellipse.b*Math.sin(angle)
 					return x,y
 				end
 				

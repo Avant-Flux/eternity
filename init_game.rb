@@ -89,9 +89,9 @@ class Game_Window < Gosu::Window
 		#~ @player.track(@characters[3])
 		#~ @player.track(@characters[18])
 		
-		#~ @characters << Character.new(@space, "NPC", [5, 8, 0])
+		@characters << Character.new(@space, "NPC", [5, 8, 0])
 		#~ @characters << Character.new(@space, "NPC", [21, 5, 0])
-		#~ @player.track @characters[0]
+		@player.track @characters[0]
 		
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
