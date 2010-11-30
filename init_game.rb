@@ -183,7 +183,7 @@ class Game_Window < Gosu::Window
 		
 		return space
 	end
-	  
+		
 	def process_input
 		dir = @inpman.direction
 		if dir != nil

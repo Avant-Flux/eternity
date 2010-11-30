@@ -48,7 +48,8 @@ class Shadow
 		
 		def scale
 			#~ Calculate the amount by which to scale the shadow
-			1
-			#~ (@entity.elevation + 1)
+			
+			#~ 1
+			(@entity.z - @entity.elevation + 1)
 		end
 end
