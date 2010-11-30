@@ -50,7 +50,9 @@ class Camera
 	end
 	
 	def warp(vec2)
-		self.p = CP::Vec2.new(vec2.x - @center.x, vec2.y - @center.y - @entity.z)
+		self.p = vec2
+		self.p.x -= @center.x
+		self.p.y -= @center.y + @entity.z
 	end
 	
 	def x
