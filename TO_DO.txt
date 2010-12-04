@@ -6,12 +6,12 @@ To-do List
 	---	Implement some sort of randomness in character creation
 		+	People with the same nature natures are similar not clones
 
-===	Fix camera scrolling
+===	Camera scrolling
 	---	Needs to stop when the character hits a wall or similar object
 	---	Temporarily fixed by having the camera follow exactly the x and y position of 
 		the Entity being followed
 
-===	Fix camera elevation
+===	Camera elevation
 	---	Camera does not adjust elevation to match that of the Entity being tracked.
 		This results in the character not being at the center of the screen when
 		jumping or standing on a raised platform.
