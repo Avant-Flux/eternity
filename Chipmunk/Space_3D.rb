@@ -11,6 +11,8 @@ require './Chipmunk/Shape_3D'
 
 module CP	
 	class Space_3D < Space
+		alias :add_2D :add
+	
 		attr_reader :shapes, :g
 		
 		def initialize(damping=0.12, g=-9.8)

@@ -33,8 +33,7 @@ class Camera
 		@shape.collision_type = :camera
 		@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
 		
-		space.add self
-		shapes = space.shapes[:nonstatic].delete(@shape)
+		space.add_2D @shape
 		
 		@queue = Set.new
 	end

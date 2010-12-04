@@ -3,7 +3,7 @@ require 'rubygems'
 require 'chipmunk'
 
 module CP
-	class Space
+	class Space	
 		def add(shape)
 			add_body shape.body
 			
