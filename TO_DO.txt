@@ -1,5 +1,18 @@
 To-do List
 
+===	Create art asset handler
+	---	This will prevent the same art assets from being read from the harddrive multiple times.
+		+	This adds a bit of complexity though, as there needs to be
+			a way to remove art assets from memory.  If these assets are
+			constantly stored in memory, it could cause a memory leak.
+			*	Could be made to work with ruby gc by attaching references
+				of the assets to each usage of them. 
+			*	This would use minimal memory and eliminate the need to manually
+				run gc.
+		+	Make sure that only the currently used subsprites etc are stored.
+			*	Clear the subsprites when there is no longer an object which
+				uses them.
+
 ===	Finish stat system
 	---	Try to use as few stats as possible
 		+	Or, at the very least, as few raw stats as possible
