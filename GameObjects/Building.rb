@@ -13,9 +13,9 @@ class Building
 
 	def initialize(space, hash={})
 		#~ Set default values for hash values if they are not already set.
-		hash[:dimensions] = [1,1,1] unless hash[:dimensions]
-		hash[:position] = [0,0,0] unless hash[:position]
-		hash[:offset] = CP::Vec2.new(0,0) unless hash[:offset]
+		hash[:dimensions] ||= [1,1,1]
+		hash[:position] ||= [0,0,0]
+		hash[:offset] ||= CP::Vec2.new(0,0)
 		
 		@space = space
 		@shape = CP::Shape_3D::Rect.new(self, :building, hash[:position], 0, :bottom_left, 
