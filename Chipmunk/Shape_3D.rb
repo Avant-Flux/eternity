@@ -22,10 +22,6 @@ module CP
 				@az += @space.g
 				@apply_gravity = false
 			end
-			
-			#~ if @z <= 0.00000001
-				#~ @z = 500
-			#~ end
 		end
 		
 		def reset_gravity
