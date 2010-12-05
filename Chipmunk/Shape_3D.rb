@@ -17,9 +17,9 @@ module CP
 		#same fall.
 		@apply_gravity = true
 		
-		def apply_gravity dt
+		def apply_gravity dt, g
 			if @apply_gravity
-				@az += @space.g
+				@az += g
 				@apply_gravity = false
 			end
 		end
@@ -69,20 +69,6 @@ module CP
 			#~ #CROSS_PRODUCT @xy.body.v, @xz.body.v
 			#~ @xy.body.v.cross(@xz.body.v)
 		#~ end
-		
-		def set_elevation
-			@elevation = 0
-		
-			all_ones = 2**32-1
-			self.space.point_query CP::Vec2.new(self.x,self.y), all_ones,0 do |env|
-				if env.collision_type == :environment || env.collision_type == :building
-					#Raise elevation to the height of whatever is below.
-					if env.height > @elevation
-						@elevation = env.height
-					end
-				end
-			end
-		end
 	end
 
 	module Shape_3D
@@ -90,7 +76,7 @@ module CP
 			include CP::Position
 			include CP::Gravitation
 			
-			attr_reader :space, :height, :entity
+			attr_reader :entity, :height
 			
 			def initialize(entity, space, collision, pos, elevation, radius, height,
 			mass, moment, offset=CP::Vec2.new(0, 0))
@@ -99,8 +85,7 @@ module CP
 				#~ CP.moment_for_circle mass, inner_r, outer_r, CP::Vec2
 				
 				@entity = entity
-				@space = space
-				@height = height	
+				@height = height
 				@az = @vz = 0.0
 				self.collision_type = collision
 				
@@ -124,7 +109,6 @@ module CP
 				 #~ CP.moment_for_poly(90, verts, vec2(0,0)).should == 420.0
 				
 				@entity = entity
-				@space = space
 				@width = width
 				@depth = depth
 				@height = height

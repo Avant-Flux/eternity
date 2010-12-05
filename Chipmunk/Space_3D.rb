@@ -39,10 +39,10 @@ module CP
 			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
 				shape.iterate $dt
-				shape.set_elevation
+				set_elevation shape
 				
 				if shape.z > shape.elevation
-					shape.apply_gravity $dt
+					shape.apply_gravity $dt, @g
 				else# shape.z <= shape.elevation
 					shape.z = shape.elevation
 					shape.entity.resolve_ground_collision
@@ -73,6 +73,20 @@ module CP
 		end
 		
 		alias :remove_all :clear
+		
+		def set_elevation(shape)
+			shape.elevation = 0
+		
+			all_ones = 2**32-1
+			point_query CP::Vec2.new(shape.x,shape.y), all_ones,0 do |env|
+				if env.collision_type == :environment || env.collision_type == :building
+					#Raise elevation to the height of whatever is below.
+					if env.height > shape.elevation
+						shape.elevation = env.height
+					end
+				end
+			end
+		end
 		
 		private
 		
