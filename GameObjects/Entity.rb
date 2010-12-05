@@ -30,9 +30,8 @@ class Entity
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
 	
-	def initialize(space, options={})
+	def initialize(space, name, options={})
 		#~ options[:animations] ||= 
-		#~ options[:name] ||= 
 		#~ options[:position] ||= 
 		#~ options[:mass] ||= 
 		#~ options[:moment] ||= 
@@ -55,7 +54,7 @@ class Entity
 		space.add self
 		space.set_elevation @shape
 		
-		@name = options[:name]
+		@name = name
 		@element = options[:element]
 		@faction = options[:faction] #express faction spectrum as an integer, Dark = -100, Light = 100
 		@visible = true		#Controls whether or not to render the Entity
