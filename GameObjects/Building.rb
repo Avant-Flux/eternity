@@ -9,7 +9,7 @@ require './Chipmunk/EternityMod'
 require './Drawing/Wireframe'
 
 class Building
-	attr_reader :space, :shape
+	attr_reader :shape
 
 	def initialize(space, hash={})
 		#~ Set default values for hash values if they are not already set.
@@ -17,7 +17,6 @@ class Building
 		hash[:position] ||= [0,0,0]
 		hash[:offset] ||= CP::Vec2.new(0,0)
 		
-		@space = space
 		@shape = CP::Shape_3D::Rect.new(self, :building, hash[:position], 0, :bottom_left, 
 							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, hash[:offset])
