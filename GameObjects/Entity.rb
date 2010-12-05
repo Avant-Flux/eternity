@@ -30,31 +30,41 @@ class Entity
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
 	
-	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(space, options={})
+		#~ options[:animations] ||= 
+		#~ options[:name] ||= 
+		#~ options[:position] ||= 
+		#~ options[:mass] ||= 
+		#~ options[:moment] ||= 
+		#~ options[:level] ||= 
+		#~ options[:element] ||= 
+		#~ options[:stats] ||= 
+		options[:faction] ||= 0
+	
 		@movement_force = CP::Vec2.new(0,0)
 		@walk_constant = 500
 		@run_constant = 1200
 		
-		@animation = animations
+		@animation = options[:animations]
 		@shadow = Shadow.new self
 		
-		@shape = CP::Shape_3D::Circle.new(self, :entity, pos, 0.0,
+		@shape = CP::Shape_3D::Circle.new(self, :entity, options[:position], 0.0,
 											(@animation.width/2).to_meters, 
 											@animation.height.to_meters,
-											mass, moment)
+											options[:mass], options[:moment])
 		space.add self
 		space.set_elevation @shape
 		
-		@name = name
-		@element = element
-		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
+		@name = options[:name]
+		@element = options[:element]
+		@faction = options[:faction] #express faction spectrum as an integer, Dark = -100, Light = 100
 		@visible = true		#Controls whether or not to render the Entity
 
-		@lvl = lvl
+		@lvl = options[:level]
 		@hp = {:current => 10, :max => 10}	#Arbitrary number for now
 		@mp = {:current => 10, :max => 10}
 		@stats = Hash.new
-		@stats[:raw] = stats
+		@stats[:raw] = options[:stats]
 		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
 		
 		@jump_count = 0
