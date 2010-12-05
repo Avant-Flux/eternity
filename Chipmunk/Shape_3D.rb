@@ -78,7 +78,7 @@ module CP
 			
 			attr_reader :entity, :height
 			
-			def initialize(entity, space, collision, pos, elevation, radius, height,
+			def initialize(entity, collision, pos, elevation, radius, height,
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), radius, offset
 				
@@ -102,7 +102,7 @@ module CP
 			attr_reader :entity
 			attr_accessor :width, :depth, :height
 			
-			def initialize(entity, space, collision, pos, elevation, center, width, depth, height, 
+			def initialize(entity, collision, pos, elevation, center, width, depth, height, 
 			mass, moment, offset=CP::Vec2.new(0, 0))
 				super CP::Body.new(mass, moment), center, width, depth, offset
 				

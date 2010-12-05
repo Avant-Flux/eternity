@@ -38,7 +38,7 @@ class Entity
 		@animation = animations
 		@shadow = Shadow.new self
 		
-		@shape = CP::Shape_3D::Circle.new(self, space, :entity, pos, 0.0,
+		@shape = CP::Shape_3D::Circle.new(self, :entity, pos, 0.0,
 											(@animation.width/2).to_meters, 
 											@animation.height.to_meters,
 											mass, moment)

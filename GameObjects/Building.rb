@@ -18,7 +18,7 @@ class Building
 		hash[:offset] = CP::Vec2.new(0,0) unless hash[:offset]
 		
 		@space = space
-		@shape = CP::Shape_3D::Rect.new(self, space, :building, hash[:position], 0, :bottom_left, 
+		@shape = CP::Shape_3D::Rect.new(self, :building, hash[:position], 0, :bottom_left, 
 							hash[:dimensions][0], hash[:dimensions][1], hash[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, hash[:offset])
 		@wireframe = Wireframe::Building.new(@shape, :white)
