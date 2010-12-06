@@ -5,7 +5,6 @@ module Gosu
 		alias :old_draw :draw
 		alias :draw_UI :draw
 		
-		#Completion of this method will require a rewrite of draw_centered
 		def draw(x, y, z, options={})
 			#Assume the coordinates are in units of meters from Chipmunk space.
 			#Scale the x and y, and compute the z-index to pass to the old draw method.
