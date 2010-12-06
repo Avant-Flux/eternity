@@ -12,6 +12,9 @@ class ArtManager
 	def new_asset(type, name)
 		#Load a the asset from the disk if it has not already been loaded.
 		#Otherwise, simply return a reference to the asset.
+		
+		#To make this work, #hash for all objects used should be written
+		#such that the same image will hash to the same location.
 	end
 	
 	def clear
