@@ -273,6 +273,7 @@ module InputType
 		
 		def update
 			#Allow timeout while @state is :active as well as :process
+			#This allows the combo to time out after the last button is pressed.
 			if @state == :active
 				@state = :finish if timeout 
 			end
