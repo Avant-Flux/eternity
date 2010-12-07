@@ -264,7 +264,7 @@ class InputHandler
 		
 		new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 		new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
-		new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK]
+		new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 	end
 end
 
