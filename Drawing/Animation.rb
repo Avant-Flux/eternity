@@ -114,7 +114,9 @@ module Animations
 		private
 		
 		def make_spritesheet body, face, hair, upper, lower, footwear
-			@spritesheet = body
+			@spritesheet = TexPlay.create_blank_image $window, body.width, body.height
+			
+			@spritesheet.splice(body, 0,0, :alpha_blend => true)
 			@spritesheet.splice(face, 0,0, :alpha_blend => true)
 			@spritesheet.splice(hair, 0,0, :alpha_blend => true)
 			@spritesheet.splice(upper, 0,0, :alpha_blend => true)
