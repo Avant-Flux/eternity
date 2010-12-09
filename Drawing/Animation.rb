@@ -104,7 +104,7 @@ module Animations
 	end
 
 	class Character < Animations::Entity
-		def initialize subsprites
+		def initialize body, face, hair, upper, lower, footwear
 			super()
 
 			make_spritesheet subsprites
@@ -113,13 +113,13 @@ module Animations
 		
 		private
 		
-		def make_spritesheet select
-			@spritesheet = subsprites :body, select[:body]
-			@spritesheet.splice(subsprites(:face, select[:face]), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:hair, select[:hair]), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:upper, select[:upper]), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:lower, select[:lower]), 0,0, :alpha_blend => true)
-			@spritesheet.splice(subsprites(:footwear, select[:footwear]), 0,0, :alpha_blend => true)
+		def make_spritesheet body, face, hair, upper, lower, footwear
+			@spritesheet = body
+			@spritesheet.splice(face, 0,0, :alpha_blend => true)
+			@spritesheet.splice(hair, 0,0, :alpha_blend => true)
+			@spritesheet.splice(upper, 0,0, :alpha_blend => true)
+			@spritesheet.splice(lower, 0,0, :alpha_blend => true)
+			@spritesheet.splice(footwear, 0,0, :alpha_blend => true)
 		end
 		
 		def subsprites type, subsprite_name
