@@ -31,18 +31,6 @@ class ArtManager
 	
 	private
 	
-	def load
-		
-	end
-	
-	def load?
-		
-	end
-	
-	def loaded?(type, name)
-		return true if @assets[type][name]
-	end
-	
 	def new_subsprite(name)
 		
 	end
