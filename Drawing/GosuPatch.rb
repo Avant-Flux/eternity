@@ -47,5 +47,9 @@ module Gosu
 			options[:offset_x] = options[:offset_y] = :centered
 			draw(x,y,z, options)
 		end
+		
+		def ==(arg)
+			self.to_blob == arg.to_blob
+		end
 	end
 end

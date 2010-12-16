@@ -76,7 +76,8 @@ class UnitTests < Test::Unit::TestCase
 		assert img.methods.include?(:clone), "Gosu::Image#clone is not defined."
 		
 		img2 = img.clone
-		assert_equal(img.to_blob, img2.to_blob)
+		assert_equal(img.to_blob, img2.to_blob, "Binary representation of clones is different.")
+		assert_equal(img, img2, "Gosu::Image#== not defined.  Using default implementation.")
 	end
 
 	def test_subsprite
