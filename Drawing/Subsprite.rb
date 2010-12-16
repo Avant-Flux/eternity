@@ -1,19 +1,11 @@
 #!/usr/bin/ruby
 
 module Subsprite
-	attr_accessor :img
-
-	def initialize
-		
+	def self.load(path)
+		return Gosu::Image.new $window, path, false
 	end
 	
-	def load(path)
-		@img = Gosu::Image.new $window, path, false
-	end
-	
-	def clone
-		subsprite = Subsprite.new
-		subsprite.img = @img
-		return subsprite
+	def self.clone(subsprite)
+		return subsprite.clone
 	end
 end
