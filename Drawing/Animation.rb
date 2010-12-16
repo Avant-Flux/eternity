@@ -37,6 +37,10 @@ module Animations
 				
 		end
 		
+		def clone
+			
+		end
+		
 		def hash
 			#Create an identifier such that all animations which use 
 			#the same subsprites will have the same identifier
