@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-class Subsprite
+module Subsprite
 	attr_accessor :img
 
 	def initialize
