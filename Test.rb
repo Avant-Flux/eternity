@@ -85,7 +85,12 @@ class UnitTests < Test::Unit::TestCase
 	end
 
 	def test_sprite
+		sub1 = Subsprite.new('./')
+		sub2 = Subsprite.new('./')
+		sprite = Sprite.new(width, height, sub1, sub2)
 		
+		assert_instance_of Array, sprite[:down]
+		assert_instance_of Gosu::Image, sprite[:down][0]
 	end
 
 	def test_art_manager
