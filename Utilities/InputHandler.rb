@@ -22,12 +22,27 @@ class InputHandler
 		@event_handlers = []
 		
 		def_kb_bindings
+		
+		#~ instance_eval block
 	end
 	
 	def def_kb_bindings
 	end
 	
-	def new_action(name, buttons=[])
+	def new_input(type, name, buttons, threshold=nil)
+		case type
+			when :action
+				new_action name, buttons
+			when :sequence
+				new_sequence name, buttons, InputType::Sequence::DEFAULT_THRESHOLD
+			when :chord
+				new_chord name, buttons, InputType::Chord::DEFAULT_THRESHOLD
+			when :combo
+				new_combo name, buttons, InputType::Combo::DEFAULT_THRESHOLD
+		end
+	end
+	
+	def new_action(name, buttons=[], threshold)
 		@event_handlers << InputType::Action.new(name, buttons)
 	end
 	
