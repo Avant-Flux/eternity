@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 module Subsprite
-	def self.load(path)
+	def self.new(path)
 		return Gosu::Image.new $window, path, false
 	end
 	
