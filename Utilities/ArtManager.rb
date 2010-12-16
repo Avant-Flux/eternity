@@ -8,8 +8,9 @@ class ArtManager
 		#Sprites are fully composited spritesheets which have already been split
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
-		@assets = {:subsprite => {}, :sprite => {}, #do not allow direct access of these types
-					:animation => {}, :effect => {}, :texture => {}}
+		@assets = {:animation => {}, :effect => {}, :texture => {}}
+		#do not allow direct access of these types
+		@basic_assets = {:subsprite => {}, :sprite => {}}
 	end
 	
 	def new_asset(type, name, *args)
@@ -18,11 +19,6 @@ class ArtManager
 		
 		#To make this work, #hash for all objects used should be written
 		#such that the same image will hash to the same location.
-		if type == :subsprite || type == :sprite
-			#Raise some sort of error saying that these types should not be accessed
-		end
-		
-		
 		if @assets[type][name]
 			#This is actually incorrect.
 			#A shallow copy should be returned instead.
