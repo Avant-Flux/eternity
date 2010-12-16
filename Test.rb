@@ -54,13 +54,43 @@ require './Utilities/InputHandler'
 
 
 require 'test/unit'
+require './DebugCode'
+#~ assert(boolean)
+#~ assert_equal(expected, actual)
+#~ assert_not_equal(expected, actual)
+#~ assert_raise(exception_type, ...) { block }
+#~ assert_nothing_raised(exception_type, ..) { }
+#~ assert_instance_of(class_expected, object)
+#~ flunk
 
 class UnitTests < Test::Unit::TestCase
-	def test_combat
+	def test_subsprite
 		
 	end
-	
-	def test_
+
+	def test_sprite
+		
+	end
+
+	def test_art_manager
+		#Make sure the art manager starts
+		@art_manager = ArtManager.new './Sprites'
+		assert_instance_of ArtManager,  @art_manager
+		
+		#The same asset loaded twice is just a shallow copy the second time
+		same_asset1 = @art_manager.new_asset(:animation, :fire_character)
+		same_asset2 = @art_manager.new_asset(:animation, :fire_character)
+		assert_equal same_asset1, same_asset2
+		#Same data, but not same reference
+		assert not same_asset1.equal(same_asset2)
+		#Still, 
+		
+		
+		@art_manager.new_asset(:animation, :fire_character, 
+								)
+	end
+
+	def test_combat
 		
 	end
 end
