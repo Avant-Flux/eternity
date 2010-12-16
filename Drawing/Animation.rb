@@ -79,7 +79,7 @@ module Animations
 			super()
 
 			make_spritesheet subsprites
-			make_sprites
+			make_sprites #should be 40 wide and 80 tall
 		end
 		
 		private
