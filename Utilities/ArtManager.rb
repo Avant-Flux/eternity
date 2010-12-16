@@ -30,11 +30,7 @@ class ArtManager
 		else
 			case type
 				when :animation
-					if @assets[type][name]
-						@assets[type][name]
-					else
-						
-					end
+					
 				when :effect
 					
 				when :texture
