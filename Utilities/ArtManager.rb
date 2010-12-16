@@ -9,19 +9,37 @@ class ArtManager
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
 		@assets = {:subsprite => {}, :sprite => {}, #do not allow direct access of these types
-					:animation => {}, :effects => {}, :textures => {}}
+					:animation => {}, :effect => {}, :texture => {}}
 	end
 	
-	def new_asset(type, name)
+	def new_asset(type, name, *args)
 		#Load a the asset from the disk if it has not already been loaded.
 		#Otherwise, simply return a reference to the asset.
 		
 		#To make this work, #hash for all objects used should be written
 		#such that the same image will hash to the same location.
+		if type == :subsprite || type == :sprite
+			#Raise some sort of error saying that these types should not be accessed
+		end
 		
-		case type
-			when :animation
-				
+		
+		if @assets[type][name]
+			#This is actually incorrect.
+			#A shallow copy should be returned instead.
+			return @assets[type][name].clone
+		else
+			case type
+				when :animation
+					if @assets[type][name]
+						@assets[type][name]
+					else
+						
+					end
+				when :effect
+					
+				when :texture
+					
+			end
 		end
 	end
 	
