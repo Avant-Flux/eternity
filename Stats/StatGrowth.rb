@@ -39,19 +39,19 @@ module StatRates
 end
 
 
-x = 10
-(1..100).each do |lvl|
-	if lvl == 1
-		puts x
-	elsif lvl > 1 && lvl < 10
-		x+=1
-		puts x
-	elsif lvl == 10
-		x+=2
-		puts x
-	else
-		#~ puts ().floor
-		#~ puts ((16/9.0)*lvl-(20/9.0)).floor
-		puts ((8/9.0)*lvl+(100/9.0)).floor
-	end
-end
+#~ x = 10
+#~ (1..100).each do |lvl|
+	#~ if lvl == 1
+		#~ puts x
+	#~ elsif lvl > 1 && lvl < 10
+		#~ x+=1
+		#~ puts x
+	#~ elsif lvl == 10
+		#~ x+=2
+		#~ puts x
+	#~ else
+		#puts ().floor
+		#puts ((16/9.0)*lvl-(20/9.0)).floor
+		#~ puts ((8/9.0)*lvl+(100/9.0)).floor
+	#~ end
+#~ end
