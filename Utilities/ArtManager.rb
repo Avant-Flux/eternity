@@ -31,6 +31,12 @@ class ArtManager
 	
 	private
 	
+	def load(type, subsprite_name)
+		filepath = "#{@dir}/#{type.to_s.capitalize}/#{subsprite_name}.png"
+	
+		return Gosu::Image.new($window, filepath, false)
+	end
+	
 	def new_subsprite(name)
 		
 	end
