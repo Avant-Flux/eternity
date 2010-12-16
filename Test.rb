@@ -64,6 +64,21 @@ require './DebugCode'
 #~ flunk
 
 class UnitTests < Test::Unit::TestCase
+	def setup
+		@window = Gosu::Window.new(640, 480, false)
+	end
+
+	def test_image_clone
+		width, height = 10, 30
+		color = [1.0, 1.0, 0.0, 1.0]
+		img = TexPlay.create_image(@window, width, height, :color => color)
+		
+		assert img.methods.include?(:clone), "Gosu::Image#clone is not defined."
+		
+		img2 = img.clone
+		assert_equal(img.to_blob, img2.to_blob)
+	end
+
 	def test_subsprite
 		
 	end
@@ -82,7 +97,7 @@ class UnitTests < Test::Unit::TestCase
 		same_asset2 = @art_manager.new_asset(:animation, :fire_character)
 		assert_equal same_asset1, same_asset2
 		#Same data, but not same reference
-		assert not same_asset1.equal(same_asset2)
+		assert !same_asset1.equal?(same_asset2)
 		#Still, 
 		
 		
