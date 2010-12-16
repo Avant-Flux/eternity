@@ -1,8 +1,22 @@
 #!/usr/bin/ruby
+require 'rubygems'
+require 'gosu'
+require 'texplay'
 
 class Sprite
-	def initialize
+	def initialize(width, height, *subsprites)
+		composite = nil
 		
+		#Splice all provided subsprites together
+		subsprites.each_with_index do |image, i|
+			if i == 0
+				composite = sprite.clone
+			else
+				composite.splice(image, 0,0, :alpha_blend => true)
+			end
+		end
+		
+		make_sprites
 	end
 	
 	def make_sprites
