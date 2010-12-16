@@ -19,6 +19,10 @@ class Sprite
 		@sprites = split_spritesheet composite
 	end
 	
+	def method_missing(symbol, *args)
+		@sprites.send(symbol, *args)
+	end
+	
 	private
 	
 	def split_spritesheet(width, height, spritesheet)
