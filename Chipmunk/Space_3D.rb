@@ -10,7 +10,7 @@ require './Chipmunk/Space'
 require './Chipmunk/Shape_3D'
 
 module CP	
-	class Space_3D < Space
+	class Space3D < Space
 		alias :add_2D :add
 	
 		attr_reader :shapes, :g

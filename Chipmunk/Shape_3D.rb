@@ -71,7 +71,7 @@ module CP
 		#~ end
 	end
 
-	module Shape_3D
+	module Shape3D
 		class Circle < CP::Shape::Circle
 			include CP::Position
 			include CP::Gravitation

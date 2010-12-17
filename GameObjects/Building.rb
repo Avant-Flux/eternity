@@ -17,7 +17,7 @@ class Building
 		options[:position] ||= [0,0,0]
 		options[:offset] ||= CP::Vec2.new(0,0)
 		
-		@shape = CP::Shape_3D::Rect.new(self, :building, options[:position], 0, :bottom_left, 
+		@shape = CP::Shape3D::Rect.new(self, :building, options[:position], 0, :bottom_left, 
 							options[:dimensions][0], options[:dimensions][1], options[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, options[:offset])
 		@wireframe = Wireframe::Building.new(@shape, :white)

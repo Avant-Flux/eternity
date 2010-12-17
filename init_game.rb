@@ -164,7 +164,7 @@ class Game_Window < Gosu::Window
 	private
 	
 	def init_CP_Space3D
-		space = CP::Space_3D.new
+		space = CP::Space3D.new
 		
 		#~ space.add_collision_func :type, :type do |first_shape, second_shape|
 			#~ 
