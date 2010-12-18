@@ -16,23 +16,10 @@ require 'chingu'
 require 'require_all'
 
 require 'chipmunk'
-require './Chipmunk/Space3D'
-require './Chipmunk/EternityMod'
-
-require './GameObjects/Building'
-require './GameObjects/Entity'
-require './GameObjects/Creature'
-require './GameObjects/Character'
-require './GameObjects/Player'
-require './GameObjects/Camera'
-
+require_all './Chipmunk'
+require_all './GameObjects'
 require_all './Utilities'
-
-require './Drawing/Animation'
-require './Drawing/Background'
-
-require './Drawing/GosuPatch'
-
+require_all './Drawing'
 require_all './UI'
 
 class Game_Window < Gosu::Window
