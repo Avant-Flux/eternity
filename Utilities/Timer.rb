@@ -95,7 +95,10 @@ module Timer
 		end
 		
 		def update
-			
+			if @@time > @init_time + @delay
+				run
+				destroy
+			end
 		end
 	end
 	
@@ -107,50 +110,17 @@ module Timer
 		end
 		
 		def update
+			start_time = @init_time + @start_time
+			end_time = @init_time + @end_time
 			
+			if @@time > start_time && @@time < end_time
+				run
+			else if @@time > end_time
+				destroy
+			end
 		end
 	end
 	
-	
-	#
-	# Executes block each update during 'time' milliseconds 
-	#
-	def during(time, options = {}, &block)
-		ms = Gosu::milliseconds()
-		@_last_timer = [options[:name], ms, ms + time, block]
-		@_timers << @_last_timer
-	end
-      
-      #
-      # Executes block after 'time' milliseconds 
-      #
-      def after(time, options = {}, &block)
-        if options[:name]
-          return if timer_exists?(options[:name]) && options[:preserve]
-          stop_timer(options[:name])
-        end
-
-        ms = Gosu::milliseconds()
-        @_last_timer = [options[:name], ms + time, nil, block]
-        @_timers << @_last_timer
-        self
-      end
-
-      #
-      # Executes block each update during 'start_time' and 'end_time'
-      #
-      def between(start_time, end_time, options = {}, &block)
-        if options[:name]
-          return if timer_exists?(options[:name]) && options[:preserve]
-          stop_timer(options[:name])
-        end
-
-        ms = Gosu::milliseconds()
-        @_last_timer = [options[:name], ms + start_time, ms + end_time, block]
-        @_timers << @_last_timer
-        self
-      end
-
       #
       # Executes block every 'delay' milliseconds 
       #
@@ -174,17 +144,6 @@ module Timer
         @_timers << [@_last_timer[0], start_time, nil, block]
       end
 
-
-      #
-      # See if a timer with name 'name' exists
-      #
-      def timer_exists?(timer_name = nil)
-        return false if timer_name.nil?
-        @_timers.each { |name, | return true if timer_name == name }
-        @_repeating_timers.each { |name, | return true if timer_name == name }
-        return false
-      end
-
       #
       # Stop timer with name 'name'
       #
@@ -200,26 +159,4 @@ module Timer
         @_timers.clear
         @_repeating_timers.clear
       end
-      
-	def update_trait
-        ms = Gosu::milliseconds()
-        
-        @_timers.each do |name, start_time, end_time, block|
-          block.call  if ms > start_time && (end_time == nil || ms < end_time)
-        end
-                
-        index = 0
-        @_repeating_timers.each do |name, start_time, delay, block|
-          if ms > start_time
-            block.call  
-            @_repeating_timers[index] = [name, ms + delay, delay, block]
-          end
-          index += 1
-        end
-
-        # Remove one-shot timers (only a start_time, no end_time) and all timers which have expired
-        @_timers.reject! { |name, start_time, end_time, block| (ms > start_time && end_time == nil) || (end_time != nil && ms > end_time) }
-      
-		super
-	end
 end
