@@ -86,74 +86,75 @@ module Timer
 		end
 		
 		# Each decedent of TimeObject should implement this method.
-		# Set_time will set the time variables needed to determine
+		# Will reset the time variables needed to determine
 		# when to run the provided code block.
-		# It will essentially re-initialize the Timer.
-		def set_time
-			@init_time = Gosu::milliseconds
+		# It will effectively re-initialize the Timer.
+		def reset_time
 		end
 	end
 	
 	class During < TimerObject
 		def initialize(end_time, repeat=false, &block)
 			super(repeat, &block)
-		end
-		
-		private
-		
-		def set_time
-			super
 			@end_time = @init_time + end_time
 		end
 		
 		def update
-			if @@time < @end_time
+			if @@time <= @end_time
 				run
 			else
 				destroy
 			end
+		end
+		
+		private
+		
+		def reset_time
+			@end_time += Gosu::milliseconds
 		end
 	end
 	
 	class After < TimerObject
 		def initialize(delay, repeat=false, &block)
 			super(repeat, &block)
-		end
-		
-		private
-		
-		def set_time
-			super
 			@delay = @init_time + delay
 		end
 		
 		def update
-			if @@time > @delay
+			if @@time >= @delay
 				run
 				destroy
 			end
+		end
+		
+		private
+		
+		def reset_time
+			@delay += Gosu::milliseconds
 		end
 	end
 	
 	class Between < TimerObject
 		def initialize(start_time, end_time, repeat=false, &block)
 			super(repeat, &block)
-		end
-		
-		private
-		
-		def set_time
-			super
 			@start_time = @init_time + start_time
 			@end_time = @init_time + end_time
 		end
 		
 		def update
-			if @@time > @start_time && @@time < @end_time
+			if @@time >= @start_time && @@time <= @end_time
 				run
 			else if @@time > @end_time
 				destroy
 			end
+		end
+		
+		private
+		
+		def reset_time
+			new_init = Gosu::milliseconds
+			@start_time += new_init
+			@end_time += new_init
 		end
 	end
 end
