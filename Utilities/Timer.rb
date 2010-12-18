@@ -77,7 +77,7 @@ module Timer
 		end
 		
 		def update
-			if @@time < @end_time
+			if @@time <= @end_time
 				run
 			else
 				destroy
@@ -98,7 +98,7 @@ module Timer
 		end
 		
 		def update
-			if @@time > @delay
+			if @@time >= @delay
 				run
 				destroy
 			end
@@ -119,8 +119,8 @@ module Timer
 		end
 		
 		def update
-			if @@time > @start_time
-				if @@time < @end_time
+			if @@time >= @start_time
+				if @@time <= @end_time
 					run
 				else
 					destroy
