@@ -14,13 +14,7 @@ require_all './Chipmunk'
 
 require './Combat/Combative'
 
-require './Drawing/Animation'
-require './Drawing/Background'
-require './Drawing/GosuPatch'
-require './Drawing/Ground'
-require './Drawing/GUI'
-require './Drawing/Shadow'
-require './Drawing/Wireframe'
+require_all './Drawing/'
 
 require './Equipment/Equipment'
 
