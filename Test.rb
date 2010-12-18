@@ -1,19 +1,16 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
+require 'require_all'
 require 'gosu'
 require 'chingu'
-#~ require 'chipmunk'
-#~ require 'require_all'
-#~ require_all './Chipmunk'
+require 'chipmunk'
+
+
 #~ require_all './Combat'
 #~ require_all './Drawing'
 
-require './Chipmunk/Shape'
-require './Chipmunk/Space'
-require './Chipmunk/Shape3D'
-require './Chipmunk/Space3D'
-require './Chipmunk/EternityMod'
+require_all './Chipmunk'
 
 require './Combat/Combative'
 
