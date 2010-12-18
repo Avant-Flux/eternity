@@ -26,8 +26,8 @@ require './GameObjects/Character'
 require './GameObjects/Player'
 require './GameObjects/Camera'
 
-require './Utilities/FPSCounter'
-require './Utilities/InputHandler'
+require_all './Utilities'
+
 require './Drawing/Animation'
 require './Drawing/Background'
 

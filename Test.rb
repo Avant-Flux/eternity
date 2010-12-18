@@ -36,9 +36,7 @@ require './Titles/Title_Holder'
 
 require_all './UI'
 
-require './Utilities/ArtManager'
-require './Utilities/FPSCounter'
-require './Utilities/InputHandler'
+require_all './Utilities'
 
 
 
