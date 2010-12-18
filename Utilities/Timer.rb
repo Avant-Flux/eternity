@@ -18,13 +18,15 @@ module Timer
 
 	class TimerObject	#Don't use this class directly
 		@@all = Array.new
-		@@timer = Gosu::milliseconds
+		@@time = Gosu::milliseconds
 		
 		def initialize(repeat, &block)
 			@repeat = repeat
 			@block = block
-			@init_time = Gosu::milliseconds
 			@@all << self
+			
+			#Return the time of init to descendants
+			Gosu::milliseconds
 		end
 		
 		# Create a method to update all instances without exposing the
@@ -70,8 +72,8 @@ module Timer
 	
 	class During < TimerObject
 		def initialize(end_time, repeat=false, &block)
-			super(repeat, &block)
-			@end_time = @init_time + end_time
+			time = super(repeat, &block)
+			@end_time = time + end_time
 		end
 		
 		def update
@@ -91,8 +93,8 @@ module Timer
 	
 	class After < TimerObject
 		def initialize(delay, repeat=false, &block)
-			super(repeat, &block)
-			@delay = @init_time + delay
+			time = super(repeat, &block)
+			@delay = time + delay
 		end
 		
 		def update
@@ -111,9 +113,9 @@ module Timer
 	
 	class Between < TimerObject
 		def initialize(start_time, end_time, repeat=false, &block)
-			super(repeat, &block)
-			@start_time = @init_time + start_time
-			@end_time = @init_time + end_time
+			time = super(repeat, &block)
+			@start_time = time + start_time
+			@end_time = time + end_time
 		end
 		
 		def update
