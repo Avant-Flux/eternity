@@ -34,6 +34,7 @@ module Timer
 
 	class TimerObject	#Don't use this class directly
 		@@all = Array.new
+		@@timer = Gosu::milliseconds
 		
 		def initialize(&block)
 			@block = block
@@ -41,8 +42,23 @@ module Timer
 			@@all << self
 		end
 		
+		# Execute the stored block
+		def run
+			@block.call
+		end
+		
+		# Allows the object to be garbage collected.
+		# This only works if no other references are made to a timer
+		# Thus, when creating timers, do not make make references.
+		def destroy
+			@@all.delete self
+		end
+		
+		# Create a method to update all instances without exposing the
+		# container which holds these instances.
 		class << self
 			def update_all
+				@@time = Gosu::milliseconds
 				@@all.each do |timer|
 					timer.update
 				end
@@ -57,7 +73,11 @@ module Timer
 		end
 		
 		def update
-			
+			if @@time < @init_time + @end_time
+				run
+			else
+				destroy
+			end
 		end
 	end
 	
