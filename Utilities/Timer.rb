@@ -76,11 +76,11 @@ module Timer
 	class During < TimerObject
 		def initialize(end_time, &block)
 			super(&block)
-			@end_time = end_time
+			@end_time = @init_time + end_time
 		end
 		
 		def update
-			if @@time < @init_time + @end_time
+			if @@time < @end_time
 				run
 			else
 				destroy
@@ -91,11 +91,11 @@ module Timer
 	class After < TimerObject
 		def initialize(delay, &block)
 			super(&block)
-			@delay = delay
+			@delay = @init_time + delay
 		end
 		
 		def update
-			if @@time > @init_time + @delay
+			if @@time > @delay
 				run
 				destroy
 			end
@@ -105,17 +105,14 @@ module Timer
 	class Between < TimerObject
 		def initialize(start_time, end_time, &block)
 			super(&block)
-			@start_time = start_time
-			@end_time = end_time
+			@start_time = @init_time + start_time
+			@end_time = @init_time + end_time
 		end
 		
 		def update
-			start_time = @init_time + @start_time
-			end_time = @init_time + @end_time
-			
-			if @@time > start_time && @@time < end_time
+			if @@time > @start_time && @@time < @end_time
 				run
-			else if @@time > end_time
+			else if @@time > @end_time
 				destroy
 			end
 		end
@@ -142,21 +139,5 @@ module Timer
       def then(&block)
         start_time = @_last_timer[2].nil? ? @_last_timer[1] : @_last_timer[2]
         @_timers << [@_last_timer[0], start_time, nil, block]
-      end
-
-      #
-      # Stop timer with name 'name'
-      #
-      def stop_timer(timer_name)
-        @_timers.reject! { |name, start_time, end_time, block| timer_name == name }
-        @_repeating_timers.reject! { |name, start_time, end_time, block| timer_name == name }
-      end
-      
-      #
-      # Stop all timers
-      #
-      def stop_timers
-        @_timers.clear
-        @_repeating_timers.clear
       end
 end
