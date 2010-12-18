@@ -52,6 +52,23 @@ module Timer
 			@@all << self
 		end
 		
+		# Create a method to update all instances without exposing the
+		# container which holds these instances.
+		class << self
+			def update_all
+				@@time = Gosu::milliseconds
+				@@all.each do |timer|
+					timer.update
+				end
+			end
+		end
+		
+		# Stuff to do every time Gosu::Window#update is called.
+		def update
+		end
+		
+		private
+		
 		# Execute the stored block
 		def run
 			@block.call
@@ -75,23 +92,15 @@ module Timer
 		def set_time
 			@init_time = Gosu::milliseconds
 		end
-		
-		# Create a method to update all instances without exposing the
-		# container which holds these instances.
-		class << self
-			def update_all
-				@@time = Gosu::milliseconds
-				@@all.each do |timer|
-					timer.update
-				end
-			end
-		end
 	end
 	
 	class During < TimerObject
 		def initialize(end_time, repeat=false, &block)
 			super(repeat, &block)
 		end
+		
+		private
+		
 		def set_time
 			super
 			@end_time = @init_time + end_time
@@ -110,6 +119,9 @@ module Timer
 		def initialize(delay, repeat=false, &block)
 			super(repeat, &block)
 		end
+		
+		private
+		
 		def set_time
 			super
 			@delay = @init_time + delay
@@ -127,6 +139,9 @@ module Timer
 		def initialize(start_time, end_time, repeat=false, &block)
 			super(repeat, &block)
 		end
+		
+		private
+		
 		def set_time
 			super
 			@start_time = @init_time + start_time
