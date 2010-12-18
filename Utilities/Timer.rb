@@ -24,8 +24,6 @@ module Timer
 			@repeat = repeat
 			@block = block
 			@init_time = Gosu::milliseconds
-			set_time
-			
 			@@all << self
 		end
 		
@@ -56,7 +54,7 @@ module Timer
 		# Thus, when creating timers, do not make make references.
 		def destroy
 			if @repeat
-				set_time
+				reset_time
 			else
 				@@all.delete self
 			end
@@ -71,8 +69,8 @@ module Timer
 	end
 	
 	class During < TimerObject
-		def initialize(end_time, &block)
-			super(&block)
+		def initialize(end_time, repeat=false, &block)
+			super(repeat, &block)
 			@end_time = @init_time + end_time
 		end
 		
@@ -92,8 +90,8 @@ module Timer
 	end
 	
 	class After < TimerObject
-		def initialize(delay, &block)
-			super(&block)
+		def initialize(delay, repeat=false, &block)
+			super(repeat, &block)
 			@delay = @init_time + delay
 		end
 		
@@ -112,8 +110,8 @@ module Timer
 	end
 	
 	class Between < TimerObject
-		def initialize(start_time, end_time, &block)
-			super(&block)
+		def initialize(start_time, end_time, repeat=false, &block)
+			super(repeat, &block)
 			@start_time = @init_time + start_time
 			@end_time = @init_time + end_time
 		end
