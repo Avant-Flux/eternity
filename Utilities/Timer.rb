@@ -119,10 +119,12 @@ module Timer
 		end
 		
 		def update
-			if @@time > @start_time && @@time < @end_time
-				run
-			else if @@time > @end_time
-				destroy
+			if @@time > @start_time
+				if @@time < @end_time
+					run
+				else
+					destroy
+				end
 			end
 		end
 		
