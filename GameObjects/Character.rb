@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require './Chipmunk/Space_3D'
+require './Chipmunk/Space3D'
 require './Titles/Title_Holder'
 require './GameObjects/Entity'
 #To be used for NPCs, such as enemy units

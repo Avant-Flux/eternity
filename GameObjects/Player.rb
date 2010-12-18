@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-require './Chipmunk/Space_3D'
+require './Chipmunk/Space3D'
 
 require "./GameObjects/Character"
 
