@@ -6,12 +6,8 @@ require 'texplay'
 
 module Animations
 	class Entity			#Only inherit from this class, never create objects of it
-		attr_reader :sprites
-		attr_accessor :direction, :moving
-		
-		def initialize
-			@sprites = {:up => [], :down => [], :left => [], :right => [], 
-						:up_right => [], :up_left => [], :down_right => [], :down_left => []}
+		def initialize(sprite)
+			@sprites = sprite
 			@moving = false
 		end
 		
