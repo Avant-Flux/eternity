@@ -71,13 +71,13 @@ module Timer
 	end
 	
 	class During < TimerObject
-		def initialize(end_time, repeat=false, &block)
-			super(repeat, &block)
+		def initialize(end_time, &block)
+			super(&block)
 			@end_time = @init_time + end_time
 		end
 		
 		def update
-			if @@time <= @end_time
+			if @@time < @end_time
 				run
 			else
 				destroy
@@ -92,13 +92,13 @@ module Timer
 	end
 	
 	class After < TimerObject
-		def initialize(delay, repeat=false, &block)
-			super(repeat, &block)
+		def initialize(delay, &block)
+			super(&block)
 			@delay = @init_time + delay
 		end
 		
 		def update
-			if @@time >= @delay
+			if @@time > @delay
 				run
 				destroy
 			end
@@ -112,14 +112,14 @@ module Timer
 	end
 	
 	class Between < TimerObject
-		def initialize(start_time, end_time, repeat=false, &block)
-			super(repeat, &block)
+		def initialize(start_time, end_time, &block)
+			super(&block)
 			@start_time = @init_time + start_time
 			@end_time = @init_time + end_time
 		end
 		
 		def update
-			if @@time >= @start_time && @@time <= @end_time
+			if @@time > @start_time && @@time < @end_time
 				run
 			else if @@time > @end_time
 				destroy
