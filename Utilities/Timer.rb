@@ -43,9 +43,12 @@ module Timer
 		@@all = Array.new
 		@@timer = Gosu::milliseconds
 		
-		def initialize(&block)
+		def initialize(repeat, &block)
+			@repeat = repeat
 			@block = block
 			@init_time = Gosu::milliseconds
+			set_time
+			
 			@@all << self
 		end
 		
@@ -54,11 +57,23 @@ module Timer
 			@block.call
 		end
 		
-		# Allows the object to be garbage collected.
+		# Allows the Timer to be garbage collected unless it is to repeat.
 		# This only works if no other references are made to a timer
 		# Thus, when creating timers, do not make make references.
 		def destroy
-			@@all.delete self
+			if @repeat
+				set_time
+			else
+				@@all.delete self
+			end
+		end
+		
+		# Each decedent of TimeObject should implement this method.
+		# Set_time will set the time variables needed to determine
+		# when to run the provided code block.
+		# It will essentially re-initialize the Timer.
+		def set_time
+			@init_time = Gosu::milliseconds
 		end
 		
 		# Create a method to update all instances without exposing the
@@ -74,8 +89,11 @@ module Timer
 	end
 	
 	class During < TimerObject
-		def initialize(end_time, &block)
-			super(&block)
+		def initialize(end_time, repeat=false, &block)
+			super(repeat, &block)
+		end
+		def set_time
+			super
 			@end_time = @init_time + end_time
 		end
 		
@@ -89,8 +107,11 @@ module Timer
 	end
 	
 	class After < TimerObject
-		def initialize(delay, &block)
-			super(&block)
+		def initialize(delay, repeat=false, &block)
+			super(repeat, &block)
+		end
+		def set_time
+			super
 			@delay = @init_time + delay
 		end
 		
@@ -103,8 +124,11 @@ module Timer
 	end
 	
 	class Between < TimerObject
-		def initialize(start_time, end_time, &block)
-			super(&block)
+		def initialize(start_time, end_time, repeat=false, &block)
+			super(repeat, &block)
+		end
+		def set_time
+			super
 			@start_time = @init_time + start_time
 			@end_time = @init_time + end_time
 		end
@@ -117,27 +141,4 @@ module Timer
 			end
 		end
 	end
-	
-      #
-      # Executes block every 'delay' milliseconds 
-      #
-      def every(delay, options = {}, &block)
-        if options[:name]
-          return if timer_exists?(options[:name]) && options[:preserve]
-          stop_timer(options[:name])
-        end
-        
-        ms = Gosu::milliseconds()
-        @_repeating_timers << [options[:name], ms + delay, delay, block]
-      end
-
-      #
-      # Executes block after the last timer ends 
-      # ...use one-shots start_time for our trailing "then".
-      # ...use durable timers end_time for our trailing "then".      
-      #
-      def then(&block)
-        start_time = @_last_timer[2].nil? ? @_last_timer[1] : @_last_timer[2]
-        @_timers << [@_last_timer[0], start_time, nil, block]
-      end
 end
