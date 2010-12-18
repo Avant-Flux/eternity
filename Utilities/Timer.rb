@@ -25,7 +25,14 @@
 #
 #++
 
+require 'rubygems'
+require 'gosu'
+
 module Timer
+	# Note about timers:
+	# The times supplied in the constructor of the Timer should be in milliseconds 
+	# relative to the init time.
+	
 	class << self
 		def update_all
 			TimerObject.update_all
