@@ -34,8 +34,7 @@ require './Stats/Stats'
 require './Titles/Title'
 require './Titles/Title_Holder'
 
-require './UI/StatusOverlay'
-require './UI/TrackingOverlay'
+require_all './UI'
 
 require './Utilities/ArtManager'
 require './Utilities/FPSCounter'

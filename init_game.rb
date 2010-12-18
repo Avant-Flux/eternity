@@ -13,6 +13,8 @@ rescue LoadError
 end
 require 'chingu'
 
+require 'require_all'
+
 require 'chipmunk'
 require './Chipmunk/Space3D'
 require './Chipmunk/EternityMod'
@@ -31,7 +33,7 @@ require './Drawing/Background'
 
 require './Drawing/GosuPatch'
 
-require './UI/UserInterface'
+require_all './UI'
 
 class Game_Window < Gosu::Window
 	def initialize

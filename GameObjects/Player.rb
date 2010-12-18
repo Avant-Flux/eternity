@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+require 'rubygems'
+require 'require_all'
 
 require './Chipmunk/Space3D'
 
@@ -6,7 +8,7 @@ require "./GameObjects/Character"
 
 require "./Titles/Title"
 require "./Titles/Title_Holder"
-require "./UI/UserInterface"
+require_all "./UI"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific
 		#IE input-driven movement, mechanics of leveling up, etc
