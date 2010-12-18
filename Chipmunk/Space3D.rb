@@ -7,7 +7,7 @@ require 'chipmunk'
 require 'gosu'
 require 'RMagick'
 require './Chipmunk/Space'
-require './Chipmunk/Shape_3D'
+require './Chipmunk/Shape3D'
 
 module CP	
 	class Space3D < Space

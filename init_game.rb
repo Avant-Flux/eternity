@@ -14,7 +14,7 @@ end
 require 'chingu'
 
 require 'chipmunk'
-require './Chipmunk/Space_3D'
+require './Chipmunk/Space3D'
 require './Chipmunk/EternityMod'
 
 require './GameObjects/Building'

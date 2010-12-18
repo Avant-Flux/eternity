@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'gosu'
 require 'chipmunk'
-require './Chipmunk/Space_3D'
+require './Chipmunk/Space3D'
 require './Chipmunk/EternityMod'
 
 require './Drawing/Wireframe'
