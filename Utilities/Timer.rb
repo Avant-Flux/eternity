@@ -34,7 +34,9 @@ module Timer
 
 	class TimerObject	#Don't use this class directly
 		@@all = Array.new
-		def initialize
+		
+		def initialize(&block)
+			@block = block
 			@init_time = Gosu::milliseconds
 			@@all << self
 		end
@@ -50,7 +52,7 @@ module Timer
 	
 	class During < TimerObject
 		def initialize(end_time, &block)
-			super()
+			super(&block)
 			@end_time = end_time
 		end
 		
@@ -59,13 +61,30 @@ module Timer
 		end
 	end
 	
-	def setup_trait(options)        
-        #
-        # Timers are saved as an array of arrays where each entry contains:
-        # [name, start_time, end_time (or nil if one-shot), &block]
-        #
-      end
-
+	class After < TimerObject
+		def initialize(delay, &block)
+			super(&block)
+			@delay = delay
+		end
+		
+		def update
+			
+		end
+	end
+	
+	class Between < TimerObject
+		def initialize(start_time, end_time, &block)
+			super(&block)
+			@start_time = start_time
+			@end_time = end_time
+		end
+		
+		def update
+			
+		end
+	end
+	
+	
 	#
 	# Executes block each update during 'time' milliseconds 
 	#
