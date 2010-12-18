@@ -20,8 +20,6 @@ class ArtManager
 		#To make this work, #hash for all objects used should be written
 		#such that the same image will hash to the same location.
 		if @assets[type][name]
-			#This is actually incorrect.
-			#A shallow copy should be returned instead.
 			return @assets[type][name].clone
 		else
 			case type
