@@ -24,14 +24,7 @@ require './Drawing/Wireframe'
 
 require './Equipment/Equipment'
 
-require './GameObjects/Building'
-require './GameObjects/Entity'
-require './GameObjects/Creature'
-require './GameObjects/Character'
-require './GameObjects/Player'
-require './GameObjects/NPC'
-require './GameObjects/Physics'
-require './GameObjects/Camera'
+require_all './GameObjects'
 
 require './Stats/Element'
 require './Stats/StatGrowth'
