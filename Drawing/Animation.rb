@@ -30,11 +30,11 @@ module Animations
 		end
 		
 		def save
-				
+			
 		end
 		
 		def clone
-			
+			output = Animations::Entity.new(@sprite)
 		end
 		
 		def hash
