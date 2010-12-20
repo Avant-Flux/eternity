@@ -248,3 +248,9 @@ Control Notes (keys listed based on QWERTY layout)
 	Shift			Run(Perhaps more like the "high profile" from Assassin's Creed)
 	
 	Arrow Keys		Move
+
+Monster Types
+	Golem, Dragon (other lizard things), Wolf, Fox, Dryad, Water spirit things, 
+	aqua tentacle thing(like morpha for OoT), kappa, phoenix, rabbit,
+	
+	Draw influence from the 5 elements, nature as well as fantasy
