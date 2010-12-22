@@ -51,6 +51,7 @@ class ArtManager
 	
 	private
 	
+	#This method may be unnecessary
 	def load(type, subsprite_name)
 		filepath = "#{@dir}/#{type.to_s.capitalize}/#{subsprite_name}.png"
 	
@@ -82,8 +83,8 @@ class ArtManager
 		#Create the subsprite if it does not exist in the cache.
 		#Then, return a clone of the sprite in the cache.
 		unless @subsprites[type][name]
-			dir = File.join @dir, People
-			@subsprites[type][name] = Subsprite dir, type, name
+			dir = File.join @dir, "People"
+			@subsprites[type][name] = Subsprite.new dir, type, name
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
