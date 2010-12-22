@@ -9,11 +9,12 @@ class ArtManager
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
 		
-		@animations = {}	#Holds instances of Animation
-		@sprites = {}		#Holds instances of Sprite
-		@subsprites = {}	#Holds Subsprites, arranged by type
-		@effects = {}		#Holds effects
-		@textures = {}		#Holds Textures
+		@animations = {}	
+		@sprites = {}		
+		@subsprites = {:body => {}, :face => {}, :hair => {}, 	
+						:upper => {}, :lower => {}, :footwear => {}}	
+		@effects = {}		
+		@textures = {}		
 	end
 
 	def new_asset(type, name, *args)
