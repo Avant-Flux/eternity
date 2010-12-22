@@ -73,8 +73,15 @@ class ArtManager
 		@sprites[hash_code].clone
 	end
 	
-	def new_subsprite(name)
+	def new_subsprite(type, name)
+		#Create the subsprite if it does not exist in the cache.
+		#Then, return a clone of the sprite in the cache.
+		unless @subsprites[type][name]
+			@subsprites[type][name] = Subsprite "./Sprites/People", type, name
+		end
 		
+		#Return a clone of the sprite so the original remains untainted.
+		@subsprites[type][name].clone
 	end
 	
 	def new_effect
