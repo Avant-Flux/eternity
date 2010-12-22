@@ -10,8 +10,8 @@ class Subsprite < Gosu::Image
 		path = File.join(basepath, type.to_s.capitalize, "#{name}.png")
 		super $window, path, false
 	end
-	
-	#~ def clone()
-		#~ super()
-	#~ end
+
+	def clone()
+		super()
+	end
 end
