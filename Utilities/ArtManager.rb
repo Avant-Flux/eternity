@@ -34,6 +34,14 @@ class ArtManager
 		end
 	end
 	
+	def new_animation(args={})
+		#Create a new animation with the subsprites specified.
+		
+		#~ :body, :face, :hair, :upper, :lower, :footwear
+		sprite = new_sprite args
+		Animation.new sprite
+	end
+	
 	def clear
 		#Empty out all assets
 	end
