@@ -66,7 +66,12 @@ class ArtManager
 			#Unless there is a sprite in the cache which is the 
 			#same as the sprite you are trying to generate...
 			
-			@sprites[hash_code] = Sprite.new args
+			subsprites = Array.new
+			args.each_pair do |type, name|
+				subsprites << new_subsprite type, name
+			end
+			
+			@sprites[hash_code] = Sprite.new subsprites
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
