@@ -84,7 +84,9 @@ class ArtManager
 		#Then, return a clone of the sprite in the cache.
 		unless @subsprites[type][name]
 			dir = File.join @dir, "People"
-			@subsprites[type][name] = Subsprite.new dir, type, name
+			path = File.join(dir, type.to_s.capitalize, "#{name}.png")
+			
+			@subsprites[type][name] = Gosu::Image.new $window, path, false
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
