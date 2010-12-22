@@ -27,6 +27,7 @@ class Game_Window < Gosu::Window
 		super(1100, 688, false)
 		self.caption = "Project ETERNITY"
 		$window = self
+		$art_manager = ArtManager.new("./Sprites")
 		
 		#Create a variable to use to track the time elapsed in between frames.
 		#This value is stored in seconds
