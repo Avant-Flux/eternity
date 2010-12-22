@@ -68,7 +68,7 @@ class ArtManager
 			
 			subsprites = Array.new
 			args.each_pair do |type, name|
-				subsprites << new_subsprite type, name
+				subsprites << new_subsprite(type, name)
 			end
 			
 			@sprites[hash_code] = Sprite.new subsprites
