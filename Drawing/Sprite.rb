@@ -23,9 +23,9 @@ class Sprite
 		@sprites.send(symbol, *args)
 	end
 	
-	def self.hash(args={})
+	def self.hash(args)
 		#Compute the hash code of a Sprite with the given subsprites
-		
+		args.hash
 	end
 	
 	def hash
