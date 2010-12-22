@@ -8,11 +8,12 @@ class ArtManager
 		#Sprites are fully composited spritesheets which have already been split
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
-		@assets = {:animation => {}, :effect => {}, :texture => {}}
-		#do not allow direct access of these types
-		@basic_assets = {:subsprite => {}, :sprite => {}}
+		@animations = {}
+		@sprites = {}
+		@effects = {}
+		@textures = {}
 	end
-	
+
 	def new_asset(type, name, *args)
 		#Load a the asset from the disk if it has not already been loaded.
 		#Otherwise, simply return a reference to the asset.
