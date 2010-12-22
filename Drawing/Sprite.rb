@@ -4,7 +4,7 @@ require 'gosu'
 require 'texplay'
 
 class Sprite
-	def initialize(width, height, *subsprites)
+	def initialize(width, height, subsprites)
 		composite = nil
 		
 		#Splice all provided subsprites together
