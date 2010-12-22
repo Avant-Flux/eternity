@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require 'gosu'
+require 'texplay'
 
 class Subsprite < Gosu::Image
 	attr_reader :type, :id
