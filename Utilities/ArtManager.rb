@@ -8,10 +8,12 @@ class ArtManager
 		#Sprites are fully composited spritesheets which have already been split
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
-		@animations = {}
-		@sprites = {}
-		@effects = {}
-		@textures = {}
+		
+		@animations = {}	#Holds instances of Animation
+		@sprites = {}		#Holds instances of Sprite
+		@subsprites = {}	#Holds Subsprites, arranged by type
+		@effects = {}		#Holds effects
+		@textures = {}		#Holds Textures
 	end
 
 	def new_asset(type, name, *args)
