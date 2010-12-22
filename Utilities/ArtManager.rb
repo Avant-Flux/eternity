@@ -54,11 +54,23 @@ class ArtManager
 		return Gosu::Image.new($window, filepath, false)
 	end
 	
-	def new_subsprite(name)
+	def new_sprite(args={})
+		#Create the sprite if it does not exist in the cache.
+		#Then, return a clone of the sprite in the cache.
 		
+		hash_code = Sprite.hash(args)
+		unless @sprites[hash_code]
+			#Unless there is a sprite in the cache which is the 
+			#same as the sprite you are trying to generate...
+			
+			@sprites[hash_code] = Sprite.new args
+		end
+		
+		#Return a clone of the sprite so the original remains untainted.
+		@sprites[hash_code].clone
 	end
 	
-	def new_sprite
+	def new_subsprite(name)
 		
 	end
 	
