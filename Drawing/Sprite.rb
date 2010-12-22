@@ -16,11 +16,19 @@ class Sprite
 			end
 		end
 		
-		@sprites = split_spritesheet composite
+		@sprites = split_spritesheet width, height, composite
 	end
 	
-	def method_missing(symbol, *args)
-		@sprites.send(symbol, *args)
+	#~ def method_missing(symbol, *args)
+		#~ @sprites.send(symbol, *args)
+	#~ end
+	
+	def [](arg)
+		@sprites[arg]
+	end
+	
+	def []=(key, arg)
+		@sprites[key] = arg
 	end
 	
 	def self.hash(args)
@@ -35,7 +43,8 @@ class Sprite
 	private
 	
 	def split_spritesheet(width, height, spritesheet)
-		sprites = Hash.new
+		sprites = {:up => [], :down => [], :left => [], :right => [],
+					:up_left => [], :up_right => [], :down_left => [], :down_right => []}
 	
 		sprite_array = Gosu::Image::load_tiles($window, spritesheet, width, height, false)
 		
@@ -64,7 +73,7 @@ class Sprite
 			sprites[key] << sprite
 		end
 		
-		sprites[:down][0]
+		sprites
 	end
 end
 
