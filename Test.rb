@@ -78,18 +78,23 @@ class UnitTests < Test::Unit::TestCase
 		#Make sure the art manager starts
 		@art_manager = ArtManager.new './Sprites'
 		assert_instance_of ArtManager,  @art_manager
+
+		#Art manager assumes that all assets are of the PNG filetype.
+		asset_1 = @art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+												:upper => "shirt1", :lower => "pants1", 
+												:footwear => "shoes1"
+		asset_2 = @art_manager.new_texture "grass"
+		asset_3 = @art_manager.new_effect "Dark_Cloud"
+		
+		
 		
 		#The same asset loaded twice is just a shallow copy the second time
-		same_asset1 = @art_manager.new_asset(:animation, :fire_character)
-		same_asset2 = @art_manager.new_asset(:animation, :fire_character)
-		assert_equal same_asset1, same_asset2
+		asset_4 = @art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+												:upper => "shirt1", :lower => "pants1", 
+												:footwear => "shoes1"
+		assert_equal asset_1, asset_4
 		#Same data, but not same reference
 		assert !same_asset1.equal?(same_asset2)
-		#Still, 
-		
-		
-		@art_manager.new_asset(:animation, :fire_character, 
-								)
 	end
 
 	def test_combat
