@@ -10,7 +10,7 @@ class Sprite
 		#Splice all provided subsprites together
 		subsprites.each_with_index do |image, i|
 			if i == 0
-				composite = sprite.clone
+				composite = image.clone
 			else
 				composite.splice(image, 0,0, :alpha_blend => true)
 			end
