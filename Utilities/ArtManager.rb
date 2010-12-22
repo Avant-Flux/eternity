@@ -42,7 +42,7 @@ class ArtManager
 		
 		#~ :body, :face, :hair, :upper, :lower, :footwear
 		sprite = new_sprite args
-		Animation.new sprite
+		Animation::Character.new sprite
 	end
 	
 	def clear
@@ -72,7 +72,7 @@ class ArtManager
 				subsprites << new_subsprite(type, name)
 			end
 			
-			@sprites[hash_code] = Sprite.new subsprites
+			@sprites[hash_code] = Sprite.new 40, 80, subsprites
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
