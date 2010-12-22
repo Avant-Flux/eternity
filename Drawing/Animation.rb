@@ -4,11 +4,12 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-module Animations
+module Animation
 	class Entity			#Only inherit from this class, never create objects of it
 		def initialize(sprite)
 			@sprites = sprite
 			@moving = false
+			@current_frame = @sprites[:down][0]
 		end
 		
 		def update(moving, direction)
@@ -60,28 +61,12 @@ module Animations
 		def height
 			@current_frame.height
 		end
-		
-		
-		private
-		
-		def subsprites basepath, type, subsprite_name
-			return Gosu::Image.new($window, 
-						"#{basepath}/#{type.to_s.capitalize}/#{subsprite_name}.png", false)
-		end
 	end
 
-	class Character < Animations::Entity
-		def initialize body, face, hair, upper, lower, footwear
-			super()
-
-			make_spritesheet subsprites
-			make_sprites #should be 40 wide and 80 tall
-		end
-		
-		private
-		
-		def subsprites type, subsprite_name
-			super "./Sprites/People", type, subsprite_name
+	class Character < Animation::Entity
+		def initialize sprite
+			super(sprite)
+			#should be 40 wide and 80 tall
 		end
 	end
 	
