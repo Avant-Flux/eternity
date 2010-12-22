@@ -9,12 +9,12 @@ class ArtManager
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
 		
-		@animations = {}	
-		@sprites = {}		
+		@animations = {}
+		@sprites = {}
 		@subsprites = {:body => {}, :face => {}, :hair => {}, 	
 						:upper => {}, :lower => {}, :footwear => {}}	
-		@effects = {}		
-		@textures = {}		
+		@effects = {}
+		@textures = {}
 	end
 
 	def new_asset(type, name, *args)
@@ -82,7 +82,8 @@ class ArtManager
 		#Create the subsprite if it does not exist in the cache.
 		#Then, return a clone of the sprite in the cache.
 		unless @subsprites[type][name]
-			@subsprites[type][name] = Subsprite "./Sprites/People", type, name
+			dir = File.join @dir, People
+			@subsprites[type][name] = Subsprite dir, type, name
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
