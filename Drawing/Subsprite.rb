@@ -5,7 +5,8 @@ require 'gosu'
 class Subsprite < Gosu::Image
 	attr_reader :type, :id
 
-	def initialize(path)
+	def initialize(basepath, type, name)
+		path = File.join(basepath, type.to_s.capitalize, "#{name}.png")
 		super $window, path, false
 	end
 	
