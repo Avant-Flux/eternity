@@ -23,6 +23,15 @@ class Sprite
 		@sprites.send(symbol, *args)
 	end
 	
+	def self.hash(args={})
+		#Compute the hash code of a Sprite with the given subsprites
+		
+	end
+	
+	def hash
+		#Compute the hash code for this Sprite
+	end
+	
 	private
 	
 	def split_spritesheet(width, height, spritesheet)
