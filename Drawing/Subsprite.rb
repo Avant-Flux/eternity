@@ -1,11 +1,15 @@
 #!/usr/bin/ruby
+require 'rubygems'
+require 'gosu'
 
-module Subsprite
-	def self.new(path)
-		return Gosu::Image.new $window, path, false
+class Subsprite < Gosu::Image
+	attr_reader :type, :id
+
+	def initialize(path)
+		super $window, path, false
 	end
 	
-	def self.clone(subsprite)
-		return subsprite.clone
-	end
+	#~ def clone()
+		#~ super()
+	#~ end
 end
