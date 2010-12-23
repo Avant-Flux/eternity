@@ -24,16 +24,9 @@ class InputHandler
 		instance_eval &block
 	end
 	
-	def new_input(type, name, buttons, threshold=nil)
-		case type
-			when :action
-				new_action name, buttons
-			when :sequence
-				new_sequence name, buttons, InputType::Sequence::DEFAULT_THRESHOLD
-			when :chord
-				new_chord name, buttons, InputType::Chord::DEFAULT_THRESHOLD
-			when :combo
-				new_combo name, buttons, InputType::Combo::DEFAULT_THRESHOLD
+	def update
+		@event_handlers.each_value do |i|
+			i.update
 		end
 	end
 	
@@ -46,12 +39,6 @@ class InputHandler
 	def button_down(id)
 		@event_handlers.each_value do |i|
 			i.button_down id
-		end
-	end
-	
-	def update
-		@event_handlers.each_value do |i|
-			i.update
 		end
 	end
 	
