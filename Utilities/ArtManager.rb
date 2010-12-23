@@ -17,26 +17,6 @@ class ArtManager
 		@textures = {}
 	end
 
-	def new_asset(type, name, *args)
-		#Load a the asset from the disk if it has not already been loaded.
-		#Otherwise, simply return a reference to the asset.
-		
-		#To make this work, #hash for all objects used should be written
-		#such that the same image will hash to the same location.
-		if @assets[type][name]
-			return @assets[type][name].clone
-		else
-			case type
-				when :animation
-					
-				when :effect
-					
-				when :texture
-					
-			end
-		end
-	end
-	
 	def new_animation(args={})
 		#Create a new animation with the subsprites specified.
 		
