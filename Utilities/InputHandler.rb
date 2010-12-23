@@ -19,7 +19,7 @@ require 'gosu'
 
 class InputHandler
 	def initialize()
-		@event_handlers = []
+		@event_handlers = {}
 		
 		def_kb_bindings
 		
@@ -42,45 +42,46 @@ class InputHandler
 		end
 	end
 	
-	def new_action(name, buttons=[], threshold)
-		@event_handlers << InputType::Action.new(name, buttons)
+	def new_action(name, buttons=[])
+		@event_handlers[name]= InputType::Action.new(name, buttons)
 	end
 	
 	def new_sequence(name, buttons=[], threshold=InputType::Sequence::DEFAULT_THRESHOLD)
-		@event_handlers << InputType::Sequence.new(name, buttons, threshold)
+		@event_handlers[name]= InputType::Sequence.new(name, buttons, threshold)
 	end
 	
 	def new_chord(name, buttons=[], threshold=InputType::Chord::DEFAULT_THRESHOLD)
-		@event_handlers << InputType::Chord.new(name, buttons, threshold)
+		@event_handlers[name]= InputType::Chord.new(name, buttons, threshold)
 	end
 	
 	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
-		@event_handlers << InputType::Combo.new(name, buttons, threshold)
+		@event_handlers[name]= InputType::Combo.new(name, buttons, threshold)
 	end
 	
 	def button_down(id)
-		@event_handlers.each do |i|
+		@event_handlers.each_value do |i|
 			i.button_down id
 		end
 	end
 	
 	def button_up(id)
-		@event_handlers.each do |i|
+		@event_handlers.each_value do |i|
 			i.button_up id
 		end
 	end
 	
 	def update
-		@event_handlers.each do |i|
+		@event_handlers.each_value do |i|
 			i.update
 		end
 	end
 	
 	def active?(name)
-		@event_handlers.each do |i|
-			if i.name == name
-				return i.active?
-			end
+		handler = @event_handlers[name]
+		if handler
+			handler.active?
+		else
+			false
 		end
 	end
 end

@@ -188,7 +188,6 @@ class Game_Window < Gosu::Window
 		
 		if @inpman.active?(:jump)
 			@player.jump
-			puts "jump!"
 		end
 		
 		if @inpman.active?(:super) || @inpman.active?(:super2) || @inpman.active?(:super3)
