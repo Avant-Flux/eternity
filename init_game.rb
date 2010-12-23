@@ -36,6 +36,21 @@ class Game_Window < Gosu::Window
 		
 		@fpscounter = FPSCounter.new
 		@inpman = InputHandler.new
+		@inpman.instance_eval do
+			new_action :up, [Gosu::KbUp]
+			new_action :down, [Gosu::KbDown]
+			new_action:left, [Gosu::KbLeft]
+			new_action :right, [Gosu::KbRight]
+	
+			new_action :jump, [Gosu::KbE]
+	
+			new_action :run, [Gosu::KbLeftShift]
+	
+			new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
+			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
+			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
+		end
+		
 		@space = init_CP_Space3D
 		
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
@@ -240,21 +255,6 @@ class InputHandler
 					end
 
 		result
-	end
-	
-	def def_kb_bindings
-		new_action :up, [Gosu::KbUp]
-		new_action :down, [Gosu::KbDown]
-		new_action:left, [Gosu::KbLeft]
-		new_action :right, [Gosu::KbRight]
-		
-		new_action :jump, [Gosu::KbE]
-		
-		new_action :run, [Gosu::KbLeftShift]
-		
-		new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
-		new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
-		new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 	end
 end
 

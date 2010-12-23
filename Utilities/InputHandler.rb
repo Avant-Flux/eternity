@@ -21,12 +21,7 @@ class InputHandler
 	def initialize()
 		@event_handlers = {}
 		
-		def_kb_bindings
-		
 		#~ instance_eval block
-	end
-	
-	def def_kb_bindings
 	end
 	
 	def new_input(type, name, buttons, threshold=nil)
@@ -42,31 +37,15 @@ class InputHandler
 		end
 	end
 	
-	def new_action(name, buttons=[])
-		@event_handlers[name]= InputType::Action.new(name, buttons)
-	end
-	
-	def new_sequence(name, buttons=[], threshold=InputType::Sequence::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Sequence.new(name, buttons, threshold)
-	end
-	
-	def new_chord(name, buttons=[], threshold=InputType::Chord::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Chord.new(name, buttons, threshold)
-	end
-	
-	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Combo.new(name, buttons, threshold)
+	def button_up(id)
+		@event_handlers.each_value do |i|
+			i.button_up id
+		end
 	end
 	
 	def button_down(id)
 		@event_handlers.each_value do |i|
 			i.button_down id
-		end
-	end
-	
-	def button_up(id)
-		@event_handlers.each_value do |i|
-			i.button_up id
 		end
 	end
 	
@@ -83,6 +62,24 @@ class InputHandler
 		else
 			false
 		end
+	end
+	
+	private
+	
+	def new_action(name, buttons=[])
+		@event_handlers[name]= InputType::Action.new(name, buttons)
+	end
+	
+	def new_sequence(name, buttons=[], threshold=InputType::Sequence::DEFAULT_THRESHOLD)
+		@event_handlers[name]= InputType::Sequence.new(name, buttons, threshold)
+	end
+	
+	def new_chord(name, buttons=[], threshold=InputType::Chord::DEFAULT_THRESHOLD)
+		@event_handlers[name]= InputType::Chord.new(name, buttons, threshold)
+	end
+	
+	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
+		@event_handlers[name]= InputType::Combo.new(name, buttons, threshold)
 	end
 end
 
