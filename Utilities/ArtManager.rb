@@ -45,6 +45,14 @@ class ArtManager
 		Animation::Character.new sprite
 	end
 	
+	def new_effect
+		
+	end
+	
+	def new_texture
+		
+	end
+	
 	def clear
 		#Empty out all assets
 	end
@@ -91,13 +99,5 @@ class ArtManager
 		
 		#Return a clone of the sprite so the original remains untainted.
 		@subsprites[type][name].clone
-	end
-	
-	def new_effect
-		
-	end
-	
-	def new_texture
-		
 	end
 end
