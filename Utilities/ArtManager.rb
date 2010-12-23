@@ -63,8 +63,9 @@ class ArtManager
 			@sprites[hash_code] = Sprite.new 40, 80, subsprites
 		end
 		
-		#Return a clone of the sprite so the original remains untainted.
-		@sprites[hash_code].clone
+		#Return a reference the cached sprite.
+		#No cloning is needed as this sprite will never be edited.
+		@sprites[hash_code]
 	end
 	
 	def new_subsprite(type, name)
