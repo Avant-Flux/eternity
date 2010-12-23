@@ -35,8 +35,7 @@ class Game_Window < Gosu::Window
 		$dt = compute_dt
 		
 		@fpscounter = FPSCounter.new
-		@inpman = InputHandler.new
-		@inpman.instance_eval do
+		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
 			new_action:left, [Gosu::KbLeft]

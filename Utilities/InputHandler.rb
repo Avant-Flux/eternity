@@ -18,10 +18,10 @@ end
 require 'gosu'
 
 class InputHandler
-	def initialize()
+	def initialize(&block)
 		@event_handlers = {}
 		
-		#~ instance_eval block
+		instance_eval &block
 	end
 	
 	def new_input(type, name, buttons, threshold=nil)
