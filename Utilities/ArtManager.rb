@@ -1,5 +1,8 @@
 #!/usr/bin/ruby
- 
+
+#This class exists to store and manage art assets for the game.
+#There should be some measure so that when the assets are no
+#longer needed, the memory can be freed.
 class ArtManager
 	def initialize(asset_dir) #Pass the full path to the Sprites/ directory
 		@dir = asset_dir
@@ -9,10 +12,10 @@ class ArtManager
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
 		
-		@animations = {}
+		#~ @animations = {}
 		@sprites = {}
-		@subsprites = {:body => {}, :face => {}, :hair => {}, 	
-						:upper => {}, :lower => {}, :footwear => {}}	
+		@subsprites = {:body => {}, :face => {}, :hair => {}, 
+						:upper => {}, :lower => {}, :footwear => {}}
 		@effects = {}
 		@textures = {}
 	end
@@ -35,6 +38,34 @@ class ArtManager
 	
 	def clear
 		#Empty out all assets
+	end
+	
+	def clear_subsprite
+		
+	end
+	
+	def clear_effect
+		
+	end
+	
+	def clear_texture
+		
+	end
+	
+	def clear_all_subsprites
+		
+	end
+	
+	def clear_all_sprites
+		
+	end
+	
+	def clear_all_effects
+		
+	end
+	
+	def clear_all_textures
+		
 	end
 	
 	private
