@@ -19,10 +19,9 @@ class ArtManager
 		@effects = {}
 		@textures = {}
 	end
-
+	
+	#Create a new animation with the subsprites specified in the hash argument.
 	def new_animation(args={})
-		#Create a new animation with the subsprites specified.
-		
 		#~ :body, :face, :hair, :upper, :lower, :footwear
 		sprite = new_sprite args
 		Animation::Character.new sprite
@@ -36,8 +35,8 @@ class ArtManager
 		
 	end
 	
+	#Empty out all assets
 	def clear
-		#Empty out all assets
 		clear_all_subsprites
 		clear_all_sprites
 		clear_all_effects
@@ -88,10 +87,9 @@ class ArtManager
 		return Gosu::Image.new($window, filepath, false)
 	end
 	
+	#Create the sprite if it does not exist in the cache.
+	#Then, return a reference to the sprite in the cache.
 	def new_sprite(args={})
-		#Create the sprite if it does not exist in the cache.
-		#Then, return a clone of the sprite in the cache.
-		
 		hash_code = Sprite.hash(args)
 		unless @sprites[hash_code]
 			#Unless there is a sprite in the cache which is the 
@@ -110,9 +108,9 @@ class ArtManager
 		@sprites[hash_code]
 	end
 	
+	#Create the subsprite if it does not exist in the cache.
+	#Then, return a clone of the sprite in the cache.
 	def new_subsprite(type, name)
-		#Create the subsprite if it does not exist in the cache.
-		#Then, return a clone of the sprite in the cache.
 		unless @subsprites[type][name]
 			dir = File.join @dir, "People"
 			path = File.join(dir, type.to_s.capitalize, "#{name}.png")
