@@ -22,11 +22,11 @@ module UI
 			def initialize(player, a=4, b=2)
 				@player = player
 				@tracked = Array.new
-				@ellipse = Ellipse.new($window, @player, a, b)
+				@ellipse = Ellipse.new(@player, a, b)
 			end
 			
 			def track(entity)
-				@tracked << Blip.new($window, @player, entity, @ellipse)
+				@tracked << Blip.new(@player, entity, @ellipse)
 			end
 			
 			def untrack(entity)
@@ -49,141 +49,139 @@ module UI
 					blip.draw
 				end
 			end
-			
-			class Ellipse
-				#~ Dimensions for the Ellipse should be given in meters.
-				#~ The initial rendering of the Ellipse will be done using the initial conversion 
-				#~ 		rate between pixels and meters.  subsequent resizing will be done using
-				#~ 		OpenGL to scale the generated sprite.
-				#~ Arguments are accepted with units of meters, but are immediately converted to
-				#~ 		pixels.  This is because the generation of the ellipse requires pixel
-				#~ 		dimensions.
+		end
+		
+		class Ellipse
+			#~ Dimensions for the Ellipse should be given in meters.
+			#~ The initial rendering of the Ellipse will be done using the initial conversion 
+			#~ 		rate between pixels and meters.  subsequent resizing will be done using
+			#~ 		OpenGL to scale the generated sprite.
+			#~ Arguments are accepted with units of meters, but are immediately converted to
+			#~ 		pixels.  This is because the generation of the ellipse requires pixel
+			#~ 		dimensions.
 
-				attr_accessor :a, :b, :cx, :cy
-				attr_reader :x, :y, :z
+			attr_accessor :a, :b, :cx, :cy
+			attr_reader :x, :y, :z
+			
+			def initialize(player, a, b, stroke_width=3)
+				@player = player
+				@a = a
+				@b = b
 				
-				def initialize(window, player, a, b, stroke_width=3)
-					@window = window
-					@player = player
-					@a = a
-					@b = b
-					
-					a = a.to_px
-					b = b.to_px
-					
-					padding = stroke_width/2+10
-					
-					width = (a+padding)*2
-					height = (b+padding)*2
-					
-					canvas = Magick::Image.new(width, height) do
-						self.background_color = "transparent"
-					end
-					gc = Magick::Draw.new
-					
-					gc.stroke('red')
-					gc.stroke_width(stroke_width)
-					gc.fill_opacity(0)
-					gc.ellipse(width/2,height/2, a,b, 0,360)
-					
-					gc.draw(canvas)
-					@img = Gosu::Image.new(@window, canvas, false)
-				end
+				a = a.to_px
+				b = b.to_px
 				
-				def update
-					
-				end
+				padding = stroke_width/2+10
 				
-				def draw
-					@img.draw_centered @player.x, @player.y, @player.z
+				width = (a+padding)*2
+				height = (b+padding)*2
+				
+				canvas = Magick::Image.new(width, height) do
+					self.background_color = "transparent"
 				end
+				gc = Magick::Draw.new
+				
+				gc.stroke('red')
+				gc.stroke_width(stroke_width)
+				gc.fill_opacity(0)
+				gc.ellipse(width/2,height/2, a,b, 0,360)
+				
+				gc.draw(canvas)
+				@img = Gosu::Image.new($window, canvas, false)
 			end
 			
-			class Blip
-				MAX_RADIUS = 25
-				CENTER = MAX_RADIUS
+			def update
 				
-				attr_accessor :tracked, :player
+			end
+			
+			def draw
+				@img.draw_centered @player.x, @player.y, @player.z
+			end
+		end
+		
+		class Blip
+			MAX_RADIUS = 25
+			CENTER = MAX_RADIUS
+			
+			attr_accessor :tracked, :player
+			
+			def initialize(player, tracked_entity, ellipse)
+				@player = player
+				@tracked = tracked_entity
+				@ellipse = ellipse
 				
-				def initialize(window, player, tracked_entity, ellipse)
-					@window = window
-					@player = player
-					@tracked = tracked_entity
-					@ellipse = ellipse
-					
-					@vector = vector_between @tracked, @player
-					@distance = @vector.length.ceil
-					
-					@x, @y = elliptical_projection
-								
-					clear_image
-					@radius = 10
+				@vector = vector_between @tracked, @player
+				@distance = @vector.length.ceil
+				
+				@x, @y = elliptical_projection
+							
+				clear_image
+				@radius = 10
+				render
+			end
+			
+			def update
+				new_vect = vector_between @tracked, @player
+				new_dist = new_vect.length.ceil
+				if new_dist != @distance
+					@vector = new_vect
+					@distance = new_dist
 					render
 				end
-				
-				def update
-					new_vect = vector_between @tracked, @player
-					new_dist = new_vect.length.ceil
-					if new_dist != @distance
-						@vector = new_vect
-						@distance = new_dist
-						render
-					end
-					@x, @y = elliptical_projection
-				end
-				
-				def draw
-					@image.draw_centered @x, @y, @player.z
-				end
-				
-				private
-				
-				def clear_image
-					@image = TexPlay.create_blank_image(@window, MAX_RADIUS*2, MAX_RADIUS*2)
-				end
-				
-				def render
-					radius = calculate_radius
-					#~ puts radius
-					if radius > MAX_RADIUS
-						radius = MAX_RADIUS
-					elsif radius < 1
-						radius = 1
-					end
-					
-					if radius > @radius
-						@radius = radius
-						@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
-					elsif radius < @radius
-						@radius = radius
-						clear_image
-						@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
-					else#radius == @radius
-						nil
-					end
-				end
+				@x, @y = elliptical_projection
+			end
 			
-				def vector_between(arg1, arg2)
-					x = arg1.shape.x - arg2.shape.x
-					y = arg1.shape.y - arg2.shape.y
-					CP::Vec2.new(x,y)
-				end
-					
-				def elliptical_projection
-					#Calculate the corresponding position of a tracking blip for a given entity
-					#The trig functions in ruby take the angle in radians
-					angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
-					
-					x = @player.x + @ellipse.a*Math.cos(angle)
-					y = @player.y + @ellipse.b*Math.sin(angle)
-					return x,y
+			def draw
+				@image.draw_centered @x, @y, @player.z
+			end
+			
+			private
+			
+			def clear_image
+				@image = TexPlay.create_blank_image($window, MAX_RADIUS*2, MAX_RADIUS*2)
+			end
+			
+			def render
+				radius = calculate_radius
+				#~ puts radius
+				if radius > MAX_RADIUS
+					radius = MAX_RADIUS
+				elsif radius < 1
+					radius = 1
 				end
 				
-				
-				def calculate_radius
-					constant = 120
-					((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
+				if radius > @radius
+					@radius = radius
+					@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
+				elsif radius < @radius
+					@radius = radius
+					clear_image
+					@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
+				else#radius == @radius
+					nil
 				end
+			end
+		
+			def vector_between(arg1, arg2)
+				x = arg1.shape.x - arg2.shape.x
+				y = arg1.shape.y - arg2.shape.y
+				CP::Vec2.new(x,y)
+			end
+				
+			def elliptical_projection
+				#Calculate the corresponding position of a tracking blip for a given entity
+				#The trig functions in ruby take the angle in radians
+				angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
+				
+				x = @player.x + @ellipse.a*Math.cos(angle)
+				y = @player.y + @ellipse.b*Math.sin(angle)
+				return x,y
+			end
+			
+			
+			def calculate_radius
+				constant = 120
+				((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
 			end
 		end
 	end
