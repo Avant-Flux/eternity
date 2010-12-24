@@ -111,16 +111,17 @@ class ArtManager
 	end
 	
 	#Create the subsprite if it does not exist in the cache.
-	#Then, return a clone of the sprite in the cache.
+	#Then, return a reference to the sprite in the cache.
 	def new_subsprite(type, name)
 		unless @subsprites[type][name]
 			dir = File.join @dir, "People"
 			path = File.join(dir, type.to_s.capitalize, "#{name}.png")
 			
 			@subsprites[type][name] = Gosu::Image.new $window, path, false
+			#~ @subsprites[type][name] = Subsprite.new dir, type, name
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
-		@subsprites[type][name].clone
+		@subsprites[type][name]
 	end
 end
