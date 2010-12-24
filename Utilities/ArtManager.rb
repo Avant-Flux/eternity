@@ -63,7 +63,7 @@ class ArtManager
 	end
 	
 	def clear_all_sprites
-		
+		@sprites = Hash.new
 	end
 	
 	def clear_all_effects
