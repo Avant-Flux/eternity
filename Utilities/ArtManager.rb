@@ -44,8 +44,8 @@ class ArtManager
 		clear_all_textures
 	end
 	
-	def clear_subsprite
-		
+	def clear_subsprite(type, name)
+		@subsprites[type].delete name
 	end
 	
 	def clear_effect
