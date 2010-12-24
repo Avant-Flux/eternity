@@ -57,7 +57,9 @@ class ArtManager
 	end
 	
 	def clear_all_subsprites
-		
+		@subsprites.each_key do |key|
+			@subsprites[key] = Hash.new
+		end
 	end
 	
 	def clear_all_sprites
