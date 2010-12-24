@@ -38,12 +38,12 @@ class Shadow
 			#~ Calculate the color of the shadow to be rendered, and mix in
 			#~ The correct opacity
 			color = 0x0000FF
-			color += opacity * 0x1000000
+			color += opacity * 0x1000000 #Shift the opacity to the correct place value in hex
 		end
 		
 		def opacity
 			percent = 0.2
-			0xFF * percent
+			0xFF * percent	#Convert the percent to a two-digit hex value
 		end
 		
 		def scale
