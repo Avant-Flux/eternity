@@ -124,4 +124,18 @@ class ArtManager
 		#Return a clone of the sprite so the original remains untainted.
 		@subsprites[type][name]
 	end
+	
+	#Creates a new circle.  All circles will be white,
+	#so that they can be colored dynamically in opengl.
+	#Only one circle will be stored per radius.
+	def new_circle(radius)
+		unless @circles[radius]
+			r2 = radius * 2
+			@circles[radius] = TexPlay.create_blank_image($window, r2+2, r2+2)
+			@circles[radius].circle(radius+1, radius+1, radius, 
+									:color => Gosu::Color::WHITE, :fill => true)
+		end
+		
+		@circles[radius]
+	end
 end
