@@ -67,11 +67,11 @@ class ArtManager
 	end
 	
 	def clear_all_effects
-		
+		@effects = Hash.new
 	end
 	
 	def clear_all_textures
-		
+		@textures = Hash.new
 	end
 	
 	private
