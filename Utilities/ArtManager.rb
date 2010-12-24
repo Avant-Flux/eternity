@@ -73,15 +73,15 @@ class ArtManager
 	end
 	
 	def clear_all_sprites
-		@sprites = Hash.new
+		@sprites.clear
 	end
 	
 	def clear_all_effects
-		@effects = Hash.new
+		@effects.clear
 	end
 	
 	def clear_all_textures
-		@textures = Hash.new
+		@textures.clear
 	end
 	
 	def clear_all_circles
