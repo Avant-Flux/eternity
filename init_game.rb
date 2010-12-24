@@ -81,7 +81,7 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(@space, "Raven", [5, 5, 0])
 		@characters = Array.new
-		20.times do |i|
+		50.times do |i|
 			x = (i * 3) % 8 + 1
 			y = (i * 10) % 6 + 1
 			
