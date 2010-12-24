@@ -37,6 +37,14 @@ class ArtManager
 		
 	end
 	
+	def new_shadow(entity)
+		Shadow.new entity, new_circle(entity.width/2)
+	end
+	
+	def new_blip
+		
+	end
+	
 	#Empty out all assets
 	def clear
 		clear_all_subsprites
