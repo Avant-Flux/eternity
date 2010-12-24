@@ -6,19 +6,9 @@ require 'texplay'
 require './Drawing/GosuPatch'
 
 class Shadow
-		@@images = Hash.new
-		
-		def initialize(entity)
+		def initialize(entity, circle)
 			@entity = entity
-		
-			unless @@images[@entity.class]
-				radius = @entity.width/2
-				r2 = radius * 2
-				
-				@@images[@entity.class] = TexPlay.create_blank_image($window, r2+2, r2+2)
-				@@images[@entity.class].circle(radius+1, radius+1, radius, 
-										:color => Gosu::Color::WHITE, :fill => true)
-			end
+			@circle = circle
 		end
 		
 		def update
@@ -27,8 +17,7 @@ class Shadow
 		end
 		
 		def draw
-			img = @@images[@entity.class]
-			img.draw_centered(@entity.x, @entity.y, @entity.elevation, 
+			@circle.draw_centered(@entity.x, @entity.y, @entity.elevation, 
 							{:factor_x => @scale, :factor_y => @scale, :color => @color})
 		end
 		
