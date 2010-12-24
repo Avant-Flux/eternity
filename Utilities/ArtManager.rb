@@ -62,6 +62,10 @@ class ArtManager
 		
 	end
 	
+	def clear_circle(radius)
+		@circles.delete radius
+	end
+	
 	def clear_all_subsprites
 		@subsprites.each_key do |key|
 			@subsprites[key] = Hash.new
@@ -78,6 +82,10 @@ class ArtManager
 	
 	def clear_all_textures
 		@textures = Hash.new
+	end
+	
+	def clear_all_circles
+		@circles.clear
 	end
 	
 	private
