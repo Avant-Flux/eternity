@@ -48,6 +48,11 @@ class ArtManager
 		@subsprites[type].delete name
 	end
 	
+	def clear_sprite(args={})
+		hash_code = Sprite.hash args
+		@sprite.delete hash_code
+	end
+	
 	def clear_effect
 		
 	end
