@@ -38,6 +38,10 @@ class ArtManager
 	
 	def clear
 		#Empty out all assets
+		clear_all_subsprites
+		clear_all_sprites
+		clear_all_effects
+		clear_all_textures
 	end
 	
 	def clear_subsprite
