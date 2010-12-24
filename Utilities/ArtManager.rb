@@ -12,6 +12,8 @@ class ArtManager
 		#Animations are sprites wrapped in a interface layer for easy usage.
 		#	Multiple animations can reference the same sprite
 		
+		@circles = {}	#These can be used for the tracking blips, shadows, etc
+		
 		#~ @animations = {}
 		@sprites = {}
 		@subsprites = {:body => {}, :face => {}, :hair => {}, 
