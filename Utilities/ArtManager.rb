@@ -41,8 +41,9 @@ class ArtManager
 		Shadow.new entity, new_circle(entity.width/2)
 	end
 	
-	def new_blip
-		
+	def new_blip(player, entity, ellipse)
+		circle = new_circle UI::Overlay::Blip::MAX_RADIUS
+		UI::Overlay::Blip.new player, entity, circle, ellipse
 	end
 	
 	#Empty out all assets

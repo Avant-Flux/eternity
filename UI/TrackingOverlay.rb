@@ -26,7 +26,7 @@ module UI
 			end
 			
 			def track(entity)
-				@tracked << Blip.new(@player, entity, @ellipse)
+				@tracked << $art_manager.new_blip @player, entity, @ellipse
 			end
 			
 			def untrack(entity)
@@ -101,13 +101,13 @@ module UI
 		
 		class Blip
 			MAX_RADIUS = 25
-			CENTER = MAX_RADIUS
 			
 			attr_accessor :tracked, :player
 			
-			def initialize(player, tracked_entity, ellipse)
+			def initialize(player, tracked_entity, circle, ellipse)
 				@player = player
 				@tracked = tracked_entity
+				@circle = circle
 				@ellipse = ellipse
 				
 				@vector = vector_between @tracked, @player
@@ -115,9 +115,7 @@ module UI
 				
 				@x, @y = elliptical_projection
 							
-				clear_image
-				@radius = 10
-				render
+				@scale = scale
 			end
 			
 			def update
@@ -126,41 +124,16 @@ module UI
 				if new_dist != @distance
 					@vector = new_vect
 					@distance = new_dist
-					render
+					@scale = scale
 				end
 				@x, @y = elliptical_projection
 			end
 			
 			def draw
-				@image.draw_centered @x, @y, @player.z
+				@circle.draw_centered @x, @y, @player.z, :factor_x => @scale, :factor_y => @scale 
 			end
 			
 			private
-			
-			def clear_image
-				@image = TexPlay.create_blank_image($window, MAX_RADIUS*2, MAX_RADIUS*2)
-			end
-			
-			def render
-				radius = calculate_radius
-				#~ puts radius
-				if radius > MAX_RADIUS
-					radius = MAX_RADIUS
-				elsif radius < 1
-					radius = 1
-				end
-				
-				if radius > @radius
-					@radius = radius
-					@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
-				elsif radius < @radius
-					@radius = radius
-					clear_image
-					@image.circle CENTER, CENTER, @radius, :fill => true, :color => :red
-				else#radius == @radius
-					nil
-				end
-			end
 		
 			def vector_between(arg1, arg2)
 				x = arg1.shape.x - arg2.shape.x
@@ -177,7 +150,6 @@ module UI
 				y = @player.y + @ellipse.b*Math.sin(angle)
 				return x,y
 			end
-			
 			
 			def calculate_radius
 				constant = 120
