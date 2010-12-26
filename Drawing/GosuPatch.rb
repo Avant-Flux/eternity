@@ -13,8 +13,13 @@ module Gosu
 			options[:offset_y] ||= 0
 			options[:factor_x] ||= 1
 			options[:factor_y] ||= 1
+			#~ options[:scale] ||= 1
 			options[:color] ||= 0xffffffff
 			options[:mode] ||= :default
+			
+			if options[:scale]
+				options[:factor_x] = options[:factor_y] = options[:scale]
+			end
 			
 			options[:offset_x] = case options[:offset_x]
 				when :centered

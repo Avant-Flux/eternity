@@ -130,7 +130,7 @@ module UI
 			end
 			
 			def draw
-				@circle.draw_centered @x, @y, @player.z, :factor_x => @scale, :factor_y => @scale 
+				@circle.draw_centered @x, @y, @player.z, :scale => @scale
 			end
 			
 			private
