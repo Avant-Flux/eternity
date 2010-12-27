@@ -26,7 +26,7 @@ module UI
 			end
 			
 			def track(entity)
-				@tracked << $art_manager.new_blip @player, entity, @ellipse
+				@tracked << $art_manager.new_blip(@player, entity, @ellipse)
 			end
 			
 			def untrack(entity)
