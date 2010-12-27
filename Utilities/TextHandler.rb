@@ -1,5 +1,11 @@
 #!/usr/bin/ruby
 
+class String
+	def last
+		self[length-1]
+	end
+end
+
 #Managed text-based output classes
 class TextHandler
 	def initialize
