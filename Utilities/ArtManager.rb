@@ -59,7 +59,7 @@ class ArtManager
 	end
 	
 	def clear_sprite(args={})
-		hash_code = Sprite.hash args
+		hash_code = Sprite.code args
 		@sprite.delete hash_code
 	end
 	
@@ -109,7 +109,7 @@ class ArtManager
 	#Create the sprite if it does not exist in the cache.
 	#Then, return a reference to the sprite in the cache.
 	def new_sprite(args={})
-		hash_code = Sprite.hash(args)
+		hash_code = Sprite.code(args)
 		unless @sprites[hash_code]
 			#Unless there is a sprite in the cache which is the 
 			#same as the sprite you are trying to generate...

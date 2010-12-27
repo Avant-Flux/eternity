@@ -14,7 +14,7 @@ end
 require 'chingu'
 
 require 'require_all'
-
+#~ require 'profile'
 require 'chipmunk'
 require_all './Chipmunk'
 require_all './GameObjects'
@@ -81,7 +81,7 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new(@space, "Raven", [5, 5, 0])
 		@characters = Array.new
-		50.times do |i|
+		20.times do |i|
 			x = (i * 3) % 8 + 1
 			y = (i * 10) % 6 + 1
 			

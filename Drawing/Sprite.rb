@@ -31,13 +31,14 @@ class Sprite
 		@sprites[key] = arg
 	end
 	
-	def self.hash(args)
+	def self.code(args)
 		#Compute the hash code of a Sprite with the given subsprites
 		args.hash
 	end
 	
 	def hash
 		#Compute the hash code for this Sprite
+		1
 	end
 	
 	private
