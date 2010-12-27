@@ -61,23 +61,23 @@ class Game_Window < Gosu::Window
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11, 0])
 		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
 		
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15-50, 11, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20-50, 11, 0])
-		#~ Building.new(@space, :dimensions => [5, 3, 2], :position => [20-50, 14, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25-50, 11, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20-50, 11-6.5, 0])
-		#~ 
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11-50, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11-50, 0])
-		#~ Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11-50, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5-50, 0])
-		#~ 
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11+50, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11+50, 0])
-		#~ Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14+50, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
-		#~ Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15-50, 11, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20-50, 11, 0])
+		Building.new(@space, :dimensions => [5, 3, 2], :position => [20-50, 14, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25-50, 11, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20-50, 11-6.5, 0])
+		
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11-50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11-50, 0])
+		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11-50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5-50, 0])
+		
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11+50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11+50, 0])
+		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14+50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
+		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
 		
 		@player = Player.new(@space, "Raven", [5, 5, 0])
 		@characters = Array.new
@@ -92,10 +92,6 @@ class Game_Window < Gosu::Window
 		@player.track(@characters[12])
 		@player.track(@characters[3])
 		@player.track(@characters[18])
-		
-		#~ @characters << Character.new(@space, "NPC", [5, 8, 0])
-		#~ @characters << Character.new(@space, "NPC", [21, 5, 0])
-		#~ @player.track @characters[0]
 		
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
