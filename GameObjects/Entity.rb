@@ -14,27 +14,6 @@ require './Drawing/Shadow'
 
 require './Stats/Stats'
 
-class Fixnum
-	#Determine if self is between two supplied values.
-	#The optional parameter pattern determines if the bounds should be inclusive or exclusive.
-	#The default behavior is both upper and lower bounds exclusive.
-	def between?(a, b, pattern="()")
-		lower_bound =	if pattern[0] == "("
-							self > a
-						elsif pattern[0] == "["
-							self >= a
-						end
-		
-		upper_bound =	if pattern[0] == ")"
-							self < b
-						elsif pattern[0] == "]"
-							self <= b
-						end
-		
-		lower_bound && upper_bound
-	end
-end
-
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
@@ -199,26 +178,24 @@ class Entity
 	
 	private	
 	def compute_direction
-		#~ puts @shape.a
 		angle = @shape.body.a
-		if angle.between?((15*Math::PI/8), (1*Math::PI/8), "[)")
+		
+		if angle < (1*Math::PI/8)
 			:right
-		elsif angle.between?((1*Math::PI/8), (3*Math::PI/8), "[)")
+		elsif angle < (3*Math::PI/8)
 			:down_right
-		elsif angle.between?((3*Math::PI/8), (5*Math::PI/8), "[)")
+		elsif angle < (5*Math::PI/8)
 			:down
-		elsif angle.between?((5*Math::PI/8), (7*Math::PI/8), "[)")
+		elsif angle < (7*Math::PI/8)
 			:down_left
-		elsif angle.between?((7*Math::PI/8), (9*Math::PI/8), "[)")
+		elsif angle < (9*Math::PI/8)
 			:left
-		elsif angle.between?((9*Math::PI/8), (11*Math::PI/8), "[)")
+		elsif angle < (11*Math::PI/8)
 			:up_left
-		elsif angle.between?((11*Math::PI/8), (13*Math::PI/8), "[)")
+		elsif angle < (15*Math::PI/8)
 			:up
-		elsif angle.between?((13*Math::PI/8), (15*Math::PI/8), "[)")
+		else #angle > (8*Math::PI/8) or between 0 and pi/8
 			:up_right
-		else
-			:right #Workaround to catch the case where facing right is not being detected
 		end
 	end
 end
