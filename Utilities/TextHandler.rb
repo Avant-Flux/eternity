@@ -21,12 +21,15 @@ class TextBox
 		@font = Gosu::Font.new $window, "Times New Roman", 25
 	end
 	
-	def update
-		
+	def update()
+		if @buffer.last == "."
+			@buffer << "  "
+		end
+		@buffer 
 	end
 	
 	def draw
-		@font.draw text, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
+		@font.draw @output, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
 	end
 end
 
@@ -45,6 +48,11 @@ class SpeechBubble
 	end
 	
 	def update
+		
+	end
+	
+	def draw
+		
 	end
 	
 	#Generate a hash code.
