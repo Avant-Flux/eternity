@@ -39,7 +39,6 @@ class SpeechBubble
 	end
 	
 	def update
-		@timer.update
 	end
 	
 	#Generate a hash code.
