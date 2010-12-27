@@ -43,8 +43,6 @@ module Wireframe
 
 	class Building
 		def initialize(shape, color = :black)
-			@shape = shape
-			
 			@side_thickness = 4
 			
 			front_edge = 7
@@ -54,11 +52,11 @@ module Wireframe
 			side_buffer = 10
 			bottom_buffer = (bottom_edge/2.0).ceil
 			
-			width = @shape.width.to_px
-			height = @shape.height.to_px
-			depth = @shape.depth.to_px
+			width = shape.width.to_px
+			height = shape.height.to_px
+			depth = shape.depth.to_px
 			x = @side_thickness
-			y = @shape.height.to_px + @shape.depth.to_px - bottom_buffer
+			y = height + depth - bottom_buffer
 			
 			point = Struct.new(:x, :y)
 			
@@ -107,9 +105,9 @@ module Wireframe
 						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
 			#~ end
 			
-			@x = @shape.x + (-@side_thickness - 10 + side_buffer).to_meters
-			@y = @shape.y - @img.height.to_meters - @shape.z
-			@z = @shape.z
+			@x = shape.x + (-@side_thickness - 10 + side_buffer).to_meters
+			@y = shape.y - @img.height.to_meters - shape.z
+			@z = shape.z
 		end
 		
 		def update
