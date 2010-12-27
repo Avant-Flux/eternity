@@ -151,9 +151,23 @@ module UI
 				return x,y
 			end
 			
-			def calculate_radius
+			def scale
 				constant = 120
-				((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
+				r = ((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
+				
+				max_factor = 1
+				min_factor = 0.1
+				
+				max_distance = 120
+				min_distance = 3
+				
+				if @distance >= max_distance
+					
+				elsif @distance.between? max_distance, min_distance
+					
+				elsif @distance < min_distance
+					
+				end
 			end
 		end
 	end
