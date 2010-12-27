@@ -110,35 +110,29 @@ module UI
 				@circle = circle
 				@ellipse = ellipse
 				
-				@vector = vector_between @tracked, @player
-				@distance = @vector.length.ceil
+				@vector = CP::Vec2.new(0,0)	
+				@distance
 				
-				@x, @y = elliptical_projection
-							
-				@scale = scale
+				elliptical_projection
+				scale
 			end
 			
 			def update
-				new_vect = vector_between @tracked, @player
-				new_dist = new_vect.length.ceil
-				if new_dist != @distance
-					@vector = new_vect
-					@distance = new_dist
-					@scale = scale
-				end
-				@x, @y = elliptical_projection
+				distance @tracked, @player
+				scale
+				elliptical_projection
 			end
 			
 			def draw
-				@circle.draw_centered @x, @y, @player.z, :scale => @scale
+				@circle.draw_centered @x, @y, @player.z, :scale => @scale, :color => 0xFFFF0000
 			end
 			
 			private
 		
-			def vector_between(arg1, arg2)
-				x = arg1.shape.x - arg2.shape.x
-				y = arg1.shape.y - arg2.shape.y
-				CP::Vec2.new(x,y)
+			def distance(arg1, arg2)
+				@vector.x = arg1.shape.x - arg2.shape.x
+				@vector.y = arg1.shape.y - arg2.shape.y
+				@distance = @vector.length.ceil
 			end
 				
 			def elliptical_projection
@@ -146,28 +140,30 @@ module UI
 				#The trig functions in ruby take the angle in radians
 				angle = @vector.to_angle #Returns the angle to the tracked Entity in radians
 				
-				x = @player.x + @ellipse.a*Math.cos(angle)
-				y = @player.y + @ellipse.b*Math.sin(angle)
-				return x,y
+				@x = @player.x + @ellipse.a*Math.cos(angle)
+				@y = @player.y + @ellipse.b*Math.sin(angle)
 			end
 			
 			def scale
-				constant = 120
-				r = ((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
+				#~ constant = 120
+				#~ r = ((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
 				
-				max_factor = 1
-				min_factor = 0.1
-				
-				max_distance = 120
-				min_distance = 3
-				
-				if @distance >= max_distance
-					
-				elsif @distance.between? max_distance, min_distance
-					
-				elsif @distance < min_distance
-					
-				end
+				#~ max_factor = 1
+				#~ min_factor = 0.1
+				#~ 
+				#~ max_distance = 120
+				#~ min_distance = 3
+				#~ puts @distance
+				#~ if @distance >= max_distance
+								#~ @scale = max_factor
+							#~ elsif @distance.between? max_distance, min_distance
+								#~ x = @distance - min_distance
+								#~ @scale = @distance / 3.0
+							#~ elsif @distance <= min_distance
+								#~ @scale = min_factor
+							#~ end
+				#~ puts 1
+				1
 			end
 		end
 	end
