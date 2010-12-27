@@ -13,9 +13,7 @@ module Gosu
 				midpoint = [(x2+x3)/2, (y2+y3)/2]
 				pt = [(x1+midpoint[0])/2, (y1+midpoint[1])/2]
 				
-				unless hash[:color]
-					hash[:color] = :black
-				end
+				hash[:color] ||= :black
 				
 				self.fill pt[0], pt[1], :color => hash[:color]
 			end
