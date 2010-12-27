@@ -42,38 +42,39 @@ module Wireframe
 	end
 
 	class Building
+		FRONT_EDGE = 7
+		BACK_EDGE = 6
+		BOTTOM_EDGE = 2
+		CONSEALED_EDGE = 1
+		SIDE_BUFFER = 10
+		BOTTOM_BUFFER = (BOTTOM_EDGE/2.0).ceil
+		
+		Point = Struct.new(:x, :y)
+	
 		def initialize(shape, color = :black)
+			#~ @building = building
 			@side_thickness = 4
-			
-			front_edge = 7
-			back_edge = 6
-			bottom_edge = 2
-			consealed_edge = 1
-			side_buffer = 10
-			bottom_buffer = (bottom_edge/2.0).ceil
 			
 			width = shape.width.to_px
 			height = shape.height.to_px
 			depth = shape.depth.to_px
 			x = @side_thickness
-			y = height + depth - bottom_buffer
-			
-			point = Struct.new(:x, :y)
+			y = height + depth - BOTTOM_BUFFER
 			
 			points = Array.new()
-			points << point.new(x, y - height - depth)
-			points << point.new(x + width, y - height - depth)
-			points << point.new(x - @side_thickness, y - height)
-			points << point.new(x, y - height)
-			points << point.new(x + width, y - height)
-			points << point.new(x + width + @side_thickness, y - height)
-			points << point.new(x, y - depth)
-			points << point.new(x + width, y - depth)
-			points << point.new(x, y)
-			points << point.new(x + width, y)
+			points << Point.new(x, y - height - depth)
+			points << Point.new(x + width, y - height - depth)
+			points << Point.new(x - @side_thickness, y - height)
+			points << Point.new(x, y - height)
+			points << Point.new(x + width, y - height)
+			points << Point.new(x + width + @side_thickness, y - height)
+			points << Point.new(x, y - depth)
+			points << Point.new(x + width, y - depth)
+			points << Point.new(x, y)
+			points << Point.new(x + width, y)
 			
-			@img = TexPlay.create_blank_image $window,	width + @side_thickness*2 + side_buffer*2, 
-														height + depth + bottom_buffer
+			@img = TexPlay.create_blank_image $window,	width + @side_thickness*2 + SIDE_BUFFER*2, 
+														height + depth + BOTTOM_BUFFER
 			#~ @img.paint do
 				#Top side, left edge
 				@img.triangle	points[0].x, points[0].y, 
@@ -93,24 +94,25 @@ module Wireframe
 							points[9].x, points[9].y, :color => color, :fill => true
 				#Top side, back edge
 				@img.line 	points[0].x, points[0].y,
-						points[1].x, points[1].y, :color => color, :thickness => back_edge
+						points[1].x, points[1].y, :color => color, :thickness => BACK_EDGE
 				#Top side, front edge
 				@img.line	points[2].x, points[2].y,
-						points[5].x, points[5].y, :color => color, :thickness => front_edge
+						points[5].x, points[5].y, :color => color, :thickness => FRONT_EDGE
 				#Concealed edge
 				@img.line	points[6].x, points[6].y,
-						points[7].x, points[7].y, :color => color, :thickness => consealed_edge
+						points[7].x, points[7].y, :color => color, :thickness => CONSEALED_EDGE
 				#Front side, bottom edge
 				@img.line	points[8].x, points[8].y,
-						points[9].x, points[9].y, :color => color, :thickness => bottom_edge
+						points[9].x, points[9].y, :color => color, :thickness => BOTTOM_EDGE
 			#~ end
 			
-			@x = shape.x + (-@side_thickness - 10 + side_buffer).to_meters
+			@x = shape.x + (-@side_thickness - 10 + SIDE_BUFFER).to_meters
 			@y = shape.y - @img.height.to_meters - shape.z
 			@z = shape.z
 		end
 		
 		def update
+			#Call this only if the building is moved
 			
 		end
 		
