@@ -11,6 +11,7 @@ require './Chipmunk/Shape3D'
 
 module CP	
 	class Space3D < Space
+		TIMESTEP = 1/60.0
 		alias :add_2D :add
 	
 		attr_reader :shapes, :g
@@ -34,15 +35,15 @@ module CP
 		end
 		
 		def step
-			super $dt
+			super TIMESTEP
 			
 			#Add code for one-dimensional movement in the z-direction here	
 			@shapes[:nonstatic].each do |shape|
-				shape.iterate $dt
+				shape.iterate TIMESTEP
 				set_elevation shape
 				
 				if shape.z > shape.elevation
-					shape.apply_gravity $dt, @g
+					shape.apply_gravity TIMESTEP, @g
 				else# shape.z <= shape.elevation
 					shape.z = shape.elevation
 					shape.entity.resolve_ground_collision
