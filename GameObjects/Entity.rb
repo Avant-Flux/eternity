@@ -176,23 +176,32 @@ class Entity
 		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
 	end
 	
-	private	
+	private
+	EIGHTH = Math::PI/8
+	SECTOR1 = (1*EIGHTH)
+	SECTOR2 = (3*EIGHTH)
+	SECTOR3 = (5*EIGHTH)
+	SECTOR4 = (7*EIGHTH)
+	SECTOR5 = (9*EIGHTH)
+	SECTOR6 = (11*EIGHTH)
+	SECTOR7 = (13*EIGHTH)
+	
 	def compute_direction
 		angle = @shape.body.a
 		
-		if angle < (1*Math::PI/8)
+		if angle < SECTOR1
 			:right
-		elsif angle < (3*Math::PI/8)
+		elsif angle < SECTOR2
 			:down_right
-		elsif angle < (5*Math::PI/8)
+		elsif angle < SECTOR3
 			:down
-		elsif angle < (7*Math::PI/8)
+		elsif angle < SECTOR4
 			:down_left
-		elsif angle < (9*Math::PI/8)
+		elsif angle < SECTOR5
 			:left
-		elsif angle < (11*Math::PI/8)
+		elsif angle < SECTOR6
 			:up_left
-		elsif angle < (15*Math::PI/8)
+		elsif angle < SECTOR7
 			:up
 		else #angle > (8*Math::PI/8) or between 0 and pi/8
 			:up_right
