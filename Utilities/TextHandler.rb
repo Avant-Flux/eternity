@@ -15,12 +15,14 @@ end
 
 #Define the area for text to be drawn, but not the borders etc.
 class TextBox
-	DEFAULT_FONT = Gosu::Font.new $window, "Times New Roman", 25
-
-	def initialize(width, height, font=DEFAULT_FONT)
+	def initialize(width, height, font=nil)
 		@width = width
 		@height = height
-		@font = font
+		@font = if font
+			font
+		else
+			Gosu::Font.new($window, "Times New Roman", 25)
+		end
 	end
 	
 	def update()
