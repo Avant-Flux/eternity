@@ -14,18 +14,6 @@ module Timer
 		def update_all
 			TimerObject.update_all
 		end
-		
-		def after(*args)
-			Timer::After.new(*args)
-		end
-		
-		def between(*args)
-			Timer::Between.new(*args)
-		end
-		
-		def during(*args)
-			Timer::During.new(*args)
-		end
 	end
 
 	class TimerObject	#Don't use this class directly

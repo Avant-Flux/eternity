@@ -32,8 +32,8 @@ class SpeechBubble
 	def initialize(entity, text)
 		@entity = entity
 		@text = text
-		@timer = Timer::After.new TIMEOUT do
-			
+		@timer = Timer::After.new self, TIMEOUT do
+			@@all.delete self.hash
 		end
 		@@all[self.hash] = self
 	end
