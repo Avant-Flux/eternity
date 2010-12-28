@@ -10,12 +10,12 @@ end
 class Numeric
 	#Convert from points to ems.
 	def to_em
-		self * 0.0829872055543
+		self / 12.0
 	end
 	
 	#Convert from ems to points.
 	def to_points
-		self * 12.0500502857
+		self * 12
 	end
 end
 
@@ -29,17 +29,23 @@ end
 #Define the area for text to be drawn, but not the borders etc.
 class TextBox
 	def initialize(width, height, font=nil)
-		@width = width
-		@height = height
-		
 		@font = if font
 			font
 		else
 			Gosu::Font.new($window, "Times New Roman", 25)
 		end
+	
+		#Accept input for the width and height in pixels, but
+		#store those values relative to character size.
+		#Note: one character is roughly 0.625em
+		point = @font.height
+		em = point/12.0
+		
+		@width = (width / (em*0.625)).to_i			#Number of characters
+		@height = (height / @font.height).to_i		#Number of lines
 		
 		#Length of the output array should the height in lines of the text box
-		@output = Array.new(@height / @font.height)
+		@output = Array.new(@height)
 		@update = false
 	end
 	
