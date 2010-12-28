@@ -108,7 +108,7 @@ module Wireframe
 		end
 		
 		def update
-			#Call this only if the position of the building is updated
+			
 		end
 		
 		def draw(shape)

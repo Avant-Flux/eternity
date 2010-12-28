@@ -20,7 +20,6 @@ class Building
 		@shape = CP::Shape3D::Rect.new(self, :building, options[:position], 0, :bottom_left, 
 							options[:dimensions][0], options[:dimensions][1], options[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, options[:offset])
-		#~ @wireframe = Wireframe::Building.new(@shape, :white)
 		@wireframe = $art_manager.new_wireframe @shape, :white
 		space.add self
 	end
