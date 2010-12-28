@@ -40,11 +40,11 @@ class Game_Window < Gosu::Window
 			new_action :down, [Gosu::KbDown]
 			new_action:left, [Gosu::KbLeft]
 			new_action :right, [Gosu::KbRight]
-	
+			
 			new_action :jump, [Gosu::KbE]
 	
 			new_action :run, [Gosu::KbLeftShift]
-	
+			
 			new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]

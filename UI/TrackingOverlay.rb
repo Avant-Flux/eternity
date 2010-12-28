@@ -101,6 +101,7 @@ module UI
 		
 		class Blip
 			MAX_RADIUS = 25
+			MIN_SCALE = 0.1
 			
 			attr_accessor :tracked, :player
 			
@@ -111,7 +112,7 @@ module UI
 				@ellipse = ellipse
 				
 				@vector = CP::Vec2.new(0,0)	
-				@distance
+				@distance = 1
 				
 				elliptical_projection
 				scale
@@ -132,7 +133,7 @@ module UI
 			def distance(arg1, arg2)
 				@vector.x = arg1.shape.x - arg2.shape.x
 				@vector.y = arg1.shape.y - arg2.shape.y
-				@distance = @vector.length.ceil
+				@distance = @vector.length
 			end
 				
 			def elliptical_projection
@@ -145,7 +146,7 @@ module UI
 			end
 			
 			def scale
-				#~ constant = 120
+				constant = 120
 				#~ r = ((constant/@distance)*Math.sqrt(2/Math::PI)).ceil
 				
 				#~ max_factor = 1
@@ -163,7 +164,13 @@ module UI
 								#~ @scale = min_factor
 							#~ end
 				#~ puts 1
-				1
+				#~ puts @distance.class
+				#~ puts @distance
+				@scale = constant/(@distance**2)
+				
+				#Set maximum and minimum values for @scale
+				@scale = 1 if @scale > 1
+				@scale = MIN_SCALE if @scale < MIN_SCALE
 			end
 		end
 	end
