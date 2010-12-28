@@ -25,7 +25,8 @@ class TextBox
 			Gosu::Font.new($window, "Times New Roman", 25)
 		end
 		
-		@output = Array.new()	#Length should the height in lines of the text box
+		#Length of the output array should the height in lines of the text box
+		@output = Array.new(@height / @font.height)
 		@update = false
 	end
 	
