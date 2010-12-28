@@ -38,7 +38,7 @@ class Shadow
 	def opacity
 		#Calculate the difference between the terrain and the entity.
 		height = (@entity.z - @entity.elevation)
-		height = 1 if height <= 0
+		height = 1 if height < 1
 		
 		#Compute a percent based on the inverse-square of the distance
 		#and a constant which determines the base opacity.
@@ -47,9 +47,6 @@ class Shadow
 		#Convert the percent to a two-digit hex value
 		output = (0xFF * percent).to_i
 		#~ puts output.to_s 16
-		
-		#Limit the output to 0xFF
-		output = 0xFF if output > 0xFF
 		
 		return output
 	end
