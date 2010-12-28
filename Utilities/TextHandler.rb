@@ -49,15 +49,15 @@ class TextBox
 	# Update the state of the object.
 	# Take input out of the buffer and place it into output to be rendered.
 	def update
-		
-		
-		
-		#If too much time has passed, clear the buffer
-		
-		
-		
-		#Parse out the buffer into lines that can be drawn to the screen.
-		
+		if @update
+			
+			
+			#If too much time has passed, clear the buffer
+			
+			
+			
+			#Parse out the buffer into lines that can be drawn to the screen.
+		end
 	end
 	
 	# Render strings to the screen.
@@ -69,6 +69,7 @@ class TextBox
 	
 	def puts(input)
 		@update = true
+		
 		#Process new data into the buffer
 		if @buffer.last == "."
 			@buffer << "  "
