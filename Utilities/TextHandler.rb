@@ -1,12 +1,25 @@
 #!/usr/bin/ruby
 
 class String
+	#Return the last character in the string.
 	def last
 		self[length-1]
 	end
 end
 
-#Managed text-based output classes
+class Numeric
+	#Convert from points to ems.
+	def to_em
+		self * 0.0829872055543
+	end
+	
+	#Convert from ems to points.
+	def to_points
+		self * 12.0500502857
+	end
+end
+
+#Managed text-based output classes.
 class TextHandler
 	def initialize
 		
@@ -44,6 +57,7 @@ class TextBox
 		
 	end
 	
+	#Render strings to the screen.
 	def draw
 		@output.each do |string| #each_char
 			@font.draw string, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
