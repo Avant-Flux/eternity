@@ -20,6 +20,7 @@ class ArtManager
 						:upper => {}, :lower => {}, :footwear => {}}
 		@effects = {}
 		@textures = {}
+		@wireframes = {}
 	end
 	
 	#Create a new animation with the subsprites specified in the hash argument.
@@ -35,6 +36,16 @@ class ArtManager
 	
 	def new_texture
 		
+	end
+	
+	def new_wireframe(shape, color)
+		code = (shape.width + shape.depth*100 + shape.height*10000).to_i
+		#~ puts code
+		unless @wireframes[code]
+			@wireframes[code] = Wireframe::Building.new(shape, color)
+		end
+		
+		@wireframes[code]
 	end
 	
 	def new_shadow(entity)
@@ -71,6 +82,10 @@ class ArtManager
 		
 	end
 	
+	def clear_wireframe()
+		
+	end
+	
 	def clear_circle(radius)
 		@circles.delete radius
 	end
@@ -95,6 +110,10 @@ class ArtManager
 	
 	def clear_all_circles
 		@circles.clear
+	end
+	
+	def clear_all_wireframes
+		@wireframes.clear
 	end
 	
 	private

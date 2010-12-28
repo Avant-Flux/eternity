@@ -50,7 +50,6 @@ module Wireframe
 		Point = Struct.new(:x, :y)
 	
 		def initialize(shape, color = :black)
-			#~ @building = building
 			@side_thickness = 4
 			
 			width = shape.width.to_px
@@ -103,19 +102,17 @@ module Wireframe
 				@img.line	points[8].x, points[8].y,
 						points[9].x, points[9].y, :color => color, :thickness => BOTTOM_EDGE
 			#~ end
-			
-			@x = shape.x + (-@side_thickness - 10 + SIDE_BUFFER).to_meters
-			@y = shape.y - @img.height.to_meters - shape.z
-			@z = shape.z
 		end
 		
 		def update
-			#Call this only if the building is moved
-			
+			#Call this only if the position of the building is updated
 		end
 		
-		def draw
-			@img.draw @x, @y, @z
+		def draw(shape)
+			x = shape.x + (-@side_thickness - 10 + SIDE_BUFFER).to_meters
+			y = shape.y - @img.height.to_meters - shape.z
+			z = shape.z
+			@img.draw x, y, z
 		end
 		
 		def draw_line x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
