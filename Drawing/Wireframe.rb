@@ -102,6 +102,9 @@ module Wireframe
 				@img.line	points[8].x, points[8].y,
 						points[9].x, points[9].y, :color => color, :thickness => BOTTOM_EDGE
 			#~ end
+			
+			@x_offset = (-@side_thickness - 10 + SIDE_BUFFER).to_meters
+			@y_offset = @img.height.to_meters + shape.z
 		end
 		
 		def update
@@ -109,10 +112,7 @@ module Wireframe
 		end
 		
 		def draw(shape)
-			x = shape.x + (-@side_thickness - 10 + SIDE_BUFFER).to_meters
-			y = shape.y - @img.height.to_meters - shape.z
-			z = shape.z
-			@img.draw x, y, z
+			@img.draw shape.x + @x_offset, shape.y - @y_offset, shape.z
 		end
 		
 		def draw_line x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
