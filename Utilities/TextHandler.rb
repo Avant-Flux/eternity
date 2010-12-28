@@ -18,22 +18,44 @@ class TextBox
 	def initialize(width, height, font=nil)
 		@width = width
 		@height = height
+		
 		@font = if font
 			font
 		else
 			Gosu::Font.new($window, "Times New Roman", 25)
 		end
+		
+		@output = Array.new()	#Length should the height in lines of the text box
+		@update = false
 	end
 	
-	def update()
-		if @buffer.last == "."
-			@buffer << "  "
-		end
-		@buffer 
+	#Update the state of the object.
+	#Take input out of the buffer and place it into output to be rendered.
+	def update
+		
+		
+		
+		#If too much time has passed, clear the buffer
+		
+		
+		
+		#Parse out the buffer into lines that can be drawn to the screen.
+		
 	end
 	
 	def draw
-		@font.draw @output, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
+		@output.each do |string| #each_char
+			@font.draw string, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
+		end
+	end
+	
+	def puts(input)
+		@update = true
+		#Process new data into the buffer
+		if @buffer.last == "."
+			@buffer << "  "
+		end
+		@buffer << input
 	end
 end
 
