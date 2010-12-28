@@ -18,7 +18,8 @@ class Shadow
 		
 		def draw
 			@circle.draw_centered(@entity.x, @entity.y, @entity.elevation, 
-							{:factor_x => @scale, :factor_y => @scale, :color => @color})
+							:factor_x => @scale, :factor_y => @scale, 
+							:offset_z => -1, :color => @color)
 		end
 		
 		private
@@ -31,8 +32,16 @@ class Shadow
 		end
 		
 		def opacity
-			percent = 0.2
-			0xFF * percent	#Convert the percent to a two-digit hex value
+			height = (@entity.z - @entity.elevation)
+			height = 1 if height <= 0
+			percent = 1/(height**2)
+			output = (0xFF * percent).to_i	#Convert the percent to a two-digit hex value
+			#~ puts output.to_s 16
+			
+			#Limit the output to 0xFF
+			output = 0xFF if output > 0xFF
+			
+			return output
 		end
 		
 		def scale
