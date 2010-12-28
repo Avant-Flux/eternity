@@ -1,40 +1,37 @@
 #!/usr/bin/ruby
 
 class String
-	#Return the last character in the string.
+	# Return the last character in the string.
 	def last
 		self[length-1]
 	end
 end
 
 class Numeric
-	#Convert from points to ems.
+	# Convert from points to ems.
 	def to_em
 		self / 12.0
 	end
 	
-	#Convert from ems to points.
+	# Convert from ems to points.
 	def to_points
 		self * 12
 	end
 end
 
-#Managed text-based output classes.
+# Managed text-based output classes.
 class TextHandler
 	def initialize
 		
 	end
 end
 
-#Define the area for text to be drawn, but not the borders etc.
+# Define the area for text to be drawn, but not the borders etc.
 class TextBox
 	def initialize(width, height, font=nil)
-		@font = if font
-			font
-		else
-			Gosu::Font.new($window, "Times New Roman", 25)
-		end
-	
+		font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
+		@font = font
+		
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
 		#Note: one character is roughly 0.625em
@@ -49,8 +46,8 @@ class TextBox
 		@update = false
 	end
 	
-	#Update the state of the object.
-	#Take input out of the buffer and place it into output to be rendered.
+	# Update the state of the object.
+	# Take input out of the buffer and place it into output to be rendered.
 	def update
 		
 		
@@ -63,7 +60,7 @@ class TextBox
 		
 	end
 	
-	#Render strings to the screen.
+	# Render strings to the screen.
 	def draw
 		@output.each do |string| #each_char
 			@font.draw string, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
