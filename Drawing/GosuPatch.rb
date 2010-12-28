@@ -11,6 +11,7 @@ module Gosu
 			
 			options[:offset_x] ||= 0
 			options[:offset_y] ||= 0
+			options[:offset_z] ||= 0
 			options[:factor_x] ||= 1
 			options[:factor_y] ||= 1
 			#~ options[:scale] ||= 1
@@ -43,7 +44,7 @@ module Gosu
 			render_y = y.to_px - z.to_px - options[:offset_y]
 			z_index = z + y
 			
-			old_draw(render_x, render_y, z_index, 
+			old_draw(render_x, render_y, z_index+options[:offset_z], 
 					options[:factor_x], options[:factor_y], 
 					options[:color], options[:mode])
 		end
