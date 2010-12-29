@@ -99,6 +99,31 @@ class SpeechBubble
 		@textbox.puts text
 		
 		
+		# Create new point class
+		point = Struct.new(:x,:y)
+		
+		# Store each point of the text box in an ordered pair (x,y)
+		point1 = point.new x.to_px - 60, y.to_px - height - 100
+		point2 = point.new x.to_px + 60, y.to_px - height - 100
+		point3 = point.new x.to_px - 60, y.to_px - height - 30
+		point4 = point.new x.to_px + 60, y.to_px - height - 30
+		
+		# Define color for text box
+		color = Gosu::Color::RED
+		
+		z_offset = 1000
+		
+		# Draw box to hold character text
+
+		$window.draw_quad(point1.x, point1.y, color, 
+						   point2.x, point2.y, color, 
+						   point3.x, point3.y, color, 
+						   point4.x, point4.y, color, z+z_offset)
+		
+		# Draw triangle that points to character that is speaking
+		$window.draw_triangle x.to_px - 60, y.to_px - height - 30, color, 
+							  x.to_px - 30, y.to_px - height - 30, color, 
+							  x.to_px, y.to_px - height, color, z+z_offset
 		
 		
 		@@all[self.hash] = self
