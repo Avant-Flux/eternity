@@ -28,7 +28,7 @@ end
 
 # Define the area for text to be drawn, but not the borders etc.
 class TextBox
-	def initialize(width, height, font=nil)
+	def initialize(pos=[0,0,0], width, height, font)
 		font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
 		@font = font
 		
@@ -80,24 +80,39 @@ end
 
 class SpeechBubble
 	TIMEOUT = 3000 #Time to wait before destroying this speech bubble
+	#Height and width measured in px
+	BUBBLE_WIDTH = 300
+	BUBBLE_HEIGHT = 200
 	
 	@@all = {}
 	
 	def initialize(entity, text)
 		@entity = entity
-		@text = text
+		
+		@textbox = TextBox.new([@entity.x, @entity.y, @entity.z], 
+								BUBBLE_WIDTH, BUBBLE_HEIGHT)
+		
 		@timer = Timer::After.new self, TIMEOUT do
 			@@all.delete self.hash
 		end
+		
+		@textbox.puts text
+		
+		
+		
+		
 		@@all[self.hash] = self
+		
+		
+		
 	end
 	
 	def update
-		
+		@textbox.update
 	end
 	
 	def draw
-		
+		@textbox.draw
 	end
 	
 	#Generate a hash code.
