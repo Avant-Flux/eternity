@@ -19,6 +19,24 @@ class Numeric
 	end
 end
 
+class Point
+	attr_accessor :x, :y
+	
+	def initialize(x=nil, y=nil)
+		@x = x
+		@y = y
+	end
+	
+	def set(x, y)
+		@x = x
+		@y = y
+	end
+	
+	#~ def
+		#~ @x, @y
+	#~ end
+end
+
 # Managed text-based output classes.
 class TextHandler
 	def initialize
