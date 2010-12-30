@@ -102,6 +102,7 @@ class SpeechBubble
 	BUBBLE_WIDTH = 300
 	BUBBLE_HEIGHT = 200
 	
+	# Create new point class
 	@@all = {}
 	
 	def initialize(entity, text)
@@ -114,48 +115,59 @@ class SpeechBubble
 			@@all.delete self.hash
 		end
 		
+		
 		@textbox.puts text
 		
 		
-		# Create new point class
-		point = Struct.new(:x,:y)
 		
-		# Store each point of the text box in an ordered pair (x,y)
-		point1 = point.new x.to_px - 60, y.to_px - height - 100
-		point2 = point.new x.to_px + 60, y.to_px - height - 100
-		point3 = point.new x.to_px - 60, y.to_px - height - 30
-		point4 = point.new x.to_px + 60, y.to_px - height - 30
-		
+		# Create an array in which to store the points used to draw the bubble.
+		@points = Array.new(7)
+		@points.each do |i|
+			i = Point.new
+		end
+				
 		# Define color for text box
-		color = Gosu::Color::RED
+		@color = Gosu::Color::RED
 		
-		z_offset = 1000
-		
-		# Draw box to hold character text
-
-		$window.draw_quad(point1.x, point1.y, color, 
-						   point2.x, point2.y, color, 
-						   point3.x, point3.y, color, 
-						   point4.x, point4.y, color, z+z_offset)
-		
-		# Draw triangle that points to character that is speaking
-		$window.draw_triangle x.to_px - 60, y.to_px - height - 30, color, 
-							  x.to_px - 30, y.to_px - height - 30, color, 
-							  x.to_px, y.to_px - height, color, z+z_offset
+		# The amount to offset the textbox from the entity speaking.
+		@z_offset = 1000
 		
 		
 		@@all[self.hash] = self
-		
-		
-		
 	end
 	
 	def update
 		@textbox.update
+		
+		#Update the position at which to draw the bubble
+		@points[0].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 100
+		@points[1].set @entity.x.to_px + 60, @entity.y.to_px - @entity.height - 100
+		@points[2].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
+		@points[3].set @entity.x.to_px + 60, @entity.y.to_px - @entity.height - 30
+		
+		@points[4].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
+		@points[5].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
+		@points[6].set @entity.x.to_px, @entity.y.to_px - @entity.height
 	end
 	
 	def draw
-		@textbox.draw
+		#Draw the bubble for the text to be displayed in
+		
+		
+		# Draw box to hold character text
+		$window.draw_quad	@points[0].x, @points[0].y, @color, 
+							@points[1].x, @points[1].y, @color, 
+							@points[2].x, @points[2].y, @color, 
+							@points[3].x, @points[3].y, @color, @entity.z+@z_offset
+		
+		# Draw triangle that points to character that is speaking
+		$window.draw_triangle @points[4].x, @points[4].x, @color, 
+							  @points[5].x, @points[5].x, @color, 
+							  @points[6].x, @points[6].x, @color, @entity.z+@z_offset
+		
+		
+		#Draw the actual text
+		@textbox.draw :offset_z => @z_offset
 	end
 	
 	#Generate a hash code.
