@@ -69,6 +69,7 @@ class TextBox
 		
 		#Create input buffer
 		@input_buffer = ""
+		@output_buffer = []
 	end
 	
 	# Update the state of the object.
@@ -82,6 +83,20 @@ class TextBox
 			
 			
 			#Parse out the buffer into lines that can be drawn to the screen.
+			while @input_buffer.length > @width
+				#Place a chunk of input into the output buffer
+				@output_buffer << @input_buffer[0..(@width-1)]
+				
+				#Remove the chunk from the input buffer
+				@input_buffer = @input_buffer[@width..@input_buffer.length-1]
+			end
+			unless @input_buffer == ""
+				#Place the last portion of input in the output buffer.
+				#This last portion should be shorter than the maximum
+				#line width at this point.
+				@output_buffer << @input_buffer
+				@input_buffer.clear
+			end
 			
 			
 			#Set @update to false
