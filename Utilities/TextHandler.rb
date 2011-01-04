@@ -50,9 +50,7 @@ class TextBox
 		font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
 		@font = font
 		
-		@x = pos[0]
-		@y = pos[1]
-		@z = pos[2]
+		move pos
 		
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
