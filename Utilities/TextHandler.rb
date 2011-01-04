@@ -101,6 +101,10 @@ class TextBox
 		end
 		@buffer << input
 	end
+	
+	def move(pos)
+		@pos = pos
+	end
 end
 
 class SpeechBubble
