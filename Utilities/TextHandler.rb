@@ -90,7 +90,7 @@ class TextBox
 				#Remove the chunk from the input buffer
 				@input_buffer = @input_buffer[@width..@input_buffer.length-1]
 			end
-			unless @input_buffer == ""
+			unless @input_buffer.empty?
 				#Place the last portion of input in the output buffer.
 				#This last portion should be shorter than the maximum
 				#line width at this point.
@@ -98,9 +98,15 @@ class TextBox
 				@input_buffer.clear
 			end
 			
+			#Place as many lines as possible into the output queue.
+			@height.times do
+				@output << @output_buffer.shift
+			end
 			
-			#Set @update to false
-			@update = false
+			#Set @update to false if and only if the output buffer is empty.
+			#If the output buffer is not empty, more text needs to be moved into
+			#the output queue from the output buffer on the next update.
+			@update = false if @output_buffer.empty?
 		end
 	end
 	
