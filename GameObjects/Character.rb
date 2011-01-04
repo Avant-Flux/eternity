@@ -46,7 +46,7 @@ class Character < Entity
 	end
 	
 	def say text
-		SpeechBubble.new 
+		SpeechBubble.new self, text
 	end
 	
 	private
