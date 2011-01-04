@@ -55,8 +55,10 @@ class TextBox
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
 		#Note: one character is roughly 0.625em
-		point = @font.height
-		em = point/12.0
+		#~ point = @font.height
+		#~ em = point/12.0
+		em = @font.text_width("m")
+		
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
 		@height = (height / @font.height).to_i		#Number of lines
