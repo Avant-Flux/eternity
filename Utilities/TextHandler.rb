@@ -62,6 +62,9 @@ class TextBox
 		#Length of the output array should the height in lines of the text box
 		@output = Array.new(@height)
 		@update = false
+		
+		#Create input buffer
+		@buffer = ""
 	end
 	
 	# Update the state of the object.
@@ -130,7 +133,7 @@ class SpeechBubble
 			i = Point.new
 		end
 				
-		# Define color for text box
+		# Define color for bubble.
 		@color = Gosu::Color::RED
 		
 		# The amount to offset the textbox from the entity speaking.
