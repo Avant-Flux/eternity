@@ -58,10 +58,10 @@ class TextBox
 		#~ point = @font.height
 		#~ em = point/12.0
 		em = @font.text_width("m")
-		
+		@line_height = (@font.height*1.1).to_i
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
-		@height = (height / @font.height).to_i		#Number of lines
+		@height = (height / @line_height).to_i		#Number of lines
 		
 		#Length of the output array should the height in lines of the text box
 		@output = Array.new(@height)
@@ -112,8 +112,11 @@ class TextBox
 	
 	# Render strings to the screen.
 	def draw
-		@output.each do |string| #each_char
-			@font.draw string, point1.x + 1, point1.y + 1, z.to_px + 5 +z_offset
+		@output.each_with_index do |string, i| #each_char
+			x = @x + i*@line_height
+			y = @y + i*@line_height
+			
+			@font.draw string, x, y, @z
 		end
 	end
 	
