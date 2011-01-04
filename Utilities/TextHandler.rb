@@ -68,7 +68,7 @@ class TextBox
 		@update = false
 		
 		#Create input buffer
-		@buffer = ""
+		@input_buffer = ""
 	end
 	
 	# Update the state of the object.
@@ -100,10 +100,10 @@ class TextBox
 		@update = true
 		
 		#Process new data into the buffer
-		if @buffer.last == "."
-			@buffer << "  "
+		if @input_buffer.last == "."
+			@input_buffer << "  "
 		end
-		@buffer << input
+		@input_buffer << input
 	end
 	
 	def move(pos)
