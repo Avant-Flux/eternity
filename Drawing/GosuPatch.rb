@@ -58,4 +58,18 @@ module Gosu
 			self.to_blob == arg.to_blob
 		end
 	end
+	
+	class Font
+		alias :old_draw :draw
+		
+		def draw(text, x,y,z, options={})
+			options[:factor_x] ||= 1
+			options[:factor_y] ||= 1
+			options[:color] ||= 0xffffffff
+			options[:mode] ||= :default
+			
+			old_draw	text, x,y,z, options[:factor_x], options[:factor_y], 
+						options[:color], options[:mode]
+		end
+	end
 end
