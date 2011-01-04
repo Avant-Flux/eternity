@@ -75,6 +75,10 @@ class TextBox
 			
 			
 			#Parse out the buffer into lines that can be drawn to the screen.
+			
+			
+			#Set @update to false
+			@update = false
 		end
 	end
 	
