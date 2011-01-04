@@ -111,12 +111,15 @@ class TextBox
 	end
 	
 	# Render strings to the screen.
-	def draw
+	def draw(options={})
+		options[:z_offset] ||= 0
+	
 		@output.each_with_index do |string, i| #each_char
 			x = @x + i*@line_height
 			y = @y + i*@line_height
+			z = @z + options[:z_offset]
 			
-			@font.draw string, x, y, @z
+			@font.draw string, x, y, z
 		end
 	end
 	
