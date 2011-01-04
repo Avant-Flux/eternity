@@ -99,7 +99,7 @@ class TextBox
 			end
 			
 			#Place as many lines as possible into the output queue.
-			@height.times do
+			(@height-@output.length).times do
 				@output << @output_buffer.shift
 			end
 			
