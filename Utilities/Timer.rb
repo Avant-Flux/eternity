@@ -49,7 +49,7 @@ module Timer
 		
 		# Execute the stored block in the proper scope.
 		def run
-			@scope.instance_eval @block
+			@scope.instance_eval &@block
 		end
 		
 		# Allows the Timer to be garbage collected unless it is to repeat.
