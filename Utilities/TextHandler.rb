@@ -178,7 +178,7 @@ class SpeechBubble
 
 		
 		# Create an array in which to store the points used to draw the bubble.
-		@points = Array.new(7)
+		@points = Array.new(5)
 		@points.each_with_index do |point,i|
 			@points[i] = Point.new
 		end
@@ -215,9 +215,9 @@ class SpeechBubble
 		#Top Right
 		@points[1].set @points[0].x + BUBBLE_WIDTH, @points[0].y - BUBBLE_HEIGHT
 		
-		@points[4].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
-		@points[5].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
-		@points[6].set @entity.x.to_px, @entity.y.to_px - @entity.height
+		@points[2].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
+		@points[3].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
+		@points[4].set @entity.x.to_px, @entity.y.to_px - @entity.height
 		
 		
 		
@@ -237,9 +237,9 @@ class SpeechBubble
 							@points[0].x, @points[1].y, @color, @entity.z
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle @points[4].x, @points[4].x, @color, 
-							  @points[5].x, @points[5].x, @color, 
-							  @points[6].x, @points[6].x, @color, @entity.z
+		$window.draw_triangle @points[2].x, @points[2].x, @color, 
+							  @points[3].x, @points[3].x, @color, 
+							  @points[4].x, @points[4].x, @color, @entity.z
 		
 		
 		#Draw the actual text
