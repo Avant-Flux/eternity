@@ -66,15 +66,15 @@ class TextBox
 		@update = false
 		
 		#Create input buffer
-		@input_buffer = ""
-		@output_buffer = []
+		#~ @input_buffer = ""
+		@buffer = []
 	end
 	
 	# Update the state of the object.
 	# Take input out of the buffer and place it into output to be rendered.
 	def update
 		#~ if @update
-			puts "start update"
+			#~ puts "start update"
 			
 			#If too much time has passed, clear the buffer
 			
@@ -102,20 +102,27 @@ class TextBox
 			#~ z = @z + options[:z_offset]
 			#~ @font.draw "hello world", @x, y, z
 		#~ end
-		
-		output = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
-		
 		@height.times do |i|
-			start = (i*(@width+1))
-			stop = start+@width
-			
-			y= @y + i*@font.height
-			
-			@font.draw output[start..stop], @x, y, @z, options
+			break if i > @buffer.size
+			@font.draw @buffer[i], @x, @y + i*@font.height, @z+options[:z_offset]
 		end
 	end
 	
 	def puts(input)
+		#~ input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
+		upper_limit = (input.length / @width.to_f).ceil
+		
+		(0..upper_limit).each do |i|
+			start = (i*(@width+1))
+			stop = start+@width
+			output = input[start..stop]
+			
+			#~ Kernel.puts output
+			
+			@buffer << output
+		end
+		
+		
 		#~ @update = true
 		#~ 
 		#~ #Process new data into the buffer
@@ -169,6 +176,7 @@ class SpeechBubble
 		
 		@textbox = TextBox.new([0,0,0], 
 								BUBBLE_WIDTH, BUBBLE_HEIGHT)
+		@textbox.puts text
 		
 		@timer = Timer::After.new self, TIMEOUT do
 			@@all.delete self.hash
@@ -241,7 +249,7 @@ class SpeechBubble
 		# Draw triangle that points to character that is speaking
 		$window.draw_triangle @points[2].x, @points[2].y, @color, 
 							  @points[3].x, @points[3].y, @color, 
-							  @points[4].x, @points[4].y, @color, @entity.z+@z_offset
+							  @points[4].x, @points[4].y, @color, @entity.z
 		
 		
 		#Draw the actual text
