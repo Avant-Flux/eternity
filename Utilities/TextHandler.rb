@@ -57,10 +57,9 @@ class TextBox
 		#~ point = @font.height
 		#~ em = point/12.0
 		em = @font.text_width("m")
-		@line_height = (@font.height*1).to_i
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
-		@height = (height / @line_height).to_i		#Number of lines
+		@height = (height / @font.height).to_i		#Number of lines
 		
 		#Length of the output array should the height in lines of the text box
 		@output = []
@@ -110,7 +109,7 @@ class TextBox
 			start = (i*(@width+1))
 			stop = start+@width
 			
-			y= @y + i*@line_height
+			y= @y + i*@font.height
 			
 			@font.draw output[start..stop], @x, y, @z, options
 		end
