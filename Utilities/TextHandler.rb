@@ -208,14 +208,17 @@ class SpeechBubble
 		#Update the position at which to draw the bubble
 		
 		#Draw the box portion
-		
 		#Bottom Left
 		@points[0].set @entity.x.to_px, @entity.y.to_px - @entity.height - BUBBLE_RISE
 		#Top Right
 		@points[1].set @points[0].x + BUBBLE_WIDTH, @points[0].y - BUBBLE_HEIGHT
 		
-		@points[2].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
-		@points[3].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
+		#Draw the arrow portion
+		#Top left
+		@points[2].set @points[0].x, @points[0].y
+		#Top right
+		@points[3].set @points[2].x + 30, @points[2].y
+		#Bottom
 		@points[4].set @entity.x.to_px, @entity.y.to_px - @entity.height
 		
 		
@@ -232,13 +235,13 @@ class SpeechBubble
 		#Specify points in counter clockwise order starting from bottom left.
 		$window.draw_quad	@points[0].x, @points[0].y, @color, 
 							@points[1].x, @points[0].y, @color, 
-							@points[1].x, @points[1].y, @color, 
-							@points[0].x, @points[1].y, @color, @entity.z
+							@points[1].x, @points[1].y, 0xff880000, 
+							@points[0].x, @points[1].y, 0xff880000, @entity.z
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle @points[2].x, @points[2].x, @color, 
-							  @points[3].x, @points[3].x, @color, 
-							  @points[4].x, @points[4].x, @color, @entity.z
+		$window.draw_triangle @points[2].x, @points[2].y, @color, 
+							  @points[3].x, @points[3].y, @color, 
+							  @points[4].x, @points[4].y, @color, @entity.z+@z_offset
 		
 		
 		#Draw the actual text
