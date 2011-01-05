@@ -212,12 +212,8 @@ class SpeechBubble
 		
 		#Bottom Left
 		@points[0].set @entity.x.to_px, @entity.y.to_px - @entity.height - BUBBLE_RISE
-		#Bottom Right
-		@points[1].set @points[0].x + BUBBLE_WIDTH, @points[0].y
-		#Top Left
-		@points[2].set @points[0].x, @points[0].y - BUBBLE_HEIGHT
 		#Top Right
-		@points[3].set @points[1].x, @points[2].y
+		@points[1].set @points[0].x + BUBBLE_WIDTH, @points[0].y - BUBBLE_HEIGHT
 		
 		@points[4].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
 		@points[5].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
@@ -226,7 +222,7 @@ class SpeechBubble
 		
 		
 		@textbox.update
-		@textbox.move [@points[2].x, @points[2].y, @entity.z]
+		@textbox.move [@points[0].x, @points[1].y, @entity.z]
 	end
 	
 	def draw
@@ -234,10 +230,11 @@ class SpeechBubble
 		
 		
 		# Draw box to hold character text
+		#Specify points in counter clockwise order starting from bottom left.
 		$window.draw_quad	@points[0].x, @points[0].y, @color, 
+							@points[1].x, @points[0].y, @color, 
 							@points[1].x, @points[1].y, @color, 
-							@points[2].x, @points[2].y, @color, 
-							@points[3].x, @points[3].y, @color, @entity.z
+							@points[0].x, @points[1].y, @color, @entity.z
 		
 		# Draw triangle that points to character that is speaking
 		$window.draw_triangle @points[4].x, @points[4].x, @color, 
