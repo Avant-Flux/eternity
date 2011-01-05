@@ -93,6 +93,8 @@ class Game_Window < Gosu::Window
 		@player.track(@characters[3])
 		@player.track(@characters[18])
 		
+		@characters[0].say "hello world"
+		
 		@UI = UI::Overlay::Status.new(@player)
 		$camera = Camera.new(@space, @player)
 		
@@ -109,6 +111,8 @@ class Game_Window < Gosu::Window
 		#~ @effect.update
 		#~ puts @characters[1].elevation
 		#~ puts @player.elevation
+		SpeechBubble.update_all
+		
 		$camera.update
 		@space.shapes[:nonstatic].each do |shape|
 			shape.body.reset_forces
@@ -137,6 +141,7 @@ class Game_Window < Gosu::Window
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ @background.draw
 			#~ @effect.draw(500,60,3)
+			SpeechBubble.draw_all
 			
 			$camera.queue.each do |i|
 				i.draw
