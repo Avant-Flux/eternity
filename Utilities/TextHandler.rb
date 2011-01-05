@@ -57,13 +57,13 @@ class TextBox
 		#~ point = @font.height
 		#~ em = point/12.0
 		em = @font.text_width("m")
-		@line_height = (@font.height*1.1).to_i
+		@line_height = (@font.height*1).to_i
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
-		@height = (height / @line_height).to_i		#Number of lines
+		@height = (height / @line_height).to_i - 1		#Number of lines
 		
 		#Length of the output array should the height in lines of the text box
-		@output = Array.new(@height)
+		@output = []
 		@update = false
 		
 		#Create input buffer
@@ -74,62 +74,73 @@ class TextBox
 	# Update the state of the object.
 	# Take input out of the buffer and place it into output to be rendered.
 	def update
-		if @update
-			
+		#~ if @update
+			puts "start update"
 			
 			#If too much time has passed, clear the buffer
 			
-			
-			
-			#Parse out the buffer into lines that can be drawn to the screen.
-			while @input_buffer.length > @width
-				#Place a chunk of input into the output buffer
-				@output_buffer << @input_buffer[0..(@width-1)]
-				
-				#Remove the chunk from the input buffer
-				@input_buffer = @input_buffer[@width..@input_buffer.length-1]
-			end
-			unless @input_buffer.empty?
-				#Place the last portion of input in the output buffer.
-				#This last portion should be shorter than the maximum
-				#line width at this point.
-				@output_buffer << @input_buffer
-				@input_buffer.clear
-			end
+		
 			
 			#Place as many lines as possible into the output queue.
-			(@height-@output.length).times do
-				@output << @output_buffer.shift
-			end
+			#~ (@height).times do
+				#~ @output << @output_buffer.shift
+			#~ end
 			
 			#Set @update to false if and only if the output buffer is empty.
 			#If the output buffer is not empty, more text needs to be moved into
 			#the output queue from the output buffer on the next update.
-			@update = false if @output_buffer.empty?
-		end
+			#~ @update = false if @output_buffer.empty?
+		#~ end
 	end
 	
 	# Render strings to the screen.
 	def draw(options={})
 		options[:z_offset] ||= 0
-	
-		@output.each_with_index do |string, i| #each_char
-			x = @x + i*@line_height
-			y = @y + i*@line_height
-			z = @z + options[:z_offset]
-			
-			@font.draw string, x, y, z
+		#~ p @output
+		#~ @output.each_with_index do |string, i| #each_char
+			#~ x = @x + i*@line_height
+			#~ y = @y + i*@line_height
+			#~ z = @z + options[:z_offset]
+			#~ @font.draw "hello world", @x, y, z
+		#~ end
+		
+		output = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
+		
+		@height.times do |i|
+			start = (i*(@width+1))
+			stop = start+@width
+			@font.draw output[start..stop], @x, @y + i*@line_height, @z, options
 		end
 	end
 	
 	def puts(input)
-		@update = true
-		
-		#Process new data into the buffer
-		if @input_buffer.last == "."
-			@input_buffer << "  "
-		end
-		@input_buffer << input
+		#~ @update = true
+		#~ 
+		#~ #Process new data into the buffer
+		#~ if @input_buffer.last == "."
+			#~ @input_buffer << "  "
+		#~ end
+		#~ puts input
+		#~ @input_buffer << input
+		#~ 
+		#~ puts @input_buffer
+		#~ 
+		#~ #Parse out the buffer into lines that can be drawn to the screen.
+			#~ while @input_buffer.length > @width
+				#~ puts "start parsing"
+				#~ #Place a chunk of input into the output buffer
+				#~ @output_buffer << @input_buffer[0..(@width-1)]
+				#~ 
+				#~ #Remove the chunk from the input buffer
+				#~ @input_buffer = @input_buffer[@width..@input_buffer.length-1]
+			#~ end
+			#~ unless @input_buffer.empty?
+				#~ #Place the last portion of input in the output buffer.
+				#~ #This last portion should be shorter than the maximum
+				#~ #line width at this point.
+				#~ @output_buffer << @input_buffer
+				#~ @input_buffer.clear
+			#~ end
 	end
 	
 	def move(pos)
@@ -140,7 +151,7 @@ class TextBox
 end
 
 class SpeechBubble
-	TIMEOUT = 3000 #Time to wait before destroying this speech bubble
+	TIMEOUT = 10000 #Time to wait before destroying this speech bubble
 	#Height and width measured in px
 	BUBBLE_WIDTH = 300
 	BUBBLE_HEIGHT = 200
@@ -151,22 +162,19 @@ class SpeechBubble
 	def initialize(entity, text)
 		@entity = entity
 		
-		@textbox = TextBox.new([@entity.x, @entity.y, @entity.z], 
+		@textbox = TextBox.new([0,0,0], 
 								BUBBLE_WIDTH, BUBBLE_HEIGHT)
 		
 		@timer = Timer::After.new self, TIMEOUT do
 			@@all.delete self.hash
 		end
 		
-		
-		@textbox.puts text
-		
-		
+
 		
 		# Create an array in which to store the points used to draw the bubble.
 		@points = Array.new(7)
-		@points.each do |i|
-			i = Point.new
+		@points.each_with_index do |point,i|
+			@points[i] = Point.new
 		end
 				
 		# Define color for bubble.
@@ -179,18 +187,33 @@ class SpeechBubble
 		@@all[self.hash] = self
 	end
 	
+	class << self
+		def update_all
+			@@all.each_value {|i| i.update}
+		end
+		
+		def draw_all
+			@@all.each_value {|i| i.draw}
+		end
+	end
+	
 	def update
-		@textbox.update
+		
 		
 		#Update the position at which to draw the bubble
-		@points[0].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 100
-		@points[1].set @entity.x.to_px + 60, @entity.y.to_px - @entity.height - 100
-		@points[2].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
-		@points[3].set @entity.x.to_px + 60, @entity.y.to_px - @entity.height - 30
+		@points[0].set @entity.x.to_px + 0, @entity.y.to_px - @entity.height - BUBBLE_HEIGHT
+		@points[1].set @entity.x.to_px + BUBBLE_WIDTH, @entity.y.to_px - @entity.height - BUBBLE_HEIGHT
+		@points[2].set @entity.x.to_px + 0, @entity.y.to_px - @entity.height - 30
+		@points[3].set @entity.x.to_px + BUBBLE_WIDTH, @entity.y.to_px - @entity.height - 30
 		
 		@points[4].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
 		@points[5].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
 		@points[6].set @entity.x.to_px, @entity.y.to_px - @entity.height
+		
+		
+		
+		@textbox.update
+		@textbox.move [@points[0].x, @points[0].y, @entity.z]
 	end
 	
 	def draw
@@ -201,12 +224,12 @@ class SpeechBubble
 		$window.draw_quad	@points[0].x, @points[0].y, @color, 
 							@points[1].x, @points[1].y, @color, 
 							@points[2].x, @points[2].y, @color, 
-							@points[3].x, @points[3].y, @color, @entity.z+@z_offset
+							@points[3].x, @points[3].y, @color, @entity.z
 		
 		# Draw triangle that points to character that is speaking
 		$window.draw_triangle @points[4].x, @points[4].x, @color, 
 							  @points[5].x, @points[5].x, @color, 
-							  @points[6].x, @points[6].x, @color, @entity.z+@z_offset
+							  @points[6].x, @points[6].x, @color, @entity.z
 		
 		
 		#Draw the actual text
