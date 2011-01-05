@@ -30,7 +30,7 @@ class TextBox
 	def initialize(pos=[0,0,0], width, height)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		
-		move pos
+		move_to pos
 		
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
@@ -80,7 +80,7 @@ class TextBox
 		end
 	end
 	
-	def move(pos)
+	def move_to(pos)
 		@x = pos[0]
 		@y = pos[1]
 		@z = pos[2]
@@ -160,7 +160,7 @@ class SpeechBubble
 		
 		
 		@textbox.update
-		@textbox.move [@points[0].x, @points[1].y, @entity.z]
+		@textbox.move_to [@points[0].x, @points[1].y, @entity.z]
 	end
 	
 	def draw
