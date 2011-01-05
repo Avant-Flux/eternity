@@ -1,24 +1,5 @@
 #!/usr/bin/ruby
 
-class String
-	# Return the last character in the string.
-	def last
-		self[length-1]
-	end
-end
-
-class Numeric
-	# Convert from points to ems.
-	def to_em
-		self / 12.0
-	end
-	
-	# Convert from ems to points.
-	def to_points
-		self * 12
-	end
-end
-
 class Point
 	attr_accessor :x, :y
 	
@@ -54,8 +35,6 @@ class TextBox
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
 		#Note: one character is roughly 0.625em
-		#~ point = @font.height
-		#~ em = point/12.0
 		em = @font.text_width("m")
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
@@ -73,35 +52,13 @@ class TextBox
 	# Update the state of the object.
 	# Take input out of the buffer and place it into output to be rendered.
 	def update
-		#~ if @update
-			#~ puts "start update"
-			
-			#If too much time has passed, clear the buffer
-			
-			
-			
-			#Place as many lines as possible into the output queue.
-			#~ (@height).times do
-				#~ @output << @output_buffer.shift
-			#~ end
-			
-			#Set @update to false if and only if the output buffer is empty.
-			#If the output buffer is not empty, more text needs to be moved into
-			#the output queue from the output buffer on the next update.
-			#~ @update = false if @output_buffer.empty?
-		#~ end
+		
 	end
 	
 	# Render strings to the screen.
 	def draw(options={})
 		options[:z_offset] ||= 0
-		#~ p @output
-		#~ @output.each_with_index do |string, i| #each_char
-			#~ x = @x + i*@line_height
-			#~ y = @y + i*@line_height
-			#~ z = @z + options[:z_offset]
-			#~ @font.draw "hello world", @x, y, z
-		#~ end
+		
 		@height.times do |i|
 			break if i > @buffer.size
 			@font.draw @buffer[i], @x, @y + i*@font.height, @z+options[:z_offset]
@@ -121,35 +78,6 @@ class TextBox
 			
 			@buffer << output
 		end
-		
-		
-		#~ @update = true
-		#~ 
-		#~ #Process new data into the buffer
-		#~ if @input_buffer.last == "."
-			#~ @input_buffer << "  "
-		#~ end
-		#~ puts input
-		#~ @input_buffer << input
-		#~ 
-		#~ puts @input_buffer
-		#~ 
-		#~ #Parse out the buffer into lines that can be drawn to the screen.
-			#~ while @input_buffer.length > @width
-				#~ puts "start parsing"
-				#~ #Place a chunk of input into the output buffer
-				#~ @output_buffer << @input_buffer[0..(@width-1)]
-				#~ 
-				#~ #Remove the chunk from the input buffer
-				#~ @input_buffer = @input_buffer[@width..@input_buffer.length-1]
-			#~ end
-			#~ unless @input_buffer.empty?
-				#~ #Place the last portion of input in the output buffer.
-				#~ #This last portion should be shorter than the maximum
-				#~ #line width at this point.
-				#~ @output_buffer << @input_buffer
-				#~ @input_buffer.clear
-			#~ end
 	end
 	
 	def move(pos)
