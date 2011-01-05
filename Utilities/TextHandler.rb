@@ -60,7 +60,7 @@ class TextBox
 		@line_height = (@font.height*1).to_i
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
-		@height = (height / @line_height).to_i - 1		#Number of lines
+		@height = (height / @line_height).to_i		#Number of lines
 		
 		#Length of the output array should the height in lines of the text box
 		@output = []
@@ -79,7 +79,7 @@ class TextBox
 			
 			#If too much time has passed, clear the buffer
 			
-		
+			
 			
 			#Place as many lines as possible into the output queue.
 			#~ (@height).times do
@@ -109,7 +109,10 @@ class TextBox
 		@height.times do |i|
 			start = (i*(@width+1))
 			stop = start+@width
-			@font.draw output[start..stop], @x, @y + i*@line_height, @z, options
+			
+			y= @y + i*@line_height
+			
+			@font.draw output[start..stop], @x, y, @z, options
 		end
 	end
 	
@@ -156,6 +159,9 @@ class SpeechBubble
 	BUBBLE_WIDTH = 300
 	BUBBLE_HEIGHT = 200
 	
+	#Amount the bubble should float above the head of the entity.
+	BUBBLE_RISE = 30
+	
 	# Create new point class
 	@@all = {}
 	
@@ -201,10 +207,17 @@ class SpeechBubble
 		
 		
 		#Update the position at which to draw the bubble
-		@points[0].set @entity.x.to_px + 0, @entity.y.to_px - @entity.height - BUBBLE_HEIGHT
-		@points[1].set @entity.x.to_px + BUBBLE_WIDTH, @entity.y.to_px - @entity.height - BUBBLE_HEIGHT
-		@points[2].set @entity.x.to_px + 0, @entity.y.to_px - @entity.height - 30
-		@points[3].set @entity.x.to_px + BUBBLE_WIDTH, @entity.y.to_px - @entity.height - 30
+		
+		#Draw the box portion
+		
+		#Bottom Left
+		@points[0].set @entity.x.to_px, @entity.y.to_px - @entity.height - BUBBLE_RISE
+		#Bottom Right
+		@points[1].set @points[0].x + BUBBLE_WIDTH, @points[0].y
+		#Top Left
+		@points[2].set @points[0].x, @points[0].y - BUBBLE_HEIGHT
+		#Top Right
+		@points[3].set @points[1].x, @points[2].y
 		
 		@points[4].set @entity.x.to_px - 60, @entity.y.to_px - @entity.height - 30
 		@points[5].set @entity.x.to_px - 30, @entity.y.to_px - @entity.height - 30
@@ -213,7 +226,7 @@ class SpeechBubble
 		
 		
 		@textbox.update
-		@textbox.move [@points[0].x, @points[0].y, @entity.z]
+		@textbox.move [@points[2].x, @points[2].y, @entity.z]
 	end
 	
 	def draw
