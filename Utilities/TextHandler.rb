@@ -46,9 +46,8 @@ end
 
 # Define the area for text to be drawn, but not the borders etc.
 class TextBox
-	def initialize(pos=[0,0,0], width, height, font)
-		font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
-		@font = font
+	def initialize(pos=[0,0,0], width, height)
+		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		
 		move pos
 		
