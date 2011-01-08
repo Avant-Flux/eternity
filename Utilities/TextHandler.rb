@@ -42,15 +42,13 @@ class TextBox
 		
 		#Length of the output array should the height in lines of the text box
 		@output = []
-		@update = false
 		
 		#Create input buffer
-		#~ @input_buffer = ""
 		@buffer = []
 	end
 	
 	# Update the state of the object.
-	# Take input out of the buffer and place it into output to be rendered.
+	# Change which lines in the buffer should be drawn.
 	def update
 		
 	end
@@ -66,7 +64,6 @@ class TextBox
 	end
 	
 	def puts(input)
-		#~ input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
 		upper_limit = (input.length / @width.to_f).ceil
 		
 		(0..upper_limit).each do |i|
@@ -89,6 +86,8 @@ end
 
 class SpeechBubble
 	TIMEOUT = 10000 #Time to wait before destroying this speech bubble
+	REFRESH = 200	#Time to wait before loading the next line.
+	
 	#Height and width measured in px
 	BUBBLE_WIDTH = 300
 	BUBBLE_HEIGHT = 200
@@ -102,14 +101,15 @@ class SpeechBubble
 	def initialize(entity, text)
 		@entity = entity
 		
-		@textbox = TextBox.new([0,0,0], 
-								BUBBLE_WIDTH, BUBBLE_HEIGHT)
+		@textbox = TextBox.new([0,0,0], BUBBLE_WIDTH, BUBBLE_HEIGHT)
 		@textbox.puts text
 		
-		@timer = Timer::After.new self, TIMEOUT do
+		@destroy_timer = Timer::After.new self, TIMEOUT do
 			@@all.delete self.hash
 		end
-		
+		@update_timer = Timer::After.new self, REFRESH, true do
+			
+		end
 
 		
 		# Create an array in which to store the points used to draw the bubble.
@@ -138,9 +138,8 @@ class SpeechBubble
 		end
 	end
 	
+	
 	def update
-		
-		
 		#Update the position at which to draw the bubble
 		
 		#Draw the box portion
