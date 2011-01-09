@@ -95,8 +95,7 @@ class SpeechBubble
 	#Amount the bubble should float above the head of the entity.
 	BUBBLE_RISE = 30
 	
-	# Create new point class
-	@@all = {}
+	@@all = []
 	
 	def initialize(entity, text)
 		@entity = entity
@@ -105,7 +104,7 @@ class SpeechBubble
 		@textbox.puts text
 		
 		@destroy_timer = Timer::After.new self, TIMEOUT do
-			@@all.delete self.hash
+			#~ @@all.delete self.hash
 		end
 		@update_timer = Timer::After.new self, REFRESH, true do
 			
@@ -125,21 +124,29 @@ class SpeechBubble
 		@z_offset = 1000
 		
 		
-		@@all[self.hash] = self
+		@@all << self
 	end
 	
 	class << self
 		def update_all
-			@@all.each_value {|i| i.update}
+			@@all.each do |i|
+				i.update
+			end
 		end
 		
 		def draw_all
-			@@all.each_value {|i| i.draw}
+			@@all.each do |i|
+				i.draw
+			end
 		end
 	end
 	
 	
 	def update
+		if @destroy_timer.active?
+			@@all.delete self
+		end
+	
 		#Update the position at which to draw the bubble
 		
 		#Draw the box portion
@@ -165,7 +172,6 @@ class SpeechBubble
 	def draw
 		#Draw the bubble for the text to be displayed in
 		
-		
 		# Draw box to hold character text
 		#Specify points in counter clockwise order starting from bottom left.
 		$window.draw_quad	@points[0].x, @points[0].y, @color, 
@@ -181,10 +187,5 @@ class SpeechBubble
 		
 		#Draw the actual text
 		@textbox.draw :offset_z => @z_offset
-	end
-	
-	#Generate a hash code.
-	def hash
-		@text.hash
 	end
 end
