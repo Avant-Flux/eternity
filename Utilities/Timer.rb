@@ -14,6 +14,12 @@ module Timer
 		def update_all
 			TimerObject.update_all
 		end
+		
+		# Update the @@time varible used by all timer objects
+		# This method is just a wrapper for TimerObject.update_global_time
+		def update_global_time
+			Timer::TimerObject.update_global_time
+		end
 	end
 
 	class TimerObject	#Don't use this class directly
@@ -35,9 +41,14 @@ module Timer
 		class << self
 			def update_all
 				@@time = Gosu::milliseconds
-				@@all.each do |timer|
-					timer.update
-				end
+				#~ @@all.each do |timer|
+					#~ timer.update
+				#~ end
+			end
+			
+			# Update the @@time varible used by all timer objects
+			def update_global_time
+				@@time = Gosu::milliseconds
 			end
 		end
 		
@@ -85,6 +96,15 @@ module Timer
 			end
 		end
 		
+		def active?
+			if @@time <= @end_time
+				return true
+			else
+				destroy
+				return false
+			end
+		end
+		
 		private
 		
 		def reset_time
@@ -102,6 +122,13 @@ module Timer
 			if @@time >= @delay
 				run
 				destroy
+			end
+		end
+		
+		def active?
+			if @@time >= @delay
+				destroy
+				return true
 			end
 		end
 		
@@ -125,6 +152,17 @@ module Timer
 					run
 				else
 					destroy
+				end
+			end
+		end
+		
+		def active?
+			if @@time >= @start_time
+				if @@time <= @end_time
+					return true
+				else
+					destroy
+					return false
 				end
 			end
 		end
