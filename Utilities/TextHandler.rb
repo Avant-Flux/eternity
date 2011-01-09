@@ -95,7 +95,7 @@ class SpeechBubble
 	#Amount the bubble should float above the head of the entity.
 	BUBBLE_RISE = 30
 	
-	@@all = []
+	@@all = {}
 	
 	def initialize(entity, text)
 		@entity = entity
@@ -124,18 +124,18 @@ class SpeechBubble
 		@z_offset = 1000
 		
 		
-		@@all << self
+		@@all[hash] = self
 	end
 	
 	class << self
 		def update_all
-			@@all.each do |i|
+			@@all.each_value do |i|
 				i.update
 			end
 		end
 		
 		def draw_all
-			@@all.each do |i|
+			@@all.each_value do |i|
 				i.draw
 			end
 		end
@@ -144,7 +144,7 @@ class SpeechBubble
 	
 	def update
 		if @destroy_timer.active?
-			@@all.delete self
+			@@all.delete self.hash
 		end
 	
 		#Update the position at which to draw the bubble
