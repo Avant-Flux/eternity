@@ -12,10 +12,6 @@ class Point
 		@x = x
 		@y = y
 	end
-	
-	#~ def
-		#~ @x, @y
-	#~ end
 end
 
 # Managed text-based output classes.
@@ -69,8 +65,6 @@ class TextBox
 			start = (i*(@width+1))
 			stop = start+@width
 			output = input[start..stop]
-			
-			#~ Kernel.puts output
 			
 			@output << output
 		end
