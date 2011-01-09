@@ -42,9 +42,6 @@ class TextBox
 		
 		#Length of the output array should the height in lines of the text box
 		@output = []
-		
-		#Create input buffer
-		@buffer = []
 	end
 	
 	# Update the state of the object.
@@ -58,8 +55,8 @@ class TextBox
 		options[:z_offset] ||= 0
 		
 		@height.times do |i|
-			break if i > @buffer.size
-			@font.draw @buffer[i], @x, @y + i*@font.height, @z+options[:z_offset]
+			break if i > @output.size
+			@font.draw @output[i], @x, @y + i*@font.height, @z+options[:z_offset]
 		end
 	end
 	
@@ -73,7 +70,7 @@ class TextBox
 			
 			#~ Kernel.puts output
 			
-			@buffer << output
+			@output << output
 		end
 	end
 	
