@@ -54,8 +54,10 @@ class TextBox
 	def draw(options={})
 		options[:z_offset] ||= 0
 		
-		@height.times do |i|
-			break if i > @output.size
+		# @output.size, unless that value is greater than the height of the box
+		iterations = @output.size > @height ? @height : @output.size
+		
+		iterations.times do |i|
 			@font.draw @output[i], @x, @y + i*@font.height, @z+options[:z_offset]
 		end
 	end
