@@ -63,9 +63,9 @@ class TextBox
 	end
 	
 	def puts(input)
-		upper_limit = (input.length / @width.to_f).ceil
+		lines = (input.length / @width.to_f).ceil
 		
-		(0..upper_limit).each do |i|
+		(0..lines).each do |i|
 			start = (i*(@width+1))
 			stop = start+@width
 			output = input[start..stop]
