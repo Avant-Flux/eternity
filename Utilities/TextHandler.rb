@@ -25,7 +25,7 @@ end
 class TextBox
 	def initialize(pos=[0,0,0], width, height)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
-		
+		@i = 0
 		move_to pos[0],pos[1],pos[2]
 		
 		#Accept input for the width and height in pixels, but
@@ -43,8 +43,9 @@ class TextBox
 	# Update the state of the object.
 	# Change which lines in the buffer should be drawn.
 	def update
-		if @output.size > @height
-			@output.shift
+		if @output.size - @i > @height
+			#~ @output.shift
+			@i += 1
 		end
 	end
 	
@@ -56,7 +57,7 @@ class TextBox
 		iterations = @output.size > @height ? @height : @output.size
 		
 		iterations.times do |i|
-			@font.draw @output[i], @x, @y + i*@font.height, @z+options[:z_offset]
+			@font.draw @output[i+@i], @x, @y + i*@font.height, @z+options[:z_offset]
 		end
 	end
 	
@@ -114,7 +115,6 @@ class SpeechBubble
 		# The amount to offset the textbox from the entity speaking.
 		@z_offset = 1000
 		
-		
 		@@all[hash] = self
 	end
 	
@@ -140,7 +140,7 @@ class SpeechBubble
 		if @update_timer.active?
 			@textbox.update
 		end
-	
+
 		#Update the position at which to draw the bubble
 		
 		#Draw the box portion
@@ -159,11 +159,13 @@ class SpeechBubble
 		
 		
 		
-		#~ @textbox.update
 		@textbox.move_to @points[0].x, @points[1].y, @entity.z
 	end
 	
 	def draw
+		#Use $window.clip_to (x, y, w, h, &drawing_code)
+		#to help implement smooth text scrolling
+	
 		#Draw the bubble for the text to be displayed in
 		
 		# Draw box to hold character text
