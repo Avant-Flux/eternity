@@ -106,7 +106,6 @@ class Game_Window < Gosu::Window
 	
 	def update
 		$dt = compute_dt
-		Timer.update_all
 		@fpscounter.update
 		@UI.update
 		#~ @effect.update

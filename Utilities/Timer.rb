@@ -9,47 +9,16 @@ module Timer
 	# Note about timers:
 	# The times supplied in the constructor of the Timer should be in milliseconds 
 	# relative to the init time.
-	
-	class << self
-		def update_all
-			TimerObject.update_all
-		end
-		
-		# Update the @@time varible used by all timer objects
-		# This method is just a wrapper for TimerObject.update_global_time
-		def update_global_time
-			Timer::TimerObject.update_global_time
-		end
-	end
 
 	class TimerObject	#Don't use this class directly
 		@@all = Array.new
-		@@time = Gosu::milliseconds
+		#~ Gosu::milliseconds = Gosu::milliseconds
 		
 		def initialize(scope, repeat, &block)
 			@scope = scope
 			@repeat = repeat
 			@block = block
 			@@all << self
-			
-			#Return the time of init to descendants
-			Gosu::milliseconds
-		end
-		
-		# Create a method to update all instances without exposing the
-		# container which holds these instances.
-		class << self
-			def update_all
-				@@time = Gosu::milliseconds
-				#~ @@all.each do |timer|
-					#~ timer.update
-				#~ end
-			end
-			
-			# Update the @@time varible used by all timer objects
-			def update_global_time
-				@@time = Gosu::milliseconds
-			end
 		end
 		
 		# Stuff to do every time Gosu::Window#update is called.
@@ -84,12 +53,12 @@ module Timer
 	
 	class During < TimerObject
 		def initialize(scope, end_time, repeat=false, &block)
-			time = super(scope, repeat, &block)
-			@end_time = time + end_time
+			super(scope, repeat, &block)
+			@end_time = Gosu::milliseconds + end_time
 		end
 		
 		def update
-			if @@time <= @end_time
+			if Gosu::milliseconds <= @end_time
 				run
 			else
 				destroy
@@ -97,7 +66,7 @@ module Timer
 		end
 		
 		def active?
-			if @@time <= @end_time
+			if Gosu::milliseconds <= @end_time
 				return true
 			else
 				destroy
@@ -114,19 +83,19 @@ module Timer
 	
 	class After < TimerObject
 		def initialize(scope, delay, repeat=false, &block)
-			time = super(scope, repeat, &block)
-			@delay = time + delay
+			super(scope, repeat, &block)
+			@delay = Gosu::milliseconds + delay
 		end
 		
 		def update
-			if @@time >= @delay
+			if Gosu::milliseconds >= @delay
 				run
 				destroy
 			end
 		end
 		
 		def active?
-			if @@time >= @delay
+			if Gosu::milliseconds >= @delay
 				destroy
 				return true
 			end
@@ -141,14 +110,15 @@ module Timer
 	
 	class Between < TimerObject
 		def initialize(scope, start_time, end_time, repeat=false, &block)
-			time = super(scope, repeat, &block)
-			@start_time = time + start_time
-			@end_time = time + end_time
+			super(scope, repeat, &block)
+			init = Gosu::milliseconds
+			@start_time = init + start_time
+			@end_time = init + end_time
 		end
 		
 		def update
-			if @@time >= @start_time
-				if @@time <= @end_time
+			if Gosu::milliseconds >= @start_time
+				if Gosu::milliseconds <= @end_time
 					run
 				else
 					destroy
@@ -157,8 +127,8 @@ module Timer
 		end
 		
 		def active?
-			if @@time >= @start_time
-				if @@time <= @end_time
+			if Gosu::milliseconds >= @start_time
+				if Gosu::milliseconds <= @end_time
 					return true
 				else
 					destroy
