@@ -36,14 +36,16 @@ class TextBox
 		@width = (width / (em*0.625)).to_i			#Number of characters
 		@height = (height / @font.height).to_i		#Number of lines
 		
-		#Length of the output array should the height in lines of the text box
+		#Make a queue to hold the lines to output.
 		@output = []
 	end
 	
 	# Update the state of the object.
 	# Change which lines in the buffer should be drawn.
 	def update
-		
+		if @output.size > @height
+			@output.shift
+		end
 	end
 	
 	# Render strings to the screen.
@@ -79,7 +81,7 @@ end
 
 class SpeechBubble
 	TIMEOUT = 10000 #Time to wait before destroying this speech bubble
-	REFRESH = 200	#Time to wait before loading the next line.
+	REFRESH = 2000	#Time to wait before loading the next line.
 	
 	#Height and width measured in px
 	BUBBLE_WIDTH = 300
@@ -100,7 +102,8 @@ class SpeechBubble
 			#~ @@all.delete self.hash
 		end
 		@update_timer = Timer::After.new self, REFRESH, true do
-			
+			#~ @textbox.update
+			#~ Kernel.puts "hey"
 		end
 
 		
@@ -139,6 +142,9 @@ class SpeechBubble
 		if @destroy_timer.active?
 			@@all.delete self.hash
 		end
+		if @update_timer.active?
+			@textbox.update
+		end
 	
 		#Update the position at which to draw the bubble
 		
@@ -158,7 +164,7 @@ class SpeechBubble
 		
 		
 		
-		@textbox.update
+		#~ @textbox.update
 		@textbox.move_to @points[0].x, @points[1].y, @entity.z
 	end
 	
