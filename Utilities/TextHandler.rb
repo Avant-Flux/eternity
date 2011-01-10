@@ -98,13 +98,8 @@ class SpeechBubble
 		@textbox = TextBox.new([0,0,0], BUBBLE_WIDTH, BUBBLE_HEIGHT)
 		@textbox.puts text
 		
-		@destroy_timer = Timer::After.new self, TIMEOUT do
-			#~ @@all.delete self.hash
-		end
-		@update_timer = Timer::After.new self, REFRESH, true do
-			#~ @textbox.update
-			#~ Kernel.puts "hey"
-		end
+		@destroy_timer = Timer::After.new self, TIMEOUT
+		@update_timer = Timer::After.new self, REFRESH, true
 
 		
 		# Create an array in which to store the points used to draw the bubble.

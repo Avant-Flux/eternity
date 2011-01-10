@@ -14,10 +14,9 @@ module Timer
 		@@all = Array.new
 		#~ Gosu::milliseconds = Gosu::milliseconds
 		
-		def initialize(scope, repeat, &block)
+		def initialize(scope, repeat)
 			@scope = scope
 			@repeat = repeat
-			@block = block
 			@@all << self
 		end
 		
@@ -26,11 +25,6 @@ module Timer
 		end
 		
 		private
-		
-		# Execute the stored block in the proper scope.
-		def run
-			@scope.instance_eval &@block
-		end
 		
 		# Allows the Timer to be garbage collected unless it is to repeat.
 		# This only works if no other references are made to a timer
@@ -52,17 +46,9 @@ module Timer
 	end
 	
 	class During < TimerObject
-		def initialize(scope, end_time, repeat=false, &block)
-			super(scope, repeat, &block)
+		def initialize(scope, end_time, repeat=false)
+			super(scope, repeat)
 			@end_time = Gosu::milliseconds + end_time
-		end
-		
-		def update
-			if Gosu::milliseconds <= @end_time
-				run
-			else
-				destroy
-			end
 		end
 		
 		def active?
@@ -82,16 +68,9 @@ module Timer
 	end
 	
 	class After < TimerObject
-		def initialize(scope, delay, repeat=false, &block)
-			super(scope, repeat, &block)
+		def initialize(scope, delay, repeat=false)
+			super(scope, repeat)
 			@delay = Gosu::milliseconds + delay
-		end
-		
-		def update
-			if Gosu::milliseconds >= @delay
-				run
-				destroy
-			end
 		end
 		
 		def active?
@@ -109,21 +88,11 @@ module Timer
 	end
 	
 	class Between < TimerObject
-		def initialize(scope, start_time, end_time, repeat=false, &block)
-			super(scope, repeat, &block)
+		def initialize(scope, start_time, end_time, repeat=false)
+			super(scope, repeat)
 			init = Gosu::milliseconds
 			@start_time = init + start_time
 			@end_time = init + end_time
-		end
-		
-		def update
-			if Gosu::milliseconds >= @start_time
-				if Gosu::milliseconds <= @end_time
-					run
-				else
-					destroy
-				end
-			end
 		end
 		
 		def active?
