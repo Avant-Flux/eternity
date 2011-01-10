@@ -46,7 +46,7 @@ module Timer
 	end
 	
 	class During < TimerObject
-		def initialize(scope, end_time, repeat=false)
+		def initialize(scope, end_time)
 			super(scope, repeat)
 			@end_time = Gosu::milliseconds + end_time
 		end
@@ -59,23 +59,19 @@ module Timer
 				return false
 			end
 		end
-		
-		private
-		
-		def reset_time
-			@end_time += Gosu::milliseconds
-		end
 	end
 	
 	class After < TimerObject
 		def initialize(scope, delay, repeat=false)
 			super(scope, repeat)
-			@delay = Gosu::milliseconds + delay
+			@delay = delay
+			@run_time = Gosu::milliseconds + delay
 		end
 		
 		def active?
-			if Gosu::milliseconds >= @delay
+			if Gosu::milliseconds >= @run_time
 				destroy
+				
 				return true
 			end
 		end
@@ -83,7 +79,7 @@ module Timer
 		private
 		
 		def reset_time
-			@delay += Gosu::milliseconds
+			@run_time += @delay
 		end
 	end
 	
@@ -91,13 +87,16 @@ module Timer
 		def initialize(scope, start_time, end_time, repeat=false)
 			super(scope, repeat)
 			init = Gosu::milliseconds
-			@start_time = init + start_time
-			@end_time = init + end_time
+			@start_time = start_time
+			@end_time = end_time
+			
+			@run_start = init + @start_time
+			@run_end = init + @end_time
 		end
 		
 		def active?
-			if Gosu::milliseconds >= @start_time
-				if Gosu::milliseconds <= @end_time
+			if Gosu::milliseconds >= @run_start
+				if Gosu::milliseconds <= @run_end
 					return true
 				else
 					destroy
@@ -109,9 +108,8 @@ module Timer
 		private
 		
 		def reset_time
-			new_init = Gosu::milliseconds
-			@start_time += new_init
-			@end_time += new_init
+			@run_start = @run_end + @start_time
+			@run_end += @end_time
 		end
 	end
 end
