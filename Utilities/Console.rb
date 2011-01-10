@@ -7,4 +7,8 @@ class GosuConsole
 	def initialize
 		@output = TextBox.new($window.width, 200)
 	end
+	
+	def puts(string)
+		@output.puts string
+	end
 end
