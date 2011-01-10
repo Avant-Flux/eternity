@@ -55,12 +55,12 @@ module CP
 				
 		def add(arg)
 			super arg.shape
-			@shapes[static?(arg.shape)].add arg.shape
+			@shapes[arg.shape.static?].add arg.shape
 		end
 		
 		def remove(arg)
 			super arg.shape
-			@shapes[static?(arg.shape)].delete arg.shape
+			@shapes[arg.shape.static?].delete arg.shape
 		end
 		
 		def clear
@@ -86,16 +86,6 @@ module CP
 						shape.elevation = env.height
 					end
 				end
-			end
-		end
-		
-		private
-		
-		def static?(shape)
-			if shape.body.m == Float::INFINITY
-				return :static
-			else
-				return :nonstatic
 			end
 		end
 	end

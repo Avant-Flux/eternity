@@ -4,6 +4,16 @@ require 'chipmunk'
 
 module CP
 	module Shape
+		class Circle
+			def static?
+				if body.m == Float::INFINITY
+					return :static
+				else
+					return :nonstatic
+				end
+			end
+		end
+	
 		class Rect < CP::Shape::Poly
 			def initialize(body, center, width, height, offset=CP::Vec2.new(0,0))
 				#Initially design vectors such that the object is pointing to the right (0 rad)
@@ -22,6 +32,14 @@ module CP
 				
 				shape_array =	[top_left, top_right, bottom_right, bottom_left]
 				super body, shape_array, offset
+			end
+			
+			def static?
+				if body.m == Float::INFINITY
+					return :static
+				else
+					return :nonstatic
+				end
 			end
 			
 			private 
