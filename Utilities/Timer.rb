@@ -11,13 +11,9 @@ module Timer
 	# relative to the init time.
 
 	class TimerObject	#Don't use this class directly
-		@@all = Array.new
-		#~ Gosu::milliseconds = Gosu::milliseconds
-		
 		def initialize(scope, repeat)
 			@scope = scope
 			@repeat = repeat
-			@@all << self
 		end
 		
 		# Stuff to do every time Gosu::Window#update is called.
@@ -32,8 +28,6 @@ module Timer
 		def destroy
 			if @repeat
 				reset_time
-			else
-				@@all.delete self
 			end
 		end
 		
