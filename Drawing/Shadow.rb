@@ -20,6 +20,15 @@ class Shadow
 	end
 	
 	def draw
+		#~ all_ones = 2**32-1
+		#~ point_query @entity.shape.body.p, all_ones,0 do |env|
+			#~ if env.collision_type == :environment || env.collision_type == :building
+				#~ 
+				#~ 
+				#~ 
+			#~ end
+		#~ end
+		
 		@circle.draw_centered(@entity.x, @entity.y, @entity.elevation, 
 						:factor_x => @scale, :factor_y => @scale, 
 						:offset_z => -1, :color => @color)
