@@ -47,6 +47,7 @@ require './DebugCode'
 class UnitTests < Test::Unit::TestCase
 	def setup
 		$window = Gosu::Window.new(640, 480, false)
+		$art_manager = ArtManager.new './Sprites'
 	end
 
 	def test_image_clone
@@ -60,7 +61,7 @@ class UnitTests < Test::Unit::TestCase
 		
 		img2 = img.clone
 		assert_equal(img.to_blob, img2.to_blob, "Binary representation of clones is different.")
-		assert_equal(img, img2, "Gosu::Image#== not defined.  Using default implementation.")
+		assert(img == img2, "Gosu::Image#== not defined.  Using default implementation.")
 	end
 
 	def test_subsprite
@@ -78,25 +79,25 @@ class UnitTests < Test::Unit::TestCase
 
 	def test_art_manager
 		#Make sure the art manager starts
-		@art_manager = ArtManager.new './Sprites'
-		assert_instance_of ArtManager,  @art_manager
+		
+		assert_instance_of ArtManager,  $art_manager
 
 		#Art manager assumes that all assets are of the PNG filetype.
-		asset_1 = @art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+		asset_1 = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
 												:upper => "shirt1", :lower => "pants1", 
 												:footwear => "shoes1"
-		asset_2 = @art_manager.new_texture "grass"
-		asset_3 = @art_manager.new_effect "Dark_Cloud"
+		#~ asset_2 = $art_manager.new_texture "grass"
+		#~ asset_3 = $art_manager.new_effect "Dark_Cloud"
 		
 		
 		
 		#The same asset loaded twice is just a shallow copy the second time
-		asset_4 = @art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+		asset_4 = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
 												:upper => "shirt1", :lower => "pants1", 
 												:footwear => "shoes1"
-		assert_equal asset_1, asset_4
+		assert_equal asset_1.sprites, asset_4.sprites
 		#Same data, but not same reference
-		assert !same_asset1.equal?(same_asset2)
+		assert_not_equal asset_1, asset_4
 	end
 
 	def test_combat
