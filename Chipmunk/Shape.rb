@@ -5,7 +5,7 @@ require 'chipmunk'
 module CP
 	module Shape
 		class Circle
-			def static?
+			def staticness
 				if body.m == Float::INFINITY
 					return :static
 				else
@@ -34,7 +34,7 @@ module CP
 				super body, shape_array, offset
 			end
 			
-			def static?
+			def staticness
 				if body.m == Float::INFINITY
 					return :static
 				else
