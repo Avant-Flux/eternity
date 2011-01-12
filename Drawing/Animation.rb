@@ -6,6 +6,8 @@ require 'texplay'
 
 module Animation
 	class Entity			#Only inherit from this class, never create objects of it
+		attr_reader :sprites
+		
 		def initialize(sprite)
 			@sprites = sprite
 			@moving = false
@@ -36,6 +38,14 @@ module Animation
 		
 		def clone
 			output = Animations::Entity.new(@sprite)
+		end
+		
+		def ==(arg)
+			if arg.is_a? Animation::Entity
+				arg.sprites == @sprites
+			else
+				super.== arg
+			end
 		end
 		
 		def hash

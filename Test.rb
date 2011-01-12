@@ -95,9 +95,10 @@ class UnitTests < Test::Unit::TestCase
 		asset_4 = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
 												:upper => "shirt1", :lower => "pants1", 
 												:footwear => "shoes1"
-		assert_equal asset_1.sprites, asset_4.sprites
+												
+		assert_equal asset_1, asset_4, "Equality of animations not properly defined."
 		#Same data, but not same reference
-		assert_not_equal asset_1, asset_4
+		assert !(asset_1.equal? asset_4)
 	end
 
 	def test_combat
