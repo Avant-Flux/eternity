@@ -60,12 +60,16 @@ class UnitTests < Test::Unit::TestCase
 		assert img.methods.include?(:clone), "Gosu::Image#clone is not defined."
 		
 		img2 = img.clone
-		assert_equal(img.to_blob, img2.to_blob, "Binary representation of clones is different.")
-		assert(img == img2, "Gosu::Image#== not defined.  Using default implementation.")
+		assert_equal img.to_blob, img2.to_blob, "Binary representation of clones is different."
+		assert img == img2, "Gosu::Image#== not defined.  Using default implementation."
 	end
-
+	
 	def test_subsprite
-		
+		#The subsprite should just be a Gosu::Image object
+		asset_1 = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+												:upper => "shirt1", :lower => "pants1", 
+												:footwear => "shoes1"
+		assert_instance_of Gosu::Image, 
 	end
 
 	def test_sprite
@@ -89,16 +93,14 @@ class UnitTests < Test::Unit::TestCase
 		#~ asset_2 = $art_manager.new_texture "grass"
 		#~ asset_3 = $art_manager.new_effect "Dark_Cloud"
 		
-		
-		
 		#The same asset loaded twice is just a shallow copy the second time
-		asset_4 = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
-												:upper => "shirt1", :lower => "pants1", 
-												:footwear => "shoes1"
+		asset_1_again = $art_manager.new_animation	:body => 1, :face => 1, :hair => 1, 
+													:upper => "shirt1", :lower => "pants1", 
+													:footwear => "shoes1"
 												
-		assert_equal asset_1, asset_4, "Equality of animations not properly defined."
+		assert_equal asset_1, asset_1_again, "Equality of animations not properly defined."
 		#Same data, but not same reference
-		assert !(asset_1.equal? asset_4)
+		assert !(asset_1.equal? asset_1_again)
 	end
 
 	def test_combat
