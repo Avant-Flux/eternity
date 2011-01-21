@@ -55,7 +55,13 @@ module Gosu
 		end
 		
 		def ==(arg)
-			self.to_blob == arg.to_blob
+			if arg.is_a? Gosu::Image
+				return	self.width == arg.width &&
+						self.height == arg.height &&
+						self.to_blob == arg.to_blob
+			else
+				return false
+			end
 		end
 	end
 	
