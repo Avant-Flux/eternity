@@ -8,7 +8,7 @@ class GosuConsole
 		@output = TextBox.new($window.width, 200)
 	end
 	
-	def puts(string)
-		@output.puts string
+	def puts(*args)
+		@output.puts args
 	end
 end
