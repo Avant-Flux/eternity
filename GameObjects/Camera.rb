@@ -16,8 +16,7 @@ class Camera
 	
 	attr_reader :shape, :queue
 
-	def initialize(space, entity)
-		@space = space
+	def initialize(entity)
 		@entity = entity
 		
 		@center = Struct.new(:x, :y).new
@@ -33,7 +32,7 @@ class Camera
 		@shape.collision_type = :camera
 		@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
 		
-		space.add_2D @shape
+		$space.add_2D @shape
 		
 		@queue = Set.new
 	end

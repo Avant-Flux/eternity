@@ -11,7 +11,7 @@ require './Drawing/Wireframe'
 class Building
 	attr_reader :shape
 
-	def initialize(space, options={})
+	def initialize(options={})
 		#~ Set default values for hash values if they are not already set.
 		options[:dimensions] ||= [1,1,1]
 		options[:position] ||= [0,0,0]
@@ -21,7 +21,7 @@ class Building
 							options[:dimensions][0], options[:dimensions][1], options[:dimensions][2], 
 							Float::INFINITY, Float::INFINITY, options[:offset])
 		@wireframe = $art_manager.new_wireframe @shape, :white
-		space.add self
+		$space.add @shape
 	end
 	
 	def update

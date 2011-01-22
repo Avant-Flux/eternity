@@ -12,14 +12,14 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(space, name, pos = [0, 0, 0], 
+	def initialize(name, pos = [0, 0, 0], 
 					subsprites={:body => 1, :face => 1, :hair => 1, 
 								:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"},
 					mass=120, moment=20)
 					
 		animation = $art_manager.new_animation subsprites
 		
-		super(space, animation, name, pos, mass, moment, 1, :none, 
+		super(animation, name, pos, mass, moment, 1, :none, 
 				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
 				:pwr => 10, :ctl => 10, :per => 10}, 0)
 

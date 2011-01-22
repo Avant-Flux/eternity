@@ -24,7 +24,7 @@ class Entity
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
 	
-	def initialize(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@movement_force = CP::Vec2.new(0,0)
 		@walk_constant = 500
 		@run_constant = 1200
@@ -36,8 +36,8 @@ class Entity
 											(@animation.width/2).to_meters, 
 											@animation.height.to_meters,
 											mass, moment)
-		space.add self
-		space.set_elevation @shape
+		$space.add @shape
+		$space.set_elevation @shape
 		
 		@name = name
 		@element = element

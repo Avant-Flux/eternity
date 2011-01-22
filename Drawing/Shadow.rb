@@ -29,6 +29,8 @@ class Shadow
 			#~ end
 		#~ end
 		
+		
+		
 		@circle.draw_centered(@entity.x, @entity.y, @entity.elevation, 
 						:factor_x => @scale, :factor_y => @scale, 
 						:offset_z => -1, :color => @color)

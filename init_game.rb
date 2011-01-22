@@ -50,42 +50,42 @@ class Game_Window < Gosu::Window
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
 		
-		@space = init_CP_Space3D
+		$space = init_CP_Space3D
 		
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [6, 11, 0])
-		Building.new(@space, :dimensions => [3, 3, 1], :position => [8, 14, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
 		
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11, 0])
-		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11, 0])
+		Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11, 0])
+		Building.new(:dimensions => [5, 3, 2], :position => [20, 14, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
 		
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15-50, 11, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20-50, 11, 0])
-		Building.new(@space, :dimensions => [5, 3, 2], :position => [20-50, 14, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25-50, 11, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20-50, 11-6.5, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [15-50, 11, 0])
+		Building.new(:dimensions => [5, 6.5, 4], :position => [20-50, 11, 0])
+		Building.new(:dimensions => [5, 3, 2], :position => [20-50, 14, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [25-50, 11, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [20-50, 11-6.5, 0])
 		
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11-50, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11-50, 0])
-		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11-50, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5-50, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11-50, 0])
+		Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11-50, 0])
+		Building.new(:dimensions => [5, 3, 2], :position => [20, 14, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11-50, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5-50, 0])
 		
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [15, 11+50, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 4], :position => [20, 11+50, 0])
-		Building.new(@space, :dimensions => [5, 3, 2], :position => [20, 14+50, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
-		Building.new(@space, :dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11+50, 0])
+		Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11+50, 0])
+		Building.new(:dimensions => [5, 3, 2], :position => [20, 14+50, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
+		Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
 		
-		@player = Player.new(@space, "Raven", [5, 5, 0])
+		@player = Player.new("Raven", [5, 5, 0])
 		@characters = Array.new
 		20.times do |i|
 			x = (i * 3) % 8 + 1
 			y = (i * 10) % 6 + 1
 			
-			@characters << Character.new(@space, "NPC", [x, y, 0])
+			@characters << Character.new("NPC", [x, y, 0])
 		end
 		@player.track(@characters[0])
 		@player.track(@characters[9])
@@ -97,7 +97,7 @@ class Game_Window < Gosu::Window
 		@characters[2].say "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
 		
 		@UI = UI::Overlay::Status.new(@player)
-		$camera = Camera.new(@space, @player)
+		$camera = Camera.new(@player)
 		
 		#@effect = Animations::Effect.new($window, "Gale")
 		#~ @background = Background.new($window,"Sprites/Textures/grass_texture2.png")
@@ -114,24 +114,24 @@ class Game_Window < Gosu::Window
 		SpeechBubble.update_all
 		
 		$camera.update
-		@space.shapes[:nonstatic].each do |shape|
+		$space.shapes[:nonstatic].each do |shape|
 			shape.body.reset_forces
 		end
 		
 		@inpman.update
 		process_input
 		
-		@space.shapes[:nonstatic].each do |shape|
+		$space.shapes[:nonstatic].each do |shape|
 			shape.entity.update
 		end
-		@space.shapes[:static].each do |shape|
+		$space.shapes[:static].each do |shape|
 			shape.entity.update
 		end
 		
 		#~ puts "#{@player.position} + #{@player.elevation}"
 		#~ puts @player.shape.body.f
 		
-		@space.step
+		$space.step
 	end
 	
 	def draw

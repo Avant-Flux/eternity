@@ -16,11 +16,11 @@ class Player < Character
 	attr_accessor :titles, :max_combo, :combo, :overkill_bonus
 	Lvl_cap = 100
 
-	def initialize(space, name, pos = [0, 0, 0], 
+	def initialize(name, pos = [0, 0, 0], 
 					subsprites={:body => 1, :face => 1, :hair => 1, 
 								:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}, 
 					mass=120, moment=20)
-		super(space, name, pos, subsprites, mass, moment)
+		super(name, pos, subsprites, mass, moment)
 		
 		@max_combo = 0
 		@combo = 0
