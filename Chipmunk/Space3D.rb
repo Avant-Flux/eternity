@@ -53,14 +53,14 @@ module CP
 			end
 		end
 				
-		def add(arg)
-			super arg.shape
-			@shapes[arg.shape.staticness].add arg.shape
+		def add(shape)
+			super shape
+			@shapes[shape.staticness].add shape
 		end
 		
-		def remove(arg)
-			super arg.shape
-			@shapes[arg.shape.staticness].delete arg.shape
+		def remove(shape)
+			super shape
+			@shapes[shape.staticness].delete shape
 		end
 		
 		def clear
