@@ -24,17 +24,17 @@ end
 # Define the area for text to be drawn, but not the borders etc.
 class TextBox
 	def initialize(pos=[0,0,0], width, height)
-		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
+		@@font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
 		@i = 0
 		move_to pos[0],pos[1],pos[2]
 		
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
 		#Note: one character is roughly 0.625em
-		em = @font.text_width("m")
+		em = @@font.text_width("m")
 		
 		@width = (width / (em*0.625)).to_i			#Number of characters
-		@height = (height / @font.height).to_i		#Number of lines
+		@height = (height / @@font.height).to_i		#Number of lines
 		
 		#Make a queue to hold the lines to output.
 		@output = []
@@ -57,7 +57,7 @@ class TextBox
 		iterations = @output.size > @height ? @height : @output.size
 		
 		iterations.times do |i|
-			@font.draw @output[i+@i], @x, @y + i*@font.height, @z+options[:z_offset]
+			@@font.draw @output[i+@i], @x, @y + i*@@font.height, @z+options[:z_offset]
 		end
 	end
 	
