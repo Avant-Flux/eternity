@@ -10,7 +10,7 @@ require './Drawing/GosuPatch'
 # Handles the drawing of simple shadows.
 class Shadow
 	OPACITY_CONSTANT = 0.8
-
+	
 	def initialize(entity, circle)
 		@entity = entity
 		@circle = circle
@@ -18,13 +18,9 @@ class Shadow
 	end
 	
 	def update
-		#~ @color = color
-		#~ @scale = scale
-		
-		
 		#This could calculate scale and color multiple times for the same elevation.
 		@draw_elevation.clear
-		@draw_elevation << 0
+		@draw_elevation << [0, scale(0), color(0)]
 		shapes = $space.active_shapes_hash.query_by_bb CP::BB.new(0,0,0,0) 
 		shapes.each do |env|
 			elevation = env.height
