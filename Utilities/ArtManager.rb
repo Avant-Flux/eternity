@@ -4,6 +4,13 @@
 #There should be some measure so that when the assets are no
 #longer needed, the memory can be freed.
 class ArtManager
+	BODY = 0
+	FACE = 1
+	HAIR = 2
+	UPPER = 3
+	LOWER = 4
+	FOOTWEAR = 5
+
 	def initialize(asset_dir) #Pass the full path to the Sprites/ directory
 		@dir = asset_dir
 		
@@ -16,8 +23,13 @@ class ArtManager
 		
 		#~ @animations = {}
 		@sprites = {}
-		@subsprites = {:body => {}, :face => {}, :hair => {}, 
-						:upper => {}, :lower => {}, :footwear => {}}
+		
+		@subsprites = Array.new(6)
+		@subsprite.size.times do |i|
+			#set BODY, FACE, HAIR, UPPER, LOWER, and FOOTWEAR as empty Hash objects
+			@subsprites[i] = {}
+		end
+		
 		@effects = {}
 		@textures = {}
 		@wireframes = {}
@@ -66,7 +78,8 @@ class ArtManager
 	end
 	
 	def clear_subsprite(type, name)
-		@subsprites[type].delete name
+		i = subsprite_type_to_index type
+		@subsprites[i].delete name
 	end
 	
 	def clear_sprite(args={})
@@ -91,8 +104,8 @@ class ArtManager
 	end
 	
 	def clear_all_subsprites
-		@subsprites.each_key do |key|
-			@subsprites[key] = Hash.new
+		@subsprites.each do |hash|
+			hash = Hash.new
 		end
 	end
 	
@@ -117,6 +130,24 @@ class ArtManager
 	end
 	
 	private
+	
+	def subsprite_type_to_index(type)
+		case type
+			when :body
+				BODY
+			when :face
+				FACE
+			when :hair
+				HAIR
+			when :upper
+				UPPER
+			when :lower
+				LOWER
+			when :footwear 
+				FOOTWEAR
+			else nil
+		end
+	end
 	
 	#This method may be unnecessary
 	def load(type, subsprite_name)
@@ -149,14 +180,15 @@ class ArtManager
 	#Create the subsprite if it does not exist in the cache.
 	#Then, return a reference to the sprite in the cache.
 	def new_subsprite(type, name)
-		unless @subsprites[type][name]
+		i = subsprite_type_to_index type
+		unless @subsprites[i][name]
 			path = File.join(@dir, "People", type.to_s.capitalize, "#{name}.png")
 			
-			@subsprites[type][name] = Gosu::Image.new $window, path, false
+			@subsprites[i][name] = Gosu::Image.new $window, path, false
 		end
 		
 		#Return a clone of the sprite so the original remains untainted.
-		@subsprites[type][name]
+		@subsprites[i][name]
 	end
 	
 	#Creates a new circle.  All circles will be white,
