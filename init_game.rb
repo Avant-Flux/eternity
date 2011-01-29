@@ -28,13 +28,14 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		$art_manager = ArtManager.new("./Sprites")
+		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
+		@show_fps = false
 		
 		#Create a variable to use to track the time elapsed in between frames.
 		#This value is stored in seconds
 		@@time_before = Gosu::milliseconds
 		$dt = compute_dt
 		
-		@fpscounter = FPSCounter.new
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
@@ -106,7 +107,6 @@ class Game_Window < Gosu::Window
 	
 	def update
 		$dt = compute_dt
-		@fpscounter.update
 		@UI.update
 		#~ @effect.update
 		#~ puts @characters[1].elevation
@@ -135,7 +135,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		@fpscounter.draw
+		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
 		@UI.draw
 		
 		translate(-$camera.x.to_px, -$camera.y.to_px) do
@@ -157,7 +157,7 @@ class Game_Window < Gosu::Window
 			close
 		end
 		if id == Gosu::KbF
-			@fpscounter.toggle
+			@show_fps = !@show_fps
 		end
 		#~ puts button_id_to_char id
 		#~ puts id
