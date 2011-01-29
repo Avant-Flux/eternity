@@ -31,11 +31,6 @@ class Game_Window < Gosu::Window
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
-		#Create a variable to use to track the time elapsed in between frames.
-		#This value is stored in seconds
-		@@time_before = Gosu::milliseconds
-		$dt = compute_dt
-		
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
@@ -106,7 +101,6 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
-		$dt = compute_dt
 		@UI.update
 		#~ @effect.update
 		#~ puts @characters[1].elevation
@@ -217,14 +211,6 @@ class Game_Window < Gosu::Window
 	
 	def load_keybindings
 		
-	end
-	
-	def compute_dt
-		time = Gosu::milliseconds
-		dt = time - @@time_before
-		@@time_before = time
-		#~ return dt
-		dt /= 1000.0 #convert from milliseconds to seconds
 	end
 end
 
