@@ -25,7 +25,7 @@ class ArtManager
 		@sprites = {}
 		
 		@subsprites = Array.new(6)
-		@subsprite.size.times do |i|
+		@subsprites.length.times do |i|
 			#set BODY, FACE, HAIR, UPPER, LOWER, and FOOTWEAR as empty Hash objects
 			@subsprites[i] = {}
 		end
