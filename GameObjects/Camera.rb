@@ -4,7 +4,6 @@ require 'set'
 
 require 'rubygems'
 require 'gosu'
-require 'chipmunk'
 require './Chipmunk/Shape'
 require './Chipmunk/Space3D'
 require './Chipmunk/EternityMod'
@@ -68,12 +67,12 @@ module CollisionHandler
 	class Camera
 		#~ a has collision type :camera
 		#~ b is the Chipmunk object for the Entity
-		def begin(a, b, arbiter)
-			$camera.queue.add b.entity
+		def begin(arbiter)
+			$camera.queue.add arbiter.b.entity
 		end
 				
-		def separate(a, b, arbiter)
-			$camera.queue.delete b.entity
+		def separate(arbiter)
+			$camera.queue.delete arbiter.b.entity
 		end
 	end
 end

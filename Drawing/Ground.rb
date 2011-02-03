@@ -9,9 +9,7 @@
 
 require 'rubygems'
 require 'gosu'
-require 'chipmunk'
 
-require 'chipmunk'
 require './Chipmunk/Space3D'
 require './Chipmunk/EternityMod'
 

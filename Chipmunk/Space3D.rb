@@ -3,7 +3,7 @@
 require 'set'
 
 require 'rubygems'
-require 'chipmunk'
+require 'chipmunk-ffi'
 require 'gosu'
 require 'RMagick'
 require './Chipmunk/Space'

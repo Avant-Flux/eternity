@@ -15,7 +15,7 @@ require 'chingu'
 
 require 'require_all'
 #~ require 'profile'
-require 'chipmunk'
+require 'chipmunk-ffi'
 require_all './Chipmunk'
 require_all './GameObjects'
 require_all './Utilities'

@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 require 'rubygems'
-require 'chipmunk'
+require 'chipmunk-ffi'
 
 module CP
 	class Space	
