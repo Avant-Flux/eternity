@@ -93,4 +93,14 @@ module Physics
 			super(pos, bottom, side, render_object)
 		end
 	end
+	
+	module Positioning
+		# position, velocity, acceleration, etc
+		
+	end
+	
+	module ForceApplication
+		# force, torque, etc.
+		
+	end
 end
