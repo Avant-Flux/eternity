@@ -8,10 +8,12 @@ module Physics
 	class PhysicsObject
 		attr_reader :bottom, :side, :render_object
 	
-		def initialize(bottom, side, render_object)
+		def initialize(bottom, side, render_object=nil)
 			@bottom = bottom
 			@side = side
 			@render_object = render_object
+				#Set render_object to be the same as the side if no render object is supplied.
+				@render_object ||= side
 		end
 		
 		def set_positon(pos=[0,0,0])
@@ -32,7 +34,7 @@ module Physics
 			side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
 										dimentions[0], dimentions[2]
 			
-			super(bottom, side, side)
+			super(bottom, side)
 			set_positon pos
 		end
 	end
