@@ -16,7 +16,7 @@ module Physics
 				@render_object ||= side
 		end
 		
-		def set_positon(pos=[0,0,0])
+		def positon=(pos=[0,0,0])
 			@bottom.p.x = pos[0]
 			@bottom.p.y = pos[1]
 			@side.p.y = pos[2]
@@ -35,7 +35,7 @@ module Physics
 										dimentions[0], dimentions[2]
 			
 			super(bottom, side)
-			set_positon pos
+			position = pos
 		end
 	end
 	
@@ -50,7 +50,7 @@ module Physics
 												:bottom_left, side.width, side.height + bottom.height
 			
 			super(bottom, side, render_object)
-			set_positon pos
+			position = pos
 		end
 	end
 end
