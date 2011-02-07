@@ -16,6 +16,10 @@ module Physics
 				@render_object ||= side
 		end
 		
+		def position
+			return [@bottom.p.x, @bottom.p.y, @side.p.y]
+		end
+		
 		def positon=(pos=[0,0,0])
 			@bottom.p.x = pos[0]
 			@bottom.p.y = pos[1]
