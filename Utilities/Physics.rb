@@ -41,14 +41,13 @@ module Physics
 	
 	class EnvironmentObject < PhysicsObject
 		def initialize(pos=[0,0,0], dimentions=[1,1,1])
-			inf = Float::INFINITY
-			bottom =	CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
-											dimentions[0], dimentions[1]
-			side =		CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
-											dimentions[0], dimentions[3]
+			bottom =	CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
+											:bottom_left, dimentions[0], dimentions[1]
+			side =		CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
+											:bottom_left, dimentions[0], dimentions[3]
 			
-			render_object = CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
-												side.width, side.height + bottom.height
+			render_object = CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
+												:bottom_left, side.width, side.height + bottom.height
 			
 			super(bottom, side, render_object)
 			set_positon pos
