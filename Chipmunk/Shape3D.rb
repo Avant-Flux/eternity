@@ -99,6 +99,17 @@ module CP
 				super(bottom, side)
 			end
 		end
+		
+		class EnvironmentObject < PhysicsObject
+			def initialize(pos=[0,0,0], dimentions=[1,1,1])
+				bottom =	CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+												dimentions[0], dimentions[1]
+				side =		CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+												dimentions[0], dimentions[3]
+				
+				super(bottom, side)
+			end
+		end
 	end
 
 	module Shape3D
