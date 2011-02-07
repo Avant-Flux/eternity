@@ -78,8 +78,7 @@ module CP
 		def set_elevation(shape)
 			shape.elevation = 0
 		
-			all_ones = 2**32-1
-			point_query shape.body.p, all_ones,0 do |env|
+			point_query shape.body.p, CP::ALL_ONES,0 do |env|
 				if env.collision_type == :environment || env.collision_type == :building
 					#Raise elevation to the height of whatever is below.
 					if env.height > shape.elevation
