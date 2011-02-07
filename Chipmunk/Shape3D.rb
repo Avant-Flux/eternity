@@ -77,11 +77,12 @@ module CP
 		#It may eventually be possible to forgo usage of chipmunk-ffi at some point
 		#and simply use ffi and the C library.
 		class PhysicsObject
-			attr_reader :bottom, :side
+			attr_reader :bottom, :side, :render_object
 		
-			def initialize(bottom, side)
+			def initialize(bottom, side, render_object)
 				@bottom = bottom
 				@side = side
+				@render_object = render_object
 			end
 			
 			def set_positon(pos=[0,0,0])
@@ -102,19 +103,23 @@ module CP
 				side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
 											dimentions[0], dimentions[2]
 				
-				super(bottom, side)
+				super(bottom, side, side)
 				set_positon pos
 			end
 		end
 		
 		class EnvironmentObject < PhysicsObject
 			def initialize(pos=[0,0,0], dimentions=[1,1,1])
-				bottom =	CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+				inf = Float::INFINITY
+				bottom =	CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
 												dimentions[0], dimentions[1]
-				side =		CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+				side =		CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
 												dimentions[0], dimentions[3]
 				
-				super(bottom, side)
+				render_object = CP::Shape::Rect.new	CP::Body.new(inf,inf), :bottom_left,
+													side.width, side.height + bottom.height
+				
+				super(bottom, side, render_object)
 				set_positon pos
 			end
 		end
