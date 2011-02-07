@@ -10,13 +10,14 @@ module Physics
 		
 		DIRECTION_UP = (3*Math::PI/2.0)
 	
-		def initialize(bottom, side, render_object=nil)
+		def initialize(pos, bottom, side, render_object=nil)
 			@bottom = bottom
 			@side = side
 			@render_object = render_object
 				#Set render_object to be the same as the side if no render object is supplied.
 				@render_object ||= side
 				
+			positon = pos
 			init_orientation
 		end
 		
@@ -53,8 +54,7 @@ module Physics
 			side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
 										dimentions[0], dimentions[2]
 			
-			super(bottom, side)
-			position = pos
+			super(pos, bottom, side)
 		end
 	end
 	
@@ -68,8 +68,7 @@ module Physics
 			render_object = CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
 												:bottom_left, side.width, side.height + bottom.height
 			
-			super(bottom, side, render_object)
-			position = pos
+			super(pos, bottom, side, render_object)
 		end
 	end
 end
