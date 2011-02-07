@@ -70,6 +70,21 @@ module CP
 			#~ @xy.body.v.cross(@xz.body.v)
 		#~ end
 	end
+	
+	module Body3D
+		#This is the new structure for the chipmunk handling of the game engine
+		#It should create a complete abstraction of the underlying chipmunk code.
+		#It may eventually be possible to forgo usage of chipmunk-ffi at some point
+		#and simply use ffi and the C library.
+		class PhysicsObject
+			attr_reader :bottom, :side
+		
+			def initialize(bottom, side)
+				@bottom = bottom
+				@side = side
+			end
+		end
+	end
 
 	module Shape3D
 		class Circle < CP::Shape::Circle
