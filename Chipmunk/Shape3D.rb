@@ -83,6 +83,12 @@ module CP
 				@bottom = bottom
 				@side = side
 			end
+			
+			def set_positon(pos=[0,0,0])
+				@bottom.p.x = pos[0]
+				@bottom.p.y = pos[1]
+				@side.p.y = pos[2]
+			end
 		end
 		
 		class Entity < PhysicsObject
@@ -97,6 +103,7 @@ module CP
 											dimentions[0], dimentions[2]
 				
 				super(bottom, side)
+				set_positon pos
 			end
 		end
 		
@@ -108,6 +115,7 @@ module CP
 												dimentions[0], dimentions[3]
 				
 				super(bottom, side)
+				set_positon pos
 			end
 		end
 	end
