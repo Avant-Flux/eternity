@@ -7,6 +7,8 @@ module Physics
 	#and simply use ffi and the C library.
 	class PhysicsObject
 		attr_reader :bottom, :side, :render_object
+		
+		DIRECTION_UP = (3*Math::PI/2.0)
 	
 		def initialize(bottom, side, render_object=nil)
 			@bottom = bottom
@@ -14,6 +16,8 @@ module Physics
 			@render_object = render_object
 				#Set render_object to be the same as the side if no render object is supplied.
 				@render_object ||= side
+				
+			init_orientation
 		end
 		
 		def position
@@ -24,6 +28,17 @@ module Physics
 			@bottom.p.x = pos[0]
 			@bottom.p.y = pos[1]
 			@side.p.y = pos[2]
+		end
+		
+		private
+		
+		def init_orientation
+			# Set the initial angle of the bodies.  The bodies are initialized pointing
+			# at 0 rad, aka right.  Thus, they need to be rotated before being used.
+			[@bottom, @side, @render_object].each do |shape|
+				shape.body.a = DIRECTION_UP
+			end
+			
 		end
 	end
 	
