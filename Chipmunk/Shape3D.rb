@@ -84,6 +84,21 @@ module CP
 				@side = side
 			end
 		end
+		
+		class Entity < PhysicsObject
+			def initialize(mass, moment, pos=[0,0,0], dimentions=[1,1,1])
+				#Use the supplied mass for the circle only, as the rectangle should not rotate.
+				
+				#Define the bottom of the Entity as a circle, and the side as a rectangle.
+				#This approximates the volume as a cylinder.
+				
+				bottom = CP::Shape::Circle.new CP::Body.new(mass,moment), dimentions[0], CP::ZERO_VEC_2
+				side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+											dimentions[0], dimentions[2]
+				
+				super(bottom, side)
+			end
+		end
 	end
 
 	module Shape3D
