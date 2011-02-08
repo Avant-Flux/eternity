@@ -121,21 +121,15 @@ module Physics
 		end
 		
 		def p=(arg=[0.0, 0.0, 0.0])
-			px = arg[0]
-			py = arg[1]
-			pz = arg[2]
+			px,py,pz = arg
 		end
 		
 		def v=(arg=[0.0, 0.0, 0.0])
-			vx = arg[0]
-			vy = arg[1]
-			vz = arg[2]
+			vx,vy,vz = arg
 		end
 		
 		def a=(arg=[0.0, 0.0, 0.0])
-			ax = arg[0]
-			ay = arg[1]
-			az = arg[2]
+			ax,ay,az = arg
 		end
 		
 		# Define alternate names for the previous methods
