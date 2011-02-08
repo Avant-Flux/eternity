@@ -21,7 +21,7 @@ module Physics
 				#Set render_object to be the same as the side if no render object is supplied.
 				@render_object ||= side
 				
-			p = position
+			self.position = position
 			init_orientation
 		end
 		
@@ -134,6 +134,14 @@ module Physics
 			@bottom.p.y = arg[1]
 			@side.p.y = arg[2]
 		end
+		
+		# Define alternate names for the previous methods
+		alias :position :p
+		alias :velocity :v
+		alias :acceleration :a
+		alias :position= :p=
+		alias :velocity= :v=
+		alias :acceleration= :a=
 		
 		# Setters and getters for individual values.
 		#For position
