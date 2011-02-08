@@ -141,18 +141,18 @@ module Physics
 		alias :acceleration= :a=
 		
 		# Setters and getters for vectors based on plane.
-		def pxy;		@bottom.p;			end
-		def pxz;		@side.p;			end
-		def vxy;		@bottom.v;			end
-		def vxz;		@side.v;			end
-		def axy;		@bottom.a;			end
-		def axz;		@side.a;			end
-		def pxy=(arg);	@bottom.p = arg;	end
-		def pxz=(arg);	@side.p = arg;		end
-		def vxy=(arg);	@bottom.v = arg;	end
-		def vxz=(arg);	@side.v = arg;		end
-		def axy=(arg);	@bottom.a = arg;	end
-		def axz=(arg);	@side.a = arg;		end
+		def pxy;		@bottom.p;									end
+		def pxz;		@side.p;									end
+		def vxy;		@bottom.v;									end
+		def vxz;		@side.v;									end
+		def axy;		@bottom.a;									end
+		def axz;		@side.a;									end
+		def pxy=(arg);	@bottom.p = arg;	@side.p.x = arg.x;		end
+		def pxz=(arg);	@side.p = arg;		@bottom.p.x = arg.x;	end
+		def vxy=(arg);	@bottom.v = arg;	@side.v.x = arg.x;		end
+		def vxz=(arg);	@side.v = arg;		@bottom.v.x = arg.x;	end
+		def axy=(arg);	@bottom.a = arg;	@side.a.x = arg.x;		end
+		def axz=(arg);	@side.a = arg;		@bottom.a.x = arg.x;	end
 		
 		# Setters and getters for individual values.
 		#For position
