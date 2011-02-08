@@ -120,16 +120,16 @@ module Physics
 			return [@bottom.v.x, @bottom.v.y, @side.v.y]
 		end
 		
-		def p=(arg=[0.0, 0.0, 0.0])
-			px,py,pz = arg
+		def p=(vec=[0.0, 0.0, 0.0])
+			px,py,pz = vec
 		end
 		
-		def v=(arg=[0.0, 0.0, 0.0])
-			vx,vy,vz = arg
+		def v=(vec=[0.0, 0.0, 0.0])
+			vx,vy,vz = vec
 		end
 		
-		def a=(arg=[0.0, 0.0, 0.0])
-			ax,ay,az = arg
+		def a=(vec=[0.0, 0.0, 0.0])
+			ax,ay,az = vec
 		end
 		
 		# Define alternate names for the previous methods
