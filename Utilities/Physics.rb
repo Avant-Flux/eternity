@@ -9,6 +9,10 @@ module Physics
 		attr_reader :bottom, :side, :render_object
 		
 		DIRECTION_UP = (3*Math::PI/2.0)
+		
+		include Dimension
+		include Positioning
+		include ForceApplication
 	
 		def initialize(pos, bottom, side, render_object=nil)
 			@bottom = bottom
@@ -149,7 +153,7 @@ module Physics
 		def px=(arg);	@bottom.p.x = arg;	end
 		def py=(arg);	@bottom.p.y = arg;	end
 		def pz=(arg);	@side.p.x = arg;	end
-		#For velocity	
+		#For velocity
 		def vx;			@bottom.v.x;		end
 		def vy;			@bottom.v.y;		end
 		def vz;			@side.v.x;			end
@@ -167,6 +171,8 @@ module Physics
 	
 	module ForceApplication
 		# force, torque, etc.
-		
+		def apply_force(arg=[0.0, 0.0, 0.0])
+			
+		end
 	end
 end
