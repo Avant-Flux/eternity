@@ -14,25 +14,15 @@ module Physics
 		include Positioning
 		include ForceApplication
 	
-		def initialize(pos, bottom, side, render_object=nil)
+		def initialize(position, bottom, side, render_object=nil)
 			@bottom = bottom
 			@side = side
 			@render_object = render_object
 				#Set render_object to be the same as the side if no render object is supplied.
 				@render_object ||= side
 				
-			positon = pos
+			p = position
 			init_orientation
-		end
-		
-		def position
-			return [@bottom.p.x, @bottom.p.y, @side.p.y]
-		end
-		
-		def positon=(pos=[0,0,0])
-			@bottom.p.x = pos[0]
-			@bottom.p.y = pos[1]
-			@side.p.y = pos[2]
 		end
 		
 		private
