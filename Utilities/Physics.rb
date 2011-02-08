@@ -143,77 +143,26 @@ module Physics
 		
 		# Setters and getters for individual values.
 		#For position
-		def px
-			@bottom.p.x
-		end
-		
-		def py
-			@bottom.p.y
-		end
-		
-		def pz
-			@side.p.x
-		end
-		
-		def px=(arg)
-			@bottom.p.x = arg
-		end
-		
-		def py=(arg)
-			@bottom.p.y = arg
-		end
-		
-		def pz=(arg)
-			@side.p.x = arg
-		end
+		def px;			@bottom.p.x;		end
+		def py;			@bottom.p.y;		end
+		def pz;			@side.p.x;			end
+		def px=(arg);	@bottom.p.x = arg;	end
+		def py=(arg);	@bottom.p.y = arg;	end
+		def pz=(arg);	@side.p.x = arg;	end
 		#For velocity	
-		def vx
-			@bottom.v.x
-		end
-		
-		def vy
-			@bottom.v.y
-		end
-		
-		def vz
-			@side.v.x
-		end
-		
-		def vx=(arg)
-			@bottom.v.x = arg
-		end
-		
-		def vy=(arg)
-			@bottom.v.y = arg
-		end
-		
-		def vz=(arg)
-			@side.v.x = arg
-		end
+		def vx;			@bottom.v.x;		end
+		def vy;			@bottom.v.y;		end
+		def vz;			@side.v.x;			end
+		def vx=(arg);	@bottom.v.x = arg;	end
+		def vy=(arg);	@bottom.v.y = arg;	end
+		def vz=(arg);	@side.v.x = arg;	end
 		#For acceleration
-		def ax
-			@bottom.a.x
-		end
-		
-		def ay
-			@bottom.a.y
-		end
-		
-		def az
-			@side.a.x
-		end
-		
-		def ax=(arg)
-			@bottom.a.x = arg
-		end
-		
-		def ay=(arg)
-			@bottom.a.y = arg
-		end
-		
-		def az=(arg)
-			@side.a.x = arg
-		end
+		def ax;			@bottom.a.x;		end
+		def ay;			@bottom.a.y;		end
+		def az;			@side.a.x;			end
+		def ax=(arg);	@bottom.a.x = arg;	end
+		def ay=(arg);	@bottom.a.y = arg;	end
+		def az=(arg); 	@side.a.x = arg; 	end
 	end
 	
 	module ForceApplication
