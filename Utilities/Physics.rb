@@ -178,7 +178,10 @@ module Physics
 	module ForceApplication
 		# force, torque, etc.
 		def apply_force(arg=[0.0, 0.0, 0.0])
-			
+			# Only apply x-coordinate force to one body, as the other should
+			# move is accordance to the constraint holding the two together.
+			@bottom.body.apply_force CP::Vec2.new arg[0], arg[1]
+			@side.body.apply_force CP::Vec2.new 0, arg[1]
 		end
 	end
 end
