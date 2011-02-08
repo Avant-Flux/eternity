@@ -13,6 +13,7 @@ module Physics
 		include Dimension
 		include Positioning
 		include ForceApplication
+		include Gravitation
 	
 		def initialize(position, bottom, side, render_object=nil)
 			@bottom = bottom
@@ -23,6 +24,7 @@ module Physics
 				
 			self.position = position
 			init_orientation
+			init_gravity
 		end
 		
 		private
@@ -179,9 +181,18 @@ module Physics
 		# force, torque, etc.
 		def apply_force(arg=[0.0, 0.0, 0.0])
 			# Only apply x-coordinate force to one body, as the other should
-			# move is accordance to the constraint holding the two together.
+			# move in accordance to the constraint holding the two together.
 			@bottom.body.apply_force CP::Vec2.new arg[0], arg[1]
 			@side.body.apply_force CP::Vec2.new 0, arg[1]
 		end
+	end
+	
+	module Gravitation
+		def init_gravity
+			 
+		end
+	
+		def g;			@side.g;		end
+		def g=(arg);	@side.g = arg;	end
 	end
 end
