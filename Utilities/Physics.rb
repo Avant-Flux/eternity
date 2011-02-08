@@ -133,12 +133,9 @@ module Physics
 		end
 		
 		# Define alternate names for the previous methods
-		alias :position :p
-		alias :velocity :v
-		alias :acceleration :a
-		alias :position= :p=
-		alias :velocity= :v=
-		alias :acceleration= :a=
+		alias :position :p;			alias :position= :p=
+		alias :velocity :v;			alias :velocity= :v=
+		alias :acceleration :a;		alias :acceleration= :a=
 		
 		# Setters and getters for vectors based on plane.
 		def pxy;		@bottom.p;									end
