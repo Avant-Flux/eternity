@@ -111,7 +111,35 @@ module Physics
 	
 	module Positioning
 		# position, velocity, acceleration, etc
+		def p
+			return [@bottom.p.x, @bottom.p.y, @side.p.y]
+		end
 		
+		def v
+			return [@bottom.v.x, @bottom.v.y, @side.v.y]
+		end
+		
+		def a
+			return [@bottom.v.x, @bottom.v.y, @side.v.y]
+		end
+		
+		def p=(arg=[0.0, 0.0, 0.0])
+			@bottom.p.x = arg[0]
+			@bottom.p.y = arg[1]
+			@side.p.y = arg[2]
+		end
+		
+		def v=(arg=[0.0, 0.0, 0.0])
+			@bottom.v.x = arg[0]
+			@bottom.v.y = arg[1]
+			@side.v.y = arg[2]
+		end
+		
+		def a=(arg=[0.0, 0.0, 0.0])
+			@bottom.p.x = arg[0]
+			@bottom.p.y = arg[1]
+			@side.p.y = arg[2]
+		end
 	end
 	
 	module ForceApplication
