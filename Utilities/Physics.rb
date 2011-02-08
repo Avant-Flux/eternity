@@ -94,6 +94,21 @@ module Physics
 		end
 	end
 	
+	module Dimension
+		# height, width, depth, etc
+		def height
+			@side.height
+		end
+		
+		def width
+			@side.width
+		end
+		
+		def depth
+			@bottom.height
+		end
+	end
+	
 	module Positioning
 		# position, velocity, acceleration, etc
 		
