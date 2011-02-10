@@ -21,6 +21,8 @@ module Physics
 			@render_object = render_object
 				#Set render_object to be the same as the side if no render object is supplied.
 				@render_object ||= side
+				@render_object.collision_type = :render_object
+			
 				
 			self.position = position
 			init_orientation
@@ -70,7 +72,7 @@ module Physics
 			
 			bottom = CP::Shape::Circle.new CP::Body.new(mass,moment), dimentions[0], CP::ZERO_VEC_2
 			side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
-										dimentions[0], dimentions[2]
+										dimentions[1], dimentions[2]
 			
 			super(pos, bottom, side)
 		end
@@ -111,15 +113,15 @@ module Physics
 	module Positioning
 		# position, velocity, acceleration, etc
 		def p
-			return [@bottom.p.x, @bottom.p.y, @side.p.y]
+			return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
 		end
 		
 		def v
-			return [@bottom.v.x, @bottom.v.y, @side.v.y]
+			return [@bottom.body.v.x, @bottom.body.v.y, @side.body.v.y]
 		end
 		
 		def a
-			return [@bottom.v.x, @bottom.v.y, @side.v.y]
+			return [@bottom.body.v.x, @bottom.body.v.y, @side.body.v.y]
 		end
 		
 		def p=(vec=[0.0, 0.0, 0.0])
@@ -140,41 +142,54 @@ module Physics
 		alias :acceleration :a;		alias :acceleration= :a=
 		
 		# Setters and getters for vectors based on plane.
-		def pxy;		@bottom.p;									end
-		def pxz;		@side.p;									end
-		def vxy;		@bottom.v;									end
-		def vxz;		@side.v;									end
-		def axy;		@bottom.a;									end
-		def axz;		@side.a;									end
-		def pxy=(arg);	@bottom.p = arg;	@side.p.x = arg.x;		end
-		def pxz=(arg);	@side.p = arg;		@bottom.p.x = arg.x;	end
-		def vxy=(arg);	@bottom.v = arg;	@side.v.x = arg.x;		end
-		def vxz=(arg);	@side.v = arg;		@bottom.v.x = arg.x;	end
-		def axy=(arg);	@bottom.a = arg;	@side.a.x = arg.x;		end
-		def axz=(arg);	@side.a = arg;		@bottom.a.x = arg.x;	end
+		def pxy;		@bottom.body.p;									end
+		def pxz;		@side.body.p;									end
+		def vxy;		@bottom.body.v;									end
+		def vxz;		@side.body.v;									end
+		def axy;		@bottom.body.a;									end
+		def axz;		@side.body.a;									end
+		def pxy=(arg);	@bottom.body.p = arg;	@side.body.p.x = arg.x;		end
+		def pxz=(arg);	@side.body.p = arg;		@bottom.body.p.x = arg.x;	end
+		def vxy=(arg);	@bottom.body.v = arg;	@side.body.v.x = arg.x;		end
+		def vxz=(arg);	@side.body.v = arg;		@bottom.body.v.x = arg.x;	end
+		def axy=(arg);	@bottom.body.a = arg;	@side.body.a.x = arg.x;		end
+		def axz=(arg);	@side.body.a = arg;		@bottom.body.a.x = arg.x;	end
 		
 		# Setters and getters for individual values.
 		#For position
-		def px;			@bottom.p.x; 						end
-		def py;			@bottom.p.y;						end
-		def pz;			@side.p.y;							end
-		def px=(arg);	@bottom.p.x = arg; @side.p.x = arg;	end
-		def py=(arg);	@bottom.p.y = arg;					end
-		def pz=(arg);	@side.p.y = arg;					end
+		def px;			@bottom.body.p.x; 						end
+		def py;			@bottom.body.p.y;						end
+		def pz;			@side.body.p.y;							end
+		def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
+		def py=(arg);	@bottom.body.p.y = arg;					end
+		def pz=(arg);	@side.body.p.y = arg;					end
 		#For velocity
-		def vx;			@bottom.v.x;						end
-		def vy;			@bottom.v.y;						end
-		def vz;			@side.v.y;							end
-		def vx=(arg);	@bottom.v.x = arg; @side.v.x = arg;	end
-		def vy=(arg);	@bottom.v.y = arg;					end
-		def vz=(arg);	@side.v.y = arg;					end
+		def vx;			@bottom.body.v.x;						end
+		def vy;			@bottom.body.v.y;						end
+		def vz;			@side.body.v.y;							end
+		def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
+		def vy=(arg);	@bottom.body.v.y = arg;					end
+		def vz=(arg);	@side.body.v.y = arg;					end
 		#For acceleration
-		def ax;			@bottom.a.x;						end
-		def ay;			@bottom.a.y;						end
-		def az;			@side.a.y;							end
-		def ax=(arg);	@bottom.a.x = arg; @side.a.x = arg;	end
-		def ay=(arg);	@bottom.a.y = arg;					end
-		def az=(arg); 	@side.a.y = arg; 					end
+		def ax;			@bottom.body.a.x;						end
+		def ay;			@bottom.body.a.y;						end
+		def az;			@side.body.a.y;							end
+		def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
+		def ay=(arg);	@bottom.body.a.y = arg;					end
+		def az=(arg); 	@side.body.a.y = arg; 					end
+		
+		# For dealing with render objects		
+		def distinct_render?
+			# Returns true if the render object is distinct from the side
+			return @side.equal? @render_object
+		end
+		
+		def set_render_vector(type)
+			if distinct_render?
+				method = (type.to_s + "=").to_sym
+				@render_object.send method, @side.send(type)
+			end
+		end
 	end
 	
 	module ForceApplication
