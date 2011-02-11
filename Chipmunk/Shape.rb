@@ -12,6 +12,14 @@ module CP
 					return :nonstatic
 				end
 			end
+			
+			def width
+				radius*2
+			end
+			
+			def depth
+				radius
+			end
 		end
 	
 		class Rect < CP::Shape::Poly
