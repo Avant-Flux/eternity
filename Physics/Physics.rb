@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
- 
+
 require "./Physics/PhysicsMixins"
 
 class Numeric
@@ -100,14 +100,14 @@ module Physics
 	end
 	
 	class Entity < NonstaticObject
-		def initialize(mass, moment, pos=[0,0,0], dimentions=[1,1,1])
+		def initialize(entity, mass, moment, pos=[0,0,0], dimentions=[1,1,1])
 			#Use the supplied mass for the circle only, as the rectangle should not rotate.
 			
 			#Define the bottom of the Entity as a circle, and the side as a rectangle.
 			#This approximates the volume as a cylinder.
 			
-			bottom = CP::Shape::Circle.new CP::Body.new(mass,moment), dimentions[0], CP::ZERO_VEC_2
-			side = CP::Shape::Rect.new	CP::Body.new(mass,Float::INFINITY), :bottom_left,
+			bottom = Shape::Circle.new	entity, CP::Body.new(mass,moment), dimentions[0], CP::ZERO_VEC_2
+			side = Shape::Rect.new		entity, CP::Body.new(mass,Float::INFINITY), :bottom_left,
 										dimentions[1], dimentions[2]
 			
 			super(pos, bottom, side)
@@ -118,14 +118,14 @@ module Physics
 	end
 	
 	class EnvironmentObject < StaticObject
-		def initialize(pos=[0,0,0], dimentions=[1,1,1])
-			bottom =	CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
-											:bottom_left, dimentions[0], dimentions[1]
-			side =		CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
-											:bottom_left, dimentions[0], dimentions[3]
+		def initialize(env, pos=[0,0,0], dimentions=[1,1,1])
+			bottom =	Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+										:bottom_left, dimentions[0], dimentions[1]
+			side =		Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+										:bottom_left, dimentions[0], dimentions[3]
 			
-			render_object = CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
-												:bottom_left, side.width, side.height + bottom.height
+			render_object = Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+											:bottom_left, side.width, side.height + bottom.height
 			
 			super(pos, bottom, side, render_object)
 			
