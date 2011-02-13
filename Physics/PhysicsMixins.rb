@@ -83,5 +83,13 @@ module Physics
 			@bottom.body.apply_force CP::Vec2.new arg[0], arg[1]
 			@side.body.apply_force CP::Vec2.new 0, arg[2]
 		end
+		
+		def t
+			@bottom.body.t
+		end
+		
+		def t=(arg)
+			@bottom.body.t = arg
+		end
 	end
 end
