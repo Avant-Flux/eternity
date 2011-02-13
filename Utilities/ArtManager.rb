@@ -61,7 +61,7 @@ class ArtManager
 	end
 	
 	def new_shadow(entity)
-		Shadow.new entity, new_circle(entity.width/2)
+		Shadow.new entity, new_circle(entity.physics.width/2)
 	end
 	
 	def new_blip(player, entity, ellipse)
