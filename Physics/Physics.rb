@@ -27,6 +27,8 @@ module Physics
 	
 		attr_reader :bottom, :side
 		
+		# Hold a reference to a CP::Space for the shapes and bodies to be added to
+		@@space
 		# Set the scale for conversion between meters and pixels
 		@@scale = 44
 		
@@ -52,8 +54,16 @@ module Physics
 				@@scale
 			end
 			
-			def scale= arg
+			def scale=(arg)
 				@@scale = arg
+			end
+			
+			def space
+				@@space
+			end
+			
+			def space=(arg)
+				@@space = arg
 			end
 		end
 		
