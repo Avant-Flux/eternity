@@ -7,8 +7,6 @@ module Physics
 	# position, velocity, acceleration, etc
 	module Positioning
 		module Static
-			#TODO make sure values are set for the render object as well
-		
 			def p
 				return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
 			end
@@ -37,9 +35,6 @@ module Physics
 		end
 		
 		module Nonstatic
-			# X, Y is based on the bottom object
-			# Z is the difference between the y of the bottom and the y of the side
-		
 			def p
 				return [px, py, pz]
 			end
@@ -70,6 +65,7 @@ module Physics
 			alias :acceleration :a;		alias :acceleration= :a=
 			
 			# Setters and getters for vectors based on plane.
+			# Try not to use these unless you are using Chipmunk methods which generate vectors.
 			def pxy;		@bottom.body.p;									end
 			def pxz;		@side.body.p;									end
 			def vxy;		@bottom.body.v;									end
@@ -84,27 +80,28 @@ module Physics
 			def axz=(arg);	@side.body.a = arg;		@bottom.body.a.x = arg.x;	end
 			
 			# Setters and getters for individual values.
+			# TODO remove changing both side and bottom x values if unnecessary.
 			#For position
-			def px;			@bottom.body.p.x; 						end
-			def py;			@bottom.body.p.y;						end
-			def pz;			@side.body.p.y;							end
+			def px;			@bottom.body.p.x; 								end
+			def py;			@bottom.body.p.y;								end
+			def pz;			@side.body.p.y - @bottom.body.p.y;				end
 			def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
-			def py=(arg);	@bottom.body.p.y = arg;					end
-			def pz=(arg);	@side.body.p.y = arg;					end
+			def py=(arg);	@bottom.body.p.y = arg;							end
+			def pz=(arg);	@side.body.p.y = @bottom.body.p.y + arg;		end
 			#For velocity
-			def vx;			@bottom.body.v.x;						end
-			def vy;			@bottom.body.v.y;						end
-			def vz;			@side.body.v.y;							end
+			def vx;			@bottom.body.v.x;								end
+			def vy;			@bottom.body.v.y;								end
+			def vz;			@side.body.v.y;									end
 			def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
-			def vy=(arg);	@bottom.body.v.y = arg;					end
-			def vz=(arg);	@side.body.v.y = arg;					end
+			def vy=(arg);	@bottom.body.v.y = arg;							end
+			def vz=(arg);	@side.body.v.y = arg;							end
 			#For acceleration
-			def ax;			@bottom.body.a.x;						end
-			def ay;			@bottom.body.a.y;						end
-			def az;			@side.body.a.y;							end
+			def ax;			@bottom.body.a.x;								end
+			def ay;			@bottom.body.a.y;								end
+			def az;			@side.body.a.y;									end
 			def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
-			def ay=(arg);	@bottom.body.a.y = arg;					end
-			def az=(arg); 	@side.body.a.y = arg; 					end
+			def ay=(arg);	@bottom.body.a.y = arg;							end
+			def az=(arg); 	@side.body.a.y = arg; 							end
 		end
 	end
 	
