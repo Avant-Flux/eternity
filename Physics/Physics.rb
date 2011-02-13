@@ -27,6 +27,9 @@ module Physics
 		@@scale = 44
 		
 		DIRECTION_UP = (3*Math::PI/2.0)
+		DIRECTION_DOWN = (Math::PI/2.0)
+		DIRECTION_LEFT = (Math::PI)
+		DIRECTION_RIGHT = (2*Math::PI)
 		
 		#~ include Physics::Dimension
 		#~ include Physics::Positioning
