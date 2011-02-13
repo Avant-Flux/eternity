@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
  
-require "./Utilities/PhysicsMixins"
+require "./Physics/PhysicsMixins"
 
 class Numeric
 	def to_px
