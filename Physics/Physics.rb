@@ -23,6 +23,8 @@ module Physics
 	#and simply use ffi and the C library.
 	
 	class PhysicsObject
+		include Physics::Positioning
+	
 		attr_reader :bottom, :side
 		
 		# Set the scale for conversion between meters and pixels
@@ -63,7 +65,6 @@ module Physics
 	
 	class NonstaticObject < PhysicsObject
 		include Physics::ForceApplication
-		include Physics::Positioning::Nonstatic
 	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
@@ -92,8 +93,6 @@ module Physics
 	end
 	
 	class StaticObject < PhysicsObject
-		include Physics::Positioning::Static
-	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
 		end
