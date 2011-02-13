@@ -24,7 +24,7 @@ module Physics
 			@space.iterations = iterations
 			
 			@dt = dt
-			@@g = CP::Vec2.new(0, g).freeze #Use the class variable as a constant
+			@@g = CP::Vec2.new(0, g)
 		end
 		
 		def add(physics_obj)
@@ -82,8 +82,14 @@ module Physics
 			@space.step @dt
 		end
 		
-		def self.g
-			@@gravity
+		class << self
+			def g
+				@@g.y
+			end
+			
+			def g=(arg)
+				@@g.y = arg
+			end
 		end
 	end
 end
