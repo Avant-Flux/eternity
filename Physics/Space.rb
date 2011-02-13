@@ -74,6 +74,16 @@ module Physics
 			end
 		end
 		
+		def add_2D(obj)
+			@space.add_shape obj.shape
+			@space.add_body obj.shape.body
+		end
+		
+		def remove_2D(obj)
+			@space.remove_shape obj.shape
+			@space.remove_body obj.shape.body
+		end
+		
 		def find
 			
 		end
