@@ -3,14 +3,14 @@
 module Physics
 	class Space
 		#Create custom velocity function so that only certain objects respond to gravity. 
-		GRAVITY = CP::Vec2.new(0, -9.8)
 		GRAVITY_FUNC = Proc.new do |body, g, dmp, dt|
-			body.update_velocity(Physics::Space.GRAVITY, dmp, dt)
+			body.update_velocity(Physics::Space.g, dmp, dt)
 		end
 	
-		def initialize(dt)
+		def initialize(dt, g = -9.8)
 			@space = CP::Space.new
 			@dt = dt
+			@@g = CP::Vec2.new(0, g).freeze #Use the class variable as a constant
 		end
 		
 		def add(physics_obj)
@@ -66,6 +66,10 @@ module Physics
 		
 		def step
 			@space.step @dt
+		end
+		
+		def self.g
+			@@gravity
 		end
 	end
 end
