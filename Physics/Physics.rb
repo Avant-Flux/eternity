@@ -7,8 +7,12 @@ module Physics
 	#It should create a complete abstraction of the underlying chipmunk code.
 	#It may eventually be possible to forgo usage of chipmunk-ffi at some point
 	#and simply use ffi and the C library.
+	
 	class PhysicsObject
 		attr_reader :bottom, :side, :render_object
+		
+		# Set the scale for conversion between meters and pixels
+		@@scale = 44
 		
 		DIRECTION_UP = (3*Math::PI/2.0)
 		
@@ -29,6 +33,16 @@ module Physics
 			self.position = position
 			init_orientation
 			init_gravity
+		end
+		
+		class << self
+			def scale
+				@@scale
+			end
+			
+			def scale= arg
+				@@scale = arg
+			end
 		end
 		
 		private
