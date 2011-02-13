@@ -5,7 +5,12 @@ require 'chipmunk-ffi'
 module CP
 	module Shape
 		class Rect < CP::Shape::Poly
+			attr_reader :width, :height
+		
 			def initialize(body, center, width, height, offset=CP::Vec2.new(0,0))
+				@width = width
+				@height = height
+			
 				#Initially design vectors such that the object is pointing to the right (0 rad)
 				#Obj. will be rotated to face the top of screen before game starts
 				
