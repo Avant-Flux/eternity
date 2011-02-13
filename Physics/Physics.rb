@@ -62,7 +62,7 @@ module Physics
 		
 		# Returns true if the render object is distinct from the side
 		def distinct_render?
-			return @side.equal? @render_object
+			return !(@side.equal? @render_object)
 		end
 		
 		private
