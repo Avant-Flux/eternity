@@ -27,6 +27,10 @@ module Physics
 			@@g = CP::Vec2.new(0, g)
 		end
 		
+		def step
+			@space.step @dt
+		end
+		
 		def add(physics_obj)
 			#Add body to space
 			@space.add_body physics_obj.bottom.body
