@@ -76,6 +76,7 @@ module Physics
 		include Physics::ForceApplication
 		include Physics::Rotation
 		include Physics::SpeedLimit
+		include Physics::Elevation
 	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
