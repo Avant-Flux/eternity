@@ -109,6 +109,23 @@ module Physics
 		end
 	end
 	
+	class Camera < NonstaticObject
+		def initialize
+			@center = Struct.new(:x, :y).new
+			@center.x = $window.width.to_meters / 2
+			@center.y = $window.height.to_meters / 2
+			
+			mass = @entity.shape.body.m
+			
+			@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, 
+										$window.height.to_meters, $window.width.to_meters)
+			
+			@shape.sensor = true
+			@shape.collision_type = :camera
+			@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
+		end
+	end
+	
 	class Entity < NonstaticObject
 		def initialize(entity, mass, moment, pos=[0,0,0], dimentions=[1,1,1])
 			#Use the supplied mass for the circle only, as the rectangle should not rotate.

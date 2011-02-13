@@ -42,6 +42,14 @@ class Camera
 		warp @entity.p
 	end
 	
+	def add(entity)
+		@queue.add entity
+	end
+	
+	def delete(entity)
+		@queue.delete entity
+	end
+	
 	def move(force, offset=CP::ZERO_VEC_2)
 		@shape.body.apply_force force, offset
 	end
