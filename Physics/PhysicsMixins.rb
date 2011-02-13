@@ -94,7 +94,7 @@ module Physics
 			# Only apply x-coordinate force to one body, as the other should
 			# move in accordance to the constraint holding the two together.
 			@bottom.body.apply_force CP::Vec2.new arg[0], arg[1]
-			@side.body.apply_force CP::Vec2.new 0, arg[1]
+			@side.body.apply_force CP::Vec2.new 0, arg[2]
 		end
 	end
 	
