@@ -28,10 +28,10 @@ module Physics
 			#For position
 			def px;			@bottom.body.p.x; 								end
 			def py;			@bottom.body.p.y;								end
-			def pz;			@side.body.p.y;									end
+			def pz;			@side.body.p.y - @bottom.body.p.y;				end
 			def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
 			def py=(arg);	@bottom.body.p.y = arg;							end
-			def pz=(arg);	@side.body.p.y = arg;							end
+			def pz=(arg);	@side.body.p.y = @bottom.body.p.y + arg;		end
 		end
 		
 		module Nonstatic
