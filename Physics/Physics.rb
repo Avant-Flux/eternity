@@ -57,14 +57,6 @@ module Physics
 			def scale=(arg)
 				@@scale = arg
 			end
-			
-			def space
-				@@space
-			end
-			
-			def space=(arg)
-				@@space = arg
-			end
 		end
 		
 		private

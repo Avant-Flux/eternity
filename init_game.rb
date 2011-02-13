@@ -31,7 +31,7 @@ class Game_Window < Gosu::Window
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
-		@space = init_space
+		$space = init_space
 		
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
