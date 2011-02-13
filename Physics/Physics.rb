@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'rubygems'
+require 'chipmunk-ffi'
 require "./Physics/PhysicsMixins"
 
 class Numeric
@@ -76,13 +78,17 @@ module Physics
 			# For this to work, the side must be unable to rotate, 
 			# and the bottom free to rotate.
 			
-			# Use a slide joint to implement this link.
+			# Use a groove joint to implement this link.
 				# Connect the stable end of the joint to the side, and
 				# the moving "pin" to the bottom.
 				
 				# Allow the groove to extend infinitely downwards so that
 				# the movement of the object modeled is inhibited as little
 				# as possible.
+				
+			CP::GrooveJoint.new	@side, @bottom, 
+						ZERO_VEC_2, CP::Vec2.new(0, -Float::INFINITY),	#From a to b on @side
+						ZERO_VEC_2										#Anchor on @bottom
 		end
 	end
 	
