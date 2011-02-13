@@ -130,6 +130,7 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
+		@player.draw
 		#~ @UI.draw
 		#~ 
 		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
