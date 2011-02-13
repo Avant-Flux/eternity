@@ -152,4 +152,17 @@ module Physics
 			end
 		end
 	end
+	
+	module Interface
+		def x; 			@physics.px;			end
+		def y; 			@physics.py;			end
+		def z; 			@physics.pz;			end
+		
+		def x=(arg); 	@physics.px = arg;		end
+		def y=(arg); 	@physics.py = arg;		end
+		def z=(arg); 	@physics.pz = arg;		end
+		
+		def elevation;			@physics.elevation;			end
+		def elevation=(arg);	@physics.elevation = arg;	end
+	end
 end
