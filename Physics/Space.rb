@@ -2,13 +2,27 @@
 
 module Physics
 	class Space
-		#Create custom velocity function so that only certain objects respond to gravity. 
-		GRAVITY_FUNC = Proc.new do |body, g, dmp, dt|
+		#Create custom velocity and position functions for objects which respond to gravity. 
+		GRAVITY_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
 			body.update_velocity(Physics::Space.g, dmp, dt)
 		end
-	
-		def initialize(dt, g = -9.8)
+		GRAVITY_POSITION_FUNC = Proc.new do |body, dt|
+			body.update_position(dt)
+				#~ body->p = cpvadd(body->p, cpvmult(cpvadd(body->v, body->v_bias), dt));
+				#~ cpBodySetAngle(body, body->a + (body->w + body->w_bias)*dt);
+				#~ 
+				#~ body->v_bias = cpvzero;
+				#~ body->w_bias = 0.0f;
+			
+			#Ensure the z-coord of the entity does not drop below zero
+			body.p.y = 0 if body.p.y < 0 
+		end
+		
+		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
 			@space = CP::Space.new
+			@space.damping = damping
+			@space.iterations = iterations
+			
 			@dt = dt
 			@@g = CP::Vec2.new(0, g).freeze #Use the class variable as a constant
 		end
@@ -21,17 +35,17 @@ module Physics
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
-				physics_obj.side.velocity_func = GRAVITY_FUNC
+				physics_obj.side.velocity_func = GRAVITY_VELOCITY_FUNC
+				physics_obj.side.position_func = GRAVITY_POSITION_FUNC
 			
-				#Object is nonstatic
+				# Add shapes to space
 				@space.add_shape physics_obj.bottom
 				@space.add_shape physics_obj.side
 			else
-				#Object is static
-				
 				#Static objects also have a render object which must be added
 				@space.add_body physics_obj.render_object.body
 				
+				# Add shapes to space
 				@space.add_static_shape physics_obj.bottom
 				@space.add_static_shape physics_obj.side
 				@space.add_static_shape physics_obj.render_object
