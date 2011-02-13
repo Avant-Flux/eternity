@@ -8,7 +8,7 @@ module Physics
 	class PhysicsObject
 		attr_reader :bottom, :side, :render_object
 		
-		#~ DIRECTION_UP = (3*Math::PI/2.0)
+		DIRECTION_UP = (3*Math::PI/2.0)
 		
 		#~ include Physics::Dimension
 		#~ include Physics::Positioning
@@ -35,8 +35,7 @@ module Physics
 			# Set the initial angle of the bodies.  The bodies are initialized pointing
 			# at 0 rad, aka right.  Thus, they need to be rotated before being used.
 			[@bottom, @side, @render_object].each do |shape|
-				#~ shape.body.a = DIRECTION_UP
-				shape.body.a = (3*Math::PI/2.0)
+				shape.body.a = DIRECTION_UP
 			end
 		end
 	end
