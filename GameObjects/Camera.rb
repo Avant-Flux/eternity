@@ -60,19 +60,3 @@ class Camera
 		@shape.body.p.y
 	end
 end
-
-module CollisionHandler
-	#~ Collision type for usage with the CP::Shape and CP::Body used for the camera
-	#~ This is the collision handler for a sensor object
-	class Camera
-		#~ a has collision type :camera
-		#~ b is the Chipmunk object for the Entity
-		def begin(arbiter)
-			$camera.queue.add arbiter.b.entity
-		end
-				
-		def separate(arbiter)
-			$camera.queue.delete arbiter.b.entity
-		end
-	end
-end
