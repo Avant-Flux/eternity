@@ -14,7 +14,7 @@ require './Stats/Stats'
 class Entity
 	include Combative
 	
-	attr_reader :shape, :stats
+	attr_reader :shape, :stats, :physics
 	attr_reader  :moving, :direction, :move_constant, :movement_force
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
@@ -25,12 +25,13 @@ class Entity
 		@run_constant = 1200
 		
 		@animation = animations
+		@physics = Physics::Entity.new	self, mass, moment, pos, 
+										[@animation.width, @animation.width/2, @animation.height]
 		@shadow = $art_manager.new_shadow self
 		
-		@physics_obj = Physics::Entity.new	self, mass, moment, pos, 
-											[@animation.width, @animation.width/2, @animation.height])
 		
-		$space.add @physics_obj
+		
+		$space.add @physics
 		#~ $space.set_elevation @shape
 		
 		@name = name
