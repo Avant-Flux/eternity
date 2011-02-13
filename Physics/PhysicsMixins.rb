@@ -123,10 +123,18 @@ module Physics
 	end
 	
 	module Elevation
-		def set_elevation(shape)
-			shape.elevation = 0
+		def elevation
+			@elevation
+		end
 		
-			point_query shape.body.p, CP::ALL_ONES,0 do |env|
+		def elevation=(arg)
+			@elevation = arg
+		end
+	
+		def set_elevation(physics_obj)
+			physics_obj.elevation = 0
+		
+			point_query physics_obj.pxy, CP::ALL_ONES,0 do |env|
 				if env.collision_type == :environment || env.collision_type == :building
 					#Raise elevation to the height of whatever is below.
 					if env.height > shape.elevation
