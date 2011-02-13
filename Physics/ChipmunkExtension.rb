@@ -10,6 +10,7 @@ module Physics
 		
 			def initialize(game_obj, *args)
 				@game_obj = game_obj
+				super(*args)
 			end
 		end
 		
@@ -18,6 +19,7 @@ module Physics
 		
 			def initialize(game_obj, *args)
 				@game_obj = game_obj
+				super(*args)
 			end
 		end
 	end
