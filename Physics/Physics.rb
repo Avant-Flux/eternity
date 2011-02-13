@@ -33,7 +33,6 @@ module Physics
 		
 		include Physics::Dimension
 		include Physics::Positioning
-		include Physics::Gravitation
 	
 		def initialize(position, bottom, side)
 			@bottom = bottom

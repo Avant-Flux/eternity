@@ -97,13 +97,4 @@ module Physics
 			@side.body.apply_force CP::Vec2.new 0, arg[2]
 		end
 	end
-	
-	module Gravitation
-		def init_gravity
-			 
-		end
-	
-		def g;			@side.g;		end
-		def g=(arg);	@side.g = arg;	end
-	end
 end
