@@ -33,7 +33,6 @@ module Physics
 		
 		include Physics::Dimension
 		include Physics::Positioning
-		include Physics::ForceApplication
 		include Physics::Gravitation
 	
 		def initialize(position, bottom, side)
@@ -66,6 +65,8 @@ module Physics
 	end
 	
 	class NonstaticObject < PhysicsObject
+		include Physics::ForceApplication
+	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
 			
