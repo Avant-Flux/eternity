@@ -1,7 +1,19 @@
 #!/usr/bin/ruby
  
 require "./Utilities/PhysicsMixins"
- 
+
+class Numeric
+	def to_px
+		#~ Convert from meters to pixels
+		self*Physics::PhysicsObject.scale
+	end
+	
+	def to_meters
+		#~ Convert from pixels to meters
+		self/(Physics::PhysicsObject.scale.to_f) #Insure that integer division is not used
+	end
+end
+
 module Physics
 	#This is the new structure for the chipmunk handling of the game engine
 	#It should create a complete abstraction of the underlying chipmunk code.
