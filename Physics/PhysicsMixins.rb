@@ -1,11 +1,11 @@
 #!/usr/bin/ruby
- 
+
+# Remember to move the render shape as well!
+# Define xy plane as horizontal plane, and xz plane as vertical plane.
+
 module Physics
-	# Remember to move the render shape as well!
-	# Define xy plane as horizontal plane, and xz plane as vertical plane.
-	
+	# height, width, depth, etc
 	module Dimension
-		# height, width, depth, etc
 		def height
 			@side.height
 		end
@@ -19,8 +19,8 @@ module Physics
 		end
 	end
 	
+	# position, velocity, acceleration, etc
 	module Positioning
-		# position, velocity, acceleration, etc
 		def p
 			return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
 		end
@@ -87,12 +87,6 @@ module Physics
 		def ay=(arg);	@bottom.body.a.y = arg;					end
 		def az=(arg); 	@side.body.a.y = arg; 					end
 		
-		# For dealing with render objects		
-		def distinct_render?
-			# Returns true if the render object is distinct from the side
-			return @side.equal? @render_object
-		end
-		
 		def set_render_vector(type)
 			if distinct_render?
 				method = (type.to_s + "=").to_sym
@@ -101,8 +95,8 @@ module Physics
 		end
 	end
 	
+	# force, torque, etc.
 	module ForceApplication
-		# force, torque, etc.
 		def apply_force(arg=[0.0, 0.0, 0.0])
 			# Only apply x-coordinate force to one body, as the other should
 			# move in accordance to the constraint holding the two together.
