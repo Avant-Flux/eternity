@@ -75,7 +75,7 @@ class Game_Window < Gosu::Window
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
 		
-		#~ @player = Player.new("Raven", [5, 5, 0])
+		@player = Player.new("Raven", [5, 5, 0])
 		#~ @characters = Array.new
 		#~ 20.times do |i|
 			#~ x = (i * 3) % 8 + 1
