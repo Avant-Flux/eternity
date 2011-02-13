@@ -44,7 +44,7 @@ module Physics
 				
 			self.position = position
 			init_orientation
-			init_gravity
+			#~ init_gravity
 		end
 		
 		class << self
@@ -103,6 +103,10 @@ module Physics
 										dimentions[1], dimentions[2]
 			
 			super(pos, bottom, side)
+			
+			@bottom.collision_type = :entity
+			@side.collision_type = :entity_side
+			@render_object.collision_type = :render_object
 		end
 	end
 	
@@ -117,6 +121,10 @@ module Physics
 												:bottom_left, side.width, side.height + bottom.height
 			
 			super(pos, bottom, side, render_object)
+			
+			@bottom.collision_type = :environment
+			@side.collision_type = :environment_side
+			@render_object.collision_type = :render_object
 		end
 	end
 end
