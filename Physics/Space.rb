@@ -12,7 +12,7 @@ module Physics
 			@space.add_body physics_obj.side.body
 			
 			#Add shape to space.  This depends on whether or not the shape is static.
-			if physics_obj.is_a? MovableObject
+			if physics_obj.is_a? NonstaticObject
 				#Object is nonstatic
 				@space.add_shape physics_obj.bottom
 				@space.add_shape physics_obj.side
