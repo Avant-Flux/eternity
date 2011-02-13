@@ -22,6 +22,36 @@ module Physics
 	# position, velocity, acceleration, etc
 	module Positioning
 		module Static
+			#TODO make sure values are set for the render object as well
+		
+			def p
+				return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
+			end
+
+			def p=(vec=[0.0, 0.0, 0.0])
+				px,py,pz = vec
+			end
+
+			# Define alternate names for the previous methods
+			alias :position :p;			alias :position= :p=
+			
+			# Setters and getters for vectors based on plane.
+			def pxy;		@bottom.body.p;										end
+			def pxz;		@side.body.p;										end
+			def pxy=(arg);	@bottom.body.p = arg;	@side.body.p.x = arg.x;		end
+			def pxz=(arg);	@side.body.p = arg;		@bottom.body.p.x = arg.x;	end
+			
+			# Setters and getters for individual values.
+			#For position
+			def px;			@bottom.body.p.x; 								end
+			def py;			@bottom.body.p.y;								end
+			def pz;			@side.body.p.y;									end
+			def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
+			def py=(arg);	@bottom.body.p.y = arg;							end
+			def pz=(arg);	@side.body.p.y = arg;							end
+		end
+		
+		module Nonstatic
 			def p
 				return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
 			end
@@ -87,10 +117,6 @@ module Physics
 			def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
 			def ay=(arg);	@bottom.body.a.y = arg;					end
 			def az=(arg); 	@side.body.a.y = arg; 					end
-		end
-		
-		module Nonstatic
-			
 		end
 	end
 	
