@@ -109,20 +109,35 @@ module Physics
 		end
 	end
 	
-	class Camera < NonstaticObject
-		def initialize
+	class Camera
+		attr_reader :shape
+	
+		def initialize(camera_obj)
 			@center = Struct.new(:x, :y).new
 			@center.x = $window.width.to_meters / 2
 			@center.y = $window.height.to_meters / 2
 			
 			mass = @entity.shape.body.m
 			
-			@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, 
+			@shape = Shape::Rect.new(camera_obj, CP::Body.new(mass, Float::INFINITY), :bottom_left, 
 										$window.height.to_meters, $window.width.to_meters)
 			
 			@shape.sensor = true
 			@shape.collision_type = :camera
 			@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
+			@shape.body.a = (3*Math::PI/2.0)
+		end
+		
+		def px
+			
+		end
+		
+		def py
+			
+		end
+		
+		def pz
+			
 		end
 	end
 	
