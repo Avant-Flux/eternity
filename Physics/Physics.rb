@@ -39,7 +39,6 @@ module Physics
 				
 			self.position = position
 			init_orientation
-			#~ init_gravity
 		end
 		
 		class << self
