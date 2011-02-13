@@ -125,7 +125,7 @@ class Game_Window < Gosu::Window
 		#~ puts "#{@player.position} + #{@player.elevation}"
 		#~ puts @player.shape.body.f
 		
-		#~ $space.step
+		$space.step
 	end
 	
 	def draw
