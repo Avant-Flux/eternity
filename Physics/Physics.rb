@@ -60,11 +60,16 @@ module Physics
 			end
 		end
 		
+		# Returns true if the render object is distinct from the side
+		def distinct_render?
+			return @side.equal? @render_object
+		end
+		
 		private
 		
+		# Set the initial angle of the bodies.  The bodies are initialized pointing
+		# at 0 rad, aka right.  Thus, they need to be rotated before being used.
 		def init_orientation
-			# Set the initial angle of the bodies.  The bodies are initialized pointing
-			# at 0 rad, aka right.  Thus, they need to be rotated before being used.
 			[@bottom, @side, @render_object].each do |shape|
 				shape.body.a = DIRECTION_UP
 			end
