@@ -2,8 +2,9 @@
  
 module Physics
 	class Space
-		def initialize
+		def initialize(dt)
 			@space = CP::Space.new
+			@dt = dt
 		end
 		
 		def add(physics_obj)
@@ -52,6 +53,10 @@ module Physics
 		
 		def find
 			
+		end
+		
+		def step
+			@space.step @dt
 		end
 	end
 end
