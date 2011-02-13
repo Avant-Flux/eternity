@@ -14,7 +14,7 @@ require './Stats/Stats'
 class Entity
 	include Combative
 	
-	attr_reader :shape, :stats, :physics
+	attr_reader :stats, :physics
 	attr_reader  :moving, :direction, :move_constant, :movement_force
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
@@ -53,12 +53,12 @@ class Entity
 		@animation.update(moving?, compute_direction)
 		@shadow.update
 		
-		#~ if @shape.x.to_px - @animation.width <= 0
-			#~ @shape.x = @animation.width.to_meters
+		#~ if @physics.px.to_px - @animation.width <= 0
+			#~ @physics.px = @animation.width.to_meters
 		#~ end
 		#~ 
-		#~ if @shape.y.to_px - @animation.height <= 0
-			#~ @shape.y = @animation.height.to_meters
+		#~ if @physics.py.to_px - @animation.height <= 0
+			#~ @physics.py = @animation.height.to_meters
 		#~ end
 	end
 	
@@ -66,7 +66,7 @@ class Entity
 	def draw
 		if visible
 			@animation.draw @physics.px, @physics.py, @physics.pz
-			#~ puts "#{@shape.x}, #{@shape.y}, #{@shape.z}"
+			#~ puts "#{@physics.px}, #{@physics.py}, #{@physics.pz}"
 			@shadow.draw
 		end
 	end
@@ -80,9 +80,9 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 3 && @shape.vz <=0 #Do not exceed the jump count, and velocity in negative.
+		if @jump_count < 3 && @physics.vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
-			@shape.vz = 5 #On jump, set the velocity in the z direction
+			@physics.vz = 5 #On jump, set the velocity in the z direction
 		end
 	end
 	
@@ -112,8 +112,8 @@ class Entity
 		
 		@movement_force = unit_vector * @move_constant
 		
-		@shape.body.apply_force @movement_force, CP::Vec2.new(0,0)
-		@shape.body.a = angle
+		@physics.apply_force @movement_force, CP::Vec2.new(0,0)
+		@physics.a = angle
 	end
 	
 	def walk
@@ -125,7 +125,7 @@ class Entity
 	end
 	
 	def moving?
-		@shape.body.v.length >= 0
+		@physics.vxy.length >= 0
 	end
 
 	def visible?
@@ -160,15 +160,15 @@ class Entity
 	end
 	
 	def elevation
-		@shape.elevation
+		@physics.elevation
 	end
 	
 	def elevation=(arg)
-		@shape.elevation = arg
+		@physics.elevation = arg
 	end
 	
 	def position
-		"#{@name}: #{@shape.x}, #{@shape.y}, #{@shape.z}"
+		"#{@name}: #{@physics.px}, #{@physics.py}, #{@physics.pz}"
 	end
 	
 	private
@@ -182,7 +182,7 @@ class Entity
 	SECTOR7 = (13*EIGHTH)
 	
 	def compute_direction
-		angle = @shape.body.a
+		angle = @physics.a
 		
 		if angle < SECTOR1
 			:right
