@@ -6,17 +6,17 @@ module Physics
 		GRAVITY_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
 			body.update_velocity(Physics::Space.g, dmp, dt)
 		end
-		GRAVITY_POSITION_FUNC = Proc.new do |body, dt|
-			body.update_position(dt)
-				#~ body->p = cpvadd(body->p, cpvmult(cpvadd(body->v, body->v_bias), dt));
-				#~ cpBodySetAngle(body, body->a + (body->w + body->w_bias)*dt);
-				#~ 
-				#~ body->v_bias = cpvzero;
-				#~ body->w_bias = 0.0f;
-			
-			#Ensure the z-coord of the entity does not drop below zero
-			body.p.y = 0 if body.p.y < 0 
-		end
+		#~ GRAVITY_POSITION_FUNC = Proc.new do |body, dt|
+			#~ body.update_position(dt)
+				#body->p = cpvadd(body->p, cpvmult(cpvadd(body->v, body->v_bias), dt));
+				#cpBodySetAngle(body, body->a + (body->w + body->w_bias)*dt);
+				#
+				#body->v_bias = cpvzero;
+				#body->w_bias = 0.0f;
+			#~ 
+			#~ #Ensure the z-coord of the entity does not drop below zero
+			#~ body.p.y = 0 if body.p.y < 0 
+		#~ end
 		
 		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
 			@space = CP::Space.new
@@ -36,7 +36,7 @@ module Physics
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
 				physics_obj.side.velocity_func = GRAVITY_VELOCITY_FUNC
-				physics_obj.side.position_func = GRAVITY_POSITION_FUNC
+				#~ physics_obj.side.position_func = GRAVITY_POSITION_FUNC
 			
 				# Add shapes to space
 				@space.add_shape physics_obj.bottom
