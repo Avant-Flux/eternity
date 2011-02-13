@@ -92,4 +92,21 @@ module Physics
 			@bottom.body.t = arg
 		end
 	end
+	
+	module Rotation
+		def a; 			@bottom.body.a; 		end
+		def rot;		@bottom.body.rot;		end
+	
+		def a=(arg); 	@bottom.body.a = arg; 	end
+		def rot=(arg);	@bottom.body.rot = arg;	end
+	end
+	
+	# Limits for v and w
+	module SpeedLimit
+		def v_limit;		@bottom.body.v_limit;			end
+		def w_limit;		@bottom.body.w_limit;			end
+		
+		def v_limit=(arg);	@bottom.body.v_limit = arg;		end
+		def w_limit=(arg);	@bottom.body.w_limit = arg;		end
+	end
 end
