@@ -65,6 +65,8 @@ module Physics
 	
 	class NonstaticObject < PhysicsObject
 		include Physics::ForceApplication
+		include Physics::Rotation
+		include Physics::SpeedLimit
 	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
