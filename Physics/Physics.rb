@@ -35,12 +35,16 @@ module Physics
 		DIRECTION_LEFT = (Math::PI)
 		DIRECTION_RIGHT = (2*Math::PI)
 		
+		LAYER_BOTTOM = 1
+		LAYER_SIDE = 2
+		
 		def initialize(position, bottom, side)
 			@bottom = bottom
 			@side = side
 				
 			self.position = position
 			init_orientation
+			init_layers
 		end
 		
 		class << self
@@ -60,6 +64,11 @@ module Physics
 		def init_orientation
 			@bottom.body.a = DIRECTION_UP
 			@side.body.a = DIRECTION_UP
+		end
+		
+		def init_layers
+			@bottom.layers = LAYER_BOTTOM
+			@side.layers = LAYER_SIDE
 		end
 	end
 	
