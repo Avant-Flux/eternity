@@ -96,6 +96,10 @@ module Physics
 			@space.step @dt
 		end
 		
+		def add_collision_handler(*args)
+			@space.add_collision_handler *args
+		end
+		
 		class << self
 			def g
 				@@g.y
