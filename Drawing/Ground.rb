@@ -10,9 +10,6 @@
 require 'rubygems'
 require 'gosu'
 
-require './Chipmunk/Space3D'
-require './Chipmunk/EternityMod'
-
 module Ground
 	class Renderer
 		attr_accessor :x, :y

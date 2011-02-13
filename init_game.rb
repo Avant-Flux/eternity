@@ -15,7 +15,7 @@ require 'chingu'
 
 require 'require_all'
 #~ require 'profile'
-require_all './Chipmunk'
+require './Chipmunk/Shape'
 require_all './Physics'
 require_all './GameObjects'
 require_all './Utilities'
@@ -30,6 +30,8 @@ class Game_Window < Gosu::Window
 		$art_manager = ArtManager.new("./Sprites")
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
+		
+		@space = init_space
 		
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
@@ -46,8 +48,8 @@ class Game_Window < Gosu::Window
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
 				
-		Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
-		Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
+		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		#~ Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
 		
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11, 0])
 		#~ Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11, 0])
@@ -73,24 +75,24 @@ class Game_Window < Gosu::Window
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
 		
-		@player = Player.new("Raven", [5, 5, 0])
-		@characters = Array.new
-		20.times do |i|
-			x = (i * 3) % 8 + 1
-			y = (i * 10) % 6 + 1
+		#~ @player = Player.new("Raven", [5, 5, 0])
+		#~ @characters = Array.new
+		#~ 20.times do |i|
+			#~ x = (i * 3) % 8 + 1
+			#~ y = (i * 10) % 6 + 1
 			
-			@characters << Character.new("NPC", [x, y, 0])
-		end
+			#~ @characters << Character.new("NPC", [x, y, 0])
+		#~ end
 		#~ @player.track(@characters[0])
 		#~ @player.track(@characters[9])
 		#~ @player.track(@characters[12])
 		#~ @player.track(@characters[3])
 		#~ @player.track(@characters[18])
 		
-		@characters[0].say "hello world"
-		@characters[2].say "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
+		#~ @characters[0].say "hello world"
+		#~ @characters[2].say "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
 		
-		@UI = UI::Overlay::Status.new(@player)
+		#~ @UI = UI::Overlay::Status.new(@player)
 		#~ $camera = Camera.new(@player)
 		
 		#@effect = Animations::Effect.new($window, "Gale")
@@ -99,11 +101,11 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
-		@UI.update
+		#~ @UI.update
 		#~ @effect.update
 		#~ puts @characters[1].elevation
 		#~ puts @player.elevation
-		SpeechBubble.update_all
+		#~ SpeechBubble.update_all
 		
 		$camera.update
 		$space.shapes[:nonstatic].each do |shape|
@@ -161,12 +163,8 @@ class Game_Window < Gosu::Window
 	
 	private
 	
-	def init_CP_Space3D
-		space = CP::Space3D.new
-		
-		#~ space.add_collision_func :type, :type do |first_shape, second_shape|
-			#~ 
-		#~ end
+	def init_space
+		space = Physics::Space.new 1/60.0, -9.8, 0.12
 		
 		entity_handler = CollisionHandler::Entity.new
 		entity_env_handler = CollisionHandler::Entity_Env.new
@@ -176,8 +174,8 @@ class Game_Window < Gosu::Window
 		space.add_collision_handler :entity, :building, entity_env_handler
 		space.add_collision_handler :entity, :entity, entity_handler
 		
-		space.add_collision_handler :camera, :entity, camera_collision
-		space.add_collision_handler :camera, :building, camera_collision
+		space.add_collision_handler :camera, :render_object, camera_collision
+		space.add_collision_handler :camera, :render_object, camera_collision
 		
 		return space
 	end

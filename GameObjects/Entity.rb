@@ -3,9 +3,6 @@
 require 'rubygems'
 require 'gosu'
 
-require './Chipmunk/Space3D'
-require './Chipmunk/EternityMod'
-require './GameObjects/Physics'
 require './Combat/Combative'
 
 require './Drawing/Animation'
@@ -16,7 +13,7 @@ require './Stats/Stats'
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
-	include PhysicalProperties
+	#~ include PhysicalProperties
 	
 	attr_reader :shape, :stats
 	attr_reader  :moving, :direction, :move_constant, :movement_force

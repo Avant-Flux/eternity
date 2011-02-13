@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
 
-require './Chipmunk/Space3D'
 require './Titles/Title_Holder'
 require './GameObjects/Entity'
 

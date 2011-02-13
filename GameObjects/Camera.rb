@@ -4,14 +4,9 @@ require 'set'
 
 require 'rubygems'
 require 'gosu'
-require './Chipmunk/Shape'
-require './Chipmunk/Space3D'
-require './Chipmunk/EternityMod'
 
-require './GameObjects/Physics'
- 
 class Camera
-	include PhysicalProperties
+	#~ include PhysicalProperties
 	
 	attr_reader :shape, :queue
 

@@ -2,7 +2,6 @@
 require 'rubygems'
 require 'require_all'
 
-require './Chipmunk/Space3D'
 
 require "./GameObjects/Character"
 
