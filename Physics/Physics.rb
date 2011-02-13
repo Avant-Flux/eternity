@@ -43,10 +43,8 @@ module Physics
 		def initialize(position, bottom, side)
 			@bottom = bottom
 			@side = side
-				
+			
 			self.position = position
-			init_orientation
-			init_layers
 		end
 		
 		class << self
@@ -100,8 +98,8 @@ module Physics
 				# as possible.
 				
 			CP::GrooveJoint.new	@side, @bottom, 
-						ZERO_VEC_2, CP::Vec2.new(0, -Float::INFINITY),	#From a to b on @side
-						ZERO_VEC_2										#Anchor on @bottom
+						CP::ZERO_VEC_2, CP::Vec2.new(0, -Float::INFINITY),	#From a to b on @side
+						CP::ZERO_VEC_2										#Anchor on @bottom
 		end
 	end
 	
