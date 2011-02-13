@@ -8,7 +8,7 @@ module Physics
 	module Positioning
 		module Static
 			def p
-				return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
+				return [px, py, pz]
 			end
 
 			def p=(vec=[0.0, 0.0, 0.0])
