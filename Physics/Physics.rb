@@ -21,7 +21,7 @@ module Physics
 	#and simply use ffi and the C library.
 	
 	class PhysicsObject
-		attr_reader :bottom, :side, :render_object
+		attr_reader :bottom, :side
 		
 		# Set the scale for conversion between meters and pixels
 		@@scale = 44
@@ -36,14 +36,9 @@ module Physics
 		include Physics::ForceApplication
 		include Physics::Gravitation
 	
-		def initialize(position, bottom, side, render_object=nil)
+		def initialize(position, bottom, side)
 			@bottom = bottom
 			@side = side
-			@render_object = render_object
-				#Set render_object to be the same as the side if no render object is supplied.
-				@render_object ||= side
-				@render_object.collision_type = :render_object
-			
 				
 			self.position = position
 			init_orientation
@@ -60,23 +55,17 @@ module Physics
 			end
 		end
 		
-		# Returns true if the render object is distinct from the side
-		def distinct_render?
-			return !(@side.equal? @render_object)
-		end
-		
 		private
 		
 		# Set the initial angle of the bodies.  The bodies are initialized pointing
 		# at 0 rad, aka right.  Thus, they need to be rotated before being used.
 		def init_orientation
-			[@bottom, @side, @render_object].each do |shape|
-				shape.body.a = DIRECTION_UP
-			end
+			@bottom.body.a = DIRECTION_UP
+			@side.body.a = DIRECTION_UP
 		end
 	end
 	
-	class MovableObject < PhysicsObject
+	class NonstaticObject < PhysicsObject
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
 			
@@ -99,7 +88,18 @@ module Physics
 		end
 	end
 	
-	class Entity < MovableObject
+	class StaticObject < PhysicsObject
+		attr_reader :render_object
+	
+		def initialize(pos, bottom, side, render_object)
+			super(pos, bottom, side)
+			
+			@render_object = render_object
+			@render_object.body.a = DIRECTION_UP
+		end
+	end
+	
+	class Entity < NonstaticObject
 		def initialize(mass, moment, pos=[0,0,0], dimentions=[1,1,1])
 			#Use the supplied mass for the circle only, as the rectangle should not rotate.
 			
@@ -113,12 +113,11 @@ module Physics
 			super(pos, bottom, side)
 			
 			@bottom.collision_type = :entity
-			@side.collision_type = :entity_side
-			@render_object.collision_type = :render_object
+			@side.collision_type = :render_object
 		end
 	end
 	
-	class EnvironmentObject < PhysicsObject
+	class EnvironmentObject < StaticObject
 		def initialize(pos=[0,0,0], dimentions=[1,1,1])
 			bottom =	CP::Shape::Rect.new	CP::Body.new(Float::INFINITY,Float::INFINITY), 
 											:bottom_left, dimentions[0], dimentions[1]
