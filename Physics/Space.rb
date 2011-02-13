@@ -1,7 +1,15 @@
 #!/usr/bin/ruby
+
+
  
 module Physics
 	class Space
+		#Create custom velocity function so that only certain objects respond to gravity. 
+		GRAVITY = CP::Vec2.new(0, -9.8)
+		GRAVITY_FUNC = Proc.new do |body, g, dmp, dt|
+			CP.cpBodyUpdateVelocity(body.struct.pointer, GRAVITY.struct, dmp, dt)
+		end
+	
 		def initialize(dt)
 			@space = CP::Space.new
 			@dt = dt
@@ -14,6 +22,9 @@ module Physics
 			
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
+				# Add gravity function to body
+				physics_obj.side.velocity_func = GRAVITY_FUNC
+			
 				#Object is nonstatic
 				@space.add_shape physics_obj.bottom
 				@space.add_shape physics_obj.side
