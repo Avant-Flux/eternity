@@ -4,21 +4,6 @@
 # Define xy plane as horizontal plane, and xz plane as vertical plane.
 
 module Physics
-	# height, width, depth, etc
-	module Dimension
-		def height
-			@side.height
-		end
-		
-		def width
-			@side.width
-		end
-		
-		def depth
-			@bottom.height
-		end
-	end
-	
 	# position, velocity, acceleration, etc
 	module Positioning
 		module Static

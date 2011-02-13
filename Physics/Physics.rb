@@ -31,8 +31,6 @@ module Physics
 		DIRECTION_LEFT = (Math::PI)
 		DIRECTION_RIGHT = (2*Math::PI)
 		
-		include Physics::Dimension
-	
 		def initialize(position, bottom, side)
 			@bottom = bottom
 			@side = side
@@ -91,13 +89,8 @@ module Physics
 	class StaticObject < PhysicsObject
 		include Physics::Positioning::Static
 	
-		attr_reader :render_object
-	
-		def initialize(pos, bottom, side, render_object)
+		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
-			
-			@render_object = render_object
-			@render_object.body.a = DIRECTION_UP
 		end
 	end
 	
@@ -117,23 +110,46 @@ module Physics
 			@bottom.collision_type = :entity
 			@side.collision_type = :render_object
 		end
+		
+		def width
+			@side.width
+		end
+		
+		def depth
+			@bottom.radius
+		end
+		
+		def height
+			@side.width
+		end
 	end
 	
 	class EnvironmentObject < StaticObject
 		def initialize(env, pos=[0,0,0], dimentions=[1,1,1])
 			bottom =	Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
 										:bottom_left, dimentions[0], dimentions[1]
-			side =		Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
-										:bottom_left, dimentions[0], dimentions[3]
 			
-			render_object = Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
-											:bottom_left, side.width, side.height + bottom.height
+			side = 		Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+										:bottom_left, dimentions[0], dimentions[1] + dimentions[2]
 			
-			super(pos, bottom, side, render_object)
+			super(pos, bottom, side)
 			
 			@bottom.collision_type = :environment
-			@side.collision_type = :environment_side
-			@render_object.collision_type = :render_object
+			@side.collision_type = :render_object
+			
+			@height = dimentions[2]
+		end
+		
+		def width
+			@bottom.width
+		end
+		
+		def depth
+			@bottom.height
+		end
+		
+		def height
+			@height
 		end
 	end
 end
