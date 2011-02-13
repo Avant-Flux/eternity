@@ -31,10 +31,10 @@ module Physics
 		DIRECTION_LEFT = (Math::PI)
 		DIRECTION_RIGHT = (2*Math::PI)
 		
-		#~ include Physics::Dimension
-		#~ include Physics::Positioning
-		#~ include Physics::ForceApplication
-		#~ include Physics::Gravitation
+		include Physics::Dimension
+		include Physics::Positioning
+		include Physics::ForceApplication
+		include Physics::Gravitation
 	
 		def initialize(position, bottom, side, render_object=nil)
 			@bottom = bottom
