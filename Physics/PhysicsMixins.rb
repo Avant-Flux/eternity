@@ -37,16 +37,19 @@ module Physics
 		end
 		
 		module Nonstatic
+			# X, Y is based on the bottom object
+			# Z is the difference between the y of the bottom and the y of the side
+		
 			def p
-				return [@bottom.body.p.x, @bottom.body.p.y, @side.body.p.y]
+				return [px, py, pz]
 			end
 			
 			def v
-				return [@bottom.body.v.x, @bottom.body.v.y, @side.body.v.y]
+				return [vx, vy, vz]
 			end
 			
 			def a
-				return [@bottom.body.v.x, @bottom.body.v.y, @side.body.v.y]
+				return [ax, ay, az]
 			end
 			
 			def p=(vec=[0.0, 0.0, 0.0])
