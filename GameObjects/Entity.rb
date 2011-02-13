@@ -13,7 +13,6 @@ require './Stats/Stats'
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Combative
-	#~ include PhysicalProperties
 	
 	attr_reader :shape, :stats
 	attr_reader  :moving, :direction, :move_constant, :movement_force
@@ -28,12 +27,11 @@ class Entity
 		@animation = animations
 		@shadow = $art_manager.new_shadow self
 		
-		@shape = CP::Shape3D::Circle.new(self, :entity, pos, 0.0,
-											(@animation.width/2).to_meters, 
-											@animation.height.to_meters,
-											mass, moment)
-		$space.add @shape
-		$space.set_elevation @shape
+		@physics_obj = Physics::Entity.new	self, mass, moment, pos, 
+											[@animation.width, @animation.width/2, @animation.height])
+		
+		$space.add @physics_obj
+		#~ $space.set_elevation @shape
 		
 		@name = name
 		@element = element
