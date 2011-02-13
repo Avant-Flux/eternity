@@ -107,41 +107,38 @@ class Game_Window < Gosu::Window
 		#~ puts @player.elevation
 		#~ SpeechBubble.update_all
 		
-		$camera.update
-		$space.shapes[:nonstatic].each do |shape|
-			shape.body.reset_forces
-		end
+		#~ $camera.update
+		#~ $space.shapes[:nonstatic].each do |shape|
+			#~ shape.body.reset_forces
+		#~ end
 		
 		@inpman.update
 		process_input
 		
-		$space.shapes[:nonstatic].each do |shape|
-			shape.entity.update
-		end
-		$space.shapes[:static].each do |shape|
-			shape.entity.update
-		end
+		#~ $space.shapes[:nonstatic].each do |shape|
+			#~ shape.entity.update
+		#~ end
+		#~ $space.shapes[:static].each do |shape|
+			#~ shape.entity.update
+		#~ end
 		
 		#~ puts "#{@player.position} + #{@player.elevation}"
 		#~ puts @player.shape.body.f
 		
-		$space.step
+		#~ $space.step
 	end
 	
 	def draw
 		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
-		@UI.draw
-		
-		translate(-$camera.x.to_px, -$camera.y.to_px) do
-			#~ @background.draw
-			#~ @effect.draw(500,60,3)
-			SpeechBubble.draw_all
-			
-			$camera.queue.each do |i|
-				i.draw
-			end
-			#~ @characters[0].say("hello world")
-		end
+		#~ @UI.draw
+		#~ 
+		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
+			#~ SpeechBubble.draw_all
+			#~ 
+			#~ $camera.queue.each do |i|
+				#~ i.draw
+			#~ end
+		#~ end
 	end
 	
 	def button_down(id)
@@ -174,7 +171,6 @@ class Game_Window < Gosu::Window
 		space.add_collision_handler :entity, :building, entity_env_handler
 		space.add_collision_handler :entity, :entity, entity_handler
 		
-		space.add_collision_handler :camera, :render_object, camera_collision
 		space.add_collision_handler :camera, :render_object, camera_collision
 		
 		return space
