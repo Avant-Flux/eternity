@@ -32,7 +32,6 @@ module Physics
 		DIRECTION_RIGHT = (2*Math::PI)
 		
 		include Physics::Dimension
-		include Physics::Positioning
 	
 		def initialize(position, bottom, side)
 			@bottom = bottom
@@ -65,6 +64,7 @@ module Physics
 	
 	class NonstaticObject < PhysicsObject
 		include Physics::ForceApplication
+		include Physics::Positioning::Nonstatic
 	
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
@@ -89,6 +89,8 @@ module Physics
 	end
 	
 	class StaticObject < PhysicsObject
+		include Physics::Positioning::Static
+	
 		attr_reader :render_object
 	
 		def initialize(pos, bottom, side, render_object)
