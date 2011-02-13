@@ -1,13 +1,11 @@
 #!/usr/bin/ruby
 
-
- 
 module Physics
 	class Space
 		#Create custom velocity function so that only certain objects respond to gravity. 
 		GRAVITY = CP::Vec2.new(0, -9.8)
 		GRAVITY_FUNC = Proc.new do |body, g, dmp, dt|
-			CP.cpBodyUpdateVelocity(body.struct.pointer, GRAVITY.struct, dmp, dt)
+			body.update_velocity(Physics::Space.GRAVITY, dmp, dt)
 		end
 	
 		def initialize(dt)
