@@ -86,13 +86,6 @@ module Physics
 		def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
 		def ay=(arg);	@bottom.body.a.y = arg;					end
 		def az=(arg); 	@side.body.a.y = arg; 					end
-		
-		def set_render_vector(type)
-			if distinct_render?
-				method = (type.to_s + "=").to_sym
-				@render_object.send method, @side.send(type)
-			end
-		end
 	end
 	
 	# force, torque, etc.
