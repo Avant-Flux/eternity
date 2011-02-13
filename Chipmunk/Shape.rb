@@ -4,24 +4,6 @@ require 'chipmunk-ffi'
 
 module CP
 	module Shape
-		class Circle
-			def staticness
-				if body.m == Float::INFINITY
-					return :static
-				else
-					return :nonstatic
-				end
-			end
-			
-			def width
-				radius*2
-			end
-			
-			def depth
-				radius
-			end
-		end
-	
 		class Rect < CP::Shape::Poly
 			def initialize(body, center, width, height, offset=CP::Vec2.new(0,0))
 				#Initially design vectors such that the object is pointing to the right (0 rad)

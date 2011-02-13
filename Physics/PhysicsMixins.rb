@@ -3,6 +3,13 @@
 # Remember to move the render shape as well!
 # Define xy plane as horizontal plane, and xz plane as vertical plane.
 
+class Numeric
+	#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
+	def radians_to_vec2
+		CP::Vec2.new(Math::cos(self), Math::sin(self))
+	end
+end
+
 module Physics
 	# position, velocity, acceleration, etc
 	module Positioning
@@ -113,5 +120,20 @@ module Physics
 		
 		def v_limit=(arg);	@bottom.body.v_limit = arg;		end
 		def w_limit=(arg);	@bottom.body.w_limit = arg;		end
+	end
+	
+	module Elevation
+		def set_elevation(shape)
+			shape.elevation = 0
+		
+			point_query shape.body.p, CP::ALL_ONES,0 do |env|
+				if env.collision_type == :environment || env.collision_type == :building
+					#Raise elevation to the height of whatever is below.
+					if env.height > shape.elevation
+						shape.elevation = env.height
+					end
+				end
+			end
+		end
 	end
 end
