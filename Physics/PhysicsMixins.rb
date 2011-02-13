@@ -96,6 +96,14 @@ module Physics
 			end
 		end
 		
+		def apply_force_xy(force, offset=CP::ZERO_VEC_2)
+			@bottom.body.apply_force force, offset
+		end
+		
+		def apply_force_xz(force, offset=CP::ZERO_VEC_2)
+			@side.body.apply_force force, offset
+		end
+		
 		def t
 			@bottom.body.t
 		end
