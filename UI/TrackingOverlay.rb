@@ -95,7 +95,7 @@ module UI
 			end
 			
 			def draw
-				@img.draw_centered @player.x, @player.y, @player.z
+				@img.draw_centered @player.physics.px, @player.physics.py, @player.physics.pz
 			end
 		end
 		

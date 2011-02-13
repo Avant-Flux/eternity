@@ -157,6 +157,8 @@ module Physics
 			
 			@bottom.collision_type = :entity
 			@side.collision_type = :render_object
+			
+			@elevation = 0
 		end
 		
 		def width

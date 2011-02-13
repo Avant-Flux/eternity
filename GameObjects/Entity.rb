@@ -112,7 +112,7 @@ class Entity
 		
 		@movement_force = unit_vector * @move_constant
 		
-		@physics.apply_force @movement_force, CP::Vec2.new(0,0)
+		@physics.apply_force [@movement_force.x, @movement_force.y, 0]
 		@physics.a = angle
 	end
 	

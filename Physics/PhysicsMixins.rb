@@ -91,8 +91,8 @@ module Physics
 				@bottom.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::Vec2.new(offset[0], offset[1])
 				@side.body.apply_force CP::Vec2.new(0, arg[2]), CP::Vec2.new(offset[0], offset[2])
 			else
-				@bottom.body.apply_force CP::Vec2.new arg[0], arg[1]
-				@side.body.apply_force CP::Vec2.new 0, arg[2]
+				@bottom.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::ZERO_VEC_2
+				@side.body.apply_force CP::Vec2.new(0, arg[2]), CP::ZERO_VEC_2
 			end
 		end
 		
