@@ -25,17 +25,17 @@ class Player < Character
 		@combo = 0
 		@overkill_bonus = 0
 		
-		@tracker = UI::Overlay::Tracking.new(self)
+		#~ @tracker = UI::Overlay::Tracking.new(self)
 	end
 	
 	def update
 		super
-		@tracker.update
+		#~ @tracker.update
 	end
 	
 	def draw
 		super
-		@tracker.draw
+		#~ @tracker.draw
 	end
 	
 	def create
@@ -51,7 +51,7 @@ class Player < Character
 	end
 	
 	def track(entity)
-		@tracker.track(entity)
+		#~ @tracker.track(entity)
 	end
 	
 	def lvl_up
