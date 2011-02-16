@@ -104,6 +104,10 @@ module Physics
 			@side.body.apply_force force, offset
 		end
 		
+		def reset_forces
+			@bottom.body.reset_forces
+		end
+		
 		def t
 			@bottom.body.t
 		end
