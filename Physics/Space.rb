@@ -23,23 +23,11 @@ module Physics
 		# Apply this function to the bottom object to get the side to move to compensate
 		# and thus prevent wild fluctuations in z
 		COMPENSATION_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
-			#~ puts body.class
-			#~ old_v = body.v
-			
-			#~ if body.rot.y > 0 #Going down the screen
-				#~ body.v.y *= 0.9
-			#~ elsif body.rot.y < 0 #Going up the screen
-				#~ body.v.y /= 1.5
-			#~ end
-			
 			body.update_velocity(CP::ZERO_VEC_2, dmp, dt)
 			
-			physics_obj = body.physics_obj
-			body.physics_obj.side.body.p += body.v*dt
-			
-			#~ delta_y = body.v.y - old_v.y
-			#~ puts delta_y
-			#~ body.physics_obj.vxz.y += delta_y
+			if body.rot.y != 0
+				body.physics_obj.side.body.p.y += body.v.y*dt
+			end
 		end
 		
 		def initialize(dt, g = -9.8, surface_damping=0.12, air_damping=1, iterations=10)
