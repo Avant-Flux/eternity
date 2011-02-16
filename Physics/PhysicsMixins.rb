@@ -26,7 +26,7 @@ module Physics
 		end
 		
 		def p=(vec=[0.0, 0.0, 0.0])
-			px,py,pz = vec
+			self.px,self.py,self.pz = vec
 		end
 		
 		def v=(vec=[0.0, 0.0, 0.0])

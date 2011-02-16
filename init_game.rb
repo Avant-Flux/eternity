@@ -114,7 +114,7 @@ class Game_Window < Gosu::Window
 		#~ puts "#{@player.x}, #{@player.y}, #{@player.z} : #{@player.physics.py}, #{@player.physics.pxz.y}"
 		#~ printf "%.3f %.3f %.3f : %.3f %.3f\n", @player.x,@player.y,@player.z,@player.physics.py,@player.physics.pxz.y
 		#~ printf "%.3f %.3f %.3f\n", @player.physics.vx, @player.physics.vy, @player.physics.vz
-		printf "%.3f %.3f %.3f\n", @player.physics.pxy.y, @player.physics.pxz.y, @player.physics.pz
+		#~ printf "%.3f %.3f %.3f\n", @player.physics.pxy.y, @player.physics.pxz.y, @player.physics.pz
 		#~ puts @player.physics.vxy == @player.physics.vxy
 		
 		#~ $camera.update
