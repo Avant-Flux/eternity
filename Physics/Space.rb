@@ -4,29 +4,55 @@ module Physics
 	class Space
 		#Create custom velocity and position functions for objects which respond to gravity. 
 		GRAVITY_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
-			body.update_velocity(Physics::Space.g, dmp, dt)
-		end
-		GRAVITY_POSITION_FUNC = Proc.new do |body, dt|
-			body.update_position(dt)
-				#body->p = cpvadd(body->p, cpvmult(cpvadd(body->v, body->v_bias), dt));
-				#cpBodySetAngle(body, body->a + (body->w + body->w_bias)*dt);
-				#
-				#body->v_bias = cpvzero;
-				#body->w_bias = 0.0f;
+			body.update_velocity(Physics::Space.g, Physics::Space.air_damping, dt)
 			
-			
-			#Ensure the z-coord of the entity does not drop below the elevation
-			physics = body.game_obj.physics
-			physics.pz = physics.elevation if physics.pz < physics.elevation
+			#If the player hits the ground
+			physics_obj = body.physics_obj
+			if physics_obj.pz < physics_obj.elevation
+				#Reset z-coordinate to be the same as the elevation
+				physics_obj.pz = physics_obj.elevation
+				#When setting position, always set velocity as well.
+				physics_obj.vz = 0
+				
+				#Do things that need to be done when hitting the ground.
+				physics_obj.entity.resolve_ground_collision
+				physics_obj.entity.resolve_fall_damage body.v.y
+			end
 		end
 		
-		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
+		# Apply this function to the bottom object to get the side to move to compensate
+		# and thus prevent wild fluctuations in z
+		COMPENSATION_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
+			#~ puts body.class
+			#~ old_v = body.v
+			
+			#~ if body.rot.y > 0 #Going down the screen
+				#~ body.v.y *= 0.9
+			#~ elsif body.rot.y < 0 #Going up the screen
+				#~ body.v.y /= 1.5
+			#~ end
+			
+			body.update_velocity(CP::ZERO_VEC_2, dmp, dt)
+			
+			physics_obj = body.physics_obj
+			body.physics_obj.side.body.p += body.v*dt
+			
+			#~ delta_y = body.v.y - old_v.y
+			#~ puts delta_y
+			#~ body.physics_obj.vxz.y += delta_y
+		end
+		
+		def initialize(dt, g = -9.8, surface_damping=0.12, air_damping=1, iterations=10)
 			@space = CP::Space.new
-			@space.damping = damping
+			@space.damping = surface_damping
 			@space.iterations = iterations
+			@space.gravity = CP::ZERO_VEC_2
 			
 			@dt = dt
 			@@g = CP::Vec2.new(0, g)
+			@@air_damping = air_damping
+			
+			#~ @shapes = {:static = [], :nonstatic = []}
 		end
 		
 		def step
@@ -42,8 +68,10 @@ module Physics
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
 				physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
-				physics_obj.side.body.position_func = GRAVITY_POSITION_FUNC
-			
+				
+				# Add compensation function (pseudo constraint)
+				physics_obj.bottom.body.velocity_func = COMPENSATION_VELOCITY_FUNC
+				
 				# Add shapes to space
 				@space.add_shape physics_obj.bottom
 				@space.add_shape physics_obj.side
@@ -104,11 +132,19 @@ module Physics
 		
 		class << self
 			def g
-				@@g.y
+				@@g
 			end
 			
 			def g=(arg)
-				@@g.y = arg
+				@@g
+			end
+			
+			def air_damping
+				@@air_damping
+			end
+			
+			def air_damping=(arg)
+				@@air_damping = arg
 			end
 		end
 	end
