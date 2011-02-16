@@ -170,7 +170,7 @@ class Entity
 	end
 	
 	def position
-		"#{@name}: #{@physics.px}, #{@physics.py}, #{@physics.pz}"
+		"#{@name}: #{@physics.px}, #{@physics.py}, #{@physics.pz}, elevation: #{@physics.elevation}"
 	end
 	
 	private
