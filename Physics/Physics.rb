@@ -99,7 +99,7 @@ module Physics
 				# as possible.
 				
 			CP::GrooveJoint.new	@side, @bottom, 
-						CP::ZERO_VEC_2, CP::Vec2.new(0, -Float::INFINITY),	#From a to b on @side
+						CP::ZERO_VEC_2, CP::Vec2.new(0, Float::INFINITY),	#From a to b on @side
 						CP::ZERO_VEC_2										#Anchor on @bottom
 		end
 	end
