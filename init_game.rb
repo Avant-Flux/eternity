@@ -107,6 +107,16 @@ class Game_Window < Gosu::Window
 		#~ puts @player.elevation
 		#~ SpeechBubble.update_all
 		
+		#~ puts @player.position
+		#~ puts @player.physics.a
+		@player.physics.reset_forces
+		@player.update
+		#~ puts "#{@player.x}, #{@player.y}, #{@player.z} : #{@player.physics.py}, #{@player.physics.pxz.y}"
+		#~ printf "%.3f %.3f %.3f : %.3f %.3f\n", @player.x,@player.y,@player.z,@player.physics.py,@player.physics.pxz.y
+		#~ printf "%.3f %.3f %.3f\n", @player.physics.vx, @player.physics.vy, @player.physics.vz
+		printf "%.3f %.3f %.3f\n", @player.physics.pxy.y, @player.physics.pxz.y, @player.physics.pz
+		#~ puts @player.physics.vxy == @player.physics.vxy
+		
 		#~ $camera.update
 		#~ $space.shapes[:nonstatic].each do |shape|
 			#~ shape.body.reset_forces
@@ -130,9 +140,11 @@ class Game_Window < Gosu::Window
 	
 	def draw
 		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
-		@player.draw
+		
 		#~ @UI.draw
 		#~ 
+		#~ translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
+			@player.draw
 		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ SpeechBubble.draw_all
 			#~ 
