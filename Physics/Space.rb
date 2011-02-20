@@ -119,6 +119,10 @@ module Physics
 			@space.add_collision_handler *args
 		end
 		
+		def add_collision_func(a,b,type=:pre,&block)
+			@space.add_collision_func a,b,type,&block
+		end
+		
 		class << self
 			def g
 				@@g
