@@ -25,6 +25,7 @@ module Physics
 		COMPENSATION_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
 			body.update_velocity(CP::ZERO_VEC_2, dmp, dt)
 			
+			#BUG does not allow jumping up-left.
 			if body.rot.y != 0
 				body.physics_obj.side.body.p.y += body.v.y*dt
 			end
