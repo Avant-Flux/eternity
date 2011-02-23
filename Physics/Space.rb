@@ -52,10 +52,6 @@ module Physics
 		end
 		
 		def add(physics_obj)
-			#Add body to space
-			add_body physics_obj.bottom.body
-			add_body physics_obj.side.body
-			
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
@@ -75,10 +71,6 @@ module Physics
 		end
 		
 		def remove(physics_obj)
-			#Add body to space
-			remove_body physics_obj.bottom.body
-			remove_body physics_obj.side.body
-			
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				#Object is nonstatic
@@ -92,14 +84,24 @@ module Physics
 			end
 		end
 		
-		def add_2D(obj)
-			add_shape obj.shape
-			add_body obj.shape.body
+		def add_shape(shape)
+			super shape
+			add_body shape.body
 		end
 		
-		def remove_2D(obj)
-			remove_shape obj.shape
-			remove_body obj.shape.body
+		def remove_shape(shape)
+			super shape
+			remove_body shape.body
+		end
+		
+		def add_static_shape(shape)
+			super shape
+			add_body shape.body
+		end
+		
+		def remove_static_shape(shape)
+			super shape
+			remove_body shape.body
 		end
 		
 		def find
