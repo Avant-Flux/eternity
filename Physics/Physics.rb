@@ -45,6 +45,8 @@ module Physics
 			@side = side
 			
 			self.position = position
+			init_orientation
+			init_layers
 		end
 		
 		class << self
@@ -81,7 +83,7 @@ module Physics
 		def initialize(pos, bottom, side)
 			super(pos, bottom, side)
 			
-			#~ link_side_and_bottom
+			link_side_and_bottom
 		end
 		
 		private
@@ -163,16 +165,6 @@ module Physics
 			@side.collision_type = :render_object
 			
 			@elevation = 0
-			
-			@bottom.body.a = DIRECTION_UP
-			@side.body.a = DIRECTION_UP
-		
-			@bottom.layers = 1
-			@side.layers = 4
-			
-			CP::GrooveJoint.new	@side, @bottom, 
-						CP::ZERO_VEC_2, CP::Vec2.new(0, 1),	#From a to b on @side
-						CP::ZERO_VEC_2										#Anchor on @bottom
 		end
 		
 		def width
