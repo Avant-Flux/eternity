@@ -190,10 +190,6 @@ class Game_Window < Gosu::Window
 		space.add_collision_func :render_object, :render_object, :begin do |arbiter|
 			false
 		end
-		#~ 
-		#~ space.add_collision_func :entity, :render_object, :begin do |arbiter|
-			#~ false
-		#~ end
 		
 		return space
 	end

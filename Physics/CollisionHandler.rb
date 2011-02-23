@@ -12,14 +12,8 @@ module CollisionHandler
 		
 		def pre(arbiter) #Determine whether to process collision or not
 			#Process actions involving what to do when on top, as well as side collisions
-			#~ @i ||= 0
-			#~ puts "START! #{@i}"
-			#~ @i += 1
-			
 			physics_a = arbiter.a.physics_obj
 			physics_b = arbiter.b.physics_obj
-			
-			#~ puts "#{@i} : #{physics_a.height}, #{physics_b.height}"
 			
 			#First, determine which one is higher
 			if physics_a.pz > physics_b.pz #a is higher
@@ -35,7 +29,6 @@ module CollisionHandler
 			#See if the higher one is high enough to pass over the lower one
 			if higher.pz < lower.height
 				#The higher of the two is not high enough to clear the other one
-				#~ puts "#{higher.pz - lower.pz}"
 				return true
 			else
 				#The higher one was high enough.  Ignore the collision so the higher can pass 
