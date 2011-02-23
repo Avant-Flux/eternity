@@ -10,15 +10,14 @@ class Building
 
 	def initialize(options={})
 		#~ Set default values for hash values if they are not already set.
-		options[:dimensions] ||= [1,1,1]
-		options[:position] ||= [0,0,0]
-		options[:offset] ||= CP::Vec2.new(0,0)
+		options[:dimensions] ||= [1.0,1.0,1.0]
+		options[:position] ||= [0.0,0.0,0.0]
 		
-		@shape = CP::Shape3D::Rect.new(self, :building, options[:position], 0, :bottom_left, 
-							options[:dimensions][0], options[:dimensions][1], options[:dimensions][2], 
-							Float::INFINITY, Float::INFINITY, options[:offset])
-		@wireframe = $art_manager.new_wireframe @shape, :white
-		$space.add @shape
+		@physics = Physics::EnvironmentObject.new(self, options[:position], options[:dimensions])
+
+		@wireframe = $art_manager.new_wireframe @physics, :white
+		
+		$space.add @physics
 	end
 	
 	def update
@@ -30,26 +29,26 @@ class Building
 	end
 	
 	def width
-		@shape.width
+		@physics.width
 	end
 	
 	def depth
-		@shape.depth
+		@physics.depth
 	end
 	
 	def height
-		@shape.height
+		@physics.height
 	end
 	
 	def width= arg
-		@shape.width = arg
+		@physics.width = arg
 	end
 	
 	def depth= arg
-		@shape.depth = arg
+		@physics.depth = arg
 	end
 	
 	def height= arg
-		@shape.height = arg
+		@physics.height = arg
 	end
 end
