@@ -49,12 +49,12 @@ module Wireframe
 		
 		Point = Struct.new(:x, :y)
 	
-		def initialize(shape, color = :black)
+		def initialize(physics, color = :black)
 			@side_thickness = 4
 			
-			width = shape.width.to_px
-			height = shape.height.to_px
-			depth = shape.depth.to_px
+			width = physics.width.to_px
+			height = physics.height.to_px
+			depth = physics.depth.to_px
 			x = @side_thickness
 			y = height + depth - BOTTOM_BUFFER
 			
@@ -104,15 +104,15 @@ module Wireframe
 			#~ end
 			
 			@x_offset = (-@side_thickness - 10 + SIDE_BUFFER).to_meters
-			@y_offset = @img.height.to_meters + shape.z
+			@y_offset = @img.height.to_meters + physics.pz
 		end
 		
 		def update
 			
 		end
 		
-		def draw(shape)
-			@img.draw shape.x + @x_offset, shape.y - @y_offset, shape.z
+		def draw(physics)
+			@img.draw physics.px + @x_offset, physics.py - @y_offset, physics.pz
 		end
 		
 		def draw_line x1,y1, x2,y2, color=Gosu::Color::BLACK, thickness=1, z=0
