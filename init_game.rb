@@ -176,7 +176,7 @@ class Game_Window < Gosu::Window
 	private
 	
 	def init_space
-		space = Physics::Space.new 1/60.0, -9.8, 0.12
+		space = Physics::Space.new self.update_interval/1000, -9.8, 0.12
 		
 		entity_handler = CollisionHandler::Entity.new
 		entity_env_handler = CollisionHandler::Entity_Env.new
