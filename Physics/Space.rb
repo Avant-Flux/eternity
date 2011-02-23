@@ -65,8 +65,6 @@ module Physics
 				@space.add_shape physics_obj.bottom
 				@space.add_shape physics_obj.side
 			else
-				#Static objects also have a render object which must be added
-				
 				# Add shapes to space
 				@space.add_static_shape physics_obj.bottom
 				@space.add_static_shape physics_obj.side
