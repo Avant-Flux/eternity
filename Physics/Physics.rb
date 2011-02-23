@@ -190,10 +190,10 @@ module Physics
 	
 	class EnvironmentObject < StaticObject
 		def initialize(env, pos=[0,0,0], dimentions=[1,1,1])
-			bottom =	Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+			bottom =	Shape::Rect.new	self, CP::Body.new(Float::INFINITY,Float::INFINITY), 
 										:bottom_left, dimentions[0], dimentions[1]
 			
-			side = 		Shape::Rect.new	env, CP::Body.new(Float::INFINITY,Float::INFINITY), 
+			side = 		Shape::Rect.new	self, CP::Body.new(Float::INFINITY,Float::INFINITY), 
 										:bottom_left, dimentions[0], dimentions[1] + dimentions[2]
 			
 			super(pos, bottom, side)
