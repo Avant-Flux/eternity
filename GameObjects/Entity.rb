@@ -28,7 +28,9 @@ class Entity
 		
 		@animation = animations
 		@physics = Physics::Entity.new	self, mass, moment, pos, 
-										[@animation.width, @animation.width/2, @animation.height]
+										[@animation.width.to_meters, 		#Width
+										(@animation.width/2.0).to_meters,	#Depth
+										@animation.height.to_meters]		#Height
 		@shadow = $art_manager.new_shadow self
 		
 		

@@ -151,7 +151,7 @@ module Physics
 			#Define the bottom of the Entity as a circle, and the side as a rectangle.
 			#This approximates the volume as a cylinder.
 			
-			bottom = Shape::Circle.new	self, Body.new(self, mass,moment), dimentions[0], CP::ZERO_VEC_2
+			bottom = Shape::Circle.new	self, Body.new(self, mass,moment), dimentions[1], CP::ZERO_VEC_2
 			side = Shape::Rect.new		self, Body.new(self, mass,Float::INFINITY), :bottom_left,
 										dimentions[1], dimentions[2]
 			

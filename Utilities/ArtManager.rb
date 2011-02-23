@@ -61,7 +61,10 @@ class ArtManager
 	end
 	
 	def new_shadow(entity)
-		Shadow.new entity, new_circle(entity.physics.width/2)
+		Shadow.new entity, new_circle((entity.physics.width/2).to_px)
+		
+		#Use this instead when CP::Circle#radius is implemented
+		#~ Shadow.new entity, new_circle(entity.physics.depth.to_px.)
 	end
 	
 	def new_blip(player, entity, ellipse)
