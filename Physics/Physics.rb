@@ -189,7 +189,11 @@ module Physics
 	end
 	
 	class EnvironmentObject < StaticObject
-		def initialize(env, pos=[0,0,0], dimentions=[1,1,1])
+		attr_reader :environment
+	
+		def initialize(environment, pos=[0,0,0], dimentions=[1,1,1])
+			@environment = environment
+		
 			bottom =	Shape::Rect.new	self, CP::Body.new(Float::INFINITY,Float::INFINITY), 
 										:bottom_left, dimentions[0], dimentions[1]
 			
