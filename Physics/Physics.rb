@@ -7,7 +7,7 @@ require "./Physics/PhysicsMixins"
 class Numeric
 	def to_px
 		#~ Convert from meters to pixels
-		self*Physics::PhysicsObject.scale
+		(self*Physics::PhysicsObject.scale).round
 	end
 	
 	def to_meters
