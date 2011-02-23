@@ -7,7 +7,7 @@ module Physics
 	class Space < CP::Space
 		#Create custom velocity and position functions for objects which respond to gravity. 
 		GRAVITY_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
-			body.update_velocity(Physics::Space.g, Physics::Space.air_damping, dt)
+			body.update_velocity($space.g, $space.air_damping, dt)
 			physics_obj = body.physics_obj
 			
 			#If the player hits the ground			
@@ -34,15 +34,17 @@ module Physics
 			end
 		end
 		
+		attr_reader :g, :air_damping
+		
 		def initialize(dt, g = -9.8, surface_damping=0.12, air_damping=1, iterations=10)
 			super()
-			damping = surface_damping
-			iterations = iterations
-			gravity = CP::ZERO_VEC_2
+			self.damping = surface_damping
+			self.iterations = iterations
+			self.gravity = CP::ZERO_VEC_2
 			
 			@dt = dt
-			@@g = CP::Vec2.new(0, g)
-			@@air_damping = air_damping
+			@g = CP::Vec2.new(0, g)
+			@air_damping = air_damping
 			
 			#~ @shapes = {:static = [], :nonstatic = []}
 		end
@@ -106,24 +108,6 @@ module Physics
 		
 		def find
 			
-		end
-		
-		class << self
-			def g
-				@@g
-			end
-			
-			def g=(arg)
-				@@g
-			end
-			
-			def air_damping
-				@@air_damping
-			end
-			
-			def air_damping=(arg)
-				@@air_damping = arg
-			end
 		end
 	end
 end
