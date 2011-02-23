@@ -55,7 +55,8 @@ module CollisionHandler
 		
 		def pre(arbiter) #Determine whether to process collision or not
 			#Process actions involving what to do when on top, as well as side collisions
-			if arbiter.a.z < arbiter.b.height #If the entity collides from the side, accept the collision
+			if arbiter.a.physics_obj.pz < arbiter.b.physics_obj.height 
+				#If the entity collides from the side, accept the collision
 				return true
 			else
 				return false
