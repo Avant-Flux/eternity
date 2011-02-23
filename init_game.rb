@@ -49,7 +49,7 @@ class Game_Window < Gosu::Window
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
 				
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		@b = Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
 		#~ Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
 		
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11, 0])
@@ -107,7 +107,7 @@ class Game_Window < Gosu::Window
 		#~ puts @characters[1].elevation
 		#~ puts @player.elevation
 		#~ SpeechBubble.update_all
-		
+		@b.update
 		#~ puts @player.position
 		#~ puts @player.physics.a
 		@player.physics.reset_forces
@@ -152,6 +152,7 @@ class Game_Window < Gosu::Window
 		translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
 			@player.draw
 			@characters.each {|i| i.draw}
+			@b.draw
 		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ SpeechBubble.draw_all
 			#~ 
