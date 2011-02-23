@@ -1,0 +1,34 @@
+#!/usr/bin/ruby
+
+module Physics
+	module SpaceVelocityFunctions
+		#Create custom velocity and position functions for objects which respond to gravity. 
+		GRAVITY_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
+			body.update_velocity($space.g, $space.air_damping, dt)
+			physics_obj = body.physics_obj
+			
+			#If the player hits the ground			
+			if physics_obj.pz < physics_obj.elevation
+				#Reset z-coordinate to be the same as the elevation
+				physics_obj.pz = physics_obj.elevation
+				#When setting position, always set velocity as well.
+				physics_obj.vz = 0
+				
+				#Do things that need to be done when hitting the ground.
+				physics_obj.entity.resolve_ground_collision
+				physics_obj.entity.resolve_fall_damage body.v.y
+			end
+		end
+		
+		# Apply this function to the bottom object to get the side to move to compensate
+		# and thus prevent wild fluctuations in z
+		COMPENSATION_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
+			body.update_velocity(CP::ZERO_VEC_2, dmp, dt)
+			
+			#BUG does not allow jumping up-left.
+			if body.rot.y != 0
+				body.physics_obj.side.body.p.y += body.v.y*dt
+			end
+		end
+	end
+end
