@@ -51,7 +51,7 @@ class ArtManager
 	end
 	
 	def new_wireframe(shape, color)
-		code = (shape.width + shape.depth*1000 + shape.height*1000000).to_i
+		code = "#{shape.width} #{shape.depth} #{shape.height}".hash
 		#~ puts code
 		unless @wireframes[code]
 			@wireframes[code] = Wireframe::Building.new(shape, color)
