@@ -84,12 +84,8 @@ module Physics
 			else
 				#Object is static
 				
-				#Static objects also have a render object which must be added
-				@space.remove_body physics_obj.render_object.body
-				
 				@space.remove_static_shape physics_obj.bottom
 				@space.remove_static_shape physics_obj.side
-				@space.remove_static_shape physics_obj.render_object
 			end
 		end
 		
