@@ -50,11 +50,11 @@ class ArtManager
 		
 	end
 	
-	def new_wireframe(shape, color)
-		code = "#{shape.width} #{shape.depth} #{shape.height}".hash
+	def new_wireframe(physics, color)
+		code = "#{physics.width} #{physics.depth} #{physics.height}".hash
 		#~ puts code
 		unless @wireframes[code]
-			@wireframes[code] = Wireframe::Building.new(shape, color)
+			@wireframes[code] = Wireframe::Building.new(physics, color)
 		end
 		
 		@wireframes[code]
