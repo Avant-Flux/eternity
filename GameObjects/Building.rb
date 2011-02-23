@@ -25,7 +25,7 @@ class Building
 	end
 	
 	def draw
-		@wireframe.draw(@shape)
+		@wireframe.draw(@physics)
 	end
 	
 	def width
