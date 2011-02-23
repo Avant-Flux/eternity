@@ -112,6 +112,11 @@ class Game_Window < Gosu::Window
 		#~ puts @player.physics.a
 		@player.physics.reset_forces
 		@player.update
+		
+		@characters.each do |c|
+			c.physics.reset_forces
+			c.update
+		end
 		#~ puts "#{@player.x}, #{@player.y}, #{@player.z} : #{@player.physics.py}, #{@player.physics.pxz.y}"
 		#~ printf "%.3f %.3f %.3f : %.3f %.3f\n", @player.x,@player.y,@player.z,@player.physics.py,@player.physics.pxz.y
 		#~ printf "%.3f %.3f %.3f\n", @player.physics.vx, @player.physics.vy, @player.physics.vz
