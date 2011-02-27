@@ -74,12 +74,12 @@ module Physics
 		def vy=(arg);	@bottom.body.v.y = arg;							end
 		def vz=(arg);	@side.body.v.y = arg;							end
 		#For acceleration
-		def ax;			@bottom.body.a.x;								end
-		def ay;			@bottom.body.a.y;								end
-		def az;			@side.body.a.y;									end
-		def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
-		def ay=(arg);	@bottom.body.a.y = arg;							end
-		def az=(arg); 	@side.body.a.y = arg; 							end
+		#~ def ax;			@bottom.body.a.x;								end
+		#~ def ay;			@bottom.body.a.y;								end
+		#~ def az;			@side.body.a.y;									end
+		#~ def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
+		#~ def ay=(arg);	@bottom.body.a.y = arg;							end
+		#~ def az=(arg); 	@side.body.a.y = arg; 							end
 	end
 	
 	# force, torque, etc.
@@ -142,7 +142,7 @@ module Physics
 		def elevation=(arg)
 			@elevation = arg
 		end
-	
+		
 		def set_elevation
 			@elevation = 0
 			
