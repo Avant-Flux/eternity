@@ -153,6 +153,10 @@ module Physics
 					@elevation = height if height > @elevation
 				end
 			end
+			
+			$space.bb_query self.bottom.bb, Physics::PhysicsObject::LAYER_BOTTOM, 0 do
+				
+			end
 		end
 	end
 	
