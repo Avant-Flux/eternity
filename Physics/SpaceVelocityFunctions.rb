@@ -7,7 +7,7 @@ module Physics
 			physics_obj = body.physics_obj
 			
 			if physics_obj.pz > physics_obj.elevation
-				physics_obj.set_elevation
+				#~ physics_obj.set_elevation
 				body.update_velocity($space.g, $space.air_damping, dt)
 				
 			else

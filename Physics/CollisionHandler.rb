@@ -74,9 +74,9 @@ module CollisionHandler
 			#~ 
 		#~ end
 		#~ 
-		#~ def separate(arbiter)	#Stuff to do after the shapes separate
-			#~ 
-		#~ end
+		def separate(arbiter)	#Stuff to do after the shapes separate
+			arbiter.a.physics_obj.set_elevation
+		end
 	end
 	
 	#~ Collision type for usage with the CP::Shape and CP::Body used for the camera
