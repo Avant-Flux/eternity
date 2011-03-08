@@ -16,14 +16,15 @@ module CollisionHandler
 			physics_b = arbiter.b.physics_obj
 			
 			#First, determine which one is higher
-			if physics_a.pz > physics_b.pz #a is higher
-				higher = physics_a
-				lower = physics_b
-			elsif physics_a.pz < physics_b.pz	#b is higher
-				lower = physics_a
-				higher = physics_b
-			else #They are at the same z position (z is a double, this will almost never happen)
-				return true	#When two things are at the same z position, there should be a collision
+			case physics_a.pz <=> physics_b.pz
+				when -1
+					lower = physics_a
+					higher = physics_b
+				when 0
+					return true
+				when 1
+					higher = physics_a
+					lower = physics_b
 			end
 			
 			#See if the higher one is high enough to pass over the lower one
