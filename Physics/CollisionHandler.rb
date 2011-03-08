@@ -27,7 +27,7 @@ module CollisionHandler
 			end
 			
 			#See if the higher one is high enough to pass over the lower one
-			if higher.pz < lower.height
+			if higher.pz < lower.height + lower.pz
 				#The higher of the two is not high enough to clear the other one
 				return true
 			else
@@ -60,7 +60,7 @@ module CollisionHandler
 			if arbiter.a.physics_obj.pz - arbiter.b.physics_obj.height < -0.15
 				#If the entity collides from the side, accept the collision
 				#~ arbiter.a.physics_obj.elevation = 0
-				puts arbiter.a.physics_obj.pz - arbiter.a.physics_obj.elevation
+				#~ puts arbiter.a.physics_obj.pz - arbiter.a.physics_obj.elevation
 				#~ puts arbiter.a.physics_obj.pz - arbiter.b.physics_obj.height
 				return true
 			else
