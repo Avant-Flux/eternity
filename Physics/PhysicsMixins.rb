@@ -106,6 +106,7 @@ module Physics
 		
 		def reset_forces
 			@bottom.body.reset_forces
+			@side.body.reset_forces
 		end
 		
 		def t

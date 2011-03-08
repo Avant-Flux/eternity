@@ -12,11 +12,10 @@ module Physics
 				
 			else
 				#Reset z-coordinate to be the same as the elevation
+				#When setting position, always set velocity as well.
 				physics_obj.reset_forces
 				physics_obj.vz = 0
 				physics_obj.pz = physics_obj.elevation
-				#When setting position, always set velocity as well.
-				
 				
 				
 				#Do things that need to be done when hitting the ground.

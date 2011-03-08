@@ -78,12 +78,15 @@ class Game_Window < Gosu::Window
 		
 		@player = Player.new("Raven", [5, 5, 0])
 		@characters = Array.new
-		20.times do |i|
-			x = (i * 3) % 8 + 1
-			y = (i * 10) % 6 + 1
-			
-			@characters << Character.new("NPC", [x, y, 0])
-		end
+		#~ 20.times do |i|
+			#~ x = (i * 3) % 8 + 1
+			#~ y = (i * 10) % 6 + 1
+			#~ 
+			#~ @characters << Character.new("NPC", [x, y, 0])
+		#~ end
+		
+		@characters << Character.new("NPC", [7,6,10])
+		
 		#~ @player.track(@characters[0])
 		#~ @player.track(@characters[9])
 		#~ @player.track(@characters[12])
