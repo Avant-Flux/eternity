@@ -86,6 +86,7 @@ class Game_Window < Gosu::Window
 		#~ end
 		
 		@characters << Character.new("NPC", [7,6,10])
+		@characters << Character.new("NPC", [2,2,2])
 		
 		#~ @player.track(@characters[0])
 		#~ @player.track(@characters[9])
@@ -152,7 +153,7 @@ class Game_Window < Gosu::Window
 		
 		#~ @UI.draw
 		#~ 
-		translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
+		#~ translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
 			@player.draw
 			@characters.each {|i| i.draw}
 			@b.draw
@@ -162,7 +163,7 @@ class Game_Window < Gosu::Window
 			#~ $camera.queue.each do |i|
 				#~ i.draw
 			#~ end
-		end
+		#~ end
 	end
 	
 	def button_down(id)
