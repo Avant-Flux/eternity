@@ -159,6 +159,10 @@ module Physics
 				
 			end
 		end
+		
+		def raise_to_elevation
+			pz = @elevation
+		end
 	end
 	
 	module Interface
