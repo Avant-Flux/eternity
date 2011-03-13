@@ -86,8 +86,6 @@ module Physics
 			link_side_and_bottom
 		end
 		
-		private
-		
 		def link_side_and_bottom
 			# For this to work, the side must be unable to rotate, 
 			# and the bottom free to rotate.
@@ -100,9 +98,10 @@ module Physics
 				# the movement of the object modeled is inhibited as little
 				# as possible.
 				
-			CP::GrooveJoint.new	@side, @bottom, 
-						CP::ZERO_VEC_2, CP::Vec2.new(0, Float::INFINITY),	#From a to b on @side
+			constraint = CP::GrooveJoint.new	@side.body, @bottom.body, 
+						CP::ZERO_VEC_2, CP::Vec2.new(0, -1000000),	#From a to b on @side
 						CP::ZERO_VEC_2										#Anchor on @bottom
+			$space.add_constraint constraint
 		end
 	end
 	
