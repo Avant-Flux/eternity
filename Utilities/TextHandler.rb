@@ -61,6 +61,7 @@ class TextBox
 	end
 	
 	def puts(input)
+		input = input.to_s
 		lines = (input.length / @width.to_f).ceil
 		
 		lines.times do |i|
