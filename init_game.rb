@@ -49,7 +49,7 @@ class Game_Window < Gosu::Window
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
 				
-		@b = Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
+		#~ @b = Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
 		#~ Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
 		
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11, 0])
@@ -77,13 +77,13 @@ class Game_Window < Gosu::Window
 		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
 		
 		@player = Player.new("Raven", [5, 5, 0])
-		@characters = Array.new
-		20.times do |i|
-			x = (i * 3) % 8 + 1
-			y = (i * 10) % 6 + 1
-			
-			@characters << Character.new("NPC", [x, y, 0])
-		end
+		#~ @characters = Array.new
+		#~ 20.times do |i|
+			#~ x = (i * 3) % 8 + 1
+			#~ y = (i * 10) % 6 + 1
+			#~ 
+			#~ @characters << Character.new("NPC", [x, y, 0])
+		#~ end
 		
 		#~ @characters << Character.new("NPC", [7,6,10])
 		#~ @characters << Character.new("NPC", [2,2,2])
@@ -111,16 +111,24 @@ class Game_Window < Gosu::Window
 		#~ puts @characters[1].elevation
 		#~ puts @player.elevation
 		#~ SpeechBubble.update_all
-		@b.update
+		#~ @b.update
 		#~ puts @player.position
 		#~ puts @player.physics.a
 		@player.physics.reset_forces
+		
 		@player.update
 		
-		@characters.each do |c|
-			c.physics.reset_forces
-			c.update
-		end
+		#~ @player.physics.apply_force_xz CP::Vec2.new(0,-9.8), CP::ZERO_VEC_2
+		
+		printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f\n", 
+				@player.physics.pxy.x, @player.physics.pxy.y, @player.physics.pxz.x, @player.physics.pxz.y, 
+				@player.physics.pz
+		#~ puts @player.physics.pz
+		
+		#~ @characters.each do |c|
+			#~ c.physics.reset_forces
+			#~ c.update
+		#~ end
 		#~ puts "#{@player.x}, #{@player.y}, #{@player.z} : #{@player.physics.py}, #{@player.physics.pxz.y}"
 		#~ printf "%.3f %.3f %.3f : %.3f %.3f\n", @player.x,@player.y,@player.z,@player.physics.py,@player.physics.pxz.y
 		#~ printf "%.3f %.3f %.3f\n", @player.physics.vx, @player.physics.vy, @player.physics.vz
@@ -153,17 +161,17 @@ class Game_Window < Gosu::Window
 		
 		#~ @UI.draw
 		#~ 
-		translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
+		#~ translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
 			@player.draw
-			@characters.each {|i| i.draw}
-			@b.draw
+			#~ @characters.each {|i| i.draw}
+			#~ @b.draw
 		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ SpeechBubble.draw_all
 			#~ 
 			#~ $camera.queue.each do |i|
 				#~ i.draw
 			#~ end
-		end
+		#~ end
 	end
 	
 	def button_down(id)
