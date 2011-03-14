@@ -6,6 +6,15 @@
 class GosuConsole < TextBox
 	def initialize(pos, width, height)
 		super(pos, width, height)
+		@visible = true
+	end
+	
+	def visibility=(vis)
+		@visible = vis
+	end
+	
+	def visible?
+		@visible
 	end
 	
 	def printf(format_string, *args)
