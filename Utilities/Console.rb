@@ -9,6 +9,10 @@ class GosuConsole < TextBox
 		@visible = true
 	end
 	
+	def toggle_visibility
+		@visible = !@visible
+	end
+	
 	def visibility=(vis)
 		@visible = vis
 	end
