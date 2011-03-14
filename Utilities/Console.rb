@@ -3,13 +3,9 @@
 #This class should reroute standard out and display it in a
 #text box on screen.  This way, errors etc can be displayed
 #in engine.
-class GosuConsole
+class GosuConsole < TextBox
 	def initialize(pos, width, height)
-		@output = TextBox.new(width, height)
-	end
-	
-	def puts(*args)
-		@output.puts *args
+		super(pos, width, height)
 	end
 	
 	def printf(format_string, *args)
@@ -17,10 +13,6 @@ class GosuConsole
 		string = sprintf(format_string, *args)
 		Kernel.puts 2
 		@output.puts string
-	end
-	
-	def update
-		@output.update
 	end
 	
 	def draw
