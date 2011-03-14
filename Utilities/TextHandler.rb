@@ -23,10 +23,10 @@ end
 
 # Define the area for text to be drawn, but not the borders etc.
 class TextBox
-	def initialize(pos=[0,0,0], width, height)
+	def initialize(position=[0,0,0], width, height)
 		@@font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
 		@i = 0
-		move_to pos[0],pos[1],pos[2]
+		pos = position
 		
 		#Accept input for the width and height in pixels, but
 		#store those values relative to character size.
@@ -72,7 +72,7 @@ class TextBox
 		end
 	end
 	
-	def move_to(x,y,z)
+	def pos=(x,y,z)
 		@x = x
 		@y = y
 		@z = z
