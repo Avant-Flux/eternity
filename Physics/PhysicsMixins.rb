@@ -40,7 +40,7 @@ module Physics
 		# Define alternate names for the previous methods
 		alias :position :p;			alias :position= :p=
 		alias :velocity :v;			alias :velocity= :v=
-		alias :acceleration :a;		alias :acceleration= :a=
+		#~ alias :acceleration :a;		alias :acceleration= :a=
 		
 		# Setters and getters for vectors based on plane.
 		# Try not to use these unless you are using Chipmunk methods which generate vectors.
@@ -54,25 +54,25 @@ module Physics
 		def pxz=(arg);	@side.body.p = arg;		@bottom.body.p.x = arg.x;	end
 		def vxy=(arg);	@bottom.body.v = arg;	@side.body.v.x = arg.x;		end
 		def vxz=(arg);	@side.body.v = arg;		@bottom.body.v.x = arg.x;	end
-		def axy=(arg);	@bottom.body.a = arg;	@side.body.a.x = arg.x;		end
-		def axz=(arg);	@side.body.a = arg;		@bottom.body.a.x = arg.x;	end
+		#~ def axy=(arg);	@bottom.body.a = arg;	@side.body.a.x = arg.x;		end
+		#~ def axz=(arg);	@side.body.a = arg;		@bottom.body.a.x = arg.x;	end
 		
 		# Setters and getters for individual values.
 		# TODO remove changing both side and bottom x values if unnecessary.
 		#For position
 		def px;			@bottom.body.p.x; 								end
 		def py;			@bottom.body.p.y;								end
-		def pz;			@side.body.p.y - @bottom.body.p.y;				end
+		def pz;			@bottom.body.p.y - @side.body.p.y;				end
 		def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
 		def py=(arg);	@bottom.body.p.y = arg;							end
-		def pz=(arg);	@side.body.p.y = @bottom.body.p.y + arg;		end
+		def pz=(arg);	@side.body.p.y = @bottom.body.p.y - arg;		end
 		#For velocity
 		def vx;			@bottom.body.v.x;								end
 		def vy;			@bottom.body.v.y;								end
-		def vz;			@side.body.v.y;									end
+		def vz;			@side.body.v.y*-1;									end
 		def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
 		def vy=(arg);	@bottom.body.v.y = arg;							end
-		def vz=(arg);	@side.body.v.y = arg;							end
+		def vz=(arg);	@side.body.v.y = arg*-1;							end
 		#For acceleration
 		#~ def ax;			@bottom.body.a.x;								end
 		#~ def ay;			@bottom.body.a.y;								end
@@ -155,9 +155,11 @@ module Physics
 				end
 			end
 			
-			$space.bb_query self.bottom.bb, Physics::PhysicsObject::LAYER_BOTTOM, 0 do
-				
+			#~ @output = []
+			$space.bb_query @bottom.bb, Physics::PhysicsObject::LAYER_BOTTOM, 0 do |shape|
+				puts "hey"
 			end
+			#~ Kernel::p @output
 		end
 		
 		def raise_to_elevation

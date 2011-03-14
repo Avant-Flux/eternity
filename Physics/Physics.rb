@@ -17,6 +17,8 @@ class Numeric
 end
 
 module Physics
+	MAX_Z = 10000000
+
 	#This is the new structure for the chipmunk handling of the game engine
 	#It should create a complete abstraction of the underlying chipmunk code.
 	#It may eventually be possible to forgo usage of chipmunk-ffi at some point
@@ -99,7 +101,7 @@ module Physics
 				# as possible.
 				
 			constraint = CP::GrooveJoint.new	@side.body, @bottom.body, 
-						CP::ZERO_VEC_2, CP::Vec2.new(0, -1000000),	#From a to b on @side
+						CP::ZERO_VEC_2, CP::Vec2.new(Physics::MAX_Z*-1,0),	#From a to b on @side
 						CP::ZERO_VEC_2										#Anchor on @bottom
 			$space.add_constraint constraint
 		end

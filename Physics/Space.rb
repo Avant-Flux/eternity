@@ -17,7 +17,7 @@ module Physics
 			self.gravity = CP::ZERO_VEC_2
 			
 			@dt = dt
-			@g = CP::Vec2.new(0, g)
+			@g = CP::Vec2.new(0, g*-1)
 			@air_damping = air_damping
 			
 			#~ @shapes = {:static = [], :nonstatic = []}
@@ -34,7 +34,7 @@ module Physics
 				physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
 				
 				# Add compensation function (pseudo constraint)
-				physics_obj.bottom.body.velocity_func = COMPENSATION_VELOCITY_FUNC
+				#~ physics_obj.bottom.body.velocity_func = COMPENSATION_VELOCITY_FUNC
 				
 				# Add shapes to space
 				add_shape physics_obj.bottom
