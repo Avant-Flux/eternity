@@ -29,6 +29,7 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		$art_manager = ArtManager.new("./Sprites")
+		$console = GosuConsole.new([0,0,0], $window.width, ($window.height * 0.20).round)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
@@ -120,7 +121,7 @@ class Game_Window < Gosu::Window
 		
 		#~ @player.physics.apply_force_xz CP::Vec2.new(0,-9.8), CP::ZERO_VEC_2
 		
-		printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f\n", 
+		$console.printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f", 
 				@player.physics.pxy.x, @player.physics.pxy.y, @player.physics.pxz.x, @player.physics.pxz.y, 
 				@player.physics.pz
 		#~ puts @player.physics.pz
@@ -154,9 +155,12 @@ class Game_Window < Gosu::Window
 		#~ puts @player.shape.body.f
 		
 		$space.step
+		
+		$console.update
 	end
 	
 	def draw
+		$console.draw
 		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
 		
 		#~ @UI.draw
