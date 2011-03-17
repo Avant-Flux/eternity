@@ -73,7 +73,7 @@ class TextBox
 		end
 	end
 	
-	def pos=(x,y,z)
+	def move_to(x,y,z)
 		@x = x
 		@y = y
 		@z = z
@@ -159,7 +159,7 @@ class SpeechBubble
 		
 		
 		
-		@textbox.move_to @points[0].x, @points[1].y, @entity.z
+		@textbox.move_to = @points[0].x, @points[1].y, @entity.z
 	end
 	
 	def draw
