@@ -47,7 +47,7 @@ module Physics
 		end
 		
 		def remove(physics_obj)
-			#Add shape to space.  This depends on whether or not the shape is static.
+			#Remove shape from space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				#Object is nonstatic
 				remove_shape physics_obj.bottom
