@@ -64,20 +64,24 @@ class TextBox
 	
 	def print(*args)
 		args.each do |x|
-			process_input x
+			process_input x.to_s
 		end
 	end
 	
 	def puts(*args)
 		args.each do |x|
-			print x, "\n"
+			print x.to_s, "\n"
 		end
 	end
 	
-	def process_input(input)
-		input = input.to_s
-		
-		input.each_char do |c|
+	def p(*args)
+		args.each do |x|
+			puts x.inspect 
+		end
+	end
+	
+	def process_input(string)
+		string.each_char do |c|
 			if c == "\n"
 				@output << ""
 			else
