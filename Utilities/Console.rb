@@ -21,14 +21,20 @@ class GosuConsole < TextBox
 		@visible
 	end
 	
+	def pause
+		#Temporarily suspend output
+	end
+	
 	def printf(format_string, *args)
-		Kernel.puts 1
 		string = sprintf(format_string, *args)
-		Kernel.puts 2
-		@output.puts string
+		puts string
+	end
+	
+	def clear_buffer
+		
 	end
 	
 	def draw
-		@output.update
+		super :z_offset => 1000
 	end
 end
