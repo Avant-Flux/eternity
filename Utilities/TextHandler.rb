@@ -69,8 +69,7 @@ class TextBox
 	end
 	
 	def printf(format_string, *args)
-		string = sprintf(format_string, *args)
-		puts string
+		print sprintf(format_string, *args)
 	end
 	
 	def puts(*args)

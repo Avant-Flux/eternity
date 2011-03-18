@@ -121,7 +121,7 @@ class Game_Window < Gosu::Window
 		
 		#~ @player.physics.apply_force_xz CP::Vec2.new(0,-9.8), CP::ZERO_VEC_2
 		
-		$console.printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f", 
+		$console.printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f\n", 
 				@player.physics.pxy.x, @player.physics.pxy.y, @player.physics.pxz.x, @player.physics.pxz.y, 
 				@player.physics.pz
 		#~ puts @player.physics.pz
