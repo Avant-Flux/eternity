@@ -39,7 +39,7 @@ class TextBox
 		@height = (height / @font.height).to_i		#Number of lines
 		
 		#Make a queue to hold the lines to output.
-		@output = []
+		@output = [""]
 	end
 	
 	# Update the state of the object.
@@ -62,16 +62,31 @@ class TextBox
 		end
 	end
 	
-	def puts(input)
+	def print(*args)
+		args.each do |x|
+			process_input x
+		end
+	end
+	
+	def puts(*args)
+		args.each do |x|
+			print x, "\n"
+		end
+	end
+	
+	def process_input(input)
 		input = input.to_s
-		lines = (input.length / @width.to_f).ceil
 		
-		lines.times do |i|
-			start = (i*(@width+1))
-			stop = start+@width
-			output = input[start..stop]
-			
-			@output << output
+		input.each_char do |c|
+			if c == "\n"
+				@output << ""
+			else
+				if @output.last.length <= @width
+					@output.last << c
+				else
+					@output << c
+				end
+			end
 		end
 	end
 	
