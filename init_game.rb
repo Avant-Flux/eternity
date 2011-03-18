@@ -29,7 +29,7 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		$art_manager = ArtManager.new("./Sprites")
-		$console = GosuConsole.new([0,0,0], $window.width, ($window.height * 0.20).round)
+		$console = GosuConsole.new([0,0,0], 50)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
