@@ -21,10 +21,6 @@ module Physics
 			return [vx, vy, vz]
 		end
 		
-		def a
-			return [ax, ay, az]
-		end
-		
 		def p=(vec=[0.0, 0.0, 0.0])
 			self.px,self.py,self.pz = vec
 		end
@@ -33,14 +29,9 @@ module Physics
 			vx,vy,vz = vec
 		end
 		
-		def a=(vec=[0.0, 0.0, 0.0])
-			ax,ay,az = vec
-		end
-		
 		# Define alternate names for the previous methods
 		alias :position :p;			alias :position= :p=
 		alias :velocity :v;			alias :velocity= :v=
-		#~ alias :acceleration :a;		alias :acceleration= :a=
 		
 		# Setters and getters for vectors based on plane.
 		# Try not to use these unless you are using Chipmunk methods which generate vectors.
@@ -54,8 +45,6 @@ module Physics
 		def pxz=(arg);	@side.body.p = arg;		@bottom.body.p.x = arg.x;	end
 		def vxy=(arg);	@bottom.body.v = arg;	@side.body.v.x = arg.x;		end
 		def vxz=(arg);	@side.body.v = arg;		@bottom.body.v.x = arg.x;	end
-		#~ def axy=(arg);	@bottom.body.a = arg;	@side.body.a.x = arg.x;		end
-		#~ def axz=(arg);	@side.body.a = arg;		@bottom.body.a.x = arg.x;	end
 		
 		# Setters and getters for individual values.
 		# TODO remove changing both side and bottom x values if unnecessary.
@@ -73,13 +62,6 @@ module Physics
 		def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
 		def vy=(arg);	@bottom.body.v.y = arg;							end
 		def vz=(arg);	@side.body.v.y = arg*-1;							end
-		#For acceleration
-		#~ def ax;			@bottom.body.a.x;								end
-		#~ def ay;			@bottom.body.a.y;								end
-		#~ def az;			@side.body.a.y;									end
-		#~ def ax=(arg);	@bottom.body.a.x = arg; @side.body.a.x = arg;	end
-		#~ def ay=(arg);	@bottom.body.a.y = arg;							end
-		#~ def az=(arg); 	@side.body.a.y = arg; 							end
 	end
 	
 	# force, torque, etc.
