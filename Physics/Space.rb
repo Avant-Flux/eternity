@@ -9,6 +9,7 @@ module Physics
 		include Physics::SpaceVelocityFunctions
 		
 		attr_reader :g, :air_damping
+		alias :gravity :g
 		
 		def initialize(dt, g = -9.8, surface_damping=0.12, air_damping=1, iterations=10)
 			super()
