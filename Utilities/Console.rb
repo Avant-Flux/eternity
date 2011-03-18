@@ -26,11 +26,6 @@ class GosuConsole < TextBox
 		#Temporarily suspend output
 	end
 	
-	def printf(format_string, *args)
-		string = sprintf(format_string, *args)
-		puts string
-	end
-	
 	def clear_buffer
 		
 	end

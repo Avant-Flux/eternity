@@ -68,6 +68,11 @@ class TextBox
 		end
 	end
 	
+	def printf(format_string, *args)
+		string = sprintf(format_string, *args)
+		puts string
+	end
+	
 	def puts(*args)
 		args.each do |x|
 			print x.to_s, "\n"
