@@ -15,7 +15,6 @@ require 'chingu'
 
 require 'require_all'
 #~ require 'profile'
-require './Chipmunk/Shape'
 require_all './Physics'
 require_all './GameObjects'
 require_all './Utilities'
