@@ -6,12 +6,12 @@ require "./Physics/PhysicsMixins"
 
 class Numeric
 	def to_px
-		#~ Convert from meters to pixels
+		# Convert from meters to pixels
 		(self*Physics::PhysicsObject.scale).round
 	end
 	
 	def to_meters
-		#~ Convert from pixels to meters
+		# Convert from pixels to meters
 		self/(Physics::PhysicsObject.scale.to_f) #Insure that integer division is not used
 	end
 end
