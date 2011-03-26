@@ -80,7 +80,7 @@ class TextBox
 	
 	def p(*args)
 		args.each do |x|
-			puts x.inspect 
+			puts x.inspect
 		end
 	end
 	
