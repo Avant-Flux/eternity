@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+Dir.chdir File.dirname(__FILE__)
+
 begin
   # In case you use Gosu via rubygems.
   require 'rubygems'
@@ -12,7 +14,6 @@ rescue LoadError
 	require 'gosu'
 end
 require 'chingu'
-
 require 'require_all'
 #~ require 'profile'
 require_all './Physics'
