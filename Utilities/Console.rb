@@ -26,6 +26,10 @@ class GosuConsole < TextBox
 		#Temporarily suspend output
 	end
 	
+	def stop
+		#Suspend output and clear output buffer
+	end
+	
 	def clear_buffer
 		
 	end
