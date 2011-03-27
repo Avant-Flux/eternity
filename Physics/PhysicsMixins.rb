@@ -35,16 +35,16 @@ module Physics
 		
 		# Setters and getters for vectors based on plane.
 		# Try not to use these unless you are using Chipmunk methods which generate vectors.
-		def pxy;		@bottom.body.p;									end
-		def pxz;		@side.body.p;									end
-		def vxy;		@bottom.body.v;									end
-		def vxz;		@side.body.v;									end
-		def axy;		@bottom.body.a;									end
-		def axz;		@side.body.a;									end
-		def pxy=(arg);	@bottom.body.p = arg;	@side.body.p.x = arg.x;		end
-		def pxz=(arg);	@side.body.p = arg;		@bottom.body.p.x = arg.x;	end
-		def vxy=(arg);	@bottom.body.v = arg;	@side.body.v.x = arg.x;		end
-		def vxz=(arg);	@side.body.v = arg;		@bottom.body.v.x = arg.x;	end
+		def pxy;		@bottom.body.p;				end
+		def pxz;		@side.body.p;				end
+		def vxy;		@bottom.body.v;				end
+		def vxz;		@side.body.v;				end
+		def axy;		@bottom.body.a;				end
+		def axz;		@side.body.a;				end
+		def pxy=(arg);	@bottom.body.p = arg;		end
+		def pxz=(arg);	@side.body.p = arg;			end
+		def vxy=(arg);	@bottom.body.v = arg;		end
+		def vxz=(arg);	@side.body.v = arg;			end
 		
 		# Setters and getters for individual values.
 		# TODO remove changing both side and bottom x values if unnecessary.
