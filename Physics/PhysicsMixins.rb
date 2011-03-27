@@ -26,7 +26,7 @@ module Physics
 		end
 		
 		def v=(vec=[0.0, 0.0, 0.0])
-			vx,vy,vz = vec
+			self.vx,self.vy,self.vz = vec
 		end
 		
 		# Define alternate names for the previous methods
