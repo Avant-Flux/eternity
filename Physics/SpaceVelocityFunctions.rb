@@ -11,7 +11,9 @@ module Physics
 			lower_bound = -0.01
 			
 			if rise < lower_bound
-				puts 1
+				#Hit ground
+				
+				#~ puts 1
 				#Reset z-coordinate to be the same as the elevation
 				#When setting position, always set velocity as well.
 				physics_obj.reset_forces
@@ -24,35 +26,16 @@ module Physics
 				physics_obj.entity.resolve_ground_collision
 				physics_obj.entity.resolve_fall_damage body.v.y
 			elsif rise > upper_bound
+				#In air
+			
 				#~ puts 2
 				body.update_velocity($space.g, $space.air_damping, dt)
 			elsif rise > lower_bound && rise < upper_bound
+				#On ground
+			
 				#~ puts 3
 				body.update_velocity(CP::ZERO_VEC_2, $space.air_damping, dt)
 			end
-			
-			
-			#~ case physics_obj.pz - physics_obj.elevation <=> 0.15
-				#~ when -1
-					#~ puts -1
-					#~ #Reset z-coordinate to be the same as the elevation
-					#~ #When setting position, always set velocity as well.
-					#~ physics_obj.reset_forces
-					#~ physics_obj.side.body.reset_forces
-					#~ physics_obj.vz = 0
-					#~ physics_obj.raise_to_elevation
-					#~ 
-					#~ 
-					#~ #Do things that need to be done when hitting the ground.
-					#~ physics_obj.entity.resolve_ground_collision
-					#~ physics_obj.entity.resolve_fall_damage body.v.y
-				#~ when 0
-					#~ puts 0
-					#~ body.update_velocity(CP::ZERO_VEC_2, $space.air_damping, dt)
-				#~ when 1
-					#~ puts 1
-					#~ body.update_velocity($space.g, $space.air_damping, dt)
-			#~ end
 		end
 		
 		# Apply this function to the bottom object to get the side to move to compensate
@@ -64,7 +47,15 @@ module Physics
 			#~ if body.v.y != 0
 				#~ body.physics_obj.side.body.v.y -= body.v.y + (body.f.y/body.m)*(dt)
 				#~ body.physics_obj.side.body.v.y += body.v.y
-				#~ body.physics_obj.side.body.p.x += body.v.x*dt + (body.f.x/body.m)*(dt**2)
+			if body.v.y > 0
+				body.physics_obj.side.body.p.y += body.v.y*dt
+			end
+			
+			#~ side_body = body.physics_obj.side.body
+			#~ 
+			#~ if (body.physics_obj.pz > 0.015)# && (side_body.v.y > 10 || side_body.v.y < -0.01)
+				#~ side_body.p.y += body.v.y*dt + (body.f.y/body.m)*(dt**2)
+				#~ side_body.v.y += body.v.y
 			#~ end
 		end
 	end
