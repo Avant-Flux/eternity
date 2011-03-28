@@ -46,22 +46,61 @@ module Physics
 		def vxy=(arg);	@bottom.body.v = arg;		end
 		def vxz=(arg);	@side.body.v = arg;			end
 		
-		# Setters and getters for individual values.
+		# Setters and getters for individual values based on pseudo-3D space.
 		# TODO remove changing both side and bottom x values if unnecessary.
 		#For position
-		def px;			@bottom.body.p.x; 								end
-		def py;			@bottom.body.p.y;								end
-		def pz;			@bottom.body.p.y - @side.body.p.y;				end
-		def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
-		def py=(arg);	@bottom.body.p.y = arg;							end
-		def pz=(arg);	@side.body.p.y = @bottom.body.p.y - arg;		end
+		def px
+			pxy.x
+		end
+		def py
+			pxy.y
+		end
+		def pz
+			pxz.y - pxy.y
+		end
+		def px=(arg)
+			pxy.x = arg
+			pxz.x = arg
+		end
+		def py=(arg)
+			pxy.y = arg
+		end
+		def pz=(arg)
+			pxz.y = pxy.y - arg
+		end
 		#For velocity
-		def vx;			@bottom.body.v.x;								end
-		def vy;			@bottom.body.v.y;								end
-		def vz;			@side.body.v.y*-1;									end
-		def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
-		def vy=(arg);	@bottom.body.v.y = arg;							end
-		def vz=(arg);	@side.body.v.y = arg*-1;							end
+		def vx
+			vxy.x
+		end
+		def vy
+			vxy.y
+		end
+		def vz
+			vxz.y*-1
+		end
+		def vx=(arg)
+			vxy.x = arg
+		end
+		def vy=(arg)
+			vxy.y = arg
+		end
+		def vz=(arg)
+			vxz.y = arg*-1
+		end
+		
+		#~ def px;			@bottom.body.p.x; 								end
+		#~ def py;			@bottom.body.p.y;								end
+		#~ def pz;			@bottom.body.p.y - @side.body.p.y;				end
+		#~ def px=(arg);	@bottom.body.p.x = arg; @side.body.p.x = arg;	end
+		#~ def py=(arg);	@bottom.body.p.y = arg;							end
+		#~ def pz=(arg);	@side.body.p.y = @bottom.body.p.y - arg;		end
+		#~ #For velocity
+		#~ def vx;			@bottom.body.v.x;								end
+		#~ def vy;			@bottom.body.v.y;								end
+		#~ def vz;			@side.body.v.y*-1;									end
+		#~ def vx=(arg);	@bottom.body.v.x = arg; @side.body.v.x = arg;	end
+		#~ def vy=(arg);	@bottom.body.v.y = arg;							end
+		#~ def vz=(arg);	@side.body.v.y = arg*-1;							end
 	end
 	
 	# force, torque, etc.
