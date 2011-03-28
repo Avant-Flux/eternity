@@ -124,6 +124,11 @@ class Game_Window < Gosu::Window
 		$console.printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f\n", 
 				@player.physics.pxy.x, @player.physics.pxy.y, @player.physics.pxz.x, @player.physics.pxz.y, 
 				@player.physics.pz
+				
+		#~ $console.printf "vxyx: %.4f vxyy: %.4f vxzx: %.4f vxzy: %.4f vz: %.4f\n",
+				#~ @player.physics.vxy.x, @player.physics.vxy.y, @player.physics.vxz.x, @player.physics.vxz.y, 
+				#~ @player.physics.vz
+						
 		#~ puts @player.physics.pz
 		
 		#~ @characters.each do |c|
