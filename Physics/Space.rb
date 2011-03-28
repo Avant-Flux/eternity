@@ -32,7 +32,7 @@ module Physics
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
-				physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
+				#~ physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
 				
 				# Add compensation function (pseudo constraint)
 				#~ physics_obj.bottom.body.velocity_func = COMPENSATION_VELOCITY_FUNC
