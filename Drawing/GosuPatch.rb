@@ -44,9 +44,7 @@ module Gosu
 			y = y.to_px - options[:offset_y]
 			z += options[:offset_z]
 			
-			old_draw(x, y, z, 
-					options[:factor_x], options[:factor_y], 
-					options[:color], options[:mode])
+			old_draw(x,y,z, options[:factor_x], options[:factor_y], options[:color], options[:mode])
 		end
 		
 		def draw_centered(x, y, z, options={})
