@@ -56,7 +56,7 @@ module Physics
 			pxy.y
 		end
 		def pz
-			pxz.y - pxy.y
+			pxy.y - pxz.y
 		end
 		def px=(arg)
 			pxy.x = arg
