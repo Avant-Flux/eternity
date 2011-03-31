@@ -69,8 +69,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animation.draw @physics.px, @physics.py, @physics.pz
-			#~ puts "#{@physics.px}, #{@physics.py}, #{@physics.pz}"
+			@animation.draw @physics.px, @physics.pxz.y, @physics.pz
 			@shadow.draw
 		end
 	end
