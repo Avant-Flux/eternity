@@ -40,11 +40,11 @@ module Gosu
 					options[:offset_y]
 			end
 						
-			render_x = x.to_px - options[:offset_x]
-			render_y = y.to_px - options[:offset_y]
-			z_index = z + options[:offset_z]
+			x = x.to_px - options[:offset_x]
+			y = y.to_px - options[:offset_y]
+			z += options[:offset_z]
 			
-			old_draw(render_x, render_y, z_index, 
+			old_draw(x, y, z, 
 					options[:factor_x], options[:factor_y], 
 					options[:color], options[:mode])
 		end
