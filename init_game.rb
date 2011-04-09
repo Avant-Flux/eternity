@@ -35,6 +35,8 @@ class Game_Window < Gosu::Window
 		
 		$space = init_space
 		
+		@steppable = false
+		
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
@@ -159,7 +161,7 @@ class Game_Window < Gosu::Window
 		#~ puts "#{@player.position} + #{@player.elevation}"
 		#~ puts @player.shape.body.f
 		
-		$space.step
+		$space.step if @steppable
 		
 		$console.update
 	end
@@ -192,12 +194,19 @@ class Game_Window < Gosu::Window
 		if id == Gosu::KbF
 			@show_fps = !@show_fps
 		end
+		if id == Gosu::KbA
+			@steppable = true
+		end
 		#~ puts button_id_to_char id
 		#~ puts id
 	end
 	
 	def button_up(id)
 		@inpman.button_up(id)
+		
+		if id == Gosu::KbA
+			@steppable = false
+		end
 	end
 	
 	private
