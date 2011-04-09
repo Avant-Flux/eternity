@@ -30,12 +30,24 @@ module Physics
 			
 				#~ puts 2
 				body.update_velocity($space.g, $space.air_damping, dt)
+				
 			elsif rise > lower_bound && rise < upper_bound
 				#On ground
 			
 				#~ puts 3
 				body.update_velocity(CP::ZERO_VEC_2, $space.air_damping, dt)
+				if physics_obj.side.body.p.y > physics_obj.bottom.body.p.y
+					if body.v.y > 0
+						#If the position of the side is lower on the screen than of the bottom object
+						physics_obj.side.body.p.y = physics_obj.bottom.body.p.y
+						physics_obj.side.body.v.y = 0
+						physics_obj.bottom.body.reset_forces
+						physics_obj.bottom.body.v.y = 0
+					end
+				end
 			end
+			
+			
 		end
 		
 		# Apply this function to the bottom object to get the side to move to compensate
