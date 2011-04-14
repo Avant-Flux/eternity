@@ -42,15 +42,9 @@ module Physics
 	module SpacePositionFunctions
 		GRAVITY_POSITION_FUNC = Proc.new do |body, dt|
 			#When setting position, always set velocity as well.
-			
-			
 			side_body = body.physics_obj.side.body
 			bottom_body = body.physics_obj.bottom.body
 			physics_obj = body.physics_obj
-			
-			#~ p_old = body.p #Will not work properly, as you are copying references
-			p_old_x = body.p.x
-			p_old_y = body.p.y
 			
 			rise = physics_obj.pz - physics_obj.elevation
 			
