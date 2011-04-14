@@ -4,8 +4,10 @@
 #text box on screen.  This way, errors etc can be displayed
 #in engine.
 class GosuConsole < TextBox
-	def initialize(pos=[0,0,0], percent_of_height)
-		super(pos, $window.width, ($window.height*percent_of_height/100.0).round, nil)
+	TOP_BUFFER = 20
+
+	def initialize(percent_of_height)
+		super([0,TOP_BUFFER,0], $window.width, (($window.height-TOP_BUFFER)*percent_of_height/100.0).round, nil)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 20)
 		@visible = true
 	end
