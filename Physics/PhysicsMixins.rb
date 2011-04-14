@@ -184,7 +184,7 @@ module Physics
 		end
 		
 		def raise_to_elevation
-			pz = @elevation
+			self.pz = @elevation
 		end
 	end
 	
