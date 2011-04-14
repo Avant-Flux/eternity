@@ -29,13 +29,13 @@ class Game_Window < Gosu::Window
 		self.caption = "Project ETERNITY"
 		$window = self
 		$art_manager = ArtManager.new("./Sprites")
-		$console = GosuConsole.new([0,0,0], 50)
+		$console = GosuConsole.new(50)
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
 		$space = init_space
 		
-		@steppable = false
+		@steppable = true
 		
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
