@@ -35,9 +35,6 @@ module Physics
 				# Add gravity function to body
 				physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
 				
-				# Add compensation function (pseudo constraint)
-				#~ physics_obj.bottom.body.velocity_func = COMPENSATION_VELOCITY_FUNC
-				
 				physics_obj.side.body.position_func = GRAVITY_POSITION_FUNC
 				
 				# Add shapes to space

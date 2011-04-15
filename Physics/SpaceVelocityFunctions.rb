@@ -16,27 +16,6 @@ module Physics
 				body.update_velocity(CP::ZERO_VEC_2, $space.air_damping, dt)
 			end
 		end
-		
-		# Apply this function to the bottom object to get the side to move to compensate
-		# and thus prevent wild fluctuations in z
-		COMPENSATION_VELOCITY_FUNC = Proc.new do |body, g, dmp, dt|
-			body.update_velocity(CP::ZERO_VEC_2, dmp, dt)
-			
-			#BUG does not allow jumping up-left.
-			#~ if body.v.y != 0
-				#~ body.physics_obj.side.body.v.y -= body.v.y + (body.f.y/body.m)*(dt)
-				#~ body.physics_obj.side.body.v.y += body.v.y
-			if body.v.y > 0
-				body.physics_obj.side.body.p.y += body.v.y*dt
-			end
-			
-			#~ side_body = body.physics_obj.side.body
-			#~ 
-			#~ if (body.physics_obj.pz > 0.015)# && (side_body.v.y > 10 || side_body.v.y < -0.01)
-				#~ side_body.p.y += body.v.y*dt + (body.f.y/body.m)*(dt**2)
-				#~ side_body.v.y += body.v.y
-			#~ end
-		end
 	end
 	
 	module SpacePositionFunctions
