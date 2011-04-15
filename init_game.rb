@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
-			new_action:left, [Gosu::KbLeft]
+			new_action :left, [Gosu::KbLeft]
 			new_action :right, [Gosu::KbRight]
 			
 			new_action :jump, [Gosu::KbE]
