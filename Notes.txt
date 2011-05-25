@@ -150,3 +150,15 @@ Monster Types
 	aqua tentacle thing(like morpha for OoT), kappa, phoenix, rabbit,
 	
 	Draw influence from the 5 elements, nature as well as fantasy
+	
+	
+Wiki Notes
+SIDEBAR FILES
+
+Sidebar files allow you to add a simple sidebar to your wiki. Sidebar files are named _Sidebar.ext where the extension is one of the supported formats. Sidebars affect all pages in their directory and any subdirectories that do not have a sidebar file of their own.
+
+FOOTER FILES
+
+Footer files allow you to add a simple footer to your wiki. Footer files must be named _Footer.ext where the extension is one of the supported formats. Like sidebars, footers affect all pages in their directory and any subdirectories that do not have a footer file of their own.
+
+
