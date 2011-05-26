@@ -3,7 +3,6 @@
 require 'rubygems'
 require 'gosu'
 require 'texplay'
-require 'RMagick'
 
 #This class renders the overlay which shows the position of tracked entities
 #	In order to render this effect is psudo-perspective without a global perspective warp,
