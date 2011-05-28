@@ -1,1 +1,1 @@
-sudo gem install rake ruby-opengl gosu chingu chipmunk texplay eventmachine require_all
+gem install rake ruby-opengl gosu chingu chipmunk-ffi texplay eventmachine require_all
