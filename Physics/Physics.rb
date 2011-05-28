@@ -27,7 +27,7 @@ module Physics
 	class PhysicsObject
 		include Physics::Positioning
 	
-		attr_reader :bottom, :side
+		attr_reader :shape, :height
 		
 		# Hold a reference to a CP::Space for the shapes and bodies to be added to
 		@@space
@@ -39,16 +39,19 @@ module Physics
 		DIRECTION_LEFT = (Math::PI)
 		DIRECTION_RIGHT = (2*Math::PI)
 		
-		LAYER_BOTTOM = 1
-		LAYER_SIDE = 2
-		
-		def initialize(position, bottom, side)
-			@bottom = bottom
-			@side = side
+		def initialize(position, shape, height)
+			@shape = shape
 			
-			self.position = position
+			@shape.body.p.x = position[0]
+			@shape.body.p.y = position[1]
+			@pz = position[2].to_f	#Force z to be a float just like x and y
+			@vz = 0.to_f
+			@az = 0.to_f
+			@fz = 0.to_f
+			
+			@height = height;
+			
 			init_orientation
-			init_layers
 		end
 		
 		class << self
@@ -66,13 +69,7 @@ module Physics
 		# Set the initial angle of the bodies.  The bodies are initialized pointing
 		# at 0 rad, aka right.  Thus, they need to be rotated before being used.
 		def init_orientation
-			@bottom.body.a = DIRECTION_UP
-			@side.body.a = DIRECTION_UP
-		end
-		
-		def init_layers
-			@bottom.layers = LAYER_BOTTOM
-			@side.layers = LAYER_SIDE
+			@shape.body.a = DIRECTION_UP
 		end
 	end
 	
@@ -82,34 +79,14 @@ module Physics
 		include Physics::SpeedLimit
 		include Physics::Elevation
 	
-		def initialize(pos, bottom, side)
-			super(pos, bottom, side)
-			
-			link_side_and_bottom
-		end
-		
-		def link_side_and_bottom
-			# For this to work, the side must be unable to rotate, 
-			# and the bottom free to rotate.
-			
-			# Use a groove joint to implement this link.
-				# Connect the stable end of the joint to the side, and
-				# the moving "pin" to the bottom.
-				
-				# Allow the groove to extend infinitely downwards so that
-				# the movement of the object modeled is inhibited as little
-				# as possible.
-				
-			constraint = CP::GrooveJoint.new	@side.body, @bottom.body, 
-						CP::ZERO_VEC_2, CP::Vec2.new(Physics::MAX_Z*-1,0),	#From a to b on @side
-						CP::ZERO_VEC_2										#Anchor on @bottom
-			$space.add_constraint constraint
+		def initialize(pos, shape, height)
+			super(pos, shape, height)
 		end
 	end
 	
 	class StaticObject < PhysicsObject
-		def initialize(pos, bottom, side)
-			super(pos, bottom, side)
+		def initialize(pos, shape, height)
+			super(pos, shape, height)
 		end
 	end
 	
@@ -117,6 +94,9 @@ module Physics
 		attr_reader :shape
 	
 		def initialize(camera_obj)
+			# Add the height of the tallest known entity to the bottom(down the screen) of the 
+			# hitbox for the camera.
+		
 			@center = Struct.new(:x, :y).new
 			@center.x = $window.width.to_meters / 2
 			@center.y = $window.height.to_meters / 2
@@ -149,35 +129,26 @@ module Physics
 		attr_reader :entity
 	
 		def initialize(entity, mass, moment, pos=[0,0,0], dimentions=[1,1,1])
-			#Use the supplied mass for the circle only, as the rectangle should not rotate.
+			# Represent only the shape of the bottom, and the height of the object.  Thus, all
+			# all objects are represented by some sort of prism.
 			
-			#Define the bottom of the Entity as a circle, and the side as a rectangle.
-			#This approximates the volume as a cylinder.
+			shape = Shape::Circle.new self, Body.new(self, mass,moment), dimentions[1], CP::ZERO_VEC_2
 			
-			bottom = Shape::Circle.new	self, Body.new(self, mass,moment), dimentions[1], CP::ZERO_VEC_2
-			side = Shape::Rect.new		self, Body.new(self, mass,Float::INFINITY), :bottom_left,
-										dimentions[1], dimentions[2]
-			
-			super(pos, bottom, side)
+			super(pos, shape, dimentions[2])
 			
 			@entity = entity
 			
-			@bottom.collision_type = :entity
-			@side.collision_type = :render_object
+			@shape.collision_type = :entity
 			
 			@elevation = 0
 		end
 		
 		def width
-			@side.width
+			@shape.radius * 2
 		end
 		
 		def depth
-			@bottom.radius
-		end
-		
-		def height
-			@side.width
+			@shape.radius
 		end
 	end
 	

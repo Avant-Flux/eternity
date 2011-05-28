@@ -69,7 +69,7 @@ class Entity
 	
 	def draw
 		if visible
-			@animation.draw @physics.px, @physics.pxz.y, @physics.pz
+			@animation.draw @physics.px, @physics.py, @physics.pz
 			@shadow.draw
 		end
 	end
@@ -115,7 +115,7 @@ class Entity
 		
 		@movement_force = unit_vector * @move_constant
 		
-		@physics.apply_force_xy @movement_force
+		@physics.apply_force @movement_force
 		@physics.a = angle
 	end
 	
@@ -128,7 +128,7 @@ class Entity
 	end
 	
 	def moving?
-		@physics.vxy.length >= 0
+		@physics.shape.body.v.length >= 0
 	end
 
 	def visible?

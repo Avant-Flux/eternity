@@ -12,15 +12,14 @@ module Physics
 		attr_reader :g, :air_damping
 		alias :gravity :g
 		
-		def initialize(dt, g = -9.8, surface_damping=0.12, air_damping=1, iterations=10)
+		def initialize(dt, g = -9.8, surface_damping=0.12, iterations=10)
 			super()
 			self.damping = surface_damping
 			self.iterations = iterations
 			self.gravity = CP::ZERO_VEC_2
 			
 			@dt = dt
-			@g = CP::Vec2.new(0, g*-1)
-			@air_damping = air_damping
+			@g = g
 			
 			#~ @shapes = {:static = [], :nonstatic = []}
 		end
@@ -33,17 +32,15 @@ module Physics
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				# Add gravity function to body
-				physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
+				#~ physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
 				
-				physics_obj.side.body.position_func = GRAVITY_POSITION_FUNC
+				#~ physics_obj.side.body.position_func = GRAVITY_POSITION_FUNC
 				
 				# Add shapes to space
-				add_shape physics_obj.bottom
-				add_shape physics_obj.side
+				add_shape physics_obj.shape
 			else
 				# Add shapes to space
-				add_static_shape physics_obj.bottom
-				add_static_shape physics_obj.side
+				add_static_shape physics_obj.shape
 			end
 		end
 		
@@ -51,13 +48,10 @@ module Physics
 			#Remove shape from space.  This depends on whether or not the shape is static.
 			if physics_obj.is_a? NonstaticObject
 				#Object is nonstatic
-				remove_shape physics_obj.bottom
-				remove_shape physics_obj.side
+				remove_shape physics_obj.shape
 			else
 				#Object is static
-				
-				remove_static_shape physics_obj.bottom
-				remove_static_shape physics_obj.side
+				remove_static_shape physics_obj.shape
 			end
 		end
 		
