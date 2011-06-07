@@ -101,7 +101,7 @@ class Game_Window < Gosu::Window
 		#~ @characters[2].say "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
 		
 		#~ @UI = UI::Overlay::Status.new(@player)
-		#~ $camera = Camera.new(@player)
+		$camera = Camera.new(@player)
 		
 		#@effect = Animations::Effect.new($window, "Gale")
 		#~ @background = Background.new($window,"Sprites/Textures/grass_texture2.png")
@@ -167,16 +167,16 @@ class Game_Window < Gosu::Window
 		#~ @UI.draw
 		#~ 
 		#~ translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
-			@player.draw
+			#~ @player.draw
 			#~ @characters.each {|i| i.draw}
 			#~ @b.draw
-		#~ translate(-$camera.x.to_px, -$camera.y.to_px) do
+		translate(-$camera.x.to_px, -$camera.y.to_px) do
 			#~ SpeechBubble.draw_all
 			#~ 
-			#~ $camera.queue.each do |i|
-				#~ i.draw
-			#~ end
-		#~ end
+			$camera.queue.each do |i|
+				i.draw
+			end
+		end
 	end
 	
 	def button_down(id)

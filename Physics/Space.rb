@@ -21,58 +21,45 @@ module Physics
 			@dt = dt
 			@g = g
 			
-			#~ @shapes = {:static = [], :nonstatic = []}
+			@nonstatic_objects = []
 		end
 		
 		def step
 			super @dt
+			
+			@nonstatic_objects.each do |obj|
+				obj.vz = obj.fz * obj.mass * @dt
+				obj.pz += obj.vz * @dt
+			end
 		end
 		
-		def add(physics_obj)
+		def add(entity)
 			#Add shape to space.  This depends on whether or not the shape is static.
-			if physics_obj.is_a? NonstaticObject
-				# Add gravity function to body
-				#~ physics_obj.side.body.velocity_func = GRAVITY_VELOCITY_FUNC
-				
-				#~ physics_obj.side.body.position_func = GRAVITY_POSITION_FUNC
-				
-				# Add shapes to space
-				add_shape physics_obj.shape
+			if entity.static?
+				# Add shape to space
+				add_static_shape entity.shape
 			else
-				# Add shapes to space
-				add_static_shape physics_obj.shape
+				# Add shape to space
+				add_shape entity.shape
+				add_body entity.shape.body
+				@nonstatic_objects << entity
 			end
+			
+			add_body entity.shape.body
 		end
 		
-		def remove(physics_obj)
+		def remove(entity)
 			#Remove shape from space.  This depends on whether or not the shape is static.
-			if physics_obj.is_a? NonstaticObject
-				#Object is nonstatic
-				remove_shape physics_obj.shape
-			else
+			if entity.static?
 				#Object is static
-				remove_static_shape physics_obj.shape
+				remove_static_shape entity.shape
+			else
+				#Object is nonstatic
+				remove_shape entity.shape
+				@nonstatic_objects.delete entity
 			end
-		end
-		
-		def add_shape(shape)
-			super shape
-			add_body shape.body
-		end
-		
-		def remove_shape(shape)
-			super shape
-			remove_body shape.body
-		end
-		
-		def add_static_shape(shape)
-			super shape
-			add_body shape.body
-		end
-		
-		def remove_static_shape(shape)
-			super shape
-			remove_body shape.body
+			
+			remove_body entity.shape.body
 		end
 		
 		def find

@@ -12,30 +12,34 @@ require './Stats/Stats'
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
-	include Physics::Interface
-
+	include Physics::ThreeD_Support
+	
+	include Physics::ForceApplication
+	include Physics::Rotation
+	include Physics::SpeedLimit
+	include Physics::Elevation
+	
 	include Combative
 	
-	attr_reader :stats, :physics
+	attr_reader :stats
 	attr_reader  :moving, :direction, :move_constant, :movement_force
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
 	
 	def initialize(animations, name, pos, mass, moment, lvl, element, stats, faction)
-		@movement_force = CP::Vec2.new(0,0)
+		@movement_force = CP::ZERO_VEC_2
 		@walk_constant = 500
 		@run_constant = 1200
 		
 		@animation = animations
-		@physics = Physics::Entity.new	self, mass, moment, pos, 
-										[@animation.width.to_meters, 		#Width
-										(@animation.width/2.0).to_meters,	#Depth
-										@animation.height.to_meters]		#Height
+		
+		init_physics	:circle, pos, :radius => @animation.width/2.0, :mass => mass,
+						:moment => moment
+		
 		@shadow = $art_manager.new_shadow self
 		
 		
-		
-		$space.add @physics
+		$space.add self
 		#~ $space.set_elevation @shape
 		
 		@name = name

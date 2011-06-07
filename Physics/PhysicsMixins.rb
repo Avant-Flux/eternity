@@ -38,7 +38,7 @@ module Physics
 		# Setters and getters for individual values based on pseudo-3D space.
 		# TODO remove changing both side and bottom x values if unnecessary.
 		#For the z axis
-		attr_accessor :fz, :az, :vz, :pz
+		attr_accessor :fz, :vz, :pz
 		#For position
 		def px
 			@shape.body.p.x

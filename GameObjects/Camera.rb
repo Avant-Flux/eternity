@@ -6,25 +6,26 @@ require 'rubygems'
 require 'gosu'
 
 class Camera
-	#~ include PhysicalProperties
+	include Physics::TwoD_Support
 	
 	attr_reader :shape, :queue
 
 	def initialize(entity)
 		@entity = entity
 		
+		# Perhaps store coordinate pair for center of screen?
 		@center = Struct.new(:x, :y).new
 		@center.x = $window.width.to_meters / 2
 		@center.y = $window.height.to_meters / 2
 		
-		mass = @entity.shape.body.m
+		pos = [@entity.x - @center.x,
+				@entity.y - @center.y]
 		
-		@shape = CP::Shape::Rect.new(CP::Body.new(mass, Float::INFINITY), :bottom_left, 
-									$window.height.to_meters, $window.width.to_meters)
+		init_physics	:rectangle, pos, 
+						:height => $window.height.to_meters, :width => $window.width.to_meters,
+						:mass => @entity.mass, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
-		@shape.collision_type = :camera
-		@shape.body.p = CP::Vec2.new(@entity.x - @center.x, @entity.y - @center.y)
 		
 		$space.add_2D @shape
 		
