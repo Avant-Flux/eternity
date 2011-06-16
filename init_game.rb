@@ -18,6 +18,7 @@ require 'require_all'
 #~ require 'profile'
 require_all './Physics'
 require_all './GameObjects'
+require_all './GameStates'
 require_all './Utilities'
 require_all './Drawing'
 require_all './UI'
@@ -27,13 +28,40 @@ class Game_Window < Gosu::Window
 		fps = 60
 		super(1100, 688, false, (1.0/fps)*1000)
 		self.caption = "Project ETERNITY"
-		$window = self
-		$art_manager = ArtManager.new("./Sprites")
+		
+		Cacheable.sprite_directory = "./Sprites"
+		
 		$console = GosuConsole.new(50)
+		
+		@states = GameStateManager.new
+		
+		#~ Need to reverse the order of traversal for :above using #reverse_each
+		#~ if the states need to updated it the proper order.
+		
+		# Display splash while the game loads up
+		@states.new_gamestate SplashState
+		
+		# Load player character data
+		@player = Player.new
+		
+		
+		# Init starting level of the game
+		#~ @states << LevelState.new
+		@states.load_gamestate LevelState, "Test Level"
+		
+		# Start UI
+		@UI = InterfaceState.new
+		
+
+
+
+
+
+		
 		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
 		@show_fps = false
 		
-		$space = init_space
+		@space = init_space
 		
 		@steppable = true
 		
@@ -51,132 +79,22 @@ class Game_Window < Gosu::Window
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
-				
-		#~ @b = Building.new(:dimensions => [5, 6.5, 2], :position => [6, 11, 0])
-		#~ Building.new(:dimensions => [3, 3, 1], :position => [8, 14, 0])
-		
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11, 0])
-		#~ Building.new(:dimensions => [5, 3, 2], :position => [20, 14, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5, 0])
-		#~ 
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15-50, 11, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 4], :position => [20-50, 11, 0])
-		#~ Building.new(:dimensions => [5, 3, 2], :position => [20-50, 14, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25-50, 11, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20-50, 11-6.5, 0])
-		#~ 
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11-50, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11-50, 0])
-		#~ Building.new(:dimensions => [5, 3, 2], :position => [20, 14, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11-50, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5-50, 0])
-		#~ 
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [15, 11+50, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 4], :position => [20, 11+50, 0])
-		#~ Building.new(:dimensions => [5, 3, 2], :position => [20, 14+50, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [25, 11+50, 0])
-		#~ Building.new(:dimensions => [5, 6.5, 2], :position => [20, 11-6.5+50, 0])
-		
-		@player = Player.new("Raven", [5, 5, 0])
-		#~ @characters = Array.new
-		#~ 20.times do |i|
-			#~ x = (i * 3) % 8 + 1
-			#~ y = (i * 10) % 6 + 1
-			#~ 
-			#~ @characters << Character.new("NPC", [x, y, 0])
-		#~ end
-		
-		#~ @characters << Character.new("NPC", [7,6,10])
-		#~ @characters << Character.new("NPC", [2,2,2])
-		
-		#~ @player.track(@characters[0])
-		#~ @player.track(@characters[9])
-		#~ @player.track(@characters[12])
-		#~ @player.track(@characters[3])
-		#~ @player.track(@characters[18])
-		
-		#~ @characters[0].say "hello world"
-		#~ @characters[2].say "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eleifend lacus quis dolor semper a faucibus nulla pharetra. Fusce venenatis posuere libero, aliquam malesuada lectus tempus nec. Donec vel dapibus magna. Quisque iaculis enim nec eros pharetra placerat. Sed enim metus, lobortis sed varius quis, interdum ac libero. Vivamus risus."
-		
-		#~ @UI = UI::Overlay::Status.new(@player)
-		$camera = Camera.new(@player)
-		
-		#@effect = Animations::Effect.new($window, "Gale")
-		#~ @background = Background.new($window,"Sprites/Textures/grass_texture2.png")
-		@i = 0
 	end
 	
 	def update
-		#~ @UI.update
-		#~ @effect.update
-		#~ puts @characters[1].elevation
-		#~ puts @player.elevation
-		#~ SpeechBubble.update_all
-		#~ @b.update
-		#~ puts @player.position
-		#~ puts @player.physics.a
-		@player.physics.reset_forces
-		
-		@player.update
-		
-		
-		#~ $console.printf "xyx: %.4f xyy: %.4f    xzx: %.4f xzy: %.4f   pz: %.4f\n", 
-				#~ @player.physics.pxy.x, @player.physics.pxy.y, @player.physics.pxz.x, @player.physics.pxz.y, 
-				#~ @player.physics.pz
-				
-		
-		#~ @characters.each do |c|
-			#~ c.physics.reset_forces
-			#~ c.update
-		#~ end
-		#~ puts "#{@player.x}, #{@player.y}, #{@player.z} : #{@player.physics.py}, #{@player.physics.pxz.y}"
-		#~ printf "%.3f %.3f %.3f : %.3f %.3f\n", @player.x,@player.y,@player.z,@player.physics.py,@player.physics.pxz.y
-		#~ printf "%.3f %.3f %.3f\n", @player.physics.vx, @player.physics.vy, @player.physics.vz
-		#~ printf "%.3f %.3f %.3f\n", @player.physics.pxy.y, @player.physics.pxz.y, @player.physics.pz
-		#~ puts @player.physics.vxy == @player.physics.vxy
-		
-		#~ $camera.update
-		#~ $space.shapes[:nonstatic].each do |shape|
-			#~ shape.body.reset_forces
-		#~ end
-		
-		@inpman.update
-		process_input
-		
-		#~ $space.shapes[:nonstatic].each do |shape|
-			#~ shape.entity.update
-		#~ end
-		#~ $space.shapes[:static].each do |shape|
-			#~ shape.entity.update
-		#~ end
-		
-		#~ puts "#{@player.position} + #{@player.elevation}"
-		#~ puts @player.shape.body.f
-		
-		$space.step if @steppable
-		
 		$console.update
+		@UI.update
+		@states.update
 	end
 	
 	def draw
-		$console.draw
-		@font.draw "FPS: #{Gosu::fps}", 0, 0, 9999 if @show_fps
-		
-		#~ @UI.draw
-		#~ 
-		#~ translate(-@player.x.to_px + self.width/2, -@player.y.to_px + self.height/2) do
-			#~ @player.draw
-			#~ @characters.each {|i| i.draw}
-			#~ @b.draw
-		translate(-$camera.x.to_px, -$camera.y.to_px) do
-			#~ SpeechBubble.draw_all
-			#~ 
-			$camera.queue.each do |i|
-				i.draw
-			end
+		if $console.draw?
+			$console.draw
+			flush()
 		end
+		@UI.draw
+		flush()
+		@states.draw
 	end
 	
 	def button_down(id)

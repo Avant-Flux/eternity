@@ -74,6 +74,14 @@ module Cacheable
 			#~ @@cache[self.class.name.to_sym].clear
 			Cacheable.subcache(klass).clear
 		end
+		
+		def sprite_directory
+			@@directory
+		end
+		
+		def sprite_directory=(arg)
+			@@directory = arg
+		end
 	end
 	
 	private
