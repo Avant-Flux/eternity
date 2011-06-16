@@ -9,8 +9,9 @@ class GameStateManager
 	UPPER = 0
 	LOWER = 1
 
-	def initialize(window)
+	def initialize(window, camera)
 		@window = window
+		@camera = camera
 		
 		# Use an array as a psudo hash to reduce cost
 		# UPPER		Will not draw
