@@ -29,7 +29,7 @@ class Camera
 		#~ @shape.body.reset_forces
 		#~ self.move(@entity.shape.body.f)
 		if @followed_entity
-			warp @entity.p
+			warp @followed_entity.p
 		end
 	end
 	
@@ -39,7 +39,7 @@ class Camera
 		#~ pos = [@entity.x - @center.x,
 				#~ @entity.y - @center.y]
 				
-		
+		warp @followed_entity.p
 	end
 	
 	def add(entity)
