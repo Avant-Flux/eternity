@@ -23,10 +23,8 @@ end
 
 # Define the area for text to be drawn, but not the borders etc.
 class TextBox
-	def initialize(pos=[0,0,0], width, height, font)
-		@@font ||= Gosu::Font.new($window, "Trebuchet MS", 25)
-		@font = font
-		@font ||= @@font
+	def initialize(window, pos=[0,0,0], width, height, font)
+		@font ||= Gosu::Font.new(window, "Trebuchet MS", 25)
 		@i = 0
 		move_to(pos[0], pos[1], pos[2])
 		
@@ -118,7 +116,8 @@ class SpeechBubble
 	
 	@@all = {}
 	
-	def initialize(entity, text)
+	def initialize(window, entity, text)
+		@window
 		@entity = entity
 		
 		@textbox = TextBox.new([0,0,0], BUBBLE_WIDTH, BUBBLE_HEIGHT)
@@ -195,13 +194,13 @@ class SpeechBubble
 		
 		# Draw box to hold character text
 		#Specify points in counter clockwise order starting from bottom left.
-		$window.draw_quad	@points[0].x, @points[0].y, @color, 
+		@window.draw_quad	@points[0].x, @points[0].y, @color, 
 							@points[1].x, @points[0].y, @color, 
 							@points[1].x, @points[1].y, 0xff880000, 
 							@points[0].x, @points[1].y, 0xff880000, @entity.z
 		
 		# Draw triangle that points to character that is speaking
-		$window.draw_triangle @points[2].x, @points[2].y, @color, 
+		@window.draw_triangle @points[2].x, @points[2].y, @color, 
 							  @points[3].x, @points[3].y, @color, 
 							  @points[4].x, @points[4].y, @color, @entity.z
 		

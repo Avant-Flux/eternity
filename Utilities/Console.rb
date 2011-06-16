@@ -6,9 +6,9 @@
 class GosuConsole < TextBox
 	TOP_BUFFER = 20
 
-	def initialize(percent_of_height)
-		super([0,TOP_BUFFER,0], $window.width, (($window.height-TOP_BUFFER)*percent_of_height/100.0).round, nil)
-		@font = Gosu::Font.new($window, "Trebuchet MS", 20)
+	def initialize(window, percent_of_height)
+		super(window, [0,TOP_BUFFER,0], window.width, ((window.height-TOP_BUFFER)*percent_of_height/100.0).round, nil)
+		@font = Gosu::Font.new(window, "Trebuchet MS", 20)
 		@visible = true
 	end
 	

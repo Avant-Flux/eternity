@@ -31,7 +31,7 @@ class Game_Window < Gosu::Window
 		
 		Cacheable.sprite_directory = "./Sprites"
 		
-		$console = GosuConsole.new(50)
+		$console = GosuConsole.new(self, 50)
 		
 		@states = GameStateManager.new
 		
@@ -41,30 +41,7 @@ class Game_Window < Gosu::Window
 		# Display splash while the game loads up
 		@states.new_gamestate SplashState
 		
-		# Load player character data
-		@player = Player.new
-		
-		
-		# Init starting level of the game
-		#~ @states << LevelState.new
-		@states.load_gamestate LevelState, "Test Level"
-		
-		# Start UI
-		@UI = InterfaceState.new
-		
-
-
-
-
-
-		
-		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
-		@show_fps = false
-		
-		@space = init_space
-		
-		@steppable = true
-		
+		# Initialize input handler
 		@inpman = InputHandler.new do
 			new_action :up, [Gosu::KbUp]
 			new_action :down, [Gosu::KbDown]
@@ -79,6 +56,24 @@ class Game_Window < Gosu::Window
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 		end
+		
+		# Load player character data
+		@player = Player.new
+		
+		# Init starting level of the game
+		@states.load_gamestate LevelState, "Test Level"
+		
+		# Remove splash and display level
+		@states.pop
+		@states.restore
+		
+		# Start UI
+		@UI = InterfaceState.new
+		
+		#~ @font = Gosu::Font.new($window, "Trebuchet MS", 25)
+		
+		# Hide fps by default
+		@show_fps = false
 	end
 	
 	def update
