@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'chipmunk-ffi'
+require 'chipmunk'
 
 # Create a chipmunk space to allow easy manipulation of interface elements.
 # Use a class variable so that one

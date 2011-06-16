@@ -1,14 +1,10 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'chipmunk-ffi'
-require './Physics/SpaceVelocityFunctions'
+require 'chipmunk'
 
 module Physics
 	class Space < CP::Space
-		include Physics::SpaceVelocityFunctions
-		include Physics::SpacePositionFunctions
-		
 		attr_reader :g, :air_damping
 		alias :gravity :g
 		
@@ -19,7 +15,6 @@ module Physics
 			self.gravity = CP::ZERO_VEC_2
 			
 			@dt = dt
-			@g = g
 			
 			@nonstatic_objects = []
 		end

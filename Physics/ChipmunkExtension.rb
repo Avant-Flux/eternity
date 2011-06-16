@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'chipmunk-ffi'
+require 'chipmunk'
 
 module Physics
 	module Shape

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'chipmunk-ffi'
+require 'chipmunk'
 
 # Gamestate which displays a splash screen when the game starts up
 # May include a progress bar which shows how much time is left before

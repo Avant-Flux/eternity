@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 require 'rubygems'
-require 'chipmunk-ffi'
+require 'chipmunk'
 
 module CP
 	module Shape

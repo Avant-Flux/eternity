@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'chipmunk-ffi'
+require 'chipmunk'
 
 class LevelState < GameState
 	# Defines the behavior for a slice of a level.
