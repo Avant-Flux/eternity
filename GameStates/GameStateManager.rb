@@ -22,17 +22,13 @@ class GameStateManager
 		@stack[UPPER] = []
 		@stack[LOWER] = []
 		
-		@stack[LOWER] << SplashState.new
-		
 		# Keep track of what chipmunk layer to contain things on
 		@layer = 0
 		
 		# Set up physics space
 		@space = CP::Space.new
 		@space.iterations = 10
-		
-		# Create a camera object which can be passed to all contained LevelState objects
-		@camera = nil
+		@steppable = true
 	end
 	
 	# Draw all contained gamestates
@@ -61,13 +57,12 @@ class GameStateManager
 	end
 	
 	# Create a new gamestate and place it on the LOWER stack
-	def new_gamestate(klass, name)
+	def new_gamestate(klass, *args)
 		@layer += 1
 		
-		args = [@window, @space, @layer, name]
-			args << @camera if klass == LevelState
+		args = [@window, @space, @layer].concat args
 		gamestate = klass.new *args
-	
+		
 		@stack[LOWER] << gamestate
 	end
 	
