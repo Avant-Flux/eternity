@@ -19,8 +19,8 @@ class Character < Entity
 		animation = $art_manager.new_animation subsprites
 		
 		super(animation, name, pos, mass, moment, 1, :none, 
-				{:str => 10, :con => 10, :dex => 10, :agi => 10, :luk => 10,
-				:pwr => 10, :ctl => 10, :per => 10}, 0)
+				{:strength => 10, :constitution => 10, :dexterity => 10, :mobility => 10,
+				:power => 10, :skill => 10, :flux => 10}, 0)
 
 		#Remember to set atk and def based on str and con as well as other factors
 		

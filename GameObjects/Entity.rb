@@ -51,9 +51,9 @@ class Entity
 		@hp = {:current => 10, :max => 10}	#Arbitrary number for now
 		@mp = {:current => 10, :max => 10}
 		@stats = Hash.new
-		@stats[:raw] = stats
-		@stats[:composite] = {:atk => @stats[:raw][:str], :def => @stats[:raw][:con]}
-		
+		@stats[:raw] = stats # strength, constitution, dexterity, mobility, power, skill, flux
+		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
+								:defence => @stats[:raw][:constitution]}
 		@jump_count = 0
 	end
 	
