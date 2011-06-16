@@ -32,14 +32,15 @@ class Game_Window < Gosu::Window
 		Cacheable.sprite_directory = "./Sprites"
 		
 		$console = GosuConsole.new(self, 50)
-		
-		@states = GameStateManager.new
+		# Create a camera object which can be passed to all contained LevelState objects
+		@camera = Camera.new self
+		@states = GameStateManager.new self, @camera
 		
 		#~ Need to reverse the order of traversal for :above using #reverse_each
 		#~ if the states need to updated it the proper order.
 		
 		# Display splash while the game loads up
-		@states.new_gamestate SplashState
+		@states.new_gamestate SplashState, "Startup"
 		
 		# Initialize input handler
 		@inpman = InputHandler.new do
@@ -58,7 +59,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		# Load player character data
-		@player = Player.new
+		@player = Player.new 
 		
 		# Init starting level of the game
 		@states.load_gamestate LevelState, "Test Level"

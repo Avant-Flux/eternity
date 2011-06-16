@@ -10,24 +10,17 @@ class Camera
 	
 	attr_reader :shape, :queue
 
-	def initialize(entity)
-		@entity = entity
+	def initialize(window)
+		@followed_entity = nil
 		
-		# Perhaps store coordinate pair for center of screen?
-		@center = Struct.new(:x, :y).new
-		@center.x = $window.width.to_meters / 2
-		@center.y = $window.height.to_meters / 2
-		
-		pos = [@entity.x - @center.x,
-				@entity.y - @center.y]
+		# Center of screen
+		pos = [window.width.to_meters / 2, window.height.to_meters / 2]
 		
 		init_physics	:rectangle, pos, 
-						:height => $window.height.to_meters, :width => $window.width.to_meters,
-						:mass => @entity.mass, :moment => :static, :collision_type => :camera
+						:height => window.height.to_meters, :width => window.width.to_meters,
+						:mass => 50, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
-		
-		$space.add_2D @shape
 		
 		@queue = Set.new
 	end
@@ -35,7 +28,18 @@ class Camera
 	def update
 		#~ @shape.body.reset_forces
 		#~ self.move(@entity.shape.body.f)
-		warp @entity.p
+		if @followed_entity
+			warp @entity.p
+		end
+	end
+	
+	def follow(entity)
+		@followed_entity = entity
+		
+		#~ pos = [@entity.x - @center.x,
+				#~ @entity.y - @center.y]
+				
+		
 	end
 	
 	def add(entity)
