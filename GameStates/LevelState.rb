@@ -11,6 +11,7 @@ class LevelState < GameState
 		super(window, space, layer, name)
 		
 		@camera = camera
+		@player = nil
 	end
 	
 	def update
@@ -24,6 +25,24 @@ class LevelState < GameState
 	end
 	
 	def finalize
+		
+	end
+	
+	# Insert the player into the world defined by this gamestate
+	def insert_player(player)
+		@player = player
+	end
+	
+	# Remove the player into the world defined by this gamestate
+	def remove_player(player)
+		@player = nil
+	end
+	
+	def load
+		
+	end
+	
+	def dump
 		
 	end
 end
