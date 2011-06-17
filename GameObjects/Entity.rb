@@ -26,7 +26,7 @@ class Entity
 	attr_accessor :name, :element, :faction, :visible
 	attr_accessor :lvl, :hp, :mp
 	
-	def initialize(animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(window, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@movement_force = CP::ZERO_VEC_2
 		@walk_constant = 500
 		@run_constant = 1200
@@ -36,10 +36,10 @@ class Entity
 		init_physics	:circle, pos, :radius => @animation.width/2.0, :mass => mass,
 						:moment => moment
 		
-		@shadow = $art_manager.new_shadow self
+		@shadow = Shadow.new window, self
 		
 		
-		$space.add self
+		#~ $space.add self
 		#~ $space.set_elevation @shape
 		
 		@name = name

@@ -5,15 +5,20 @@ require 'set'
 require 'rubygems'
 require 'gosu'
 require 'texplay'
+
 require './Drawing/GosuPatch'
+require './Drawing/Circle'
+require './Drawing/ImageCache'
 
 # Handles the drawing of simple shadows.
 class Shadow
+	include Cacheable
+
 	OPACITY_CONSTANT = 0.8
 	
-	def initialize(entity, circle)
+	def initialize(window, entity)
 		@entity = entity
-		@circle = circle
+		@circle = Image::Circle.new window, entity.width(:px)/2
 		@draw_elevation = Set.new
 	end
 	

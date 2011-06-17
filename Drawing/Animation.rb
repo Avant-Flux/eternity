@@ -4,12 +4,17 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
+require './Drawing/ImageCache'
+
 module Animation
-	class Entity			#Only inherit from this class, never create objects of it
-		attr_reader :sprites
+	class Entity
+		include Cacheable
 		
-		def initialize(sprite)
-			@sprites = sprite
+		def initialize(window, subsprites)
+			# Get the sprite data for the given subsprites
+			@sprites = Sprite.new window, subsprites
+			
+			# Set default values for the animation
 			@moving = false
 			@current_frame = @sprites[:down][0]
 		end
@@ -54,6 +59,8 @@ module Animation
 			
 			#Create a hex number where each two hex-digits corresponds
 			#to one subsprite.
+			
+			
 		end
 		
 		def [](key)

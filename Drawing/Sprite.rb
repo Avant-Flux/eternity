@@ -3,12 +3,30 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
+require './Drawing/ImageCache'
+
 class Sprite
-	def initialize(width, height, subsprites)
+	include Cacheable
+	
+	WIDTH = 40
+	HEIGHT = 80
+	
+	def initialize(window, subsprites)
+		# Get all subsprites
+		layers = []
+		# List the different types in order from lowest z index to highest
+		types = [:body, :face, :hair, :upper, :boots, :lower, :shoes]
+		
+		types.each do |type|
+			if subsprites[type]
+				layers << Subsprite.new(window, type, subsprites[type])
+			end
+		end
+	
 		composite = nil
 		
 		#Splice all provided subsprites together
-		subsprites.each_with_index do |image, i|
+		layers.each_with_index do |image, i|
 			if i == 0
 				composite = image.clone
 			else
@@ -16,7 +34,7 @@ class Sprite
 			end
 		end
 		
-		@sprites = split_spritesheet width, height, composite
+		@sprites = split_spritesheet window, WIDTH, HEIGHT, composite
 	end
 	
 	#~ def method_missing(symbol, *args)
@@ -27,9 +45,9 @@ class Sprite
 		@sprites[arg]
 	end
 	
-	def []=(key, arg)
-		@sprites[key] = arg
-	end
+	#~ def []=(key, arg)
+		#~ @sprites[key] = arg
+	#~ end
 	
 	def self.code(args)
 		#Compute the hash code of a Sprite with the given subsprites
@@ -43,11 +61,11 @@ class Sprite
 	
 	private
 	
-	def split_spritesheet(width, height, spritesheet)
+	def split_spritesheet(window, width, height, spritesheet)
 		sprites = {:up => [], :down => [], :left => [], :right => [],
 					:up_left => [], :up_right => [], :down_left => [], :down_right => []}
 	
-		sprite_array = Gosu::Image::load_tiles($window, spritesheet, width, height, false)
+		sprite_array = Gosu::Image::load_tiles(window, spritesheet, width, height, false)
 		
 		sprite_array.each_with_index do |sprite, i|
 			#Assumes that the spritesheet is broken up into rows of 8, 

@@ -59,10 +59,6 @@ module Cacheable
 		#~ @@cache[self.class.name.to_sym]
 	end
 	
-	def subcache=(arg)
-		@@cache[self.class.name.to_sym] = arg
-	end
-	
 	class << self
 		def subcache(klass)
 			# Return the subcache corresponding to the given class
