@@ -36,63 +36,33 @@ module CP
 					return :nonstatic
 				end
 			end
-			
-			private 
-			
-			#Given the position of the center point, and the lengths of the sides,
-			#	compute the coordinates of the lower-left corner and the upper-right corner
-			def corners(center, height, width)
-				case center
-					when :bottom
-						x1 = 0
-						y1 = -(width/2)
-						x2 = height
-						y2 = width/2
-					when :top
-						x1 = 0
-						y1 = -(width/2)
-						x2 = -height
-						y2 = width/2
-					when :left
-						x1 = -(height/2)
-						y1 = 0
-						x2 = height/2
-						y2 = width
-					when :right
-						x1 = -(height/2)
-						y1 = 0
-						x2 = height/2
-						y2 = -width
-					when :top_left
-						x1 = 0
-						y1 = 0
-						x2 = -height
-						y2 = width
-					when :top_right
-						x1 = 0
-						y1 = 0
-						x2 = -height
-						y2 = -width
-					when :bottom_left
-						x1 = 0
-						y1 = 0
-						x2 = height
-						y2 = width
-					when :bottom_right
-						x1 = 0
-						y1 = 0
-						x2 = height
-						y2 = -width
-					when :center
-						half_width = width/2
-						half_height = height/2
-						x1 = -half_height
-						y1 = half_width
-						x2 = half_height
-						y2 = -half_width
+		end
+	end
+
+
+	module Shape
+		class Rect < CP::Shape::Poly
+			attr_reader :width, :height
+		
+			def initialize(body, width, height, offset=CP::ZERO_VEC_2)
+				@width = width
+				@height = height
+				
+				half_width = width/2.0
+				half_height = height/2.0
+				
+				# Start top left, and proceed CW
+				shape_array =	[CP::Vec2.new(-half_width, -half_height),
+								CP::Vec2.new(half_width, -half_height),
+								CP::Vec2.new(half_width, half_height),
+								CP::Vec2.new(-half_width, half_height)]
+				
+				# Compensate for offset
+				shape_array.each do |vertex|
+					vertex -= offset
 				end
 				
-				return x1,y1, x2,y2
+				super body, shape_array, offset
 			end
 		end
 		
