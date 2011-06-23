@@ -4,29 +4,17 @@ require 'chipmunk'
 
 module CP
 	module Shape
-		class Rect < CP::Shape::Poly
-			attr_reader :width, :height
-		
-			def initialize(body, center, width, height, offset=CP::Vec2.new(0,0))
-				@width = width
-				@height = height
+		class Poly
+			def each_vertex(&block)
+				self.num_verts.times do |i|
+					block.call self.vert(i)
+				end
+			end
 			
-				#Initially design vectors such that the object is pointing to the right (0 rad)
-				#Obj. will be rotated to face the top of screen before game starts
-				
-				
-				#Only compute the coord for the lower left corner and the upper right corner.
-				#The other coordinates can be deduced based on these coords.
-				
-				x1,y1, x2,y2 = corners(center, height, width)
-
-				top_left = CP::Vec2.new(x1, y2)
-				top_right = CP::Vec2.new(x2, y2)
-				bottom_right = CP::Vec2.new(x2, y1)
-				bottom_left = CP::Vec2.new(x1, y1)
-				
-				shape_array =	[top_left, top_right, bottom_right, bottom_left]
-				super body, shape_array, offset
+			def each_vertex_with_index(&block)
+				self.num_verts.times do |i|
+					block.call self.vert(i), i
+				end
 			end
 			
 			def staticness
