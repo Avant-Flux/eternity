@@ -47,30 +47,33 @@ module Physics
 	end
 	
 	module Direction
+		X_HAT = CP::Vec2.new 0, 1
+		Y_HAT = CP::Vec2.new(1, Math.tan(70.to_rad)).normalize
+		Z_HAT = CP::Vec2.new 1, 0
+		
 		UP = (3*Math::PI/2.0)
 		DOWN = (Math::PI/2.0)
 		LEFT = (Math::PI)
 		RIGHT = (2*Math::PI)
 		
-		UP_VEC = CP::Vec2.for_angle UP
-		DOWN_VEC = CP::Vec2.for_angle DOWN
-		LEFT_VEC = CP::Vec2.for_angle LEFT
-		RIGHT_VEC = CP::Vec2.for_angle RIGHT
+		#~ UP_VEC = CP::Vec2.for_angle UP
+		#~ DOWN_VEC = CP::Vec2.for_angle DOWN
+		#~ LEFT_VEC = CP::Vec2.for_angle LEFT
+		#~ RIGHT_VEC = CP::Vec2.for_angle RIGHT
 		
-		#~ N =
-		#~ S =
-		#~ E =
-		#~ W =
-		#~ NE =
-		#~ NW =
-		#~ SE =
-		#~ SW =
+		
+		N = Y_HAT
+		S = -Y_HAT
+		E = X_HAT
+		W = -X_HAT
+		NE = (N + E).normalize
+		NW = (N + W).normalize
+		SE = (S + E).normalize
+		SW = (S + W).normalize
 	end
-	
+
 	#This is the new structure for the chipmunk handling of the game engine
 	#It should create a complete abstraction of the underlying chipmunk code.
-	#It may eventually be possible to forgo usage of chipmunk-ffi at some point
-	#and simply use ffi and the C library.
 	
 	module TwoD_Support
 		attr_reader :shape
@@ -107,11 +110,20 @@ module Physics
 				when :circle
 					Physics::Shape::Circle.new	self, body, args[:radius], args[:offset]
 				when :rectangle
-					Physics::Shape::Rect.new	self, body, :bottom_left, 
-												args[:width], args[:depth], args[:offset]
+					Physics::Shape::Rect.new	self, body, args[:width], args[:depth], args[:offset]
 				when :square
-					Physics::Shape::Rect.new	self, body, :bottom_left, 
-												args[:side], args[:side], args[:offset]
+					Physics::Shape::Rect.new	self, body, args[:side], args[:side], args[:offset]
+				when :perspective_rectangle
+					x_vec = Physics::Direction::X_HAT * args[:width]/2.0
+					y_vec = Physics::Direction::Y_HAT * args[:depth]/2.0
+					
+					# Start in bottom-right and proceed CCW
+					vertices = [(x_vec + y_vec),
+								(x_vec + -y_vec),
+								(-x_vec + -y_vec),
+								(-x_vec + y_vec)]
+					
+					Physics::Shape::Poly.new	self, body, vertices
 				when :polygon
 					Physics::Shape::Poly.new	self, body, args[:geometry], args[:offset]
 			end
@@ -141,15 +153,11 @@ module Physics
 			# Assume that if the shape does not respond to the height method,
 			# then it is a circle.
 		
-			if @shape.respond_to? :width
-				return @shape.width
+			if @shape.respond_to? :height
+				return @shape.height
 			else
 				return @shape.radius * 2
 			end
-		end
-		
-		def static?
-			
 		end
 	end
 	
@@ -162,6 +170,17 @@ module Physics
 		attr_accessor :pz, :vz, :fz, :height, :in_air
 		
 		def init_physics(shape, position, args={})
+			shape = case shape #Convert into the corresponding 2D shape
+						when :box
+							:perspective_rectangle
+						when :prism
+							:polygon
+						when :cylinder
+							:circle
+						else
+							shape
+					end
+			
 			init_2D_physics shape, position, args
 			
 			# Create values needed to track the z coordinate
@@ -172,6 +191,30 @@ module Physics
 			@height = args[:height];
 			
 			@in_air = false;
+		end
+		
+		
+		module Box
+			def init_physics(position, dimentions)
+				# position		: x,y,z
+				# dimentions	: width,depth,height
+					# Height can either be Numeric or Proc
+				
+				# Generates a pseudo-3D box using the game's isometric projection
+				# As this is only used for 3D objects, do not perform the CCW rotation
+			end
+		end
+		
+		module Prism
+			def init_physics
+				# Based on Polygon
+			end
+		end
+		
+		module Cylinder
+			def init_physics
+				# Based on Circle
+			end
 		end
 	end
 	
