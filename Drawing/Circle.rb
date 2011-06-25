@@ -20,6 +20,8 @@ module Image
 			self.circle(radius+1, radius+1, radius, :color => Gosu::Color::WHITE, :fill => true)
 		end
 		
+		# TODO implement .hash and #hash
+		
 		def hash
 			
 		end

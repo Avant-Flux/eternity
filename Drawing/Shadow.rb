@@ -65,6 +65,8 @@ class Shadow
 						:offset_z => -1, :color => @color)
 	end
 	
+	# TODO implement .hash and #hash
+	
 	private
 	
 	# Calculate the color of the shadow to be rendered, and mix in

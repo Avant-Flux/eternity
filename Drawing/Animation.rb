@@ -53,6 +53,8 @@ module Animation
 			end
 		end
 		
+		# TODO implement .hash and #hash
+		
 		def hash
 			#Create an identifier such that all animations which use 
 			#the same subsprites will have the same identifier
