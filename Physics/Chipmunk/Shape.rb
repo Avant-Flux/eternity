@@ -39,10 +39,10 @@ module CP
 				half_width = width/2.0
 				half_height = height/2.0
 				
-				# Start top left, and proceed CW
-				shape_array =	[CP::Vec2.new(-half_width, -half_height),
+				# Start bottom right (aka Quadrant-I), and proceed CCW
+				shape_array =	[CP::Vec2.new(half_width, half_height),
 								CP::Vec2.new(half_width, -half_height),
-								CP::Vec2.new(half_width, half_height),
+								CP::Vec2.new(-half_width, -half_height),
 								CP::Vec2.new(-half_width, half_height)]
 				
 				# Compensate for offset
@@ -54,31 +54,21 @@ module CP
 			end
 		end
 		
-		module Polygon; class << self
+		#~ module Polygon; class << self
 			#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
 			#modified to be more usable and ruby-like <- work in progress
 			
-			# Produces the vertices of a regular polygon.
-			def vertices(sides, size)
-			   vertices = []
-			   sides.times do |i|
-				   angle = -2 * Math::PI * i / sides
-				   vertices << angle.radians_to_vec2() * size
-			   end
-			   return vertices
-			end
-			
 			# Produces the image of a polygon.
-			def image(vertices)
-			   box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
-			   gc = Magick::Draw.new
-			   gc.stroke('red')
-			   gc.fill('plum')
-			   draw_vertices = vertices.map { |v| [v.x + EDGE_SIZE, v.y + EDGE_SIZE] }.flatten
-			   gc.polygon(*draw_vertices)
-			   gc.draw(box_image)
-			   return Gosu::Image.new(self, box_image, false)
-			end
-		end; end
+			#~ def image(vertices)
+			   #~ box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
+			   #~ gc = Magick::Draw.new
+			   #~ gc.stroke('red')
+			   #~ gc.fill('plum')
+			   #~ draw_vertices = vertices.map { |v| [v.x + EDGE_SIZE, v.y + EDGE_SIZE] }.flatten
+			   #~ gc.polygon(*draw_vertices)
+			   #~ gc.draw(box_image)
+			   #~ return Gosu::Image.new(self, box_image, false)
+			#~ end
+		#~ end; end
 	end
 end
