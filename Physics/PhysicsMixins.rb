@@ -1,6 +1,87 @@
 #!/usr/bin/ruby
 
 module Physics
+	module Dimentions
+		module TwoD
+			def width(units)
+				# Assume that if the shape does not respond to the width method,
+				# then it is a circle.
+				case units
+					when :px
+						@animation.width
+					when :meters
+						if @shape.respond_to? :width
+							return @shape.width
+						else
+							return @shape.radius * 2
+						end
+				end
+			end
+			
+			def height(units)
+				# Assume that if the shape does not respond to the height method,
+				# then it is a circle.
+				
+				case units
+					when :px
+						@animation.height
+					when :meters
+						if @shape.respond_to? :height
+							return @shape.height
+						else
+							return @shape.radius * 2
+						end
+				end
+			end
+			
+			def radius(units)
+				case units
+					when :px
+						(@animation.width / 2.0).round
+					when :meters
+						@shape.radius
+				end
+			end
+			
+			def diameter(units)
+				case units
+					when :px
+						@animation.width;
+					when :meters
+						radius * 2
+				end
+			end
+		end
+		
+		module ThreeD
+			include Physics::Dimentions::TwoD
+			
+			def height(units)
+				case units
+					when :px
+						@animation.height
+					when :meters
+						@animation.height.to_meters
+				end
+			end
+			
+			def depth(units)
+				depth =	if @shape.is_a? Physics::Shape::Circle
+							@shape.radius
+						else
+							@shape.height
+						end
+			
+				return	case units
+							when :px
+								depth.to_px
+							when :meters
+								 depth
+						end
+			end
+		end
+	end
+	
 	# position, velocity, acceleration, etc
 	module Positioning
 		def p
@@ -136,18 +217,5 @@ module Physics
 		def raise_to_elevation
 			self.pz = @elevation
 		end
-	end
-	
-	module Interface
-		def x; 			@physics.px;			end
-		def y; 			@physics.py;			end
-		def z; 			@physics.pz;			end
-		
-		def x=(arg); 	@physics.px = arg;		end
-		def y=(arg); 	@physics.py = arg;		end
-		def z=(arg); 	@physics.pz = arg;		end
-		
-		def elevation;			@physics.elevation;			end
-		def elevation=(arg);	@physics.elevation = arg;	end
 	end
 end

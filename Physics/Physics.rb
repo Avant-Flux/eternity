@@ -74,9 +74,9 @@ module Physics
 
 	#This is the new structure for the chipmunk handling of the game engine
 	#It should create a complete abstraction of the underlying chipmunk code.
-	
+
 	module TwoD_Support
-		attr_reader :shape
+		include Physics::Dimentions::TwoD
 	
 		def init_physics(shape, position, args={})
 			# Optional parameter geometry allows for specifying vertices manually 
@@ -128,6 +128,8 @@ module Physics
 					Physics::Shape::Poly.new	self, body, args[:geometry], args[:offset]
 			end
 			
+			# Set up proper methods for accessing dimensions
+			
 			@shape.body.p.x = position[0]
 			@shape.body.p.y = position[1]
 			
@@ -137,35 +139,14 @@ module Physics
 			# Set collision type
 			@shape.collision_type = args[:collision_type]
 		end
-		
-		def width
-			# Assume that if the shape does not respond to the width method,
-			# then it is a circle.
-		
-			if @shape.respond_to? :width
-				return @shape.width
-			else
-				return @shape.radius * 2
-			end
-		end
-		
-		def height
-			# Assume that if the shape does not respond to the height method,
-			# then it is a circle.
-		
-			if @shape.respond_to? :height
-				return @shape.height
-			else
-				return @shape.radius * 2
-			end
-		end
 	end
 	
 	module ThreeD_Support
 		# Include the methods from 2D, and change their names as necessary
 		include TwoD_Support
+		include Physics::Dimentions::ThreeD
+		
 		alias :init_2D_physics :init_physics
-		alias :depth :height
 		
 		attr_accessor :pz, :vz, :fz, :height, :in_air
 		
