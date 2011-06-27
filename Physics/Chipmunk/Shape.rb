@@ -25,10 +25,7 @@ module CP
 				end
 			end
 		end
-	end
 
-
-	module Shape
 		class Rect < CP::Shape::Poly
 			attr_reader :width, :height
 		
