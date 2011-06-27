@@ -8,7 +8,7 @@ require 'chipmunk'
 # the game finishes loading.
 class SplashState < GameState
 	def initialize(window, space, layer, statestack)
-		super(window, space, layer, false)
+		super(window, space, layer, "Splash", false)
 		
 		# The splash state needs access to the full stack
 		# to know when things are done loading.
