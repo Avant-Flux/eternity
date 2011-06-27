@@ -80,7 +80,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		if $console.draw?
+		if $console.visible?
 			$console.draw
 			flush()
 		end
