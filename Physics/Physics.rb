@@ -47,9 +47,9 @@ module Physics
 	end
 	
 	module Direction
-		X_HAT = CP::Vec2.new 0, 1
-		Y_HAT = CP::Vec2.new(1, Math.tan(70.to_rad)).normalize
-		Z_HAT = CP::Vec2.new 1, 0
+		X_HAT = CP::Vec2.new 1, 0
+		Y_HAT = CP::Vec2.new(1, -1*Math.tan(70.to_rad)).normalize
+		Z_HAT = CP::Vec2.new 0, -1
 		
 		UP = (3*Math::PI/2.0)
 		DOWN = (Math::PI/2.0)
