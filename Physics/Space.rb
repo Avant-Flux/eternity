@@ -8,9 +8,9 @@ module Physics
 		attr_reader :g, :air_damping
 		alias :gravity :g
 		
-		def initialize(dt, g = -9.8, surface_damping=0.12, iterations=10)
+		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
 			super()
-			self.damping = surface_damping
+			self.damping = damping
 			self.iterations = iterations
 			self.gravity = CP::ZERO_VEC_2
 			

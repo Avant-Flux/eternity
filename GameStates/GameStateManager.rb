@@ -13,6 +13,14 @@ class GameStateManager
 		@window = window
 		@camera = camera
 		
+		# Keep track of what chipmunk layer to contain things on
+		@layer = 0
+		
+		# Set up physics space
+		@space = Physics::Space.new 1/60.0, 
+		@space.iterations = 10
+		@steppable = true
+		
 		# Use an array as a psudo hash to reduce cost
 		# UPPER		Will not draw
 		# LOWER		Will draw and update
