@@ -17,7 +17,7 @@ class GameStateManager
 		@layer = 0
 		
 		# Set up physics space
-		@space = Physics::Space.new 1/60.0, 
+		@space = Physics::Space.new 1/60.0
 		@space.iterations = 10
 		@steppable = true
 		
