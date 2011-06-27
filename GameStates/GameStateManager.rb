@@ -22,13 +22,10 @@ class GameStateManager
 		@stack[UPPER] = []
 		@stack[LOWER] = []
 		
-		# Keep track of what chipmunk layer to contain things on
-		@layer = 0
-		
-		# Set up physics space
-		@space = CP::Space.new
-		@space.iterations = 10
-		@steppable = true
+		# Keep UI layer separate, so that the UI is always drawn on top
+		# of all states in the LOWER stack
+		@ui_state = InterfaceState.new @window, @space, @layer, "HUD"
+		@layer += 1
 	end
 	
 	# Draw all contained gamestates

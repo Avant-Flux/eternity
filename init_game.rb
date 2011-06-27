@@ -68,10 +68,7 @@ class Game_Window < Gosu::Window
 		#~ @states.pop
 		#~ @states.restore
 		
-		# Start UI
-		@UI = InterfaceState.new
-		
-		@font = Gosu::Font.new($window, "Trebuchet MS", 25)
+		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
 		# Hide fps by default
 		@show_fps = false
@@ -79,7 +76,6 @@ class Game_Window < Gosu::Window
 	
 	def update
 		$console.update
-		@UI.update
 		@states.update
 	end
 	
@@ -88,8 +84,6 @@ class Game_Window < Gosu::Window
 			$console.draw
 			flush()
 		end
-		@UI.draw
-		flush()
 		@states.draw
 	end
 	

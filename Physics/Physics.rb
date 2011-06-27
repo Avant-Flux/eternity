@@ -174,7 +174,6 @@ module Physics
 			@in_air = false;
 		end
 		
-		
 		module Box
 			def init_physics(position, dimentions)
 				# position		: x,y,z
