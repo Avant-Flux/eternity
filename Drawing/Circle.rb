@@ -7,17 +7,19 @@ require 'texplay'
 require './Drawing/ImageCache'
 
 module Image
-	class Circle < Gosu::Image
+	# Circle contains a Gosu::Image @img, instead of being a descendant of
+	# Gosu::Image.  However, it should function as a Gosu::Image object.
+	class Circle
 		include Cacheable
+		
+		attr_reader :img
 		
 		def initialize(window, radius)
 			r2 = radius * 2
 			
-			# ===Code taken from Texplay.create_image and modified for these purposes
-			super(window, TexPlay::EmptyImageStub.new(r2+2, r2+2), :caching => false)
-			# ===End code taken from Texplay
+			@img = TexPlay.create_blank_image(window, r2+2, r2+2)
 			
-			self.circle(radius+1, radius+1, radius, :color => Gosu::Color::WHITE, :fill => true)
+			@img.circle(radius+1, radius+1, radius, :color => Gosu::Color::WHITE, :fill => true)
 		end
 		
 		# TODO implement .hash and #hash
