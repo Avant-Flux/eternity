@@ -46,6 +46,8 @@ class GameStateManager
 				@window.flush
 			end
 		end
+		
+		@ui_state.draw
 	end
 	
 	# Update all contained gamestates
@@ -59,6 +61,8 @@ class GameStateManager
 				gamestate.update
 			end
 		end; end
+		
+		@ui_state.update
 	end
 	
 	# Create a new gamestate and place it on the LOWER stack
