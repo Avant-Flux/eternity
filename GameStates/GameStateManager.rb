@@ -65,6 +65,8 @@ class GameStateManager
 	# UPPER gamestates update from high to low, in terms of
 	# Z-Index.
 	def update
+		@space.step
+		
 		@stack.each do |stack|
 		stack.each do |gamestate|
 			if gamestate.update?

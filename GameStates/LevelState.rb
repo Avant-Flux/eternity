@@ -15,7 +15,7 @@ class LevelState < GameState
 	end
 	
 	def update
-		@space.step
+		
 	end
 	
 	def draw
