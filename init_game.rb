@@ -85,6 +85,10 @@ class Game_Window < Gosu::Window
 			flush()
 		end
 		@states.draw
+		
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
+		end
 	end
 	
 	def button_down(id)
