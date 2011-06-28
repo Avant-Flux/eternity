@@ -8,6 +8,7 @@
 class GameStateManager
 	UPPER = 0
 	LOWER = 1
+	MENU = 2
 
 	def initialize(window, camera)
 		@window = window
@@ -26,10 +27,11 @@ class GameStateManager
 		# LOWER		Will draw and update
 		# This structure is used to help with multi-level structures,
 		# such as buildings and caves.
-		@stack = Array.new(2)
+		@stack = Array.new(3)
 		@stack[UPPER] = []
 		@stack[LOWER] = []
-		
+		@stack[MENU] = []
+				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
 		@ui_state = InterfaceState.new @window, @space, @layer, "HUD"
@@ -41,13 +43,21 @@ class GameStateManager
 		# Draw each state, followed by a flush
 		# Thus, each gamestate can have it's own z-ordering system
 		@stack[LOWER].each do |gamestate|
-			if gamestate.draw?
+			if gamestate.visible?
 				gamestate.draw
 				@window.flush
 			end
 		end
 		
 		@ui_state.draw
+		@window.flush
+		
+		@stack[MENU].each do |menu|
+			if menu.visible?
+				menu.draw
+				@window.flush
+			end
+		end
 	end
 	
 	# Update all contained gamestates
