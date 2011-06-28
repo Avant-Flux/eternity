@@ -28,14 +28,14 @@ class LevelState < GameState
 		
 	end
 	
-	# Insert the player into the world defined by this gamestate
-	def insert_player(player)
-		@player = player
+	# Insert the gameobject into the world defined by this gamestate
+	def add_gameobject(obj)
+		#~ @player = player
 	end
 	
-	# Remove the player into the world defined by this gamestate
-	def remove_player(player)
-		@player = nil
+	# Remove the gameobject into the world defined by this gamestate
+	def remove_gameobject(obj)
+		#~ @player = nil
 	end
 	
 	def load

@@ -121,5 +121,11 @@ class GameStateManager
 	def pop
 		@stack[LOWER].pop
 	end
+	
+	# Place the player into the game environment
+	def add_player(player)
+		@player = player
+		@stack[LOWER]
+	end
 end
 
