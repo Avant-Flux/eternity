@@ -15,16 +15,19 @@ class GameStateManager
 		@camera = camera
 		
 		# Keep track of what chipmunk layer to contain things on
-		@layer = 0
+		@layer = [0]
+		# Possible potential for a memory leak, if the stack continues to grow
+		# Try to use a linked list instead
 		
 		# Set up physics space
-		@space = Physics::Space.new 1/60.0
+		@space = Physics::Space.new @window.update_interval/1000
 		@space.iterations = 10
 		@steppable = true
 		
 		# Use an array as a psudo hash to reduce cost
 		# UPPER		Will not draw
 		# LOWER		Will draw and update
+		# MENU		Contains all menu states
 		# This structure is used to help with multi-level structures,
 		# such as buildings and caves.
 		@stack = Array.new(3)
