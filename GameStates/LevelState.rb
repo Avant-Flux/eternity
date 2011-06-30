@@ -38,4 +38,17 @@ class LevelState < GameState
 	def remove_gameobject(obj)
 		@space.delete obj
 	end
+	
+	# Save all elements of the level, but not the camera
+	def save
+		# Get all physics objects with the appropriate layers variable
+		# Get the corresponding game objects
+		# Call some sort of serialization method on each game object
+			# that method should explain how to re-create that game object from saved assets
+		# Store game object re-creation details in one text or YAML file
+	end
+	
+	def load(filename)
+		
+	end
 end
