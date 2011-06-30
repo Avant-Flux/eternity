@@ -6,8 +6,8 @@
 # 	of a Gosu::Window object.  The Gosu::Window will in turn loop over
 # 	all GameState objects and call the appropriate methods.
 class GameStateManager
-	UPPER = 0
-	LOWER = 1
+	HIDDEN = 0
+	ACTIVE = 1
 	MENU = 2
 
 	def initialize(window, camera)
@@ -25,14 +25,14 @@ class GameStateManager
 		@steppable = true
 		
 		# Use an array as a psudo hash to reduce cost
-		# UPPER		Will not draw
-		# LOWER		Will draw and update
+		# HIDDEN		Will not draw
+		# ACTIVE		Will draw and update
 		# MENU		Contains all menu states
 		# This structure is used to help with multi-level structures,
 		# such as buildings and caves.
 		@stack = Array.new(3)
-		@stack[UPPER] = []
-		@stack[LOWER] = []
+		@stack[HIDDEN] = []
+		@stack[ACTIVE] = []
 		@stack[MENU] = []
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
@@ -44,7 +44,7 @@ class GameStateManager
 	def draw
 		# Draw each state, followed by a flush
 		# Thus, each gamestate can have it's own z-ordering system
-		@stack[LOWER].each do |gamestate|
+		@stack[ACTIVE].each do |gamestate|
 			if gamestate.visible?
 				gamestate.draw
 				@window.flush
@@ -84,7 +84,7 @@ class GameStateManager
 		args = [@window, @space, new_layer, name].concat args
 		gamestate = klass.new *args
 		
-		@stack[LOWER] << gamestate
+		@stack[ACTIVE] << gamestate
 	end
 	
 	# Create a new gamestate and place it on the UPPER stack
@@ -93,7 +93,7 @@ class GameStateManager
 		args << @camera if klass == LevelState
 		gamestate = klass.new *args
 		
-		@stack[UPPER] << gamestate
+		@stack[HIDDEN] << gamestate
 	end
 	
 	# Remove the state from the stack system
@@ -109,32 +109,32 @@ class GameStateManager
 	# Move the state on the top of the LOWER stack to the UPPER stack
 	def stash(iter=1)
 		iter.times do
-			@stack[UPPER] << @stack[LOWER].pop
+			@stack[HIDDEN] << @stack[LOWER].pop
 		end
 	end
 	
 	# Move the state on the top of the UPPER stack to the LOWER stack
 	def restore(iter=1)
 		iter.times do
-			@stack[LOWER] << @stack[UPPER].pop
+			@stack[ACTIVE] << @stack[UPPER].pop
 		end
 	end
 	
 	# Push a given gamestate onto the stack
 	def push(gamestate)
-		@stack[LOWER] << gamestate
+		@stack[ACTIVE] << gamestate
 	end
 	alias :<< :push
 	
 	# Pop the gamestate off of the stack
 	def pop
-		@stack[LOWER].pop
+		@stack[ACTIVE].pop
 	end
 	
 	# Place the player into the game environment
 	def add_player(player)
 		@player = player
-		@stack[LOWER]
+		@stack[ACTIVE]
 	end
 	
 	private
