@@ -34,8 +34,7 @@ class GameStateManager
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
-		@ui_state = InterfaceState.new @window, @space, @layer, "HUD"
-		@layer += 1
+		@ui_state = InterfaceState.new @window, @space, new_layer, "HUD"
 	end
 	
 	# Draw all contained gamestates
@@ -79,9 +78,7 @@ class GameStateManager
 	
 	# Create a new gamestate and place it on the LOWER stack
 	def new_gamestate(klass, name, *args)
-		@layer += 1
-		
-		args = [@window, @space, @layer, name].concat args
+		args = [@window, @space, new_layer, name].concat args
 		gamestate = klass.new *args
 		
 		@stack[LOWER] << gamestate
@@ -89,9 +86,7 @@ class GameStateManager
 	
 	# Create a new gamestate and place it on the UPPER stack
 	def load_gamestate(klass, name)
-		@layer += 1
-		
-		args = [@window, @space, @layer, name]
+		args = [@window, @space, new_layer, name]
 		args << @camera if klass == LevelState
 		gamestate = klass.new *args
 		
@@ -103,8 +98,7 @@ class GameStateManager
 		@stack.each do |stack|
 			if state = stack.delete(name)
 				state.finalize
-				# Make it so the layer number used by this gamestate
-				# is once again viable to be used.
+				delete_layer state.layer
 			end
 		end
 	end
@@ -138,6 +132,25 @@ class GameStateManager
 	def add_player(player)
 		@player = player
 		@stack[LOWER]
+	end
+	
+	private
+	
+	# Return the number for a new layer
+	def new_layer
+		layer = @layer.pop
+		if @layer.empty?
+			@layer << layer + 1
+		end
+		
+		layer
+	end
+	
+	# Delete the layer with the given number,
+	# and allow the number to be used again.
+	def delete_layer(layer)
+		# Remove all Chipmunk objects with the given layer
+		@layer << layer
 	end
 end
 
