@@ -43,7 +43,7 @@ module Physics
 			add_body entity.shape.body
 		end
 		
-		def remove(entity)
+		def delete(entity)
 			#Remove shape from space.  This depends on whether or not the shape is static.
 			if entity.static?
 				#Object is static
