@@ -11,7 +11,6 @@ class LevelState < GameState
 		super(window, space, layer, name)
 		
 		@camera = camera
-		@player = nil
 	end
 	
 	def update
@@ -30,19 +29,13 @@ class LevelState < GameState
 	
 	# Insert the gameobject into the world defined by this gamestate
 	def add_gameobject(obj)
-		#~ @player = player
+		# Set the proper layer and then add the object to the space
+		obj.layers = @layer
+		@space.add obj
 	end
 	
 	# Remove the gameobject into the world defined by this gamestate
 	def remove_gameobject(obj)
-		#~ @player = nil
-	end
-	
-	def load
-		
-	end
-	
-	def dump
-		
+		@space.delete obj
 	end
 end
