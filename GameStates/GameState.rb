@@ -47,8 +47,9 @@ class GameState
 		@draw
 	end
 	
-	# Dump data to disk
-	def dump
+	# Save data to disk.  Differs from a dump as only the info
+	# needed to replicate the data is saved, not the data itself.
+	def save
 		
 	end
 	
