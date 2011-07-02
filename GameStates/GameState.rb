@@ -4,14 +4,16 @@
 class GameState
 	attr_reader :name
 	
-	def initialize(window, space, layer, name, draw=true, update=true)
+	SAVE_PATH = "./Saves"
+	
+	def initialize(window, space, layer, name, visible=true, update=true)
 		@window = window	# Reference to a Gosu::Window object
 		@space = space		# Reference to a Chipmunk space
 		@layer = layer		# What layer to use in the chipmunk space
 		@name = name		# An identifier for this gamestate
 		
 		@update = update
-		@draw = draw
+		@visible = visible
 	end
 	
 	# Update the gamestate for the next frame.
@@ -43,8 +45,8 @@ class GameState
 	
 	# Return true if this state should be drawn to the screen.
 	# It is possible for a state to only update and not draw.
-	def draw?
-		@draw
+	def visible?
+		@visible
 	end
 	
 	# Save data to disk.  Differs from a dump as only the info
