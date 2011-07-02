@@ -7,10 +7,10 @@ class LevelState < GameState
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
 
-	def initialize(window, space, layer, name, camera)
+	def initialize(window, space, layer, name, render_queue)
 		super(window, space, layer, name)
 		
-		@camera = camera
+		@queue = render_queue
 	end
 	
 	def update
@@ -18,7 +18,7 @@ class LevelState < GameState
 	end
 	
 	def draw
-		@camera.queue.each do |game_object|
+		@queue.each do |game_object|
 			game_object.draw
 		end
 	end

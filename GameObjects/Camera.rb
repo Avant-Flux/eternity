@@ -22,7 +22,8 @@ class Camera
 		
 		@shape.sensor = true
 		
-		@queue = Set.new
+		@queue = Hash.new
+		#~ @queue = Set.new
 	end
 	
 	def update
@@ -42,12 +43,16 @@ class Camera
 		warp @followed_entity.p
 	end
 	
+	def [](key)
+		@queue[key] ||= Set.new
+	end
+	
 	def add(entity)
-		@queue.add entity
+		#~ @queue.add entity
 	end
 	
 	def delete(entity)
-		@queue.delete entity
+		#~ @queue.delete entity
 	end
 	
 	def move(force, offset=CP::ZERO_VEC_2)
