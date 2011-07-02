@@ -218,4 +218,23 @@ module Physics
 			self.pz = @elevation
 		end
 	end
+	
+	# Methods that are used to manage Chipmunk attributes
+	module Chipmunk
+		def layers
+			@shape.layers
+		end
+		
+		def layers=(arg)
+			@shape.layers = arg
+		end
+		
+		def static?
+			@shape.static?
+		end
+		
+		def add_to(space)
+			space.add @shape
+		end
+	end
 end
