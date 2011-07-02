@@ -4,6 +4,12 @@ require 'chipmunk'
 
 module CP
 	module Shape
+		class Circle
+			def static?
+				body.m == Float::INFINITY
+			end
+		end
+		
 		class Poly
 			def each_vertex(&block)
 				self.num_verts.times do |i|
@@ -23,6 +29,10 @@ module CP
 				else
 					return :nonstatic
 				end
+			end
+			
+			def static?
+				body.m == Float::INFINITY
 			end
 		end
 
