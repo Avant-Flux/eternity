@@ -23,38 +23,38 @@ module Physics
 			super @dt
 			
 			@nonstatic_objects.each do |obj|
-				obj.vz = obj.fz * obj.mass * @dt
-				obj.pz += obj.vz * @dt
+				#~ obj.vz = obj.fz * obj.mass * @dt
+				#~ obj.pz += obj.vz * @dt
 			end
 		end
 		
-		def add(entity)
+		def add(shape)
 			#Add shape to space.  This depends on whether or not the shape is static.
-			if entity.static?
+			if shape.static?
 				# Add shape to space
-				add_static_shape entity.shape
+				add_static_shape shape
 			else
 				# Add shape to space
-				add_shape entity.shape
-				add_body entity.shape.body
-				@nonstatic_objects << entity
+				add_shape shape
+				add_body shape.body
+				@nonstatic_objects << shape.entity
 			end
 			
-			add_body entity.shape.body
+			add_body shape.body
 		end
 		
-		def delete(entity)
+		def delete(shape)
 			#Remove shape from space.  This depends on whether or not the shape is static.
-			if entity.static?
+			if shape.static?
 				#Object is static
-				remove_static_shape entity.shape
+				remove_static_shape shape
 			else
 				#Object is nonstatic
-				remove_shape entity.shape
-				@nonstatic_objects.delete entity
+				remove_shape shape
+				@nonstatic_objects.delete shape.entity
 			end
 			
-			remove_body entity.shape.body
+			remove_body shape.body
 		end
 		
 		def find

@@ -31,10 +31,10 @@ class LevelState < GameState
 	def add_gameobject(obj)
 		# Set the proper layer and then add the object to the space
 		obj.layers = @layer
-		@space.add obj
+		obj.add_to @space
 	end
 	
-	# Remove the gameobject into the world defined by this gamestate
+	# Remove the gameobject from the world defined by this gamestate
 	def remove_gameobject(obj)
 		@space.delete obj
 	end

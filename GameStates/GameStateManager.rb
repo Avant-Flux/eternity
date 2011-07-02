@@ -135,7 +135,7 @@ class GameStateManager
 	# Place the player into the game environment
 	def add_player(player)
 		@player = player
-		@stack[ACTIVE]
+		@stack[ACTIVE].last.add_gameobject player
 	end
 	
 	private

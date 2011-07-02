@@ -62,7 +62,10 @@ class Game_Window < Gosu::Window
 		@player = Player.new self, "Bob"
 		#~ 
 		# Init starting level of the game
-		@states.load_gamestate LevelState, "Test Level"
+		@states.new_gamestate LevelState, "Test Level"
+		
+		# Place player into game world
+		@states.add_player @player
 		
 		# Remove splash and display level
 		#~ @states.pop
