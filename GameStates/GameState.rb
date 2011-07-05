@@ -1,19 +1,25 @@
 #!/usr/bin/ruby
 
+require 'set'
+
 # Defines the behavior that a game state should respond to.
 class GameState
-	attr_reader :name
+	attr_reader :name, :layers
 	
 	SAVE_PATH = "./Saves"
 	
-	def initialize(window, space, layer, name, visible=true, update=true)
+	def initialize(window, space, layers, name, visible=true, update=true)
 		@window = window	# Reference to a Gosu::Window object
 		@space = space		# Reference to a Chipmunk space
-		@layer = layer		# What layer to use in the chipmunk space
+		@layers = layers		# What layer to use in the chipmunk space
 		@name = name		# An identifier for this gamestate
 		
 		@update = update
 		@visible = visible
+		
+		# Should contain the set of all gameobjects within this state
+		# TODO Refine algorithms such that an array can be used instead of a set
+		@gameobjects = Set.new
 	end
 	
 	# Update the gamestate for the next frame.

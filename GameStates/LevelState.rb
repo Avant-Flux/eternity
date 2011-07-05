@@ -7,8 +7,8 @@ class LevelState < GameState
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
 
-	def initialize(window, space, layer, name, render_queue)
-		super(window, space, layer, name)
+	def initialize(window, space, layers, name, render_queue)
+		super(window, space, layers, name)
 		
 		@queue = render_queue
 	end
@@ -29,14 +29,12 @@ class LevelState < GameState
 	
 	# Insert the gameobject into the world defined by this gamestate
 	def add_gameobject(obj)
-		# Set the proper layer and then add the object to the space
-		obj.layers = @layer
-		obj.add_to @space
+		
 	end
 	
 	# Remove the gameobject from the world defined by this gamestate
 	def remove_gameobject(obj)
-		@space.delete obj
+		
 	end
 	
 	# Save all elements of the level, but not the camera
