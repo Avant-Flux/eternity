@@ -13,9 +13,10 @@ class GameStateManager
 	def initialize(window, camera)
 		@window = window
 		@camera = camera
+		@camera.layers = CP::ALL_LAYERS ^ 1 # All indices of bitstring except for the first
 		
 		# Keep track of what chipmunk layer to contain things on
-		@layer = [0]
+		@layers = [0x1]
 		# Possible potential for a memory leak, if the stack continues to grow
 		# Try to use a linked list instead
 		
@@ -81,8 +82,9 @@ class GameStateManager
 	
 	# Create a new gamestate and place it on the LOWER stack
 	def new_gamestate(klass, name)
-		args = [@window, @space, new_layer, name]
-		args << @camera if klass == LevelState
+		layer = new_layer
+		args = [@window, @space, layer, name]
+		args << @camera[layer] if klass == LevelState
 		gamestate = klass.new *args
 		
 		@stack[ACTIVE] << gamestate
@@ -102,7 +104,7 @@ class GameStateManager
 		@stack.each do |stack|
 			if state = stack.delete(name)
 				state.finalize
-				delete_layer state.layer
+				delete_layer state
 			end
 		end
 	end
@@ -142,9 +144,14 @@ class GameStateManager
 	
 	# Return the number for a new layer
 	def new_layer
-		layer = @layer.pop
-		if @layer.empty?
-			@layer << layer + 1
+		layer = @layers.pop
+		if @layers.empty?
+			layer = layer << 1
+			if layer > CP::ALL_LAYERS
+				raise RangeError, "Maximum number of layers exceeded"
+			else
+				@layers << layer
+			end
 		end
 		
 		layer
@@ -152,9 +159,12 @@ class GameStateManager
 	
 	# Delete the layer with the given number,
 	# and allow the number to be used again.
-	def delete_layer(layer)
+	def delete_layer(state)
 		# Remove all Chipmunk objects with the given layer
-		@layer << layer
+		state.gameobjects.each do |obj|
+			obj.remove_from @space
+		end
+		@layers << state.layer
 	end
 end
 

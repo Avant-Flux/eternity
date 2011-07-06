@@ -236,5 +236,9 @@ module Physics
 		def add_to(space)
 			space.add @shape
 		end
+		
+		def remove_from(space)
+			space.delete @shape
+		end
 	end
 end
