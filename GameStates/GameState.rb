@@ -35,7 +35,7 @@ class GameState
 	
 	# Stuff to do when the gamestate leaves the stack
 	def finalize
-		
+		# Remove all gameobjects from chipmunk space
 	end
 	
 	# Toggle updating of the gamestate
@@ -53,6 +53,25 @@ class GameState
 	# It is possible for a state to only update and not draw.
 	def visible?
 		@visible
+	end
+	
+	# Add an object to this state
+	def add_gameobject(obj)
+		# Set the proper layer and then add the object to the space
+		obj.layers = @layer
+		obj.add_to @space
+		@gameobjects.add obj 
+	end
+	
+	# Remove an object from this state
+	def delete_gameobject(obj)
+		obj.remove_from @space
+		@gameobjects.delete obj
+	end
+	
+	# Move an object from this state into another
+	def move_gameobject(other_state, obj)
+		obj.layers = other_state.layers
 	end
 	
 	# Save data to disk.  Differs from a dump as only the info
