@@ -16,6 +16,7 @@ class SplashState < GameState
 	end
 	
 	def update
+		super
 		# Increment loading bar
 	end
 	
@@ -24,6 +25,6 @@ class SplashState < GameState
 	end
 	
 	def finalize
-		
+		super
 	end
 end

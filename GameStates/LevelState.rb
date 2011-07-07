@@ -14,7 +14,7 @@ class LevelState < GameState
 	end
 	
 	def update
-		
+		super
 	end
 	
 	def draw
@@ -24,7 +24,7 @@ class LevelState < GameState
 	end
 	
 	def finalize
-		
+		super
 	end
 	
 	# Insert the gameobject into the world defined by this gamestate

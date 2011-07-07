@@ -6,8 +6,7 @@ class MenuState < InterfaceState
 	end
 	
 	def update
-		# Make sure the space is only updated once per frame, regardless of how
-		# many InterfaceState objects there are.
+		super
 	end
 	
 	def draw
@@ -15,6 +14,6 @@ class MenuState < InterfaceState
 	end
 	
 	def finalize
-		
+		super
 	end
 end
