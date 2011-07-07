@@ -72,6 +72,7 @@ class Entity
 	
 	
 	def draw
+		# TODO may have to pass the z index from the game state manager
 		if visible
 			@animation.draw @physics.px, @physics.py, @physics.pz
 			@shadow.draw

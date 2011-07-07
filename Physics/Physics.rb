@@ -78,6 +78,7 @@ module Physics
 	module TwoD_Support
 		include Physics::Dimentions::TwoD
 		include Physics::Chipmunk
+		include Physics::Positioning
 	
 		def init_physics(shape, position, args={})
 			# Optional parameter geometry allows for specifying vertices manually 

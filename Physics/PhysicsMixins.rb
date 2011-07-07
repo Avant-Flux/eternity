@@ -85,19 +85,19 @@ module Physics
 	# position, velocity, acceleration, etc
 	module Positioning
 		def p
-			return [px, py, pz]
+			return @shape.body.p
 		end
 		
 		def v
-			return [vx, vy, vz]
+			return @shape.body.v
 		end
 		
-		def p=(vec=[0.0, 0.0, 0.0])
-			self.px,self.py,self.pz = vec
+		def p=(vec2)
+			@shape.body.p = vec2
 		end
 		
-		def v=(vec=[0.0, 0.0, 0.0])
-			self.vx,self.vy,self.vz = vec
+		def v=(vec2)
+			@shape.body.v = vec2
 		end
 		
 		# Define alternate names for the previous methods
