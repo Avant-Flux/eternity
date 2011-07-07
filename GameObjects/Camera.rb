@@ -47,11 +47,11 @@ class Camera
 		@queue[key] ||= Set.new
 	end
 	
-	def add(entity)
+	def @shape.add(entity)
 		#~ @queue.add entity
 	end
 	
-	def delete(entity)
+	def @shape.delete(entity)
 		#~ @queue.delete entity
 	end
 	
