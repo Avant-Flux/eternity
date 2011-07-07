@@ -49,6 +49,23 @@ class GameStateManager
 		@ui_state = InterfaceState.new @window, @space, new_layer, "HUD"
 	end
 	
+	# Update all contained gamestates
+	# The LOWER gamestates will update from low to high, but the 
+	# UPPER gamestates update from high to low, in terms of
+	# Z-Index.
+	def update
+		@space.step
+		
+		@stack.each do |stack|
+		stack.each do |gamestate|
+			if gamestate.update?
+				gamestate.update
+			end
+		end; end
+		
+		@ui_state.update
+	end
+	
 	# Draw all contained gamestates
 	def draw
 		# Draw each state, followed by a flush
@@ -69,23 +86,6 @@ class GameStateManager
 				@window.flush
 			end
 		end
-	end
-	
-	# Update all contained gamestates
-	# The LOWER gamestates will update from low to high, but the 
-	# UPPER gamestates update from high to low, in terms of
-	# Z-Index.
-	def update
-		@space.step
-		
-		@stack.each do |stack|
-		stack.each do |gamestate|
-			if gamestate.update?
-				gamestate.update
-			end
-		end; end
-		
-		@ui_state.update
 	end
 	
 	# Create a new gamestate and place it on the LOWER stack
