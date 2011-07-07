@@ -71,6 +71,8 @@ class Game_Window < Gosu::Window
 		#~ @states.pop
 		#~ @states.restore
 		
+		@camera.follow @player
+		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
 		# Hide fps by default

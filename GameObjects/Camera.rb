@@ -61,8 +61,8 @@ class Camera
 	
 	def warp(vec2)
 		self.p = vec2
-		self.p.x -= @center.x
-		self.p.y -= @center.y + @entity.z
+		#~ self.px -= @center.x
+		#~ self.py -= @center.y + @entity.z
 	end
 	
 	def x
