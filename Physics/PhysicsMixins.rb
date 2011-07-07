@@ -134,6 +134,10 @@ module Physics
 		def vy=(arg)
 			@shape.body.v.y = arg
 		end
+		
+		def moving?
+			@shape.body.v.length >= 0
+		end
 	end
 	
 	# force, torque, etc.

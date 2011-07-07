@@ -74,7 +74,7 @@ class Entity
 	def draw
 		# TODO may have to pass the z index from the game state manager
 		if visible
-			@animation.draw @physics.px, @physics.py, @physics.pz
+			@animation.draw px, py, pz
 			@shadow.draw
 		end
 	end
@@ -88,9 +88,9 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 3 && @physics.vz <=0 #Do not exceed the jump count, and velocity in negative.
+		if @jump_count < 3 && vz <=0 #Do not exceed the jump count, and velocity in negative.
 			@jump_count += 1
-			@physics.vz = 5 #On jump, set the velocity in the z direction
+			self.vz = 5 #On jump, set the velocity in the z direction
 		end
 	end
 	
@@ -120,8 +120,8 @@ class Entity
 		
 		@movement_force = unit_vector * @move_constant
 		
-		@physics.apply_force @movement_force
-		@physics.a = angle
+		apply_force @movement_force
+		self.a = angle
 	end
 	
 	def walk
@@ -130,10 +130,6 @@ class Entity
 	
 	def run
 		@move_constant = @run_constant
-	end
-	
-	def moving?
-		@physics.shape.body.v.length >= 0
 	end
 
 	def visible?
@@ -167,16 +163,8 @@ class Entity
 		
 	end
 	
-	def elevation
-		@physics.elevation
-	end
-	
-	def elevation=(arg)
-		@physics.elevation = arg
-	end
-	
 	def position
-		"#{@name}: #{@physics.px}, #{@physics.py}, #{@physics.pz}, elevation: #{@physics.elevation}"
+		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
 	end
 	
 	private
@@ -190,7 +178,7 @@ class Entity
 	SECTOR7 = (13*EIGHTH)
 	
 	def compute_direction
-		angle = @physics.a
+		#~ angle = @physics.a
 		
 		if angle < SECTOR1
 			:right
