@@ -72,4 +72,9 @@ class Camera
 	def y
 		@shape.body.p.y
 	end
+	
+	# Move smoothly to a given point in the given time interval
+	def pan(pos=[0,0,0], dt)
+		
+	end
 end
