@@ -170,6 +170,7 @@ module Physics
 			@pz = position[2].to_f	#Force z to be a float just like x and y
 			@vz = 0.to_f
 			@fz = 0.to_f
+			@elevation = 0
 			
 			@height = args[:height];
 			

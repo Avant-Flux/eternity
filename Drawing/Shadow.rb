@@ -60,7 +60,7 @@ class Shadow
 		
 		
 		
-		@circle.draw_centered(@entity.x, @entity.y, @entity.elevation, 
+		@circle.draw_centered(@entity.px, @entity.py, @entity.elevation, 
 						:factor_x => @scale, :factor_y => @scale, 
 						:offset_z => -1, :color => @color)
 	end
@@ -80,7 +80,7 @@ class Shadow
 	# Determine the value of the alpha channel.
 	def opacity#(ground_height)
 		#Calculate the difference between the terrain and the entity.
-		height = (@entity.z - @entity.elevation)
+		height = (@entity.pz - @entity.elevation)
 		#~ height = (@entity.z - ground_height)
 		height = 1 if height < 1	
 		
@@ -97,7 +97,7 @@ class Shadow
 	
 	# Calculate the amount by which to scale the shadow
 	def scale#(ground_height)
-		(@entity.z - @entity.elevation + 1)
+		(@entity.pz - @entity.elevation + 1)
 		#~ (@entity.z - ground_height + 1)
 	end
 end

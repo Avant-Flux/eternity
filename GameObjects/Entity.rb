@@ -178,7 +178,7 @@ class Entity
 	SECTOR7 = (13*EIGHTH)
 	
 	def compute_direction
-		#~ angle = @physics.a
+		angle = self.a
 		
 		if angle < SECTOR1
 			:right
