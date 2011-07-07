@@ -9,14 +9,22 @@ class GameStateManager
 	HIDDEN = 0
 	ACTIVE = 1
 	MENU = 2
+	
+	CAMERA_LAYER = 0x1
+	UI_LAYER = 0x2
 
 	def initialize(window, camera)
 		@window = window
 		@camera = camera
-		@camera.layers = CP::ALL_LAYERS ^ 1 # All indices of bitstring except for the first
+		@camera.layers = CP::ALL_LAYERS ^ UI_LAYER # All layers except for the UI
+		
+		# Layers
+		# first layer			0x1						objects which help manage the camera
+		# second layer			0x2						UI Objects
+		# subsequent layers		0x4 - 0x80000000		objects from various game states
 		
 		# Keep track of what chipmunk layer to contain things on
-		@layers = [0x1]
+		@layers = [0x4]
 		# Possible potential for a memory leak, if the stack continues to grow
 		# Try to use a linked list instead
 		
