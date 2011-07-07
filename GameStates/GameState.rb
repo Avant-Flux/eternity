@@ -25,7 +25,9 @@ class GameState
 	# Update the gamestate for the next frame.
 	# The update rate is controlled by the Gosu::Window
 	def update
-		
+		@gameobjects.each do |obj|
+			obj.update
+		end
 	end
 	
 	# Render the gamestate to the screen
@@ -36,6 +38,9 @@ class GameState
 	# Stuff to do when the gamestate leaves the stack
 	def finalize
 		# Remove all gameobjects from chipmunk space
+		@gameobjects.each do |obj|
+			obj.remove_from @space
+		end
 	end
 	
 	# Toggle updating of the gamestate
