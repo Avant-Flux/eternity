@@ -46,7 +46,7 @@ class GameStateManager
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
-		@ui_state = InterfaceState.new @window, @space, new_layer, "HUD"
+		@ui_state = InterfaceState.new @window, @space, UI_LAYER, "HUD"
 	end
 	
 	# Update all contained gamestates
@@ -160,11 +160,11 @@ class GameStateManager
 	def new_layer
 		layer = @layers.pop
 		if @layers.empty?
-			layer = layer << 1
-			if layer > CP::ALL_LAYERS
+			next_layer = layer << 1
+			if next_layer > CP::ALL_LAYERS
 				raise RangeError, "Maximum number of layers exceeded"
 			else
-				@layers << layer
+				@layers << next_layer
 			end
 		end
 		
