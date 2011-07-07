@@ -34,6 +34,13 @@ class Camera
 		end
 	end
 	
+	# Return the amount in pixels to offset the rendering
+	def offset
+		corner = @shape.vert(0) # Should be the bottom-right vertex
+		offset = corner - @shape.body.p
+		return offset.x.to_px, offset.y.to_px
+	end
+	
 	def follow(entity)
 		@followed_entity = entity
 		

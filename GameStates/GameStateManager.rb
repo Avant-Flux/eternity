@@ -70,10 +70,15 @@ class GameStateManager
 	def draw
 		# Draw each state, followed by a flush
 		# Thus, each gamestate can have it's own z-ordering system
-		@stack[ACTIVE].each do |gamestate|
-			if gamestate.visible?
-				gamestate.draw
-				@window.flush
+		
+		# TODO correct translation calculation
+		@window.translate *@camera.offset do
+			@stack[ACTIVE].each do |gamestate|
+				p gamestate
+				if gamestate.visible?
+					gamestate.draw
+					@window.flush
+				end
 			end
 		end
 		
