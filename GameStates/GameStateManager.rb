@@ -100,8 +100,9 @@ class GameStateManager
 	
 	# Create a new gamestate and place it on the UPPER stack
 	def load_gamestate(klass, name)
-		args = [@window, @space, new_layer, name]
-		args << @camera if klass == LevelState
+		layer = new_layer
+		args = [@window, @space, layer, name]
+		args << @camera[layer] if klass == LevelState
 		gamestate = klass.new *args
 		
 		@stack[HIDDEN] << gamestate
