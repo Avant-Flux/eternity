@@ -27,16 +27,6 @@ class LevelState < GameState
 		super
 	end
 	
-	# Insert the gameobject into the world defined by this gamestate
-	def add_gameobject(obj)
-		
-	end
-	
-	# Remove the gameobject from the world defined by this gamestate
-	def remove_gameobject(obj)
-		
-	end
-	
 	# Save all elements of the level, but not the camera
 	def save
 		# Get all physics objects with the appropriate layers variable

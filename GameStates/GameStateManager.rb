@@ -74,7 +74,6 @@ class GameStateManager
 		# TODO correct translation calculation
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
-				p gamestate
 				if gamestate.visible?
 					gamestate.draw
 					@window.flush

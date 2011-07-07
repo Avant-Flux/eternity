@@ -63,7 +63,7 @@ class GameState
 	# Add an object to this state
 	def add_gameobject(obj)
 		# Set the proper layer and then add the object to the space
-		obj.layers = @layer
+		obj.layers = @layers
 		obj.add_to @space
 		@gameobjects.add obj 
 	end

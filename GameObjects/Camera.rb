@@ -55,11 +55,11 @@ class Camera
 	end
 	
 	def @shape.add(entity)
-		#~ @queue.add entity
+		@queue[entity.layers].add entity
 	end
 	
 	def @shape.delete(entity)
-		#~ @queue.delete entity
+		@queue[entity.layers].delete entity
 	end
 	
 	def move(force, offset=CP::ZERO_VEC_2)
@@ -68,8 +68,6 @@ class Camera
 	
 	def warp(vec2)
 		self.p = vec2
-		#~ self.px -= @center.x
-		#~ self.py -= @center.y + @entity.z
 	end
 	
 	def x
