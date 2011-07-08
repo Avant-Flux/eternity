@@ -90,41 +90,37 @@ class Entity
 	end
 	
 	def move(dir)
-		angle =	case dir
-					when :up
-						#~ ((3*Math::PI)/2.0)
-						Physics::Direction::N
-					when :down
-						#~ ((Math::PI)/2.0)
-						Physics::Direction::S
-					when :left
-						#~ (Math::PI)
-						Physics::Direction::W
-					when :right
-						#~ 0
-						Physics::Direction::E
-					when :up_left
-						#~ ((5*Math::PI)/4.0)
-						Physics::Direction::NW
-					when :up_right
-						#~ ((7*Math::PI)/4.0)
-						Physics::Direction::NE
-					when :down_left
-						#~ ((3*Math::PI)/4.0)
-						Physics::Direction::SW
-					when :down_right
-						#~ ((Math::PI)/4.0)
-						Physics::Direction::SE
-				end
-		
-		unit_vector = angle
-		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
-		#~ proj = (unit_vector * scalar)
-		
+		unit_vector =	case dir
+							when :up
+								#~ ((3*Math::PI)/2.0)
+								Physics::Direction::N
+							when :down
+								#~ ((Math::PI)/2.0)
+								Physics::Direction::S
+							when :left
+								#~ (Math::PI)
+								Physics::Direction::W
+							when :right
+								#~ 0
+								Physics::Direction::E
+							when :up_left
+								#~ ((5*Math::PI)/4.0)
+								Physics::Direction::NW
+							when :up_right
+								#~ ((7*Math::PI)/4.0)
+								Physics::Direction::NE
+							when :down_left
+								#~ ((3*Math::PI)/4.0)
+								Physics::Direction::SW
+							when :down_right
+								#~ ((Math::PI)/4.0)
+								Physics::Direction::SE
+						end
+				
 		@movement_force = unit_vector * @move_constant
 		
 		apply_force @movement_force
-		#~ self.a = angle
+		self.a = unit_vector.to_angle
 	end
 	
 	def walk
@@ -183,22 +179,34 @@ class Entity
 	def compute_direction
 		angle = self.a
 		
-		if angle < SECTOR1
-			:right
-		elsif angle < SECTOR2
-			:down_right
-		elsif angle < SECTOR3
-			:down
-		elsif angle < SECTOR4
-			:down_left
-		elsif angle < SECTOR5
+		#~ if angle < SECTOR1
+			#~ :right
+		#~ elsif angle < SECTOR2
+			#~ :down_right
+		#~ elsif angle < SECTOR3
+			#~ :down
+		#~ elsif angle < SECTOR4
+			#~ :down_left
+		#~ elsif angle < SECTOR5
+			#~ :left
+		#~ elsif angle < SECTOR6
+			#~ :up_left
+		#~ elsif angle < SECTOR7
+			#~ :up
+		#~ else #angle > (8*Math::PI/8) or between 0 and pi/8
+			#~ :up_right
+		#~ end
+		
+		if angle.between? Physics::Direction::NE_ANGLE, Physics::Direction::SE_ANGLE
+			return :right
+		elsif angle.between? Physics::Direction::SE_ANGLE, Physics::Direction::SW_ANGLE
+			return :down
+		elsif angle.between? Physics::Direction::SW_ANGLE, Physics::Direction::NW_ANGLE
+			return :left
+		elsif angle.between? Physics::Direction::NW_ANGLE, Physics::Direction::NE_ANGLE
+			return :up
+		else
 			:left
-		elsif angle < SECTOR6
-			:up_left
-		elsif angle < SECTOR7
-			:up
-		else #angle > (8*Math::PI/8) or between 0 and pi/8
-			:up_right
 		end
 	end
 end
