@@ -62,6 +62,7 @@ module Wireframe
 			@vertices << @vertices[0]
 			
 			@height = entity.height(:px)
+			@color = Gosu::Color::WHITE
 		end
 		
 		def update
@@ -72,21 +73,23 @@ module Wireframe
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
 				break unless next_vertex
+				
+				z = 1
 								
 				# Current vertex to next vertex
-				@window.draw_line	vertex[0], vertex[1], color,
-									next_vertex[0], next_vertex[1], color,
-									z, draw_mode
+				@window.draw_line	vertex[0], vertex[1], @color,
+									next_vertex[0], next_vertex[1], @color,
+									z
 				
 				# Point above current vertex to point above next vertex
-				@window.draw_line	vertex[0], vertex[1] - @height, color,
-									next_vertex[0], next_vertex[1] - @height, color,
-									z, draw_mode
+				@window.draw_line	vertex[0], vertex[1] - @height, @color,
+									next_vertex[0], next_vertex[1] - @height, @color,
+									z
 				
 				# Current vertex to point above current vertex
-				@window.draw_line	vertex[0], vertex[1], color,
-									vertex[0], vertex[1] - @height, color,
-									z, draw_mode
+				@window.draw_line	vertex[0], vertex[1], @color,
+									vertex[0], vertex[1] - @height, @color,
+									z
 			end
 		end
 	end

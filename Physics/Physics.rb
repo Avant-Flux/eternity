@@ -156,7 +156,7 @@ module Physics
 		
 		alias :init_2D_physics :init_physics
 		
-		attr_accessor :pz, :vz, :fz, :height, :in_air
+		attr_accessor :pz, :vz, :fz, :in_air
 		
 		def init_physics(shape, position, args={})
 			shape = case shape #Convert into the corresponding 2D shape
@@ -177,8 +177,6 @@ module Physics
 			@vz = 0.to_f
 			@fz = 0.to_f
 			@elevation = 0
-			
-			@height = args[:height];
 			
 			@in_air = false;
 		end

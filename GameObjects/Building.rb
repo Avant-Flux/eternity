@@ -12,11 +12,13 @@ class Building
 
 	def initialize(window, options={})
 		#~ Set default values for hash values if they are not already set.
-		options[:dimensions] ||= [1.0,1.0,1.0]
 		options[:position] ||= [0.0,0.0,0.0]
+		options[:mass] ||= :static
+		options[:moment] ||= :static
+		options[:collision_type] = :entity
 		
-		init_physics	:box, options[:position], :width => 2, :height => 3, :depth => 2,
-						:mass => :static, :moment => :static, :collision_type => :entity
+		init_physics	:box, options[:position], options
+		@height = options[:height]
 		
 		@wireframe = Wireframe::Box.new window, self
 	end
@@ -27,5 +29,14 @@ class Building
 	
 	def draw
 		@wireframe.draw
+	end
+	
+	# Overwrite height from Physics::Dimentions::ThreeD for objects without animations
+	def height(units)
+		if units == :meters
+			@height
+		else
+			@height.to_px
+		end
 	end
 end
