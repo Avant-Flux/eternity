@@ -142,20 +142,20 @@ module Physics
 	
 	# force, torque, etc.
 	module ForceApplication
-		def apply_force(arg=[0.0, 0.0, 0.0], offset=nil)
-			# Only apply x-coordinate force to one body, as the other should
-			# move in accordance to the constraint holding the two together.
-			
-			# Default offset to nil in order to prevent the creation of unnecessary vectors.
-			if offset
-				@shape.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::Vec2.new(offset[0], offset[1])
-			else
-				@shape.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::ZERO_VEC_2
-			end
-			
-			# Set force in the z direction regardless of the offset.
-			@fz += arg[2]
-		end
+		#~ def apply_force(arg=[0.0, 0.0, 0.0], offset=nil)
+			#~ # Only apply x-coordinate force to one body, as the other should
+			#~ # move in accordance to the constraint holding the two together.
+			#~ 
+			#~ # Default offset to nil in order to prevent the creation of unnecessary vectors.
+			#~ if offset
+				#~ @shape.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::Vec2.new(offset[0], offset[1])
+			#~ else
+				#~ @shape.body.apply_force CP::Vec2.new(arg[0], arg[1]), CP::ZERO_VEC_2
+			#~ end
+			#~ 
+			#~ # Set force in the z direction regardless of the offset.
+			#~ @fz += arg[2]
+		#~ end
 		
 		def apply_force(force, offset=CP::ZERO_VEC_2)
 			@shape.body.apply_force force, offset

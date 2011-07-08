@@ -79,6 +79,9 @@ module Physics
 		include Physics::Dimentions::TwoD
 		include Physics::Chipmunk
 		include Physics::Positioning
+		include Physics::ForceApplication
+		include Physics::Rotation
+		include Physics::SpeedLimit
 	
 		def init_physics(shape, position, args={})
 			# Optional parameter geometry allows for specifying vertices manually 
@@ -147,6 +150,7 @@ module Physics
 		# Include the methods from 2D, and change their names as necessary
 		include TwoD_Support
 		include Physics::Dimentions::ThreeD
+		include Physics::Elevation
 		
 		alias :init_2D_physics :init_physics
 		

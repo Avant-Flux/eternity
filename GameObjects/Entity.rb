@@ -14,11 +14,6 @@ require './Stats/Stats'
 class Entity
 	include Physics::ThreeD_Support
 	
-	include Physics::ForceApplication
-	include Physics::Rotation
-	include Physics::SpeedLimit
-	include Physics::Elevation
-	
 	include Combative
 	
 	attr_reader :stats
