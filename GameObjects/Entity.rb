@@ -97,31 +97,39 @@ class Entity
 	def move(dir)
 		angle =	case dir
 					when :up
-						((3*Math::PI)/2.0)
+						#~ ((3*Math::PI)/2.0)
+						Physics::Direction::N
 					when :down
-						((Math::PI)/2.0)
+						#~ ((Math::PI)/2.0)
+						Physics::Direction::S
 					when :left
-						(Math::PI)
+						#~ (Math::PI)
+						Physics::Direction::W
 					when :right
-						0
+						#~ 0
+						Physics::Direction::E
 					when :up_left
-						((5*Math::PI)/4.0)
+						#~ ((5*Math::PI)/4.0)
+						Physics::Direction::NW
 					when :up_right
-						((7*Math::PI)/4.0)
+						#~ ((7*Math::PI)/4.0)
+						Physics::Direction::NE
 					when :down_left
-						((3*Math::PI)/4.0)
+						#~ ((3*Math::PI)/4.0)
+						Physics::Direction::SW
 					when :down_right
-						((Math::PI)/4.0)
+						#~ ((Math::PI)/4.0)
+						Physics::Direction::SE
 				end
 		
-		unit_vector = angle.radians_to_vec2
+		unit_vector = angle
 		#~ scalar = (@shape.xy.body.v.dot(unit_vector))/(unit_vector.dot(unit_vector))
 		#~ proj = (unit_vector * scalar)
 		
 		@movement_force = unit_vector * @move_constant
 		
 		apply_force @movement_force
-		self.a = angle
+		#~ self.a = angle
 	end
 	
 	def walk

@@ -80,8 +80,13 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
+		@inpman.update
+		process_input
+		
 		$console.update
 		@states.update
+		
+		#~ @camera.update
 	end
 	
 	def draw

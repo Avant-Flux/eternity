@@ -244,5 +244,9 @@ module Physics
 		def remove_from(space)
 			space.delete @shape
 		end
+		
+		def reset_forces
+			@shape.body.reset_forces
+		end
 	end
 end
