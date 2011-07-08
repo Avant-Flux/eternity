@@ -85,11 +85,12 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
+		@states.draw
+		
 		if $console.visible?
 			$console.draw
 			flush()
 		end
-		@states.draw
 		
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
