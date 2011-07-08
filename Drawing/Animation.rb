@@ -30,7 +30,7 @@ module Animation
 		end
 		
 		def draw(x,y,z)
-			@current_frame.draw(x,y,z, {:offset_x => :centered, :offset_y => :height})
+			@current_frame.draw(x,y,z, :offset_x => :centered, :offset_y => :height)
 		end
 		
 		def self.load path
