@@ -34,7 +34,7 @@ class Entity
 		@animation = animations
 		
 		init_physics	:circle, pos, :radius => @animation.width/2.0, :mass => mass,
-						:moment => moment
+						:moment => moment, :collision_type => :entity
 		
 		@shadow = Shadow.new window, self
 		

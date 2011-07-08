@@ -43,6 +43,9 @@ class GameStateManager
 		@stack[HIDDEN] = []
 		@stack[ACTIVE] = []
 		@stack[MENU] = []
+		
+		# Add camera to the space
+		@camera.add_to @space
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack

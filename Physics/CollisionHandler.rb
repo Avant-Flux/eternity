@@ -85,11 +85,12 @@ module CollisionHandler
 		#~ a has collision type :camera
 		#~ b is the Chipmunk object for the Entity
 		def begin(arbiter)
-			$camera.add arbiter.b.entity
+			arbiter.a.add arbiter.b.entity
+			false
 		end
 				
 		def separate(arbiter)
-			$camera.delete arbiter.b.entity
+			arbiter.a.delete arbiter.b.entity
 		end
 	end
 end
