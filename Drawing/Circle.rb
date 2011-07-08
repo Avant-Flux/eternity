@@ -5,6 +5,7 @@ require 'gosu'
 require 'texplay'
 
 require './Drawing/ImageCache'
+require './Drawing/GosuPatch'
 
 module Image
 	# Circle contains a Gosu::Image @img, instead of being a descendant of
@@ -30,6 +31,10 @@ module Image
 		
 		def self.hash
 			
+		end
+		
+		def draw_centered(*args)
+			@img.draw_centered(*args)
 		end
 	end
 end
