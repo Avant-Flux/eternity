@@ -119,14 +119,16 @@ module Physics
 				when :square
 					Physics::Shape::Rect.new	self, body, args[:side], args[:side], args[:offset]
 				when :perspective_rectangle
-					x_vec = Physics::Direction::X_HAT * args[:width]/2.0
-					y_vec = Physics::Direction::Y_HAT * args[:depth]/2.0
+					x_vec = Physics::Direction::X_HAT * args[:width]
+					y_vec = Physics::Direction::Y_HAT * args[:depth]
+					diagonal = x_vec + y_vec
 					
-					# Start in bottom-right and proceed CCW
-					vertices = [(x_vec + y_vec),
-								(x_vec + -y_vec),
-								(-x_vec + -y_vec),
-								(-x_vec + y_vec)]
+					vertices = [CP::ZERO_VEC_2.clone, x_vec, diagonal, y_vec]
+					
+					offset = diagonal / 2
+					vertices.each_with_index do |vertex, i|
+						vertices[i] = vertex - offset
+					end
 					
 					Physics::Shape::Poly.new	self, body, vertices
 				when :polygon

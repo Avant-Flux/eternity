@@ -6,18 +6,19 @@ require 'gosu'
 require './Drawing/Wireframe'
 
 class Building
+	include Physics::ThreeD_Support
+	
 	attr_reader :shape
 
-	def initialize(options={})
+	def initialize(window, options={})
 		#~ Set default values for hash values if they are not already set.
 		options[:dimensions] ||= [1.0,1.0,1.0]
 		options[:position] ||= [0.0,0.0,0.0]
 		
-		@physics = Physics::EnvironmentObject.new(self, options[:position], options[:dimensions])
-
-		@wireframe = $art_manager.new_wireframe @physics, :white
+		init_physics	:box, options[:position], :width => 2, :height => 3, :depth => 2,
+						:mass => :static, :moment => :static, :collision_type => :entity
 		
-		$space.add @physics
+		@wireframe = Wireframe::Box.new window, self
 	end
 	
 	def update
@@ -25,30 +26,6 @@ class Building
 	end
 	
 	def draw
-		@wireframe.draw(@physics)
-	end
-	
-	def width
-		@physics.width
-	end
-	
-	def depth
-		@physics.depth
-	end
-	
-	def height
-		@physics.height
-	end
-	
-	def width= arg
-		@physics.width = arg
-	end
-	
-	def depth= arg
-		@physics.depth = arg
-	end
-	
-	def height= arg
-		@physics.height = arg
+		@wireframe.draw
 	end
 end

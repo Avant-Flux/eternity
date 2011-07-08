@@ -52,13 +52,14 @@ module Wireframe
 			
 			# Returns an array with references to all vertices
 			# which form the polygon base
-			vertices = entity.vertices
-			vertices << vertices[0]
-			
 			@vertices = []
-			vertices.each do |v|
-				@vertices << [v.p.x.to_px, v.p.y.to_px]
+			entity.each_vertex do |v|
+				vert = [v.x.to_px, v.y.to_px]
+				#~ p vert
+				@vertices << vert
+				#~ @vertices << [v.x.to_px, v.y.to_px]
 			end
+			@vertices << @vertices[0]
 			
 			@height = entity.height(:px)
 		end

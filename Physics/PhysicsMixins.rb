@@ -248,5 +248,13 @@ module Physics
 		def reset_forces
 			@shape.body.reset_forces
 		end
+		
+		def each_vertex(&block)
+			@shape.each_vertex &block
+		end
+		
+		def each_vertex_with_index(&block)
+			@shape.each_vertex_with_index &block
+		end
 	end
 end
