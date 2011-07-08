@@ -24,6 +24,13 @@ class Camera
 		
 		@queue = Hash.new
 		#~ @queue = Set.new
+		
+		shape_metaclass = class << @shape; self; end
+		[:add, :delete].each do |method|
+			shape_metaclass.send :define_method, method do |entity|
+				self.entity.queue[entity.layers].send method, entity
+			end
+		end
 	end
 	
 	def update
@@ -52,14 +59,6 @@ class Camera
 	
 	def [](key)
 		@queue[key] ||= Set.new
-	end
-	
-	def @shape.add(entity)
-		@queue[entity.layers].add entity
-	end
-	
-	def @shape.delete(entity)
-		@queue[entity.layers].delete entity
 	end
 	
 	def move(force, offset=CP::ZERO_VEC_2)
