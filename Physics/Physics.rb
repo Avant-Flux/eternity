@@ -51,17 +51,6 @@ module Physics
 		Y_HAT = CP::Vec2.new(1, -1*Math.tan(70.to_rad)).normalize
 		Z_HAT = CP::Vec2.new 0, -1
 		
-		UP = (3*Math::PI/2.0)
-		DOWN = (Math::PI/2.0)
-		LEFT = (Math::PI)
-		RIGHT = (2*Math::PI)
-		
-		#~ UP_VEC = CP::Vec2.for_angle UP
-		#~ DOWN_VEC = CP::Vec2.for_angle DOWN
-		#~ LEFT_VEC = CP::Vec2.for_angle LEFT
-		#~ RIGHT_VEC = CP::Vec2.for_angle RIGHT
-		
-		
 		N = Y_HAT
 		S = -Y_HAT
 		E = X_HAT
@@ -70,6 +59,15 @@ module Physics
 		NW = (N + W).normalize
 		SE = (S + E).normalize
 		SW = (S + W).normalize
+		
+		N_ANGLE = N.to_angle
+		S_ANGLE = S.to_angle
+		E_ANGLE = E.to_angle
+		W_ANGLE = W.to_angle
+		NE_ANGLE = NE.to_angle
+		NW_ANGLE = NW.to_angle
+		SE_ANGLE = SE.to_angle
+		SW_ANGLE = SW.to_angle
 	end
 
 	#This is the new structure for the chipmunk handling of the game engine
