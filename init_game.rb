@@ -123,26 +123,6 @@ class Game_Window < Gosu::Window
 	
 	private
 	
-	def init_space
-		#~ space = Physics::Space.new self.update_interval/1000, -9.8, 0.12
-		#~ 
-		#~ entity_handler = CollisionHandler::Entity.new
-		#~ entity_env_handler = CollisionHandler::Entity_Env.new
-		#~ camera_collision = CollisionHandler::Camera.new
-#~ 
-		#~ space.add_collision_handler :entity, :environment, entity_env_handler
-		#~ space.add_collision_handler :entity, :building, entity_env_handler
-		#~ space.add_collision_handler :entity, :entity, entity_handler
-		#~ 
-		#~ space.add_collision_handler :camera, :render_object, camera_collision
-		#~ 
-		#~ space.add_collision_func :render_object, :render_object, :begin do |arbiter|
-			#~ false
-		#~ end
-		#~ 
-		#~ return space
-	end
-		
 	def process_input
 		dir = @inpman.direction
 		if dir != nil

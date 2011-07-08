@@ -47,6 +47,9 @@ class GameStateManager
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
 		@ui_state = InterfaceState.new @window, @space, UI_LAYER, "HUD"
+		
+		# Set up collision handlers
+		init_collision_handlers
 	end
 	
 	# Update all contained gamestates
@@ -178,6 +181,18 @@ class GameStateManager
 			obj.remove_from @space
 		end
 		@layers << state.layer
+	end
+	
+	def init_collision_handlers
+		entity_handler = CollisionHandler::Entity.new
+		entity_env_handler = CollisionHandler::Entity_Env.new
+		camera_collision = CollisionHandler::Camera.new
+		
+		@space.add_collision_handler :entity, :environment, entity_env_handler
+		@space.add_collision_handler :entity, :building, entity_env_handler
+		@space.add_collision_handler :entity, :entity, entity_handler
+		
+		@space.add_collision_handler :camera, :entity, camera_collision
 	end
 end
 
