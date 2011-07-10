@@ -117,24 +117,12 @@ module Physics
 				when :square
 					Physics::Shape::Rect.new	self, body, args[:side], args[:side], args[:offset]
 				when :perspective_rectangle
-					x_vec = Physics::Direction::X_HAT * args[:width]
-					y_vec = Physics::Direction::Y_HAT * args[:depth]
-					diagonal = x_vec + y_vec
-					
-					vertices = [CP::ZERO_VEC_2.clone, x_vec, diagonal, y_vec]
-					
-					offset = diagonal / 2
-					vertices.each_with_index do |vertex, i|
-						vertices[i] = vertex - offset
-					end
-					
-					Physics::Shape::Poly.new	self, body, vertices
+					Physics::Shape::PerspRect.new self, body, args[:width], args[:depth], args[:offset]
 				when :polygon
 					Physics::Shape::Poly.new	self, body, args[:geometry], args[:offset]
 			end
 			
 			# Set up proper methods for accessing dimensions
-			
 			@shape.body.p.x = position[0]
 			@shape.body.p.y = position[1]
 			

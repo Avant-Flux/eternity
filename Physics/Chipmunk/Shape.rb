@@ -63,7 +63,7 @@ module CP
 								CP::Vec2.new(half_width, -half_height),
 								CP::Vec2.new(-half_width, -half_height),
 								CP::Vec2.new(-half_width, half_height)]
-				puts shape_array
+				
 				# Compensate for offset
 				shape_array.each_with_index do |vertex, i|
 					shape_array[i] = vertex - offset
