@@ -23,6 +23,18 @@ module CP
 				end
 			end
 			
+			def each_vertex_absolute(&block)
+				self.num_verts.times do |i|
+					block.call self.body.local2world(self.vert(i))
+				end
+			end
+			
+			def each_vertex_absolute_with_index(&block)
+				self.num_verts.times do |i|
+					block.call self.body.local2world(self.vert(i)), i
+				end
+			end
+			
 			def staticness
 				if body.m == Float::INFINITY
 					return :static
@@ -51,10 +63,10 @@ module CP
 								CP::Vec2.new(half_width, -half_height),
 								CP::Vec2.new(-half_width, -half_height),
 								CP::Vec2.new(-half_width, half_height)]
-				
+				puts shape_array
 				# Compensate for offset
-				shape_array.each do |vertex|
-					vertex -= offset
+				shape_array.each_with_index do |vertex, i|
+					shape_array[i] = vertex - offset
 				end
 				
 				super body, shape_array, offset

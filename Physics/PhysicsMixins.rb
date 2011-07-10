@@ -256,5 +256,13 @@ module Physics
 		def each_vertex_with_index(&block)
 			@shape.each_vertex_with_index &block
 		end
+		
+		def each_vertex_absolute(&block)
+			@shape.each_vertex_absolute(&block)
+		end
+		
+		def each_vertex_absolute_with_index(&block)
+			@shape.each_vertex_absolute_with_index(&block)
+		end
 	end
 end
