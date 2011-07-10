@@ -53,9 +53,10 @@ module Wireframe
 			# Returns an array with references to all vertices
 			# which form the polygon base
 			@vertices = []
-			entity.each_vertex do |v|
+			# Currently using local coordinates.
+			# Make sure to use world coordinates instead
+			entity.each_vertex_absolute do |v|
 				vert = [v.x.to_px, v.y.to_px]
-				#~ p vert
 				@vertices << vert
 				#~ @vertices << [v.x.to_px, v.y.to_px]
 			end
