@@ -21,7 +21,6 @@ class LevelState < GameState
 	def draw
 		@queue.each do |game_object|
 			game_object.draw 
-			game_object.reset_forces
 		end
 	end
 	

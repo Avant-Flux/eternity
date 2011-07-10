@@ -27,6 +27,7 @@ class GameState
 	def update
 		@gameobjects.each do |obj|
 			obj.update
+			obj.reset_forces
 		end
 	end
 	
