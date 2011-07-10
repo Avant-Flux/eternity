@@ -127,7 +127,9 @@ module Physics
 			@shape.body.p.y = position[1]
 			
 			# Set initial orientation
-			@shape.body.a = Physics::Direction::N_ANGLE
+			if shape == :circle
+				@shape.body.a = Physics::Direction::N_ANGLE
+			end
 			
 			# Set collision type
 			@shape.collision_type = args[:collision_type]
