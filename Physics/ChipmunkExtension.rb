@@ -39,25 +39,7 @@ module Physics
 			
 			def initialize(entity, body, width, height, offset=CP::ZERO_VEC_2)
 				@entity = entity
-				#~ half_height = height/2.0
-				#~ half_width = width/2.0
-				#~ 
-				#~ bottom_left = CP::Vec2.new(0,0)
-				#~ bottom_right = Physics::Direction::X_HAT*width
-				#~ top_left = Physics::Direction::Y_HAT*height
-				#~ 
-				#~ top_right = top_left + bottom_right 
-				
-				# Start bottom right (aka Quadrant-I), and proceed CCW
-				#~ shape_array = [bottom_right, bottom_left, top_left, top_right]
-				
-				# Re-center shape
-				#~ displacement = top_right*(-0.5)
-				#~ shape_array.each do |vert|
-					#~ vert.x -= displacement.x
-					#~ vert.y -= displacement.y
-				#~ end
-				
+
 				x_vec = Physics::Direction::X_HAT * width
 				y_vec = Physics::Direction::Y_HAT * height
 				diagonal = x_vec + y_vec
