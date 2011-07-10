@@ -15,7 +15,7 @@ class Building
 		options[:position] ||= [0.0,0.0,0.0]
 		options[:mass] ||= :static
 		options[:moment] ||= :static
-		options[:collision_type] = :entity
+		options[:collision_type] = :building
 		
 		init_physics	:box, options[:position], options
 		@height = options[:height]
