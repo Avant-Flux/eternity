@@ -195,7 +195,9 @@ class GameStateManager
 		@space.add_collision_handler :entity, :building, entity_env_handler
 		@space.add_collision_handler :entity, :entity, entity_handler
 		
-		@space.add_collision_handler :camera, :entity, camera_collision
+		[:entity, :building, :environment].each do |type|
+			@space.add_collision_handler :camera, type, camera_collision
+		end
 	end
 end
 
