@@ -139,7 +139,7 @@ module Physics
 			@shape.body.p.y = position[1]
 			
 			# Set initial orientation
-			@shape.body.a = Physics::Direction::UP
+			@shape.body.a = Physics::Direction::N_ANGLE
 			
 			# Set collision type
 			@shape.collision_type = args[:collision_type]
