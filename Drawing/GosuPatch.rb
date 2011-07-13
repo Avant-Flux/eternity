@@ -26,7 +26,7 @@ module Gosu
 				when :centered
 					self.width * options[:factor_x] / 2
 				when :width
-					self.width
+					self.width * options[:factor_x]
 				else
 					options[:offset_x]
 			end
@@ -35,11 +35,11 @@ module Gosu
 				when :centered
 					self.height * options[:factor_y] / 2
 				when :height
-					self.height
+					self.height * options[:factor_y]
 				else
 					options[:offset_y]
 			end
-						
+			
 			x = x.to_px - options[:offset_x]
 			y = y.to_px - options[:offset_y]
 			z += options[:offset_z]
