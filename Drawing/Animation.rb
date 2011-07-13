@@ -23,14 +23,15 @@ module Animation
 			if moving
 				#Advance the animation to the next appropriate frame
 				#Do not include the logic of WHEN to advance (or maybe...?)
-				@current_frame = @sprites[direction][Gosu::milliseconds/100%@sprites[direction].size]
+				@current_frame = @sprites[direction][0]#[Gosu::milliseconds/100%@sprites[direction].size]
 			else
 				@current_frame = @sprites[direction][0]
 			end
 		end
 		
 		def draw(x,y,z)
-			@current_frame.draw(x,y,z, :offset_x => :centered, :offset_y => :height)
+			@current_frame.draw(x,y,z, :offset_x => :centered, :offset_y => :height, 
+								:factor_x => 0.30, :factor_y =>0.30)
 		end
 		
 		def self.load path

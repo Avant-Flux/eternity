@@ -42,7 +42,7 @@ class Shadow
 		@scale = scale
 	end
 	
-	def draw
+	def draw(scale=1)
 		#~ @draw_elevation.each do |value|
 			#~ @circle.draw_centered(@entity.x, @entity.y, value[0], 
 						#~ :factor_x => value[1], :factor_y => value[1], 
@@ -61,7 +61,7 @@ class Shadow
 		
 		
 		@circle.draw_centered(@entity.px, @entity.py, @entity.elevation, 
-						:factor_x => @scale, :factor_y => @scale, 
+						:factor_x => @scale * scale, :factor_y => @scale * scale, 
 						:offset_z => -1, :color => @color)
 	end
 	
