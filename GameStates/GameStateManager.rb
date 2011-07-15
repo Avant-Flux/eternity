@@ -29,7 +29,7 @@ class GameStateManager
 		# Try to use a linked list instead
 		
 		# Set up physics space
-		@space = Physics::Space.new @window.update_interval/1000
+		@space = Physics::Space.new @window.update_interval/1000, -9.8, 0.05
 		@space.iterations = 10
 		@steppable = true
 		
@@ -49,7 +49,7 @@ class GameStateManager
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
-		@ui_state = InterfaceState.new @window, @space, UI_LAYER, "HUD"
+		@ui_state = InterfaceState.new @window, @space, UI_LAYER, "HUD", @player
 		
 		# Set up collision handlers
 		init_collision_handlers
