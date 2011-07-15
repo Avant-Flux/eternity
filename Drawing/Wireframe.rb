@@ -56,13 +56,13 @@ module Wireframe
 			# Currently using local coordinates.
 			# Make sure to use world coordinates instead
 			entity.each_vertex_absolute do |v|
-				vert = [v.x.to_px, v.y.to_px]
+				vert = [v.x, v.y]
 				@vertices << vert
 				#~ @vertices << [v.x.to_px, v.y.to_px]
 			end
 			@vertices << @vertices[0]
 			
-			@height = entity.height(:px)
+			@height = entity.height(:meters)
 			@color = Gosu::Color::WHITE
 		end
 		
@@ -70,7 +70,7 @@ module Wireframe
 			
 		end
 		
-		def draw
+		def draw(zoom)
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
 				break unless next_vertex
@@ -78,18 +78,18 @@ module Wireframe
 				z = 1
 								
 				# Current vertex to next vertex
-				@window.draw_line	vertex[0], vertex[1], @color,
-									next_vertex[0], next_vertex[1], @color,
+				@window.draw_line	vertex[0].to_px(zoom), vertex[1].to_px(zoom), @color,
+									next_vertex[0].to_px(zoom), next_vertex[1].to_px(zoom), @color,
 									z
 				
 				# Point above current vertex to point above next vertex
-				@window.draw_line	vertex[0], vertex[1] - @height, @color,
-									next_vertex[0], next_vertex[1] - @height, @color,
+				@window.draw_line	vertex[0].to_px(zoom), vertex[1].to_px(zoom) - @height.to_px(zoom), @color,
+									next_vertex[0].to_px(zoom), next_vertex[1].to_px(zoom) - @height.to_px(zoom), @color,
 									z
 				
 				# Current vertex to point above current vertex
-				@window.draw_line	vertex[0], vertex[1], @color,
-									vertex[0], vertex[1] - @height, @color,
+				@window.draw_line	vertex[0].to_px(zoom), vertex[1].to_px(zoom), @color,
+									vertex[0].to_px(zoom), vertex[1].to_px(zoom) - @height.to_px(zoom), @color,
 									z
 			end
 		end

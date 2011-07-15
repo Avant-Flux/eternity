@@ -5,9 +5,9 @@ require 'chipmunk'
 require "./Physics/PhysicsMixins"
 
 class Numeric
-	def to_px
+	def to_px(zoom=1)
 		# Convert from meters to pixels
-		(self*Physics.scale*Physics.zoom).round
+		(self*Physics.scale*zoom).round
 	end
 	
 	def to_meters
@@ -36,7 +36,6 @@ module Physics
 
 	# Set the scale for conversion between meters and pixels
 	@@scale = 640/165.0*100 # Pixels per meter
-	@@zoom = 0.30 # Must be a percentage
 	class << self
 		def scale
 			@@scale
@@ -44,14 +43,6 @@ module Physics
 		
 		def scale=(arg)
 			@@scale = arg
-		end
-		
-		def zoom
-			@@zoom
-		end
-		
-		def zoom=(arg)
-			@@zoom = arg
 		end
 	end
 	

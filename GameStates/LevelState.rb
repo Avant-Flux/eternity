@@ -18,9 +18,9 @@ class LevelState < GameState
 		super
 	end
 	
-	def draw
+	def draw(zoom)
 		@queue.each do |game_object|
-			game_object.draw 
+			game_object.draw zoom
 		end
 	end
 	

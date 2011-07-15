@@ -27,8 +27,8 @@ class Building
 		#~ @wireframe.update
 	end
 	
-	def draw
-		@wireframe.draw
+	def draw(zoom)
+		@wireframe.draw zoom
 	end
 	
 	# Overwrite height from Physics::Dimentions::ThreeD for objects without animations

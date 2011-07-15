@@ -81,7 +81,7 @@ class GameStateManager
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
 				if gamestate.visible?
-					gamestate.draw
+					gamestate.draw @camera.zoom
 					@window.flush
 				end
 			end

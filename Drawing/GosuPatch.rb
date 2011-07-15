@@ -43,8 +43,8 @@ module Gosu
 					options[:offset_y]
 			end
 			
-			x = x.to_px - options[:offset_x]
-			y = y.to_px - options[:offset_y]
+			x = x.to_px(zoom) - options[:offset_x]
+			y = y.to_px(zoom) - options[:offset_y]
 			z += options[:offset_z]
 			
 			old_draw(x,y,z, options[:factor_x], options[:factor_y], options[:color], options[:mode])

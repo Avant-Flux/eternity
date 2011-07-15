@@ -56,6 +56,9 @@ class Game_Window < Gosu::Window
 			new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
+			
+			new_action :zoom_in, [Gosu::KbX]
+			new_action :zoom_out, [Gosu::KbC]
 		end
 		
 		# Load player character data
@@ -86,7 +89,7 @@ class Game_Window < Gosu::Window
 		$console.update
 		@states.update
 		
-		#~ @camera.update
+		@camera.update
 	end
 	
 	def draw
@@ -126,10 +129,15 @@ class Game_Window < Gosu::Window
 		end
 	end
 	
+	def needs_cursor?()
+		true
+	end
+	
 	private
 	
 	def process_input
 		dir = @inpman.direction
+		#~ puts dir
 		if dir != nil
 			if @inpman.active? :run
 				@player.run
@@ -145,7 +153,13 @@ class Game_Window < Gosu::Window
 		end
 		
 		if @inpman.active?(:super) || @inpman.active?(:super2) || @inpman.active?(:super3)
-			puts "BAM!#{@i += 1}"
+			puts "BAM!"
+		end
+		
+		if @inpman.active?(:zoom_in)
+			@camera.zoom_in
+		elsif @inpman.active?(:zoom_out)
+			@camera.zoom_out
 		end
 	end
 	

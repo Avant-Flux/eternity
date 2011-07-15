@@ -29,8 +29,8 @@ module Animation
 			end
 		end
 		
-		def draw(x,y,z)
-			@current_frame.draw(x,y,z, Physics.zoom, :offset_x => :centered, :offset_y => :height)
+		def draw(x,y,z, zoom)
+			@current_frame.draw(x,y,z, zoom, :offset_x => :centered, :offset_y => :height)
 		end
 		
 		def self.load path

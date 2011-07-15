@@ -33,10 +33,10 @@ class Player < Character
 		#~ @tracker.update
 	end
 	
-	def draw
-		super
+	#~ def draw
+		#~ super
 		#~ @tracker.draw
-	end
+	#~ end
 	
 	def create
 		

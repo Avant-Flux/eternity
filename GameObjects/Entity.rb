@@ -67,11 +67,11 @@ class Entity
 	end
 	
 	
-	def draw
+	def draw(zoom)
 		# TODO may have to pass the z index from the game state manager
 		if visible
-			@shadow.draw Physics.zoom
-			@animation.draw px, py, pz
+			@shadow.draw zoom
+			@animation.draw px, py, pz, zoom
 		end
 	end
 

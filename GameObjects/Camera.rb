@@ -9,16 +9,20 @@ class Camera
 	include Physics::TwoD_Support
 	
 	attr_reader :shape, :queue
+	attr_accessor :zoom
+	
+	MAX_ZOOM = 1
+	MIN_ZOOM = 0.04
 
 	def initialize(window)
 		@followed_entity = nil
-		
+		@zoom = 0.30 #Must be a percentage
 		# Center of screen
-		pos = [window.width.to_meters / Physics.zoom / 2, window.height.to_meters / Physics.zoom / 2]
+		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
 		init_physics	:rectangle, pos, 
-						:height => window.height.to_meters / Physics.zoom, 
-						:width => window.width.to_meters / Physics.zoom,
+						:height => window.height.to_meters / @zoom, 
+						:width => window.width.to_meters / @zoom,
 						:mass => 50, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
@@ -46,7 +50,7 @@ class Camera
 	def offset
 		corner = @shape.vert(0) # Should be the bottom-right vertex
 		offset = corner - @shape.body.p
-		return offset.x.to_px, offset.y.to_px
+		return offset.x.to_px(@zoom), offset.y.to_px(@zoom)
 	end
 	
 	def follow(entity)
@@ -76,6 +80,18 @@ class Camera
 	
 	def y
 		@shape.body.p.y
+	end
+	
+	def zoom_out
+		if @zoom > MIN_ZOOM
+			@zoom -= 0.005
+		end
+	end
+	
+	def zoom_in
+		if @zoom < MAX_ZOOM
+			@zoom += 0.005
+		end
 	end
 	
 	# Move smoothly to a given point in the given time interval
