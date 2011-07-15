@@ -61,8 +61,7 @@ class Shadow
 		
 		
 		@circle.draw_centered(@entity.px, @entity.py, @entity.elevation, zoom,
-						:factor_x => @scale, :factor_y => @scale, 
-						:offset_z => -1, :color => @color)
+						:scale => @scale, :offset_z => -1, :color => @color)
 	end
 	
 	# TODO implement .hash and #hash
