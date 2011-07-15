@@ -214,7 +214,8 @@ module InputType
 	
 	class Combo < MultiButtonInput
 		DEFAULT_THRESHOLD = [1000]
-		TIMING_BUFFER = 200 #Amount of milliseconds to buffer the target time on each side.
+		TIMING_BUFFER = 1000 #Amount of milliseconds to buffer the target time on each side.
+							# Leave high for testing
 		#Change @threshold to pertain to the next button
 		
 		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)

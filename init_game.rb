@@ -103,6 +103,20 @@ class Game_Window < Gosu::Window
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
 		end
+		
+		color =	if @inpman.active?(:super) 
+					Gosu::Color::CYAN
+				elsif @inpman.active?(:super2)
+					Gosu::Color::RED
+				elsif @inpman.active?(:super3)
+					Gosu::Color::FUCHSIA
+				else
+					Gosu::Color::NONE
+				end
+		draw_quad	800, 30, color,
+						1000, 30, color,
+						800, 50, color,
+						1000, 50, color
 	end
 	
 	def button_down(id)
@@ -150,10 +164,6 @@ class Game_Window < Gosu::Window
 		
 		if @inpman.active?(:jump)
 			@player.jump
-		end
-		
-		if @inpman.active?(:super) || @inpman.active?(:super2) || @inpman.active?(:super3)
-			puts "BAM!"
 		end
 		
 		if @inpman.active?(:zoom_in)
