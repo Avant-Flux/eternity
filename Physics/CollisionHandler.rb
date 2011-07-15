@@ -7,7 +7,7 @@ module CollisionHandler
 	#Control collisions between multiple Entity objects
 	class Entity
 		def begin(arbiter)
-			return true
+			return false
 		end
 		
 		def pre(arbiter) #Determine whether to process collision or not
@@ -50,24 +50,24 @@ module CollisionHandler
 	#Control collisions between an Entity and the environment
 	#	ie, a character and a building or land mass
 	class Entity_Env #Specify entity first, then the environment piece
-		#~ def begin(arbiter,a,b)
-			#~ return true
-		#~ end
+		def begin(arbiter)
+			return true
+		end
 		
 		def pre(arbiter) #Determine whether to process collision or not
-			#Process actions involving what to do when on top, as well as side collisions
-			physics_a = arbiter.a.physics_obj
-			physics_b = arbiter.b.physics_obj
-			
-			if physics_a.pz - physics_b.height < -0.15
-				#If the entity collides from the side, accept the collision
+			#~ #Process actions involving what to do when on top, as well as side collisions
+			#~ physics_a = arbiter.a.physics_obj
+			#~ physics_b = arbiter.b.physics_obj
+			#~ 
+			#~ if physics_a.pz - physics_b.height < -0.15
+				#~ #If the entity collides from the side, accept the collision
 				#~ puts arbiter.a.physics_obj.pz - arbiter.a.physics_obj.elevation
 				#~ puts arbiter.a.physics_obj.pz - arbiter.b.physics_obj.height
-				return true
-			else
-				physics_a.set_elevation
-				return false
-			end
+				#~ return true
+			#~ else
+				#~ physics_a.set_elevation
+				#~ return false
+			#~ end
 		end
 		
 		#~ def post_solve(arbiter) #Do stuff after the collision has be evaluated
@@ -75,7 +75,7 @@ module CollisionHandler
 		#~ end
 		#~ 
 		def separate(arbiter)	#Stuff to do after the shapes separate
-			arbiter.a.physics_obj.set_elevation
+			#~ arbiter.a.physics_obj.set_elevation
 		end
 	end
 	
