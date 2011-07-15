@@ -63,14 +63,15 @@ class Entity
 		#~ if @physics.py.to_px - @animation.height <= 0
 			#~ @physics.py = @animation.height.to_meters
 		#~ end
+		#~ puts "(#{px}, #{py}, #{pz})"
 	end
 	
 	
 	def draw
 		# TODO may have to pass the z index from the game state manager
 		if visible
+			@shadow.draw Physics.zoom
 			@animation.draw px, py, pz
-			@shadow.draw
 		end
 	end
 

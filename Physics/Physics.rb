@@ -7,7 +7,7 @@ require "./Physics/PhysicsMixins"
 class Numeric
 	def to_px
 		# Convert from meters to pixels
-		(self*Physics.scale).round
+		(self*Physics.scale*Physics.zoom).round
 	end
 	
 	def to_meters
@@ -35,7 +35,8 @@ module Physics
 	MAX_Z = 10000000
 
 	# Set the scale for conversion between meters and pixels
-	@@scale = 44
+	@@scale = 640/165.0*100 # Pixels per meter
+	@@zoom = 0.30 # Must be a percentage
 	class << self
 		def scale
 			@@scale
@@ -43,6 +44,14 @@ module Physics
 		
 		def scale=(arg)
 			@@scale = arg
+		end
+		
+		def zoom
+			@@zoom
+		end
+		
+		def zoom=(arg)
+			@@zoom = arg
 		end
 	end
 	

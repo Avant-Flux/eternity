@@ -14,10 +14,11 @@ class Camera
 		@followed_entity = nil
 		
 		# Center of screen
-		pos = [window.width.to_meters / 2, window.height.to_meters / 2]
+		pos = [window.width.to_meters / Physics.zoom / 2, window.height.to_meters / Physics.zoom / 2]
 		
 		init_physics	:rectangle, pos, 
-						:height => window.height.to_meters, :width => window.width.to_meters,
+						:height => window.height.to_meters / Physics.zoom, 
+						:width => window.width.to_meters / Physics.zoom,
 						:mass => 50, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
