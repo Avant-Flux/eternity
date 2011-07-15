@@ -5,7 +5,7 @@ module Gosu
 		alias :old_draw :draw
 		alias :draw_UI :draw
 		
-		def draw(x, y, z, options={})
+		def draw(x, y, z, zoom, options={})
 			#Assume the coordinates are in units of meters from Chipmunk space.
 			#Scale the x and y, and compute the z-index to pass to the old draw method.
 			
@@ -21,6 +21,9 @@ module Gosu
 			if options[:scale]
 				options[:factor_x] = options[:factor_y] = options[:scale]
 			end
+			
+			options[:factor_x] *= zoom
+			options[:factor_y] *= zoom
 			
 			options[:offset_x] = case options[:offset_x]
 				when :centered
@@ -47,9 +50,9 @@ module Gosu
 			old_draw(x,y,z, options[:factor_x], options[:factor_y], options[:color], options[:mode])
 		end
 		
-		def draw_centered(x, y, z, options={})
+		def draw_centered(x, y, z, zoom, options={})
 			options[:offset_x] = options[:offset_y] = :centered
-			draw(x,y,z, options)
+			draw(x,y,z, zoom, options)
 		end
 		
 		def ==(arg)
