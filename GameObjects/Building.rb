@@ -32,11 +32,11 @@ class Building
 	end
 	
 	# Overwrite height from Physics::Dimentions::ThreeD for objects without animations
-	def height(units)
+	def height(units, scale=1)
 		if units == :meters
 			@height
 		else
-			@height.to_px
+			(@height.to_px * scale).round
 		end
 	end
 end

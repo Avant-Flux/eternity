@@ -55,15 +55,6 @@ class Entity
 	def update
 		@animation.update(moving?, compute_direction)
 		@shadow.update
-		
-		#~ if @physics.px.to_px - @animation.width <= 0
-			#~ @physics.px = @animation.width.to_meters
-		#~ end
-		#~ 
-		#~ if @physics.py.to_px - @animation.height <= 0
-			#~ @physics.py = @animation.height.to_meters
-		#~ end
-		#~ puts "(#{px}, #{py}, #{pz})"
 	end
 	
 	

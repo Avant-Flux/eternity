@@ -67,8 +67,8 @@ module UI
 				@a = a
 				@b = b
 				
-				a = a.to_px
-				b = b.to_px
+				#~ a = a.to_px
+				#~ b = b.to_px
 				
 				padding = stroke_width/2+10
 				

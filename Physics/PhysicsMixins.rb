@@ -3,12 +3,12 @@
 module Physics
 	module Dimentions
 		module TwoD
-			def width(units)
+			def width(units, scale=1)
 				# Assume that if the shape does not respond to the width method,
 				# then it is a circle.
 				case units
 					when :px
-						@animation.width
+						(@animation.width * scale).round
 					when :meters
 						if @shape.respond_to? :width
 							return @shape.width
@@ -18,13 +18,13 @@ module Physics
 				end
 			end
 			
-			def height(units)
+			def height(units, scale=1)
 				# Assume that if the shape does not respond to the height method,
 				# then it is a circle.
 				
 				case units
 					when :px
-						@animation.height
+						(@animation.height * scale).round
 					when :meters
 						if @shape.respond_to? :height
 							return @shape.height
@@ -34,19 +34,19 @@ module Physics
 				end
 			end
 			
-			def radius(units)
+			def radius(units, scale=1)
 				case units
 					when :px
-						(@animation.width / 2.0).round
+						(@animation.width / 2.0 * scale).round 
 					when :meters
 						@shape.radius
 				end
 			end
 			
-			def diameter(units)
+			def diameter(units, scale=1)
 				case units
 					when :px
-						@animation.width;
+						(@animation.width * scale).round
 					when :meters
 						radius * 2
 				end
@@ -56,16 +56,16 @@ module Physics
 		module ThreeD
 			include Physics::Dimentions::TwoD
 			
-			def height(units)
+			def height(units, scale=1)
 				case units
 					when :px
-						@animation.height
+						(@animation.height * scale).round
 					when :meters
 						@animation.height.to_meters
 				end
 			end
 			
-			def depth(units)
+			def depth(units, scale=1)
 				depth =	if @shape.is_a? Physics::Shape::Circle
 							@shape.radius
 						else
@@ -74,7 +74,7 @@ module Physics
 			
 				return	case units
 							when :px
-								depth.to_px
+								depth.to_px scale
 							when :meters
 								 depth
 						end
