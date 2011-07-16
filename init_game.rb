@@ -59,6 +59,7 @@ class Game_Window < Gosu::Window
 			
 			new_action :zoom_in, [Gosu::KbX]
 			new_action :zoom_out, [Gosu::KbC]
+			new_action :zoom_reset, [Gosu::KbR]
 		end
 		
 		# Load player character data
@@ -170,6 +171,8 @@ class Game_Window < Gosu::Window
 			@camera.zoom_in
 		elsif @inpman.active?(:zoom_out)
 			@camera.zoom_out
+		elsif @inpman.active?(:zoom_reset)
+			@camera.zoom_reset
 		end
 	end
 	
