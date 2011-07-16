@@ -12,7 +12,7 @@ class Camera
 	attr_accessor :zoom
 	
 	MAX_ZOOM = 1
-	MIN_ZOOM = 0.04
+	MIN_ZOOM = 0.15
 	DEFAULT_ZOOM = 0.30
 	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
