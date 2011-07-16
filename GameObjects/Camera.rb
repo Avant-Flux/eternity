@@ -13,6 +13,7 @@ class Camera
 	
 	MAX_ZOOM = 1
 	MIN_ZOOM = 0.04
+	DEFAULT_ZOOM = 0.30
 
 	def initialize(window)
 		@followed_entity = nil
@@ -92,6 +93,10 @@ class Camera
 		if @zoom < MAX_ZOOM
 			@zoom += 0.005
 		end
+	end
+	
+	def zoom_reset
+		@zoom = DEFAULT_ZOOM
 	end
 	
 	# Move smoothly to a given point in the given time interval
