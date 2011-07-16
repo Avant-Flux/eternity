@@ -30,13 +30,4 @@ class Building
 	def draw(zoom)
 		@wireframe.draw zoom
 	end
-	
-	# Overwrite height from Physics::Dimentions::ThreeD for objects without animations
-	def height(units, scale=1)
-		if units == :meters
-			@height
-		else
-			(@height.to_px * scale).round
-		end
-	end
 end

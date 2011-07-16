@@ -8,7 +8,11 @@ module Physics
 				# then it is a circle.
 				case units
 					when :px
-						(@animation.width * scale).round
+						if @animation
+							(@animation.width * scale).round
+						else
+							self.width(:meters).to_px scale
+						end
 					when :meters
 						if @shape.respond_to? :width
 							return @shape.width
@@ -24,7 +28,11 @@ module Physics
 				
 				case units
 					when :px
-						(@animation.height * scale).round
+						if @animation
+							(@animation.height * scale).round
+						else
+							self.width(:meters).to_px scale
+						end
 					when :meters
 						if @shape.respond_to? :height
 							return @shape.height
@@ -37,7 +45,11 @@ module Physics
 			def radius(units, scale=1)
 				case units
 					when :px
-						(@animation.width / 2.0 * scale).round 
+						if @animation
+							(@animation.width / 2.0 * scale).round
+						else
+							self.width(:meters).to_px scale
+						end
 					when :meters
 						@shape.radius
 				end
@@ -46,9 +58,13 @@ module Physics
 			def diameter(units, scale=1)
 				case units
 					when :px
-						(@animation.width * scale).round
+						if @animation
+							(@animation.width * scale).round
+						else
+							self.width(:meters).to_px scale
+						end
 					when :meters
-						radius * 2
+						radius(:meters) * 2
 				end
 			end
 		end
@@ -59,9 +75,17 @@ module Physics
 			def height(units, scale=1)
 				case units
 					when :px
-						(@animation.height * scale).round
+						if @animation
+							(@animation.height * scale).round
+						else
+							@height.to_px scale
+						end
 					when :meters
-						@animation.height.to_meters
+						if @animation
+							@animation.height.to_meters
+						else
+							@height
+						end
 				end
 			end
 			
@@ -247,6 +271,10 @@ module Physics
 		
 		def reset_forces
 			@shape.body.reset_forces
+		end
+		
+		def vertex(index)
+			@shape.vert index
 		end
 		
 		def each_vertex(&block)
