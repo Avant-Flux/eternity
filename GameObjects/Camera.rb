@@ -14,6 +14,7 @@ class Camera
 	MAX_ZOOM = 1
 	MIN_ZOOM = 0.04
 	DEFAULT_ZOOM = 0.30
+	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
 	def initialize(window)
 		@followed_entity = nil
@@ -85,13 +86,13 @@ class Camera
 	
 	def zoom_out
 		if @zoom > MIN_ZOOM
-			@zoom -= 0.005
+			@zoom -= ZOOM_TICK
 		end
 	end
 	
 	def zoom_in
 		if @zoom < MAX_ZOOM
-			@zoom += 0.005
+			@zoom += ZOOM_TICK
 		end
 	end
 	
