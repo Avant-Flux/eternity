@@ -79,4 +79,38 @@ module Gosu
 						options[:color], options[:mode]
 		end
 	end
+	
+	class Window
+		alias :old_draw_line :draw_line
+		def draw_line(x1, y1, c1, x2, y2, c2, z=0, mode=:default, zoom=nil)
+			if zoom
+				old_draw_line x1.to_px(zoom), y1.to_px(zoom), c1, x2.to_px(zoom), y2.to_px(zoom), c2, z, mode
+			else
+				old_draw_line x1, y1, c1, x2, y2, c2, z, mode
+			end
+		end
+		
+		alias :old_draw_quad :draw_quad
+		def draw_quad(x1, y1, c1, x2, y2, c2, x3, y3, c3, x4, y4, c4, z=0, mode=:default, zoom=nil)
+			if zoom
+				old_draw_quad	x1.to_px(zoom), y1.to_px(zoom), c1, 
+								x2.to_px(zoom), y2.to_px(zoom), c2, 
+								x3.to_px(zoom), y3.to_px(zoom), c3, 
+								x4.to_px(zoom), y4.to_px(zoom), c4, z=0, mode=:default
+			else
+				old_draw_quad x1, y1, c1, x2, y2, c2, x3, y3, c3, x4, y4, c4, z=0, mode=:default
+			end
+		end
+		
+		alias :old_draw_triangle :draw_triangle
+		def draw_triangle(x1, y1, c1, x2, y2, c2, x3, y3, c3, z=0, mode=:default, zoom=nil)
+			if zoom
+				old_draw_triangle	x1.to_px(zoom), y1.to_px(zoom), c1, 
+									x2.to_px(zoom), y2.to_px(zoom), c2, 
+									x3.to_px(zoom), y3.to_px(zoom), c3, z, mode
+			else
+				old_draw_triangle x1, y1, c1, x2, y2, c2, x3, y3, c3, z, mode
+			end
+		end
+	end
 end
