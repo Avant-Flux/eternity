@@ -57,9 +57,13 @@ class Game_Window < Gosu::Window
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
 			
-			new_action :zoom_in, [Gosu::KbX]
-			new_action :zoom_out, [Gosu::KbC]
-			new_action :zoom_reset, [Gosu::KbR]
+			
+			# Also defined in Gosu#button_down
+				# zoom in bound to scroll up
+				# zoom out bound to scroll down
+			new_action :zoom_in, [Gosu::KbJ]
+			new_action :zoom_out, [Gosu::KbK]
+			new_action :zoom_reset, [Gosu::Kb0]
 		end
 		
 		# Load player character data
@@ -134,6 +138,11 @@ class Game_Window < Gosu::Window
 		end
 		#~ puts button_id_to_char id
 		#~ puts id
+		if id == Gosu::MsWheelUp
+			@camera.zoom_in
+		elsif id == Gosu::MsWheelDown
+			@camera.zoom_out
+		end
 	end
 	
 	def button_up(id)
