@@ -6,5 +6,7 @@
 
 #Install imagemagick dependencies
 #~ sudo port install tiff -macosx imagemagick +q8 +gs +wmf
-sudo gem1.9 install ruby-opengl gosu chingu chipmunk texplay eventmachine require_all
+
+#~ sudo gem1.9 install ruby-opengl gosu chingu chipmunk texplay eventmachine require_all
+sudo gem install gosu chipmunk texplay eventmachine require_all
 

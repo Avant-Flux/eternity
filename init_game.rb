@@ -13,7 +13,6 @@ begin
 rescue LoadError
 	require 'gosu'
 end
-require 'chingu'
 require 'require_all'
 #~ require 'profile'
 require_all './Physics'

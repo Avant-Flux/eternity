@@ -11,4 +11,4 @@ dependency_installer="$install_command $ruby_dev $ruby_opengl $gosu $texplay"
 
 eval $dependency_installer &&
 
-sudo gem install rake gosu chingu chipmunk texplay eventmachine require_all
+sudo gem install rake gosu chipmunk texplay eventmachine require_all
