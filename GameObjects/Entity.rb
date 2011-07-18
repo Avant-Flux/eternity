@@ -28,7 +28,7 @@ class Entity
 		
 		@animation = animations
 		
-		init_physics	:circle, pos, :radius => (@animation.width/2.0).to_meters, :mass => mass,
+		init_physics	:cylinder, pos, :radius => (@animation.width/2.0).to_meters, :mass => mass,
 						:moment => moment, :collision_type => :entity
 		
 		@shadow = Shadow.new window, self

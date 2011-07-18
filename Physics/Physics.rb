@@ -166,7 +166,9 @@ module Physics
 			@fz = 0.to_f
 			@elevation = 0
 			
-			@in_air = false;
+			if :cylinder
+				@in_air = false;
+			end
 		end
 		
 		module Box
