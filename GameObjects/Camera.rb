@@ -23,18 +23,19 @@ class Camera
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
-		#~ CP::BB.new 
+		#~ half_width = @window.width.to_meters
+		#~ half_height = @window.height.to_meters
+		#~ @bb = [-half_width, half_height, half_width, -half_height]
 		
 		init_physics	:rectangle, pos, 
 						:height => window.height.to_meters / @zoom, 
 						:width => window.width.to_meters / @zoom,
-		#~ init_physics	:circle, pos, :height => 1, :width => 1,
+		#~ init_physics	:circle, pos, :radius => 1,
 						:mass => 50, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
 		
 		@queue = Hash.new
-		#~ @queue = Set.new
 		
 		shape_metaclass = class << @shape; self; end
 		[:add, :delete].each do |method|
@@ -50,6 +51,14 @@ class Camera
 		if @followed_entity
 			warp @followed_entity.p
 		end
+		
+		#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
+								#~ @shape.body.p.x + @bb[2], @shape.body.p.y + @bb[1]) do |shape|
+			#~ entity = shape.entity
+			#~ @queue[entity.layers] ||= Set.new
+			#~ @queue[entity.layers].add entity
+			#~ arbiter.a.add arbiter.b.entity
+		#~ end
 	end
 	
 	# Return the amount in pixels to offset the rendering

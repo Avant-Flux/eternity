@@ -93,7 +93,6 @@ class Game_Window < Gosu::Window
 		process_input
 		@inpman.update
 		
-		
 		$console.update
 		@states.update
 		
