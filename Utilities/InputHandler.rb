@@ -42,12 +42,14 @@ class InputHandler
 		end
 	end
 	
-	def active?(name)
-		handler = @event_handlers[name]
-		if handler
-			handler.active?
-		else
-			false
+	[:begin?, :active?, :finish?, :idle?].each do |method|
+		define_method method do |name|
+			handler = @event_handlers[name]
+			if handler
+				handler.send method
+			else
+				false
+			end
 		end
 	end
 	
@@ -81,8 +83,12 @@ module InputType
 			@state = :idle
 		end
 		
-		def active?
-			@state == :active
+		[:begin?, :active?, :finish?, :idle?].each do |method|
+			define_method method do
+				# Take the question mark off the end
+				sym = method.to_s[0..(method.length-2)].to_sym
+				@state == sym
+			end
 		end
 	end
 	

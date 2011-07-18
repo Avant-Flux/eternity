@@ -90,8 +90,9 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
-		@inpman.update
 		process_input
+		@inpman.update
+		
 		
 		$console.update
 		@states.update
@@ -186,7 +187,7 @@ class Game_Window < Gosu::Window
 			@camera.zoom_reset
 		end
 		
-		if @inpman.active?(:toggle_menu)
+		if @inpman.begin?(:toggle_menu)
 			@states.toggle_menu
 		end
 	end
