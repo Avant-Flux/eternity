@@ -3,8 +3,6 @@
 require 'rubygems'
 require 'chipmunk'
 
-# Create a chipmunk space to allow easy manipulation of interface elements.
-# Use a class variable so that one
 class InterfaceState < GameState
 	def initialize(window, space, layers, name, player)
 		super(window, space, layers, name)
