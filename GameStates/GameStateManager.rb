@@ -49,7 +49,7 @@ class GameStateManager
 				
 		# Keep UI layer separate, so that the UI is always drawn on top
 		# of all states in the LOWER stack
-		@ui_state = InterfaceState.new @window, @space, UI_LAYER, "HUD", @player
+		@ui_state = UI_State.new @window, @space, UI_LAYER, "HUD", @player
 		
 		# Set up collision handlers
 		init_collision_handlers
