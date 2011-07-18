@@ -91,10 +91,30 @@ class InterfaceState < GameState
 		# top right
 		# SC2 unit building style icons with loading bar
 			# loading bar
+		top_margin = 10
+		right_margin = 10
+		between_buffer = 10
+		
+		width = 50
+		height = 50
+		
+		alpha = (0.20 * 255).to_i # 0..255  20% transparency
+		color_code = [0, 255, 0] #Green
+		
+		color = Gosu::Color.argb alpha, *color_code
+		
 		button_corners = []
+		button_corners << [@window.width - width - right_margin, top_margin]
+		1.times do |i|
+			button_corners << [@window.width - width - right_margin, top_margin + between_buffer + height]
+		end
 		
-		
-		#~ @window.draw_quad	
+		button_corners.each do |corner|
+			@window.draw_quad	corner[0],corner[1], color,
+								corner[0]+width,corner[1], color,
+								corner[0],corner[1]+height, color,
+								corner[0]+width,corner[1]+height, color
+		end
 	end
 	
 	def finalize
