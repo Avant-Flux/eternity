@@ -96,9 +96,9 @@ module Gosu
 				old_draw_quad	x1.to_px(zoom), y1.to_px(zoom), c1, 
 								x2.to_px(zoom), y2.to_px(zoom), c2, 
 								x3.to_px(zoom), y3.to_px(zoom), c3, 
-								x4.to_px(zoom), y4.to_px(zoom), c4, z=0, mode=:default
+								x4.to_px(zoom), y4.to_px(zoom), c4, z, mode
 			else
-				old_draw_quad x1, y1, c1, x2, y2, c2, x3, y3, c3, x4, y4, c4, z=0, mode=:default
+				old_draw_quad x1, y1, c1, x2, y2, c2, x3, y3, c3, x4, y4, c4, z, mode
 			end
 		end
 		
