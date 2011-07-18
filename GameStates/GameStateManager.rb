@@ -159,6 +159,18 @@ class GameStateManager
 		@stack[ACTIVE].last.add_gameobject player
 	end
 	
+	def toggle_menu
+		if @stack[MENU].empty?
+			@stack[MENU] << MenuState.new(@window, @space, new_layer, "Menu", @player)
+		else
+			until @stack[MENU].empty?
+				state = @stack[MENU].pop
+				state.finalize
+				delete_layer state
+			end
+		end
+	end
+	
 	private
 	
 	# Return the number for a new layer
@@ -183,7 +195,7 @@ class GameStateManager
 		state.gameobjects.each do |obj|
 			obj.remove_from @space
 		end
-		@layers << state.layer
+		@layers << state.layers
 	end
 	
 	def init_collision_handlers

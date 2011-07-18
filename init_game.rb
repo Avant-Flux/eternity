@@ -64,6 +64,8 @@ class Game_Window < Gosu::Window
 			new_action :zoom_in, [Gosu::KbJ]
 			new_action :zoom_out, [Gosu::KbK]
 			new_action :zoom_reset, [Gosu::Kb0]
+			
+			new_action :toggle_menu, [Gosu::KbTab]
 		end
 		
 		# Load player character data
@@ -182,6 +184,10 @@ class Game_Window < Gosu::Window
 			@camera.zoom_out
 		elsif @inpman.active?(:zoom_reset)
 			@camera.zoom_reset
+		end
+		
+		if @inpman.active?(:toggle_menu)
+			@states.toggle_menu
 		end
 	end
 	
