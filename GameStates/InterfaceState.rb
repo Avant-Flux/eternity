@@ -91,12 +91,12 @@ class InterfaceState < GameState
 		# top right
 		# SC2 unit building style icons with loading bar
 			# loading bar
-		top_margin = 10
-		right_margin = 10
-		between_buffer = 10
-		
 		width = 50
 		height = 50
+		
+		top_margin = 20
+		right_margin = 80
+		offset = [width + 10, 10]
 		
 		alpha = (0.20 * 255).to_i # 0..255  20% transparency
 		color_code = [0, 255, 0] #Green
@@ -106,14 +106,46 @@ class InterfaceState < GameState
 		button_corners = []
 		button_corners << [@window.width - width - right_margin, top_margin]
 		1.times do |i|
-			button_corners << [@window.width - width - right_margin, top_margin + between_buffer + height]
+			button_corners << [@window.width - width - right_margin, top_margin + height]
 		end
 		
-		button_corners.each do |corner|
+		button_corners.each_with_index do |corner, i|
+			if i != 0
+				corner[0] += offset[0]
+				corner[1] += offset[1]
+			end
 			@window.draw_quad	corner[0],corner[1], color,
 								corner[0]+width,corner[1], color,
 								corner[0],corner[1]+height, color,
 								corner[0]+width,corner[1]+height, color
+		end
+		
+		# Draw status bars on weapon icons
+		# Set relative to the bottom of the icon boxes
+		button_corners.each do |corner|
+			corner[1] += height
+		end
+		
+		height = 5
+		width = width  # Relative to width of the icon box
+		right_padding = left_padding = 2 # Modified by some padding on the box
+		
+		bottom_margin = 2
+		
+		# Offset
+		button_corners.each do |corner|
+			corner[1] -= height + bottom_margin
+		end
+		
+		color_code = [255, 0, 0]
+		alpha = alpha # same alpha as the icon boxes
+		color = Gosu::Color.argb alpha, *color_code
+		
+		button_corners.each do |corner|
+			@window.draw_quad	corner[0]+left_padding,corner[1], color,
+								corner[0]+width-right_padding,corner[1], color,
+								corner[0]+left_padding,corner[1]+height, color,
+								corner[0]+width-right_padding,corner[1]+height, color
 		end
 	end
 	
