@@ -11,10 +11,10 @@ class MenuState < InterfaceState
 	
 	def draw
 		color = Gosu::Color::WHITE
-		top_margin = 20
-		bottom_margin = 20
-		left_margin = 20
-		right_margin = 20
+		top_margin = 40
+		bottom_margin = 40
+		left_margin = 40
+		right_margin = 40
 		
 		@window.draw_quad	left_margin, top_margin, color,
 							@window.width - right_margin, top_margin, color,
