@@ -1,7 +1,11 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
+require 'gosu'
+require 'texplay'
 require 'chipmunk'
+
+require './UI/Widgets'
 
 class InterfaceState < GameState
 	def initialize(window, space, layers, name, player)
@@ -24,11 +28,12 @@ class InterfaceState < GameState
 							corner[0]+width,corner[1]+height, color
 		
 		# Button layout (bottom center)
+		z = 10
 		button_corners = []	# All corners specified as top-left
 		buttons = 3
 		
 		bottom_margin = 10
-		between_buffer = 10
+		between_buffer = 20
 		height = 35
 		width = 150
 		whole_width = buttons*width + (buttons-1)*between_buffer
@@ -44,13 +49,29 @@ class InterfaceState < GameState
 		
 		button_corners.each do |corner|
 			@window.draw_quad	corner[0],corner[1], color,
-							corner[0]+width,corner[1], color,
-							corner[0],corner[1]+height, color,
-							corner[0]+width,corner[1]+height, color
+								corner[0]+width,corner[1], color,
+								corner[0],corner[1]+height, color,
+								corner[0]+width,corner[1]+height, color, z
+		end
+		
+		# Draw again for the buttons in the back
+		z = 5 # just make sure it's less than the first z index
+		offset = [10, -10]
+		color2 = Gosu::Color.from_hsv color.hue, color.saturation, color.value
+		color2.value = color.value - 0.3
+		
+		
+		button_corners.each do |corner|
+			corner[0] += offset[0]
+			corner[1] += offset[1]
+			@window.draw_quad	corner[0],corner[1], color2,
+								corner[0]+width,corner[1], color2,
+								corner[0],corner[1]+height, color2,
+								corner[0]+width,corner[1]+height, color2, z
 		end
 		
 		# Flux bar (goes on top of button layout)
-		bottom_margin = bottom_margin + height + 5 # Relative to the top of the buttons
+		bottom_margin = bottom_margin + height - offset[1] + 5 # Relative to the top of the buttons
 		width = whole_width #Width of the whole button layout
 		height = 10
 		
@@ -70,6 +91,10 @@ class InterfaceState < GameState
 		# top right
 		# SC2 unit building style icons with loading bar
 			# loading bar
+		button_corners = []
+		
+		
+		#~ @window.draw_quad	
 	end
 	
 	def finalize
