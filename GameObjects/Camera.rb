@@ -17,14 +17,18 @@ class Camera
 	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
 	def initialize(window)
+		@window =  window
 		@followed_entity = nil
-		@zoom = 0.30 #Must be a percentage
+		@zoom = DEFAULT_ZOOM #Must be a percentage
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
+		
+		#~ CP::BB.new 
 		
 		init_physics	:rectangle, pos, 
 						:height => window.height.to_meters / @zoom, 
 						:width => window.width.to_meters / @zoom,
+		#~ init_physics	:circle, pos, :height => 1, :width => 1,
 						:mass => 50, :moment => :static, :collision_type => :camera
 		
 		@shape.sensor = true
