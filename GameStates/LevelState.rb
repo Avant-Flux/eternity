@@ -11,6 +11,7 @@ class LevelState < GameState
 		super(window, space, layers, name)
 		
 		@queue = render_queue
+		add_gameobject Building.new window, :position => [0,0,0], :width => 5, :depth => 2, :height => 2
 		add_gameobject Building.new window, :position => [6,0,0], :width => 2, :depth => 2, :height => 2
 	end
 	
