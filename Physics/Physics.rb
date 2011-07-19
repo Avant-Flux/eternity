@@ -146,6 +146,8 @@ module Physics
 		
 		attr_accessor :pz, :vz, :fz, :in_air
 		
+		STORY = 3 # The height of one story of a building, in scale meters
+		
 		def init_physics(shape, position, args={})
 			shape = case shape #Convert into the corresponding 2D shape
 						when :box
@@ -164,32 +166,107 @@ module Physics
 			@pz = position[2].to_f	#Force z to be a float just like x and y
 			@vz = 0.to_f
 			@fz = 0.to_f
-			@elevation = 0
+			@height = args[:height]
 			
-			if :cylinder
-				@in_air = false;
+			if self.is_a? Entity
+				@in_air = false
+				@elevation = 0
 			end
+			
+			
+			
 		end
 		
 		module Box
-			def init_physics(position, dimentions)
+			include TwoD_Support
+			include Physics::Dimentions::ThreeD
+			include Physics::Elevation
+			
+			alias :init_2D_physics :init_physics
+			
+			attr_accessor :pz, :vz, :fz, :in_air
+			
+			STORY = 3 # The height of one story of a building, in scale meters
+			
+			def init_physics(position, dimentions, args={})
 				# position		: x,y,z
 				# dimentions	: width,depth,height
 					# Height can either be Numeric or Proc
 				
 				# Generates a pseudo-3D box using the game's isometric projection
 				# As this is only used for 3D objects, do not perform the CCW rotation
+				# Create values needed to track the z coordinate
+				@pz = position[2].to_f	#Force z to be a float just like x and y
+				@vz = 0.to_f
+				@fz = 0.to_f
+				@height = args[:height]
+				
+				if self.is_a? Entity
+					@in_air = false
+					@elevation = 0
+				end
+				
+				# Set the default value of the offset to the zero vector
+				unless args[:offset]
+					args[:offset] = CP::ZERO_VEC_2
+				end
+				
+				# Allow setting of static mass or moment
+				if args[:mass] == :static
+					args[:mass] = Float::INFINITY
+				end
+				if args[:moment] == :static
+					args[:moment] = Float::INFINITY
+				end
+					
+				
+				@shapes = []
+				
+				#~ @height = args[:height]
+				
+				# Once per "floor"
+				(@height / STORY).times do |i|
+					body = Physics::Body.new self, args[:mass], args[:moment]
+					body.p = CP::Vec2.new position[0], position[1]
+					body.p += Physics::Direction::Z_HAT * (position[2] + i*STORY)
+					
+					@shapes << Physics::Shape::PerspRect.new(self, body, 
+								args[:width], args[:depth], args[:offset])
+					
+				end
+				
+				# Once more for the "roof"
+				#~ if @height % STORY != 0
+					body = Physics::Body.new self, args[:mass], args[:moment]
+					body.p = CP::Vec2.new position[0], position[1]
+					body.p += Physics::Direction::Z_HAT * (position[2] + @height)
+					@shapes << Physics::Shape::PerspRect.new(self, body, 
+									args[:width], args[:depth], args[:offset])
+				#~ end
+				
+				@shapes.each do |shape|
+					shape.collision_type = args[:collision_type]
+				end
+				
+				@shape = @shapes[0]
 			end
+			
+			def add_to(space)
+			@shapes ||= []
+			@shapes.each do |shape|
+				space.add shape
+			end
+		end
 		end
 		
 		module Prism
-			def init_physics
+			def init_physics(position, dimentions, args={})
 				# Based on Polygon
 			end
 		end
 		
 		module Cylinder
-			def init_physics
+			def init_physics(position, dimentions, args={})
 				# Based on Circle
 			end
 		end
