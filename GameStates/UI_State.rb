@@ -10,6 +10,7 @@ require './UI/Widgets'
 class UI_State < InterfaceState
 	def initialize(window, space, layers, name, player)
 		super(window, space, layers, name, player)
+		@font = Gosu::Font.new @window, "Trebuchet MS", 25
 	end
 	
 	def update
@@ -17,16 +18,168 @@ class UI_State < InterfaceState
 	end
 	
 	def draw
-		# Stat tracking box (upper left)
+		# ========= Exp bar ========= 
+		# Draw across top of screen
+		corner = [0,0]
+		width = @window.width
+		height = 7
 		color = Gosu::Color::GREEN
-		corner = [10,10]
-		width = 300
-		height = 100
+		
 		@window.draw_quad	corner[0],corner[1], color,
 							corner[0]+width,corner[1], color,
 							corner[0],corner[1]+height, color,
 							corner[0]+width,corner[1]+height, color
 		
+		# Draw tickmarks every 10%
+		color = Gosu::Color::RED
+		interval = width / 10
+		10.times do |i|
+			@window.draw_line	corner[0] + i*interval, corner[1], color,
+								corner[0] + i*interval, corner[1]+height+1, color
+		end
+		
+		# ========= Chat Box ========= 
+		# Aligned to bottom-left
+		height = 80
+		width = 200
+		corner = [0, @window.height - height]
+		chat_corner = corner.clone
+		chat_width = width
+		
+		alpha = (0.10 * 255).to_i
+		color = Gosu::Color.argb alpha, 255, 255, 255
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+							
+		margin = 10
+		chat_margin = margin
+		
+		# === Accumulator for bottom bar widths ===
+		total_width = 0
+		
+		# ========= HP Bar ========= 
+		# Aligned to chat box
+		
+		corner = corner
+		corner[0] += width + margin
+		height = 20
+		width = 300
+		
+		color = Gosu::Color::RED
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+							
+		# Draw text on bar
+		padding = 5
+		text_corner = corner
+		text_corner[0] += padding
+		
+		z = 10
+		@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", text_corner[0], text_corner[1], z
+		
+							
+		margin = 10
+		
+		total_width += width + margin
+		
+		# ========= MP Bar ========= 
+		# Same size as HP Bar
+		corner = corner
+		corner[0] += width + margin
+		height = 20
+		width = 300
+		
+		color = Gosu::Color::BLUE
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+		
+		# Draw text on bar
+		padding = 5
+		text_corner = corner
+		text_corner[0] += padding
+		
+		z = 10
+		@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", text_corner[0], text_corner[1], z
+		
+		total_width += width
+		
+		# === Set values common to all three icons
+		between_buffer = 10
+		bottom_margin = 5
+		width = total_width / 3 - between_buffer / 2
+		height = 50
+		alpha = (0.8 * 255).to_i
+		# ========= Magic Icon =========
+		# align to chat
+		corner = chat_corner
+		#~ puts "#{corner}   #{chat_corner}"
+		corner[0] += chat_margin + chat_width
+		corner [1] = @window.height - height - bottom_margin
+		
+		color_code = [255, 0, 0]
+		color = Gosu::Color.argb alpha, *color_code
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+		
+		# ========= Left Hand Icon =========
+		corner = corner
+		corner[0] += between_buffer + width
+		
+		color_code = [0, 255, 0]
+		color = Gosu::Color.argb alpha, *color_code
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+		
+		# ========= Right Hand Icon ========= 
+		corner = corner
+		corner[0] += between_buffer + width
+		
+		color_code = [0, 0, 255]
+		color = Gosu::Color.argb alpha, *color_code
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+		
+		
+		# ========= Menu Icon ========= 
+		width = 30
+		height = 30
+		bottom_margin = 10
+		right_margin = 10
+		corner = [@window.width - width - right_margin, @window.height - height - bottom_margin]
+		
+		@window.draw_quad	corner[0],corner[1], color,
+							corner[0]+width,corner[1], color,
+							corner[0],corner[1]+height, color,
+							corner[0]+width,corner[1]+height, color
+		
+		#~ draw_old_UI
+	end
+	
+	def finalize
+		super
+	end
+	
+	private
+	
+	def draw_old_UI
 		# Button layout (bottom center)
 		z = 10
 		button_corners = []	# All corners specified as top-left
@@ -85,71 +238,5 @@ class UI_State < InterfaceState
 							corner[0]+width,corner[1], shading,
 							corner[0],corner[1]+height, color,
 							corner[0]+width,corner[1]+height, shading
-		
-		
-		# Weapons
-		# top right
-		# SC2 unit building style icons with loading bar
-			# loading bar
-		width = 50
-		height = 50
-		
-		top_margin = 20
-		right_margin = 80
-		offset = [width + 10, 10]
-		
-		alpha = (0.20 * 255).to_i # 0..255  20% transparency
-		color_code = [0, 255, 0] #Green
-		
-		color = Gosu::Color.argb alpha, *color_code
-		
-		button_corners = []
-		button_corners << [@window.width - width - right_margin, top_margin]
-		1.times do |i|
-			button_corners << [@window.width - width - right_margin, top_margin + height]
-		end
-		
-		button_corners.each_with_index do |corner, i|
-			if i != 0
-				corner[0] += offset[0]
-				corner[1] += offset[1]
-			end
-			@window.draw_quad	corner[0],corner[1], color,
-								corner[0]+width,corner[1], color,
-								corner[0],corner[1]+height, color,
-								corner[0]+width,corner[1]+height, color
-		end
-		
-		# Draw status bars on weapon icons
-		# Set relative to the bottom of the icon boxes
-		button_corners.each do |corner|
-			corner[1] += height
-		end
-		
-		height = 5
-		width = width  # Relative to width of the icon box
-		right_padding = left_padding = 2 # Modified by some padding on the box
-		
-		bottom_margin = 2
-		
-		# Offset
-		button_corners.each do |corner|
-			corner[1] -= height + bottom_margin
-		end
-		
-		color_code = [255, 0, 0]
-		alpha = alpha # same alpha as the icon boxes
-		color = Gosu::Color.argb alpha, *color_code
-		
-		button_corners.each do |corner|
-			@window.draw_quad	corner[0]+left_padding,corner[1], color,
-								corner[0]+width-right_padding,corner[1], color,
-								corner[0]+left_padding,corner[1]+height, color,
-								corner[0]+width-right_padding,corner[1]+height, color
-		end
-	end
-	
-	def finalize
-		super
 	end
 end

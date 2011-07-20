@@ -13,8 +13,9 @@ class GameStateManager
 	CAMERA_LAYER = 0x1
 	UI_LAYER = 0x2
 
-	def initialize(window, camera)
+	def initialize(window, camera, player)
 		@window = window
+		@player = player
 		@camera = camera
 		@camera.layers = CP::ALL_LAYERS ^ UI_LAYER # All layers except for the UI
 		
@@ -53,6 +54,8 @@ class GameStateManager
 		
 		# Set up collision handlers
 		init_collision_handlers
+		
+		@pause = false
 	end
 	
 	# Update all contained gamestates
@@ -60,16 +63,24 @@ class GameStateManager
 	# UPPER gamestates update from high to low, in terms of
 	# Z-Index.
 	def update
-		@space.step
+		if !@pause
+			@space.step
+			
+			[@stack[HIDDEN], @stack[ACTIVE]].each do |stack|
+			stack.each do |gamestate|
+				if gamestate.update?
+					gamestate.update
+				end
+			end; end
 		
-		@stack.each do |stack|
-		stack.each do |gamestate|
+			@ui_state.update
+		end
+		
+		@stack[MENU].each do |gamestate|
 			if gamestate.update?
 				gamestate.update
 			end
-		end; end
-		
-		@ui_state.update
+		end
 	end
 	
 	# Draw all contained gamestates
@@ -153,6 +164,17 @@ class GameStateManager
 		@stack[ACTIVE].pop
 	end
 	
+	# Pause the state of the game
+	# If the game is already paused, will resume game
+	def pause
+		@pause = !@pause
+	end
+	
+	# Returns true if the active gamestates are not being updated
+	def pause?
+		@pause
+	end
+	
 	# Place the player into the game environment
 	def add_player(player)
 		@player = player
@@ -160,6 +182,8 @@ class GameStateManager
 	end
 	
 	def toggle_menu
+		pause
+		
 		if @stack[MENU].empty?
 			@stack[MENU] << MenuState.new(@window, @space, new_layer, "Menu", @player)
 		else

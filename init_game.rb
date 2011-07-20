@@ -34,7 +34,6 @@ class Game_Window < Gosu::Window
 		$console = GosuConsole.new(self, 50)
 		# Create a camera object which can be passed to all contained LevelState objects
 		@camera = Camera.new self
-		@states = GameStateManager.new self, @camera
 		
 		#~ Need to reverse the order of traversal for :above using #reverse_each
 		#~ if the states need to updated it the proper order.
@@ -70,7 +69,9 @@ class Game_Window < Gosu::Window
 		
 		# Load player character data
 		@player = Player.new self, "Bob"
-		#~ 
+		
+		@states = GameStateManager.new self, @camera, @player
+		
 		# Init starting level of the game
 		@states.new_gamestate LevelState, "Test Level"
 		
