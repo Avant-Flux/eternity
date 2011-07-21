@@ -171,61 +171,70 @@ class Game_Window < Gosu::Window
 	private
 	
 	def process_input
-		dir = @inpman.direction
-		#~ puts dir
-		
-		if dir != nil
-			if @inpman.active? :intense
-				@player.run
-			else
-				@player.walk
-			end
+		if @states.menu_active?
+			# Inputs to be processed only when the menu is open
 			
-			@player.move dir
-		end
-		
-		if @inpman.active?(:jump)
-			@player.jump
-		end
-		
-		[:magic, :left_hand, :right_hand].each do |attack_type|
-			if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
-				if :magic
-					@player.magic_charge = true
-				else
-					@player.equipment[attack_type].charge = true
-				end
-			end
+			# Change arrow keys so they control menu navigation
+			# "Select/Action" key should select things in the menu
+		else
+			# Inputs to processed only when menu is closed
+			dir = @inpman.direction
+			#~ puts dir
 			
-			if @inpman.finish? attack_type
-				charged =	if :magic
-								@player.magic_charge
-							else
-								@player.equipment[attack_type].charge
-							end
-				
+			if dir != nil
 				if @inpman.active? :intense
-					if charged
-						@player.send "intense_charge_#{attack_type}".to_sym
-					else
-						@player.send "intense_#{attack_type}".to_sym
-					end
-				elsif charged
-					@player.send "charge_#{attack_type}".to_sym
+					@player.run
 				else
-					@player.send attack_type
+					@player.walk
 				end
+				
+				@player.move dir
+			end
+			
+			if @inpman.active?(:jump)
+				@player.jump
+			end
+			
+			[:magic, :left_hand, :right_hand].each do |attack_type|
+				if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+					if :magic
+						@player.magic_charge = true
+					else
+						@player.equipment[attack_type].charge = true
+					end
+				end
+				
+				if @inpman.finish? attack_type
+					charged =	if :magic
+									@player.magic_charge
+								else
+									@player.equipment[attack_type].charge
+								end
+					
+					if @inpman.active? :intense
+						if charged
+							@player.send "intense_charge_#{attack_type}".to_sym
+						else
+							@player.send "intense_#{attack_type}".to_sym
+						end
+					elsif charged
+						@player.send "charge_#{attack_type}".to_sym
+					else
+						@player.send attack_type
+					end
+				end
+			end
+			
+			if @inpman.active?(:zoom_in)
+				@camera.zoom_in
+			elsif @inpman.active?(:zoom_out)
+				@camera.zoom_out
+			elsif @inpman.active?(:zoom_reset)
+				@camera.zoom_reset
 			end
 		end
 		
-		if @inpman.active?(:zoom_in)
-			@camera.zoom_in
-		elsif @inpman.active?(:zoom_out)
-			@camera.zoom_out
-		elsif @inpman.active?(:zoom_reset)
-			@camera.zoom_reset
-		end
-		
+		# Inputs to be processed regardless of state
 		if @inpman.begin?(:toggle_menu)
 			@states.toggle_menu
 		end

@@ -195,6 +195,10 @@ class GameStateManager
 		end
 	end
 	
+	def menu_active?
+		!@stack[MENU].empty?
+	end
+	
 	private
 	
 	# Return the number for a new layer
