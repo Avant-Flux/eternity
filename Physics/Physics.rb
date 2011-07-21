@@ -160,6 +160,10 @@ module Physics
 			
 			init_2D_physics shape, position, args
 			
+			@shape.body.p = Physics::Direction::X_HAT * position[0]
+			@shape.body.p += Physics::Direction::Y_HAT * position[1]
+			@shape.body.p += Physics::Direction::Z_HAT * position[2]
+			
 			# Create values needed to track the z coordinate
 			@pz = position[2].to_f	#Force z to be a float just like x and y
 			@vz = 0.to_f
@@ -176,7 +180,7 @@ module Physics
 		end
 		
 		module Box
-			def init_physics(position, dimentions, args={})
+			def init_physics(position, dimensions, args={})
 				# position		: x,y,z
 				# dimentions	: width,depth,height
 					# Height can either be Numeric or Proc
@@ -187,7 +191,7 @@ module Physics
 				@pz = position[2].to_f	#Force z to be a float just like x and y
 				@vz = 0.to_f
 				@fz = 0.to_f
-				@height = args[:height]
+				@height = dimensions[2]
 				
 				if self.is_a? Entity
 					@in_air = false
@@ -217,24 +221,32 @@ module Physics
 				
 				# Bottom collision object
 				body = Physics::Body.new self, args[:mass], args[:moment]
-				body.p = CP::Vec2.new position[0], position[1]
-				body.p += Physics::Direction::Z_HAT * (position[2])
+				body.p = Physics::Direction::X_HAT * position[0]
+				body.p += Physics::Direction::Y_HAT * position[1]
+				body.p += Physics::Direction::Z_HAT * position[2]
 				@shapes[0] = Physics::Shape::PerspRect.new(self, body, 
-								args[:width], args[:depth], args[:offset])
+								dimensions[0], dimensions[1], args[:offset])
 				# Top collision object
 				body = Physics::Body.new self, args[:mass], args[:moment]
-				body.p = CP::Vec2.new position[0], position[1]
+				body.p = Physics::Direction::X_HAT * position[0]
+				body.p += Physics::Direction::Y_HAT * position[1]
 				body.p += Physics::Direction::Z_HAT * (position[2] + @height)
 				@shapes[1] = Physics::Shape::PerspRect.new(self, body, 
-								args[:width], args[:depth], args[:offset])
+								dimensions[0], dimensions[1], args[:offset])
 				
 				# Render object
 				body = @shapes[0].body
 				
 				vertices = Array.new 6
 				
-				[[0, ], [0, ], [0, ], [1, ], [1, ], [1, ]].each_with_index do |value, i|
-					shape = value[0]
+				bottom_left = 0
+				bottom_right = 1
+				top_left = 3
+				top_right = 2
+				
+				[[0, bottom_left], [0, bottom_right], [0, top_right], 
+				[1, top_right], [1, top_left], [1, bottom_left]].each_with_index do |value, i|
+					shape = @shapes[value[0]]
 					vert_number = value[1]
 					
 					vertex = shape.body.local2world(shape.vert(vert_number))
@@ -242,7 +254,7 @@ module Physics
 				end
 				
 				# Find center of the base, and use that as the offset
-				offset = @shape[0].body.local2world(CP::ZERO_VEC_2)
+				offset = @shapes[0].body.local2world(CP::ZERO_VEC_2)
 				
 				vertices.each_with_index do |vert, i|
 					vertices[i] -= offset
@@ -254,26 +266,29 @@ module Physics
 				@shapes.each do |shape|
 					shape.collision_type = args[:collision_type]
 				end
+				@render_shape.collision_type = "#{args[:collision_type]}_render_object".to_sym
+				@render_shape.sensor = true
 				
 				@shape = @shapes[0]
 			end
 			
 			def add_to(space)
-			@shapes ||= []
-			@shapes.each do |shape|
-				space.add shape
+				@shapes.each do |shape|
+					space.add shape
+					
+				end
+				space.add @render_shape
 			end
-		end
 		end
 		
 		module Prism
-			def init_physics(position, dimentions, args={})
+			def init_physics(position, dimensions, args={})
 				# Based on Polygon
 			end
 		end
 		
 		module Cylinder
-			def init_physics(position, dimentions, args={})
+			def init_physics(position, dimensions, args={})
 				# Based on Circle
 			end
 		end

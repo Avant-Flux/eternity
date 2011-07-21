@@ -11,9 +11,19 @@ class LevelState < GameState
 		super(window, space, layers, name)
 		
 		@queue = render_queue
-		add_gameobject Building.new window, :position => [1,0,0], :width => 3, :depth => 2, :height => 3
-		add_gameobject Building.new window, :position => [8,0,0], :width => 2, :depth => 2, :height => 3
-		#~ add_gameobject Building.new window, :position => [2,3,0], :width => 1, :depth => 1, :height => 6
+		
+		# Change position of buildings as well as all other game objects to be
+		# specified in terms of the game's isometric projection.
+		# Buildings have already been changed to behave in this way, other objects have not.
+		# Change the behavior of the physics bindings, not the gameobjects
+		
+		add_gameobject Building.new window, [2,0,0], [3,2,3]
+		add_gameobject Building.new window, [2,2,0], [3,2,5]
+		add_gameobject Building.new window, [8,0,0], [2,2,3]
+		
+		add_gameobject Building.new window, [12,-4,0], [5,8,9]
+		
+		add_gameobject Building.new window, [2,-4,0], [1,1,6]
 	end
 	
 	def update

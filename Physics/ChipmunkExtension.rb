@@ -51,7 +51,7 @@ module Physics
 					shape_array[i] = vertex - offset
 				end
 				
-				super(body, shape_array, offset)
+				super(body, shape_array, CP::ZERO_VEC_2)
 			end
 			
 			# Specify width of the shape in chipmunk units

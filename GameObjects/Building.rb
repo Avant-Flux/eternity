@@ -7,20 +7,18 @@ require './Drawing/Wireframe'
 
 class Building
 	include Physics::ThreeD_Support
-	#~ include Physics::ThreeD_Support::Box
+	include Physics::ThreeD_Support::Box
 	
 	attr_reader :shape
 
-	def initialize(window, options={})
+	def initialize(window, position, dimensions, options={})
 		#~ Set default values for hash values if they are not already set.
-		options[:position] ||= [0.0,0.0,0.0]
 		options[:mass] ||= :static
 		options[:moment] ||= :static
 		options[:collision_type] = :building
 		
-		init_physics	:box, options[:position], options
-		#~ init_physics	options[:position], [options[:width], options[:depth], options[:height]], options
-		@height = options[:height]
+		#~ init_physics	:box, options[:position], options
+		init_physics	position, dimensions, options
 		
 		@wireframe = Wireframe::Box.new window, self
 	end
