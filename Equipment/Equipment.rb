@@ -1,6 +1,4 @@
 #!/usr/bin/ruby
-#~ Name: Jason
-#~ Date last edited: 01.24.2010
 module Equipable
 	def apply_effect(player)
 		player

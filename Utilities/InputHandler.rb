@@ -42,6 +42,10 @@ class InputHandler
 		end
 	end
 	
+	def hold_duration(event)
+		@event_handlers[event].duration
+	end
+	
 	[:begin?, :active?, :finish?, :idle?].each do |method|
 		define_method method do |name|
 			handler = @event_handlers[name]
@@ -149,6 +153,7 @@ module InputType
 	class Action < BasicInput
 		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
 			super(name, buttons)
+			@start_time = Gosu::milliseconds
 		end
 		
 		def button_down(id)
@@ -160,11 +165,26 @@ module InputType
 		end
 		
 		def update
-			if @state == :begin
-				@state = :active
-			elsif @state == :finish
-				@state = :idle
-			end
+			@state =	case @state
+							when :begin
+								:active
+							when :finish
+								reset
+								@state = :idle
+							else
+								@state
+						end
+		end
+		
+		def duration
+			current_time = Gosu::milliseconds
+			current_time - @start_time
+		end
+		
+		private
+		
+		def reset
+			@start_time = Gosu::milliseconds
 		end
 	end
 	

@@ -126,7 +126,7 @@ class Entity
 	def visible?
 		@visible
 	end
-
+	
 	def set_random_element
 		@element = case rand 5
 			when 0

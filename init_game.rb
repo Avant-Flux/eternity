@@ -48,9 +48,14 @@ class Game_Window < Gosu::Window
 			new_action :left, [Gosu::KbLeft]
 			new_action :right, [Gosu::KbRight]
 			
-			new_action :jump, [Gosu::KbE]
+			new_action :jump, [Gosu::KbU]
 	
-			new_action :run, [Gosu::KbLeftShift]
+			new_action :intense, [Gosu::KbLeftShift]
+			
+			new_action :magic, [Gosu::KbA]
+			new_action :left_hand, [Gosu::KbO]
+			new_action :right_hand, [Gosu::KbE]
+			
 			
 			new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
@@ -165,8 +170,9 @@ class Game_Window < Gosu::Window
 	def process_input
 		dir = @inpman.direction
 		#~ puts dir
+		
 		if dir != nil
-			if @inpman.active? :run
+			if @inpman.active? :intense
 				@player.run
 			else
 				@player.walk
@@ -177,6 +183,22 @@ class Game_Window < Gosu::Window
 		
 		if @inpman.active?(:jump)
 			@player.jump
+		end
+		
+		[:magic, :left_hand, :right_hand].each do |attack_type|
+			if @inpman.finish? attack_type
+				if @inpman.active? :intense
+					if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+						@player.send "intense_charge_#{attack_type}".to_sym
+					else
+						@player.send "intense_#{attack_type}".to_sym
+					end
+				elsif @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+					@player.send "charge_#{attack_type}".to_sym
+				else
+					@player.send attack_type
+				end
+			end
 		end
 		
 		if @inpman.active?(:zoom_in)

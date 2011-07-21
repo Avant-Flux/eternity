@@ -1,6 +1,40 @@
 #!/usr/bin/ruby
 
 module Combative
+	DEFAULT_CHARGE_TIME = 3000
+	
+	def charge_time(attack_type)
+		# Time in milliseconds needed to charge an attack
+		case attack_type
+			when :magic
+				DEFAULT_CHARGE_TIME
+			when :left_hand
+				#~ @equipment[:left_hand].charge_time || charge_time(:right_hand)
+				DEFAULT_CHARGE_TIME
+			when :right_hand
+				#~ @equipment[:left_hand].charge_time
+				DEFAULT_CHARGE_TIME
+		end
+	end
+	
+	[:magic, :left_hand, :right_hand].each do |attack_type|
+		define_method attack_type do ||
+			puts attack_type
+		end
+		
+		define_method "intense_#{attack_type}".to_sym do ||
+			puts "intense_#{attack_type}"
+		end
+		
+		define_method "charge_#{attack_type}".to_sym do ||
+			puts "charge_#{attack_type}"
+		end
+		
+		define_method "intense_charge_#{attack_type}".to_sym do ||
+			puts "intense_charge_#{attack_type}"
+		end
+	end
+	
 	#Returns the amount of damage dealt, or nil if the attack missed
 	def melee_attack(enemy)
 		if @stats[:composite][:atk] > enemy.stats[:composite][:def]
