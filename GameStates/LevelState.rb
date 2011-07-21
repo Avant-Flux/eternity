@@ -19,11 +19,11 @@ class LevelState < GameState
 		
 		add_gameobject Building.new window, [2,0,0], [3,2,3]
 		add_gameobject Building.new window, [2,2,0], [3,2,5]
-		add_gameobject Building.new window, [8,0,0], [2,2,3]
+		add_gameobject Building.new window, [8.5,0,0], [2,2,3]
 		
-		add_gameobject Building.new window, [12,-4,0], [5,8,9]
+		add_gameobject Building.new window, [12,-5,0], [5,8,9]
 		
-		add_gameobject Building.new window, [2,-4,0], [1,1,6]
+		add_gameobject Building.new window, [2,-5,0], [1,1,6]
 	end
 	
 	def update

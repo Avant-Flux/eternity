@@ -214,8 +214,6 @@ module Physics
 				
 				@shapes = Array.new 2
 				
-				#~ @height = args[:height]
-				
 				# Create one render object, and two collision objects
 				# One collision obj for the "floor" and one for the "roof"
 				
@@ -263,9 +261,9 @@ module Physics
 				@render_shape = Physics::Shape::Poly.new(self, body, vertices, args[:offset])
 				
 				
-				@shapes.each do |shape|
-					shape.collision_type = args[:collision_type]
-				end
+				@shapes[0].collision_type = "#{args[:collision_type]}_bottom".to_sym
+				@shapes[1].collision_type = "#{args[:collision_type]}_top".to_sym
+				
 				@render_shape.collision_type = "#{args[:collision_type]}_render_object".to_sym
 				@render_shape.sensor = true
 				
@@ -275,7 +273,6 @@ module Physics
 			def add_to(space)
 				@shapes.each do |shape|
 					space.add shape
-					
 				end
 				space.add @render_shape
 			end
