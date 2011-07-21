@@ -19,7 +19,25 @@ module Combative
 		end
 	end
 	
-	[:magic, :left_hand, :right_hand].each do |attack_type|
+	[:magic].each do |attack_type|
+		define_method attack_type do ||
+			puts attack_type
+		end
+		
+		define_method "intense_#{attack_type}".to_sym do ||
+			puts "intense_#{attack_type}"
+		end
+		
+		define_method "charge_#{attack_type}".to_sym do ||
+			puts "charge_#{attack_type}"
+		end
+		
+		define_method "intense_charge_#{attack_type}".to_sym do ||
+			puts "intense_charge_#{attack_type}"
+		end
+	end
+	
+	[:left_hand, :right_hand].each do |attack_type|
 		define_method attack_type do ||
 			puts attack_type
 		end
