@@ -13,7 +13,7 @@ class LevelState < GameState
 		@queue = render_queue
 		add_gameobject Building.new window, :position => [1,0,0], :width => 3, :depth => 2, :height => 3
 		add_gameobject Building.new window, :position => [8,0,0], :width => 2, :depth => 2, :height => 3
-		add_gameobject Building.new window, :position => [2,3,0], :width => 1, :depth => 1, :height => 6
+		#~ add_gameobject Building.new window, :position => [2,3,0], :width => 1, :depth => 1, :height => 6
 	end
 	
 	def update

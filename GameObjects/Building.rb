@@ -7,7 +7,7 @@ require './Drawing/Wireframe'
 
 class Building
 	include Physics::ThreeD_Support
-	include Physics::ThreeD_Support::Box
+	#~ include Physics::ThreeD_Support::Box
 	
 	attr_reader :shape
 
@@ -18,7 +18,8 @@ class Building
 		options[:moment] ||= :static
 		options[:collision_type] = :building
 		
-		init_physics	options[:position], [options[:width], options[:depth], options[:height]], options
+		init_physics	:box, options[:position], options
+		#~ init_physics	options[:position], [options[:width], options[:depth], options[:height]], options
 		@height = options[:height]
 		
 		@wireframe = Wireframe::Box.new window, self

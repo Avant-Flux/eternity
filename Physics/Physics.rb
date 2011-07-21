@@ -146,8 +146,6 @@ module Physics
 		
 		attr_accessor :pz, :vz, :fz, :in_air
 		
-		STORY = 3 # The height of one story of a building, in scale meters
-		
 		def init_physics(shape, position, args={})
 			shape = case shape #Convert into the corresponding 2D shape
 						when :box
@@ -178,16 +176,6 @@ module Physics
 		end
 		
 		module Box
-			include TwoD_Support
-			include Physics::Dimentions::ThreeD
-			include Physics::Elevation
-			
-			alias :init_2D_physics :init_physics
-			
-			attr_accessor :pz, :vz, :fz, :in_air
-			
-			STORY = 3 # The height of one story of a building, in scale meters
-			
 			def init_physics(position, dimentions, args={})
 				# position		: x,y,z
 				# dimentions	: width,depth,height
@@ -220,29 +208,48 @@ module Physics
 				end
 					
 				
-				@shapes = []
+				@shapes = Array.new 2
 				
 				#~ @height = args[:height]
 				
-				# Once per "floor"
-				(@height / STORY).times do |i|
-					body = Physics::Body.new self, args[:mass], args[:moment]
-					body.p = CP::Vec2.new position[0], position[1]
-					body.p += Physics::Direction::Z_HAT * (position[2] + i*STORY)
-					
-					@shapes << Physics::Shape::PerspRect.new(self, body, 
+				# Create one render object, and two collision objects
+				# One collision obj for the "floor" and one for the "roof"
+				
+				# Bottom collision object
+				body = Physics::Body.new self, args[:mass], args[:moment]
+				body.p = CP::Vec2.new position[0], position[1]
+				body.p += Physics::Direction::Z_HAT * (position[2])
+				@shapes[0] = Physics::Shape::PerspRect.new(self, body, 
 								args[:width], args[:depth], args[:offset])
+				# Top collision object
+				body = Physics::Body.new self, args[:mass], args[:moment]
+				body.p = CP::Vec2.new position[0], position[1]
+				body.p += Physics::Direction::Z_HAT * (position[2] + @height)
+				@shapes[1] = Physics::Shape::PerspRect.new(self, body, 
+								args[:width], args[:depth], args[:offset])
+				
+				# Render object
+				body = @shapes[0].body
+				
+				vertices = Array.new 6
+				
+				[[0, ], [0, ], [0, ], [1, ], [1, ], [1, ]].each_with_index do |value, i|
+					shape = value[0]
+					vert_number = value[1]
 					
+					vertex = shape.body.local2world(shape.vert(vert_number))
+					vertices[i] = vertex
 				end
 				
-				# Once more for the "roof"
-				#~ if @height % STORY != 0
-					body = Physics::Body.new self, args[:mass], args[:moment]
-					body.p = CP::Vec2.new position[0], position[1]
-					body.p += Physics::Direction::Z_HAT * (position[2] + @height)
-					@shapes << Physics::Shape::PerspRect.new(self, body, 
-									args[:width], args[:depth], args[:offset])
-				#~ end
+				# Find center of the base, and use that as the offset
+				offset = @shape[0].body.local2world(CP::ZERO_VEC_2)
+				
+				vertices.each_with_index do |vert, i|
+					vertices[i] -= offset
+				end
+				
+				@render_shape = Physics::Shape::Poly.new(self, body, vertices, args[:offset])
+				
 				
 				@shapes.each do |shape|
 					shape.collision_type = args[:collision_type]
