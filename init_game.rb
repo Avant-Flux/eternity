@@ -17,6 +17,7 @@ require 'require_all'
 #~ require 'profile'
 require_all './Physics'
 require_all './GameObjects'
+require_all './Equipment'
 require_all './GameStates'
 require_all './Utilities'
 require_all './Drawing'
@@ -74,6 +75,8 @@ class Game_Window < Gosu::Window
 		
 		# Load player character data
 		@player = Player.new self, "Bob"
+		@player.equipment[:right_hand] = Weapons::Swords::Scimitar.new
+		@player.equipment[:left_hand] = Weapons::Guns::Handgun.new
 		
 		@states = GameStateManager.new self, @camera, @player
 		

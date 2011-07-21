@@ -7,13 +7,15 @@ module Combative
 		# Time in milliseconds needed to charge an attack
 		case attack_type
 			when :magic
-				DEFAULT_CHARGE_TIME
+				return DEFAULT_CHARGE_TIME
 			when :left_hand
-				#~ @equipment[:left_hand].charge_time || charge_time(:right_hand)
-				DEFAULT_CHARGE_TIME
+				if @equipment[:left_hand]
+					return @equipment[:left_hand].charge_time
+				else
+					return charge_time :right_hand
+				end
 			when :right_hand
-				#~ @equipment[:left_hand].charge_time
-				DEFAULT_CHARGE_TIME
+				return @equipment[:right_hand].charge_time
 		end
 	end
 	
