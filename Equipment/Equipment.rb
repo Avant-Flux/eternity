@@ -69,22 +69,24 @@ end
 module Weapons
 	module Swords
 		class Scimitar
-			attr_accessor :durability, :charge_time
+			attr_accessor :durability, :charge_time, :charge
 			
 			def initialize
 				@durability = {:current => 100, :max => 100}
-				@charge_time = 3000
+				@charge_time = 2000
+				@charge = false
 			end
 		end
 	end
 	
 	module Guns
 		class Handgun
-			attr_accessor :durability, :charge_time
+			attr_accessor :durability, :charge_time, :charge
 			
 			def initialize
 				@durability = {:current => 100, :max => 100}
-				@charge_time = 3000
+				@charge_time = 2000
+				@charge = false
 			end
 		end
 	end

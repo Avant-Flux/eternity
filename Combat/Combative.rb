@@ -1,7 +1,10 @@
 #!/usr/bin/ruby
 
 module Combative
-	DEFAULT_CHARGE_TIME = 3000
+	DEFAULT_CHARGE_TIME = 2000
+	
+	attr_accessor :magic_charge
+	@magic_charge = false
 	
 	def charge_time(attack_type)
 		# Time in milliseconds needed to charge an attack

@@ -165,15 +165,12 @@ module InputType
 		end
 		
 		def update
-			@state =	case @state
-							when :begin
-								:active
-							when :finish
-								reset
-								@state = :idle
-							else
-								@state
-						end
+			if @state == :begin
+				@state = :active
+				reset
+			elsif @state == :finish
+				@state = :idle
+			end
 		end
 		
 		def duration

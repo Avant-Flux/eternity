@@ -189,14 +189,28 @@ class Game_Window < Gosu::Window
 		end
 		
 		[:magic, :left_hand, :right_hand].each do |attack_type|
+			if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+				if :magic
+					@player.magic_charge = true
+				else
+					@player.equipment[attack_type].charge = true
+				end
+			end
+			
 			if @inpman.finish? attack_type
+				charged =	if :magic
+								@player.magic_charge
+							else
+								@player.equipment[attack_type].charge
+							end
+				
 				if @inpman.active? :intense
-					if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+					if charged
 						@player.send "intense_charge_#{attack_type}".to_sym
 					else
 						@player.send "intense_#{attack_type}".to_sym
 					end
-				elsif @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+				elsif charged
 					@player.send "charge_#{attack_type}".to_sym
 				else
 					@player.send attack_type
