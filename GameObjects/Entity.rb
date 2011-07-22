@@ -13,6 +13,7 @@ require './Stats/Stats'
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Physics::ThreeD_Support
+	include Physics::ThreeD_Support::Cylinder
 	
 	include Combative
 	
@@ -28,8 +29,9 @@ class Entity
 		
 		@animation = animations
 		
-		init_physics	:cylinder, pos, :radius => (@animation.width/2.0).to_meters, :mass => mass,
-						:moment => moment, :collision_type => :entity
+		#~ init_physics	:cylinder, pos, :radius => (@animation.width/2.0).to_meters, :mass => mass,
+						#~ :moment => moment, :collision_type => :entity
+		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
 		
 		@shadow = Shadow.new window, self
 		

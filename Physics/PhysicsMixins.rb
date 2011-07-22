@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 module Physics
-	module Dimentions
+	module Dimensions
 		module TwoD
 			def width(units, scale=1)
 				# Assume that if the shape does not respond to the width method,
@@ -70,7 +70,7 @@ module Physics
 		end
 		
 		module ThreeD
-			include Physics::Dimentions::TwoD
+			include Physics::Dimensions::TwoD
 			
 			def height(units, scale=1)
 				case units

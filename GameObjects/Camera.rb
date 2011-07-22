@@ -7,6 +7,7 @@ require 'gosu'
 
 class Camera
 	include Physics::TwoD_Support
+	include Physics::TwoD_Support::Rect
 	
 	attr_reader :shape, :queue
 	attr_accessor :zoom
@@ -27,11 +28,14 @@ class Camera
 		#~ half_height = @window.height.to_meters
 		#~ @bb = [-half_width, half_height, half_width, -half_height]
 		
-		init_physics	:rectangle, pos, 
-						:height => window.height.to_meters / @zoom, 
-						:width => window.width.to_meters / @zoom,
+		#~ init_physics	:rectangle, pos, 
+						#~ :height => window.height.to_meters / @zoom, 
+						#~ :width => window.width.to_meters / @zoom,
 		#~ init_physics	:circle, pos, :radius => 1,
-						:mass => 50, :moment => :static, :collision_type => :camera
+						#~ :mass => 50, :moment => :static, :collision_type => :camera
+						
+		init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
+						50, :static, :camera
 		
 		@shape.sensor = true
 		

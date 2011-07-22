@@ -232,8 +232,8 @@ class GameStateManager
 		entity_env_top_handler = CollisionHandler::EntityEnvTop.new
 		camera_collision = CollisionHandler::Camera.new
 		
-		@space.add_collision_handler :entity, :environment_bottom, entity_env_handler
-		@space.add_collision_handler :entity, :building_bottom, entity_env_handler
+		@space.add_collision_handler :entity, :environment, entity_env_handler
+		@space.add_collision_handler :entity, :building, entity_env_handler
 		
 		@space.add_collision_handler :entity, :environment_top, entity_env_top_handler
 		@space.add_collision_handler :entity, :building_top, entity_env_top_handler

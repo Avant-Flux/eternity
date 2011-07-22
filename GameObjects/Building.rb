@@ -18,7 +18,8 @@ class Building
 		options[:collision_type] = :building
 		
 		#~ init_physics	:box, options[:position], options
-		init_physics	position, dimensions, options
+		#~ init_physics	position, dimensions, options
+		init_physics	position, dimensions, :static, :static, :building
 		
 		@wireframe = Wireframe::Box.new window, self
 	end

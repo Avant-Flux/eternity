@@ -32,14 +32,10 @@ module Physics
 			end
 		end
 			
-		class PerspRect < CP::Shape::Poly
+		class PerspRect < Physics::Shape::Poly
 			# By design, this class calculates the width and height as needed,
 			# rather than storing those values.
-			attr_reader :entity
-			
 			def initialize(entity, body, width, height, offset=CP::ZERO_VEC_2)
-				@entity = entity
-
 				x_vec = Physics::Direction::X_HAT * width
 				y_vec = Physics::Direction::Y_HAT * height
 				diagonal = x_vec + y_vec
@@ -51,7 +47,7 @@ module Physics
 					shape_array[i] = vertex - offset
 				end
 				
-				super(body, shape_array, CP::ZERO_VEC_2)
+				super(entity, body, shape_array, CP::ZERO_VEC_2)
 			end
 			
 			# Specify width of the shape in chipmunk units
@@ -70,6 +66,19 @@ module Physics
 				
 				# Will always be positive
 				(v1 - v2).length
+			end
+			
+			def clone
+				shape_array = []
+				self.each_vertex do |v|
+					shape_array << v
+				end
+				
+				body = CP::Body.new self.body.m, self.body.i
+				body.p.x = self.body.p.x
+				body.p.y = self.body.p.y
+				
+				return(self.class.superclass.new self.entity, body, shape_array, CP::ZERO_VEC_2)
 			end
 		end
 	end

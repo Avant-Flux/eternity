@@ -85,8 +85,8 @@ module CollisionHandler
 			return false
 		end
 		
-		def pre(arbiter) #Determine whether to process collision or not
-			return false
+		#~ def pre(arbiter) #Determine whether to process collision or not
+			#~ return true
 			#~ #Process actions involving what to do when on top, as well as side collisions
 			#~ physics_a = arbiter.a.physics_obj
 			#~ physics_b = arbiter.b.physics_obj
@@ -100,7 +100,7 @@ module CollisionHandler
 				#~ physics_a.set_elevation
 				#~ return false
 			#~ end
-		end
+		#~ end
 		
 		#~ def post_solve(arbiter) #Do stuff after the collision has be evaluated
 			#~ 
