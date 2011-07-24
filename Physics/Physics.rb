@@ -171,11 +171,6 @@ module Physics
 		end
 		
 		module StaticObject
-			BOTTOM_LEFT_VERT = 0
-			BOTTOM_RIGHT_VERT = 1
-			TOP_LEFT_VERT = 3
-			TOP_RIGHT_VERT = 2
-			
 			[:vz, :fz].each do |method|
 				define_method method do
 					return 0
@@ -228,10 +223,14 @@ module Physics
 				# Render object
 				body = @shape.body
 				
-				vertices = Array.new 6
+				vertices =	[[0, Physics::Shape::PerspRect::BOTTOM_LEFT_VERT], 
+							[0, Physics::Shape::PerspRect::BOTTOM_RIGHT_VERT], 
+							[0, Physics::Shape::PerspRect::TOP_RIGHT_VERT], 
+							[1, Physics::Shape::PerspRect::TOP_RIGHT_VERT], 
+							[1, Physics::Shape::PerspRect::TOP_LEFT_VERT], 
+							[1, Physics::Shape::PerspRect::BOTTOM_LEFT_VERT]]
 				
-				[[0, BOTTOM_LEFT_VERT], [0, BOTTOM_RIGHT_VERT], [0, TOP_RIGHT_VERT], 
-				[1, TOP_RIGHT_VERT], [1, TOP_LEFT_VERT], [1, BOTTOM_LEFT_VERT]].each_with_index do |value, i|
+				vertices.each_with_index do |value, i|
 					shape =	if value[0] == 0
 								@shape
 							elsif value[0] == 1

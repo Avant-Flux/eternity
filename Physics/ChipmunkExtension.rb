@@ -33,6 +33,11 @@ module Physics
 		end
 			
 		class PerspRect < Physics::Shape::Poly
+			BOTTOM_LEFT_VERT = 0
+			BOTTOM_RIGHT_VERT = 1
+			TOP_LEFT_VERT = 3
+			TOP_RIGHT_VERT = 2
+			
 			# By design, this class calculates the width and height as needed,
 			# rather than storing those values.
 			def initialize(entity, body, width, height, offset=CP::ZERO_VEC_2)
@@ -69,6 +74,7 @@ module Physics
 			end
 			
 			def clone
+				# Actually returns an instance of the parent class, Physics::Shape::Poly
 				shape_array = []
 				self.each_vertex do |v|
 					shape_array << v
@@ -85,7 +91,7 @@ module Physics
 	
 	class Body < CP::Body
 		attr_reader :entity
-	
+		
 		def initialize(entity, *args)
 			@entity = entity
 			super(*args)
