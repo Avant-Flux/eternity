@@ -22,6 +22,13 @@ class Building
 		init_physics	position, dimensions, :static, :static, :building
 		
 		@wireframe = Wireframe::Box.new window, self
+		
+		# Create building shadow
+		# Should have as close to the same cross-sectional area as the building as possible
+		# Eventually, use the bitmap for the opengl stencil buffer used on the interior texture
+		# When using the collision object, perhaps blur the edges to hide the fact that
+		# the shadow is not exact.  Given the art style, even non-blurred edges
+		# will most likely suffice for a while.
 	end
 	
 	def update
@@ -30,5 +37,6 @@ class Building
 	
 	def draw(zoom)
 		@wireframe.draw zoom
+		# Render building shadow
 	end
 end

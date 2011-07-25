@@ -53,7 +53,9 @@ class Camera
 		#~ @shape.body.reset_forces
 		#~ self.move(@entity.shape.body.f)
 		if @followed_entity
-			warp @followed_entity.p
+			#~ warp @followed_entity.p
+			self.px = @followed_entity.px
+			self.py = @followed_entity.py - @followed_entity.pz
 		end
 		
 		#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
@@ -90,6 +92,33 @@ class Camera
 	
 	def warp(vec2)
 		self.p = vec2
+	end
+	
+	# Add the corresponding game object when it's in the air,
+	# and thus "detached" from the physics object which typically
+	# controls rendering.
+	# Actually, this needs to trigger whenever pz > 0,
+	# as this separation will occur even when the entity is not
+	# in the air.
+	def arial_camera_add(gameobj)
+		half_width = gameobj.width(:meters)/2.0
+		height = gameobj.height(:meters)
+		
+		# Create bb in local coordinates
+		l = -half_width
+		b = 0
+		r = half_width
+		t = height
+		
+		# Translate to global
+		t -= gameobj.py + gameobj.pz
+		b -= gameobj.py + gameobj.pz
+		l += gameobj.px
+		r += gameobj.px
+		
+		bb = CP::BB.new l,b,r,t
+		@shape.bb.intersect? bb
+		@shape.add gameobj
 	end
 	
 	def x

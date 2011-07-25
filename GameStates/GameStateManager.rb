@@ -72,6 +72,10 @@ class GameStateManager
 					gamestate.update
 				end
 			end; end
+			
+			if @player.in_air?
+				@camera.arial_camera_add @player
+			end
 		
 			@ui_state.update
 		end

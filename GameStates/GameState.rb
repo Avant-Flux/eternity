@@ -24,9 +24,10 @@ class GameState
 	
 	# Update the gamestate for the next frame.
 	# The update rate is controlled by the Gosu::Window
-	def update
+	def update(&block)
 		@gameobjects.each do |obj|
 			obj.update
+			block.call obj if block
 			obj.reset_forces
 		end
 	end

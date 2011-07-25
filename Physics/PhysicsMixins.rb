@@ -249,6 +249,10 @@ module Physics
 	
 	# Methods that are used to manage Chipmunk attributes
 	module Chipmunk
+		def in_air?
+			self.pz > 0
+		end
+		
 		def layers
 			@shape.layers
 		end
