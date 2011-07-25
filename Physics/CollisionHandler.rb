@@ -69,7 +69,10 @@ module CollisionHandler
 				#~ return false
 			#~ end
 			
-			arbiter.a.gameobj.pz = arbiter.b.gameobj.height(:meters)
+			#~ arbiter.a.gameobj.elevation = arbiter.b.gameobj.height(:meters)
+			arbiter.a.gameobj.set_elevation arbiter.b.gameobj.height(:meters)
+			arbiter.a.gameobj.raise_to_elevation
+			#~ arbiter.a.gameobj.pz = arbiter.b.gameobj.height(:meters)
 			return false
 		end
 		
@@ -79,7 +82,10 @@ module CollisionHandler
 		#~ 
 		def separate(arbiter)	#Stuff to do after the shapes separate
 			#~ arbiter.a.physics_obj.set_elevation
-			arbiter.a.gameobj.pz = 0
+			#~ arbiter.a.gameobj.pz = 0
+			#~ arbiter.a.gameobj.elevation = 0
+			arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters)
+			arbiter.a.gameobj.raise_to_elevation
 		end
 	end
 	

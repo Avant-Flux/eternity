@@ -216,6 +216,17 @@ module Physics
 	end
 	
 	module Elevation
+		require 'set'
+		
+		def @elevation_queue.max
+			max = -Float::INFINITY
+			self.each do |elevation|
+				max = elevation if elevation > max
+			end
+			
+			return max
+		end
+		
 		def elevation
 			@elevation
 		end
@@ -224,23 +235,38 @@ module Physics
 			@elevation = arg
 		end
 		
-		def set_elevation
-			@elevation = 0
-			
-			$space.point_query pxy, Physics::PhysicsObject::LAYER_BOTTOM, 0 do |env|
-				if env.collision_type == :environment || env.collision_type == :building
-					#Raise elevation to the height of whatever is below.
-					height = env.physics_obj.height
-					@elevation = height if height > @elevation
-				end
-			end
-			
-			#~ @output = []
-			$space.bb_query @bottom.bb, Physics::PhysicsObject::LAYER_BOTTOM, 0 do |shape|
-				puts "hey"
-			end
-			#~ Kernel::p @output
+		def set_elevation(elevation)
+			@elevation_queue ||= Set.new
+			@elevation_queue.add elevation
+			@elevation = @elevation_queue.max
 		end
+		
+		def reset_elevation(last_elevation)
+			@elevation_queue.delete last_elevation
+			if @elevation_queue.empty?
+				@elevation = 0
+			else
+				@elevation = @elevation_queue.max
+			end
+		end
+		
+		#~ def set_elevation
+			#~ @elevation = 0
+			#~ 
+			#~ $space.point_query pxy, Physics::PhysicsObject::LAYER_BOTTOM, 0 do |env|
+				#~ if env.collision_type == :environment || env.collision_type == :building
+					#~ #Raise elevation to the height of whatever is below.
+					#~ height = env.physics_obj.height
+					#~ @elevation = height if height > @elevation
+				#~ end
+			#~ end
+			#~ 
+			#~ # @output = []
+			#~ $space.bb_query @bottom.bb, Physics::PhysicsObject::LAYER_BOTTOM, 0 do |shape|
+				#~ puts "hey"
+			#~ end
+			#~ # Kernel::p @output
+		#~ end
 		
 		def raise_to_elevation
 			self.pz = @elevation
