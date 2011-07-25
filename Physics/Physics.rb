@@ -272,18 +272,15 @@ module Physics
 		
 		module NonstaticObject
 			# Create values needed to track the z coordinate
-			attr_accessor :vz, :fz, :in_air, :elevation
+			attr_accessor :pz, :vz, :fz, :in_air, :elevation
 			
 			def init_nonstatic
+				@pz = 0
 				@vz = 0.to_f
 				@fz = 0.to_f
 				
 				@in_air = false
 				@elevation = 0
-			end
-			
-			def pz
-				0
 			end
 		end
 		

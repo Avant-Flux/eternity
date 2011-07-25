@@ -37,7 +37,7 @@ module Physics
 				# Add shape to space
 				add_shape shape
 				add_body shape.body
-				@nonstatic_objects << shape.entity
+				@nonstatic_objects << shape.gameobj
 			end
 			
 			add_body shape.body

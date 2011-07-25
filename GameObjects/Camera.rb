@@ -43,8 +43,8 @@ class Camera
 		
 		shape_metaclass = class << @shape; self; end
 		[:add, :delete].each do |method|
-			shape_metaclass.send :define_method, method do |entity|
-				self.entity.queue[entity.layers].send method, entity
+			shape_metaclass.send :define_method, method do |gameobj|
+				self.gameobj.queue[gameobj.layers].send method, gameobj
 			end
 		end
 	end

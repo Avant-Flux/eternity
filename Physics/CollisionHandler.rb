@@ -54,7 +54,7 @@ module CollisionHandler
 			return true
 		end
 		
-		def pre(arbiter) #Determine whether to process collision or not
+		def pre_solve(arbiter) #Determine whether to process collision or not
 			#~ #Process actions involving what to do when on top, as well as side collisions
 			#~ physics_a = arbiter.a.physics_obj
 			#~ physics_b = arbiter.b.physics_obj
@@ -68,6 +68,9 @@ module CollisionHandler
 				#~ physics_a.set_elevation
 				#~ return false
 			#~ end
+			
+			arbiter.a.gameobj.pz = arbiter.b.gameobj.height(:meters)
+			return false
 		end
 		
 		#~ def post_solve(arbiter) #Do stuff after the collision has be evaluated
@@ -76,6 +79,7 @@ module CollisionHandler
 		#~ 
 		def separate(arbiter)	#Stuff to do after the shapes separate
 			#~ arbiter.a.physics_obj.set_elevation
+			arbiter.a.gameobj.pz = 0
 		end
 	end
 	
@@ -117,12 +121,12 @@ module CollisionHandler
 		#~ a has collision type :camera
 		#~ b is the Chipmunk object for the Entity
 		def begin(arbiter)
-			arbiter.a.add arbiter.b.entity
+			arbiter.a.add arbiter.b.gameobj
 			false
 		end
 				
 		def separate(arbiter)
-			arbiter.a.delete arbiter.b.entity
+			arbiter.a.delete arbiter.b.gameobj
 		end
 	end
 end

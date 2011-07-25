@@ -6,28 +6,28 @@ require 'chipmunk'
 module Physics
 	module Shape
 		class Circle < CP::Shape::Circle
-			attr_reader :entity
+			attr_reader :gameobj
 		
-			def initialize(entity, *args)
-				@entity = entity
+			def initialize(gameobj, *args)
+				@gameobj = gameobj
 				super(*args)
 			end
 		end
 		
 		class Rect < CP::Shape::Rect
-			attr_reader :entity
+			attr_reader :gameobj
 		
-			def initialize(entity, *args)
-				@entity = entity
+			def initialize(gameobj, *args)
+				@gameobj = gameobj
 				super(*args)
 			end
 		end
 		
 		class Poly < CP::Shape::Poly
-			attr_reader :entity
+			attr_reader :gameobj
 			
-			def initialize(entity, *args)
-				@entity = entity
+			def initialize(gameobj, *args)
+				@gameobj = gameobj
 				super(*args)
 			end
 		end
@@ -84,16 +84,16 @@ module Physics
 				body.p.x = self.body.p.x
 				body.p.y = self.body.p.y
 				
-				return(self.class.superclass.new self.entity, body, shape_array, CP::ZERO_VEC_2)
+				return(self.class.superclass.new self.gameobj, body, shape_array, CP::ZERO_VEC_2)
 			end
 		end
 	end
 	
 	class Body < CP::Body
-		attr_reader :entity
+		attr_reader :gameobj
 		
-		def initialize(entity, *args)
-			@entity = entity
+		def initialize(gameobj, *args)
+			@gameobj = gameobj
 			super(*args)
 		end
 	end
