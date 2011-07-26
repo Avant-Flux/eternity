@@ -22,9 +22,40 @@ module Physics
 		def step
 			super @dt
 			
-			@nonstatic_objects.each do |obj|
-				#~ obj.vz = obj.fz * obj.mass * @dt
-				#~ obj.pz += obj.vz * @dt
+			@nonstatic_objects.each do |gameobj|
+				if gameobj.is_a? Entity
+					if gameobj.pz > gameobj.elevation
+						# Apply gravity
+						az = -9.8
+						gameobj.vz += az * @dt
+						gameobj.pz += gameobj.vz * @dt
+					elsif gameobj.pz < gameobj.elevation
+						# Reset to elevation (pz)
+						gameobj.pz = gameobj.elevation
+						# Apply fall damage and other calculations
+						# Make sure to reset vz and fz
+						gameobj.vz = 0
+						gameobj.fz = 0
+						
+						gameobj.resolve_ground_collision
+					else # Exactly equal
+						# As doubles are being dealt with, this will only happen reliably
+						# when pz is set manually.
+						
+					end
+					
+					
+					
+					# Newtonian physics integration for the z dimension
+					az = gameobj.fz / gameobj.mass
+					gameobj.vz += az * @dt
+					# TODO implement terminal velocity
+					terminal_velocity = -94
+					if gameobj.vz < terminal_velocity
+						gameobj.vz = terminal_velocity
+					end
+					gameobj.pz += gameobj.vz * @dt
+				end
 			end
 		end
 		

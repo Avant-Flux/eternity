@@ -242,6 +242,7 @@ module Physics
 		end
 		
 		def reset_elevation(last_elevation)
+			@elevation_queue ||= Set.new
 			@elevation_queue.delete last_elevation
 			if @elevation_queue.empty?
 				@elevation = 0
@@ -277,6 +278,10 @@ module Physics
 	module Chipmunk
 		def in_air?
 			self.pz > 0
+		end
+		
+		def mass
+			@shape.body.m
 		end
 		
 		def layers
