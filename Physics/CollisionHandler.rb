@@ -67,7 +67,7 @@ module CollisionHandler
 				#~ puts entity.pz - env.height(:meters)
 				return true
 			else
-				#~ entity.set_elevation env.height(:meters)
+				entity.set_elevation env.height(:meters)
 				return false
 			end
 			
