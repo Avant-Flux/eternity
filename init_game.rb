@@ -191,21 +191,20 @@ class Game_Window < Gosu::Window
 				@player.move dir
 			end
 			
-			if @inpman.active?(:jump)
+			if @inpman.begin?(:jump)
 				@player.jump
 			end
 			
 			[:magic, :left_hand, :right_hand].each do |attack_type|
-				if @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
-					if :magic
-						@player.magic_charge = true
-					else
-						@player.equipment[attack_type].charge = true
-					end
+				charge = @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
+				if attack_type == :magic
+					@player.magic_charge = charge
+				else
+					@player.equipment[attack_type].charge = charge
 				end
 				
 				if @inpman.finish? attack_type
-					charged =	if :magic
+					charged =	if attack_type == :magic
 									@player.magic_charge
 								else
 									@player.equipment[attack_type].charge
