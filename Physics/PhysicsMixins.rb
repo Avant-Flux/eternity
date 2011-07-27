@@ -298,6 +298,20 @@ module Physics
 		
 		def add_to(space)
 			space.add @shape
+			
+			if self.is_a? Entity
+				pt = @shape.body.local2world CP::Vec2::ZERO
+				max_layers = -Float::INFINITY
+				env_shape = nil
+				space.point_query pt, @shape.layers, CP::NO_GROUP do |shape|
+					if shape.layers > max_layers && shape.layers != (CP::ALL_LAYERS ^ GameStateManager::UI_LAYER)
+						max_layers = shape.layers
+						env_shape = shape
+					end
+				end
+				
+				self.set_elevation env_shape.gameobj.height(:meters)
+			end
 		end
 		
 		def remove_from(space)

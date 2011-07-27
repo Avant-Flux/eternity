@@ -67,7 +67,7 @@ class GameState
 		# Set the proper layer and then add the object to the space
 		obj.layers = @layers
 		obj.add_to @space
-		@gameobjects.add obj 
+		@gameobjects.add obj
 	end
 	
 	# Remove an object from this state

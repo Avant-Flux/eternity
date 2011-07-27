@@ -29,15 +29,10 @@ class Entity
 		
 		@animation = animations
 		
-		#~ init_physics	:cylinder, pos, :radius => (@animation.width/2.0).to_meters, :mass => mass,
-						#~ :moment => moment, :collision_type => :entity
 		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
 		
 		@shadow = Shadow.new window, self
 		
-		
-		#~ $space.add self
-		#~ $space.set_elevation @shape
 		
 		@name = name
 		@element = element
