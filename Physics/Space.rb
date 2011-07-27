@@ -12,7 +12,7 @@ module Physics
 			super()
 			self.damping = damping
 			self.iterations = iterations
-			self.gravity = CP::ZERO_VEC_2
+			self.gravity = CP::Vec2::ZERO
 			
 			@dt = dt
 			

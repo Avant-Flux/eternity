@@ -40,19 +40,19 @@ module Physics
 			
 			# By design, this class calculates the width and height as needed,
 			# rather than storing those values.
-			def initialize(entity, body, width, height, offset=CP::ZERO_VEC_2)
+			def initialize(entity, body, width, height, offset=CP::Vec2::ZERO)
 				x_vec = Physics::Direction::X_HAT * width
 				y_vec = Physics::Direction::Y_HAT * height
 				diagonal = x_vec + y_vec
 				
-				shape_array = [CP::ZERO_VEC_2.clone, x_vec, diagonal, y_vec]
+				shape_array = [CP::Vec2::ZERO.clone, x_vec, diagonal, y_vec]
 				
 				offset = diagonal / 2
 				shape_array.each_with_index do |vertex, i|
 					shape_array[i] = vertex - offset
 				end
 				
-				super(entity, body, shape_array, CP::ZERO_VEC_2)
+				super(entity, body, shape_array, CP::Vec2::ZERO)
 			end
 			
 			# Specify width of the shape in chipmunk units
@@ -84,7 +84,7 @@ module Physics
 				body.p.x = self.body.p.x
 				body.p.y = self.body.p.y
 				
-				return(self.class.superclass.new self.gameobj, body, shape_array, CP::ZERO_VEC_2)
+				return(self.class.superclass.new self.gameobj, body, shape_array, CP::Vec2::ZERO)
 			end
 		end
 	end

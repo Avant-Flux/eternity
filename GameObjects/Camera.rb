@@ -86,7 +86,7 @@ class Camera
 		@queue[key] ||= Set.new
 	end
 	
-	def move(force, offset=CP::ZERO_VEC_2)
+	def move(force, offset=CP::Vec2::ZERO)
 		@shape.body.apply_force force, offset
 	end
 	

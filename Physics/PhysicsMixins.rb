@@ -181,7 +181,7 @@ module Physics
 			#~ @fz += arg[2]
 		#~ end
 		
-		def apply_force(force, offset=CP::ZERO_VEC_2)
+		def apply_force(force, offset=CP::Vec2::ZERO)
 			@shape.body.apply_force force, offset
 		end
 		

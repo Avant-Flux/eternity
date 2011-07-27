@@ -23,7 +23,7 @@ class Entity
 	attr_accessor :lvl, :hp, :mp
 	
 	def initialize(window, animations, name, pos, mass, moment, lvl, element, stats, faction)
-		@movement_force = CP::ZERO_VEC_2
+		@movement_force = CP::Vec2::ZERO
 		@walk_constant = 500
 		@run_constant = 1200
 		

@@ -51,7 +51,7 @@ module CP
 		class Rect < CP::Shape::Poly
 			attr_reader :width, :height
 		
-			def initialize(body, width, height, offset=CP::ZERO_VEC_2)
+			def initialize(body, width, height, offset=CP::Vec2::ZERO)
 				@width = width
 				@height = height
 				

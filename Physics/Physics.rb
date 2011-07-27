@@ -100,7 +100,7 @@ module Physics
 		end
 		
 		module Circle
-			def init_physics(position, radius, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, radius, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				body = init_physics_base position, mass, moment, collision_type
 				
 				@shape = Physics::Shape::Circle.new self, body, radius, offset
@@ -110,7 +110,7 @@ module Physics
 		end
 		
 		module Rect
-			def init_physics(position, width, height, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, width, height, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				body = init_physics_base position, mass, moment, collision_type
 				
 				@shape = Physics::Shape::Rect.new self, body, width, height, offset
@@ -119,7 +119,7 @@ module Physics
 		end
 		
 		module Square
-			def init_physics(position, side, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, side, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				body = init_physics_base position, mass, moment, collision_type
 				
 				@shape = Physics::Shape::Rect.new self, body, side, side, offset
@@ -128,7 +128,7 @@ module Physics
 		end
 		
 		module PerspRect
-			def init_physics(position, width, height, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, width, height, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				body = init_physics_base position, mass, moment, collision_type
 				
 				@shape = Physics::Shape::PerspRect.new self, body, width, height, offset
@@ -137,7 +137,7 @@ module Physics
 		end
 		
 		module Poly
-			def init_physics(position, verts, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, verts, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				body = init_physics_base position, mass, moment, collision_type
 				
 				@shape = Physics::Shape::Poly.new self, body, verts, offset
@@ -255,13 +255,13 @@ module Physics
 				end
 				
 				# Find center of the base, and use that as the offset
-				offset = @shape.body.local2world(CP::ZERO_VEC_2)
+				offset = @shape.body.local2world(CP::Vec2::ZERO)
 				
 				vertices.each_with_index do |vert, i|
 					vertices[i] -= offset
 				end
 				
-				shape = Physics::Shape::Poly.new(self, body, vertices, CP::ZERO_VEC_2)
+				shape = Physics::Shape::Poly.new(self, body, vertices, CP::Vec2::ZERO)
 				
 				shape.collision_type = "#{@shape.collision_type}_render_object".to_sym
 				shape.sensor = true
@@ -289,7 +289,7 @@ module Physics
 			
 			attr_reader :pz
 			
-			def init_physics(position, dimensions, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, dimensions, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				# position		: x,y,z
 				# dimensions	: width,depth,height
 					# Height can either be Numeric or Proc
@@ -318,7 +318,7 @@ module Physics
 		module Prism
 			include StaticObject
 			
-			def init_physics(position, verts, height, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, verts, height, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				# Similar to Box, but with a Polygon for a base
 				
 			end
@@ -327,7 +327,7 @@ module Physics
 		module Cylinder
 			include NonstaticObject
 			
-			def init_physics(position, radius, mass, moment, collision_type, offset=CP::ZERO_VEC_2)
+			def init_physics(position, radius, mass, moment, collision_type, offset=CP::Vec2::ZERO)
 				# Based on Circle
 				body = init_physics_base position, mass, moment
 				
