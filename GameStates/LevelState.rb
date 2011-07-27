@@ -17,6 +17,8 @@ class LevelState < GameState
 		# Buildings have already been changed to behave in this way, other objects have not.
 		# Change the behavior of the physics bindings, not the gameobjects
 		
+		#~ add_gameobject Building.new window, [0,0,0], [1,1,1]
+		
 		add_gameobject Building.new window, [2,0,0], [3,2,3]
 		add_gameobject Building.new window, [2,2,0], [3,2,5]
 		add_gameobject Building.new window, [8.5,0,0], [2,2,3]

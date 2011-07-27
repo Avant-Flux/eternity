@@ -304,13 +304,21 @@ module Physics
 				max_layers = -Float::INFINITY
 				env_shape = nil
 				space.point_query pt, @shape.layers, CP::NO_GROUP do |shape|
-					if shape.layers > max_layers && shape.layers != (CP::ALL_LAYERS ^ GameStateManager::UI_LAYER)
+					if(shape.layers > max_layers && 
+						shape.layers != (CP::ALL_LAYERS ^ GameStateManager::UI_LAYER) &&
+						shape.layers != CP::ALL_LAYERS)
+						
 						max_layers = shape.layers
-						env_shape = shape
+						if !shape.gameobj.is_a? Entity
+							# Make sure only environment objects are used
+							env_shape = shape
+						end
 					end
 				end
 				
-				self.set_elevation env_shape.gameobj.height(:meters)
+				if env_shape
+					self.set_elevation env_shape.gameobj.height(:meters)
+				end
 			end
 		end
 		
