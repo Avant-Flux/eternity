@@ -57,18 +57,31 @@ module CollisionHandler
 		def pre_solve(arbiter) #Determine whether to process collision or not
 			entity = arbiter.a.gameobj
 			env = arbiter.b.gameobj
-			#~ #Process actions involving what to do when on top, as well as side collisions
-			#~ physics_a = arbiter.a.physics_obj
-			#~ physics_b = arbiter.b.physics_obj
-			#~ 
-			if entity.pz - env.height(:meters) < -0.015
+			
+			entity_shape = arbiter.a
+			env_shape = arbiter.b
+			#Process actions involving what to do when on top, as well as side collisions
+			
+			#~ puts entity.pz
+			#~ puts env.height(:meters)
+			
+			if entity.pz >= env.height(:meters)
 				#If the entity collides from the side, accept the collision
 				#~ puts entity.pz - entity.elevation
 				#~ puts entity.pz - env.height(:meters)
-				return true
-			else
-				entity.set_elevation env.height(:meters)
+				
+				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
+					entity.set_elevation env.height(:meters)
+				else
+					arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters)
+				end
+				
 				return false
+			else
+				#~ if entity.vz < 0
+					#~ entity.set_elevation env.height(:meters)
+				#~ end
+				return true
 			end
 			
 			#~ arbiter.a.gameobj.elevation = arbiter.b.gameobj.height(:meters)
@@ -83,7 +96,7 @@ module CollisionHandler
 		#~ end
 		#~ 
 		def separate(arbiter)	#Stuff to do after the shapes separate
-			arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters)
+			
 		end
 	end
 	
