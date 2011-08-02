@@ -2,6 +2,13 @@
 
 Dir.chdir File.dirname(__FILE__)
 
+$base_directory = File.dirname(__FILE__)
+puts $base_directory
+$base_directory = $base_directory[0..($base_directory.rindex File::SEPARATOR)]
+$base_directory.freeze
+
+puts $base_directory
+
 begin
   # In case you use Gosu via rubygems.
   require 'rubygems'
@@ -81,7 +88,7 @@ class Game_Window < Gosu::Window
 		@states = GameStateManager.new self, @camera, @player
 		
 		# Init starting level of the game
-		@states.new_gamestate LevelState, "Test Level"
+		@states.new_gamestate LevelState, "FireTown"
 		
 		# Place player into game world
 		@states.add_player @player

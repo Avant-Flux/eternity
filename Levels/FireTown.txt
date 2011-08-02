@@ -1,0 +1,7 @@
+building 2 0 0 3 2 3
+building 2 2 0 3 2 5
+building 8.5 0 0 2 2 3
+
+building 12 -5 0 5 8 9
+
+building 2 -5 0 1 1 6

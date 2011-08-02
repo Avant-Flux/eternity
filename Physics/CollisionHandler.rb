@@ -62,14 +62,8 @@ module CollisionHandler
 			env_shape = arbiter.b
 			#Process actions involving what to do when on top, as well as side collisions
 			
-			#~ puts entity.pz
-			#~ puts env.height(:meters)
-			
 			if entity.pz >= env.height(:meters)
 				#If the entity collides from the side, accept the collision
-				#~ puts entity.pz - entity.elevation
-				#~ puts entity.pz - env.height(:meters)
-				
 				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
 					entity.set_elevation env.height(:meters)
 				else
@@ -78,25 +72,21 @@ module CollisionHandler
 				
 				return false
 			else
-				#~ if entity.vz < 0
-					#~ entity.set_elevation env.height(:meters)
-				#~ end
+				# Determine which side the collision is coming from,
+				# and then apply the appropriate normal force
+				
+				
+				
 				return true
 			end
-			
-			#~ arbiter.a.gameobj.elevation = arbiter.b.gameobj.height(:meters)
-			#~ entity.set_elevation env.height(:meters)
-			#~ entity.raise_to_elevation
-			#~ arbiter.a.gameobj.pz = arbiter.b.gameobj.height(:meters)
-			#~ return false
 		end
 		
 		#~ def post_solve(arbiter) #Do stuff after the collision has be evaluated
 			#~ 
 		#~ end
-		#~ 
+		
 		def separate(arbiter)	#Stuff to do after the shapes separate
-			
+			#~ arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters)
 		end
 	end
 	

@@ -92,7 +92,6 @@ class GameStateManager
 		# Draw each state, followed by a flush
 		# Thus, each gamestate can have it's own z-ordering system
 		
-		# TODO correct translation calculation
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
 				if gamestate.visible?
@@ -118,7 +117,12 @@ class GameStateManager
 		layer = new_layer
 		args = [@window, @space, layer, name]
 		args << @camera[layer] if klass == LevelState
-		gamestate = klass.new *args
+		
+		gamestate =  if klass == LevelState
+						klass.load *args
+					else
+						klass.new *args
+					end
 		
 		@stack[ACTIVE] << gamestate
 	end

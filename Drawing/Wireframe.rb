@@ -26,9 +26,19 @@ module Wireframe
 	class WireframeObj
 		def initialize(window, entity)
 			@window = window
-			@entity = entity
 			
 			@visible = true
+			
+			# Returns an array with references to all vertices
+			# which form the polygon base
+			@vertices = []
+			# Currently using local coordinates.
+			# Make sure to use world coordinates instead
+			entity.each_vertex_absolute do |v|
+				vert = [v.x, v.y]
+				@vertices << vert
+			end
+			@vertices << @vertices[0]
 		end
 		
 		def toggle_visibility
@@ -44,23 +54,10 @@ module Wireframe
 	class Box < WireframeObj
 		def initialize(window, entity)
 			super(window, entity)
-			@window = window
 			
 			# Calculate the four points which comprise the bottom
 			# as well as the height of the box. This will allow for
 			# the construction of the box
-			
-			# Returns an array with references to all vertices
-			# which form the polygon base
-			@vertices = []
-			# Currently using local coordinates.
-			# Make sure to use world coordinates instead
-			entity.each_vertex_absolute do |v|
-				vert = [v.x, v.y]
-				@vertices << vert
-				#~ @vertices << [v.x.to_px, v.y.to_px]
-			end
-			@vertices << @vertices[0]
 			
 			@height = entity.height(:meters)
 			@color = Gosu::Color::WHITE
@@ -97,9 +94,19 @@ module Wireframe
 	
 	# Similar to box, but with a sloped top surface
 	class Incline < WireframeObj
-		def initialize
+		def initialize(window, entity)
+			super(window, entity)
+			
 			# Define the height proc in such a way that (numeric - proc) 
 			# and other similar mathematics functions will be defined.
+			@height = Array.new 4
+			4.times do |i|
+				# entity.height here should be a proc, which responds to an
+				# index corresponding to a vertex
+				@height[i] = entity.height(:meters)[i]
+			end
+			
+			@color = Gosu::Color::WHITE
 		end
 		
 		def update
@@ -107,7 +114,20 @@ module Wireframe
 		end
 		
 		def draw
-			
+			# Current vertex to next vertex
+				@window.draw_line	vertex[0], vertex[1], @color,
+									next_vertex[0], next_vertex[1], @color,
+									z, :default, zoom
+				
+				# Point above current vertex to point above next vertex
+				@window.draw_line	vertex[0], vertex[1] - @height, @color,
+									next_vertex[0], next_vertex[1] - @height, @color,
+									z, :default, zoom
+				
+				# Current vertex to point above current vertex
+				@window.draw_line	vertex[0], vertex[1], @color,
+									vertex[0], vertex[1] - @height, @color,
+									z, :default, zoom
 		end
 	end
 	
