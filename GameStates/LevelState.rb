@@ -56,11 +56,8 @@ class LevelState < GameState
 		def load(window, space, layers, name, render_queue)
 			level =	LevelState.new window, space, layers, name, render_queue
 			
-			puts LEVEL_DIRECTORY
-			
 			path = File.join LEVEL_DIRECTORY, (name << ".txt")
 						
-			puts path
 			File.open(path, "r").each do |line|
 				args = line.split
 				
