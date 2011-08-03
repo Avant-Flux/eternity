@@ -2,9 +2,7 @@
 
 Dir.chdir File.dirname(__FILE__)
 
-$base_directory = File.dirname(__FILE__)
-$base_directory = $base_directory[0..($base_directory.rindex File::SEPARATOR)]
-$base_directory.freeze
+BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
 
 begin
   # In case you use Gosu via rubygems.

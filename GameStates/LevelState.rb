@@ -6,7 +6,7 @@ require 'chipmunk'
 class LevelState < GameState
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
-	LEVEL_DIRECTORY = File.join $base_directory, "Levels"
+	LEVEL_DIRECTORY = File.join BASE_DIRECTORY, "Levels"
 
 	def initialize(window, space, layers, name, render_queue)
 		super(window, space, layers, name)
@@ -17,16 +17,6 @@ class LevelState < GameState
 		# specified in terms of the game's isometric projection.
 		# Buildings have already been changed to behave in this way, other objects have not.
 		# Change the behavior of the physics bindings, not the gameobjects
-		
-		#~ add_gameobject Building.new window, [0,0,0], [1,1,1]
-		
-		#~ add_gameobject Building.new window, [2,0,0], [3,2,3]
-		#~ add_gameobject Building.new window, [2,2,0], [3,2,5]
-		#~ add_gameobject Building.new window, [8.5,0,0], [2,2,3]
-		#~ 
-		#~ add_gameobject Building.new window, [12,-5,0], [5,8,9]
-		#~ 
-		#~ add_gameobject Building.new window, [2,-5,0], [1,1,6]
 	end
 	
 	def update
