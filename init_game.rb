@@ -45,35 +45,58 @@ class Game_Window < Gosu::Window
 		#~ @states.new_gamestate SplashState, "Startup"
 		
 		# Initialize input handler
-		@inpman = InputHandler.new do
-			new_action :up, [Gosu::KbUp]
-			new_action :down, [Gosu::KbDown]
-			new_action :left, [Gosu::KbLeft]
-			new_action :right, [Gosu::KbRight]
-			
-			new_action :jump, [Gosu::KbU]
-	
-			new_action :intense, [Gosu::KbLeftShift]
-			
-			new_action :magic, [Gosu::KbA]
-			new_action :left_hand, [Gosu::KbO]
-			new_action :right_hand, [Gosu::KbE]
-			
-			
-			new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
-			new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
-			new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
-			
-			
-			# Also defined in Gosu#button_down
-				# zoom in bound to scroll up
-				# zoom out bound to scroll down
-			new_action :zoom_in, [Gosu::KbJ]
-			new_action :zoom_out, [Gosu::KbK]
-			new_action :zoom_reset, [Gosu::Kb0]
-			
-			new_action :toggle_menu, [Gosu::KbTab]
-		end
+		@inpman = InputHandler.new
+		@inpman.mode = :gameplay
+		#~ @inpman.new_action :up, function_to_fire
+		#~ @inpman.bind_action :up
+		#~ @inpmand.unbind_action 
+		#~ 
+		#~ @inpman.bind_chord :up
+		#~ @inpmand.unbind_chord 
+		#~ 
+		#~ @inpman.bind_combo :up
+		#~ @inpmand.unbind_combo 
+		#~ 
+		#~ @inpman.bind_sequence :up
+		#~ @inpmand.unbind_sequence 
+		
+		
+		#~ @inpman.new_input Action, :up, Gosu::KbUp
+		#~ @inpman.action[:up] = Gosu::KbUp
+		
+		#~ @inpman.mode = :menu
+		
+		#~ @inpman[:up].active?
+		
+		#~ @inpman = InputHandler.new do
+			#~ new_action :up, [Gosu::KbUp]
+			#~ new_action :down, [Gosu::KbDown]
+			#~ new_action :left, [Gosu::KbLeft]
+			#~ new_action :right, [Gosu::KbRight]
+			#~ 
+			#~ new_action :jump, [Gosu::KbU]
+			#~ 
+			#~ new_action :intense, [Gosu::KbLeftShift]
+			#~ 
+			#~ new_action :magic, [Gosu::KbA]
+			#~ new_action :left_hand, [Gosu::KbO]
+			#~ new_action :right_hand, [Gosu::KbE]
+			#~ 
+			#~ 
+			#~ new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
+			#~ new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
+			#~ new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
+			#~ 
+			#~ 
+			#~ # Also defined in Gosu#button_down
+				#~ # zoom in bound to scroll up
+				#~ # zoom out bound to scroll down
+			#~ new_action :zoom_in, [Gosu::KbJ]
+			#~ new_action :zoom_out, [Gosu::KbK]
+			#~ new_action :zoom_reset, [Gosu::Kb0]
+			#~ 
+			#~ new_action :toggle_menu, [Gosu::KbTab]
+		#~ end
 		
 		# Load player character data
 		@player = Player.new self, "Bob"

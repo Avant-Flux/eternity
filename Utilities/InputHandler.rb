@@ -17,304 +17,136 @@ rescue LoadError
 end
 require 'gosu'
 
+require 'set'
+
+require './Utilities/InputType'
+
 class InputHandler
-	def initialize(&block)
-		@event_handlers = {}
+	def initialize
+		# Map event names to functions
+		# Map keys to event names
+		@modes = {}
 		
-		instance_eval &block
+		# The current mode
+		@mode = nil
+		
+		# Set of buttons which are currently being pressed
+		@buttons = Set.new
+	end
+	
+	def mode=(mode)
+		@modes[mode] ||= {:action => {}, :sequence => {}, :chord => {}, :flag => {}}
+		@mode = @modes[mode]
 	end
 	
 	def update
-		@event_handlers.each_value do |i|
-			i.update
-		end
-	end
-	
-	def button_up(id)
-		@event_handlers.each_value do |i|
-			i.button_up id
-		end
-	end
-	
-	def button_down(id)
-		@event_handlers.each_value do |i|
-			i.button_down id
+		#~ @mode[:events].each_value do |input|
+			#~ input.update
+		#~ end
+		@mode.each do |type, events|
+			events.each do |name, handler|
+				# Update handler
+				handler.update
+			end
 		end
 	end
 	
 	def hold_duration(event)
-		@event_handlers[event].duration
+		@event_handlers[@mode][event].duration
 	end
 	
-	[:begin?, :active?, :finish?, :idle?].each do |method|
-		define_method method do |name|
-			handler = @event_handlers[name]
-			if handler
-				handler.send method
-			else
-				false
+	def button_down(id)
+		@buttons.add id
+	end
+	
+	def button_up(id)
+		@buttons.delete id
+	end
+	
+	[:action, :chord, :sequence].each do |input_type|
+		eval &Q{
+			def new_#{input_type}(name, &block)
+				@mode[:events][input_type] = block
 			end
-		end
+			
+			def bind_#{input_type}(name, )
+				@mode[:keymap]
+			end
+			
+			def unbind_#{input_type}(name)
+				
+			end
+			
+			def rebind_#{input_type}(name, )
+				unbind_#{input_type}(name)
+				bind_#{input_type}()
+			end
+		}
+	end
+	
+	# Manage actions
+	def new_action(name, &function)
+		@mode[:events][:action][name] = InputType::Action.new(function)
+	end
+	
+	def bind_action(name, *binding)
+		#~ @mode[:events][:action][name].active?
+	end
+	
+	def unbind_action
+		
+	end
+	
+	# Manage chords
+	def new_chord
+		
+	end
+	
+	def bind_chord(name, *binding)
+		@mode[:keymap][binding] => name
+		
+	end
+	
+	def unbind_chord
+		
+	end
+	
+	# Manage sequences
+	def new_sequence
+		
+	end
+	
+	def bind_sequence(name, *binding)
+		
+	end
+	
+	def unbind_sequence
+		
 	end
 	
 	private
 	
+	def process_input
+		
+	end
+	
 	def new_action(name, buttons=[])
-		@event_handlers[name]= InputType::Action.new(name, buttons)
+		@event_handlers[@mode] ||= Hash.new
+		@event_handlers[@mode][name]= InputType::Action.new(name, buttons)
 	end
 	
 	def new_sequence(name, buttons=[], threshold=InputType::Sequence::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Sequence.new(name, buttons, threshold)
+		@event_handlers[@mode] ||= Hash.new
+		@event_handlers[@mode][name]= InputType::Sequence.new(name, buttons, threshold)
 	end
 	
 	def new_chord(name, buttons=[], threshold=InputType::Chord::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Chord.new(name, buttons, threshold)
+		@event_handlers[@mode] ||= Hash.new
+		@event_handlers[@mode][name]= InputType::Chord.new(name, buttons, threshold)
 	end
 	
 	def new_combo(name, buttons=[], threshold=InputType::Combo::DEFAULT_THRESHOLD)
-		@event_handlers[name]= InputType::Combo.new(name, buttons, threshold)
-	end
-end
-
-module InputType
-	#Hold methods common to all classes under the InputType module
-	class BasicInput
-		attr_accessor :name, :buttons, :state
-		
-		def initialize(name, buttons=[])
-			@name = name
-			@buttons = buttons
-			@state = :idle
-		end
-		
-		[:begin?, :active?, :finish?, :idle?].each do |method|
-			define_method method do
-				# Take the question mark off the end
-				sym = method.to_s[0..(method.length-2)].to_sym
-				@state == sym
-			end
-		end
-	end
-	
-	#Hold methods common to all classes  that require multiple button presses.
-	class MultiButtonInput < BasicInput
-		attr_accessor :threshold
-	
-		def initialize(name, buttons, threshold)
-			super(name, buttons)
-			@threshold = threshold
-			
-			@active = []
-			update_time
-			
-			buttons.size.times do
-				@active << false
-			end
-		end
-		
-		def button_up(id)
-			reset if @buttons.include?(id)
-			@state = :finish
-		end
-		
-		def update
-			#Update the state
-			@state = case @state
-				when :begin
-					:active
-				when :finish
-					reset
-					:idle
-				when :process
-					if timeout #Invalidate the sequence if too much time has passed.
-						reset
-						:idle
-					else
-						:process
-					end
-				else
-					@state
-			end
-		end
-		
-		def reset
-			@active.fill false
-		end
-		
-		def timeout
-			Gosu::milliseconds - @last_time > @threshold
-		end
-		
-		def update_time
-			@last_time = Gosu::milliseconds
-		end
-	end
-
-	class Action < BasicInput
-		def initialize(name, buttons=[]) #One action can have multiple buttons which trigger it
-			super(name, buttons)
-			@start_time = Gosu::milliseconds
-		end
-		
-		def button_down(id)
-			@state = :begin if @buttons.include? id
-		end
-		
-		def button_up(id)
-			@state = :finish if @buttons.include? id
-		end
-		
-		def update
-			if @state == :begin
-				@state = :active
-				reset
-			elsif @state == :finish
-				@state = :idle
-			end
-		end
-		
-		def duration
-			current_time = Gosu::milliseconds
-			current_time - @start_time
-		end
-		
-		private
-		
-		def reset
-			@start_time = Gosu::milliseconds
-		end
-	end
-	
-	class Sequence < MultiButtonInput
-		DEFAULT_THRESHOLD = 5000
-		
-		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
-			super(name, buttons, threshold)
-		end
-		
-		def button_down(id)
-			if i=@active.index(false) #Get the index of the next button in the sequence
-				if @buttons[i] == id
-					@active[i] = true 
-					update_time
-					@state = :process
-				end
-			end
-			if @active.last == true
-				#In this case, there are no more false values
-				#ie, all the buttons in the sequence have been pressed
-				@state = :begin
-			end
-		end
-	end
-	
-	class Chord < MultiButtonInput
-		DEFAULT_THRESHOLD = 20
-		
-		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
-			super(name, buttons, threshold)
-		end
-		
-		def button_down(id)
-			# Update chords
-			
-			#Get all the chords where the given button ID is part of that chord
-			#Set the corresponding index of the "active" array to true
-			#As one of the keys has been pressed, change the status to :process,
-			#	and store the time of the button press
-			if i = @buttons.index(id)
-				@active[i] = true
-				@state = :process
-				update_time
-				
-				unless @active.include?(false)
-					#At this point, all buttons have been pressed
-					@state = :begin
-				end
-			end
-		end
-	end
-	
-	class Combo < MultiButtonInput
-		DEFAULT_THRESHOLD = [1000]
-		TIMING_BUFFER = 1000 #Amount of milliseconds to buffer the target time on each side.
-							# Leave high for testing
-		#Change @threshold to pertain to the next button
-		
-		def initialize(name, buttons=[], threshold=DEFAULT_THRESHOLD)
-			super(name, buttons, threshold[0])
-			
-			#@thresholds[0] is the time to wait in between button1 and button2
-			@thresholds = threshold
-			
-			#Copy the last threshold value into other indexes of @thresholds
-			unless @thresholds.size == @buttons.size
-				max = @buttons.size-1
-				min = @thresholds.size-1
-				
-				time = @thresholds[min]
-				
-				((min+1)..max).each do |i|
-					@thresholds[i] = time
-				end
-			end
-		end
-		
-		def button_down(id)
-			if i = @active.index(false) #Get the index of the next button in the sequence
-				if @buttons[i] == id #If this is the button you are looking for
-					#If the time elapsed is within the desired timeframe
-					if within_range	#only check if it is past the minimum time
-									#update will check to make sure it is not over the max
-						#then set the marker to true.
-						#Then, get ready to receive the next input
-						update_time
-						
-						@active[i] = true
-						@threshold = @thresholds[i]
-						
-						@state = :process
-					else 
-						#else, if the time is outside the timeframe, reset
-						#This basically means that the button was pressed too early
-						#If it had been pressed too late, the problem would have been resolved by
-						#the method #update
-						@threshold = @thresholds[0]
-						@state = :idle
-						reset
-					end
-				end
-			end
-			
-			#In this case, there are no more false values
-			#ie, all the buttons in the combo have been pressed
-			@state = :begin if @active.last == true
-		end
-		
-		def button_up(id)
-			#Needs to be left blank to override the method inherited.
-		end
-		
-		def update
-			#Allow timeout while @state is :active as well as :process
-			#This allows the combo to time out after the last button is pressed.
-			if @state == :active
-				@state = :finish if timeout 
-			end
-			
-			super
-		end
-		
-		def timeout
-			#make sure the time elapsed is not over the maximum wait time
-			time_elapsed = Gosu::milliseconds - @last_time
-			time_elapsed > @threshold + TIMING_BUFFER
-		end
-		
-		def within_range
-			#Return true if the time is at least passed the minimum time
-			time_elapsed = Gosu::milliseconds - @last_time
-			time_elapsed > @threshold - TIMING_BUFFER
-		end
+		@event_handlers[@mode] ||= Hash.new
+		@event_handlers[@mode][name]= InputType::Combo.new(name, buttons, threshold)
 	end
 end
