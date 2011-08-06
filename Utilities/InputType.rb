@@ -110,10 +110,6 @@ module InputType
 			super inputs, buttons, functions
 		end
 		
-		def update
-			@active = next_state
-		end
-		
 		def bind(trigger)
 			# The current element to be examined must be an element of trigger
 			super trigger[0]
@@ -129,6 +125,7 @@ module InputType
 	class Sequence < MultiButtonInput
 		def initialize(inputs, buttons, trigger, functions={})
 			super inputs, buttons, trigger, trigger[0], functions
+			
 			@i = 0
 		end
 		
@@ -137,9 +134,31 @@ module InputType
 			
 			if @trigger == @all_triggers.last
 				transition_to state
+			else
+				if state
+					# If this is not the last trigger, and the current trigger is active
+					@i += 1
+				else
+					# Reset the sequence
+					#~ transition_to false
+					@i = 0
+				end
 			end
 			
+			@trigger = @all_triggers[@i]
+			
 			@active = state
+		end
+		
+		def bind(trigger)
+			# The current element to be examined must be an element of trigger
+			super trigger[0]
+			@all_triggers = trigger
+		end
+		
+		def unbind
+			super
+			@all_triggers = nil
 		end
 	end
 	
