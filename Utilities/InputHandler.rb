@@ -37,6 +37,10 @@ class InputHandler
 	def mode=(mode)
 		@modes[mode] ||= {:action => {}, :sequence => {}, :chord => {}, :flag => {}}
 		@mode = @modes[mode]
+		#~ @modes.each do |key, mode|
+			#~ puts "#{key} --> #{mode}"
+		#~ end
+		#~ puts mode
 	end
 	
 	def update
@@ -52,29 +56,36 @@ class InputHandler
 	end
 	
 	def button_down(id)
+		#~ puts "button #{id} down"
 		@buttons.add id
 	end
 	
 	def button_up(id)
+		#~ puts "button #{id} up"
 		@buttons.delete id
 	end
 	
 	[:action, :chord, :sequence].each do |input_type|
 		eval %Q{
-			def new_#{input_type}(name, &block)
-				@mode[#{input_type}][name] = InputType::#{input_type.to_s.capitalize}.new(@mode, @buttons, function)
+			def new_#{input_type}(name, type, &block)
+				if @mode[:#{input_type}][name]
+					@mode[:#{input_type}][name].functions[type] = block
+				else
+					@mode[:#{input_type}][name] = InputType::#{input_type.to_s.capitalize}.new(@mode, @buttons, type => block)
+				end
+				
 			end
 			
 			def bind_#{input_type}(name, trigger)
-				@mode[#{input_type}][name].bind trigger
+				@mode[:#{input_type}][name].bind trigger
 			end
 			
 			def unbind_#{input_type}(name)
-				@mode[#{input_type}][name].unbind
+				@mode[:#{input_type}][name].unbind
 			end
 			
 			def rebind_#{input_type}(name, trigger)
-				@mode[#{input_type}][name].rebind trigger
+				@mode[:#{input_type}][name].rebind trigger
 			end
 		}
 	end
