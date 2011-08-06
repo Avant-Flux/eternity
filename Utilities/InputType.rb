@@ -1,7 +1,7 @@
 module InputType
 	#Hold methods common to all classes under the InputType module
 	class BasicInput
-		attr_accessor :trigger # Stores the things which much be triggered before this event fires
+		attr_accessor :functions # Stores the things which much be triggered before this event fires
 		
 		def initialize(inputs, buttons, functions={})
 			# Hash of all inputs within the same mode as this one
@@ -72,18 +72,18 @@ module InputType
 			if @active
 				if next_state
 					# Active and still active
-					@function[:action].call if @function[:action]
+					@functions[:active].call if @functions[:active]
 				else
 					# Falling edge
-					@function[:falling_edge].call if @function[:falling_edge]
+					@functions[:falling_edge].call if @functions[:falling_edge]
 				end
 			else
 				if next_state
 					# Rising edge
-					@function[:rising_edge].call if @function[:rising_edge]
+					@functions[:rising_edge].call if @functions[:rising_edge]
 				else
 					# Nothing of importance
-					@function[:idle].call if @function[:idle]
+					@functions[:idle].call if @functions[:idle]
 				end
 			end
 		end
