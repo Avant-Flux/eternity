@@ -1,13 +1,13 @@
 module InputType
 	#Hold methods common to all classes under the InputType module
 	class BasicInput
-		def initialize(inputs, buttons, trigger, functions={})
+		attr_accessor :trigger # Stores the things which much be triggered before this event fires
+		
+		def initialize(inputs, buttons, functions={})
 			# Hash of all inputs within the same mode as this one
 			@inputs = inputs
 			# Set of currently depressed button ids
 			@buttons = buttons
-			# Stores the things which much be triggered before this event fires
-			@trigger = trigger
 			
 			# Store the functions to be called on 
 			# rising edge, falling edge, active and idle
@@ -31,13 +31,28 @@ module InputType
 			@active = state
 		end
 		
-		[:begin?, :active?, :finish?, :idle?].each do |method|
-			define_method method do
-				# Take the question mark off the end
-				sym = method.to_s[0..(method.length-2)].to_sym
-				@state == sym
-			end
+		def bound?
+			@trigger != nil
 		end
+		
+		def bind(trigger)
+			@trigger = trigger
+		end
+		
+		def unbind
+			super
+			@all_triggers = nil
+		end
+		
+		# In theory this is supposed to be different from bind
+		# bind should add a new binding
+		# rebind should erase all previous bindings and create a new binding
+		# Thus, bind should be used when creating multiple triggers
+		# 	for the same function.
+		#~ def rebind(trigger)
+			#~ unbind
+			#~ bind trigger
+		#~ end
 		
 		private
 		
@@ -75,8 +90,8 @@ module InputType
 	end
 	
 	class Action < BasicInput
-		def initialize(inputs, buttons, trigger, functions={})
-			super inputs, buttons, trigger, functions
+		def initialize(inputs, buttons, functions={})
+			super inputs, buttons, functions
 		end
 		
 		def update
@@ -91,15 +106,23 @@ module InputType
 	
 	
 	class MultiButtonInput < BasicInput
-		def initialize(inputs, buttons, trigger, current, functions={})
-			# The current element to be examined must be an element of trigger
-			
-			super inputs, buttons, current, functions
-			@all_triggers = trigger
+		def initialize(inputs, buttons, functions={})
+			super inputs, buttons, functions
 		end
 		
 		def update
 			@active = next_state
+		end
+		
+		def bind(trigger)
+			# The current element to be examined must be an element of trigger
+			super trigger[0]
+			@all_triggers = trigger
+		end
+		
+		def unbind
+			super
+			@all_triggers = nil
 		end
 	end
 	

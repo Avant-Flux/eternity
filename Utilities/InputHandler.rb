@@ -40,12 +40,8 @@ class InputHandler
 	end
 	
 	def update
-		#~ @mode[:events].each_value do |input|
-			#~ input.update
-		#~ end
 		@mode.each do |type, events|
 			events.each do |name, handler|
-				# Update handler
 				handler.update
 			end
 		end
@@ -63,30 +59,30 @@ class InputHandler
 		@buttons.delete id
 	end
 	
-	[:action, :chord, :sequence].each do |input_type|
-		eval &Q{
-			def new_#{input_type}(name, &block)
-				@mode[:events][input_type] = block
-			end
-			
-			def bind_#{input_type}(name, )
-				@mode[:keymap]
-			end
-			
-			def unbind_#{input_type}(name)
-				
-			end
-			
-			def rebind_#{input_type}(name, )
-				unbind_#{input_type}(name)
-				bind_#{input_type}()
-			end
-		}
-	end
+	#~ [:action, :chord, :sequence].each do |input_type|
+		#~ eval &Q{
+			#~ def new_#{input_type}(name, &block)
+				#~ @mode[:events][input_type] = block
+			#~ end
+			#~ 
+			#~ def bind_#{input_type}(name, )
+				#~ @mode[:keymap]
+			#~ end
+			#~ 
+			#~ def unbind_#{input_type}(name)
+				#~ 
+			#~ end
+			#~ 
+			#~ def rebind_#{input_type}(name, )
+				#~ unbind_#{input_type}(name)
+				#~ bind_#{input_type}()
+			#~ end
+		#~ }
+	#~ end
 	
 	# Manage actions
 	def new_action(name, &function)
-		@mode[:events][:action][name] = InputType::Action.new(function)
+		@mode[:action][name] = InputType::Action.new(@mode, @buttons, function)
 	end
 	
 	def bind_action(name, *binding)
