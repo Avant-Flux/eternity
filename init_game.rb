@@ -46,57 +46,86 @@ class Game_Window < Gosu::Window
 		
 		# Initialize input handler
 		@inpman = InputHandler.new
+		
 		@inpman.mode = :gameplay
-		#~ @inpman.new_action :up, function_to_fire
-		#~ @inpman.bind_action :up
-		#~ @inpmand.unbind_action 
+		[:up, :down, :left, :right].each do |dir|
+			@inpman.new_action dir, :active do 
+				@player.walk
+				@player.move dir
+			end
+			key = eval "Gosu::Kb#{dir.to_s.capitalize}"
+			@inpman.bind_action dir, key
+		end
+		
+		@inpman.new_action :toggle_menu, :rising_edge do
+			@states.toggle_menu
+			#~ puts "switch to menu mode"
+			@inpman.mode = :menu
+		end
+		@inpman.bind_action :toggle_menu, Gosu::KbTab
+		
+		@inpman.new_action :jump, :rising_edge do
+			@player.jump
+		end
+		@inpman.bind_action :jump, Gosu::KbU
+		
+		#~ @inpman.new_action :magic, :rising_edge do
+			#~ 
+		#~ end
+		#~ @inpman.bind_action :magic, Gosu::KbA
 		#~ 
-		#~ @inpman.bind_chord :up
-		#~ @inpmand.unbind_chord 
+		#~ @inpman.new_action :left_hand, :rising_edge do
+			#~ 
+		#~ end
+		#~ @inpman.bind_action :left_hand, Gosu::KbO
 		#~ 
-		#~ @inpman.bind_combo :up
-		#~ @inpmand.unbind_combo 
+		#~ @inpman.new_action :right_hand
+		#~ @inpman.bind_action :right_hand, Gosu::KbE
+		
+		#~ @inpman.new_action :super
+		#~ @inpman.bind_action :super, Gosu::Kb
 		#~ 
-		#~ @inpman.bind_sequence :up
-		#~ @inpmand.unbind_sequence 
+		#~ @inpman.new_action :super2
+		#~ @inpman.bind_action :super2, Gosu::Kb
+		#~ 
+		#~ @inpman.new_action :super3
+		#~ @inpman.bind_action :super3, Gosu::Kb
+		
+		@inpman.new_action :zoom_in, :active do
+			@camera.zoom_in
+		end
+		@inpman.bind_action :zoom_in, Gosu::KbJ
+				
+		@inpman.new_action :zoom_out, :active do
+			@camera.zoom_out
+		end
+		@inpman.bind_action :zoom_out, Gosu::KbK
+		
+		@inpman.new_action :zoom_reset, :rising_edge do
+			@camera.zoom_reset
+		end
+		@inpman.bind_action :zoom_reset, Gosu::Kb0
 		
 		
-		#~ @inpman.new_input Action, :up, Gosu::KbUp
-		#~ @inpman.action[:up] = Gosu::KbUp
-		
-		#~ @inpman.mode = :menu
-		
-		#~ @inpman[:up].active?
-		
-		#~ @inpman = InputHandler.new do
-			#~ new_action :up, [Gosu::KbUp]
-			#~ new_action :down, [Gosu::KbDown]
-			#~ new_action :left, [Gosu::KbLeft]
-			#~ new_action :right, [Gosu::KbRight]
-			#~ 
-			#~ new_action :jump, [Gosu::KbU]
-			#~ 
-			#~ new_action :intense, [Gosu::KbLeftShift]
-			#~ 
-			#~ new_action :magic, [Gosu::KbA]
-			#~ new_action :left_hand, [Gosu::KbO]
-			#~ new_action :right_hand, [Gosu::KbE]
-			#~ 
-			#~ 
 			#~ new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
 			#~ new_sequence :super2, [Gosu::KbLeftShift, Gosu::KbP]
 			#~ new_combo :super3, [Gosu::KbQ, Gosu::KbJ, Gosu::KbK], [1000, 500, 200]
-			#~ 
-			#~ 
-			#~ # Also defined in Gosu#button_down
-				#~ # zoom in bound to scroll up
-				#~ # zoom out bound to scroll down
-			#~ new_action :zoom_in, [Gosu::KbJ]
-			#~ new_action :zoom_out, [Gosu::KbK]
-			#~ new_action :zoom_reset, [Gosu::Kb0]
-			#~ 
-			#~ new_action :toggle_menu, [Gosu::KbTab]
-		#~ end
+
+		
+		
+		@inpman.mode = :menu
+		@inpman.new_action :toggle_menu, :rising_edge do
+			@states.toggle_menu
+			#~ puts "switch to gameplay mode"
+			@inpman.mode = :gameplay
+		end	
+		@inpman.bind_action :toggle_menu, Gosu::KbTab
+		
+		
+		
+		# Must remember to change the mode back to :gameplay before the game starts
+		@inpman.mode = :gameplay
+		
 		
 		# Load player character data
 		@player = Player.new self, "Bob"
@@ -124,7 +153,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
-		process_input
+		#~ process_input
 		@inpman.update
 		
 		$console.update
@@ -145,19 +174,19 @@ class Game_Window < Gosu::Window
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
 		end
 		
-		color =	if @inpman.active?(:super) 
-					Gosu::Color::CYAN
-				elsif @inpman.active?(:super2)
-					Gosu::Color::RED
-				elsif @inpman.active?(:super3)
-					Gosu::Color::FUCHSIA
-				else
-					Gosu::Color::NONE
-				end
-		draw_quad	800, 30, color,
-						1000, 30, color,
-						800, 50, color,
-						1000, 50, color
+		#~ color =	if @inpman.active?(:super) 
+					#~ Gosu::Color::CYAN
+				#~ elsif @inpman.active?(:super2)
+					#~ Gosu::Color::RED
+				#~ elsif @inpman.active?(:super3)
+					#~ Gosu::Color::FUCHSIA
+				#~ else
+					#~ Gosu::Color::NONE
+				#~ end
+		#~ draw_quad	800, 30, color,
+						#~ 1000, 30, color,
+						#~ 800, 50, color,
+						#~ 1000, 50, color
 	end
 	
 	def button_down(id)
@@ -216,10 +245,6 @@ class Game_Window < Gosu::Window
 				@player.move dir
 			end
 			
-			if @inpman.begin?(:jump)
-				@player.jump
-			end
-			
 			[:magic, :left_hand, :right_hand].each do |attack_type|
 				charge = @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
 				if attack_type == :magic
@@ -248,19 +273,6 @@ class Game_Window < Gosu::Window
 					end
 				end
 			end
-			
-			if @inpman.active?(:zoom_in)
-				@camera.zoom_in
-			elsif @inpman.active?(:zoom_out)
-				@camera.zoom_out
-			elsif @inpman.active?(:zoom_reset)
-				@camera.zoom_reset
-			end
-		end
-		
-		# Inputs to be processed regardless of state
-		if @inpman.begin?(:toggle_menu)
-			@states.toggle_menu
 		end
 	end
 	
@@ -270,37 +282,6 @@ class Game_Window < Gosu::Window
 	
 	def load_keybindings
 		
-	end
-end
-
-class InputHandler
-	def direction
-		up =	active? :up
-		down =	active? :down
-		left =	active? :left
-		right =	active? :right
-		
-		result =	if up && left
-						:up_left
-					elsif up && right
-						:up_right
-					elsif down && left
-						:down_left
-					elsif down && right
-						:down_right
-					elsif up
-						:up
-					elsif down
-						:down
-					elsif left
-						:left
-					elsif right
-						:right
-					else
-						nil #No button for direction pressed
-					end
-
-		result
 	end
 end
 
