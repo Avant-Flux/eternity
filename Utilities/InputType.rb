@@ -157,11 +157,11 @@ module InputType
 		end
 		
 		def update
-			state = true # Identity element of the logic AND
+			state = nil # Identity element of the logic AND
 			@all_triggers.each_with_index do |trigger, i|
 				@trigger = trigger
 				
-				state = state && next_state
+				state = next_state
 				break unless state # Short circuit
 			end
 			
