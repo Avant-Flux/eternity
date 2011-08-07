@@ -58,11 +58,11 @@ module InputType
 		
 		def next_state
 			if @trigger.is_a? Fixnum # aka Gosu::KbA.class
-				@buttons.include? @trigger
+				return @buttons.include? @trigger
 			else # Assume this is the name of another event
 				@inputs.each_value do |input|
 					if input.include? @trigger
-						input[@trigger].active?
+						return input[@trigger].active?
 					end
 				end
 			end
@@ -149,27 +149,16 @@ module InputType
 			
 			@active = state
 		end
-		
-		def bind(trigger)
-			# The current element to be examined must be an element of trigger
-			super trigger[0]
-			@all_triggers = trigger
-		end
-		
-		def unbind
-			super
-			@all_triggers = nil
-		end
 	end
 	
 	class Chord < MultiButtonInput
-		def initialize(inputs, buttons, trigger, functions={})
-			super inputs, buttons, trigger, nil, functions
+		def initialize(inputs, buttons, functions={})
+			super inputs, buttons, functions
 		end
 		
 		def update
 			state = true # Identity element of the logic AND
-			@all_triggers.each do |trigger|
+			@all_triggers.each_with_index do |trigger, i|
 				@trigger = trigger
 				
 				state = state && next_state
@@ -177,6 +166,7 @@ module InputType
 			end
 			
 			transition_to state
+			@active = state
 		end
 	end
 	
