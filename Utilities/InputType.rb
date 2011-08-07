@@ -148,7 +148,7 @@ module InputType
 					@i = 0
 				end
 			end
-		
+			
 			@active = state
 		end
 	end

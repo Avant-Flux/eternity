@@ -174,9 +174,12 @@ class Game_Window < Gosu::Window
 		@inpman.bind_action :toggle_menu, Gosu::KbTab
 		
 		@inpman.new_action :jump, :rising_edge do
+			if @player.intense
+				puts "intense jump"
+			end
 			@player.jump
 		end
-		@inpman.bind_action :jump, Gosu::KbU
+		@inpman.bind_action :jump, self.char_to_button_id(".")
 		
 		@inpman.new_action :intense, :rising_edge do
 			@player.intense = true
@@ -187,47 +190,102 @@ class Game_Window < Gosu::Window
 		@inpman.bind_action :intense, Gosu::KbLeftShift
 		
 		
-		[:magic, :left_hand, :right_hand].each do |attack_type|
-			@inpman.new_action attack_type, :falling_edge do
-				attack = attack_type.to_s
-				
-				charge =	if attack_type == :magic
-								@player.magic_charge
-							else
-								@player.equipment[attack_type].charge
-							end
-				
-				if charge
-					attack = "charge_" + attack
-				end
-				
+		#~ [:magic, :left_hand, :right_hand].each do |attack_type|
+			#~ @inpman.new_action attack_type, :falling_edge do
+				#~ attack = attack_type.to_s
+				#~ 
+				#~ charge =	if attack_type == :magic
+								#~ @player.magic_charge
+							#~ else
+								#~ @player.equipment[attack_type].charge
+							#~ end
+				#~ 
+				#~ if charge
+					#~ attack = "charge_" + attack
+				#~ end
+				#~ 
 				#~ if @player.intense
 					#~ attack = "intense_" + attack
 				#~ end
-				
-				@player.send attack.to_sym
-			end
-			
-			@inpman.new_sequence "intense_#{attack_type}".to_sym, :falling_edge do
-				@player.send "intense_#{attack_type}".to_sym
-				#~ puts "hey"
-			end
-			
-			#~ @inpman.new_hold "charge_#{attack_type}".to_sym, 2000 do
 				#~ 
+				#~ @player.send attack.to_sym
 			#~ end
+			
+			#~ @inpman.new_sequence "intense_#{attack_type}".to_sym, :falling_edge do
+				#~ @player.send "intense_#{attack_type}".to_sym
+				#~ puts "hey"
+			#~ end
+			
+			#~ eval %Q{
+				#~ @inpman.new_hold "prep_charge_#{attack_type}".to_sym, 2000 do
+					#~ 
+				#~ end
+			#~ }
+		#~ end
+		
+		["magic", "left_hand", "right_hand"].each do |attack_type|
+		
+			code = %Q{
+				@inpman.new_action :#{attack_type}, :falling_edge do
+					attack = "#{attack_type}"
+				}
+				
+			code << if attack_type == "magic"
+					%Q{
+					if @player.magic_charge
+					}
+				else
+					%Q{
+					if @player.equipment[:#{attack_type}].charge
+					}
+				end
+			code << %Q{			
+						attack = "charge_" + attack
+					end
+					
+					if @player.intense
+						attack = "intense_" + attack
+					end
+					
+					@player.send attack.to_sym
+				end
+			}
+			
+			#~ puts code
+			
+			eval code
+			
+			#~ @inpman.new_sequence "intense_#{attack_type}".to_sym, :falling_edge do
+				#~ @player.send "intense_#{attack_type}".to_sym
+				#~ puts "hey"
+			#~ end
+			
+			charge_time = 
+			eval %Q{
+				#~ @inpman.new_hold "prep_charge_#{attack_type}".to_sym, 2000 do
+					
+				#~ end
+			}
 		end
-		@inpman.bind_action :magic, Gosu::KbA
-		@inpman.bind_action :left_hand, Gosu::KbO
-		@inpman.bind_action :right_hand, Gosu::KbE
+		
+		@inpman.bind_action :magic, Gosu::KbO
+		@inpman.bind_action :left_hand, Gosu::KbE
+		@inpman.bind_action :right_hand, Gosu::KbU
+		
+		
+		@inpman.new_chord :magic_jump, :rising_edge do
+			puts "magic jump"
+		end
+		@inpman.bind_chord :magic_jump, [:magic, :jump]
+		
 		
 		#~ @inpman.bind_chord :intense_magic, [:intense, :magic]
 		#~ @inpman.bind_chord :intense_left_hand, [:intense, :left_hand]
 		#~ @inpman.bind_chord :intense_right_hand, [:intense, :right_hand]
 		
-		@inpman.bind_sequence :intense_magic, [:intense, :magic]
-		@inpman.bind_sequence :intense_left_hand, [:intense, :left_hand]
-		@inpman.bind_sequence :intense_right_hand, [:intense, :right_hand]
+		#~ @inpman.bind_sequence :intense_magic, [:intense, :magic]
+		#~ @inpman.bind_sequence :intense_left_hand, [:intense, :left_hand]
+		#~ @inpman.bind_sequence :intense_right_hand, [:intense, :right_hand]
 		
 		#~ @inpman.bind_hold :charge_left_hand, [:left_hand, 2000]
 		
@@ -269,55 +327,47 @@ class Game_Window < Gosu::Window
 		@inpman.new_action :toggle_menu, :rising_edge do
 			@states.toggle_menu
 			#~ puts "switch to gameplay mode"
+			#~ puts "closing"
 			@inpman.mode = :gameplay
 		end	
 		@inpman.bind_action :toggle_menu, Gosu::KbTab
+		
+		
+		@inpman.new_action :up, :rising_edge do
+			
+		end
+		@inpman.new_action :down, :rising_edge do
+			
+		end
+		@inpman.new_action :left, :rising_edge do
+			
+		end
+		@inpman.new_action :right, :rising_edge do
+			
+		end
+		
+		@inpman.bind_action :up, Gosu::KbUp
+		@inpman.bind_action :down, Gosu::KbDown
+		@inpman.bind_action :left, Gosu::KbLeft
+		@inpman.bind_action :right, Gosu::KbRight
+		
+		
+		@inpman.new_action :back, :rising_edge do
+			
+		end
+		
+		@inpman.new_action :confirm, :rising_edge do
+			
+		end
+		
+		@inpman.bind_action :back, Gosu::KbEscape
+		@inpman.bind_action :confirm, Gosu::KbReturn
 		
 		
 		
 		# Must remember to change the mode back to :gameplay before the game starts
 		@inpman.mode = :gameplay
 	end
-	
-	#~ def process_input
-		#~ if @states.menu_active?
-			#~ # Inputs to be processed only when the menu is open
-			#~ 
-			#~ # Change arrow keys so they control menu navigation
-			#~ # "Select/Action" key should select things in the menu
-		#~ else
-			#~ # Inputs to processed only when menu is closed
-			#~ 
-			#~ [:magic, :left_hand, :right_hand].each do |attack_type|
-				#~ charge = @inpman.hold_duration(attack_type) > @player.charge_time(attack_type)
-				#~ if attack_type == :magic
-					#~ @player.magic_charge = charge
-				#~ else
-					#~ @player.equipment[attack_type].charge = charge
-				#~ end
-				#~ 
-				#~ if @inpman.finish? attack_type
-					#~ charged =	if attack_type == :magic
-									#~ @player.magic_charge
-								#~ else
-									#~ @player.equipment[attack_type].charge
-								#~ end
-					#~ 
-					#~ if @inpman.active? :intense
-						#~ if charged
-							#~ @player.send "intense_charge_#{attack_type}".to_sym
-						#~ else
-							#~ @player.send "intense_#{attack_type}".to_sym
-						#~ end
-					#~ elsif charged
-						#~ @player.send "charge_#{attack_type}".to_sym
-					#~ else
-						#~ @player.send attack_type
-					#~ end
-				#~ end
-			#~ end
-		#~ end
-	#~ end
 	
 	def save_keybindings
 		
