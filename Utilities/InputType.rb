@@ -123,8 +123,8 @@ module InputType
 	end
 	
 	class Sequence < MultiButtonInput
-		def initialize(inputs, buttons, trigger, functions={})
-			super inputs, buttons, trigger, trigger[0], functions
+		def initialize(inputs, buttons, functions={})
+			super inputs, buttons, functions
 			
 			@i = 0
 		end
