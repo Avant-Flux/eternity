@@ -19,13 +19,15 @@ class Entity
 	
 	attr_reader :stats
 	attr_reader  :moving, :direction, :move_constant, :movement_force
-	attr_accessor :name, :element, :faction, :visible
+	attr_accessor :name, :element, :faction, :visible, :intense
 	attr_accessor :lvl, :hp, :mp
 	
 	def initialize(window, animations, name, pos, mass, moment, lvl, element, stats, faction)
 		@movement_force = CP::Vec2::ZERO
 		@walk_constant = 500
 		@run_constant = 1200
+		
+		@intense = false
 		
 		@animation = animations
 		

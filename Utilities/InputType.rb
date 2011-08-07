@@ -130,23 +130,25 @@ module InputType
 		end
 		
 		def update
+			@trigger = @all_triggers[@i]
 			state = next_state
 			
 			if @trigger == @all_triggers.last
 				transition_to state
+				if state
+				else
+					@i = 0
+					#~ puts "hey #{@i}"
+				end
 			else
 				if state
-					# If this is not the last trigger, and the current trigger is active
+					state = false
 					@i += 1
 				else
-					# Reset the sequence
-					#~ transition_to false
 					@i = 0
 				end
 			end
-			
-			@trigger = @all_triggers[@i]
-			
+		
 			@active = state
 		end
 	end
