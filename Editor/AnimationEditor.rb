@@ -13,31 +13,27 @@ class AnimationEditor < Gosu::Window
 		super(1100, 619, false, (1.0/fps)*1000)
 		self.caption = "Animation Editor"
 		
-		@mode = :rotate
-		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
+		@mode = :rotate
+		
 		@sidebar_width = 300
-		@sidebar_padding = 10
-		@sidebar_color = Gosu::Color::BLUE
+		@modes =	{:vertex => {:sidebar => VertexSidebar.new(self, @font, @sidebar_width), 
+								:view => VertexView.new()},
+					:rotate => {:sidebar => RotateSidebar.new(self, @font, @sidebar_width), 
+								:view => RotateView.new()}}
 	end
 	
 	def update
 		#~ puts @mode
-		case @mode
-			when :vertex
-				update_vertex_mode
-			when :rotate
-				update_rotate_mode
+		@modes[@mode].each_value do |zone|
+			zone.update
 		end
 	end
 	
 	def draw
-		case @mode
-			when :vertex
-				draw_vertex_mode
-			when :rotate
-				draw_rotate_mode
+		@modes[@mode].each_value do |zone|
+			zone.draw
 		end
 	end
 	
@@ -60,37 +56,114 @@ class AnimationEditor < Gosu::Window
 	
 	private
 	
-	def draw_sidebar
-		draw_quad	self.width-@sidebar_width, 0, @sidebar_color,
-					self.width, 0, @sidebar_color,
-					self.width-@sidebar_width, self.height, @sidebar_color,
-					self.width, self.height, @sidebar_color
-	end
-	
-	def draw_sidebar_title(title, color)
-		
-		@font.draw title, self.width-@sidebar_width+@sidebar_padding, @sidebar_padding, 0
-	end
-	
 	def update_vertex_mode
 		# Current vert properties
-		@vert = Vertex.new
+		@vert = Pivot.new 1, 1
+		@part = Part.new "Test Part", [@vert]
+	end
+end
+
+class Sidebar
+	def initialize(window, font, title, width, padding, color=Gosu::Color::BLUE)
+		@window = window
+		@font = font
+		
+		@title = title
+		@width = width
+		@padding = padding
+		@color = color
+		
+		@top_margin = @padding + @font.height + 10
+		
+		puts @width
+		
+		@top = 0
+		@bottom = @window.height
+		@left = @window.width-@width
+		@right = @window.width
 	end
 	
-	def draw_vertex_mode
-		draw_sidebar
-		draw_sidebar_title "Vertex Mode", Gosu::Color::WHITE
-		
+	def update
 		
 	end
 	
-	def update_rotate_mode
+	def draw
+		draw_bg
+		draw_title
+	end
+	
+	def draw_bg
+		@window.draw_quad	@left, @top, @color,
+							@right, @top, @color,
+							@left, @bottom, @color,
+							@right, @bottom, @color
+	end
+	
+	def draw_title
+		@font.draw @title, @left+@padding, @top+@padding, 0
+	end
+end
+
+class VertexSidebar < Sidebar
+	def initialize(window, font, width, color=Gosu::Color::BLUE)
+		super window, font, "Vertex", width, 20, color
+	end
+	
+	def update
+		super
+	end
+	
+	def draw
+		super
+		@font.draw	"Testing", @left+@padding, @top_margin, 0
+	end
+end
+
+class VertexView
+	def initialize
 		
 	end
 	
-	def draw_rotate_mode
-		draw_sidebar
-		draw_sidebar_title "Rotate Mode", Gosu::Color::WHITE
+	def update
+		
+	end
+	
+	def draw
+		
+	end
+end
+
+class RotateSidebar < Sidebar
+	def initialize(window, font, width, color=Gosu::Color::BLUE)
+		super window, font, "Rotate", width, 20, color
+	end
+	
+	def update
+		super
+	end
+	
+	def draw
+		super
+		label = "Angle:"
+		@font.draw	label, @left+@padding, @top_margin, 0
+		
+		offset = @font.width*label.length
+		
+		@window.draw_quad	
+	end
+end
+
+class RotateView
+	def initialize
+		
+	end
+	
+	def update
+		
+	end
+	
+	def draw
+		
 	end
 end
 
