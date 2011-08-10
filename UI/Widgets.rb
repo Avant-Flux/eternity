@@ -28,6 +28,13 @@ module Widgets
 		# offset	10 #in px
 	end
 	
+	# A roped-off zone where content can be rendered
+	class RenderContext
+		def initialize
+			
+		end
+	end
+	
 	# Clickable button object
 	class Button < UI_Object
 		def initialize
