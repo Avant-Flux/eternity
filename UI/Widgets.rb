@@ -44,7 +44,7 @@ module Widgets
 	end
 	
 	# Similar to button, but not clickable
-	class Icon < UI_Object
+	class Label < UI_Object
 		def initialize
 			
 		end
