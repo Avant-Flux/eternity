@@ -7,7 +7,7 @@ require 'chipmunk'
 require 'set'
 
 class AnimationEditor < Gosu::Window
-	def initialize
+		def initialize
 		fps = 60
 		# Window should have a 16:9 aspect ratio
 		super(1100, 619, false, (1.0/fps)*1000)
@@ -17,21 +17,21 @@ class AnimationEditor < Gosu::Window
 		
 		@mode = :rotate
 		
-		@sidebar_width = 300
-		@modes =	{:vertex => {:sidebar => VertexSidebar.new(self, @font, @sidebar_width), 
-								:view => VertexView.new()},
-					:rotate => {:sidebar => RotateSidebar.new(self, @font, @sidebar_width), 
-								:view => RotateView.new()}}
+		@modes =	{:vertex => {:sidebar => VertexSidebar.new(self, @font), 
+					:view => VertexView.new()},
+					:rotate => {:sidebar => RotateSidebar.new(self, @font), 
+					:view => RotateView.new()}}
 	end
-	
+
 	def update
 		#~ puts @mode
 		@modes[@mode].each_value do |zone|
 			zone.update
 		end
 	end
-	
+
 	def draw
+		@font.draw "Press <TAB> to switch modes", 10, 10, 0
 		@modes[@mode].each_value do |zone|
 			zone.draw
 		end
@@ -53,38 +53,29 @@ class AnimationEditor < Gosu::Window
 	def button_up(id)
 		
 	end
-	
-	private
-	
-	def update_vertex_mode
-		# Current vert properties
-		@vert = Pivot.new 1, 1
-		@part = Part.new "Test Part", [@vert]
-	end
 end
 
 class Sidebar
-	def initialize(window, font, title, width, padding, color=Gosu::Color::BLUE)
-		@window = window
-		@font = font
-		
-		@title = title
-		@width = width
-		@padding = padding
-		@color = color
-		
-		@top_margin = @padding + @font.height + 10
-		
-		puts @width
-		
-		@top = 0
-		@bottom = @window.height
-		@left = @window.width-@width
-		@right = @window.width
+	WIDTH = 300
+	PADDING = 10
+	
+	def initialize(window, font, title, color=Gosu::Color::BLUE)
+	@window = window
+	@font = font
+	
+	@title = title
+	@color = color
+	
+	@top_margin = PADDING + @font.height + 10
+	
+	@top = 0
+	@bottom = @window.height
+	@left = @window.width-WIDTH
+	@right = @window.width
 	end
 	
 	def update
-		
+	
 	end
 	
 	def draw
@@ -100,42 +91,45 @@ class Sidebar
 	end
 	
 	def draw_title
-		@font.draw @title, @left+@padding, @top+@padding, 0
+		@font.draw @title, @left+PADDING, @top+PADDING, 0
 	end
 end
 
 class VertexSidebar < Sidebar
-	def initialize(window, font, width, color=Gosu::Color::BLUE)
-		super window, font, "Vertex", width, 20, color
+	def initialize(window, font, color=Gosu::Color::BLUE)
+		super window, font, "Vertex", color
 	end
 	
 	def update
 		super
+		# Current vert properties
+		@vert = Pivot.new 1, 1
+		@part = Part.new "Test Part", [@vert]
 	end
 	
 	def draw
 		super
-		@font.draw	"Testing", @left+@padding, @top_margin, 0
+		@font.draw	"Testing", @left+PADDING, @top_margin, 0
 	end
 end
 
 class VertexView
 	def initialize
-		
+	
 	end
 	
 	def update
-		
+	
 	end
 	
 	def draw
-		
+	
 	end
 end
 
 class RotateSidebar < Sidebar
-	def initialize(window, font, width, color=Gosu::Color::BLUE)
-		super window, font, "Rotate", width, 20, color
+	def initialize(window, font, color=Gosu::Color::BLUE)
+		super window, font, "Rotate", Gosu::Color.argb(255, 50, 135, 0)
 	end
 	
 	def update
@@ -144,26 +138,30 @@ class RotateSidebar < Sidebar
 	
 	def draw
 		super
+		# Current vert properties
+		@vert = Pivot.new 1, 1
+		@part = Part.new "Test Part", [@vert]
+		
 		label = "Angle:"
-		@font.draw	label, @left+@padding, @top_margin, 0
+		@font.draw	label, @left+PADDING, @top_margin, 0
 		
-		offset = @font.width*label.length
+		offset = @font.text_width label
 		
-		@window.draw_quad	
+		#~ @window.draw_quad        
 	end
 end
 
 class RotateView
 	def initialize
-		
+	
 	end
 	
 	def update
-		
+	
 	end
 	
 	def draw
-		
+	
 	end
 end
 
