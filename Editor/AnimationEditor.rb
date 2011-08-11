@@ -96,21 +96,13 @@ class Sidebar
 	end
 	
 	def draw
-		#~ draw_bg
 		@div.draw do
 			draw_title
 		end
 	end
 	
-	def draw_bg
-		@window.draw_quad	@left, @top, @color,
-							@right, @top, @color,
-							@left, @bottom, @color,
-							@right, @bottom, @color
-	end
-	
 	def draw_title
-		#~ @font.draw @title, @left+PADDING, @top+PADDING, 0, :color => Gosu::Color::BLACK
+		@font.draw @title, 0, 0, 0, :color => Gosu::Color::BLACK
 	end
 end
 

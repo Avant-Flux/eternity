@@ -88,6 +88,11 @@ module Widgets
 			
 			init_background	options[:background_color]
 			
+			@padding = {:top => options[:padding_top],
+						:bottom => options[:padding_bottom],
+						:left => options[:padding_left],
+						:right => options[:padding_right]
+						}
 			#~ @render_x = pos[0] + options[:padding_left]
 			#~ @render_y = pos[1] + options[:padding_top]
 			#~ @render_width = width - options[:padding_left] - options[:padding_right]
@@ -103,10 +108,7 @@ module Widgets
 		def draw(&block)
 			draw_background self.px, self.py, 0
 			
-			@window.translate self.px, self.py do
-				#~ @children.each do |child|
-					#~ child.draw
-				#~ end
+			@window.translate self.px+@padding[:left], self.py+@padding[:top] do
 				block.call
 			end
 		end
