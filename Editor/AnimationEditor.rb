@@ -27,7 +27,7 @@ class AnimationEditor < Gosu::Window
 		@modes = {}
 		[:vertex, :rotate, :texture].each do |mode|
 			@modes[mode] = {
-							:sidebar => (eval "#{mode.to_s.capitalize}Sidebar.new(self, @font)"),
+							:sidebar => (eval "#{mode.to_s.capitalize}Sidebar.new(self, @font, 300)"),
 							:view => (eval "#{mode.to_s.capitalize}View.new(self)")
 							}
 		end
@@ -66,24 +66,29 @@ class AnimationEditor < Gosu::Window
 end
 
 class Sidebar
-	WIDTH = 300
-	PADDING = 10
-	
-	def initialize(window, font, title, color=Gosu::Color::BLUE)
+	def initialize(window, font, title, width, options={})
+		options =	{
+						:background_color => Gosu::Color::BLUE,
+						
+						:padding_top => 10,
+						:padding_bottom => 10,
+						:padding_left => 10,
+						:padding_right => 10
+					}.merge! options
+		
 		@window = window
 		@font = font
 		
-		#~ @widget = Widgets::Div.new window, [0, @window.width-WIDTH], WIDTH, @window.height
+		@div = Widgets::Div.new window, [window.width-width, 0], width, window.height, options
 		
 		@title = title
-		@color = color
 		
-		@top_margin = PADDING + @font.height + 10
-		
-		@top = 0
-		@bottom = @window.height
-		@left = @window.width-WIDTH
-		@right = @window.width
+		#~ @top_margin = PADDING + @font.height + 10
+		#~ 
+		#~ @top = 0
+		#~ @bottom = @window.height
+		#~ @left = @window.width-WIDTH
+		#~ @right = @window.width
 	end
 	
 	def update
@@ -91,8 +96,10 @@ class Sidebar
 	end
 	
 	def draw
-		draw_bg
-		draw_title
+		#~ draw_bg
+		@div.draw do
+			draw_title
+		end
 	end
 	
 	def draw_bg
@@ -103,13 +110,13 @@ class Sidebar
 	end
 	
 	def draw_title
-		@font.draw @title, @left+PADDING, @top+PADDING, 0, :color => Gosu::Color::BLACK
+		#~ @font.draw @title, @left+PADDING, @top+PADDING, 0, :color => Gosu::Color::BLACK
 	end
 end
 
 class VertexSidebar < Sidebar
-	def initialize(window, font, color=Gosu::Color::BLUE)
-		super window, font, "Vertex", Gosu::Color::BLUE
+	def initialize(window, font, width, options={})
+		super window, font, "Vertex", width, options
 	end
 	
 	def update
@@ -121,7 +128,7 @@ class VertexSidebar < Sidebar
 	
 	def draw
 		super
-		@font.draw	"Testing", @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
+		@font.draw	"Testing", 0, 0, 0, :color => Gosu::Color::BLACK
 	end
 end
 
@@ -140,8 +147,10 @@ class VertexView
 end
 
 class RotateSidebar < Sidebar
-	def initialize(window, font, color=Gosu::Color::BLUE)
-		super window, font, "Rotate", Gosu::Color.argb(255, 50, 135, 0)
+	def initialize(window, font, width, options={})
+		options[:background_color] = Gosu::Color.argb(255, 50, 135, 0)
+		
+		super window, font, "Rotate", width, options
 	end
 	
 	def update
@@ -155,7 +164,7 @@ class RotateSidebar < Sidebar
 		@part = Part.new "Test Part", [@vert]
 		
 		label = "Angle:"
-		@font.draw	label, @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
+		#~ @font.draw	label, @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
 		
 		offset = @font.text_width label
 		
@@ -178,8 +187,10 @@ class RotateView
 end
 
 class TextureSidebar < Sidebar
-	def initialize(window, font, color=Gosu::Color::BLUE)
-		super window, font, "Texture", Gosu::Color::YELLOW
+	def initialize(window, font, width, options={})
+		options[:background_color] = Gosu::Color::YELLOW
+		
+		super window, font, "Texture", width, options
 	end
 	
 	def update
