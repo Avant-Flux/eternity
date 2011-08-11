@@ -4,7 +4,14 @@ require 'gosu'
 require 'texplay'
 require 'chipmunk'
 
+require 'require_all'
+
 require 'set'
+
+require_all './Physics'
+require_all './GameObjects'
+require_all './Drawing'
+require_all './UI'
 
 class AnimationEditor < Gosu::Window
 		def initialize
@@ -63,18 +70,20 @@ class Sidebar
 	PADDING = 10
 	
 	def initialize(window, font, title, color=Gosu::Color::BLUE)
-	@window = window
-	@font = font
-	
-	@title = title
-	@color = color
-	
-	@top_margin = PADDING + @font.height + 10
-	
-	@top = 0
-	@bottom = @window.height
-	@left = @window.width-WIDTH
-	@right = @window.width
+		@window = window
+		@font = font
+		
+		#~ @widget = Widgets::Div.new window, [0, @window.width-WIDTH], WIDTH, @window.height
+		
+		@title = title
+		@color = color
+		
+		@top_margin = PADDING + @font.height + 10
+		
+		@top = 0
+		@bottom = @window.height
+		@left = @window.width-WIDTH
+		@right = @window.width
 	end
 	
 	def update
@@ -94,7 +103,7 @@ class Sidebar
 	end
 	
 	def draw_title
-		@font.draw @title, @left+PADDING, @top+PADDING, 0, 1, 1, Gosu::Color::BLACK
+		@font.draw @title, @left+PADDING, @top+PADDING, 0, :color => Gosu::Color::BLACK
 	end
 end
 
@@ -112,7 +121,7 @@ class VertexSidebar < Sidebar
 	
 	def draw
 		super
-		@font.draw	"Testing", @left+PADDING, @top_margin, 0, 1, 1, Gosu::Color::BLACK
+		@font.draw	"Testing", @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
 	end
 end
 
@@ -146,7 +155,7 @@ class RotateSidebar < Sidebar
 		@part = Part.new "Test Part", [@vert]
 		
 		label = "Angle:"
-		@font.draw	label, @left+PADDING, @top_margin, 0, 1, 1, Gosu::Color::BLACK
+		@font.draw	label, @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
 		
 		offset = @font.text_width label
 		
