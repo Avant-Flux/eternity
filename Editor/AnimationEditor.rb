@@ -17,10 +17,13 @@ class AnimationEditor < Gosu::Window
 		
 		@mode = :rotate
 		
-		@modes =	{:vertex => {:sidebar => VertexSidebar.new(self, @font), 
-					:view => VertexView.new()},
-					:rotate => {:sidebar => RotateSidebar.new(self, @font), 
-					:view => RotateView.new()}}
+		@modes = {}
+		[:vertex, :rotate, :texture].each do |mode|
+			@modes[mode] = {
+							:sidebar => (eval "#{mode.to_s.capitalize}Sidebar.new(self, @font)"),
+							:view => (eval "#{mode.to_s.capitalize}View.new(self)")
+							}
+		end
 	end
 
 	def update
@@ -41,12 +44,12 @@ class AnimationEditor < Gosu::Window
 		case id
 			when Gosu::KbEscape
 				close
-			when Gosu::KbTab
-				if @mode == :vertex
-					@mode = :rotate
-				else # :rotate
-					@mode = :vertex
-				end
+			when Gosu::KbT
+				@mode = :texture
+			when Gosu::KbV
+				@mode = :vertex
+			when Gosu::KbR
+				@mode = :rotate
 		end
 	end
 	
@@ -91,13 +94,13 @@ class Sidebar
 	end
 	
 	def draw_title
-		@font.draw @title, @left+PADDING, @top+PADDING, 0
+		@font.draw @title, @left+PADDING, @top+PADDING, 0, 1, 1, Gosu::Color::BLACK
 	end
 end
 
 class VertexSidebar < Sidebar
 	def initialize(window, font, color=Gosu::Color::BLUE)
-		super window, font, "Vertex", color
+		super window, font, "Vertex", Gosu::Color::BLUE
 	end
 	
 	def update
@@ -109,12 +112,12 @@ class VertexSidebar < Sidebar
 	
 	def draw
 		super
-		@font.draw	"Testing", @left+PADDING, @top_margin, 0
+		@font.draw	"Testing", @left+PADDING, @top_margin, 0, 1, 1, Gosu::Color::BLACK
 	end
 end
 
 class VertexView
-	def initialize
+	def initialize(window)
 	
 	end
 	
@@ -143,7 +146,7 @@ class RotateSidebar < Sidebar
 		@part = Part.new "Test Part", [@vert]
 		
 		label = "Angle:"
-		@font.draw	label, @left+PADDING, @top_margin, 0
+		@font.draw	label, @left+PADDING, @top_margin, 0, 1, 1, Gosu::Color::BLACK
 		
 		offset = @font.text_width label
 		
@@ -152,7 +155,35 @@ class RotateSidebar < Sidebar
 end
 
 class RotateView
-	def initialize
+	def initialize(window)
+	
+	end
+	
+	def update
+	
+	end
+	
+	def draw
+	
+	end
+end
+
+class TextureSidebar < Sidebar
+	def initialize(window, font, color=Gosu::Color::BLUE)
+		super window, font, "Texture", Gosu::Color::YELLOW
+	end
+	
+	def update
+		super
+	end
+	
+	def draw
+		super
+	end
+end
+
+class TextureView
+	def initialize(window)
 	
 	end
 	
