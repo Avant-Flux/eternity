@@ -20,6 +20,8 @@ class AnimationEditor < Gosu::Window
 		super(1100, 619, false, (1.0/fps)*1000)
 		self.caption = "Animation Editor"
 		
+		@space = Physics::Space.new self.update_interval/1000, -9.8, 0.05
+		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
 		@mode = :rotate
@@ -31,6 +33,8 @@ class AnimationEditor < Gosu::Window
 							:view => (eval "#{mode.to_s.capitalize}View.new(self)")
 							}
 		end
+		
+		@space.add_collision_handler :pointer, :button, Widgets::Button::CollisionHandler.new
 	end
 
 	def update
@@ -70,7 +74,7 @@ class Sidebar
 		options =	{
 						:background_color => Gosu::Color::BLUE,
 						
-						:padding_top => 10,
+						:padding_top => 30,
 						:padding_bottom => 10,
 						:padding_left => 10,
 						:padding_right => 10
@@ -82,33 +86,28 @@ class Sidebar
 		@div = Widgets::Div.new window, [window.width-width, 0], width, window.height, options
 		
 		@title = title
-		
-		#~ @top_margin = PADDING + @font.height + 10
-		#~ 
-		#~ @top = 0
-		#~ @bottom = @window.height
-		#~ @left = @window.width-WIDTH
-		#~ @right = @window.width
 	end
 	
 	def update
 	
 	end
 	
-	def draw
+	def draw(&block)
 		@div.draw do
-			draw_title
+			@font.draw @title, 0, -@font.height, 0, :color => Gosu::Color::BLACK
+			
+			block.call
 		end
-	end
-	
-	def draw_title
-		@font.draw @title, 0, 0, 0, :color => Gosu::Color::BLACK
 	end
 end
 
 class VertexSidebar < Sidebar
 	def initialize(window, font, width, options={})
 		super window, font, "Vertex", width, options
+		
+		@button = Widgets::Button.new window, Gosu::Color::WHITE, [20,20], 100, 20 do
+			
+		end
 	end
 	
 	def update
@@ -116,11 +115,15 @@ class VertexSidebar < Sidebar
 		# Current vert properties
 		@vert = Pivot.new 1, 1
 		@part = Part.new "Test Part", [@vert]
+		
+		@button.update
 	end
 	
 	def draw
-		super
-		@font.draw	"Testing", 0, 0, 0, :color => Gosu::Color::BLACK
+		super do
+			@font.draw "Testing", 0, 0, 0, :color => Gosu::Color::BLACK
+				@button.draw
+		end
 	end
 end
 
@@ -150,17 +153,16 @@ class RotateSidebar < Sidebar
 	end
 	
 	def draw
-		super
-		# Current vert properties
-		@vert = Pivot.new 1, 1
-		@part = Part.new "Test Part", [@vert]
-		
-		label = "Angle:"
-		#~ @font.draw	label, @left+PADDING, @top_margin, 0, :color => Gosu::Color::BLACK
-		
-		offset = @font.text_width label
-		
-		#~ @window.draw_quad        
+		super do
+			# Current vert properties
+			@vert = Pivot.new 1, 1
+			@part = Part.new "Test Part", [@vert]
+			
+			label = "Angle:"
+			@font.draw	label, 0, 0, 0, :color => Gosu::Color::BLACK
+			
+			#~ offset = @font.text_width label
+		end
 	end
 end
 
@@ -190,7 +192,9 @@ class TextureSidebar < Sidebar
 	end
 	
 	def draw
-		super
+		super do
+			
+		end
 	end
 end
 

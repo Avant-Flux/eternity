@@ -75,6 +75,8 @@ module Widgets
 			
 			options = {:background_color => Gosu::Color::BLUE,
 						
+						:align => :left,
+						
 						:padding_top => 0,
 						:padding_bottom => 0,
 						:padding_left => 0,
@@ -88,17 +90,14 @@ module Widgets
 			
 			init_background	options[:background_color]
 			
+			# Currently alignment is not taken into account
+			@align = options[:align]
+			
 			@padding = {:top => options[:padding_top],
 						:bottom => options[:padding_bottom],
 						:left => options[:padding_left],
 						:right => options[:padding_right]
 						}
-			#~ @render_x = pos[0] + options[:padding_left]
-			#~ @render_y = pos[1] + options[:padding_top]
-			#~ @render_width = width - options[:padding_left] - options[:padding_right]
-			#~ @render_height = height - options[:padding_top] - options[:padding_bottom]
-			
-			@children = []
 		end
 		
 		def update
@@ -108,16 +107,39 @@ module Widgets
 		def draw(&block)
 			draw_background self.px, self.py, 0
 			
-			@window.translate self.px+@padding[:left], self.py+@padding[:top] do
+			@window.translate render_x, render_y do
 				block.call
 			end
+		end
+		
+		private
+		
+		def render_x
+			self.px+@padding[:left]
+		end
+		
+		def render_y
+			self.py+@padding[:top]
 		end
 	end
 	
 	# Clickable button object
-	class Button < UI_Object
-		def initialize
+	class Button #< UI_Object
+		include Physics::TwoD_Support
+		include Physics::TwoD_Support::Rect
+		
+		include Widgets::Background::Colored
+		
+		def initialize(window, color, pos, width, height, &block)
+			# The actual button event is processed within Chipmunk
+			@window = window
 			
+			mass = 100
+			moment = 100
+			collision_type = :button
+			init_physics pos, width, height, mass, moment, collision_type
+			
+			init_background color
 		end
 		
 		def update
@@ -125,7 +147,25 @@ module Widgets
 		end
 		
 		def draw
+			draw_background self.px, self.py, 0
+		end
+		
+		class CollisionHandler
+			def begin(arbiter)
+				
+			end
 			
+			def pre_solve(arbiter)
+				puts "test"
+			end
+			
+			def post_solve(arbiter)
+				
+			end
+			
+			def separate(arbiter)
+				
+			end
 		end
 	end
 	
