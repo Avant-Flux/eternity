@@ -153,24 +153,8 @@ module Widgets
 			draw_background self.px, self.py, 0
 		end
 		
-		class CollisionHandler
-			def begin(arbiter)
-				puts arbiter.a
-				return true
-			end
-			
-			def pre_solve(arbiter)
-				puts "test"
-				return false
-			end
-			
-			def post_solve(arbiter)
-				return false
-			end
-			
-			def separate(arbiter)
-				return false
-			end
+		def click_event
+			puts "button!"
 		end
 	end
 	
