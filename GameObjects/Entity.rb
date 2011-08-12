@@ -42,12 +42,21 @@ class Entity
 		@visible = true		#Controls whether or not to render the Entity
 
 		@lvl = lvl
-		@hp = {:current => 10, :max => 10}	#Arbitrary number for now
-		@mp = {:current => 10, :max => 10}
+		
 		@stats = Hash.new
 		@stats[:raw] = stats # strength, constitution, dexterity, mobility, power, skill, flux
 		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
 								:defence => @stats[:raw][:constitution]}
+		
+		@hp = {}
+		@mp = {}
+								
+		@hp[:max] = @stats[:raw][:constitution]*5
+		@hp[:current] = @hp[:max]
+		
+		@mp[:max] = 10 # Arbitrary
+		@mp[:current] = @mp[:max]						
+		
 		@jump_count = 0
 	end
 	

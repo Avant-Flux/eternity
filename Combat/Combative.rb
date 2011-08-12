@@ -60,24 +60,37 @@ module Combative
 	
 	#Returns the amount of damage dealt, or nil if the attack missed
 	def melee_attack(enemy)
-		if @stats[:composite][:atk] > enemy.stats[:composite][:def]
-			if melee_hit?(enemy) || melee_rebound?(enemy)		#Check rebound unless already hit
-				#If the attack hits them...
-				damage = @stats[:composite][:atk] - enemy.stats[:composite][:def]
-				enemy.hp -= damage
-
-				return damage
-			else
-				return nil	#Missed~~~
+		#~ if @stats[:composite][:atk] > enemy.stats[:composite][:def]
+			#~ if melee_hit?(enemy) || melee_rebound?(enemy)		#Check rebound unless already hit
+				#~ #If the attack hits them...
+				#~ damage = @stats[:composite][:atk] - enemy.stats[:composite][:def]
+				#~ enemy.hp -= damage
+#~ 
+				#~ return damage
+			#~ else
+				#~ return nil	#Missed~~~
+			#~ end
+		#~ else
+			#~ return 0		#No change to hp
+		#~ end
+		
+		if @stats[:raw][:strength] > enemy.stats[:raw][:constitution]
+			# Use random number based on dex to determine exact damage
+			#~ if melee_hit? enemy
+				enemy.hp[:current] -= @stats[:raw][:strength] - enemy.stats[:raw][:constitution]
+			#~ end
+			
+			if enemy.hp[:current] < 0
+				enemy.hp[:current] = 0
 			end
-		else
-			return 0		#No change to hp
 		end
 	end
 
 	def melee_hit?(enemy)
-		check = @stats[:raw][:dex]-enemy.stats[:raw][:agi]
-
+		dodge = enemy.stats[:raw][:constitution] - enemy.level
+		
+		check = @stats[:raw][:dex] - dodge
+		
 		hit_chance = if check >= 95
 						100
 					elsif check >= 85

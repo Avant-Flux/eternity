@@ -36,11 +36,24 @@ class CombatTest < Gosu::Window
 		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
-		@player = Player.new self, "Bob"
+		@player = Player.new self, "Fire Character", [0,0,0], {}, 
+				{:strength =>		12,
+				:constitution =>	9,
+				:dexterity =>		6, 
+				:power =>			6,
+				:skill =>			3,
+				:flux =>			9}
+		
 		@player.equipment[:right_hand] = Weapons::Swords::Scimitar.new
 		@player.equipment[:left_hand] = Weapons::Guns::Handgun.new
 		
-		@bat = Creatures::Bat.new "bat1"
+		
+		@monsters = []
+		@monsters << Creatures::Bat.new(self, "bat1")
+		@monsters << Creatures::Bat.new(self, "bat2")
+		@monsters << Creatures::Bat.new(self, "bat3")
+		@monsters << Creatures::Bat.new(self, "bat4")
+		@monsters << Creatures::Bat.new(self, "bat5")
 	end
 	
 	def update
@@ -50,19 +63,29 @@ class CombatTest < Gosu::Window
 	def draw
 		#~ @player.draw 10
 		# Display player stats
-		@font.draw "#{@player.name}", 10, 10, 0
-		@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", 10, 30, 0
-		@font.draw "#{@player.mp[:current]} / #{@player.mp[:max]}", 10, 50, 0
+		if @player.hp[:current] > 0
+			@font.draw "#{@player.name}", 10, 10, 0
+			@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", 10, 30, 0
+			@font.draw "#{@player.mp[:current]} / #{@player.mp[:max]}", 10, 50, 0
+		else
+			@font.draw "#{@player.name}", 10, 10, 0
+			@font.draw "is dead", 10, 30, 0
+		end
 		
 		# Draw monster stats
-		
+		@monsters.each_with_index do |monster, i|
+			@font.draw "#{monster.name}", 200*(i+1), 10, 0
+			@font.draw "#{monster.hp[:current]} / #{monster.hp[:max]}", 200*(i+1), 30, 0
+			@font.draw "#{monster.mp[:current]} / #{monster.mp[:max]}", 200*(i+1), 50, 0
+		end
 	end
-	
 	
 	def button_down(id)
 		case id
 			when Gosu::KbEscape
 				close
+			when Gosu::KbReturn
+				step
 		end
 	end
 	
@@ -72,6 +95,30 @@ class CombatTest < Gosu::Window
 	
 	def needs_cursor?
 		true
+	end
+	
+	def step
+		# Player attacks
+		if @player.hp[:current] > 0
+			@player.melee_attack @monsters[0]
+		end
+		
+		# Monster attack
+		unless @monsters.empty?
+			@monsters.each_with_index do |monster, i|
+				#~ @player.melee_attack monster
+				monster.melee_attack @player
+			end
+		end
+		
+		# Clean up
+		if @monsters[0]
+			puts @monsters[0].hp[:current]
+				
+			if @monsters[0].hp[:current] == 0
+				@monsters.shift
+			end
+		end
 	end
 end
 

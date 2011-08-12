@@ -2,11 +2,14 @@
  
 require "./GameObjects/Entity"
 class Creature < Entity
-	def initialize(animations, name, pos=[0, 0, 0], mass=50, moment=10, dir=:down,
-					lvl=1, element=:none, 
-					stats={:str => 1, :con => 1, :dex => 1, :agi => 1, :luk => 1,
-							:pwr => 1, :ctl => 1, :per => 1}, 
-					faction = 0)
-		super(space, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(window, name, pos=[0, 0, 0], mass=50, moment=10, lvl=1, element=:none, 
+					stats={}, faction = 0)
+					
+		stats = {:strength => 10, :constitution => 10, :dexterity => 10, 
+				:power => 10, :skill => 10, :flux => 10}.merge! stats
+		
+		animations = Struct.new(:width).new(2)
+		
+		super(window, animations, name, pos, mass, moment, lvl, element, stats, faction)
 	end
 end
