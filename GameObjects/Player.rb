@@ -16,10 +16,15 @@ class Player < Character
 	Lvl_cap = 100
 
 	def initialize(window, name, pos = [0, 0, 0], 
-					subsprites={:body => 1, :face => 1, :hair => 1, 
-								:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}, 
-					mass=60, moment=20)
-		super(window, name, pos, subsprites, mass, moment)
+					subsprites={}, stats={}, mass=60, moment=20)
+					
+		subsprites = {:body => 1, :face => 1, :hair => 1, 
+					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
+		
+		stats = {:strength => 10, :constitution => 10, :dexterity => 10, 
+				:power => 10, :skill => 10, :flux => 10}.merge! stats
+		
+		super(window, name, pos, subsprites, stats, mass, moment)
 		
 		@max_combo = 0
 		@combo = 0
