@@ -178,6 +178,15 @@ class VertexSidebar < Sidebar
 				@button.draw
 		end
 	end
+	
+	def add_to(space)
+		super space
+		@button.add_to space
+	end
+	
+	def remove_from(space)
+		@button.remove_from space
+	end
 end
 
 class VertexView
