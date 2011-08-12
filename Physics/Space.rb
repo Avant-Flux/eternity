@@ -5,7 +5,7 @@ require 'chipmunk'
 
 module Physics
 	class Space < CP::Space
-		attr_reader :g, :air_damping
+		attr_reader :g, :dt, :air_damping
 		alias :gravity :g
 		
 		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
@@ -68,7 +68,7 @@ module Physics
 				# Add shape to space
 				add_shape shape
 				add_body shape.body
-				@nonstatic_objects << shape.gameobj
+				@nonstatic_objects << shape.gameobj if shape.respond_to? :gameobj
 			end
 			
 			add_body shape.body
@@ -82,7 +82,7 @@ module Physics
 			else
 				#Object is nonstatic
 				remove_shape shape
-				@nonstatic_objects.delete shape.entity
+				@nonstatic_objects.delete shape.gameobj if shape.respond_to? :gameobj
 			end
 			
 			remove_body shape.body

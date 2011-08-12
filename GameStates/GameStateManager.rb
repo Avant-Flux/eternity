@@ -12,7 +12,7 @@ class GameStateManager
 	
 	CAMERA_LAYER = 0x1
 	UI_LAYER = 0x2
-
+	
 	def initialize(window, camera, player)
 		@window = window
 		@player = player

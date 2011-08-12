@@ -18,43 +18,60 @@ require_all './Physics'
 require_all './GameObjects'
 require_all './Drawing'
 require_all './UI'
+require_all './Utilities'
 
 class AnimationEditor < Gosu::Window
-		def initialize
+	def initialize
 		fps = 60
 		# Window should have a 16:9 aspect ratio
 		super(1100, 619, false, (1.0/fps)*1000)
 		self.caption = "Animation Editor"
 		
 		@space = Physics::Space.new self.update_interval/1000, -9.8, 0.05
-		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
 		@mode = :rotate
-		
 		@modes = {}
 		[:vertex, :rotate, :texture].each do |mode|
-			@modes[mode] = {
-							:sidebar => (eval "#{mode.to_s.capitalize}Sidebar.new(self, @font, 300)"),
-							:view => (eval "#{mode.to_s.capitalize}View.new(self)")
-							}
+			sidebar = (eval "#{mode.to_s.capitalize}Sidebar.new(self, @space, @font, 300)")
+			view  = (eval "#{mode.to_s.capitalize}View.new(self)")
+			
+			#~ sidebar.add_to @space
+			#~ @space.add sidebar
+			#~ @space.add view
+			
+			@modes[mode] = {:sidebar => sidebar, :view => view}
 		end
 		
+		@states = []
+		switch_mode @mode
+		
+		Physics::Body
+		@mouse_shape = Physics::Shape
+		
+		# Allow UI objects to overlap
+		@space.set_default_collision_handler do
+			false
+		end
 		@space.add_collision_handler :pointer, :button, Widgets::Button::CollisionHandler.new
+		
+		@mouse = MouseHandler.new @space, CP::ALL_LAYERS
 	end
 
 	def update
-		#~ puts @mode
-		@modes[@mode].each_value do |zone|
+		@space.step
+		
+		@states.each do |zone|
 			zone.update
 		end
 	end
 
 	def draw
-		@font.draw "Press <TAB> to switch modes", 10, 10, 0
-		@modes[@mode].each_value do |zone|
+		#~ @font.draw "Press <TAB> to switch modes", 10, 10, 0
+		@states.each do |zone|
 			zone.draw
 		end
+		#~ @font.draw "mouse: #{@mouse_shape.body.p.x}, #{@mouse_shape.body.p.y}", 0,0,0
 	end
 	
 	def button_down(id)
@@ -62,21 +79,47 @@ class AnimationEditor < Gosu::Window
 			when Gosu::KbEscape
 				close
 			when Gosu::KbT
-				@mode = :texture
+				switch_mode :texture
 			when Gosu::KbV
-				@mode = :vertex
+				switch_mode :vertex
 			when Gosu::KbR
-				@mode = :rotate
+				switch_mode :rotate
+			when Gosu::MsLeft
+				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
 		end
 	end
 	
 	def button_up(id)
 		
 	end
+	
+	def needs_cursor?
+		true
+	end
+	
+	def switch_mode(mode)
+		@mode = mode
+		
+		# Remove old states from CP::Space
+		@states.each do |state|
+			state.remove_from @space if state.respond_to? :remove_from
+		end
+		
+		@states.clear
+		
+		# Add new states to render stack
+		@states << @modes[@mode][:view]
+		@states << @modes[@mode][:sidebar]
+		
+		# Add new states to space
+		@states.each do |state|
+			state.add_to @space if state.respond_to? :add_to
+		end
+	end
 end
 
-class Sidebar
-	def initialize(window, font, title, width, options={})
+class Sidebar < Widgets::Div
+	def initialize(window, space, font, title, width, options={})
 		options =	{
 						:background_color => Gosu::Color::BLUE,
 						
@@ -89,7 +132,7 @@ class Sidebar
 		@window = window
 		@font = font
 		
-		@div = Widgets::Div.new window, [window.width-width, 0], width, window.height, options
+		super window, [window.width-width, 0], width, window.height, options
 		
 		@title = title
 	end
@@ -99,17 +142,21 @@ class Sidebar
 	end
 	
 	def draw(&block)
-		@div.draw do
+		super do
 			@font.draw @title, 0, -@font.height, 0, :color => Gosu::Color::BLACK
 			
 			block.call
 		end
 	end
+	
+	def click_event
+		puts "been clicked: #{self.class}"
+	end
 end
 
 class VertexSidebar < Sidebar
-	def initialize(window, font, width, options={})
-		super window, font, "Vertex", width, options
+	def initialize(window, space, font, width, options={})
+		super window, space, font, "Vertex", width, options
 		
 		@button = Widgets::Button.new window, Gosu::Color::WHITE, [20,20], 100, 20 do
 			
@@ -139,7 +186,7 @@ class VertexView
 	end
 	
 	def update
-	
+		
 	end
 	
 	def draw
@@ -148,10 +195,10 @@ class VertexView
 end
 
 class RotateSidebar < Sidebar
-	def initialize(window, font, width, options={})
+	def initialize(window, space, font, width, options={})
 		options[:background_color] = Gosu::Color.argb(255, 50, 135, 0)
 		
-		super window, font, "Rotate", width, options
+		super window, space, font, "Rotate", width, options
 	end
 	
 	def update
@@ -187,10 +234,10 @@ class RotateView
 end
 
 class TextureSidebar < Sidebar
-	def initialize(window, font, width, options={})
+	def initialize(window, space, font, width, options={})
 		options[:background_color] = Gosu::Color::YELLOW
 		
-		super window, font, "Texture", width, options
+		super window, space, font, "Texture", width, options
 	end
 	
 	def update

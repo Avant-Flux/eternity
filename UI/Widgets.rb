@@ -14,7 +14,7 @@ module Widgets
 				@background_color = color # Gosu::Color format
 				
 				@verts = []
-				@shape.each_vertex do |vertex|
+				@shape.each_vertex_absolute do |vertex|
 					@verts << vertex
 				end
 			end
@@ -39,8 +39,11 @@ module Widgets
 	end
 	
 	class UI_Object
-		def initialize(shape)
-			@shape = shape
+		attr_accessor :pz
+		
+		def initialize(window)
+			@window = window
+			@pz = 0
 		end
 		
 		def update
@@ -64,14 +67,14 @@ module Widgets
 	# A roped-off zone where content can be rendered
 	# Other widgets, as well as Gosu::Image instances, should
 	# be able to exist within this context.
-	class Div
+	class Div < UI_Object
 		include Physics::TwoD_Support
 		include Physics::TwoD_Support::Rect
 		
 		include Background::Colored
 		
 		def initialize(window, pos, width, height, options={})
-			@window = window
+			super(window)
 			
 			options = {:background_color => Gosu::Color::BLUE,
 						
@@ -105,11 +108,11 @@ module Widgets
 		end
 		
 		def draw(&block)
-			draw_background self.px, self.py, 0
+			draw_background 0, 0, 0
 			
-			@window.translate render_x, render_y do
-				block.call
-			end
+			#~ @window.translate render_x, render_y do
+			block.call
+			#~ end
 		end
 		
 		private
@@ -143,7 +146,7 @@ module Widgets
 		end
 		
 		def update
-			
+			#~ puts self.px
 		end
 		
 		def draw
@@ -152,19 +155,21 @@ module Widgets
 		
 		class CollisionHandler
 			def begin(arbiter)
-				
+				puts arbiter.a
+				return true
 			end
 			
 			def pre_solve(arbiter)
 				puts "test"
+				return false
 			end
 			
 			def post_solve(arbiter)
-				
+				return false
 			end
 			
 			def separate(arbiter)
-				
+				return false
 			end
 		end
 	end
