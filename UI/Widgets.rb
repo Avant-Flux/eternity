@@ -89,13 +89,10 @@ module Widgets
 							:padding_right => 0
 						}.merge! options
 			
-			puts options[:width], options[:height]
-			
 			super(window, options[:z_index])
 			
 			mass = 100
 			moment = 100
-			collision_type = :div
 			init_physics	[x,y], options[:width], options[:height], mass, moment, :div
 			
 			init_background	options[:background_color]
@@ -158,6 +155,8 @@ module Widgets
 			
 			super(window, options[:z_index])
 			
+			@block = block
+			
 			if options[:relative]
 				x += options[:relative].render_x
 				y += options[:relative].render_y
@@ -179,7 +178,7 @@ module Widgets
 		end
 		
 		def click_event
-			puts "button!"
+			@block.call
 		end
 	end
 	

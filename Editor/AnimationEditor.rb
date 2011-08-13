@@ -131,13 +131,10 @@ class Sidebar < Widgets::Div
 						:padding_left => 10,
 						:padding_right => 10
 					}.merge! options
-		puts options
-		
-		@window = window
-		@font = font
 		
 		super window, window.width-width, 0, options
 		
+		@font = font
 		@title = title
 	end
 	
@@ -163,9 +160,9 @@ class VertexSidebar < Sidebar
 		super window, space, font, "Vertex", width, options
 		
 		@button = Widgets::Button.new window, 20, 20, 
-		:relative => self, :width => 100, :height => 20,
-		:color => Gosu::Color::WHITE do
-			
+				:relative => self, :width => 100, :height => 30,
+				:color => Gosu::Color::WHITE do
+			puts "testing button"
 		end
 	end
 	
