@@ -123,16 +123,20 @@ class Sidebar < Widgets::Div
 		options =	{
 						:background_color => Gosu::Color::BLUE,
 						
+						:width => width,
+						:height => window.height,
+						
 						:padding_top => 30,
 						:padding_bottom => 10,
 						:padding_left => 10,
 						:padding_right => 10
 					}.merge! options
+		puts options
 		
 		@window = window
 		@font = font
 		
-		super window, [window.width-width, 0], width, window.height, options
+		super window, window.width-width, 0, options
 		
 		@title = title
 	end
@@ -158,8 +162,9 @@ class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@button = Widgets::Button.new window, [20,20], 100, 20, 
-		:relative => self, :color => Gosu::Color::WHITE do
+		@button = Widgets::Button.new window, 20, 20, 
+		:relative => self, :width => 100, :height => 20,
+		:color => Gosu::Color::WHITE do
 			
 		end
 	end

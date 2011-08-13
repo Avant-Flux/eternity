@@ -73,25 +73,30 @@ module Widgets
 		
 		include Background::Colored
 		
-		def initialize(window, pos, width, height, options={})
-			options = {:background_color => Gosu::Color::BLUE,
-						
-						:z_index => 0,
-						
-						:align => :left,
-						
-						:padding_top => 0,
-						:padding_bottom => 0,
-						:padding_left => 0,
-						:padding_right => 0
+		def initialize(window, x, y, options={})
+			options = 	{
+							:background_color => Gosu::Color::BLUE,
+							
+							:z_index => 0,
+							:align => :left,
+							
+							:width => 1,
+							:height => 1,
+							
+							:padding_top => 0,
+							:padding_bottom => 0,
+							:padding_left => 0,
+							:padding_right => 0
 						}.merge! options
+			
+			puts options[:width], options[:height]
 			
 			super(window, options[:z_index])
 			
 			mass = 100
 			moment = 100
 			collision_type = :div
-			init_physics	pos, width, height, mass, moment, :div
+			init_physics	[x,y], options[:width], options[:height], mass, moment, :div
 			
 			init_background	options[:background_color]
 			
@@ -135,12 +140,14 @@ module Widgets
 		
 		include Widgets::Background::Colored
 		
-		def initialize(window, pos, width, height, options={}, &block)
+		def initialize(window, x, y, options={}, &block)
 			# The actual button event is processed within Chipmunk
-			
 			options =	{
 							:z_index => 0,
 							:relative => nil,
+							
+							:width => 1,
+							:height => 1,
 							
 							:color => Gosu::Color::WHITE
 						}.merge! options
@@ -152,13 +159,13 @@ module Widgets
 			super(window, options[:z_index])
 			
 			if options[:relative]
-				pos[0] += options[:relative].render_x
-				pos[1] += options[:relative].render_y
+				x += options[:relative].render_x
+				y += options[:relative].render_y
 			end
 			
 			mass = 100
 			moment = 100
-			init_physics pos, width, height, mass, moment, :button
+			init_physics [x,y], options[:width], options[:height], mass, moment, :button
 			
 			init_background options[:color]
 		end
