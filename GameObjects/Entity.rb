@@ -36,7 +36,6 @@ class Entity
 		
 		@shadow = Shadow.new window, self
 		
-		
 		@name = name
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
@@ -102,7 +101,7 @@ class Entity
 		@mp[:current] = @mp[:max]
 	end
 
-	stats :strength, :constitution, :dexterity, :power, :skill, :flux
+	stats :strength, :constitution, :dexterity, :power, :control, :flux
 	
 	# Create setters and getters for hp and mp
 	[:hp, :mp].each do |stat|

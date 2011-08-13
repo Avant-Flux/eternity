@@ -19,7 +19,7 @@ class Player < Character
 	constitution	9
 	dexterity		6 
 	power			6
-	skill			3
+	control			3
 	flux			9
 
 	def initialize(window, name, pos = [0, 0, 0], 

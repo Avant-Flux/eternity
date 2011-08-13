@@ -8,7 +8,7 @@ module Creatures
 		constitution	3
 		dexterity		4 
 		power			0
-		skill			0
+		control			0
 		flux			0
 		
 		def initialize(window, name)
