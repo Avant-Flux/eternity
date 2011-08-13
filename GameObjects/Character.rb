@@ -12,20 +12,14 @@ class Character < Entity
 	attr_accessor :inventory, :equipment
 	
 	def initialize(window, name, pos = [0, 0, 0], 
-					subsprites={}, stats={},
-					mass=120, moment=20)
+					subsprites={}, mass=120, moment=20)
 					
 		subsprites = {:body => 1, :face => 1, :hair => 1, 
 					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
 		
-		stats = {:strength => 10, :constitution => 10, :dexterity => 10, 
-				:power => 10, :skill => 10, :flux => 10}.merge! stats
-		
-					
 		animation = Animation::Entity.new window, subsprites
 		
-		super(window, animation, name, pos, mass, moment, 1, :none, 
-				stats, 0)
+		super(window, animation, name, pos, mass, moment, 1, :none, 0)
 
 		#Remember to set atk and def based on str and con as well as other factors
 		

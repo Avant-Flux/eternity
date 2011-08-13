@@ -36,13 +36,7 @@ class CombatTest < Gosu::Window
 		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
-		@player = Player.new self, "Fire Character", [0,0,0], {}, 
-				{:strength =>		12,
-				:constitution =>	9,
-				:dexterity =>		6, 
-				:power =>			6,
-				:skill =>			3,
-				:flux =>			9}
+		@player = Player.new self, "Fire Character"
 		
 		@player.equipment[:right_hand] = Weapons::Swords::Scimitar.new
 		@player.equipment[:left_hand] = Weapons::Guns::Handgun.new
@@ -63,10 +57,10 @@ class CombatTest < Gosu::Window
 	def draw
 		#~ @player.draw 10
 		# Display player stats
-		if @player.hp[:current] > 0
+		if @player.hp > 0
 			@font.draw "#{@player.name}", 10, 10, 0
-			@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", 10, 30, 0
-			@font.draw "#{@player.mp[:current]} / #{@player.mp[:max]}", 10, 50, 0
+			@font.draw "#{@player.hp} / #{@player.max_hp}", 10, 30, 0
+			@font.draw "#{@player.mp} / #{@player.max_mp}", 10, 50, 0
 		else
 			@font.draw "#{@player.name}", 10, 10, 0
 			@font.draw "is dead", 10, 30, 0
@@ -75,8 +69,8 @@ class CombatTest < Gosu::Window
 		# Draw monster stats
 		@monsters.each_with_index do |monster, i|
 			@font.draw "#{monster.name}", 200*(i+1), 10, 0
-			@font.draw "#{monster.hp[:current]} / #{monster.hp[:max]}", 200*(i+1), 30, 0
-			@font.draw "#{monster.mp[:current]} / #{monster.mp[:max]}", 200*(i+1), 50, 0
+			@font.draw "#{monster.hp} / #{monster.max_hp}", 200*(i+1), 30, 0
+			@font.draw "#{monster.mp} / #{monster.max_mp}", 200*(i+1), 50, 0
 		end
 	end
 	
@@ -99,7 +93,7 @@ class CombatTest < Gosu::Window
 	
 	def step
 		# Player attacks
-		if @player.hp[:current] > 0
+		if @player.hp > 0
 			@player.melee_attack @monsters[0]
 		end
 		
@@ -113,9 +107,9 @@ class CombatTest < Gosu::Window
 		
 		# Clean up
 		if @monsters[0]
-			puts @monsters[0].hp[:current]
+			puts @monsters[0].hp
 				
-			if @monsters[0].hp[:current] == 0
+			if @monsters[0].hp == 0
 				@monsters.shift
 			end
 		end

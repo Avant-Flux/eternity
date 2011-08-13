@@ -77,11 +77,11 @@ module Combative
 		if @stats[:raw][:strength] > enemy.stats[:raw][:constitution]
 			# Use random number based on dex to determine exact damage
 			#~ if melee_hit? enemy
-				enemy.hp[:current] -= @stats[:raw][:strength] - enemy.stats[:raw][:constitution]
+				enemy.hp -= @stats[:raw][:strength] - enemy.stats[:raw][:constitution]
 			#~ end
 			
-			if enemy.hp[:current] < 0
-				enemy.hp[:current] = 0
+			if enemy.hp < 0
+				enemy.hp = 0
 			end
 		end
 	end

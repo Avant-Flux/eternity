@@ -14,17 +14,21 @@ require_all "./UI"
 class Player < Character
 	attr_accessor :titles, :max_combo, :combo, :overkill_bonus
 	Lvl_cap = 100
+	
+	strength		12
+	constitution	9
+	dexterity		6 
+	power			6
+	skill			3
+	flux			9
 
 	def initialize(window, name, pos = [0, 0, 0], 
-					subsprites={}, stats={}, mass=60, moment=20)
+					subsprites={}, mass=60, moment=20)
 					
 		subsprites = {:body => 1, :face => 1, :hair => 1, 
 					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
 		
-		stats = {:strength => 10, :constitution => 10, :dexterity => 10, 
-				:power => 10, :skill => 10, :flux => 10}.merge! stats
-		
-		super(window, name, pos, subsprites, stats, mass, moment)
+		super(window, name, pos, subsprites, mass, moment)
 		
 		@max_combo = 0
 		@combo = 0

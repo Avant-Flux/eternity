@@ -10,6 +10,8 @@ require './Drawing/Shadow'
 
 require './Stats/Stats'
 
+require './Utilities/Meta'
+
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Physics::ThreeD_Support
@@ -17,12 +19,11 @@ class Entity
 	
 	include Combative
 	
-	attr_reader :stats
+	attr_reader :name, :stats, :lvl, :element
 	attr_reader  :moving, :direction, :move_constant, :movement_force
-	attr_accessor :name, :element, :faction, :visible, :intense
-	attr_accessor :lvl, :hp, :mp
+	attr_accessor :faction, :visible, :intense
 	
-	def initialize(window, animations, name, pos, mass, moment, lvl, element, stats, faction)
+	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction)
 		@movement_force = CP::Vec2::ZERO
 		@walk_constant = 500
 		@run_constant = 1200
@@ -43,21 +44,9 @@ class Entity
 
 		@lvl = lvl
 		
-		@stats = Hash.new
-		@stats[:raw] = stats # strength, constitution, dexterity, mobility, power, skill, flux
-		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
-								:defence => @stats[:raw][:constitution]}
-		
-		@hp = {}
-		@mp = {}
-								
-		@hp[:max] = @stats[:raw][:constitution]*5
-		@hp[:current] = @hp[:max]
-		
-		@mp[:max] = 10 # Arbitrary
-		@mp[:current] = @mp[:max]						
-		
 		@jump_count = 0
+		
+		init_stats
 	end
 	
 	def update
@@ -73,6 +62,67 @@ class Entity
 			@animation.draw px, py, pz, zoom
 		end
 	end
+	
+	def self.stats *arr
+		# Method taken from _why's Dwemthy's Array
+		# and subsequently modified
+		return @default_stats ||= {} if arr.empty?
+		
+		#~ attr_accessor *arr
+		
+		arr.each do |method|
+			meta_eval do
+				define_method method do |val|
+					@default_stats ||= {}
+					@default_stats[method] = val
+				end
+			end
+		end
+		
+		class_eval do
+			define_method :init_stats do
+				@stats = Hash.new
+				@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
+				
+				self.class.stats.each do |stat, val|
+					#~ instance_variable_set("@#{stat}", val)
+					@stats[:raw][stat] = val
+				end
+				
+				@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
+										:defence => @stats[:raw][:constitution]}
+				
+				@hp = {}
+				@mp = {}
+				
+				@hp[:max] = @stats[:raw][:constitution]*5
+				@hp[:current] = @hp[:max]
+				
+				@mp[:max] = 10 # Arbitrary
+				@mp[:current] = @mp[:max]
+			end
+		end
+	end
+	
+	stats :strength, :constitution, :dexterity, :power, :skill, :flux
+	
+	# Create setters and getters for hp and mp
+	[:hp, :mp].each do |stat|
+		eval %Q{
+			def #{stat}
+				@#{stat}[:current]
+			end
+			
+			def #{stat}= val
+				@#{stat}[:current] = val
+			end
+			
+			def max_#{stat}
+				@#{stat}[:max]
+			end
+		}
+	end
+	
 
 	def resolve_ground_collision
 		@jump_count = 0
