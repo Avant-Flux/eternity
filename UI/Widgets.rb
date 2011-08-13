@@ -135,25 +135,32 @@ module Widgets
 		
 		include Widgets::Background::Colored
 		
-		def initialize(window, container, color, pos, width, height, options={}, &block)
+		def initialize(window, pos, width, height, options={}, &block)
 			# The actual button event is processed within Chipmunk
 			
 			options =	{
-							:z_index => 0
+							:z_index => 0,
+							:relative => nil,
+							
+							:color => Gosu::Color::WHITE
 						}.merge! options
 			
-			options[:z_index] += container.pz + 1 if container
+			if options[:relative]
+				options[:z_index] += options[:relative].pz + 1
+			end
 			
 			super(window, options[:z_index])
 			
-			pos[0] += container.render_x
-			pos[1] += container.render_y
+			if options[:relative]
+				pos[0] += options[:relative].render_x
+				pos[1] += options[:relative].render_y
+			end
 			
 			mass = 100
 			moment = 100
 			init_physics pos, width, height, mass, moment, :button
 			
-			init_background color
+			init_background options[:color]
 		end
 		
 		def update

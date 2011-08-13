@@ -158,7 +158,8 @@ class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@button = Widgets::Button.new window, self, Gosu::Color::WHITE, [20,20], 100, 20 do
+		@button = Widgets::Button.new window, [20,20], 100, 20, 
+		:relative => self, :color => Gosu::Color::WHITE do
 			
 		end
 	end
@@ -175,7 +176,7 @@ class VertexSidebar < Sidebar
 	def draw
 		super do
 			@font.draw "Testing", 0, 0, 0, :color => Gosu::Color::BLACK
-				@button.draw
+			@button.draw
 		end
 	end
 	
