@@ -17,11 +17,11 @@ rescue LoadError
 end
 require 'require_all'
 #~ require 'profile'
+require_all './Utilities'
 require_all './Physics'
 require_all './GameObjects'
 require_all './Equipment'
 require_all './GameStates'
-require_all './Utilities'
 require_all './Drawing'
 require_all './UI'
 

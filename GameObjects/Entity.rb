@@ -10,8 +10,6 @@ require './Drawing/Shadow'
 
 require './Stats/Stats'
 
-require './Utilities/Meta'
-
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Physics::ThreeD_Support
