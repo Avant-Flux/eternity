@@ -14,11 +14,12 @@ path = File.expand_path File.dirname(__FILE__)
 path = path[0..(path.rindex(File::SEPARATOR))]
 Dir.chdir path
 
+require_all './Utilities'
 require_all './Physics'
 require_all './GameObjects'
 require_all './Drawing'
 require_all './UI'
-require_all './Utilities'
+
 
 class AnimationEditor < Gosu::Window
 	def initialize
@@ -53,7 +54,6 @@ class AnimationEditor < Gosu::Window
 		@space.set_default_collision_handler do
 			false
 		end
-		@space.add_collision_handler :pointer, :button, Widgets::Button::CollisionHandler.new
 		
 		@mouse = MouseHandler.new @space, CP::ALL_LAYERS
 	end
@@ -158,7 +158,7 @@ class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@button = Widgets::Button.new window, Gosu::Color::WHITE, [20,20], 100, 20 do
+		@button = Widgets::Button.new window, self, Gosu::Color::WHITE, [20,20], 100, 20 do
 			
 		end
 	end

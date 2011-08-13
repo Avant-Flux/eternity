@@ -19,11 +19,11 @@ module Widgets
 				end
 			end
 			
-			def draw_background(x,y,z)
-				@window.draw_quad	@verts[0].x+x, @verts[0].y+y, @background_color,
-									@verts[1].x+x, @verts[1].y+y, @background_color,
-									@verts[2].x+x, @verts[2].y+y, @background_color,
-									@verts[3].x+x, @verts[3].y+y, @background_color, z
+			def draw_background(z)
+				@window.draw_quad	@verts[0].x, @verts[0].y, @background_color,
+									@verts[1].x, @verts[1].y, @background_color,
+									@verts[2].x, @verts[2].y, @background_color,
+									@verts[3].x, @verts[3].y, @background_color, z
 			end
 		end
 		
@@ -41,9 +41,9 @@ module Widgets
 	class UI_Object
 		attr_accessor :pz
 		
-		def initialize(window)
+		def initialize(window, z)
 			@window = window
-			@pz = 0
+			@pz = z
 		end
 		
 		def update
@@ -74,9 +74,9 @@ module Widgets
 		include Background::Colored
 		
 		def initialize(window, pos, width, height, options={})
-			super(window)
-			
 			options = {:background_color => Gosu::Color::BLUE,
+						
+						:z_index => 0,
 						
 						:align => :left,
 						
@@ -85,6 +85,8 @@ module Widgets
 						:padding_left => 0,
 						:padding_right => 0
 						}.merge! options
+			
+			super(window, options[:z_index])
 			
 			mass = 100
 			moment = 100
@@ -108,14 +110,14 @@ module Widgets
 		end
 		
 		def draw(&block)
-			draw_background 0, 0, 0
+			draw_background 0
 			
 			#~ @window.translate render_x, render_y do
 			block.call
 			#~ end
 		end
 		
-		private
+		#~ private
 		
 		def render_x
 			self.px+@padding[:left]
@@ -127,20 +129,29 @@ module Widgets
 	end
 	
 	# Clickable button object
-	class Button #< UI_Object
+	class Button < UI_Object
 		include Physics::TwoD_Support
 		include Physics::TwoD_Support::Rect
 		
 		include Widgets::Background::Colored
 		
-		def initialize(window, color, pos, width, height, &block)
+		def initialize(window, container, color, pos, width, height, options={}, &block)
 			# The actual button event is processed within Chipmunk
-			@window = window
+			
+			options =	{
+							:z_index => 0
+						}.merge! options
+			
+			options[:z_index] += container.pz + 1 if container
+			
+			super(window, options[:z_index])
+			
+			pos[0] += container.render_x
+			pos[1] += container.render_y
 			
 			mass = 100
 			moment = 100
-			collision_type = :button
-			init_physics pos, width, height, mass, moment, collision_type
+			init_physics pos, width, height, mass, moment, :button
 			
 			init_background color
 		end
@@ -150,7 +161,7 @@ module Widgets
 		end
 		
 		def draw
-			draw_background self.px, self.py, 0
+			draw_background 0
 		end
 		
 		def click_event

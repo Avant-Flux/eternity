@@ -19,16 +19,14 @@ class MouseHandler
 		target = nil
 		@space.point_query position, @layers, CP::NO_GROUP do |shape|
 			if target
-				if shape.gameobj.pz > target.gameobj.pz
+				#~ puts "#{shape.gameobj.class}:#{shape.gameobj.pz} <=> #{target.gameobj.class}:#{target.gameobj.pz}"
+				if shape.gameobj.pz >= target.gameobj.pz
 					# Use this shape instead of the current target if it is further up the draw stack
 					target = shape
 				end
 			else
 				target = shape
 			end
-			target = shape
-			#~ puts shape
-			#~ puts "test"
 		end
 		
 		if target
