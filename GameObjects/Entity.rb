@@ -66,7 +66,7 @@ class Entity
 	def self.stats *arr
 		# Method taken from _why's Dwemthy's Array
 		# and subsequently modified
-		return @default_stats ||= {} if arr.empty?
+		return @default_stats if arr.empty?
 		
 		#~ attr_accessor *arr
 		
@@ -78,32 +78,30 @@ class Entity
 				end
 			end
 		end
-		
-		class_eval do
-			define_method :init_stats do
-				@stats = Hash.new
-				@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
-				
-				self.class.stats.each do |stat, val|
-					#~ instance_variable_set("@#{stat}", val)
-					@stats[:raw][stat] = val
-				end
-				
-				@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
-										:defence => @stats[:raw][:constitution]}
-				
-				@hp = {}
-				@mp = {}
-				
-				@hp[:max] = @stats[:raw][:constitution]*5
-				@hp[:current] = @hp[:max]
-				
-				@mp[:max] = 10 # Arbitrary
-				@mp[:current] = @mp[:max]
-			end
-		end
 	end
 	
+	def init_stats
+		@stats = Hash.new
+		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
+		
+		self.class.stats.each do |stat, val|
+			#~ instance_variable_set("@#{stat}", val)
+			@stats[:raw][stat] = val
+		end
+		
+		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
+								:defence => @stats[:raw][:constitution]}
+		
+		@hp = {}
+		@mp = {}
+		
+		@hp[:max] = @stats[:raw][:constitution]*5
+		@hp[:current] = @hp[:max]
+		
+		@mp[:max] = 10 # Arbitrary
+		@mp[:current] = @mp[:max]
+	end
+
 	stats :strength, :constitution, :dexterity, :power, :skill, :flux
 	
 	# Create setters and getters for hp and mp
