@@ -135,16 +135,20 @@ class Sidebar < Widgets::Div
 		super window, window.width-width, 0, options
 		
 		@font = font
-		@title = title
+		@title = Widgets::Label.new window, 0,-20,
+				:relative => self, :width => 100, :height => 30,
+				:text => title, :font => @font,
+				:color => Gosu::Color::GREEN
 	end
 	
 	def update
-	
+		
 	end
 	
 	def draw(&block)
 		super do
-			@font.draw @title, 0, -@font.height, 0, :color => Gosu::Color::BLACK
+			#~ @font.draw @title, 0, -@font.height, 0, :color => Gosu::Color::BLACK
+			@title.draw
 			
 			block.call
 		end
@@ -153,13 +157,28 @@ class Sidebar < Widgets::Div
 	def click_event
 		puts "been clicked: #{self.class}"
 	end
+	
+	def add_to(space)
+		super space
+		@title.add_to space
+	end
+	
+	def remove_from(space)
+		super space
+		@title.remove_from space
+	end
 end
 
 class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@button = Widgets::Button.new window, 20, 20, 
+		@label = Widgets::Label.new window, 20, 20, 
+				:relative => self, :width => 120, :height => 30,
+				:text => "Current Part", :font => @font,
+				 :color => Gosu::Color::GREEN
+		
+		@button = Widgets::Button.new window, 150, 20, 
 				:relative => self, :width => 100, :height => 30,
 				:color => Gosu::Color::WHITE do
 			puts "testing button"
@@ -177,17 +196,20 @@ class VertexSidebar < Sidebar
 	
 	def draw
 		super do
-			@font.draw "Testing", 0, 0, 0, :color => Gosu::Color::BLACK
+			@label.draw
 			@button.draw
 		end
 	end
 	
 	def add_to(space)
 		super space
+		@label.add_to space
 		@button.add_to space
 	end
 	
 	def remove_from(space)
+		super space
+		@label.remove_from space
 		@button.remove_from space
 	end
 end
@@ -223,8 +245,8 @@ class RotateSidebar < Sidebar
 			@vert = Pivot.new 1, 1
 			@part = Part.new "Test Part", [@vert]
 			
-			label = "Angle:"
-			@font.draw	label, 0, 0, 0, :color => Gosu::Color::BLACK
+			#~ label = "Angle:"
+			#~ @font.draw	label, 0, 0, 0, :color => Gosu::Color::BLACK
 			
 			#~ offset = @font.text_width label
 		end

@@ -112,7 +112,7 @@ module Widgets
 		end
 		
 		def draw(&block)
-			draw_background 0
+			draw_background @pz
 			
 			#~ @window.translate render_x, render_y do
 			block.call
@@ -130,14 +130,14 @@ module Widgets
 		end
 	end
 	
-	# Clickable button object
-	class Button < UI_Object
+	# Similar to button, but not clickable
+	class Label < UI_Object
 		include Physics::TwoD_Support
 		include Physics::TwoD_Support::Rect
 		
 		include Widgets::Background::Colored
 		
-		def initialize(window, x, y, options={}, &block)
+		def initialize(window, x, y, options={})
 			# The actual button event is processed within Chipmunk
 			options =	{
 							:z_index => 0,
@@ -146,6 +146,8 @@ module Widgets
 							:width => 1,
 							:height => 1,
 							
+							:font => nil,	# Font object used to render text
+							:text => nil,	# Text to be rendered on this label
 							:color => Gosu::Color::WHITE
 						}.merge! options
 			
@@ -155,11 +157,14 @@ module Widgets
 			
 			super(window, options[:z_index])
 			
-			@block = block
-			
 			if options[:relative]
 				x += options[:relative].render_x
 				y += options[:relative].render_y
+			end
+			
+			if options[:text]
+				@text = options[:text]
+				@font = options[:font]
 			end
 			
 			mass = 100
@@ -170,30 +175,35 @@ module Widgets
 		end
 		
 		def update
-			#~ puts self.px
+			
 		end
 		
 		def draw
-			draw_background 0
+			draw_background @pz
+			if @font
+				@font.draw @text, px, py, pz
+			end
+		end
+	end
+	
+	# Clickable button object
+	class Button < Label
+		def initialize(window, x, y, options={}, &block)
+			super(window, x, y, options, &block)
+			
+			@block = block
+		end
+		
+		def update
+			super
+		end
+		
+		def draw
+			super
 		end
 		
 		def click_event
 			@block.call
-		end
-	end
-	
-	# Similar to button, but not clickable
-	class Label < UI_Object
-		def initialize
-			
-		end
-		
-		def update
-			
-		end
-		
-		def draw
-			
 		end
 	end
 	
