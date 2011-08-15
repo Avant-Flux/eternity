@@ -37,18 +37,11 @@ class AnimationEditor < Gosu::Window
 			sidebar = (eval "#{mode.to_s.capitalize}Sidebar.new(self, @space, @font, 300)")
 			view  = (eval "#{mode.to_s.capitalize}View.new(self)")
 			
-			#~ sidebar.add_to @space
-			#~ @space.add sidebar
-			#~ @space.add view
-			
 			@modes[mode] = {:sidebar => sidebar, :view => view}
 		end
 		
 		@states = []
 		switch_mode @mode
-		
-		Physics::Body
-		@mouse_shape = Physics::Shape
 		
 		# Allow UI objects to overlap
 		@space.set_default_collision_handler do
