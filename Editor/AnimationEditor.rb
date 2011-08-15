@@ -268,34 +268,44 @@ class TextureSidebar < Sidebar
 				:relative => self, :width => 130, :height => 30,
 				:background_color => Gosu::Color::RED,
 				:text => "Add New Layer", :font => font, :color => Gosu::Color::WHITE do
-			
+			puts "new layer"
 		end
 		
-		@div = Widget::Div.new window, 0,50,
-				:relative => self, :background_color => Gosu::Color::RED,
-				:width => 100, :width_units => :percent, 
-				:height => (self.height(:meters)-@padding[:bottom]-@padding[:bottom]-50) do
-			
-		end
-		
-		@div = Widget::Div.new window, 0,50,
-				:relative => self, :background_color => Gosu::Color::RED,
-				:width => 100, :width_units => :percent, 
-				:height => (self.height(:meters)-@padding[:bottom]-@padding[:bottom]-50) do
-			
-		end
+		@div = Container.new window, self
+		@layer = LayerIndicator.new window, @div
 	end
 	
 	def update
 		super
 		@add_layer.update
 		@div.update
+		@layer.update
 	end
 	
 	def draw
 		super
 		@add_layer.draw
 		@div.draw
+		@layer.draw
+	end
+	
+	class Container < Widget::Div
+		def initialize(window, parent)
+			super window, 0,50,
+				:relative => parent, :background_color => Gosu::Color::RED,
+				:width => 100, :width_units => :percent, 
+				:height => (parent.height(:meters)-parent.padding[:bottom]-parent.padding[:bottom]-50),
+				:padding_top => 5, :padding_bottom => 5, :padding_left => 3, :padding_right => 3
+		end
+	end
+	
+	class LayerIndicator < Widget::Div
+		def initialize(window, parent)
+			super window, 0,0, 
+				:relative => parent, 
+				:background_color => Gosu::Color::WHITE,
+				:width => 100, :width_units => :percent, :height => 50
+		end
 	end
 end
 
