@@ -60,7 +60,8 @@ class AnimationEditor < Gosu::Window
 	end
 
 	def draw
-		#~ @font.draw "Press <TAB> to switch modes", 10, 10, 0
+		@font.draw "Modes: (T)exture, (V)ertex, (R)otate", 10, 10, 0
+		@font.draw "Press corresponding letter to switch to that mode", 10, 10+@font.height, 0
 		@states.each do |zone|
 			zone.draw
 		end
@@ -130,8 +131,10 @@ class Sidebar < Widget::Div
 		@font = font
 		@title = Widget::Label.new window, -20,-20,
 				:relative => self, :width => 100, :height => 30,
-				:text => title, :font => @font,
-				:color => Gosu::Color::GREEN
+				:background_color => Gosu::Color::NONE,
+				:text => title, :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom
+				
 	end
 	
 	def update
@@ -169,11 +172,11 @@ class VertexSidebar < Sidebar
 		@label = Widget::Label.new window, 0, 20, 
 				:relative => self, :width => 120, :height => 30,
 				:text => "Current Part", :font => @font,
-				 :color => Gosu::Color::GREEN
+				 :background_color => Gosu::Color::GREEN
 		
 		@button = Widget::Button.new window, 130, 20, 
 				:relative => self, :width => 100, :height => 30,
-				:color => Gosu::Color::WHITE do
+				:background_color => Gosu::Color::WHITE do
 			puts "testing button"
 		end
 	end

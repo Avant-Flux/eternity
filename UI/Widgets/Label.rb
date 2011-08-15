@@ -21,6 +21,8 @@ module Widget
 							:width => 1,
 							:height => 1,
 							
+							:background_color => Gosu::Color::NONE,
+							
 							:text_align => :center, #:center, :left, :right
 							:vertical_align => :middle, # :bottom, :middle, :top
 							
@@ -43,6 +45,8 @@ module Widget
 			if options[:text]
 				@text = options[:text]
 				@font = options[:font]
+				@color = options[:color]
+				
 				@font_offset_x =	case options[:text_align]
 										when :left
 											0
@@ -69,7 +73,7 @@ module Widget
 			moment = 100
 			init_physics [x,y], options[:width], options[:height], mass, moment, :button
 			
-			init_background options[:color]
+			init_background options[:background_color]
 		end
 		
 		def update
@@ -79,7 +83,7 @@ module Widget
 		def draw
 			draw_background @pz
 			if @font
-				@font.draw @text, px+@font_offset_x, py+@font_offset_y, pz
+				@font.draw @text, px+@font_offset_x, py+@font_offset_y, pz, :color => @color
 			end
 		end
 	end
