@@ -151,14 +151,11 @@ class Sidebar < Widget::Div
 		puts "been clicked: #{self.class}"
 	end
 	
-	def add_to(space)
-		super space
-		@title.add_to space
-	end
-	
-	def remove_from(space)
-		super space
-		@title.remove_from space
+	[:add_to, :remove_from].each do |method|
+		define_method method do |space|
+			super space
+			@title.send method, space
+		end
 	end
 end
 
@@ -193,16 +190,12 @@ class VertexSidebar < Sidebar
 		@button.draw
 	end
 	
-	def add_to(space)
-		super space
-		@label.add_to space
-		@button.add_to space
-	end
-	
-	def remove_from(space)
-		super space
-		@label.remove_from space
-		@button.remove_from space
+	[:add_to, :remove_from].each do |method|
+		define_method method do |space|
+			super space
+			@label.send method, space
+			@button.send method, space
+		end
 	end
 end
 
@@ -272,21 +265,35 @@ class TextureSidebar < Sidebar
 		end
 		
 		@div = Container.new window, self
-		@layer = LayerIndicator.new window, @div
+		@layers = []
+		9.times do |i|
+			@layers << LayerIndicator.new(window, @div, i)
+		end
 	end
 	
 	def update
 		super
 		@add_layer.update
 		@div.update
-		@layer.update
+		@layers.each do |layer|
+			layer.update
+		end
 	end
 	
 	def draw
 		super
 		@add_layer.draw
 		@div.draw
-		@layer.draw
+		@layers.each do |layer|
+			layer.draw
+		end
+	end
+	
+	[:add_to, :remove_from].each do |method|
+		define_method method do |space|
+			super space
+			@add_layer.send method, space
+		end
 	end
 	
 	class Container < Widget::Div
@@ -295,16 +302,35 @@ class TextureSidebar < Sidebar
 				:relative => parent, :background_color => Gosu::Color::RED,
 				:width => 100, :width_units => :percent, 
 				:height => (parent.height(:meters)-parent.padding[:bottom]-parent.padding[:bottom]-50),
-				:padding_top => 5, :padding_bottom => 5, :padding_left => 3, :padding_right => 3
+				:padding_top => 5, :padding_bottom => 5, :padding_left => 3, :padding_right => 3+12
 		end
 	end
 	
 	class LayerIndicator < Widget::Div
-		def initialize(window, parent)
-			super window, 0,0, 
+		def initialize(window, parent, index)
+			height = 50
+			between_buffer = 5
+			
+			super window, 0,(height+between_buffer)*index, 
 				:relative => parent, 
 				:background_color => Gosu::Color::WHITE,
-				:width => 100, :width_units => :percent, :height => 50
+				:width => 100, :width_units => :percent, :height => height
+			
+			
+		end
+		
+		def update
+			super
+			
+		end
+		
+		def draw
+			super
+			
+		end
+		
+		def click_event
+			
 		end
 	end
 end
