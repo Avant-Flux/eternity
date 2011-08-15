@@ -52,12 +52,8 @@ module Widget
 			
 		end
 		
-		def draw(&block)
+		def draw
 			draw_background @pz
-			
-			#~ @window.translate render_x, render_y do
-			block.call
-			#~ end
 		end
 		
 		#~ private

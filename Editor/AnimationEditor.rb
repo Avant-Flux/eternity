@@ -31,7 +31,7 @@ class AnimationEditor < Gosu::Window
 		@space = Physics::Space.new self.update_interval/1000, -9.8, 0.05
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
-		@mode = :rotate
+		@mode = :texture
 		@modes = {}
 		[:vertex, :rotate, :texture].each do |mode|
 			sidebar = (eval "#{mode.to_s.capitalize}Sidebar.new(self, @space, @font, 300)")
@@ -141,13 +141,9 @@ class Sidebar < Widget::Div
 		
 	end
 	
-	def draw(&block)
-		super do
-			#~ @font.draw @title, 0, -@font.height, 0, :color => Gosu::Color::BLACK
-			@title.draw
-			
-			block.call
-		end
+	def draw
+		super
+		@title.draw
 	end
 	
 	def click_event
@@ -191,10 +187,9 @@ class VertexSidebar < Sidebar
 	end
 	
 	def draw
-		super do
-			@label.draw
-			@button.draw
-		end
+		super
+		@label.draw
+		@button.draw
 	end
 	
 	def add_to(space)
@@ -236,16 +231,15 @@ class RotateSidebar < Sidebar
 	end
 	
 	def draw
-		super do
-			# Current vert properties
-			@vert = Pivot.new 1, 1
-			@part = Part.new "Test Part", [@vert]
-			
-			#~ label = "Angle:"
-			#~ @font.draw	label, 0, 0, 0, :color => Gosu::Color::BLACK
-			
-			#~ offset = @font.text_width label
-		end
+		super
+		# Current vert properties
+		@vert = Pivot.new 1, 1
+		@part = Part.new "Test Part", [@vert]
+		
+		#~ label = "Angle:"
+		#~ @font.draw	label, 0, 0, 0, :color => Gosu::Color::BLACK
+		
+		#~ offset = @font.text_width label
 	end
 end
 
@@ -268,6 +262,8 @@ class TextureSidebar < Sidebar
 		options[:background_color] = Gosu::Color::YELLOW
 		
 		super window, space, font, "Texture", width, options
+		
+		
 	end
 	
 	def update
@@ -275,9 +271,7 @@ class TextureSidebar < Sidebar
 	end
 	
 	def draw
-		super do
-			
-		end
+		super
 	end
 end
 
