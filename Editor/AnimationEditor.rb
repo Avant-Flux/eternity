@@ -120,15 +120,15 @@ class Sidebar < Widget::Div
 						:height => window.height,
 						
 						:padding_top => 30,
-						:padding_bottom => 10,
-						:padding_left => 10,
-						:padding_right => 10
+						:padding_bottom => 30,
+						:padding_left => 30,
+						:padding_right => 30
 					}.merge! options
 		
 		super window, window.width-width, 0, options
 		
 		@font = font
-		@title = Widget::Label.new window, 0,-20,
+		@title = Widget::Label.new window, -20,-20,
 				:relative => self, :width => 100, :height => 30,
 				:text => title, :font => @font,
 				:color => Gosu::Color::GREEN
@@ -166,12 +166,12 @@ class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@label = Widget::Label.new window, 20, 20, 
+		@label = Widget::Label.new window, 0, 20, 
 				:relative => self, :width => 120, :height => 30,
 				:text => "Current Part", :font => @font,
 				 :color => Gosu::Color::GREEN
 		
-		@button = Widget::Button.new window, 150, 20, 
+		@button = Widget::Button.new window, 130, 20, 
 				:relative => self, :width => 100, :height => 30,
 				:color => Gosu::Color::WHITE do
 			puts "testing button"
