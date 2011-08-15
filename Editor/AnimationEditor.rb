@@ -263,15 +263,29 @@ class TextureSidebar < Sidebar
 		
 		super window, space, font, "Texture", width, options
 		
-		
+		@div = Widget::Div.new window, 0,0,
+				:relative => self, :width => 100, :height => 40,
+				:background_color => Gosu::Color::BLACK do
+			
+		end
+		@texture_button = Widget::Button.new window, 0,0,
+				:relative => self, :width => 130, :height => 30,
+				:background_color => Gosu::Color::BLACK,
+				:text => "Select Texture", :font => font, :color => Gosu::Color::WHITE do
+			
+		end
 	end
 	
 	def update
 		super
+		@div.update
+		#~ @texture_button.update
 	end
 	
 	def draw
 		super
+		@div.draw
+		#~ @texture_button.draw
 	end
 end
 

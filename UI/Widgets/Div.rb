@@ -16,13 +16,14 @@ module Widget
 		
 		def initialize(window, x, y, options={})
 			options = 	{
-							:background_color => Gosu::Color::BLUE,
-							
 							:z_index => 0,
+							:relative => nil,
 							:align => :left,
 							
 							:width => 1,
 							:height => 1,
+							
+							:background_color => Gosu::Color::BLUE,
 							
 							:padding_top => 0,
 							:padding_bottom => 0,
@@ -30,13 +31,24 @@ module Widget
 							:padding_right => 0
 						}.merge! options
 			
+			if options[:relative]
+				options[:z_index] += options[:relative].pz + 1
+			end
+			
 			super(window, options[:z_index])
+			
+			if options[:relative]
+				x += options[:relative].render_x
+				y += options[:relative].render_y
+			end
 			
 			mass = 100
 			moment = 100
 			init_physics	[x,y], options[:width], options[:height], mass, moment, :div
 			
 			init_background	options[:background_color]
+			
+			
 			
 			# Currently alignment is not taken into account
 			@align = options[:align]
