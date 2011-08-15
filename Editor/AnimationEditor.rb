@@ -120,7 +120,7 @@ class Sidebar < Widget::Div
 						:width => width,
 						:height => window.height,
 						
-						:padding_top => 30,
+						:padding_top => 50,
 						:padding_bottom => 30,
 						:padding_left => 30,
 						:padding_right => 30
@@ -129,10 +129,10 @@ class Sidebar < Widget::Div
 		super window, window.width-width, 0, options
 		
 		@font = font
-		@title = Widget::Label.new window, -20,-20,
+		@title = Widget::Label.new window, -20,-40,
 				:relative => self, :width => 100, :height => 30,
 				:background_color => Gosu::Color::NONE,
-				:text => title, :font => @font, :color => Gosu::Color::BLACK,
+				:text => title, :font => font, :color => Gosu::Color::BLACK,
 				:text_align => :left, :vertical_align => :bottom
 				
 	end
@@ -165,12 +165,12 @@ class VertexSidebar < Sidebar
 	def initialize(window, space, font, width, options={})
 		super window, space, font, "Vertex", width, options
 		
-		@label = Widget::Label.new window, 0, 20, 
+		@label = Widget::Label.new window, 0, 0, 
 				:relative => self, :width => 120, :height => 30,
-				:text => "Current Part", :font => @font,
+				:text => "Current Part", :font => font,
 				 :background_color => Gosu::Color::GREEN
 		
-		@button = Widget::Button.new window, 130, 20, 
+		@button = Widget::Button.new window, 130, 0, 
 				:relative => self, :width => 100, :height => 30,
 				:background_color => Gosu::Color::WHITE do
 			puts "testing button"
