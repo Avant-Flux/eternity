@@ -21,6 +21,9 @@ module Widget
 							:width => 1,
 							:height => 1,
 							
+							:text_align => :center, #:center, :left, :right
+							:vertical_align => :middle, # :bottom, :middle, :top
+							
 							:font => nil,	# Font object used to render text
 							:text => nil,	# Text to be rendered on this label
 							:color => Gosu::Color::WHITE
@@ -40,6 +43,26 @@ module Widget
 			if options[:text]
 				@text = options[:text]
 				@font = options[:font]
+				@font_offset_x =	case options[:text_align]
+										when :left
+											0
+										when :center
+											(options[:width] - @font.text_width(@text))/2
+										when :right
+											(options[:width] - @font.text_width(@text))
+									end
+				@font_offset_y =	case options[:vertical_align]
+										when :top
+											0
+										when :middle
+											(options[:height] - @font.height)/2 + 2
+											# Constant at the end may have to change
+											# with font or platform
+										when :bottom
+											options[:height] - @font.height+5
+											# Constant at the end may have to change
+											# with font or platform
+									end
 			end
 			
 			mass = 100
@@ -56,7 +79,7 @@ module Widget
 		def draw
 			draw_background @pz
 			if @font
-				@font.draw @text, px, py, pz
+				@font.draw @text, px+@font_offset_x, py+@font_offset_y, pz
 			end
 		end
 	end
