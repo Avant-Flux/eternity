@@ -162,3 +162,23 @@ FOOTER FILES
 Footer files allow you to add a simple footer to your wiki. Footer files must be named _Footer.ext where the extension is one of the supported formats. Like sidebars, footers affect all pages in their directory and any subdirectories that do not have a footer file of their own.
 
 
+For clipboard usage on various platforms
+	On unix systems, use shell commands
+		On linux
+			https://gist.github.com/891599
+			xsel --clipboard
+			 or
+			xclip -out
+			
+			these will have to be installed on Ubuntu
+		On OSX
+			http://softwaretrenches.com/2006/09/reading-and-wri.html
+			pbpaste
+			pbcopy
+			
+			these come with OSX
+	On Windows
+		Use win32-clipboard
+		http://rubyforge.org/docman/view.php/85/1694/README.html
+
+
