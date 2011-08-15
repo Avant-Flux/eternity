@@ -16,7 +16,7 @@ module Widget
 			# The actual button event is processed within Chipmunk
 			options =	{
 							:z_index => 0,
-							:relative => nil,
+							:relative => window,
 							
 							:width => 1,
 							:height => 1,
@@ -31,13 +31,13 @@ module Widget
 							:color => Gosu::Color::WHITE
 						}.merge! options
 			
-			if options[:relative]
+			if options[:relative] != window
 				options[:z_index] += options[:relative].pz + 1
 			end
 			
 			super(window, options[:z_index])
 			
-			if options[:relative]
+			if options[:relative] != window
 				x += options[:relative].render_x
 				y += options[:relative].render_y
 			end

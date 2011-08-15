@@ -14,14 +14,18 @@ module Widget
 		
 		include Background::Colored
 		
+		attr_reader :padding
+		
 		def initialize(window, x, y, options={})
 			options = 	{
 							:z_index => 0,
-							:relative => nil,
+							:relative => window,
 							:align => :left,
 							
 							:width => 1,
+							:width_units => :px,
 							:height => 1,
+							:height_units => :px,
 							
 							:background_color => Gosu::Color::BLUE,
 							
@@ -31,20 +35,68 @@ module Widget
 							:padding_right => 0
 						}.merge! options
 			
-			if options[:relative]
+			if options[:relative] != window
 				options[:z_index] += options[:relative].pz + 1
 			end
 			
 			super(window, options[:z_index])
 			
-			if options[:relative]
+			if options[:relative] != window
 				x += options[:relative].render_x
 				y += options[:relative].render_y
 			end
 			
+			width =		case options[:width_units]
+							when :px
+								options[:width]
+							when :em
+								# Not defined for the window
+								options[:width] * options[:relative].font.text_width('m')
+							when :percent
+								# Specify :meters so that the measurement is not scaled
+								output =	if options[:relative].is_a? Gosu::Window
+										options[:relative].send :width
+									else
+										options[:relative].send :width, :meters
+									end
+								
+								if options[:relative].respond_to? :padding
+									output -= options[:relative].padding[:left]
+									output -= options[:relative].padding[:right]
+								end
+								
+								(output * options[:width]/100.0).to_i
+						end
+					
+			height =	case options[:height_units]
+							when :px
+								options[:height]
+							when :em
+								# Not defined for the window
+								options[:height] * options[:relative].font.text_width('m')
+							when :percent
+								# Specify :meters so that the measurement is not scaled
+								output =	if options[:relative].is_a? Gosu::Window
+										options[:relative].send :height
+									else
+										options[:relative].send :height, :meters
+									end
+									
+								if options[:relative].respond_to? :padding
+									output -= options[:relative].padding[:top]
+									output -= options[:relative].padding[:bottom]
+								end
+								
+								(output * options[:height]/100.0).to_i
+						end
+			
+			#~ width =	dimension options[:relative], options[:width_units], options[:width]
+			#~ height = dimension options[:relative], options[:height_units], options[:height]
+			
+			
 			mass = 100
 			moment = 100
-			init_physics	[x,y], options[:width], options[:height], mass, moment, :div
+			init_physics	[x,y], width, height, mass, moment, :div
 			
 			init_background	options[:background_color]
 			
@@ -76,6 +128,38 @@ module Widget
 		
 		def render_y
 			self.py+@padding[:top]
+		end
+		
+		private
+		
+		def relative_size(relative, dimension)
+			if relative.is_a? Gosu::Window
+				relative.send dimension
+			else
+				relative.send dimension, :meters
+			end
+		end
+		
+		# Convert the value in the specified dimension to pixels
+		def dimension(relative, padding, units, value)
+			return case units
+				when :px
+					value
+				when :em
+					# Not defined for the window
+					value * relative.font.text_width('m')
+				when :percent
+					# Specify :meters so that the measurement is not scaled
+					x =	if relative.is_a? Gosu::Window
+							relative.send :width
+						else
+							relative.send :width, :meters
+						end
+					x -= padding[:left]
+					x -= padding[:right]
+					
+					(x * value/100.0).to_i
+			end
 		end
 	end
 end

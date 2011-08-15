@@ -118,7 +118,8 @@ class Sidebar < Widget::Div
 						:background_color => Gosu::Color::BLUE,
 						
 						:width => width,
-						:height => window.height,
+						:height => 100,
+						:height_units => :percent,
 						
 						:padding_top => 50,
 						:padding_bottom => 30,
@@ -263,29 +264,38 @@ class TextureSidebar < Sidebar
 		
 		super window, space, font, "Texture", width, options
 		
-		@div = Widget::Div.new window, 0,0,
-				:relative => self, :width => 100, :height => 40,
-				:background_color => Gosu::Color::BLACK do
+		@add_layer = Widget::Button.new window, 0,0,
+				:relative => self, :width => 130, :height => 30,
+				:background_color => Gosu::Color::RED,
+				:text => "Add New Layer", :font => font, :color => Gosu::Color::WHITE do
 			
 		end
-		@texture_button = Widget::Button.new window, 0,0,
-				:relative => self, :width => 130, :height => 30,
-				:background_color => Gosu::Color::BLACK,
-				:text => "Select Texture", :font => font, :color => Gosu::Color::WHITE do
+		
+		@div = Widget::Div.new window, 0,50,
+				:relative => self, :background_color => Gosu::Color::RED,
+				:width => 100, :width_units => :percent, 
+				:height => (self.height(:meters)-@padding[:bottom]-@padding[:bottom]-50) do
+			
+		end
+		
+		@div = Widget::Div.new window, 0,50,
+				:relative => self, :background_color => Gosu::Color::RED,
+				:width => 100, :width_units => :percent, 
+				:height => (self.height(:meters)-@padding[:bottom]-@padding[:bottom]-50) do
 			
 		end
 	end
 	
 	def update
 		super
+		@add_layer.update
 		@div.update
-		#~ @texture_button.update
 	end
 	
 	def draw
 		super
+		@add_layer.draw
 		@div.draw
-		#~ @texture_button.draw
 	end
 end
 
