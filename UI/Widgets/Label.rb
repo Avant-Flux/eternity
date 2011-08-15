@@ -19,7 +19,9 @@ module Widget
 							:relative => window,
 							
 							:width => 1,
+							:width_units => :px,
 							:height => 1,
+							:height_units => :px,
 							
 							:background_color => Gosu::Color::NONE,
 							
@@ -42,6 +44,50 @@ module Widget
 				y += options[:relative].render_y
 			end
 			
+			width =		case options[:width_units]
+							when :px
+								options[:width]
+							when :em
+								# Not defined for the window
+								options[:width] * options[:relative].font.text_width('m')
+							when :percent
+								# Specify :meters so that the measurement is not scaled
+								output =	if options[:relative].is_a? Gosu::Window
+										options[:relative].send :width
+									else
+										options[:relative].send :width, :meters
+									end
+								
+								if options[:relative].respond_to? :padding
+									output -= options[:relative].padding[:left]
+									output -= options[:relative].padding[:right]
+								end
+								
+								(output * options[:width]/100.0).to_i
+						end
+					
+			height =	case options[:height_units]
+							when :px
+								options[:height]
+							when :em
+								# Not defined for the window
+								options[:height] * options[:relative].font.text_width('m')
+							when :percent
+								# Specify :meters so that the measurement is not scaled
+								output =	if options[:relative].is_a? Gosu::Window
+										options[:relative].send :height
+									else
+										options[:relative].send :height, :meters
+									end
+									
+								if options[:relative].respond_to? :padding
+									output -= options[:relative].padding[:top]
+									output -= options[:relative].padding[:bottom]
+								end
+								
+								(output * options[:height]/100.0).to_i
+						end
+			
 			if options[:text]
 				@text = options[:text]
 				@font = options[:font]
@@ -51,19 +97,19 @@ module Widget
 										when :left
 											0
 										when :center
-											(options[:width] - @font.text_width(@text))/2
+											(width - @font.text_width(@text))/2
 										when :right
-											(options[:width] - @font.text_width(@text))
+											(width - @font.text_width(@text))
 									end
 				@font_offset_y =	case options[:vertical_align]
 										when :top
 											0
 										when :middle
-											(options[:height] - @font.height)/2 + 2
+											(height - @font.height)/2 + 2
 											# Constant at the end may have to change
 											# with font or platform
 										when :bottom
-											options[:height] - @font.height+5
+											height - @font.height+5
 											# Constant at the end may have to change
 											# with font or platform
 									end
@@ -71,7 +117,7 @@ module Widget
 			
 			mass = 100
 			moment = 100
-			init_physics [x,y], options[:width], options[:height], mass, moment, :button
+			init_physics [x,y], width, height, mass, moment, :button
 			
 			init_background options[:background_color]
 		end

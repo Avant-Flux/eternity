@@ -267,7 +267,7 @@ class TextureSidebar < Sidebar
 		@div = Container.new window, self
 		@layers = []
 		9.times do |i|
-			@layers << LayerIndicator.new(window, @div, i)
+			@layers << LayerIndicator.new(window, @div, font, i)
 		end
 	end
 	
@@ -293,44 +293,82 @@ class TextureSidebar < Sidebar
 		define_method method do |space|
 			super space
 			@add_layer.send method, space
+			@div.send method, space
+			@layers.each do |layer|
+				layer.send method, space
+			end
 		end
 	end
 	
-	class Container < Widget::Div
+	class Container < Widget::ScrollingDiv
 		def initialize(window, parent)
 			super window, 0,50,
 				:relative => parent, :background_color => Gosu::Color::RED,
 				:width => 100, :width_units => :percent, 
 				:height => (parent.height(:meters)-parent.padding[:bottom]-parent.padding[:bottom]-50),
-				:padding_top => 5, :padding_bottom => 5, :padding_left => 3, :padding_right => 3+12
+				:padding_top => 5, :padding_bottom => 5, :padding_left => 3, :padding_right => 3+12+2
 		end
 	end
 	
 	class LayerIndicator < Widget::Div
-		def initialize(window, parent, index)
+		def initialize(window, parent, font, index)
 			height = 50
 			between_buffer = 5
 			
 			super window, 0,(height+between_buffer)*index, 
 				:relative => parent, 
 				:background_color => Gosu::Color::WHITE,
-				:width => 100, :width_units => :percent, :height => height
+				:width => 100, :width_units => :percent, :height => height,
+				:padding_top => 3, :padding_bottom => 3, 
+				:padding_left => 3, :padding_right => 3
 			
+			@edit_button = Widget::Button.new window, 24,0,
+							:relative => self, 
+							:background_color => Gosu::Color::GREEN,
+							:width => 160, :height => 100, :height_units => :percent,
+							:text => "Test Name #{index}", :font => font do
+				puts "edit"
+			end
+			@delete_button = Widget::Button.new window, self.width(:meters)-20-3-3,0,
+							:relative => self, 
+							:background_color => Gosu::Color::BLACK,
+							:width => 20, :height => 100, :height_units => :percent do
+				puts "delete"
+			end
 			
+			@move_handle = Widget::Button.new window, 0,0,
+							:relative => self, 
+							:background_color => Gosu::Color::BLACK,
+							:width => 20, :height => 100, :height_units => :percent do
+				puts "move"
+			end
 		end
 		
 		def update
 			super
-			
+			@edit_button.update
+			@delete_button.update
+			@move_handle.update
 		end
 		
 		def draw
 			super
-			
+			@edit_button.draw
+			@delete_button.draw
+			@move_handle.draw
 		end
 		
 		def click_event
 			
+		end
+		
+		[:add_to, :remove_from].each do |method|
+			define_method method do |space|
+				super space
+				@edit_button.send method, space
+				@delete_button.send method, space
+				@move_handle.send method, space
+			end
 		end
 	end
 end
