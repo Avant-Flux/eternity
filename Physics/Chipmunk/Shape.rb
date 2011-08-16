@@ -51,23 +51,18 @@ module CP
 		class Rect < CP::Shape::Poly
 			attr_reader :width, :height
 		
-			def initialize(body, width, height, offset=nil)
+			def initialize(body, width, height, offset=CP::ZERO_VEC_2)
 				@width = width
 				@height = height
 				
-				if (offset.is_a? Symbol) && (offset == :centered)
-					offset = CP::Vec2.new -width/2.0, -height/2.0
-				end
+				offset =	if (offset.is_a? Symbol) && (offset == :centered)
+								CP::Vec2.new -width/2.0, -height/2.0
+							end
 				
-				shape_array =	[CP::Vec2.new(0, 0),
+				shape_array = [CP::Vec2.new(0, 0),
 								CP::Vec2.new(0, height),
 								CP::Vec2.new(width, height),
-								CP::Vec2.new(width, 0),]
-				
-				# Compensate for offset
-				shape_array.each_with_index do |vertex, i|
-					shape_array[i] = vertex - offset
-				end
+								CP::Vec2.new(width, 0)]
 				
 				super body, shape_array, offset
 			end
