@@ -34,6 +34,11 @@ class Player < Character
 		@combo = 0
 		@overkill_bonus = 0
 		
+		@equipment[:footwear] = Footgear::Shoes.new
+		@equipment[:upper_body] = Upper::Shirt.new
+		@equipment[:lower_body] = Lower::Pants.new
+		@equipment[:outer_wear] = OuterWear::Trenchcoat.new
+		
 		#~ @tracker = UI::Overlay::Tracking.new(self)
 	end
 	

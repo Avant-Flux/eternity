@@ -74,10 +74,36 @@ module Combative
 			#~ return 0		#No change to hp
 		#~ end
 		
-		if @stats[:raw][:strength] > enemy.stats[:raw][:constitution]
+		attack_mod =	if @equipment
+							@equipment[:left_hand].attack
+						else
+							0
+						end
+		
+		defence_mod =	if @equipment
+							x = 0
+							@equipment.each_pair do |type, armor|
+								if armor && !(type == :right_hand || type == :left_hand || type == :title)
+									x += armor.defence
+								end
+							end
+							
+							puts "armor #{x}"
+							x
+						else
+							0
+						end
+		
+		if @stats[:raw][:strength] + attack_mod > enemy.stats[:raw][:constitution] + defence_mod
 			# Use random number based on dex to determine exact damage
 			#~ if melee_hit? enemy
-				enemy.hp -= @stats[:raw][:strength] - enemy.stats[:raw][:constitution]
+				defence = enemy.stats[:raw][:constitution] + defence_mod
+				offense = @stats[:raw][:strength] + attack_mod
+				
+				puts "def: #{defence}"
+				puts "offense #{offense}"
+				
+				enemy.hp -= offense - defence
 			#~ end
 			
 			if enemy.hp < 0

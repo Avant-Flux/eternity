@@ -14,7 +14,11 @@ module Headgear
 	include Equipable
 	
 	class Hat
+		attr_reader :defence
 		
+		def initialize
+			@defence = 1
+		end
 	end
 	
 	class Helmet
@@ -30,7 +34,11 @@ module Upper
 	include Equipable
 	
 	class Shirt
+		attr_reader :defence
 		
+		def initialize
+			@defence = 1
+		end
 	end
 	
 	class Armor
@@ -42,7 +50,11 @@ module Lower
 	include Equipable
 	
 	class Pants
+		attr_reader :defence
 		
+		def initialize
+			@defence = 1
+		end
 	end
 	
 	class Skirt
@@ -50,11 +62,25 @@ module Lower
 	end
 end
 
+module OuterWear
+	class Trenchcoat
+		attr_reader :defence
+		
+		def initialize
+			@defence = 1
+		end
+	end
+end
+
 module Footgear
 	include Equipable
 	
 	class Shoes
+		attr_reader :defence
 		
+		def initialize
+			@defence = 1
+		end
 	end
 	
 	class Sandals
@@ -70,11 +96,14 @@ module Weapons
 	module Swords
 		class Scimitar
 			attr_accessor :durability, :charge_time, :charge
+			attr_reader :attack
 			
 			def initialize
 				@durability = {:current => 100, :max => 100}
 				@charge_time = 2000
 				@charge = false
+				
+				@attack = 2
 			end
 		end
 	end
@@ -82,11 +111,14 @@ module Weapons
 	module Guns
 		class Handgun
 			attr_accessor :durability, :charge_time, :charge
+			attr_reader :attack
 			
 			def initialize
 				@durability = {:current => 100, :max => 100}
 				@charge_time = 2000
 				@charge = false
+				
+				@attack = 3
 			end
 		end
 	end

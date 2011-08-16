@@ -4,7 +4,7 @@ module Creatures
 	class Bat < Creature
 		include Combative
 		
-		strength		10
+		strength		11
 		constitution	3
 		dexterity		4 
 		power			0

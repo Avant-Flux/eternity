@@ -26,8 +26,8 @@ class Character < Entity
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
 		@inventory = {:consumable => [], :equipable => [], :key_items => []}
 		@equipment =	{:head => nil, :right_hand => nil, :left_hand => nil, 
-						:upper_body => nil, :lower_body => nil, :feet => nil, 
-						:title => Title_Holder.new}
+						:outer_wear => nil, :upper_body => nil, :lower_body => nil, 
+						:feet => nil, :title => Title_Holder.new}
 	end
 	
 	def lvl=(arg)
