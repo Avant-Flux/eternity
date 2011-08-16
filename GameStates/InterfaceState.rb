@@ -5,7 +5,9 @@ require 'gosu'
 require 'texplay'
 require 'chipmunk'
 
-require './UI/Widgets'
+require 'require_all'
+
+require_all './UI/Widgets'
 
 class InterfaceState < GameState
 	def initialize(window, space, layers, name, player)

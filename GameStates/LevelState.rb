@@ -6,7 +6,9 @@ require 'chipmunk'
 class LevelState < GameState
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
-	LEVEL_DIRECTORY = File.join BASE_DIRECTORY, "Levels"
+	path = File.expand_path File.dirname(__FILE__)
+	path = path[0..(path.rindex(File::SEPARATOR))]
+	LEVEL_DIRECTORY = File.join path, "Levels"
 
 	def initialize(window, space, layers, name, render_queue)
 		super(window, space, layers, name)
