@@ -52,7 +52,7 @@ class AnimationEditor < Gosu::Window
 	end
 
 	def update
-		@space.step
+		#~ @space.step
 		
 		@states.each do |zone|
 			zone.update
@@ -135,7 +135,6 @@ class Sidebar < Widget::Div
 				:background_color => Gosu::Color::NONE,
 				:text => title, :font => font, :color => Gosu::Color::BLACK,
 				:text_align => :left, :vertical_align => :bottom
-				
 	end
 	
 	def update
@@ -256,19 +255,28 @@ class TextureSidebar < Sidebar
 		options[:background_color] = Gosu::Color::YELLOW
 		
 		super window, space, font, "Texture", width, options
+		@space = space
+		
+		@div = Container.new window, self
+		
+		@layers = []
+		@i = 0
 		
 		@add_layer = Widget::Button.new window, 0,0,
 				:relative => self, :width => 130, :height => 30,
 				:background_color => Gosu::Color::RED,
 				:text => "Add New Layer", :font => font, :color => Gosu::Color::WHITE do
-			puts "new layer"
+			obj = LayerIndicator.new(window, @div, self, font, @i)
+			@layers << obj
+			@i += 1
+			obj.add_to @space
 		end
 		
-		@div = Container.new window, self
-		@layers = []
-		9.times do |i|
-			@layers << LayerIndicator.new(window, @div, font, i)
-		end
+		
+		
+		#~ 9.times do |i|
+			#~ @layers << LayerIndicator.new(window, @div, font, i)
+		#~ end
 	end
 	
 	def update
@@ -289,14 +297,22 @@ class TextureSidebar < Sidebar
 		end
 	end
 	
+	def delete_layer(layer)
+		@layers.delete layer
+		puts "remove from structure"
+		layer.remove_from @space
+		puts "remove from space"
+		@i -= 1
+	end
+	
 	[:add_to, :remove_from].each do |method|
 		define_method method do |space|
 			super space
 			@add_layer.send method, space
 			@div.send method, space
-			@layers.each do |layer|
-				layer.send method, space
-			end
+			#~ @layers.each do |layer|
+				#~ layer.send method, space
+			#~ end
 		end
 	end
 	
@@ -311,34 +327,37 @@ class TextureSidebar < Sidebar
 	end
 	
 	class LayerIndicator < Widget::Div
-		def initialize(window, parent, font, index)
+		def initialize(window, parent, sidebar, font, index)
 			height = 50
 			between_buffer = 5
-			
+			@sidebar = sidebar
 			super window, 0,(height+between_buffer)*index, 
 				:relative => parent, 
-				:background_color => Gosu::Color::WHITE,
+				:background_color => Gosu::Color::BLACK,
 				:width => 100, :width_units => :percent, :height => height,
 				:padding_top => 3, :padding_bottom => 3, 
 				:padding_left => 3, :padding_right => 3
 			
 			@edit_button = Widget::Button.new window, 24,0,
 							:relative => self, 
-							:background_color => Gosu::Color::GREEN,
-							:width => 160, :height => 100, :height_units => :percent,
-							:text => "Test Name #{index}", :font => font do
+							:background_color => Gosu::Color::NONE,
+							:width => 165, :height => 100, :height_units => :percent,
+							:text => "Test Name #{index}", 
+							:font => font, :color => Gosu::Color::WHITE do
 				puts "edit"
 			end
 			@delete_button = Widget::Button.new window, self.width(:meters)-20-3-3,0,
 							:relative => self, 
-							:background_color => Gosu::Color::BLACK,
-							:width => 20, :height => 100, :height_units => :percent do
-				puts "delete"
+							:background_color => Gosu::Color::WHITE,
+							:width => 20, :height => 100, :height_units => :percent,
+							:text => "X", 
+							:font => font, :color => Gosu::Color::RED do
+				@sidebar.delete_layer self
 			end
 			
 			@move_handle = Widget::Button.new window, 0,0,
 							:relative => self, 
-							:background_color => Gosu::Color::BLACK,
+							:background_color => Gosu::Color::RED,
 							:width => 20, :height => 100, :height_units => :percent do
 				puts "move"
 			end
