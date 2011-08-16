@@ -2,7 +2,7 @@
 
 Dir.chdir File.dirname(__FILE__)
 
-BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
+#~ BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
 
 begin
   # In case you use Gosu via rubygems.
@@ -243,9 +243,9 @@ class Game_Window < Gosu::Window
 						attack = "charge_" + attack
 					end
 					
-					if @player.intense
-						attack = "intense_" + attack
-					end
+					#~ if @player.intense
+						#~ attack = "intense_" + attack
+					#~ end
 					
 					@player.send attack.to_sym
 				end
@@ -253,12 +253,14 @@ class Game_Window < Gosu::Window
 			
 			#~ puts code
 			
-			eval code
 			
-			#~ @inpman.new_sequence "intense_#{attack_type}".to_sym, :falling_edge do
-				#~ @player.send "intense_#{attack_type}".to_sym
+			@inpman.new_sequence "intense_#{attack_type}".to_sym, :rising_edge do
+				@player.send "intense_#{attack_type}".to_sym
 				#~ puts "hey"
-			#~ end
+				#~ self.close
+			end
+			
+			eval code
 			
 			charge_time = 
 			eval %Q{
@@ -267,6 +269,10 @@ class Game_Window < Gosu::Window
 				#~ end
 			}
 		end
+		
+		@inpman.bind_sequence :intense_magic, [:intense, :magic]
+		@inpman.bind_sequence :intense_left_hand, [:intense, :left_hand]
+		@inpman.bind_sequence :intense_right_hand, [:intense, :right_hand]
 		
 		@inpman.bind_action :magic, Gosu::KbO
 		@inpman.bind_action :left_hand, Gosu::KbE
@@ -283,9 +289,7 @@ class Game_Window < Gosu::Window
 		#~ @inpman.bind_chord :intense_left_hand, [:intense, :left_hand]
 		#~ @inpman.bind_chord :intense_right_hand, [:intense, :right_hand]
 		
-		#~ @inpman.bind_sequence :intense_magic, [:intense, :magic]
-		#~ @inpman.bind_sequence :intense_left_hand, [:intense, :left_hand]
-		#~ @inpman.bind_sequence :intense_right_hand, [:intense, :right_hand]
+		
 		
 		#~ @inpman.bind_hold :charge_left_hand, [:left_hand, 2000]
 		
