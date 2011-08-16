@@ -13,14 +13,14 @@ class Camera
 	attr_accessor :zoom
 	
 	MAX_ZOOM = 1
-	MIN_ZOOM = 0.15
+	MIN_ZOOM = 0
 	DEFAULT_ZOOM = 0.30
 	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
-	def initialize(window)
+	def initialize(window, zoom=DEFAULT_ZOOM)
 		@window =  window
 		@followed_entity = nil
-		@zoom = DEFAULT_ZOOM #Must be a percentage
+		@zoom = zoom #Must be a percentage
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
@@ -35,7 +35,7 @@ class Camera
 						#~ :mass => 50, :moment => :static, :collision_type => :camera
 						
 		init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
-						50, :static, :camera
+						50, :static, :camera, :centered
 		
 		@shape.sensor = true
 		
@@ -69,8 +69,8 @@ class Camera
 	
 	# Return the amount in pixels to offset the rendering
 	def offset
-		return	@window.width / 2.0 - @shape.body.p.x.to_px(@zoom),
-				@window.height / 2.0 - @shape.body.p.y.to_px(@zoom)
+		return	@window.width / 2.0 - px.to_px(@zoom),
+				@window.height / 2.0 - py.to_px(@zoom)
 	end
 	
 	def follow(entity)
