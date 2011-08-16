@@ -18,6 +18,10 @@ module Widget
 			end
 			
 			def draw_background(z)
+				@verts = []
+				@shape.each_vertex_absolute do |vertex|
+					@verts << vertex
+				end
 				@window.draw_quad	@verts[0].x, @verts[0].y, @background_color,
 									@verts[1].x, @verts[1].y, @background_color,
 									@verts[2].x, @verts[2].y, @background_color,

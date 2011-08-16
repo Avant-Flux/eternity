@@ -299,9 +299,15 @@ class TextureSidebar < Sidebar
 	
 	def delete_layer(layer)
 		@layers.delete layer
-		puts "remove from structure"
+		y = layer.py
+		
+		@layers.each do |l|
+			if l.py > y
+				puts "moving"
+				l.move_y -layer.height(:meters)
+			end
+		end
 		layer.remove_from @space
-		puts "remove from space"
 		@i -= 1
 	end
 	
@@ -361,6 +367,8 @@ class TextureSidebar < Sidebar
 							:width => 20, :height => 100, :height_units => :percent do
 				puts "move"
 			end
+			
+			@children = [@edit_button, @delete_button, @move_handle]
 		end
 		
 		def update
