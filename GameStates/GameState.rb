@@ -92,6 +92,10 @@ class GameState
 		
 	end
 	
+	def ==(arg)
+		return @name == arg
+	end
+	
 	class << self
 		# If the method is not defined here, see if it is defined for Gosu::Window
 		# If it is, execute the method within the context of the window.
