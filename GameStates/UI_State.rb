@@ -83,7 +83,7 @@ class UI_State < InterfaceState
 		text_corner[0] += padding
 		
 		z = 10
-		@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", text_corner[0], text_corner[1], z
+		@font.draw "#{@player.hp} / #{@player.max_hp}", text_corner[0], text_corner[1], z
 		
 							
 		margin = 10
@@ -110,7 +110,7 @@ class UI_State < InterfaceState
 		text_corner[0] += padding
 		
 		z = 10
-		@font.draw "#{@player.hp[:current]} / #{@player.hp[:max]}", text_corner[0], text_corner[1], z
+		@font.draw "#{@player.hp} / #{@player.max_hp}", text_corner[0], text_corner[1], z
 		
 		total_width += width
 		
