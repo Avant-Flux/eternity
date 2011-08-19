@@ -89,7 +89,7 @@ module Widget
 						end
 			
 			mass = 100
-			moment = 100
+			moment = :static
 			init_physics [x,y], width, height, mass, moment, :button
 			
 			if options[:text]

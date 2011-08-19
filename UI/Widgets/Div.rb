@@ -95,7 +95,7 @@ module Widget
 			
 			
 			mass = 100
-			moment = 100
+			moment = :static
 			init_physics	[x,y], width, height, mass, moment, :div
 			
 			init_background	options[:background_color]

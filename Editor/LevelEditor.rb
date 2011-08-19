@@ -31,11 +31,6 @@ class LevelEditor < Gosu::Window
 		
 		Cacheable.sprite_directory = "./Sprites"
 		
-		@space = Physics::Space.new self.update_interval/1000, -9.8, 0.05
-		@mouse = MouseHandler.new @space, CP::ALL_LAYERS
-		@font = Gosu::Font.new self, "Trebuchet MS", 25
-		
-		
 		@player = Player.new self, "Bob"
 		
 		@camera = Camera.new self, 0.01
@@ -45,30 +40,7 @@ class LevelEditor < Gosu::Window
 		@states = GameStateManager.new self, @camera, @player
 		@states.delete "HUD"
 		
-		@prompt = Prompt.new self, @space, 0x1000, "Loading Prompt", @player
-		
-		sidebar_width = 250
-		@sidebar = Widget::Div.new self, self.width-sidebar_width,0,
-				:width => sidebar_width, :height => 100, :height_units => :percent,
-				:background_color => Gosu::Color::BLUE,
-				:padding_top => 10, :padding_bottom => 10, :padding_left => 10, :padding_right => 10
-		
-		@load = Widget::Button.new self, 0,0,
-				:relative => @sidebar, :width => 100, :height => 30,
-				:background_color => Gosu::Color::WHITE,
-				:text => "Load", :font => @font, :color => Gosu::Color::BLUE do
-			puts "load"
-			@prompt.visible = true
-		end
-		@load.add_to @space
-				
-		@save = Widget::Button.new self, 120,0,
-				:relative => @sidebar, :width => 100, :height => 30,
-				:background_color => Gosu::Color::WHITE,
-				:text => "Save", :font => @font, :color => Gosu::Color::BLUE do
-			puts "Save"
-		end
-		@save.add_to @space
+		@mouse = @states.new_gamestate(LevelEditorInterface, "Interface").mouse
 		
 		@states.new_gamestate LevelState, "Scrapyard"
 	end
@@ -85,24 +57,13 @@ class LevelEditor < Gosu::Window
 			@camera.py += y.to_meters
 		end
 		
-		@camera.update
 		@states.update
 		
-		@sidebar.update
-		@load.update
-		@save.update
-		@prompt.update
+		@camera.update
 	end
 	
 	def draw
 		@states.draw
-		
-		@sidebar.draw
-		@load.draw
-		@save.draw
-		if @prompt.visible?
-			@prompt.draw
-		end
 	end
 	
 	def button_down(id)
@@ -141,6 +102,60 @@ class LevelEditor < Gosu::Window
 	end
 end
 
+class LevelEditorInterface < InterfaceState
+	attr_reader :mouse
+	
+	def initialize(window, space, layers, name, player)
+		super(window, space, layers, name, player)
+		
+		@font = Gosu::Font.new window, "Trebuchet MS", 25
+		
+		space.set_default_collision_func do
+			false
+		end
+		
+		@mouse = MouseHandler.new space, CP::ALL_LAYERS
+		
+		sidebar_width = 250
+		@sidebar = Widget::Div.new window, window.width-sidebar_width,0,
+				:width => sidebar_width, :height => 100, :height_units => :percent,
+				:background_color => Gosu::Color::BLUE,
+				:padding_top => 10, :padding_bottom => 10, :padding_left => 10, :padding_right => 10
+		
+		@load = Widget::Button.new window, 0,0,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Load", :font => @font, :color => Gosu::Color::BLUE do
+			puts "load"
+			#~ @states.new_gamestate Prompt, "Loading Prompt"
+		end
+				
+		@save = Widget::Button.new window, 120,0,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Save", :font => @font, :color => Gosu::Color::BLUE do
+			puts "Save"
+		end
+		
+		
+		@sidebar.add_to space
+		@load.add_to space
+		@save.add_to space
+	end
+	
+	def update
+		@sidebar.update
+		@load.update
+		@save.update
+	end
+	
+	def draw
+		@sidebar.draw
+		@load.draw
+		@save.draw
+	end
+end
+
 class Prompt < InterfaceState
 	def initialize(window, space, layers, name, player)
 		super(window, space, layers, name, player)
@@ -150,37 +165,38 @@ class Prompt < InterfaceState
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
-		div = Widget::Div.new window, 0,0,
+		@div = Widget::Div.new window, 0,0,
 				:width => 500, :height => 300,
 				:padding_top => 40, :padding_bottom => 40, 
 				:padding_left => 30, :padding_right => 30
 		
+		@filefield = Widget::TextField.new window, 0,0,
+				:relative => @div,
+				:background_color => Gosu::Color::WHITE,
+				:width => 100, :width_units => :percent, :height => @font.height,
+				:text => "", :font => @font, :color => Gosu::Color::BLUE
 		
-		accept = Widget::Button.new window, 0,50,
-				:relative => div, 
+		@accept = Widget::Button.new window, 0,50,
+				:relative => @div, 
 				:background_color => Gosu::Color::WHITE,
 				:width => 200, :height => 100,
 				:text => "Accept", :font => @font, :color => Gosu::Color::BLUE do
 			puts "accept"
 			self.visible = false
+			@gc = true
 		end
 		
-		cancel = Widget::Button.new window, 220,50,
-				:relative => div, 
+		@cancel = Widget::Button.new window, 220,50,
+				:relative => @div, 
 				:background_color => Gosu::Color::WHITE,
 				:width => 200, :height => 100,
 				:text => "Cancel", :font => @font, :color => Gosu::Color::BLUE do
 			puts "cancel"
 			self.visible = false
+			@gc = true
 		end
 		
-		filefield = Widget::Label.new window, 0,0,
-				:relative => div,
-				:background_color => Gosu::Color::WHITE,
-				:width => 100, :width_units => :percent, :height => @font.height,
-				:text => "", :font => @font, :color => Gosu::Color::BLUE
-		
-		@children = [div, accept, cancel, filefield]
+		@children = [@div, @accept, @cancel, @filefield]
 	end
 	
 	def update

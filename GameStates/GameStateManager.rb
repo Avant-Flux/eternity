@@ -69,7 +69,7 @@ class GameStateManager
 			[@stack[HIDDEN], @stack[ACTIVE]].each_with_index do |stack, i|
 			stack.each do |gamestate|
 				if gamestate.gc
-					stack.delete_at i
+					delete_at stack, i
 				end
 				
 				if gamestate.update?
@@ -115,15 +115,24 @@ class GameStateManager
 	def new_gamestate(klass, name)
 		layer = new_layer
 		args = [@window, @space, layer, name]
-		args << @camera[layer] if klass == LevelState
+		args << @camera[layer] if klass.ancestors.include? LevelState
+		if klass.ancestors.include? InterfaceState
+			args << @player
+		end
 		
-		gamestate =  if klass == LevelState
+		gamestate =  if klass.ancestors.include? LevelState
 						klass.load *args
 					else
 						klass.new *args
 					end
 		
-		@stack[ACTIVE] << gamestate
+		if gamestate.is_a? InterfaceState
+			@stack[MENU] << gamestate
+		else
+			@stack[ACTIVE] << gamestate
+		end
+		
+		return gamestate
 	end
 	
 	# Create a new gamestate and place it on the UPPER stack
@@ -144,6 +153,12 @@ class GameStateManager
 				delete_layer state
 			end
 		end
+	end
+	
+	def delete_at(stack, i)
+		state = stack.delete_at i
+		state.finalize
+		delete_layer state
 	end
 	
 	# Move the state on the top of the LOWER stack to the UPPER stack
