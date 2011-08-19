@@ -88,36 +88,18 @@ module Widget
 								(output * options[:height]/100.0).to_i
 						end
 			
+			mass = 100
+			moment = 100
+			init_physics [x,y], width, height, mass, moment, :button
+			
 			if options[:text]
 				@text = options[:text]
 				@font = options[:font]
 				@color = options[:color]
 				
-				@font_offset_x =	case options[:text_align]
-										when :left
-											0
-										when :center
-											(width - @font.text_width(@text))/2
-										when :right
-											(width - @font.text_width(@text))
-									end
-				@font_offset_y =	case options[:vertical_align]
-										when :top
-											0
-										when :middle
-											(height - @font.height)/2 + 2
-											# Constant at the end may have to change
-											# with font or platform
-										when :bottom
-											height - @font.height+5
-											# Constant at the end may have to change
-											# with font or platform
-									end
+				text_align options[:text_align]
+				vertical_align options[:vertical_align]
 			end
-			
-			mass = 100
-			moment = 100
-			init_physics [x,y], width, height, mass, moment, :button
 			
 			init_background options[:background_color]
 		end
@@ -130,6 +112,34 @@ module Widget
 			draw_background @pz
 			if @font
 				@font.draw @text, px+@font_offset_x, py+@font_offset_y, pz, :color => @color
+			end
+		end
+		
+		private
+		
+		def text_align(align)
+			@font_offset_x = case align
+				when :left
+					0
+				when :center
+					(width(:meters) - @font.text_width(@text))/2
+				when :right
+					(width(:meters) - @font.text_width(@text))
+			end
+		end
+		
+		def vertical_align(align)
+			@font_offset_y = case align
+				when :top
+					0
+				when :middle
+					(height(:meters) - @font.height)/2 + 2
+					# Constant at the end may have to change
+					# with font or platform
+				when :bottom
+					height(:meters) - @font.height+5
+					# Constant at the end may have to change
+					# with font or platform
 			end
 		end
 	end
