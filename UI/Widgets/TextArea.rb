@@ -5,8 +5,8 @@ require 'texplay'
 require 'chipmunk'
 
 module Widget
-	# One line text input
-	class TextField < TextBox
+	# Multi-line text input
+	class TextArea < TextBox
 		def initialize
 			
 		end

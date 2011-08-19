@@ -5,11 +5,85 @@ require 'texplay'
 require 'chipmunk'
 
 module Widget
-	# Similar to Label, but is attached to another widget.
-	# Appears only on mouseover of the attached widget.
-	class TextBox < Label
-		def initialize
+	# Parent of TextField and TextArea
+	class TextBox < UI_Object
+		def initialize(window, pos=[0,0,0], width, height, font)
+			@font ||= Gosu::Font.new(window, "Trebuchet MS", 25)
+			@i = 0
+			move_to(pos[0], pos[1], pos[2])
 			
+			#Accept input for the width and height in pixels, but
+			#store those values relative to character size.
+			#Note: one character is roughly 0.625em
+			em = @font.text_width("m")
+			
+			@width = (width / (em*0.625)).to_i			#Number of characters
+			@height = (height / @font.height).to_i		#Number of lines
+			
+			#Make a queue to hold the lines to output.
+			@output = [""]
+		end
+		
+		# Update the state of the object.
+		# Change which lines in the buffer should be drawn.
+		def update
+			if @output.size - @i > @height
+				#~ @output.shift
+				@i += 1
+			end
+		end
+		
+		# Render strings to the screen.
+		def draw(options={})
+			options[:z_offset] ||= 0
+			
+			iterations = [@height, @output.size].min
+			
+			iterations.times do |i|
+				@font.draw @output[i+@i], @x, @y + i*@font.height, @z+options[:z_offset]
+			end
+		end
+		
+		def print(*args)
+			args.each do |x|
+				process_input x.to_s
+			end
+		end
+		
+		def printf(format_string, *args)
+			print sprintf(format_string, *args)
+		end
+		
+		def puts(*args)
+			args.each do |x|
+				print x.to_s, "\n"
+			end
+		end
+		
+		def p(*args)
+			args.each do |x|
+				puts x.inspect
+			end
+		end
+		
+		def process_input(string)
+			string.each_char do |c|
+				if c == "\n"
+					@output << ""
+				else
+					if @output.last.length <= @width
+						@output.last << c
+					else
+						@output << c
+					end
+				end
+			end
+		end
+		
+		def move_to(x,y,z)
+			@x = x
+			@y = y
+			@z = z
 		end
 	end
 end
