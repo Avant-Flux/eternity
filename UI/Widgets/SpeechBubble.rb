@@ -16,8 +16,6 @@ module Widget
 		#Amount the bubble should float above the head of the entity.
 		BUBBLE_RISE = 30
 		
-		@@all = {}
-		
 		def initialize(window, entity, text)
 			@window
 			@entity = entity
@@ -40,27 +38,14 @@ module Widget
 			
 			# The amount to offset the textbox from the entity speaking.
 			@z_offset = 1000
-			
-			@@all[hash] = self
 		end
-		
-		class << self
-			def update_all
-				@@all.each_value do |i|
-					i.update
-				end
-			end
-			
-			def draw_all
-				@@all.each_value do |i|
-					i.draw
-				end
-			end
-		end
-		
 		
 		def update
 			if @destroy_timer.active?
+				# Instead of linking to a hash with all speech bubbles
+				# should link to the related  --game object--  no
+				# Link only to CP space
+				# Thus, when removed from space, the speech bubble will be marked for GC
 				@@all.delete self.hash
 			end
 			if @update_timer.active?
