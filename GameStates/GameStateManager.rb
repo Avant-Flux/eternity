@@ -66,8 +66,12 @@ class GameStateManager
 		if !@pause
 			@space.step
 			
-			[@stack[HIDDEN], @stack[ACTIVE]].each do |stack|
+			[@stack[HIDDEN], @stack[ACTIVE]].each_with_index do |stack, i|
 			stack.each do |gamestate|
+				if gamestate.gc
+					stack.delete_at i
+				end
+				
 				if gamestate.update?
 					gamestate.update
 				end

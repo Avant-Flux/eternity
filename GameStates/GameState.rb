@@ -4,7 +4,7 @@ require 'set'
 
 # Defines the behavior that a game state should respond to.
 class GameState
-	attr_reader :name, :layers, :gameobjects
+	attr_reader :name, :layers, :gameobjects, :gc
 	
 	SAVE_PATH = "./Saves"
 	
@@ -16,6 +16,9 @@ class GameState
 		
 		@update = update
 		@visible = visible
+		
+		# Set this to true to mark for garbage collection
+		@gc = false
 		
 		# Should contain the set of all gameobjects within this state
 		# TODO Refine algorithms such that an array can be used instead of a set
