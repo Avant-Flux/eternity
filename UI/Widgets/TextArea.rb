@@ -7,7 +7,7 @@ require 'chipmunk'
 module Widget
 	# Multi-line text input
 	class TextArea < TextBox
-		def initialize
+		def initialize(window, pos=[0,0,0], width, height, font, editable=false)
 			
 		end
 	end
