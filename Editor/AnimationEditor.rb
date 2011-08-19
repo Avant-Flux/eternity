@@ -146,7 +146,7 @@ class Sidebar < Widget::Div
 		@title.draw
 	end
 	
-	def click_event
+	def on_click
 		puts "been clicked: #{self.class}"
 	end
 	
@@ -385,7 +385,7 @@ class TextureSidebar < Sidebar
 			@move_handle.draw
 		end
 		
-		def click_event
+		def on_click
 			
 		end
 		

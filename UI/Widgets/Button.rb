@@ -25,7 +25,7 @@ module Widget
 			super
 		end
 		
-		def click_event
+		def on_click
 			@block.call
 		end
 	end

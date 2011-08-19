@@ -30,7 +30,7 @@ class MouseHandler
 		end
 		
 		if target
-			if target.gameobj.respond_to? :click_event
+			if target.gameobj.respond_to? :on_click
 				target.gameobj.click_event
 			end
 		end
