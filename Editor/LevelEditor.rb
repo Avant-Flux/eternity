@@ -16,6 +16,7 @@ Dir.chdir path
 
 require_all './Utilities'
 require_all './Physics'
+require_all './Equipment'
 require_all './GameObjects'
 require_all './GameStates'
 require_all './Drawing'
