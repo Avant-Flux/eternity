@@ -34,7 +34,7 @@ class Game_Window < Gosu::Window
 		
 		Cacheable.sprite_directory = "./Sprites"
 		
-		$console = GosuConsole.new(self, 50)
+		#~ $console = GosuConsole.new(self, 50)
 		# Create a camera object which can be passed to all contained LevelState objects
 		@camera = Camera.new self
 		
@@ -78,7 +78,7 @@ class Game_Window < Gosu::Window
 		#~ process_input
 		@inpman.update
 		
-		$console.update
+		#~ $console.update
 		@states.update
 		
 		@camera.update
@@ -87,10 +87,10 @@ class Game_Window < Gosu::Window
 	def draw
 		@states.draw
 		
-		if $console.visible?
-			$console.draw
-			flush()
-		end
+		#~ if $console.visible?
+			#~ $console.draw
+			#~ flush()
+		#~ end
 		
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10

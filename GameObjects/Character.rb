@@ -3,8 +3,6 @@
 require './Titles/Title_Holder'
 require './GameObjects/Entity'
 
-require './Utilities/TextHandler'
-
 #To be used for NPCs, such as enemy units
 #Townspeople (ie shopkeeper etc) should be under a different class
 class Character < Entity
@@ -44,7 +42,7 @@ class Character < Entity
 	end
 	
 	def say text
-		SpeechBubble.new self, text
+		#~ SpeechBubble.new self, text
 	end
 	
 	private
