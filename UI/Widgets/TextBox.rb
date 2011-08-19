@@ -6,11 +6,12 @@ require 'chipmunk'
 
 module Widget
 	# Parent of TextField and TextArea
+	# Define the area for text to be drawn, but not the borders etc.
 	class TextBox < UI_Object
-		def initialize(window, pos=[0,0,0], width, height, font)
-			@font ||= Gosu::Font.new(window, "Trebuchet MS", 25)
+		def initialize(window, pos=[0,0,0], width, height, font, editable=false)
+			@font = font || Gosu::Font.new(window, "Trebuchet MS", 25)
 			@i = 0
-			move_to(pos[0], pos[1], pos[2])
+			move_to pos
 			
 			#Accept input for the width and height in pixels, but
 			#store those values relative to character size.
@@ -80,10 +81,10 @@ module Widget
 			end
 		end
 		
-		def move_to(x,y,z)
-			@x = x
-			@y = y
-			@z = z
+		def move_to(pos)
+			@x = pos[0]
+			@y = pos[1]
+			@z = pos[2]
 		end
 	end
 end
