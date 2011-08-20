@@ -55,9 +55,10 @@ class Game_Window < Gosu::Window
 		@player.equipment[:left_hand] = Weapons::Guns::Handgun.new
 		
 		@states = GameStateManager.new self, @camera, @player
+		@states.new_interface UI_State, "HUD", @player
 		
 		# Init starting level of the game
-		@states.new_gamestate LevelState, "Scrapyard"
+		@states.new_level LevelState, "Scrapyard"
 		
 		# Place player into game world
 		@states.add_player @player

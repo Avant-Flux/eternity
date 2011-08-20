@@ -10,9 +10,10 @@ require 'require_all'
 require_all './UI/Widgets'
 
 class InterfaceState < GameState
-	def initialize(window, space, layers, name, player)
+	def initialize(window, space, layers, name, open, close)
 		super(window, space, layers, name)
-		@player = player
+		@open = open
+		@close = close
 	end
 	
 	def update

@@ -1,8 +1,9 @@
 #!/usr/bin/ruby
 
 class MenuState < InterfaceState
-	def initialize(window, space, layer, name, player)
-		super(window, space, layer, name, player)
+	def initialize(window, space, layer, name, open, close, player)
+		super(window, space, layer, name, open, close)
+		@player = player
 	end
 	
 	def update

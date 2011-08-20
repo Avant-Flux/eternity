@@ -48,10 +48,6 @@ class GameStateManager
 		# Add camera to the space
 		@camera.add_to @space
 				
-		# Keep UI layer separate, so that the UI is always drawn on top
-		# of all states in the LOWER stack
-		@stack[MENU] << UI_State.new(@window, @space, UI_LAYER, "HUD", @player)
-		
 		# Set up collision handlers
 		init_collision_handlers
 		
@@ -112,13 +108,9 @@ class GameStateManager
 	end
 	
 	# Create a new gamestate and place it on the LOWER stack
-	def new_gamestate(klass, name)
+	def new_level(klass, name)
 		layer = new_layer
-		args = [@window, @space, layer, name]
-		args << @camera[layer] if klass.ancestors.include? LevelState
-		if klass.ancestors.include? InterfaceState
-			args << @player
-		end
+		args = [@window, @space, layer, name, @camera[layer]]
 		
 		gamestate =  if klass.ancestors.include? LevelState
 						klass.load *args
@@ -126,11 +118,7 @@ class GameStateManager
 						klass.new *args
 					end
 		
-		if gamestate.is_a? InterfaceState
-			@stack[MENU] << gamestate
-		else
-			@stack[ACTIVE] << gamestate
-		end
+		@stack[ACTIVE] << gamestate
 		
 		return gamestate
 	end
@@ -143,6 +131,41 @@ class GameStateManager
 		gamestate = klass.new *args
 		
 		@stack[HIDDEN] << gamestate
+	end
+	
+	# Generate a new interface
+	OpenPromptProc = lambda do
+		puts "opening! from #{self}"
+		#~ self.new_prompt
+	end
+	
+	# Close the interface and return associated data
+	ClosePromptProc = lambda do |name|
+		data = self.delete_prompt name
+		return data
+	end
+	
+	# Generates a new interface state and adds it to the stack
+	def new_interface(klass, name, player=nil)
+		unless klass.ancestors.include? InterfaceState
+			raise ArgumentError, "Provided class object not an interface"
+		end
+		
+		args = [@window, @space, UI_LAYER, name, OpenPromptProc, ClosePromptProc]
+		args << player if player
+		
+		interface = klass.new *args
+		@stack[MENU] << interface
+		
+		interface
+	end
+	
+	def new_prompt
+		new_interface PromptState, "Prompt"
+	end
+	
+	def delete_prompt(name)
+		return nil
 	end
 	
 	# Remove the state from the stack system
@@ -207,7 +230,7 @@ class GameStateManager
 		pause
 		
 		if @stack[MENU].last.is_a? UI_State
-			@stack[MENU] << MenuState.new(@window, @space, new_layer, "Menu", @player)
+			new_interface MenuState, "Menu", @player
 		else
 			until @stack[MENU].last.is_a? UI_State
 				state = @stack[MENU].pop

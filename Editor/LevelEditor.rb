@@ -38,11 +38,10 @@ class LevelEditor < Gosu::Window
 		@camera.py = 0
 		
 		@states = GameStateManager.new self, @camera, @player
-		@states.delete "HUD"
 		
-		@mouse = @states.new_gamestate(LevelEditorInterface, "Interface").mouse
+		@mouse = @states.new_interface(LevelEditorInterface, "Interface").mouse
 		
-		@states.new_gamestate LevelState, "Scrapyard"
+		@states.new_level LevelState, "Scrapyard"
 	end
 	
 	def update
@@ -105,8 +104,8 @@ end
 class LevelEditorInterface < InterfaceState
 	attr_reader :mouse
 	
-	def initialize(window, space, layers, name, player)
-		super(window, space, layers, name, player)
+	def initialize(window, space, layers, name, open, close)
+		super(window, space, layers, name, open, close)
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
@@ -127,6 +126,7 @@ class LevelEditorInterface < InterfaceState
 				:background_color => Gosu::Color::WHITE,
 				:text => "Load", :font => @font, :color => Gosu::Color::BLUE do
 			puts "load"
+			open.call 
 			#~ @states.new_gamestate Prompt, "Loading Prompt"
 		end
 				
@@ -141,6 +141,8 @@ class LevelEditorInterface < InterfaceState
 		@sidebar.add_to space
 		@load.add_to space
 		@save.add_to space
+		
+		@mouse
 	end
 	
 	def update

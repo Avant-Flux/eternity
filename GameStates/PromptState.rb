@@ -10,8 +10,8 @@ require 'require_all'
 require_all './UI/Widgets'
 
 class PromptState < InterfaceState
-	def initialize(window, space, layers, name, player)
-		super(window, space, layers, name, player)
+	def initialize(window, space, layers, name, open, close)
+		super(window, space, layers, name, open, close)
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
