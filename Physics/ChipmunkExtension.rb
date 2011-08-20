@@ -45,7 +45,7 @@ module Physics
 				y_vec = Physics::Direction::Y_HAT * height
 				diagonal = x_vec + y_vec
 				
-				shape_array = [CP::Vec2::ZERO.clone, x_vec, diagonal, y_vec]
+				shape_array = [CP::Vec2.new(0,0), x_vec, diagonal, y_vec]
 				
 				offset = diagonal / 2
 				shape_array.each_with_index do |vertex, i|
