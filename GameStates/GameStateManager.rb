@@ -206,10 +206,10 @@ class GameStateManager
 	def toggle_menu
 		pause
 		
-		if @stack[MENU].empty?
+		if @stack[MENU].last.is_a? UI_State
 			@stack[MENU] << MenuState.new(@window, @space, new_layer, "Menu", @player)
 		else
-			until @stack[MENU].empty?
+			until @stack[MENU].last.is_a? UI_State
 				state = @stack[MENU].pop
 				state.finalize
 				delete_layer state
