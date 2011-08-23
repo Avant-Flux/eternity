@@ -1,13 +1,13 @@
 #!/usr/bin/ruby
 
-require 'rubygems'
-require 'gosu'
-require 'texplay'
-require 'chipmunk'
-
-require 'require_all'
-
-require_all './UI/Widgets'
+#~ require 'rubygems'
+#~ require 'gosu'
+#~ require 'texplay'
+#~ require 'chipmunk'
+#~ 
+#~ require 'require_all'
+#~ 
+#~ require_all './UI/Widgets'
 
 class PromptState < InterfaceState
 	def initialize(window, space, layers, name, open, close)
@@ -15,53 +15,53 @@ class PromptState < InterfaceState
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
-		@div = Widget::Div.new window, 0,0,
+		@container = Widget::Div.new window, 120,120,
 				:width => 500, :height => 300,
-				:padding_top => 40, :padding_bottom => 40, 
-				:padding_left => 30, :padding_right => 30
+				:padding_top => 10, :padding_bottom => 10, 
+				:padding_left => 10, :padding_right => 10
 		
 		@filefield = Widget::TextField.new window, 0,0,
-				:relative => @div,
+				:relative => @container,
 				:background_color => Gosu::Color::WHITE,
 				:width => 100, :width_units => :percent, :height => @font.height,
 				:text => "", :font => @font, :color => Gosu::Color::BLUE
 		
 		@accept = Widget::Button.new window, 0,50,
-				:relative => @div, 
+				:relative => @container, 
 				:background_color => Gosu::Color::WHITE,
-				:width => 200, :height => 100,
+				:width => 100, :height => 30,
 				:text => "Accept", :font => @font, :color => Gosu::Color::BLUE do
-			puts "accept"
-			#~ self.visible = false
 			@gc = true
+			#~ @visible = false
 		end
 		
-		@cancel = Widget::Button.new window, 220,50,
-				:relative => @div, 
+		@cancel = Widget::Button.new window, 120,50,
+				:relative => @container, 
 				:background_color => Gosu::Color::WHITE,
-				:width => 200, :height => 100,
+				:width => 100, :height => 30,
 				:text => "Cancel", :font => @font, :color => Gosu::Color::BLUE do
-			puts "cancel"
-			#~ self.visible = false
 			@gc = true
+			#~ @visible = false
+			#~ self.finalize
 		end
+		
+		add_gameobject @container
+		add_gameobject @filefield
+		add_gameobject @accept
+		add_gameobject @cancel
 	end
 	
 	def update
-		@div.update
-		@accept.update
-		@cancel.update
-		@filefield.update
+		super
 	end
 	
 	def draw
-		@div.update
-		@accept.update
-		@cancel.update
-		@filefield.update
+		@gameobjects.each do |obj|
+			obj.draw
+		end
 	end
 	
 	def finalize
-		
+		super
 	end
 end

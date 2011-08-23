@@ -41,7 +41,7 @@ class LevelEditor < Gosu::Window
 		
 		@mouse = @states.new_interface(LevelEditorInterface, "Interface").mouse
 		
-		@states.new_level LevelState, "Scrapyard"
+		#~ @states.new_level LevelState, "Scrapyard"
 	end
 	
 	def update
@@ -69,12 +69,6 @@ class LevelEditor < Gosu::Window
 		case id
 			when Gosu::KbEscape
 				close
-			when Gosu::KbT
-				switch_mode :texture
-			when Gosu::KbV
-				switch_mode :vertex
-			when Gosu::KbR
-				switch_mode :rotate
 			when Gosu::MsLeft
 				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
 		end
@@ -113,7 +107,7 @@ class LevelEditorInterface < InterfaceState
 			false
 		end
 		
-		@mouse = MouseHandler.new space, CP::ALL_LAYERS
+		@mouse = MouseHandler.new space, layers
 		
 		sidebar_width = 250
 		@sidebar = Widget::Div.new window, window.width-sidebar_width,0,
@@ -121,40 +115,57 @@ class LevelEditorInterface < InterfaceState
 				:background_color => Gosu::Color::BLUE,
 				:padding_top => 10, :padding_bottom => 10, :padding_left => 10, :padding_right => 10
 		
-		@load = Widget::Button.new window, 0,0,
+		@name_box = Widget::TextField.new window, 0,0,
+				:relative => @sidebar,
+				:background_color => Gosu::Color::WHITE,
+				:width => 100, :width_units => :percent, :height => @font.height,
+				:text => "", :font => @font, :color => Gosu::Color::BLUE
+		
+		@load = Widget::Button.new window, 0,30,
 				:relative => @sidebar, :width => 100, :height => 30,
 				:background_color => Gosu::Color::WHITE,
 				:text => "Load", :font => @font, :color => Gosu::Color::BLUE do
 			puts "load"
-			open.call 
-			#~ @states.new_gamestate Prompt, "Loading Prompt"
+			
+			begin
+				open.call LevelState, @name_box.text
+				@name_box.editable = false
+			rescue
+				@name_box.reset
+				@name_box.text = "File not found"
+			end
+			
+			
+			#~ @open.call 
+			#~ @gc = true
 		end
-				
-		@save = Widget::Button.new window, 120,0,
+		
+		@save = Widget::Button.new window, 120,30,
 				:relative => @sidebar, :width => 100, :height => 30,
 				:background_color => Gosu::Color::WHITE,
 				:text => "Save", :font => @font, :color => Gosu::Color::BLUE do
 			puts "Save"
+			#~ @gc = true
 		end
 		
 		
-		@sidebar.add_to space
-		@load.add_to space
-		@save.add_to space
-		
-		@mouse
+		add_gameobject @sidebar
+		add_gameobject @name_box
+		add_gameobject @load
+		add_gameobject @save
+		#~ @sidebar.add_to space
+		#~ @load.add_to space
+		#~ @save.add_to space
 	end
 	
 	def update
-		@sidebar.update
-		@load.update
-		@save.update
+		super
 	end
 	
 	def draw
-		@sidebar.draw
-		@load.draw
-		@save.draw
+		@gameobjects.each do |obj|
+			obj.draw
+		end
 	end
 end
 

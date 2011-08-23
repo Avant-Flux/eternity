@@ -52,6 +52,20 @@ class GameStateManager
 		init_collision_handlers
 		
 		@pause = false
+		
+		# Generate a new interface
+		@open_prompt = lambda do |klass, name|
+			#~ puts "opening! from #{self}"
+			#~ self.new_prompt
+			self.clear_levels
+			new_level klass, name
+		end
+		
+		# Close the interface and return associated data
+		@close_prompt = lambda do |name|
+			#~ data = self.delete_prompt name
+			#~ return data
+		end
 	end
 	
 	# Update all contained gamestates
@@ -66,9 +80,7 @@ class GameStateManager
 			stack.each do |gamestate|
 				if gamestate.gc
 					delete_at stack, i
-				end
-				
-				if gamestate.update?
+				elsif gamestate.update?
 					gamestate.update
 				end
 			end; end
@@ -78,8 +90,25 @@ class GameStateManager
 			end
 		end
 		
-		@stack[MENU].each do |gamestate|
-			if gamestate.update?
+		@stack[MENU].each_with_index do |gamestate, i|
+			if gamestate.gc
+				#~ gamestate.gc = false
+				
+				#~ gamestate.gameobjects.each do |obj|
+					#~ obj.remove_from @space
+				#~ end
+				#~ gamestate.gameobjects[0].remove_from @space
+				#~ gamestate.gameobjects[1].remove_from @space
+				#~ gamestate.gameobjects[2].remove_from @space
+				#~ gamestate.gameobjects[3].remove_from @space
+				
+				#~ gamestate.finalize
+				#~ 
+				#~ state = @stack[MENU].delete gamestate
+				
+				delete_at @stack[MENU], i
+				#~ puts "#{deleted_state} vs #{gamestate}"
+			elsif gamestate.update?
 				gamestate.update
 			end
 		end
@@ -133,16 +162,15 @@ class GameStateManager
 		@stack[HIDDEN] << gamestate
 	end
 	
-	# Generate a new interface
-	OpenPromptProc = lambda do
-		puts "opening! from #{self}"
-		#~ self.new_prompt
-	end
-	
-	# Close the interface and return associated data
-	ClosePromptProc = lambda do |name|
-		data = self.delete_prompt name
-		return data
+	def clear_levels
+		@stack[ACTIVE].each do |state|
+			state.finalize
+			layer = delete_layer state
+			
+			# Must clear the camera as well
+			@camera[layer].clear
+		end
+		@stack[ACTIVE].clear
 	end
 	
 	# Generates a new interface state and adds it to the stack
@@ -151,7 +179,7 @@ class GameStateManager
 			raise ArgumentError, "Provided class object not an interface"
 		end
 		
-		args = [@window, @space, UI_LAYER, name, OpenPromptProc, ClosePromptProc]
+		args = [@window, @space, UI_LAYER, name, @open_prompt, @close_prompt]
 		args << player if player
 		
 		interface = klass.new *args
@@ -173,7 +201,8 @@ class GameStateManager
 		@stack.each do |stack|
 			if state = stack.delete(name)
 				state.finalize
-				delete_layer state
+				layer = delete_layer state
+				@camera[layer].clear
 			end
 		end
 	end
@@ -181,7 +210,8 @@ class GameStateManager
 	def delete_at(stack, i)
 		state = stack.delete_at i
 		state.finalize
-		delete_layer state
+		layer = delete_layer state
+		@camera[layer].clear
 	end
 	
 	# Move the state on the top of the LOWER stack to the UPPER stack
@@ -265,10 +295,11 @@ class GameStateManager
 	# and allow the number to be used again.
 	def delete_layer(state)
 		# Remove all Chipmunk objects with the given layer
-		state.gameobjects.each do |obj|
-			obj.remove_from @space
-		end
+		#~ state.gameobjects.each do |obj|
+			#~ obj.remove_from @space
+		#~ end
 		@layers << state.layers
+		return state.layers
 	end
 	
 	def init_collision_handlers

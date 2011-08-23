@@ -4,7 +4,8 @@ require 'set'
 
 # Defines the behavior that a game state should respond to.
 class GameState
-	attr_reader :name, :layers, :gameobjects, :gc
+	attr_reader :name, :layers, :gameobjects
+	attr_accessor :gc
 	
 	SAVE_PATH = "./Saves"
 	
@@ -22,7 +23,7 @@ class GameState
 		
 		# Should contain the set of all gameobjects within this state
 		# TODO Refine algorithms such that an array can be used instead of a set
-		@gameobjects = Set.new
+		@gameobjects = []
 	end
 	
 	# Update the gamestate for the next frame.
@@ -31,7 +32,7 @@ class GameState
 		@gameobjects.each do |obj|
 			obj.update
 			block.call obj if block
-			obj.reset_forces
+			#~ obj.reset_forces
 		end
 	end
 	
@@ -46,6 +47,7 @@ class GameState
 		@gameobjects.each do |obj|
 			obj.remove_from @space
 		end
+		@gameobjects.clear
 	end
 	
 	# Toggle updating of the gamestate
@@ -70,7 +72,7 @@ class GameState
 		# Set the proper layer and then add the object to the space
 		obj.layers = @layers
 		obj.add_to @space
-		@gameobjects.add obj
+		@gameobjects << obj
 	end
 	
 	# Remove an object from this state

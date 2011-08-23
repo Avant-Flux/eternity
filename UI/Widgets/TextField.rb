@@ -7,10 +7,12 @@ require 'chipmunk'
 module Widget
 	# One line text input
 	class TextField < TextBox
+		attr_accessor :editable
+		
 		def initialize(window, x,y, options={})
 			options =	{
 							:background_color => Gosu::Color::NONE,
-							:editable => false	# Determines if the text can be edited or not
+							:editable => true	# Determines if the text can be edited or not
 						}.merge! options
 			
 			unless options[:font]
@@ -19,6 +21,7 @@ module Widget
 			
 			super window, x,y, options
 			
+			@editable = options[:editable]
 			@text_input = nil
 			
 			# used to control blinking of the caret
@@ -31,6 +34,10 @@ module Widget
 				text_align :left
 			else
 				text_align :right
+			end
+			
+			unless @editable
+				reset
 			end
 		end
 		
@@ -56,8 +63,16 @@ module Widget
 		end
 		
 		def on_click
+			@editable = true
 			@window.text_input = Gosu::TextInput.new
 			@text_input = @window.text_input
+		end
+		
+		def reset
+			if @text_input
+				@text_input = @window.text_input = nil
+			end
+			#~ @text = nil
 		end
 	end
 end

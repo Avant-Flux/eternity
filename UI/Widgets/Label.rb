@@ -12,6 +12,8 @@ module Widget
 		
 		include Widget::Background::Colored
 		
+		attr_accessor :text
+		
 		def initialize(window, x, y, options={})
 			# The actual button event is processed within Chipmunk
 			options =	{
@@ -89,7 +91,7 @@ module Widget
 						end
 			
 			mass = 100
-			moment = :static
+			moment = 100
 			init_physics [x,y], width, height, mass, moment, :button
 			
 			if options[:text]
