@@ -1,36 +1,100 @@
-# Define the perimeter
-building -4.5 0 0	8 6 10
-building -12 2 0	7 10 10
-building -15 10 0	1 6 10
-building -12 14.5 0	7 3 10
-building -15 19 0	1 6 10
-building -12 25.5 0	7 7 10
-
-building -5.5 28.5 0	6 1 10
-building 2.5 25.5 0	10 7 10
-building 4.5 19 0	6 6 10
-building 10 26.5 0	5 5 10
-building 15.5 28 0	6 2 10
-building 21.5 27 0	6 4 10
-building 24 22 0	1 6 10
-building 21.5 18 0	6 2 10
-building 24 14 0	1 6 10
-building 21.5 4 0	6 14 10
-building 13.5 -2.5 0	10 1 10
-building 7 13 0	1 6 10
-building 10.5 8 0	8 4 10
-building 13 3.5 0	3 5 10
-
-
-# Center Obstruction
-building -0.5 10 0	10 8 10
-
-# Scavenger's shop
-# Needs a door on the south side
-building 4.5 0 0	8 6 10
-
-# Starting stairs
-#building -2.5 5 0	2 2 2
-#building -4.5 5 0	2 1.5 4
-#building -4.5 3.75 0	2 1.5 6
-
+Spawn 15.5 2 16
+Building 0 0 0 7 10 32
+Building 7 0 0 8 6 32
+Building 15 0 0 1 6 16
+Building 16 0 0 8 6 32
+Building 24 0 0 10 1 32
+Building 34 0 0 6 14 32
+Building 24 1 0 2 3 8
+Building 26 1 0 1 3 4
+Building 27 1 0 1 3 0
+Building 28 1 0 1 3 32
+Building 29 1 0 5 3 20
+Building 24 4 0 2 2 12
+Building 26 4 0 3 5 38
+Building 29 4 0 5 10 24
+Building 7 6 0 3 3 22
+Building 10 6 0 1 3 20
+Building 11 6 0 1 3 18
+Building 12 6 0 1 3 22
+Building 13 6 0 1 3 20
+Building 14 6 0 1 3 18
+Building 15 6 0 3 3 16
+Building 18 6 0 1 3 20
+Building 19 6 0 7 3 16
+Building 7 9 0 2 1 26
+Building 9 9 0 10 8 38
+Building 19 9 0 2 8 14
+Building 21 9 0 8 4 38
+Building 0 10 0 1 6 32
+Building 1 10 0 2 2 24
+Building 3 10 0 2 2 22
+Building 5 10 0 4 6 22
+Building 1 12 0 2 2 28
+Building 3 12 0 2 2 34
+Building 21 13 0 1 6 38
+Building 22 13 0 7 1 30
+Building 1 14 0 2 2 26
+Building 3 14 0 2 2 24
+Building 22 14 0 12 1 24
+Building 34 14 0 5 2 22
+Building 22 15 0 2 2 30
+Building 24 15 0 2 2 36
+Building 26 15 0 8 4 24
+Building 39 14 0 1 6 38
+Building 0 16 0 7 3 38
+Building 7 16 0 2 1 26
+Building 34 16 0 1 2 28
+Building 35 16 0 2 2 38
+Building 37 16 0 2 2 24
+Building 7 17 0 5 8 22
+Building 12 17 0 3 2 28
+Building 15 17 0 2 2 24
+Building 17 17 0 2 2 20
+Building 19 17 0 2 2 16
+Building 21 17 0 2 2 28
+Building 23 17 0 2 2 26
+Building 34 18 0 5 2 28
+Building 0 19 0 1 6 38
+Building 1 19 0 2 2 28
+Building 3 19 0 2 2 26
+Building 5 19 0 2 6 22
+Building 12 19 0 2 2 30
+Building 14 19 0 2 4 26
+Building 16 19 0 6 6 38
+Building 22 19 0 5 2 38
+Building 27 19 0 5 11 24
+Building 32 19 0 2 7 26
+Building 34 20 0 6 2 38
+Building 1 21 0 2 2 26
+Building 3 21 0 2 2 38
+Building 12 21 0 2 2 38
+Building 22 21 0 3 1 30
+Building 25 21 0 1 1 28
+Building 25 21 0 1 1 26
+Building 22 22 0 22 32
+Building 24 22 0 3 2 38
+Building 34 22 0 1 6 26
+Building 35 22 0 2 2 24
+Building 37 22 0 2 4 20
+Building 39 22 0 1 6 38
+Building 1 23 0 4 2 24
+Building 12 23 0 4 2 24
+Building 22 24 0 5 2 26
+Building 0 25 0 7 7 38
+Building 7 25 0 2 4 28
+Building 9 25 0 3 4 24
+Building 12 25 0 10 7 38
+Building 35 24 0 2 2 38
+Building 22 26 0 5 1 32
+Building 32 26 0 2 2 30
+Building 35 26 0 2 2 24
+Building 37 26 0 2 2 30
+Building 22 27 0 5 5 38
+Building 32 28 0 2 2 34
+Building 34 28 0 6 4 38
+Building 7 29 0 2 2 38
+Building 9 29 0 3 2 26
+Building 27 30 0 5 2 38
+Building 32 30 0 2 2 36
+Building 7 31 0 5 1 38

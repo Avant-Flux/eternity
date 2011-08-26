@@ -32,7 +32,7 @@ class GameState
 		@gameobjects.each do |obj|
 			obj.update
 			block.call obj if block
-			#~ obj.reset_forces
+			obj.reset_forces
 		end
 	end
 	

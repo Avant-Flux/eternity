@@ -63,6 +63,15 @@ class GameStateManager
 		
 		# Close the interface and return associated data
 		@close_prompt = lambda do |name|
+			if @stack[ACTIVE].size > 1
+				@stack[ACTIVE].each_with_index do |state, i|
+					
+				end
+			else
+				state = @stack[ACTIVE][0]
+				state.save
+			end
+			
 			#~ data = self.delete_prompt name
 			#~ return data
 		end
@@ -253,7 +262,7 @@ class GameStateManager
 	# Place the player into the game environment
 	def add_player(player)
 		@player = player
-		@stack[ACTIVE].last.add_gameobject player
+		@stack[ACTIVE].last.add_player player
 	end
 	
 	def toggle_menu

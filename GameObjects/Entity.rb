@@ -128,10 +128,10 @@ class Entity
 	end
 	
 	def jump
-		if @jump_count < 3 #Do not exceed the jump count.
+		#~ if @jump_count < 3 #Do not exceed the jump count.
 			@jump_count += 1
 			self.vz = 5 #On jump, set the velocity in the z direction
-		end
+		#~ end
 	end
 	
 	def move(dir)

@@ -158,6 +158,37 @@ module Physics
 		def moving?
 			@shape.body.v.length >= 0
 		end
+		
+		# Get vectors in terms of psudo 3D coordinates
+		def x
+			@shape.body.p.x
+		end
+		
+		def y
+			@shape.body.p.y
+		end
+		
+		def z
+			@z
+		end
+		
+		
+		# Set vectors based on psudo 3D coordinates
+		def set_position space, layer, pos
+			puts pos
+			@shape.body.p = Physics::Direction::X_HAT*pos[0]
+			@shape.body.p += Physics::Direction::Y_HAT*pos[1]
+			#~ @shape.body.p += Physics::Direction::Z_HAT*arg[2]
+			
+			@z = pos[2]
+			
+			space.point_query @shape.body.p, layer, 0 do |env|
+				if env.collision_type == :environment || env.collision_type == :building
+					#Raise elevation to the height of whatever is below.
+					set_elevation env.gameobj.height(:meters)
+				end
+			end
+		end
 	end
 	
 	# force, torque, etc.

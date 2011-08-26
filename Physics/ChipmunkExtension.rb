@@ -47,12 +47,12 @@ module Physics
 				
 				shape_array = [CP::Vec2.new(0,0), x_vec, diagonal, y_vec]
 				
-				offset = diagonal / 2
-				shape_array.each_with_index do |vertex, i|
-					shape_array[i] = vertex - offset
-				end
+				#~ offset = diagonal / -2
 				
-				super(entity, body, shape_array, CP::Vec2::ZERO)
+				@width = width
+				@height = height
+				
+				super(entity, body, shape_array, offset)
 			end
 			
 			# Specify width of the shape in chipmunk units
@@ -61,7 +61,8 @@ module Physics
 				v2 = self.vert(1) # bottom left
 				
 				# This value should always be positive
-				v1.x - v2.x
+				v2.x - v1.x
+				#~ @width
 			end
 			
 			# Specify height of the shape in chipmunk units
@@ -71,6 +72,7 @@ module Physics
 				
 				# Will always be positive
 				(v1 - v2).length
+				#~ @height
 			end
 			
 			def clone
