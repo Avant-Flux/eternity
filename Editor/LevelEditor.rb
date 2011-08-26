@@ -128,7 +128,7 @@ class LevelEditorInterface < InterfaceState
 			puts "load"
 			
 			begin
-				open.call LevelState, @name_box.text
+				@state = open.call LevelState, @name_box.text
 				@name_box.editable = false
 			rescue
 				@name_box.reset
@@ -145,7 +145,28 @@ class LevelEditorInterface < InterfaceState
 				:background_color => Gosu::Color::WHITE,
 				:text => "Save", :font => @font, :color => Gosu::Color::BLUE do
 			puts "Save"
+			
+			begin
+				close.call @name_box.text
+			rescue
+				puts "save error"
+			end
+			
 			#~ @gc = true
+		end
+		
+		@export_uvs = Widget::Button.new window, 120,70,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Export", :font => @font, :color => Gosu::Color::BLUE do
+			puts "Export"
+			
+			if @state
+				path = File.join LevelState::LEVEL_DIRECTORY, "#{@state.name}Texures"
+				@state.export path
+			else
+				puts "No level to export"
+			end
 		end
 		
 		
@@ -153,6 +174,7 @@ class LevelEditorInterface < InterfaceState
 		add_gameobject @name_box
 		add_gameobject @load
 		add_gameobject @save
+		add_gameobject @export_uvs
 		#~ @sidebar.add_to space
 		#~ @load.add_to space
 		#~ @save.add_to space

@@ -44,7 +44,7 @@ class Building
 	end
 	
 	def export(path, name)
-		scale = 0.10
+		scale = 0.02
 		side_buffer = 4
 		top_bottom_buffer = 4
 	
