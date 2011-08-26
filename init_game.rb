@@ -58,7 +58,7 @@ class Game_Window < Gosu::Window
 		@states.new_interface UI_State, "HUD", @player
 		
 		# Init starting level of the game
-		@states.new_level LevelState, "Scrapyard"
+		@states.new_level LevelState, "FireTown"
 		
 		# Place player into game world
 		@states.add_player @player
@@ -88,6 +88,8 @@ class Game_Window < Gosu::Window
 	def draw
 		@states.draw
 		
+		#~ puts "#{@player.px}, #{@player.py}, #{@player.pz}"
+		
 		#~ if $console.visible?
 			#~ $console.draw
 			#~ flush()
@@ -116,6 +118,7 @@ class Game_Window < Gosu::Window
 		@inpman.button_down(id)
 		
 		if id == Gosu::KbEscape
+			puts "#{@player.px}, #{@player.py}, #{@player.pz}"
 			close
 		end
 		if id == Gosu::KbF

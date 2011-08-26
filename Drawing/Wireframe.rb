@@ -26,6 +26,7 @@ module Wireframe
 	class WireframeObj
 		def initialize(window, entity)
 			@window = window
+			@entity = entity
 			
 			@visible = true
 			
@@ -75,18 +76,18 @@ module Wireframe
 				z = 1
 								
 				# Current vertex to next vertex
-				@window.draw_line	vertex[0], vertex[1], @color,
-									next_vertex[0], next_vertex[1], @color,
+				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
+									next_vertex[0], next_vertex[1]-@entity.pz, @color,
 									z, :default, zoom
 				
 				# Point above current vertex to point above next vertex
-				@window.draw_line	vertex[0], vertex[1] - @height, @color,
-									next_vertex[0], next_vertex[1] - @height, @color,
+				@window.draw_line	vertex[0], vertex[1] - @height-@entity.pz, @color,
+									next_vertex[0], next_vertex[1] - @height-@entity.pz, @color,
 									z, :default, zoom
 				
 				# Current vertex to point above current vertex
-				@window.draw_line	vertex[0], vertex[1], @color,
-									vertex[0], vertex[1] - @height, @color,
+				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
+									vertex[0], vertex[1] - @height-@entity.pz, @color,
 									z, :default, zoom
 			end
 		end

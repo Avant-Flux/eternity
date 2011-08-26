@@ -62,12 +62,12 @@ module CollisionHandler
 			env_shape = arbiter.b
 			#Process actions involving what to do when on top, as well as side collisions
 			
-			if entity.pz >= env.height(:meters)
+			if entity.pz >= env.height(:meters) + env.pz
 				#If the entity collides from the side, accept the collision
 				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
-					entity.set_elevation env.height(:meters)
+					entity.set_elevation env.height(:meters) + env.pz
 				else
-					arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters)
+					arbiter.a.gameobj.reset_elevation env.height(:meters) + env.pz
 				end
 				
 				return false

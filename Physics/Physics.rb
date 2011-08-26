@@ -261,7 +261,7 @@ module Physics
 					vertices[i] -= offset
 				end
 				
-				shape = Physics::Shape::Poly.new(self, body, vertices, CP::Vec2::ZERO)
+				shape = Physics::Shape::Poly.new(self, body, vertices, CP::Vec2.new(0,-self.pz))
 				
 				shape.collision_type = "#{@shape.collision_type}_render_object".to_sym
 				shape.sensor = true
