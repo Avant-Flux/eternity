@@ -182,12 +182,16 @@ module Physics
 			
 			@z = pos[2]
 			
+			max = -Float::INFINITY
 			space.point_query @shape.body.p, layer, 0 do |env|
 				if env.collision_type == :environment || env.collision_type == :building
 					#Raise elevation to the height of whatever is below.
-					set_elevation env.gameobj.height(:meters)
+					new_max = env.gameobj.height(:meters) + env.gameobj.pz
+					max = new_max if new_max > max
 				end
 			end
+			
+			set_elevation max
 		end
 	end
 	
@@ -247,7 +251,7 @@ module Physics
 		
 		def @elevation_queue.max
 			max = -Float::INFINITY
-			self.each do |elevation|
+			self.each_key do |elevation|
 				max = elevation if elevation > max
 			end
 			
@@ -263,19 +267,11 @@ module Physics
 		end
 		
 		def set_elevation(elevation)
-			@elevation_queue ||= Set.new
-			@elevation_queue.add elevation
-			@elevation = @elevation_queue.max
+			@elevation = elevation
 		end
 		
 		def reset_elevation(last_elevation)
-			@elevation_queue ||= Set.new
-			@elevation_queue.delete last_elevation
-			if @elevation_queue.empty?
-				@elevation = 0
-			else
-				@elevation = @elevation_queue.max
-			end
+			@elevation = 0
 		end
 		
 		#~ def set_elevation
@@ -344,7 +340,7 @@ module Physics
 				end
 				
 				if env_shape
-					self.set_elevation env_shape.gameobj.height(:meters)
+					self.set_elevation env_shape.gameobj.height(:meters) + env_shape.gameobj.pz
 				end
 			end
 		end
