@@ -165,7 +165,7 @@ module Physics
 			
 			body.p = Physics::Direction::X_HAT * position[0]
 			body.p += Physics::Direction::Y_HAT * position[1]
-			body.p += Physics::Direction::Z_HAT * position[2]
+			#~ body.p += Physics::Direction::Z_HAT * position[2]
 			
 			return body
 		end
