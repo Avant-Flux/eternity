@@ -63,6 +63,7 @@ class LevelState < GameState
 		
 		File.open(path, "w") do |f|
 			f.puts "# Eternity Level Data --- #{@name}"
+			f.puts "Spawn #{@spawn[0]} #{@spawn[1]} #{@spawn[2]}"
 			@gameobjects.each do |gameobj|
 				line = "#{gameobj.class} "
 				line << "#{gameobj.px} #{gameobj.py} #{gameobj.pz} "
@@ -70,6 +71,8 @@ class LevelState < GameState
 				f.puts line
 			end
 		end
+		
+		puts "save complete"
 	end
 	
 	# Create UVs for each environmental object
@@ -85,6 +88,8 @@ class LevelState < GameState
 				gameobj.export path, "#{gameobj.class}_#{i}"
 			end
 		end
+		
+		puts "export of #{self.name} complete"
 	end
 	
 	class << self
