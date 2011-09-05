@@ -1,0 +1,38 @@
+Successfully installed gosu-0.7.36.2-universal-darwin
+Building native extensions.  This could take a while...
+ERROR:  Error installing chipmunk:
+        ERROR: Failed to build gem native extension.
+
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby extconf.rb
+mkmf.rb can't find header files for ruby at /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/ruby.h
+
+
+Gem files will remain installed in /Library/Ruby/Gems/1.8/gems/chipmunk-5.3.4.5 for inspection.
+Results logged to /Library/Ruby/Gems/1.8/gems/chipmunk-5.3.4.5/ext/chipmunk/gem_make.out
+Building native extensions.  This could take a while...
+ERROR:  Error installing texplay:
+        ERROR: Failed to build gem native extension.
+
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby extconf.rb
+mkmf.rb can't find header files for ruby at /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/ruby.h
+
+
+Gem files will remain installed in /Library/Ruby/Gems/1.8/gems/texplay-0.3.5 for inspection.
+Results logged to /Library/Ruby/Gems/1.8/gems/texplay-0.3.5/ext/texplay/gem_make.out
+Building native extensions.  This could take a while...
+ERROR:  Error installing eventmachine:
+        ERROR: Failed to build gem native extension.
+
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby extconf.rb
+mkmf.rb can't find header files for ruby at /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/ruby.h
+
+
+Gem files will remain installed in /Library/Ruby/Gems/1.8/gems/eventmachine-0.12.10 for inspection.
+Results logged to /Library/Ruby/Gems/1.8/gems/eventmachine-0.12.10/ext/gem_make.out
+Successfully installed require_all-1.2.0
+2 gems installed
+Installing ri documentation for gosu-0.7.36.2-universal-darwin...
+Installing ri documentation for require_all-1.2.0...
+Installing RDoc documentation for gosu-0.7.36.2-universal-darwin...
+Installing RDoc documentation for require_all-1.2.0...
+
