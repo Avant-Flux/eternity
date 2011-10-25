@@ -133,13 +133,14 @@ module Physics
 			@shape.body.p.x
 		end
 		def py
-			@shape.body.p.y
+			@shape.body.p.y # Need to perform a projection onto Physics::Direction::Y_HAT, and take mag
+							# alternatively, find the amound of this vector in the direction of Y_HAT
 		end
 		def px=(arg)
 			@shape.body.p.x = arg
 		end
 		def py=(arg)
-			@shape.body.p.y = arg
+			@shape.body.p.y = arg # Needs to be modified by the Y_HAT vector
 		end
 		#For velocity
 		def vx

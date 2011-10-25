@@ -1,14 +1,9 @@
-# File created by
-#	Chad Godsey
-#	Feb 21, 2010
-#Modified by Raven
-#
+#	Based on the InputHandler created by Chad Godsey, Feb 21, 2010
 #	InputHandler class
-#		used to manage button mappings to several types of high level input
+#		manage button mappings to several types of high level input
 #			simple named actions
 #			chords - multiple buttons at once
 #			sequences - combos
-#	Now, if user defines def_kb_bindings, that method will be called on init.
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'
@@ -22,6 +17,8 @@ require 'set'
 require './Utilities/InputType'
 
 class InputHandler
+	# Make sure that the input handlers can not be accessed outside of this class
+	
 	def initialize
 		# Map event names to functions
 		# Map keys to event names
@@ -35,7 +32,7 @@ class InputHandler
 	end
 	
 	def mode=(mode)
-		@modes[mode] ||= {:action => {}, :sequence => {}, :chord => {}, :flag => {}}
+		@modes[mode] ||= {:sequence => {}, :chord => {}, :flag => {}, :action => {}}
 		@mode = @modes[mode]
 		#~ @modes.each do |key, mode|
 			#~ puts "#{key} --> #{mode}"
@@ -44,11 +41,106 @@ class InputHandler
 	end
 	
 	def update
+		#~ # puts
 		@mode.each do |type, events|
+			# puts type
 			events.each do |name, handler|
+				# puts "eval: #{name}"
 				handler.update
 			end
 		end
+		
+		# Process movement
+		#~ if :up
+			#~ 
+		#~ end
+		#~ if :down
+			#~ 
+		#~ end
+		#~ if :left
+			#~ 
+		#~ end
+		#~ if :right
+			#~ 
+		#~ end
+		
+		# Process attacks
+		#~ attack_command =	if :magic
+								#~ 
+							#~ elsif :left_hand
+								#~ 
+							#~ elsif :right_hand
+								#~ 
+							#~ end
+		# Put the attack command sensors in one collection
+		# If that collection is not empty, player is attacking
+		# Then, create the attack_command variable and apply modifiers
+		#~ if attacking?
+			#~ attack_command = ""
+			#~ 
+			#~ # Create attack modifiers
+			#~ attack_command <<	if intense
+									#~ # Detect by if button is down or if force is currently being added
+									#~ # Not quite sure how to do the latter
+									#~ if moving?
+										#~ "dash_"
+									#~ else
+										#~ "intense_"
+									#~ end
+								#~ end
+								#~ 
+			#~ attack_command <<	if hold
+									#~ "hold_"
+								#~ else #tap
+									#~ "tap_"
+								#~ end
+			#~ 
+			#~ attack_command <<	if in_air?
+									#~ "arial_"
+								#~ else
+									#~ ""
+								#~ end
+			#~ 
+			#~ # Get attack type
+			#~ attack_command <<	if :magic
+									#~ "magic"
+								#~ elsif :left_hand
+									#~ "left_hand"
+								#~ elsif :right_hand
+									#~ "right_hand"
+								#~ end
+			#~ @player.send attack_command.to_sym
+		#~ end
+		#~ 
+		#~ 
+		#~ 
+		#~ if :magic
+			#~ if :running
+				#~ # same as below
+			#~ elsif :in_air
+				#~ # same as below
+			#~ else
+				#~ if :hold
+					#~ if :intense
+						#~ # Intense hold attack
+					#~ else
+						#~ # Intense attack
+					#~ end
+				#~ elsif :tap
+					#~ if :intense
+						#~ # Intense tap attack
+					#~ else
+						#~ # Tap attack
+					#~ end
+				#~ end
+			#~ end
+		#~ elsif :left_hand
+			#~ 
+		#~ elsif :right_hand
+			#~ 
+		#~ end
+		
+		
 	end
 	
 	def hold_duration(event)
@@ -71,7 +163,7 @@ class InputHandler
 				if @mode[:#{input_type}][name]
 					@mode[:#{input_type}][name].functions[type] = block
 				else
-					@mode[:#{input_type}][name] = InputType::#{input_type.to_s.capitalize}.new(@mode, @buttons, type => block)
+					@mode[:#{input_type}][name] = InputType::#{input_type.capitalize}.new(@mode, @buttons, type => block)
 				end
 				
 			end

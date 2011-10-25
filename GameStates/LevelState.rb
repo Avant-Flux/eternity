@@ -59,14 +59,27 @@ class LevelState < GameState
 		# Call some sort of serialization method on each game object
 			# that method should explain how to re-create that game object from saved assets
 		# Store game object re-creation details in one text or YAML file
-		path = File.join LEVEL_DIRECTORY, (@name + "save.txt")
+		path = File.join LEVEL_DIRECTORY, (@name + "save2.txt")
 		
 		File.open(path, "w") do |f|
 			f.puts "# Eternity Level Data --- #{@name}"
 			f.puts "Spawn #{@spawn[0]} #{@spawn[1]} #{@spawn[2]}"
 			@gameobjects.each do |gameobj|
 				line = "#{gameobj.class} "
-				line << "#{gameobj.px} #{gameobj.py} #{gameobj.pz} "
+				
+				
+				# Insert position
+				# for vectors effected by isometric coordinates
+				# perform a vector projection onto the unit vector
+				# take the magnitude of the resultant vector
+				
+				x = gameobj.px
+				y = gameobj.py >= 0 ? gameobj.py : gameobj.py * -1
+				z =gameobj.pz
+				line << "#{x} #{y} #{z} "
+				
+				
+				# Insert dimensions
 				line << "#{gameobj.width(:meters)} #{gameobj.depth(:meters)} #{gameobj.height(:meters)}"
 				f.puts line
 			end

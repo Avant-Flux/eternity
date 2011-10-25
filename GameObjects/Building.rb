@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'gosu'
 require 'texplay'
+require 'RMagick'
 
 require './Drawing/Wireframe'
 
@@ -44,7 +45,7 @@ class Building
 	end
 	
 	def export(path, name)
-		scale = 0.02
+		scale = 0.15
 		side_buffer = 4
 		top_bottom_buffer = 4
 	
@@ -59,19 +60,25 @@ class Building
 		width = (self.width(:px, scale) + self.depth(:px, scale)*Math.sin(20/180.0*Math::PI)).to_i
 		height = (self.depth(:px, scale)*Math.cos(20/180.0*Math::PI)).to_i
 		
-		img = TexPlay.create_blank_image @window, width+side_buffer, height+top_bottom_buffer
+		rmagick_img = Magic::Image.new width+side_buffer, height+top_bottom_buffer
+		img = Gosu::Image.new @window, rmagick_img, true # Set to true so edges don't blur
 		
-		color = :red	
-		img.move_to side_buffer/2, img.height-top_bottom_buffer/2
-		img.forward width(:px, scale), true, :color => color
-		img.turn(-70)
-		img.forward depth(:px, scale), true, :color => color
-		img.turn(-110)
-		img.forward width(:px, scale), true, :color => color
-		img.turn(-70)
-		img.forward depth(:px, scale), true, :color => color
+		draw = Magic::Draw.new
 		
-		img.fill width/2, depth/2, :color => :white
+		
+		#~ img = TexPlay.create_blank_image @window, width+side_buffer, height+top_bottom_buffer
+		
+		#~ color = :red	
+		#~ img.move_to side_buffer/2, img.height-top_bottom_buffer/2
+		#~ img.forward width(:px, scale), true, :color => color
+		#~ img.turn(-70)
+		#~ img.forward depth(:px, scale), true, :color => color
+		#~ img.turn(-110)
+		#~ img.forward width(:px, scale), true, :color => color
+		#~ img.turn(-70)
+		#~ img.forward depth(:px, scale), true, :color => color
+		#~ 
+		#~ img.fill width/2, depth/2, :color => :white
 		
 		filename = File.join path, "#{name}_top.png"
 		

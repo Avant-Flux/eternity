@@ -6,6 +6,9 @@ require 'texplay'
 
 require './Drawing/ImageCache'
 
+# Animations need only be generated at 12fps.  There is not too much difference
+# in appearance between 12fps and 24fps
+
 module Animation
 	class Entity
 		include Cacheable
@@ -79,6 +82,18 @@ module Animation
 		
 		def height
 			@current_frame.height
+		end
+		
+		class << self
+			# Advance animations system by one step
+			def step
+				
+			end
+			
+			# Manage the update rate for the whole animations system.
+			# Should be the same as the hz rate of the physics system
+			# ie, if the game runs at 60fps, this value should be 60
+			attr_accessor :update_rate
 		end
 	end
 

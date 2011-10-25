@@ -25,8 +25,8 @@ class Player < Character
 	def initialize(window, name, pos = [0, 0, 0], 
 					subsprites={}, mass=60, moment=20)
 					
-		subsprites = {:body => 1, :face => 1, :hair => 1, 
-					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
+		subsprites = {:body => "body", :face => "eyes", :hair => "hair", 
+					:upper => "shirt", :lower => "pants", :footwear => "shoes"}.merge! subsprites
 		
 		super(window, name, pos, subsprites, mass, moment)
 		
