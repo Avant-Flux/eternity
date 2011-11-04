@@ -1,3 +1,5 @@
+# Example interface for the story system
+
 class Merchants < Faction
 	nation	:Fire
 	
@@ -7,7 +9,7 @@ class Merchants < Faction
 		event.type
 		event.agent_of_change
 		
-		respond_to event.type
+		#~ respond_to event.type
 	end
 	
 	# Specify a group of factions to observe
@@ -27,17 +29,6 @@ class Merchants < Faction
 	
 	# if attacked by a particular faction
 	anticipate_attack_from other_faction do |event|
-		
-	end
-end
-
-
-# Not like this
-class Merchants < Faction
-	nation	:fire
-	
-	# Violates Ruby syntax
-	if other_faction.attacking? self
 		
 	end
 end
