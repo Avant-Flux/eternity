@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 
+# Methods that are used to manage Chipmunk attributes
 module Physics
 	module Dimensions
 		module TwoD
@@ -298,7 +299,8 @@ module Physics
 		end
 	end
 	
-	# Methods that are used to manage Chipmunk attributes
+	# This module stores methods necessary for housekeeping with chipmunk,
+	# but which are not directly related to physical properties
 	module Chipmunk
 		def in_air?
 			self.pz > 0
