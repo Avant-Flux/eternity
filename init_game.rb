@@ -4,17 +4,8 @@ Dir.chdir File.dirname(__FILE__)
 
 #~ BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
 
-begin
-  # In case you use Gosu via rubygems.
-  require 'rubygems'
-rescue LoadError
-  # In case you don't.
-end
-begin
-	require 'lib/gosu'
-rescue LoadError
-	require 'gosu'
-end
+require 'rubygems'
+  
 require 'require_all'
 #~ require 'profile'
 require_all './Utilities'
