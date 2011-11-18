@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 # Methods that are used to manage Chipmunk attributes
+# through the objects they are attached to, rather than the chipmunk objects.
 module Physics
 	module Dimensions
 		module TwoD
