@@ -5,7 +5,7 @@ require 'gosu'
 require 'texplay'
 require 'RMagick'
 
-require './Drawing/Wireframe'
+#~ require './Drawing/Wireframe'
 
 class Building
 	include Physics::ThreeD_Support

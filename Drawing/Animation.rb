@@ -4,7 +4,7 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-require './Drawing/ImageCache'
+#~ require './Drawing/ImageCache'
 
 # Animations need only be generated at 12fps.  There is not too much difference
 # in appearance between 12fps and 24fps

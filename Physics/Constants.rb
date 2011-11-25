@@ -1,3 +1,5 @@
+require './Physics/Conversions'
+
 module Physics
 	MAX_Z = 10000000
 

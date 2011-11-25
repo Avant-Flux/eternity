@@ -4,8 +4,8 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-require './Drawing/ImageCache'
-require './Drawing/GosuPatch'
+#~ require './Drawing/ImageCache'
+#~ require './Drawing/GosuPatch'
 
 module Image
 	# Circle contains a Gosu::Image @img, instead of being a descendant of

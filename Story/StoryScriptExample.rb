@@ -1,5 +1,4 @@
 # Example interface for the story system
-
 class Merchants < Faction
 	nation	:Fire
 	

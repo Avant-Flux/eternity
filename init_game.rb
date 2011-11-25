@@ -1,20 +1,28 @@
 #!/usr/bin/ruby
-
 Dir.chdir File.dirname(__FILE__)
 
-#~ BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
-
 require 'rubygems'
-  
+require 'gosu'
+require 'chipmunk'
+
 require 'require_all'
 #~ require 'profile'
-require_all './Utilities'
+
 require_all './Physics'
-require_all './GameObjects'
-require_all './Equipment'
-require_all './GameStates'
+
+require_all './Combat'
 require_all './Drawing'
+require_all './Equipment'
+require_all './Stats'
+require_all './Titles'
+
+require_all './Utilities'
+
+require_all './GameObjects'
+require_all './GameStates'
+
 require_all './UI'
+
 
 class Game_Window < Gosu::Window
 	def initialize

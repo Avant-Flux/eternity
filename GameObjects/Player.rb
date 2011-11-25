@@ -5,8 +5,8 @@ require 'require_all'
 
 require "./GameObjects/Character"
 
-require "./Titles/Title"
-require "./Titles/Title_Holder"
+#~ require "./Titles/Title"
+#~ require "./Titles/Title_Holder"
 require_all "./UI"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific

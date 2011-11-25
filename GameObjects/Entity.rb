@@ -3,12 +3,12 @@
 require 'rubygems'
 require 'gosu'
 
-require './Combat/Combative'
-
-require './Drawing/Animation'
-require './Drawing/Shadow'
-
-require './Stats/Stats'
+#~ require './Combat/Combative'
+#~ 
+#~ require './Drawing/Animation'
+#~ require './Drawing/Shadow'
+#~ 
+#~ require './Stats/Stats'
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
