@@ -31,7 +31,7 @@ module Gosu
 				when :width
 					self.width * options[:factor_x]
 				else
-					options[:offset_x]
+					options[:offset_x].to_meters.to_px(zoom)
 			end
 			
 			options[:offset_y] = case options[:offset_y]
@@ -40,7 +40,7 @@ module Gosu
 				when :height
 					self.height * options[:factor_y]
 				else
-					options[:offset_y]
+					options[:offset_y].to_meters.to_px(zoom)
 			end
 			
 			x = x.to_px(zoom) - options[:offset_x]

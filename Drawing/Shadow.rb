@@ -59,7 +59,6 @@ class Shadow
 		#~ end
 		
 		
-		
 		@circle.draw_centered(@entity.px, @entity.py - @entity.elevation, @entity.elevation, zoom,
 						:scale => @scale, :offset_z => -1, :color => @color)
 	end
