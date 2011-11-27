@@ -10,7 +10,7 @@ class Building
 	
 	attr_reader :shape
 
-	def initialize(window, position, dimensions, options={})
+	def initialize(window, name, position, dimensions, options={})
 		#~ Set default values for hash values if they are not already set.
 		@window = window
 		
@@ -24,7 +24,7 @@ class Building
 		
 		@wireframe = Wireframe::Box.new window, self
 		
-		@texture = TextureMap::Building.new window, self
+		@texture = TextureMap::Building.new window, self, name
 		# Create building shadow
 		# Should have as close to the same cross-sectional area as the building as possible
 		# Eventually, use the bitmap for the opengl stencil buffer used on the interior texture

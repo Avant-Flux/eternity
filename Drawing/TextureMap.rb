@@ -7,7 +7,7 @@ module TextureMap
 	class Building
 		# Attempt to load textures, and generate new ones
 		# as necessary
-		def initialize(window, gameobj)
+		def initialize(window, gameobj, filename)
 			@window = window
 			@gameobj = gameobj
 			
@@ -15,7 +15,18 @@ module TextureMap
 			side_buffer = 4
 			top_bottom_buffer = 4
 			
-			@right = init_side("red", scale, side_buffer, top_bottom_buffer)
+			filename = "./Sprites/Buildings/" + filename 
+			
+			# See if file exists.
+			if File.exist? "#{filename}_right.png"
+				# If it does, load it
+				@right = Gosu::Image.new window, "#{filename}_right.png", false
+			else
+				# If it does not, create new image
+				@right = init_side "red", scale, side_buffer, top_bottom_buffer
+				@right.save "#{filename}_right.png"
+			end
+			
 			#~ @left = init_side("green", scale, side_buffer, top_bottom_buffer)
 			#~ @front = init_front("yellow", scale, side_buffer, top_bottom_buffer)
 			#~ @back = init_front("blue", scale, side_buffer, top_bottom_buffer)
@@ -54,7 +65,7 @@ module TextureMap
 			#~ @left.draw @left_coord[0], @left_coord[1], @left_coord[2], zoom,
 						#~ :offset_x => @left_offset[0], :offset_y => @left_offset[1]
 						#~ :opacity => 0.80
-						#~ 
+						
 			#~ @front.draw @front_coord[0], @front_coord[1], @front_coord[2], zoom,
 						#~ :offset_x => @front_offset[0], :offset_y => @front_offset[1]
 						#~ :opacity => 0.30

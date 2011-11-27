@@ -110,6 +110,8 @@ class LevelState < GameState
 			level =	LevelState.new window, space, layers, name, render_queue
 			
 			path = File.join LEVEL_DIRECTORY, (name + ".txt")
+			
+			building_count = 0
 						
 			File.open(path, "r").each do |line|
 				args = line.split
@@ -118,8 +120,10 @@ class LevelState < GameState
 					# check the first letter of the first word
 					game_object = case args[0][0]
 						when "B"
-							Building.new window, [args[1].to_f, args[2].to_f, args[3].to_f], 
-												 [args[4].to_f, args[5].to_f, args[6].to_f]
+							building_count += 1
+							Building.new	window, "#{name}_#{building_count}",
+											[args[1].to_f, args[2].to_f, args[3].to_f], 
+											[args[4].to_f, args[5].to_f, args[6].to_f]
 						when "d"
 							nil
 						when "r"
