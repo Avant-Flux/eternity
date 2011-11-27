@@ -1,7 +1,7 @@
 class Numeric
 	def to_px(zoom=1)
 		# Convert from meters to pixels
-		(self*Physics.scale*zoom).round
+		(self*Physics.scale*zoom).to_i
 	end
 	
 	def to_meters

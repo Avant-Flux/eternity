@@ -361,6 +361,10 @@ module Physics
 			@shape.vert index
 		end
 		
+		def vertex_absolute(index)
+			@shape.body.local2world(@shape.vert(index))
+		end
+		
 		def each_vertex(&block)
 			@shape.each_vertex &block
 		end
