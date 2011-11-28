@@ -17,14 +17,34 @@ module TextureMap
 			
 			filename = "./Sprites/Buildings/" + filename 
 			
-			# See if file exists.
-			if File.exist? "#{filename}_right.png"
-				# If it does, load it
-				@right = Gosu::Image.new window, "#{filename}_right.png", false
-			else
-				# If it does not, create new image
-				@right = init_side "red", scale, side_buffer, top_bottom_buffer
-				@right.save "#{filename}_right.png"
+			@sides = [:right, :left]#, :front, :back, :top]
+			@textures = Hash.new
+			@coords = Hash.new
+			@offsets = Hash.new
+			@colors = {
+				:right => "red",
+				:left => "green",
+				:front => "yellow",
+				:back => "blue",
+				:top => "white"
+			}
+			
+			@sides.each do |side|
+				if File.exist? "#{filename}_#{side}.png"
+					# If it does, load it
+					@textures[side] = Gosu::Image.new window, "#{filename}_#{side}.png", false
+				else
+					# If it does not, create new image
+					@textures[side] = if side == :right || side == :left
+						init_side @colors[side], scale, side_buffer, top_bottom_buffer
+					elsif side == :front || side == :back
+						init_front @colors[side], scale, side_buffer, top_bottom_buffer
+					else #side == :top
+						init_top @colors[side], scale, side_buffer, top_bottom_buffer
+					end
+					
+					@textures[side].save "#{filename}_#{side}.png"
+				end
 			end
 			
 			#~ @left = init_side("green", scale, side_buffer, top_bottom_buffer)
@@ -41,8 +61,9 @@ module TextureMap
 			left_x = @gameobj.px
 			left_y = @gameobj.py-(@gameobj.height(:meters) + @gameobj.depth(:meters)*Math.sin(70.to_rad))
 			
-			@right_coord =	[left_x+@gameobj.width(:meters), left_y-@gameobj.pz, @gameobj.pz-1]
-			#~ @left_coord =	[left_x, left_y-@gameobj.pz, @gameobj.pz-1]
+			@coords[:right] =	
+				[left_x+@gameobj.width(:meters), left_y-@gameobj.pz, @gameobj.pz-1]
+			@coords[:left] =	[left_x, left_y-@gameobj.pz, @gameobj.pz-1]
 			#~ @front_coord =	[@gameobj.px, @gameobj.py-@gameobj.pz, @gameobj.pz]
 			#~ 
 			#~ v = @gameobj.vertex_absolute(Physics::Shape::PerspRect::TOP_LEFT_VERT)
@@ -50,8 +71,8 @@ module TextureMap
 			#~ @top_coord =	[@gameobj.px, @gameobj.py-@gameobj.pz, @gameobj.pz]
 			
 			
-			@right_offset =	[2, 2]
-			#~ @left_offset =	[2, 2]
+			@offsets[:right] =	[2, 2]
+			@offsets[:left] =	[2, 2]
 			#~ @front_offset =	[2, @front.height-2]
 			#~ @back_offset =	[2, @back.height-2]
 			#~ @top_offset =	[2, @top.height+@gameobj.height(:px)-2]
@@ -59,8 +80,14 @@ module TextureMap
 		
 		def draw(zoom)
 			# Render textures
-			@right.draw @right_coord[0], @right_coord[1], @right_coord[2], zoom,
-						:offset_x => @right_offset[0], :offset_y => @right_offset[1]
+			@sides.each do |side|
+				@textures[side].draw @coords[side][0], @coords[side][1], @coords[side][2],
+					zoom, :offset_x => @offsets[side][0], :offset_y => @offsets[side][1]
+					#~ :opacity => 0.8
+			end
+			
+			#~ @right.draw @right_coord[0], @right_coord[1], @right_coord[2], zoom,
+						#~ :offset_x => @right_offset[0], :offset_y => @right_offset[1]
 						#~ :opacity => 0.80
 			#~ @left.draw @left_coord[0], @left_coord[1], @left_coord[2], zoom,
 						#~ :offset_x => @left_offset[0], :offset_y => @left_offset[1]
