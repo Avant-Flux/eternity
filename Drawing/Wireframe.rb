@@ -69,6 +69,10 @@ module Wireframe
 		end
 		
 		def draw(zoom)
+			# colors = yellow, red, blue, green
+			quad_colors = [0xffffee44, 0xffff0011, 0xff2244ff, 0xff116622]
+			quad_z = [@entity.pz, @entity.pz-1, @entity.pz-2, @entity.pz-1]
+			
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
 				break unless next_vertex
@@ -89,7 +93,23 @@ module Wireframe
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									vertex[0], vertex[1] - @height-@entity.pz, @color,
 									z, :default, zoom
+									
+				# Quad for the side defined by these lines
+				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
+								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
+									quad_z[i], :default, zoom
 			end
+			
+			# Quad for the top side of the box
+			color = 0xccffffff
+			
+			@window.draw_quad	@vertices[0][0], @vertices[0][1]-@height, color,
+								@vertices[1][0], @vertices[1][1]-@height, color,
+								@vertices[2][0], @vertices[2][1]-@height, color,
+								@vertices[3][0], @vertices[3][1]-@height, color,
+								@entity.pz+@height, :default, zoom
 		end
 	end
 	
