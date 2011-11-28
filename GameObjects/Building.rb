@@ -8,18 +8,9 @@ class Building
 	include Physics::ThreeD_Support
 	include Physics::ThreeD_Support::Box
 	
-	attr_reader :shape
-
-	def initialize(window, name, position, dimensions, options={})
-		#~ Set default values for hash values if they are not already set.
+	def initialize(window, name, position, dimensions)
 		@window = window
 		
-		options[:mass] ||= :static
-		options[:moment] ||= :static
-		options[:collision_type] = :building
-		
-		#~ init_physics	:box, options[:position], options
-		#~ init_physics	position, dimensions, options
 		init_physics	position, dimensions, :static, :static, :building
 		
 		@wireframe = Wireframe::Box.new window, self
