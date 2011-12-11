@@ -114,6 +114,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def button_down(id)
+		# Part of the update loop, not event-driven
 		@inpman.button_down(id)
 		
 		if id == Gosu::KbEscape
@@ -136,6 +137,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def button_up(id)
+		# Part of the update loop, not event-driven
 		@inpman.button_up(id)
 		
 		if id == Gosu::KbA
