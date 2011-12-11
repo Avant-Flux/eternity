@@ -70,46 +70,47 @@ module Wireframe
 		
 		def draw(zoom)
 			# colors = yellow, red, blue, green
-			quad_colors = [0xffffee44, 0xffff0011, 0xff2244ff, 0xff116622]
-			quad_z = [@entity.pz, @entity.pz-1, @entity.pz-2, @entity.pz-1]
+			quad_colors = [0x2cffee44, 0x2cff0011, 0x2c2244ff, 0x2c116622]
+			quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
+						@entity.pz-@entity.depth(:meters)*0.5, 
+						@entity.pz-@entity.depth(:meters)*0.9, 
+						@entity.pz-@entity.depth(:meters)*0.5]
 			
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
 				break unless next_vertex
 				
-				z = 1
-								
 				# Current vertex to next vertex
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									next_vertex[0], next_vertex[1]-@entity.pz, @color,
-									z, :default, zoom
+									@entity.pz, :default, zoom
 				
 				# Point above current vertex to point above next vertex
 				@window.draw_line	vertex[0], vertex[1] - @height-@entity.pz, @color,
 									next_vertex[0], next_vertex[1] - @height-@entity.pz, @color,
-									z, :default, zoom
+									@entity.pz, :default, zoom
 				
 				# Current vertex to point above current vertex
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									vertex[0], vertex[1] - @height-@entity.pz, @color,
-									z, :default, zoom
+									@entity.pz, :default, zoom
 									
 				# Quad for the side defined by these lines
 				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
 								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
 								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
 								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
-									quad_z[i], :default, zoom
+									quad_z[i]+@entity.height(:meters), :default, zoom
 			end
 			
 			# Quad for the top side of the box
 			color = 0xccffffff
 			
-			@window.draw_quad	@vertices[0][0], @vertices[0][1]-@height, color,
-								@vertices[1][0], @vertices[1][1]-@height, color,
-								@vertices[2][0], @vertices[2][1]-@height, color,
-								@vertices[3][0], @vertices[3][1]-@height, color,
-								@entity.pz+@height, :default, zoom
+			@window.draw_quad	@vertices[0][0], @vertices[0][1]-@height-@entity.pz, color,
+								@vertices[1][0], @vertices[1][1]-@height-@entity.pz, color,
+								@vertices[2][0], @vertices[2][1]-@height-@entity.pz, color,
+								@vertices[3][0], @vertices[3][1]-@height-@entity.pz, color,
+								@entity.pz+@entity.height(:meters), :default, zoom
 		end
 	end
 	
