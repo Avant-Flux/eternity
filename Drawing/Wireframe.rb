@@ -70,7 +70,12 @@ module Wireframe
 		
 		def draw(zoom)
 			# colors = yellow, red, blue, green
-			quad_colors = [0x2cffee44, 0x2cff0011, 0x2c2244ff, 0x2c116622]
+			transparency = 0x2c
+			#~ transparency = 0xff
+			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
+			4.times do |i|
+				quad_colors[i] = (transparency << 24) | quad_colors[i]
+			end
 			quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
 						@entity.pz-@entity.depth(:meters)*0.5, 
 						@entity.pz-@entity.depth(:meters)*0.9, 
