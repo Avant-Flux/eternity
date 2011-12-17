@@ -53,12 +53,13 @@ module Physics
 					if gameobj.pz < gameobj.elevation
 						# Reset to elevation (pz)
 						gameobj.pz = gameobj.elevation
+						
 						# Apply fall damage and other calculations
+						gameobj.resolve_ground_collision
+						
 						# Make sure to reset vz and fz
 						gameobj.vz = 0.0
 						gameobj.fz = 0.0
-						
-						gameobj.resolve_ground_collision
 					end
 				end
 			end
