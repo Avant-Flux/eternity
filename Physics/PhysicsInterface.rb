@@ -135,9 +135,15 @@ module Physics
 			@shape.body.p.x
 		end
 		def py
-			@shape.body.p.y # Need to perform a projection onto Physics::Direction::Y_HAT, and take mag
-							# alternatively, find the amound of this vector in the direction of Y_HAT
+			@shape.body.p.y 
+			# Need to perform a projection onto Physics::Direction::Y_HAT, and take mag
+			# alternatively, find the amound of this vector in the direction of Y_HAT
 		end
+		
+		def py_
+			@shape.body.p.dot Physics::Direction::Y_HAT
+		end
+		
 		def px=(arg)
 			@shape.body.p.x = arg
 		end
