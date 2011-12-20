@@ -47,8 +47,6 @@ module Gosu
 				options[:factor_y] = zoom
 			end
 			
-			
-			
 			options[:offset_x] = case options[:offset_x]
 				when :centered
 					self.width * options[:factor_x] / 2

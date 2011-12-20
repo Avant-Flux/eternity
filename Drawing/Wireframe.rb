@@ -68,18 +68,54 @@ module Wireframe
 			
 		end
 		
-		def draw(zoom)
+		def draw(zoom, pos=nil)
+			#Pos is actually the player object,
+			# it was supposed to just be the position vector,
+			# but I wanted to consolidate the code for vector projection into one place
+			
+			# Modulate transparency by delta_y from the "center" where the player is
+			center_y = pos.py_
+			
 			# colors = yellow, red, blue, green
+			# positions: front, right, back, left
+			# index:	0 		1 		2		3
 			transparency = 0x2c
 			#~ transparency = 0xff
+			
+			transparencies = Array.new 4
+			4.times do |i|
+				transparencies[i] = transparency
+				
+				#~ # Factor should be a percent between 0 and 1
+				#~ factor =	if center_y -1.5  <= @entity.py_ #If it's further back into the screen
+								#~ 1
+							#~ else
+								#~ distance =  center_y - @entity.py_
+								#~ 
+								#~ 1/(distance**2)
+							#~ end
+				#~ 
+				#~ transparencies[i] *= factor
+				#~ 
+				#~ transparencies[i] = transparencies[i].to_i
+			end
+			
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
 			4.times do |i|
-				quad_colors[i] = (transparency << 24) | quad_colors[i]
+				quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
 			end
-			quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
-						@entity.pz-@entity.depth(:meters)*0.5, 
-						@entity.pz-@entity.depth(:meters)*0.9, 
-						@entity.pz-@entity.depth(:meters)*0.5]
+			
+			#~ quad_z =	[
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters),
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters)
+						#~ ]
+			
+			#~ quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5, 
+						#~ @entity.pz-@entity.depth(:meters)*0.9, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5]
 			
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
@@ -101,21 +137,39 @@ module Wireframe
 									@entity.pz, :default, zoom
 									
 				# Quad for the side defined by these lines
+				#~ @window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
+								#~ next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
+								#~ vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
+								#~ next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
+									#~ quad_z[i], :default, zoom
+			end
+			
+			
+			# Draw the sides from back to front, so the same z index can be used 4 times
+			# Back, Left, Right, Front
+			z = @entity.py_ + @entity.px
+			[2, 3, 1, 0].each do |i|
+				vertex = @vertices[i]
+				next_vertex = @vertices[i+1]
+				next unless next_vertex
 				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
 								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
 								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
 								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
-									quad_z[i]+@entity.height(:meters), :default, zoom
+									z, :default, zoom
 			end
+			
 			
 			# Quad for the top side of the box
 			color = 0xccffffff
+			#~ color = (transparencies[0] << 24) | color
+			#~ z = @entity.pz+@entity.py_+@entity.height(:meters)
 			
 			@window.draw_quad	@vertices[0][0], @vertices[0][1]-@height-@entity.pz, color,
 								@vertices[1][0], @vertices[1][1]-@height-@entity.pz, color,
 								@vertices[2][0], @vertices[2][1]-@height-@entity.pz, color,
 								@vertices[3][0], @vertices[3][1]-@height-@entity.pz, color,
-								@entity.pz+@entity.height(:meters), :default, zoom
+								z, :default, zoom
 		end
 	end
 	

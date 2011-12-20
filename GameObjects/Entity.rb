@@ -52,11 +52,11 @@ class Entity
 	end
 	
 	
-	def draw(zoom)
+	def draw(zoom, pos=nil)
 		# TODO may have to pass the z index from the game state manager
 		if visible
+			@animation.draw px, py, pz, py_+px, zoom
 			@shadow.draw zoom
-			@animation.draw px, py, pz, zoom
 		end
 	end
 	
@@ -121,10 +121,6 @@ class Entity
 
 	def resolve_ground_collision
 		@jump_count = 0
-	end
-	
-	def resolve_fall_damage(vz)
-		
 	end
 	
 	def jump

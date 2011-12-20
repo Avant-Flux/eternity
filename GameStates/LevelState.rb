@@ -29,7 +29,7 @@ class LevelState < GameState
 	
 	def draw(zoom)
 		@queue.each do |game_object|
-			game_object.draw zoom
+			game_object.draw zoom, @player
 		end
 	end
 	
@@ -38,6 +38,7 @@ class LevelState < GameState
 	end
 	
 	def add_player(player)
+		@player = player
 		self.add_gameobject player
 		player.set_position @space, @layers, @spawn
 
