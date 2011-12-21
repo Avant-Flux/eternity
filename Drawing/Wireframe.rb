@@ -75,35 +75,81 @@ module Wireframe
 			
 			# Modulate transparency by delta_y from the "center" where the player is
 			center_y = pos.py_
+			center_z = pos.py_
 			
 			# colors = yellow, red, blue, green
 			# positions: front, right, back, left
 			# index:	0 		1 		2		3
-			transparency = 0x2c
-			#~ transparency = 0xff
+			#~ transparency = 0x2c
+			transparency = 0xff
 			
 			transparencies = Array.new 4
 			4.times do |i|
-				transparencies[i] = transparency
+				#~ transparencies[i] = transparency
 				
-				#~ # Factor should be a percent between 0 and 1
-				#~ factor =	if center_y -1.5  <= @entity.py_ #If it's further back into the screen
-								#~ 1
-							#~ else
-								#~ distance =  center_y - @entity.py_
-								#~ 
-								#~ 1/(distance**2)
-							#~ end
+				# Factor should be a percent between 0 and 1
+				z = @entity.py_
+				
+				# Activate transparency effect when the object is behind the back wall
+				# or obsured by the left side
+				#~ behind = pos.p.length > @entity.p.length
 				#~ 
+				#~ depth_buffer = 0.25
+				#~ left = (pos.py_ > @entity.py_ && pos.py_ + depth_buffer < @entity.py_ + @entity.depth(:meters) - depth_buffer) && (pos.px > @entity.px && pos.px < @entity.px + @entity.width(:meters))
+				#~ height_obscured = pos.height(:meters) + pos.pz < @entity.height(:meters) + @entity.pz
+				#~ 
+				#~ pos.py < @entity.py
+				
+				#~ between_visual_boundaries = pos.px.between?(@entity.px, @entity.px+@entity.width(:meters) + @entity.depth(:meters) * Math.cos(70.to_rad)
+				#~ behind = between_visual_boundaries && pos.py < @entity.py + 0
+				
+				#~ transparency = if(left && height_obscured)	
+				
+				
+				behind = pos.py < @entity.py
+				height_block = pos.height(:meters) + pos.pz < @entity.height(:meters) + @entity.pz
+				to_the_left = pos.px > @entity.px
+				
+				v1 = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
+				v2 = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_RIGHT_VERT)
+				
+				x = pos.px
+				y = ((v2 - v1).y/(v2 - v1).x)*(x-v1.x) + v1.y 
+				
+				transparency = if y > pos.py && pos.pz < @entity.pz + @entity.height(:meters)
+					0x22
+				else
+					0xff
+				end
+				
+				#~ if center_z - 3 < z #If it's further back into the screen
+					#~ distance =  z - center_z
+					#~ 
+					#~ transparency *= 1/(distance)
+					#~ transparency = transparency.to_i
+					#~ 
+					#~ # Cap at 0xff
+					#~ if transparency > 0xff
+						#~ transparency = 0xff
+					#~ elsif transparency < 0x22
+						#~ transparency = 0x22
+					#~ end
+				#~ end
+				
 				#~ transparencies[i] *= factor
-				#~ 
+				#~ transparency *= factor
+				
 				#~ transparencies[i] = transparencies[i].to_i
+				#~ transparency *= transparency.to_i
 			end
 			
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
 			4.times do |i|
-				quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
+				#~ quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
+				quad_colors[i] = (transparency << 24) | quad_colors[i]
 			end
+			
+			@color.alpha = transparency
 			
 			#~ quad_z =	[
 						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
@@ -147,7 +193,7 @@ module Wireframe
 			
 			# Draw the sides from back to front, so the same z index can be used 4 times
 			# Back, Left, Right, Front
-			z = @entity.py_ + @entity.px
+			z = -@entity.py_ + @entity.px
 			[2, 3, 1, 0].each do |i|
 				vertex = @vertices[i]
 				next_vertex = @vertices[i+1]
@@ -161,8 +207,8 @@ module Wireframe
 			
 			
 			# Quad for the top side of the box
-			color = 0xccffffff
-			#~ color = (transparencies[0] << 24) | color
+			color = 0xffffff
+			color = (transparency << 24) | color
 			#~ z = @entity.pz+@entity.py_+@entity.height(:meters)
 			
 			@window.draw_quad	@vertices[0][0], @vertices[0][1]-@height-@entity.pz, color,

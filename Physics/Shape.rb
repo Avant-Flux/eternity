@@ -57,22 +57,22 @@ module Physics
 			
 			# Specify width of the shape in chipmunk units
 			def width
-				v1 = self.vert(0) # bottom right
-				v2 = self.vert(1) # bottom left
+				v1 = self.vert(BOTTOM_RIGHT_VERT) # bottom right
+				v2 = self.vert(BOTTOM_LEFT_VERT) # bottom left
 				
 				# This value should always be positive
 				v2.x - v1.x
-				#~ @width
+				@width
 			end
 			
 			# Specify height of the shape in chipmunk units
 			def height
-				v1 = self.vert(1) # bottom left
-				v2 = self.vert(2) # top left
+				v1 = self.vert(BOTTOM_LEFT_VERT) # bottom left
+				v2 = self.vert(TOP_LEFT_VERT) # top left
 				
 				# Will always be positive
 				(v1 - v2).length
-				#~ @height
+				@height
 			end
 			
 			def clone
