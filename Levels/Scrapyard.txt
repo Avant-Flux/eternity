@@ -1,8 +1,8 @@
 Spawn 15.5 2 16
-Building 0 0 0 7 10 32
-Building 7 0 0 8 6 32
-Building 15 0 0 1 6 16
-Building 16 0 0 8 6 32
+Building 0 0 15 7 10 17
+Building 7 0 15 8 6 17
+Building 15 0 15 1 6 1
+Building 16 0 15 8 6 17
 Building 24 0 0 10 1 32
 Building 34 0 0 6 14 32
 Building 24 1 4 2 3 4
@@ -15,8 +15,8 @@ Building 26 4 0 3 5 38
 Building 29 4 20 5 10 4
 Building 7 6 18 3 3 4
 Building 10 6 18 1 3 2
-Building 11 6 0 1 3 18
-Building 12 6 0 1 3 22
+Building 11 6 17 1 3 1
+Building 12 6 17 1 3 5
 Building 13 6 18 1 3 2
 Building 14 6 16 1 3 2
 Building 15 6 15 3 3 1
@@ -52,8 +52,8 @@ Building 12 17 22 3 2 6
 Building 15 17 20 2 2 4
 Building 17 17 16 2 2 4
 Building 19 17 14 2 2 2
-Building 21 17 26 2 2 2
-Building 23 17 24 2 2 2
+Building 22 17 26 2 2 2
+Building 24 17 24 2 2 2
 Building 34 18 24 5 2 4
 Building 0 19 0 1 6 38
 Building 1 19 22 2 2 6

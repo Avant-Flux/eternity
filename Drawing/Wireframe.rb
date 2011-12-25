@@ -61,7 +61,7 @@ module Wireframe
 			# the construction of the box
 			
 			@height = entity.height(:meters)
-			@color = Gosu::Color::WHITE
+			@color = Gosu::Color::FUCHSIA
 		end
 		
 		def update
@@ -102,6 +102,7 @@ module Wireframe
 				
 				transparency = if y > pos.py && pos.pz < @entity.pz + @entity.height(:meters)
 					0x22
+					#~ 0x00
 				else
 					0xff
 				end
@@ -138,6 +139,9 @@ module Wireframe
 			# Draw the sides from back to front, so the same z index can be used 4 times
 			# Back, Left, Right, Front
 			v = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_LEFT_VERT)
+			#~ v = CP::Vec2.new(@entity.px, @entity.py)
+			#~ v += Physics::Direction::X_HAT * (@entity.width(:meters)/2.0)
+			#~ v += Physics::Direction::Y_HAT * (@entity.depth(:meters)/2.0)
 			#~ z = -@entity.py_ + @entity.px# - @entity.depth(:meters)
 			#~ z = v.y
 			n = Physics::Direction::X_HAT - Physics::Direction::Y_HAT

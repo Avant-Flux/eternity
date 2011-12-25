@@ -57,7 +57,7 @@ class Game_Window < Gosu::Window
 		@states.new_interface UI_State, "HUD", @player
 		
 		# Init starting level of the game
-		@states.new_level LevelState, "Scrapyard"
+		@states.new_level LevelState, "TestArea"
 		
 		# Place player into game world
 		@states.add_player @player

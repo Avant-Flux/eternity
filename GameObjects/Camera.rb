@@ -111,14 +111,15 @@ class Camera
 		t = height
 		
 		# Translate to global
-		t -= gameobj.py + gameobj.pz
-		b -= gameobj.py + gameobj.pz
+		t += gameobj.py - gameobj.pz
+		b += gameobj.py - gameobj.pz
 		l += gameobj.px
 		r += gameobj.px
 		
 		bb = CP::BB.new l,b,r,t
-		@shape.bb.intersect? bb
+		#~ if @shape.bb.intersect? bb
 		@shape.add gameobj
+		#~ end
 	end
 	
 	def x
