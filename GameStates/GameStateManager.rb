@@ -129,25 +129,26 @@ class GameStateManager
 		# Thus, each gamestate can have it's own z-ordering system
 		
 		
-		#~ @window.translate *@camera.offset do
-			#~ @stack[ACTIVE].each do |gamestate|
-				#~ if gamestate.visible?
-					#~ gamestate.draw @camera.zoom
-					#~ @window.flush
-				#~ end
-			#~ end
-		#~ end
-		
-		
-		@stack[ACTIVE].each do |gamestate|
-			if gamestate.visible?
-				@window.translate *@camera.offset do
-					gamestate.draw @camera.zoom
+		@window.translate *@camera.offset do
+			@stack[ACTIVE].each do |gamestate|
+				if gamestate.visible?
+					gamestate.draw @camera.zoom, 
+					@camera.vertex_absolute(2)-@camera.vertex_absolute(0)
+					@window.flush
 				end
-				
-				@window.flush
 			end
 		end
+		
+		
+		#~ @stack[ACTIVE].each do |gamestate|
+			#~ if gamestate.visible?
+				#~ @window.translate *@camera.offset do
+					#~ gamestate.draw @camera.zoom
+				#~ end
+				#~ 
+				#~ @window.flush
+			#~ end
+		#~ end
 		
 		@stack[MENU].each do |menu|
 			if menu.visible?

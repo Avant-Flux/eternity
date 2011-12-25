@@ -28,8 +28,8 @@ class Building
 		#~ @wireframe.update
 	end
 	
-	def draw(zoom, pos=nil)
-		@wireframe.draw zoom, pos
+	def draw(zoom, pos, camera_origin)
+		@wireframe.draw zoom, pos, camera_origin
 		#~ @texture.draw zoom
 		
 		# Render building shadow

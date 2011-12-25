@@ -52,7 +52,7 @@ class Entity
 	end
 	
 	
-	def draw(zoom, pos=nil)
+	def draw(zoom, pos, camera_origin)
 		# TODO may have to pass the z index from the game state manager
 		if visible
 			@animation.draw px, py, pz, py_+px, zoom
