@@ -72,7 +72,7 @@ Building 12 21 15 2 2 1
 Building 22 21 15 3 1 1
 Building 25 21 15 1 1 1
 Building 26 21 15 1 1 1
-Building 22 22 15 2 1 1
+Building 22 22 15 2 2 1
 Building 24 22 15 3 2 1
 Building 34 22 15 1 6 1
 Building 35 22 15 2 2 1

@@ -8,6 +8,10 @@ module Physics
 		attr_reader :g, :dt, :air_damping
 		alias :gravity :g
 		
+		# ===== DEBUG SYMBOLS
+		#~ attr_reader :all
+		# ===== END DEBUG SYMBOLS
+		
 		def initialize(dt, g = -9.8, damping=0.12, iterations=10)
 			super()
 			self.damping = damping
@@ -66,6 +70,11 @@ module Physics
 		end
 		
 		def add(shape)
+			# ===== DEBUG SYMBOLS
+			#~ @all ||= Set.new
+			#~ @all.add shape
+			# ===== END DEBUG SYMBOLS
+			
 			#Add shape to space.  This depends on whether or not the shape is static.
 			if shape.static?
 				# Add shape to space
