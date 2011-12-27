@@ -128,8 +128,11 @@ module Wireframe
 		end
 		
 		def transparency(camera)
-			unless camera.enable_transparency
-				return 0xff
+			case camera.transparency_mode
+				when :always_on
+					return 0x22
+				when :always_off
+					return 0xff
 			end
 			
 			# Modulate transparency by delta_y from the "center" where the player is
