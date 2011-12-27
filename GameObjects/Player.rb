@@ -5,8 +5,8 @@ require 'require_all'
 
 require "./GameObjects/Character"
 
-require "./Titles/Title"
-require "./Titles/Title_Holder"
+#~ require "./Titles/Title"
+#~ require "./Titles/Title_Holder"
 require_all "./UI"
 #Defines the player-controlled character
 	#Only define attributes in this class that are PC specific
@@ -25,8 +25,8 @@ class Player < Character
 	def initialize(window, name, pos = [0, 0, 0], 
 					subsprites={}, mass=60, moment=20)
 					
-		subsprites = {:body => 1, :face => 1, :hair => 1, 
-					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
+		subsprites = {:body => "body", :face => "eyes", :hair => "hair", 
+					:upper => "shirt", :lower => "pants", :footwear => "shoes"}.merge! subsprites
 		
 		super(window, name, pos, subsprites, mass, moment)
 		

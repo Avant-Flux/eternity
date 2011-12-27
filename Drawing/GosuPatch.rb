@@ -18,20 +18,42 @@ module Gosu
 			options[:color] ||= 0xffffffff
 			options[:mode] ||= :default
 			
+			if options[:opacity]
+				# Assume opacity is specified as a value 0-255
+				
+				# This will overwrite the value specified in the color argument
+				# or add one, if the higher order bits have not yet been set
+				# Determine opacity bits
+				#~ options[:opacity] = (255*options[:opacity]).to_i
+				# Clear high-order bits
+				options[:color] = 0x00ffffff & options[:color]
+				# Set bits
+				options[:color] = (options[:opacity] << 24) | options[:color]
+			end
+			
 			if options[:scale]
 				options[:factor_x] = options[:factor_y] = options[:scale]
 			end
 			
-			options[:factor_x] *= zoom
-			options[:factor_y] *= zoom
+			if options[:factor_x]
+				options[:factor_x] *= zoom
+			else
+				options[:factor_x] = zoom
+			end
+			
+			if options[:factor_y]
+				options[:factor_y] *= zoom
+			else
+				options[:factor_y] = zoom
+			end
 			
 			options[:offset_x] = case options[:offset_x]
 				when :centered
 					self.width * options[:factor_x] / 2
 				when :width
 					self.width * options[:factor_x]
-				else
-					options[:offset_x]
+				else # Assume offset is in px
+					options[:offset_x] * zoom
 			end
 			
 			options[:offset_y] = case options[:offset_y]
@@ -39,8 +61,8 @@ module Gosu
 					self.height * options[:factor_y] / 2
 				when :height
 					self.height * options[:factor_y]
-				else
-					options[:offset_y]
+				else # Assume offset is in px
+					options[:offset_y] * zoom
 			end
 			
 			x = x.to_px(zoom) - options[:offset_x]

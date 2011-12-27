@@ -5,7 +5,9 @@
 # building 12 -5 0 5 8 9
 
 # building 2 -5 0 1 1 6
-Spawn 0 0 0
-Building 2 0 5 5 5 5
-Building 7 0 3 5 5 2
-Building 12 0 0 5 5 2
+Spawn 2 0 6
+
+# Create terrain
+Building -5 -5 0 10 10 3
+
+#Building 2 2 0 5 5 10

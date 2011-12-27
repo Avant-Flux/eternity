@@ -3,12 +3,12 @@
 require 'rubygems'
 require 'gosu'
 
-require './Combat/Combative'
-
-require './Drawing/Animation'
-require './Drawing/Shadow'
-
-require './Stats/Stats'
+#~ require './Combat/Combative'
+#~ 
+#~ require './Drawing/Animation'
+#~ require './Drawing/Shadow'
+#~ 
+#~ require './Stats/Stats'
 
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
@@ -52,11 +52,11 @@ class Entity
 	end
 	
 	
-	def draw(zoom)
+	def draw(camera)
 		# TODO may have to pass the z index from the game state manager
 		if visible
-			@shadow.draw zoom
-			@animation.draw px, py, pz, zoom
+			@animation.draw px, py, pz, py_+px, camera.zoom
+			@shadow.draw camera.zoom
 		end
 	end
 	
@@ -67,6 +67,8 @@ class Entity
 		
 		#~ attr_accessor *arr
 		
+		# Create one method to set each value, for the names given
+		# in the arguments array
 		arr.each do |method|
 			meta_eval do
 				define_method method do |val|
@@ -121,10 +123,6 @@ class Entity
 
 	def resolve_ground_collision
 		@jump_count = 0
-	end
-	
-	def resolve_fall_damage(vz)
-		
 	end
 	
 	def jump

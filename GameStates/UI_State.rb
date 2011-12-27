@@ -7,7 +7,7 @@ require 'chipmunk'
 
 require 'require_all'
 
-require_all './UI/Widgets'
+#~ require_all './UI/Widgets'
 
 class UI_State < InterfaceState
 	def initialize(window, space, layers, name, open, close, player)

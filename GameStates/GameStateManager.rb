@@ -128,14 +128,36 @@ class GameStateManager
 		# Draw each state, followed by a flush
 		# Thus, each gamestate can have it's own z-ordering system
 		
+		
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
 				if gamestate.visible?
-					gamestate.draw @camera.zoom
+					gamestate.draw @camera
 					@window.flush
 				end
 			end
 		end
+		
+		# ===== DEBUG SYMBOLS
+		#~ @window.translate *@camera.offset do
+			#~ @space.all.each do |obj|
+				#~ gameobject = obj.gameobj
+				#~ unless gameobject.is_a? Camera
+					#~ gameobject.draw @camera.zoom, @player, @camera.vertex_absolute(0)
+				#~ end
+			#~ end
+		#~ end
+		# ===== END DEBUG SYMBOLS
+		
+		#~ @stack[ACTIVE].each do |gamestate|
+			#~ if gamestate.visible?
+				#~ @window.translate *@camera.offset do
+					#~ gamestate.draw @camera.zoom
+				#~ end
+				#~ 
+				#~ @window.flush
+			#~ end
+		#~ end
 		
 		@stack[MENU].each do |menu|
 			if menu.visible?

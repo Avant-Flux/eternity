@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
-require './Titles/Title_Holder'
-require './GameObjects/Entity'
+#~ require './Titles/Title_Holder'
+#~ require './GameObjects/Entity'
 
 #To be used for NPCs, such as enemy units
 #Townspeople (ie shopkeeper etc) should be under a different class

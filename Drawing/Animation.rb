@@ -4,7 +4,10 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-require './Drawing/ImageCache'
+#~ require './Drawing/ImageCache'
+
+# Animations need only be generated at 12fps.  There is not too much difference
+# in appearance between 12fps and 24fps
 
 module Animation
 	class Entity
@@ -29,8 +32,12 @@ module Animation
 			end
 		end
 		
-		def draw(x,y,z, zoom)
-			@current_frame.draw(x,y - z,z, zoom, :offset_x => :centered, :offset_y => :height)
+		def draw(x,y,z, z_index, zoom)
+			@current_frame.draw(x, y-z, z_index, zoom, :offset_x => :centered, :offset_y => :height)
+			# Draw skin layer again to create outline
+			#~ @current_frame.draw(x,y - z,z-1, zoom, 
+								#~ :offset_x => :centered, :offset_y => height + 30,
+								#~ :scale => 1.1, :color => 0xffff0000)
 		end
 		
 		def self.load path
@@ -79,6 +86,18 @@ module Animation
 		
 		def height
 			@current_frame.height
+		end
+		
+		class << self
+			# Advance animations system by one step
+			def step
+				
+			end
+			
+			# Manage the update rate for the whole animations system.
+			# Should be the same as the hz rate of the physics system
+			# ie, if the game runs at 60fps, this value should be 60
+			attr_accessor :update_rate
 		end
 	end
 

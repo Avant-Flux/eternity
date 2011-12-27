@@ -8,23 +8,23 @@ require './Drawing/ImageCache'
 class Sprite
 	include Cacheable
 	
-	WIDTH = 40
-	HEIGHT = 80
+	WIDTH = 295
+	HEIGHT = 640
 	
 	def initialize(window, subsprites)
 		#~ # Get all subsprites
 		#~ layers = []
 		#~ # List the different types in order from lowest z index to highest
-		#~ types = [:body, :face, :hair, :upper, :boots, :lower, :shoes]
-		#~ 
+		#~ types = [:body, :face, :hair, :upper, :lower, :shoes]
+		
 		#~ types.each do |type|
 			#~ if subsprites[type]
-				#~ layers << Subsprite.new(window, type, subsprites[type])
+				#~ layers << Subsprite.new(window, type, subsprites[type])#subsprites[type]
 			#~ end
 		#~ end
-	#~ 
-		#~ composite = nil
 		#~ 
+		#~ composite = nil
+		
 		#~ #Splice all provided subsprites together
 		#~ layers.each_with_index do |image, i|
 			#~ if i == 0
@@ -33,14 +33,11 @@ class Sprite
 				#~ composite.splice(image, 0,0, :alpha_blend => true)
 			#~ end
 		#~ end
-		#~ 
-		#~ @sprites = split_spritesheet window, WIDTH, HEIGHT, composite
-		
-		width = 295
-		height = 640
 		
 		spritesheet = File.join(Cacheable.sprite_directory, "People", "NewSprites.png")
-		sprites = Gosu::Image::load_tiles(window, spritesheet, width, height, false) 
+		sprites = Gosu::Image::load_tiles(window, spritesheet, WIDTH, HEIGHT, false)
+		#~ sprites = Gosu::Image::load_tiles(window, composite, WIDTH, HEIGHT, false)
+		
 		@sprites = {:up => [], :down => [], :left => [], :right => []}
 		@sprites[:up] << sprites[0]
 		@sprites[:down] << sprites[1]

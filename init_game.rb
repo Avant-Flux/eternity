@@ -1,33 +1,32 @@
 #!/usr/bin/ruby
-
 Dir.chdir File.dirname(__FILE__)
 
-#~ BASE_DIRECTORY = File.dirname(__FILE__)[0..(File.dirname(__FILE__).rindex File::SEPARATOR)]
+require 'rubygems'
+require 'gosu'
+require 'chipmunk'
 
-begin
-  # In case you use Gosu via rubygems.
-  require 'rubygems'
-rescue LoadError
-  # In case you don't.
-end
-begin
-	require 'lib/gosu'
-rescue LoadError
-	require 'gosu'
-end
 require 'require_all'
 #~ require 'profile'
-require_all './Utilities'
+
 require_all './Physics'
-require_all './GameObjects'
-require_all './Equipment'
-require_all './GameStates'
+
+require_all './Combat'
 require_all './Drawing'
+require_all './Equipment'
+require_all './Stats'
+require_all './Titles'
+
+require_all './Utilities'
+
+require_all './GameObjects'
+require_all './GameStates'
+
 require_all './UI'
+
 
 class Game_Window < Gosu::Window
 	def initialize
-		fps = 60
+		fps = 30
 		# Window should have a 16:9 aspect ratio
 		super(1100, 619, false, (1.0/fps)*1000)
 		self.caption = "Project ETERNITY"
@@ -115,6 +114,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def button_down(id)
+		# Part of the update loop, not event-driven
 		@inpman.button_down(id)
 		
 		if id == Gosu::KbEscape
@@ -137,6 +137,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def button_up(id)
+		# Part of the update loop, not event-driven
 		@inpman.button_up(id)
 		
 		if id == Gosu::KbA

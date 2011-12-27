@@ -12,28 +12,27 @@ class Camera
 	attr_reader :shape, :queue
 	attr_accessor :zoom
 	
+	attr_accessor :enable_transparency
+	
+	alias :px_old :px
+	alias :py_old :py
+	alias :px_old= :px=
+	alias :py_old= :py=
+	
 	MAX_ZOOM = 1
 	MIN_ZOOM = 0.01
 	DEFAULT_ZOOM = 0.30
 	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
-	def initialize(window, zoom=DEFAULT_ZOOM)
+	def initialize(window, zoom=DEFAULT_ZOOM, enable_transparency=true)
 		@window =  window
 		@followed_entity = nil
 		@zoom = zoom #Must be a percentage
+		@enable_transparency = enable_transparency
+		
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
-		#~ half_width = @window.width.to_meters
-		#~ half_height = @window.height.to_meters
-		#~ @bb = [-half_width, half_height, half_width, -half_height]
-		
-		#~ init_physics	:rectangle, pos, 
-						#~ :height => window.height.to_meters / @zoom, 
-						#~ :width => window.width.to_meters / @zoom,
-		#~ init_physics	:circle, pos, :radius => 1,
-						#~ :mass => 50, :moment => :static, :collision_type => :camera
-						
 		init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
 						50, :static, :camera, :centered
 		
@@ -54,8 +53,8 @@ class Camera
 		#~ self.move(@entity.shape.body.f)
 		if @followed_entity
 			#~ warp @followed_entity.p
-			self.px = @followed_entity.px
-			self.py = @followed_entity.py - @followed_entity.pz
+			self.px_old = @followed_entity.px
+			self.py_old = @followed_entity.py - @followed_entity.pz
 		end
 		
 		#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
@@ -69,9 +68,17 @@ class Camera
 	
 	# Return the amount in pixels to offset the rendering
 	def offset
-		return	@window.width / 2.0 - px.to_px(@zoom),
-				@window.height / 2.0 - py.to_px(@zoom)
+		return	@window.width / 2.0 - px_old.to_px(@zoom),
+				@window.height / 2.0 - py_old.to_px(@zoom)
 	end
+	
+	def [](key)
+		@queue[key] ||= Set.new
+	end
+	
+	# ==================================
+	# ===== Camera Control Methods =====
+	# ==================================
 	
 	def follow(entity)
 		@followed_entity = entity
@@ -82,18 +89,24 @@ class Camera
 		warp @followed_entity.p
 	end
 	
-	def [](key)
-		@queue[key] ||= Set.new
-	end
-	
 	def move(force, offset=CP::Vec2::ZERO)
 		@shape.body.apply_force force, offset
 	end
 	
+	# Warp to the specified coordinate
 	def warp(vec2)
 		self.p = vec2
 	end
 	
+	# Move smoothly to a given point in the given time interval
+	def pan(pos=[0,0,0], dt)
+		
+	end
+	# ======================================
+	# ===== End Camera Control Methods =====
+	# ======================================
+
+
 	# Add the corresponding game object when it's in the air,
 	# and thus "detached" from the physics object which typically
 	# controls rendering.
@@ -111,24 +124,20 @@ class Camera
 		t = height
 		
 		# Translate to global
-		t -= gameobj.py + gameobj.pz
-		b -= gameobj.py + gameobj.pz
+		t += gameobj.py - gameobj.pz
+		b += gameobj.py - gameobj.pz
 		l += gameobj.px
 		r += gameobj.px
 		
 		bb = CP::BB.new l,b,r,t
-		@shape.bb.intersect? bb
+		#~ if @shape.bb.intersect? bb
 		@shape.add gameobj
+		#~ end
 	end
 	
-	def x
-		@shape.body.p.x
-	end
-	
-	def y
-		@shape.body.p.y
-	end
-	
+	# =========================
+	# ===== Zoom Controls =====
+	# =========================
 	def zoom_out
 		if @zoom > MIN_ZOOM
 			@zoom -= ZOOM_TICK
@@ -144,9 +153,45 @@ class Camera
 	def zoom_reset
 		@zoom = DEFAULT_ZOOM
 	end
+	# =============================
+	# ===== End Zoom Controls =====
+	# =============================
 	
-	# Move smoothly to a given point in the given time interval
-	def pan(pos=[0,0,0], dt)
-		
+	# ==============================
+	# ===== Position Accessors =====
+	# ==============================
+	def px
+		if @followed_entity
+			@followed_entity.px
+		else
+			self.px_old
+		end
 	end
+	
+	def py
+		if @followed_entity
+			@followed_entity.py
+		else
+			self.py_old
+		end
+	end
+	
+	def pz
+		if @followed_entity
+			@followed_entity.pz
+		else
+			0
+		end
+	end
+	
+	def py_
+		if @followed_entity
+			@followed_entity.py_
+		else
+			0
+		end
+	end
+	# ==================================
+	# ===== End Position Accessors =====
+	# ==================================
 end

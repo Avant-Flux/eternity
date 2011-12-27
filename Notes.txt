@@ -32,8 +32,10 @@ Weapon Specialization Rule. Each character is very limited in the type of weapon
 
 
 Style Conventions and Other Similar Notes
-	Make things such as the window global variables so that they do not have to passed to practically
-		every object.
+	+ Make things such as the window global variables 
+	  so that they do not have to passed to practically every object.
+	+ Require FILES in init_game, require PACKAGES in each file as necessary
+	
 
 Forumlae Etc
 	Create some kind of random variance in Entity
@@ -89,7 +91,7 @@ Sprite rendering and Chipmunk
 			Use down as negative for the z direction
 			This allows for using the z axis for height as well as z index
 
-For stackable objects
+For stackable objects (physics)
 	All objects in the "stack" should have a pointer to the top item in the stack
 	
 	The major problem with stackable objects in toppling

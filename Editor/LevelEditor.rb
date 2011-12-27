@@ -1,25 +1,28 @@
 #!/usr/bin/ruby
-
-require 'rubygems'
-
-require 'gosu'
-require 'texplay'
-require 'chipmunk'
-
-require 'require_all'
-
-require 'set'
-
 path = File.expand_path File.dirname(__FILE__)
 path = path[0..(path.rindex(File::SEPARATOR))]
 Dir.chdir path
 
-require_all './Utilities'
+require 'rubygems'
+require 'gosu'
+require 'chipmunk'
+
+require 'require_all'
+#~ require 'profile'
+
 require_all './Physics'
+
+require_all './Combat'
+require_all './Drawing'
 require_all './Equipment'
+require_all './Stats'
+require_all './Titles'
+
+require_all './Utilities'
+
 require_all './GameObjects'
 require_all './GameStates'
-require_all './Drawing'
+
 require_all './UI'
 
 class LevelEditor < Gosu::Window

@@ -93,6 +93,10 @@ module Footgear
 end
 
 module Weapons
+	module Axes
+		
+	end
+	
 	module Swords
 		class Scimitar
 			attr_accessor :durability, :charge_time, :charge
@@ -108,6 +112,22 @@ module Weapons
 		end
 	end
 	
+	module Daggers
+		
+	end
+	
+	module Maces
+		
+	end
+	
+	module Clubs
+		
+	end
+	
+	module Knuckles
+		
+	end
+	
 	module Guns
 		class Handgun
 			attr_accessor :durability, :charge_time, :charge
@@ -120,6 +140,14 @@ module Weapons
 				
 				@attack = 3
 			end
+		end
+		
+		class Revolver
+			
+		end
+		
+		class Shotgun
+			
 		end
 	end
 end

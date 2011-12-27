@@ -27,9 +27,9 @@ class LevelState < GameState
 		super
 	end
 	
-	def draw(zoom)
+	def draw(camera)
 		@queue.each do |game_object|
-			game_object.draw zoom
+			game_object.draw camera
 		end
 	end
 	
@@ -38,6 +38,7 @@ class LevelState < GameState
 	end
 	
 	def add_player(player)
+		@player = player
 		self.add_gameobject player
 		player.set_position @space, @layers, @spawn
 
@@ -59,14 +60,27 @@ class LevelState < GameState
 		# Call some sort of serialization method on each game object
 			# that method should explain how to re-create that game object from saved assets
 		# Store game object re-creation details in one text or YAML file
-		path = File.join LEVEL_DIRECTORY, (@name + "save.txt")
+		path = File.join LEVEL_DIRECTORY, (@name + "save2.txt")
 		
 		File.open(path, "w") do |f|
 			f.puts "# Eternity Level Data --- #{@name}"
 			f.puts "Spawn #{@spawn[0]} #{@spawn[1]} #{@spawn[2]}"
 			@gameobjects.each do |gameobj|
 				line = "#{gameobj.class} "
-				line << "#{gameobj.px} #{gameobj.py} #{gameobj.pz} "
+				
+				
+				# Insert position
+				# for vectors effected by isometric coordinates
+				# perform a vector projection onto the unit vector
+				# take the magnitude of the resultant vector
+				
+				x = gameobj.px
+				y = gameobj.py >= 0 ? gameobj.py : gameobj.py * -1
+				z =gameobj.pz
+				line << "#{x} #{y} #{z} "
+				
+				
+				# Insert dimensions
 				line << "#{gameobj.width(:meters)} #{gameobj.depth(:meters)} #{gameobj.height(:meters)}"
 				f.puts line
 			end
@@ -97,6 +111,8 @@ class LevelState < GameState
 			level =	LevelState.new window, space, layers, name, render_queue
 			
 			path = File.join LEVEL_DIRECTORY, (name + ".txt")
+			
+			building_count = 0
 						
 			File.open(path, "r").each do |line|
 				args = line.split
@@ -105,8 +121,10 @@ class LevelState < GameState
 					# check the first letter of the first word
 					game_object = case args[0][0]
 						when "B"
-							Building.new window, [args[1].to_f, args[2].to_f, args[3].to_f], 
-												 [args[4].to_f, args[5].to_f, args[6].to_f]
+							building_count += 1
+							Building.new	window, "#{name}_#{building_count}",
+											[args[1].to_f, args[2].to_f, args[3].to_f], 
+											[args[4].to_f, args[5].to_f, args[6].to_f]
 						when "d"
 							nil
 						when "r"
