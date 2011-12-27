@@ -60,7 +60,7 @@ class LevelState < GameState
 		# Call some sort of serialization method on each game object
 			# that method should explain how to re-create that game object from saved assets
 		# Store game object re-creation details in one text or YAML file
-		path = File.join LEVEL_DIRECTORY, (@name + "save2.txt")
+		path = File.join LEVEL_DIRECTORY, (@name + "save3.txt")
 		
 		File.open(path, "w") do |f|
 			f.puts "# Eternity Level Data --- #{@name}"
@@ -75,8 +75,17 @@ class LevelState < GameState
 				# take the magnitude of the resultant vector
 				
 				x = gameobj.px
-				y = gameobj.py >= 0 ? gameobj.py : gameobj.py * -1
+				
+				#~ y = gameobj.py >= 0 ? gameobj.py : gameobj.py * -1
+				
+				
+				gameobj.p.x -= gameobj.px
+				y = gameobj.py_
+				
 				z =gameobj.pz
+				
+				
+				
 				line << "#{x} #{y} #{z} "
 				
 				
