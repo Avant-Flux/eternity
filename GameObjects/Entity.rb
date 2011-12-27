@@ -67,6 +67,8 @@ class Entity
 		
 		#~ attr_accessor *arr
 		
+		# Create one method to set each value, for the names given
+		# in the arguments array
 		arr.each do |method|
 			meta_eval do
 				define_method method do |val|
