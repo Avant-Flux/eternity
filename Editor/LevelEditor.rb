@@ -40,6 +40,8 @@ class LevelEditor < Gosu::Window
 		@camera.px = 0
 		@camera.py = 0
 		
+		@camera.enable_transparency = false
+		
 		@states = GameStateManager.new self, @camera, @player
 		
 		@mouse = @states.new_interface(LevelEditorInterface, "Interface").mouse

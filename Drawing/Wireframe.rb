@@ -128,6 +128,10 @@ module Wireframe
 		end
 		
 		def transparency(camera)
+			unless camera.enable_transparency
+				return 0xff
+			end
+			
 			# Modulate transparency by delta_y from the "center" where the player is
 			#~ center_y = pos.py_
 			#~ center_z = pos.py_
