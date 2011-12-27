@@ -29,16 +29,6 @@ class Camera
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
-		#~ half_width = @window.width.to_meters
-		#~ half_height = @window.height.to_meters
-		#~ @bb = [-half_width, half_height, half_width, -half_height]
-		
-		#~ init_physics	:rectangle, pos, 
-						#~ :height => window.height.to_meters / @zoom, 
-						#~ :width => window.width.to_meters / @zoom,
-		#~ init_physics	:circle, pos, :radius => 1,
-						#~ :mass => 50, :moment => :static, :collision_type => :camera
-						
 		init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
 						50, :static, :camera, :centered
 		
