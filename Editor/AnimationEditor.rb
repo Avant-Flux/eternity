@@ -1,23 +1,27 @@
 #!/usr/bin/ruby
+path = File.expand_path File.dirname(__FILE__)
+path = path[0..(path.rindex(File::SEPARATOR)-1)]
 
 require 'rubygems'
-
 require 'gosu'
-require 'texplay'
 require 'chipmunk'
 
 require 'require_all'
+#~ require 'profile'
 
-require 'set'
+require_all './Physics'
 
-path = File.expand_path File.dirname(__FILE__)
-path = path[0..(path.rindex(File::SEPARATOR))]
-Dir.chdir path
+require_all './Combat'
+require_all './Drawing'
+require_all './Equipment'
+require_all './Stats'
+require_all './Titles'
 
 require_all './Utilities'
-require_all './Physics'
+
 require_all './GameObjects'
-require_all './Drawing'
+require_all './GameStates'
+
 require_all './UI'
 
 
