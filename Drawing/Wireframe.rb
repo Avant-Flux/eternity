@@ -73,20 +73,11 @@ module Wireframe
 			# it was supposed to just be the position vector,
 			# but I wanted to consolidate the code for vector projection into one place
 			
-			# Modulate transparency by delta_y from the "center" where the player is
-			#~ center_y = pos.py_
-			#~ center_z = pos.py_
+			z = compute_z camera
+			transparency = transparency(camera)
 			
-			# colors = yellow, red, blue, green
-			# positions: front, right, back, left
-			# index:	0 		1 		2		3
-			#~ transparency = 0x2c
-			#~ transparency = 0xff
-			
-			# Factor should be a percent between 0 and 1
-			#~ z = @entity.py_
-			
-			
+			draw_sides transparency, z, camera.zoom
+			draw_top transparency, z, camera.zoom
 			
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
@@ -106,16 +97,12 @@ module Wireframe
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									vertex[0], vertex[1] - @height-@entity.pz, @color,
 									@entity.pz, :default, camera.zoom
-									
-				# Quad for the side defined by these lines
-				#~ @window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
-								#~ next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
-								#~ vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
-								#~ next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
-									#~ quad_z[i], :default, camera.zoom
 			end
-			
-			
+		end
+		
+		private
+		
+		def compute_z(camera)
 			# Draw the sides from back to front, so the same z index can be used 4 times
 			# Back, Left, Right, Front
 			v = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_LEFT_VERT)
@@ -138,16 +125,21 @@ module Wireframe
 			@z_buffer[v.y]
 			
 			z = v.y
-			
-			
-			transparency = transparency(camera)
-			draw_sides transparency, z, camera.zoom
-			draw_top transparency, z, camera.zoom
 		end
 		
-		private
-		
 		def transparency(camera)
+			# Modulate transparency by delta_y from the "center" where the player is
+			#~ center_y = pos.py_
+			#~ center_z = pos.py_
+			
+			# colors = yellow, red, blue, green
+			# positions: front, right, back, left
+			# index:	0 		1 		2		3
+			#~ transparency = 0x2c
+			#~ transparency = 0xff
+			
+			# Factor should be a percent between 0 and 1
+			
 			# Activate transparency effect when the object is behind the back wall
 			# or obsured by the left side
 			behind = camera.py < @entity.py
