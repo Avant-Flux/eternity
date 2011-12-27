@@ -2,7 +2,7 @@ Spawn 15.5 2 16
 Building 0 0 15 7 10 17
 Building 7 0 15 8 6 17
 Building 15 0 15 1 6 1
-Building 16 0 15 8 6 17
+Building 16 0 0 8 6 32
 Building 24 0 0 10 1 32
 Building 34 0 0 6 14 32
 Building 24 1 4 2 3 4
