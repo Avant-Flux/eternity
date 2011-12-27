@@ -78,6 +78,14 @@ class Camera
 				@window.height / 2.0 - py_old.to_px(@zoom)
 	end
 	
+	def [](key)
+		@queue[key] ||= Set.new
+	end
+	
+	# ==================================
+	# ===== Camera Control Methods =====
+	# ==================================
+	
 	def follow(entity)
 		@followed_entity = entity
 		
@@ -85,10 +93,6 @@ class Camera
 				#~ @entity.y - @center.y]
 				
 		warp @followed_entity.p
-	end
-	
-	def [](key)
-		@queue[key] ||= Set.new
 	end
 	
 	def move(force, offset=CP::Vec2::ZERO)
@@ -100,8 +104,15 @@ class Camera
 		self.p = vec2
 	end
 	
-	
-	
+	# Move smoothly to a given point in the given time interval
+	def pan(pos=[0,0,0], dt)
+		
+	end
+	# ======================================
+	# ===== End Camera Control Methods =====
+	# ======================================
+
+
 	# Add the corresponding game object when it's in the air,
 	# and thus "detached" from the physics object which typically
 	# controls rendering.
@@ -130,6 +141,31 @@ class Camera
 		#~ end
 	end
 	
+	# =========================
+	# ===== Zoom Controls =====
+	# =========================
+	def zoom_out
+		if @zoom > MIN_ZOOM
+			@zoom -= ZOOM_TICK
+		end
+	end
+	
+	def zoom_in
+		if @zoom < MAX_ZOOM
+			@zoom += ZOOM_TICK
+		end
+	end
+	
+	def zoom_reset
+		@zoom = DEFAULT_ZOOM
+	end
+	# =============================
+	# ===== End Zoom Controls =====
+	# =============================
+	
+	# ==============================
+	# ===== Position Accessors =====
+	# ==============================
 	def px
 		if @followed_entity
 			@followed_entity.px
@@ -161,25 +197,7 @@ class Camera
 			0
 		end
 	end
-	
-	def zoom_out
-		if @zoom > MIN_ZOOM
-			@zoom -= ZOOM_TICK
-		end
-	end
-	
-	def zoom_in
-		if @zoom < MAX_ZOOM
-			@zoom += ZOOM_TICK
-		end
-	end
-	
-	def zoom_reset
-		@zoom = DEFAULT_ZOOM
-	end
-	
-	# Move smoothly to a given point in the given time interval
-	def pan(pos=[0,0,0], dt)
-		
-	end
+	# ==================================
+	# ===== End Position Accessors =====
+	# ==================================
 end
