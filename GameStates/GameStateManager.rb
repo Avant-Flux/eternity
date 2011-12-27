@@ -132,12 +132,22 @@ class GameStateManager
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
 				if gamestate.visible?
-					gamestate.draw @camera.zoom, @camera.vertex_absolute(0)
+					gamestate.draw @camera.zoom, @camera, @camera.vertex_absolute(0)
 					@window.flush
 				end
 			end
 		end
 		
+		# ===== DEBUG SYMBOLS
+		#~ @window.translate *@camera.offset do
+			#~ @space.all.each do |obj|
+				#~ gameobject = obj.gameobj
+				#~ unless gameobject.is_a? Camera
+					#~ gameobject.draw @camera.zoom, @player, @camera.vertex_absolute(0)
+				#~ end
+			#~ end
+		#~ end
+		# ===== END DEBUG SYMBOLS
 		
 		#~ @stack[ACTIVE].each do |gamestate|
 			#~ if gamestate.visible?

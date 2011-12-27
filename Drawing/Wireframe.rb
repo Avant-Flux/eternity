@@ -72,10 +72,11 @@ module Wireframe
 			#Pos is actually the player object,
 			# it was supposed to just be the position vector,
 			# but I wanted to consolidate the code for vector projection into one place
-			
+						
 			# Modulate transparency by delta_y from the "center" where the player is
-			center_y = pos.py_
-			center_z = pos.py_
+			#~ center_y = pos.py_
+			#~ center_z = pos.py_
+			
 			
 			# colors = yellow, red, blue, green
 			# positions: front, right, back, left
@@ -86,7 +87,7 @@ module Wireframe
 			transparencies = Array.new 4
 			4.times do |i|
 				# Factor should be a percent between 0 and 1
-				z = @entity.py_
+				#~ z = @entity.py_
 				
 				# Activate transparency effect when the object is behind the back wall
 				# or obsured by the left side
@@ -103,6 +104,7 @@ module Wireframe
 				transparency = if y > pos.py && pos.pz < @entity.pz + @entity.height(:meters)
 					0x22
 					#~ 0x00
+					#~ 0x66
 				else
 					0xff
 				end
@@ -150,8 +152,15 @@ module Wireframe
 			z = (surface_normal[0]*(v.x-camera_origin.x) + 
 				surface_normal[1]*(v.y-camera_origin.y))/2 + 
 				surface_normal[2]
-			#~ z = (1 + ((v.x/camera_origin.x)+ ((v.y)/camera_origin.y))/2)
+			#~ z = (1 + ((v.x/camera_origin.x)+; ((v.y)/camera_origin.y))/2)
 			#~ z = (1 + ((@entity.px/camera_origin.x)+ (@entity.py/camera_origin.y))/2)
+			
+			@z_buffer ||= Hash.new
+			@z_buffer[v.y]
+			
+			z = v.y
+			
+			
 			
 			draw_sides transparency, z, zoom
 			draw_top transparency, z, zoom

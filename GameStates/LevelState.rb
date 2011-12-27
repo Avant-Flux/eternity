@@ -27,9 +27,9 @@ class LevelState < GameState
 		super
 	end
 	
-	def draw(zoom, camera_origin)
+	def draw(zoom, camera, camera_origin)
 		@queue.each do |game_object|
-			game_object.draw zoom, @player, camera_origin
+			game_object.draw zoom, camera, camera_origin
 		end
 	end
 	

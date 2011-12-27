@@ -12,6 +12,11 @@ class Camera
 	attr_reader :shape, :queue
 	attr_accessor :zoom
 	
+	alias :px_old :px
+	alias :py_old :py
+	alias :px_old= :px=
+	alias :py_old= :py=
+	
 	MAX_ZOOM = 1
 	MIN_ZOOM = 0.01
 	DEFAULT_ZOOM = 0.30
@@ -54,8 +59,8 @@ class Camera
 		#~ self.move(@entity.shape.body.f)
 		if @followed_entity
 			#~ warp @followed_entity.p
-			self.px = @followed_entity.px
-			self.py = @followed_entity.py - @followed_entity.pz
+			self.px_old = @followed_entity.px
+			self.py_old = @followed_entity.py - @followed_entity.pz
 		end
 		
 		#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
@@ -69,8 +74,8 @@ class Camera
 	
 	# Return the amount in pixels to offset the rendering
 	def offset
-		return	@window.width / 2.0 - px.to_px(@zoom),
-				@window.height / 2.0 - py.to_px(@zoom)
+		return	@window.width / 2.0 - px_old.to_px(@zoom),
+				@window.height / 2.0 - py_old.to_px(@zoom)
 	end
 	
 	def follow(entity)
@@ -90,9 +95,12 @@ class Camera
 		@shape.body.apply_force force, offset
 	end
 	
+	# Warp to the specified coordinate
 	def warp(vec2)
 		self.p = vec2
 	end
+	
+	
 	
 	# Add the corresponding game object when it's in the air,
 	# and thus "detached" from the physics object which typically
@@ -122,12 +130,36 @@ class Camera
 		#~ end
 	end
 	
-	def x
-		@shape.body.p.x
+	def px
+		if @followed_entity
+			@followed_entity.px
+		else
+			self.px_old
+		end
 	end
 	
-	def y
-		@shape.body.p.y
+	def py
+		if @followed_entity
+			@followed_entity.py
+		else
+			self.py_old
+		end
+	end
+	
+	def pz
+		if @followed_entity
+			@followed_entity.pz
+		else
+			0
+		end
+	end
+	
+	def py_
+		if @followed_entity
+			@followed_entity.py_
+		else
+			0
+		end
 	end
 	
 	def zoom_out
