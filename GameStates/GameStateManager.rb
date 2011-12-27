@@ -132,7 +132,7 @@ class GameStateManager
 		@window.translate *@camera.offset do
 			@stack[ACTIVE].each do |gamestate|
 				if gamestate.visible?
-					gamestate.draw @camera.zoom, @camera, @camera.vertex_absolute(0)
+					gamestate.draw @camera
 					@window.flush
 				end
 			end

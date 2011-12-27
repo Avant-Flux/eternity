@@ -68,46 +68,42 @@ module Wireframe
 			
 		end
 		
-		def draw(zoom, pos, camera_origin)
+		def draw(camera)
 			#Pos is actually the player object,
 			# it was supposed to just be the position vector,
 			# but I wanted to consolidate the code for vector projection into one place
-						
+			
 			# Modulate transparency by delta_y from the "center" where the player is
 			#~ center_y = pos.py_
 			#~ center_z = pos.py_
-			
 			
 			# colors = yellow, red, blue, green
 			# positions: front, right, back, left
 			# index:	0 		1 		2		3
 			#~ transparency = 0x2c
-			transparency = 0xff
+			#~ transparency = 0xff
 			
-			transparencies = Array.new 4
-			4.times do |i|
-				# Factor should be a percent between 0 and 1
-				#~ z = @entity.py_
-				
-				# Activate transparency effect when the object is behind the back wall
-				# or obsured by the left side
-				behind = pos.py < @entity.py
-				height_block = pos.height(:meters) + pos.pz < @entity.height(:meters) + @entity.pz
-				to_the_left = pos.px > @entity.px
-				
-				v1 = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
-				v2 = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_RIGHT_VERT)
-				
-				x = pos.px
-				y = ((v2 - v1).y/(v2 - v1).x)*(x-v1.x) + v1.y 
-				
-				transparency = if y > pos.py && pos.pz < @entity.pz + @entity.height(:meters)
-					0x22
-					#~ 0x00
-					#~ 0x66
-				else
-					0xff
-				end
+			# Factor should be a percent between 0 and 1
+			#~ z = @entity.py_
+			
+			# Activate transparency effect when the object is behind the back wall
+			# or obsured by the left side
+			behind = camera.py < @entity.py
+			height_block = camera.height(:meters) + camera.pz < @entity.height(:meters) + @entity.pz
+			to_the_left = camera.px > @entity.px
+			
+			v1 = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
+			v2 = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_RIGHT_VERT)
+			
+			x = camera.px
+			y = ((v2 - v1).y/(v2 - v1).x)*(x-v1.x) + v1.y
+			
+			transparency = if y > camera.py && camera.pz < @entity.pz + @entity.height(:meters)
+				0x22
+				#~ 0x00
+				#~ 0x66
+			else
+				0xff
 			end
 			
 			@vertices.each_with_index do |vertex, i|
@@ -117,24 +113,24 @@ module Wireframe
 				# Current vertex to next vertex
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									next_vertex[0], next_vertex[1]-@entity.pz, @color,
-									@entity.pz, :default, zoom
+									@entity.pz, :default, camera.zoom
 				
 				# Point above current vertex to point above next vertex
 				@window.draw_line	vertex[0], vertex[1] - @height-@entity.pz, @color,
 									next_vertex[0], next_vertex[1] - @height-@entity.pz, @color,
-									@entity.pz, :default, zoom
+									@entity.pz, :default, camera.zoom
 				
 				# Current vertex to point above current vertex
 				@window.draw_line	vertex[0], vertex[1]-@entity.pz, @color,
 									vertex[0], vertex[1] - @height-@entity.pz, @color,
-									@entity.pz, :default, zoom
+									@entity.pz, :default, camera.zoom
 									
 				# Quad for the side defined by these lines
 				#~ @window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
 								#~ next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
 								#~ vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
 								#~ next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
-									#~ quad_z[i], :default, zoom
+									#~ quad_z[i], :default, camera.zoom
 			end
 			
 			
@@ -149,6 +145,7 @@ module Wireframe
 			n = Physics::Direction::X_HAT - Physics::Direction::Y_HAT
 			surface_normal = [1/n.x, 1/n.y, -2]
 			
+			camera_origin = camera.vertex_absolute(0)
 			z = (surface_normal[0]*(v.x-camera_origin.x) + 
 				surface_normal[1]*(v.y-camera_origin.y))/2 + 
 				surface_normal[2]
@@ -162,8 +159,8 @@ module Wireframe
 			
 			
 			
-			draw_sides transparency, z, zoom
-			draw_top transparency, z, zoom
+			draw_sides transparency, z, camera.zoom
+			draw_top transparency, z, camera.zoom
 		end
 		
 		private

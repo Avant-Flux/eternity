@@ -12,6 +12,8 @@ class Camera
 	attr_reader :shape, :queue
 	attr_accessor :zoom
 	
+	attr_accessor :enable_transparency
+	
 	alias :px_old :px
 	alias :py_old :py
 	alias :px_old= :px=
@@ -22,10 +24,12 @@ class Camera
 	DEFAULT_ZOOM = 0.30
 	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
 
-	def initialize(window, zoom=DEFAULT_ZOOM)
+	def initialize(window, zoom=DEFAULT_ZOOM, enable_transparency=true)
 		@window =  window
 		@followed_entity = nil
 		@zoom = zoom #Must be a percentage
+		@enable_transparency = enable_transparency
+		
 		# Center of screen
 		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
 		
