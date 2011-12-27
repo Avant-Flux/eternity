@@ -86,25 +86,7 @@ module Wireframe
 			# Factor should be a percent between 0 and 1
 			#~ z = @entity.py_
 			
-			# Activate transparency effect when the object is behind the back wall
-			# or obsured by the left side
-			behind = camera.py < @entity.py
-			height_block = camera.height(:meters) + camera.pz < @entity.height(:meters) + @entity.pz
-			to_the_left = camera.px > @entity.px
 			
-			v1 = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
-			v2 = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_RIGHT_VERT)
-			
-			x = camera.px
-			y = ((v2 - v1).y/(v2 - v1).x)*(x-v1.x) + v1.y
-			
-			transparency = if y > camera.py && camera.pz < @entity.pz + @entity.height(:meters)
-				0x22
-				#~ 0x00
-				#~ 0x66
-			else
-				0xff
-			end
 			
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
@@ -158,12 +140,34 @@ module Wireframe
 			z = v.y
 			
 			
-			
+			transparency = transparency(camera)
 			draw_sides transparency, z, camera.zoom
 			draw_top transparency, z, camera.zoom
 		end
 		
 		private
+		
+		def transparency(camera)
+			# Activate transparency effect when the object is behind the back wall
+			# or obsured by the left side
+			behind = camera.py < @entity.py
+			height_block = camera.height(:meters) + camera.pz < @entity.height(:meters) + @entity.pz
+			to_the_left = camera.px > @entity.px
+			
+			v1 = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
+			v2 = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_RIGHT_VERT)
+			
+			x = camera.px
+			y = ((v2 - v1).y/(v2 - v1).x)*(x-v1.x) + v1.y
+			
+			transparency = if y > camera.py && camera.pz < @entity.pz + @entity.height(:meters)
+				0x22
+				#~ 0x00
+				#~ 0x66
+			else
+				0xff
+			end
+		end
 		
 		def draw_sides(transparency, z, zoom)
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
