@@ -140,8 +140,19 @@ module Physics
 			# alternatively, find the amound of this vector in the direction of Y_HAT
 		end
 		
+		def px_
+			# Return the x magnitude in terms of the isometric coordinate system
+			v = Physics::Direction::Y_HAT_BACK * @shape.body.p.y
+			return v.x + @shape.body.p.x
+		end
+		
 		def py_
-			@shape.body.p.dot Physics::Direction::Y_HAT
+			# Return the y magnitude in terms of the isometric coordinate system
+			#~ v1_dot = @shape.body.p.dot Physics::Direction::Y_HAT
+			v = Physics::Direction::Y_HAT_BACK * @shape.body.p.y
+			#~ puts "vector: #{v1_dot} == #{v.y}  ?  #{v1_dot == v.y}"
+			
+			v.y
 		end
 		
 		def px=(arg)

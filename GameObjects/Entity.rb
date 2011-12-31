@@ -55,7 +55,7 @@ class Entity
 	def draw(camera)
 		# TODO may have to pass the z index from the game state manager
 		if visible
-			@animation.draw px, py, pz, py_+px, camera.zoom
+			@animation.draw px, py, pz, px_ - py_, camera.zoom
 			@shadow.draw camera.zoom
 		end
 	end

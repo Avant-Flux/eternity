@@ -73,21 +73,32 @@ class LevelState < GameState
 				# for vectors effected by isometric coordinates
 				# perform a vector projection onto the unit vector
 				# take the magnitude of the resultant vector
-				
-				x = gameobj.px
-				
-				#~ y = gameobj.py >= 0 ? gameobj.py : gameobj.py * -1
-				
-				
-				gameobj.p.x -= gameobj.px
+				x = gameobj.px_
 				y = gameobj.py_
+				z = gameobj.pz
 				
-				z =gameobj.pz
+				# Round all values to two decimal places
+				# A beneficial side effect is that -0.0 will never be stored for zero
+				x = (x*100).round/100.0
+				y = (y*100).round/100.0
+				z = (z*100).round/100.0
 				
-				
+				# Alternatively, do it this way...
+				#~ x = x.round 2
+				#~ y = y.round 2
+				#~ z = z.round 2
+				#~ 
+				#~ if x == 0
+					#~ x = 0
+				#~ end
+				#~ if y == 0
+					#~ y = 0
+				#~ end
+				#~ if z == 0
+					#~ z = 0
+				#~ end
 				
 				line << "#{x} #{y} #{z} "
-				
 				
 				# Insert dimensions
 				line << "#{gameobj.width(:meters)} #{gameobj.depth(:meters)} #{gameobj.height(:meters)}"
@@ -128,6 +139,7 @@ class LevelState < GameState
 				
 				if args[0] && args[0][0] != "#" # Ignore empty lines, and commented out lines
 					# check the first letter of the first word
+					
 					game_object = case args[0][0]
 						when "B"
 							building_count += 1

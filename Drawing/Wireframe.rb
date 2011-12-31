@@ -105,26 +105,14 @@ module Wireframe
 		def compute_z(camera)
 			# Draw the sides from back to front, so the same z index can be used 4 times
 			# Back, Left, Right, Front
-			v = @entity.vertex_absolute(Physics::Shape::PerspRect::TOP_LEFT_VERT)
-			#~ v = CP::Vec2.new(@entity.px, @entity.py)
-			#~ v += Physics::Direction::X_HAT * (@entity.width(:meters)/2.0)
-			#~ v += Physics::Direction::Y_HAT * (@entity.depth(:meters)/2.0)
-			#~ z = -@entity.py_ + @entity.px# - @entity.depth(:meters)
-			#~ z = v.y
-			n = Physics::Direction::X_HAT - Physics::Direction::Y_HAT
-			surface_normal = [1/n.x, 1/n.y, -2]
+			#~ v = @entity.vertex_absolute(Physics::Shape::PerspRect::BOTTOM_LEFT_VERT)
 			
-			camera_origin = camera.vertex_absolute(0)
-			z = (surface_normal[0]*(v.x-camera_origin.x) + 
-				surface_normal[1]*(v.y-camera_origin.y))/2 + 
-				surface_normal[2]
-			#~ z = (1 + ((v.x/camera_origin.x)+; ((v.y)/camera_origin.y))/2)
-			#~ z = (1 + ((@entity.px/camera_origin.x)+ (@entity.py/camera_origin.y))/2)
+			#~ p = Physics::Direction::Y_HAT_BACK * v.y
+			#~ p.x += v.x
+			#~ puts "vector: #{v1_dot} == #{v.y}  ?  #{v1_dot == v.y}"
 			
-			@z_buffer ||= Hash.new
-			@z_buffer[v.y]
-			
-			z = v.y
+			return @entity.px_*0.5 - @entity.py_
+			#~ return p.x - p.y
 		end
 		
 		def transparency(camera)

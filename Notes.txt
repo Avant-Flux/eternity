@@ -126,6 +126,10 @@ Overall Game Design Notes
 	Also, explain through the principles of the world what needs to be done.
 		Show the player what needs to occur.  Do not insult their intelligence by telling them.
 
+Due to rounding in the storage for level elements,
+nothing in a level should be placed in increments less than
+one scale centimeter
+
 Dvorak Keyboard Button ID's for Gosu in Ubuntu 64-bit 
 49 50 51 52 53 54 55 56 57 48 91 93
 39 44 46 112 121 102 103 99 114 108 47 61 92
