@@ -68,11 +68,6 @@ class LevelState < GameState
 			@gameobjects.each do |gameobj|
 				line = "#{gameobj.class} "
 				
-				
-				# Insert position
-				# for vectors effected by isometric coordinates
-				# perform a vector projection onto the unit vector
-				# take the magnitude of the resultant vector
 				x = gameobj.px_
 				y = gameobj.py_
 				z = gameobj.pz
@@ -98,6 +93,7 @@ class LevelState < GameState
 					#~ z = 0
 				#~ end
 				
+				# Insert position
 				line << "#{x} #{y} #{z} "
 				
 				# Insert dimensions
