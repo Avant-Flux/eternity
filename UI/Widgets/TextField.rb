@@ -29,7 +29,10 @@ module Widget
 		end
 		
 		def update
-			@text = @text_input.text if @text_input
+			if @text_input
+				@text = @text_input.text
+			end
+			
 			if @font.text_width(@text) < width(:meters)
 				text_align :left
 			else
@@ -65,7 +68,16 @@ module Widget
 		def on_click
 			@editable = true
 			@window.text_input = Gosu::TextInput.new
+			@window.text_input.text = @text
 			@text_input = @window.text_input
+		end
+		
+		#~ def @text_input.filter(arg)
+			#~ return /(\D*)(\d*)(\D*)/.match(arg)
+		#~ end
+		
+		def on_lose_focus
+			reset
 		end
 		
 		def reset
@@ -76,3 +88,12 @@ module Widget
 		end
 	end
 end
+
+#~ module Gosu
+	#~ class TextInput
+		#~ def filter(text_in)
+			#~ 
+			#~ return /(\D*)(\d*)(\D*)/.match(text_in)[2]
+		#~ end
+	#~ end
+#~ end

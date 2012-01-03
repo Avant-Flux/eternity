@@ -73,8 +73,7 @@ class LevelEditorInterface < InterfaceState
 			puts "Flatten"
 			
 			begin
-				puts "hey"
-				puts Physics::Direction::Y_HAT
+				
 			rescue
 				puts "Error generating flattened data"
 			end
@@ -96,6 +95,11 @@ class LevelEditorInterface < InterfaceState
 			#~ end
 		#~ end
 		
+		create_position_controls window
+		create_dimension_controls window
+		create_property_control_buttons window
+		create_draw_options window
+		
 		
 		add_gameobject @sidebar
 		add_gameobject @sidebar_title
@@ -103,6 +107,22 @@ class LevelEditorInterface < InterfaceState
 		add_gameobject @load
 		add_gameobject @save
 		add_gameobject @flatten
+		
+		@position_controls.each do |axis, control|
+			control.each do |widget|
+				add_gameobject widget
+			end
+		end
+		
+		@dimension_controls.each do |axis, control|
+			control.each do |widget|
+				add_gameobject widget
+			end
+		end
+		
+		add_gameobject @confirm_changes
+		add_gameobject @cancel_changes
+		
 		#~ add_gameobject @export_uvs
 		#~ @sidebar.add_to space
 		#~ @load.add_to space
@@ -117,5 +137,110 @@ class LevelEditorInterface < InterfaceState
 		@gameobjects.each do |obj|
 			obj.draw
 		end
+	end
+	
+	private
+	
+	def create_position_controls(window)
+		@position_controls = Hash.new
+		
+		# Set base position from which all elemnets are structured
+		x = 0
+		y = window.height - 150
+		
+		vert_offset = 30
+		
+		[:x, :y, :z].each_with_index do |axis, i|
+			@position_controls[axis] = [
+				# Create label
+				Widget::Label.new(window, x,y+vert_offset*i,
+				:relative => @sidebar, :width => 10, :height => @font.height,
+				:background_color => Gosu::Color::NONE,
+				:text => axis.to_s, :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom),
+				# Create text field
+				Widget::TextField.new(window, x+20,y+vert_offset*i,
+				:relative => @sidebar,
+				:background_color => Gosu::Color::WHITE,
+				:width => 85, :height => @font.height,
+				:text => "", :font => @font, :color => Gosu::Color::BLUE)
+			]
+		end
+		
+		x_field = @position_controls[:x][1]
+		def x_field.on_click
+			puts "Meh~"
+		end
+		
+		y_field = @position_controls[:y][1]
+		def y_field.on_click
+			puts "Meh~"
+		end
+		
+		z_field = @position_controls[:z][1]
+		def z_field.on_click
+			puts "Meh~"
+		end
+	end
+	
+	def create_dimension_controls(window)
+		@dimension_controls = Hash.new
+		
+		# Set base position from which all elemnets are structured
+		x = 120
+		y = window.height - 150
+		
+		vert_offset = 30
+		
+		[:w, :d, :h].each_with_index do |axis, i|
+			@position_controls[axis] = [
+				# Create label
+				Widget::Label.new(window, x,y+vert_offset*i,
+				:relative => @sidebar, :width => 10, :height => @font.height,
+				:background_color => Gosu::Color::NONE,
+				:text => axis.to_s, :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom),
+				# Create text field
+				Widget::TextField.new(window, x+20,y+vert_offset*i,
+				:relative => @sidebar,
+				:background_color => Gosu::Color::WHITE,
+				:width => 85, :height => @font.height,
+				:text => "", :font => @font, :color => Gosu::Color::BLUE)
+			]
+		end
+	end
+	
+	def create_property_control_buttons(window)
+		y = window.height - 50
+		
+		@confirm_changes = Widget::Button.new window, 0,y,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Confirm", :font => @font, :color => Gosu::Color::BLUE do
+			begin
+				puts "confirm"
+			rescue
+				puts "Error: Properties not saved"
+			end
+			
+			#~ @gc = true
+		end
+		
+		@cancel_changes = Widget::Button.new window, 120,y,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Cancel", :font => @font, :color => Gosu::Color::BLUE do
+			begin
+				puts "cancel"
+			rescue
+				puts "Error: Cancel failed"
+			end
+			
+			#~ @gc = true
+		end
+	end
+	
+	def create_draw_options(window)
+		
 	end
 end
