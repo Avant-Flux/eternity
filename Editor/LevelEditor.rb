@@ -86,26 +86,26 @@ class LevelEditor < Gosu::Window
 				close
 			when Gosu::MsLeft
 				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
+			when Gosu::MsWheelUp
+				@camera.zoom_in
+			when Gosu::MsWheelDown
+				@camera.zoom_out
+			when Gosu::MsMiddle
+				@pan = true
+			when Gosu::KbF
+				@show_fps = !@show_fps
 		end
 		
-		if id == Gosu::KbF
-			@show_fps = !@show_fps
-		end
-		
-		if id == Gosu::MsWheelUp
-			@camera.zoom_in
-		elsif id == Gosu::MsWheelDown
-			@camera.zoom_out
-		end
-		
-		if id == Gosu::MsMiddle
-			@pan = true
+		if id == Gosu::KbLeftControl || id == Gosu::KbRightControl
+			@mouse.mode = :multiple_select
 		end
 	end
 	
 	def button_up(id)
 		if id == Gosu::MsMiddle
 			@pan = false
+		elsif id == Gosu::KbLeftControl || id == Gosu::KbRightControl
+			@mouse.mode = :default
 		end
 	end
 	
