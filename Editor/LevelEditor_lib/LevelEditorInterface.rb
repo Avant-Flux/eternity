@@ -28,7 +28,8 @@ class LevelEditorInterface < InterfaceState
 				:relative => @sidebar,
 				:background_color => Gosu::Color::WHITE,
 				:width => 100, :width_units => :percent, :height => @font.height,
-				:text => "enter level name", :font => @font, :color => Gosu::Color::BLUE
+				:text => "enter level name", :initial_temp_text => true,
+				:font => @font, :color => Gosu::Color::BLUE
 		
 		@load = Widget::Button.new window, 0,70,
 				:relative => @sidebar, :width => 100, :height => 30,

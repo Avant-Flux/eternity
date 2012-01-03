@@ -12,7 +12,8 @@ module Widget
 		def initialize(window, x,y, options={})
 			options =	{
 							:background_color => Gosu::Color::NONE,
-							:editable => true	# Determines if the text can be edited or not
+							:editable => true,	# Determines if the text can be edited or not
+							:initial_temp_text => false # Initial text gets cleared on click
 						}.merge! options
 			
 			unless options[:font]
@@ -20,6 +21,10 @@ module Widget
 			end
 			
 			super window, x,y, options
+			
+			if options[:initial_temp_text]
+				@temp = true
+			end
 			
 			@editable = options[:editable]
 			@active = false # Controls if the current textfield is being edited right now or not
@@ -64,7 +69,11 @@ module Widget
 		def on_click
 			@active = true
 			@window.text_input = Gosu::TextInput.new
-			@window.text_input.text = @text
+			if @temp
+				@temp = false
+			else
+				@window.text_input.text = @text
+			end
 		end
 		
 		#~ def @text_input.filter(arg)
