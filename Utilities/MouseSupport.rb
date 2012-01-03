@@ -6,6 +6,8 @@ require 'chipmunk'
 require 'set'
 
 class MouseHandler
+	attr_accessor :mode
+	
 	def initialize(space, layers)#, radius, mass, moment)
 		@space = space
 		@layers = layers
@@ -16,6 +18,8 @@ class MouseHandler
 		
 		#~ space.add @mouse_shape
 		@active = Set.new # Stack to hold all active/selected elements
+		
+		@mode = :default # :default, :multiple_select, :box_select
 	end
 	
 	def click(position)
@@ -36,17 +40,28 @@ class MouseHandler
 			if target.gameobj.is_a? Widget::UI_Object
 				# UI Object found
 				
-				# Mark other objects as no longer active
-				@active.each do |obj|
-					obj.on_lose_focus
+				case @mode
+					when :default
+						# Mark other objects as no longer active
+						@active.each do |obj|
+							obj.on_lose_focus
+						end
+						@active.clear
+						
+						# Call click event
+						target.gameobj.on_click
+						
+						# Add to active set
+						@active.add target.gameobj
+					when :multiple_select
+						# Call click event
+						target.gameobj.on_click
+						
+						# Add to active set
+						@active.add target.gameobj
+					when :box_select
+						
 				end
-				@active.clear
-				
-				# Call click event
-				target.gameobj.on_click
-				
-				# Add to active set
-				@active.add target.gameobj
 			end
 		end
 	end
