@@ -22,15 +22,15 @@ module Widget
 			super window, x,y, options
 			
 			@editable = options[:editable]
-			@text_input = nil
+			@active = false # Controls if the current textfield is being edited right now or not
 			
 			# used to control blinking of the caret
 			@blink = 0
 		end
 		
 		def update
-			if @text_input
-				@text = @text_input.text
+			if @active
+				@text = @window.text_input.text
 			end
 			
 			if @font.text_width(@text) < width(:meters)
@@ -38,21 +38,17 @@ module Widget
 			else
 				text_align :right
 			end
-			
-			unless @editable
-				reset
-			end
 		end
 		
 		def draw
 			@window.clip_to px,py, width(:meters), height(:meters) do
 				super
 				
-				if @text_input
+				if @active
 					reset_time = 30
 					delay = 30
 					
-					text_width = @font.text_width(@text[0..@text_input.selection_start])
+					text_width = @font.text_width(@text[0..@window.text_input.selection_start])
 					
 					if @blink >= reset_time && @blink < reset_time + delay
 						@window.draw_line	px+text_width, py, @color,
@@ -66,10 +62,9 @@ module Widget
 		end
 		
 		def on_click
-			@editable = true
+			@active = true
 			@window.text_input = Gosu::TextInput.new
 			@window.text_input.text = @text
-			@text_input = @window.text_input
 		end
 		
 		#~ def @text_input.filter(arg)
@@ -77,14 +72,7 @@ module Widget
 		#~ end
 		
 		def on_lose_focus
-			reset
-		end
-		
-		def reset
-			if @text_input
-				@text_input = @window.text_input = nil
-			end
-			#~ @text = nil
+			@active = false
 		end
 	end
 end

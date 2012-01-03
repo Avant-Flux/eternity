@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'chipmunk'
 
+require 'set'
+
 class MouseHandler
 	def initialize(space, layers)#, radius, mass, moment)
 		@space = space
@@ -13,6 +15,7 @@ class MouseHandler
 		#~ @mouse_shape.collision_type = :pointer
 		
 		#~ space.add @mouse_shape
+		@active = Set.new # Stack to hold all active/selected elements
 	end
 	
 	def click(position)
@@ -29,9 +32,21 @@ class MouseHandler
 			end
 		end
 		
-		if target
-			if target.gameobj.respond_to? :on_click
+		if target 
+			if target.gameobj.is_a? Widget::UI_Object
+				# UI Object found
+				
+				# Mark other objects as no longer active
+				@active.each do |obj|
+					obj.on_lose_focus
+				end
+				@active.clear
+				
+				# Call click event
 				target.gameobj.on_click
+				
+				# Add to active set
+				@active.add target.gameobj
 			end
 		end
 	end

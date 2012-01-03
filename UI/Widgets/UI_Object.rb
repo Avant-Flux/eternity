@@ -44,5 +44,11 @@ module Widget
 		# 			:relative, widget, :to_top
 		# align		:left/:right/:center/:top/:bottom
 		# offset	10 #in px
+		
+		def on_click
+		end
+		
+		def on_lose_focus
+		end
 	end
 end
