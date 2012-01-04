@@ -99,7 +99,7 @@ class LevelEditorInterface < InterfaceState
 		create_position_controls window
 		create_dimension_controls window
 		create_property_control_buttons window
-		create_draw_options window
+		create_draw_option_buttons window
 		
 		
 		add_gameobject @sidebar
@@ -124,7 +124,7 @@ class LevelEditorInterface < InterfaceState
 		add_gameobject @confirm_changes
 		add_gameobject @cancel_changes
 		
-		@draw_options.each_value do |widget|
+		@draw_option_buttons.each_value do |widget|
 			add_gameobject widget
 		end
 		
@@ -245,13 +245,13 @@ class LevelEditorInterface < InterfaceState
 		end
 	end
 	
-	def create_draw_options(window)
+	def create_draw_option_buttons(window)
 		x = 0
 		y = 150
 		
 		vert_offset = 35
 		
-		@draw_options = {
+		@draw_option_buttons = {
 			:title => Widget::Label.new( window, x,y,
 				:relative => @sidebar, :width => @sidebar.width(:meters), :height => 30,
 				:background_color => Gosu::Color::NONE,
@@ -263,6 +263,7 @@ class LevelEditorInterface < InterfaceState
 				:text => "Wireframe", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
 					puts "Wireframe"
+					Wireframe::Box.show_wireframe = !Wireframe::Box.show_wireframe
 				rescue
 					puts "Error: Wireframe can not be rendered"
 				end
@@ -275,6 +276,7 @@ class LevelEditorInterface < InterfaceState
 					:text => "Faces", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
 					puts "Faces"
+					Wireframe::Box.show_faces = !Wireframe::Box.show_faces
 				rescue
 					puts "Error: Faces of geometry can not be rendered"
 				end

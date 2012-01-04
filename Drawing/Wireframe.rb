@@ -73,12 +73,19 @@ module Wireframe
 			# it was supposed to just be the position vector,
 			# but I wanted to consolidate the code for vector projection into one place
 			
+			draw_faces camera
+			draw_wireframe camera
+		end
+		
+		def draw_faces(camera)
 			z = compute_z camera
 			transparency = transparency(camera)
 			
 			draw_sides transparency, z, camera.zoom
 			draw_top transparency, z, camera.zoom
-			
+		end
+		
+		def draw_wireframe(camera)
 			@vertices.each_with_index do |vertex, i|
 				next_vertex = @vertices[i+1]
 				break unless next_vertex
