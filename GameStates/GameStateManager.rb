@@ -57,7 +57,7 @@ class GameStateManager
 		@open_prompt = lambda do |klass, name|
 			#~ puts "opening! from #{self}"
 			#~ self.new_prompt
-			self.clear_levels
+			#~ self.clear_levels
 			new_level klass, name
 		end
 		
@@ -168,9 +168,9 @@ class GameStateManager
 	end
 	
 	# Create a new gamestate and place it on the LOWER stack
-	def new_level(klass, name)
+	def new_level(klass, name, *args)
 		layer = new_layer
-		args = [@window, @space, layer, name, @camera[layer]]
+		args = [@window, @space, layer, name, @camera[layer], *args]
 		
 		gamestate =  if klass.ancestors.include? LevelState
 						klass.load *args
@@ -191,6 +191,18 @@ class GameStateManager
 		gamestate = klass.new *args
 		
 		@stack[HIDDEN] << gamestate
+	end
+	
+	# Create a new gamestate and place it on the LOWER stack
+	def new_gamestate(klass, name)
+		layer = new_layer
+		args = [@window, @space, layer, name]
+		args << @camera[layer] if klass == LevelState
+		gamestate = klass.new *args
+		
+		@stack[ACTIVE] << gamestate
+		
+		return gamestate
 	end
 	
 	def clear_levels

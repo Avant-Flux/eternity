@@ -46,9 +46,9 @@ class LevelEditor < Gosu::Window
 		
 		@states = GameStateManager.new self, @camera, @player
 		
-		@mouse = @states.new_interface(LevelEditorInterface, "Interface").mouse
+		@grid = @states.new_gamestate Grid, "Grid" # Create the grid state
 		
-		#~ @states.new_level LevelState, "Scrapyard"
+		@mouse = @states.new_interface(LevelEditorInterface, "Interface", @grid).mouse
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		# Hide fps by default

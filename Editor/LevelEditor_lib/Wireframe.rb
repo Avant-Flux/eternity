@@ -1,7 +1,7 @@
 module Wireframe
 	class Box
 		@@show_wireframe = false
-		@@show_faces = false
+		@@show_faces = true
 		
 		alias :old_draw :draw
 		

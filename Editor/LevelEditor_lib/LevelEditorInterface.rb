@@ -1,8 +1,9 @@
 class LevelEditorInterface < InterfaceState
 	attr_reader :mouse
 	
-	def initialize(window, space, layers, name, open, close)
+	def initialize(window, space, layers, name, open, close, grid)
 		super(window, space, layers, name, open, close)
+		@grid = grid
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
@@ -301,6 +302,7 @@ class LevelEditorInterface < InterfaceState
 					:text => "Grid", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
 					puts "Grid"
+					@grid.visible = !@grid.visible?
 				rescue
 					puts "Error: Grid can not be displayed"
 				end

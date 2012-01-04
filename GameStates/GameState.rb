@@ -5,7 +5,7 @@ require 'set'
 # Defines the behavior that a game state should respond to.
 class GameState
 	attr_reader :name, :layers, :gameobjects
-	attr_accessor :gc
+	attr_accessor :gc, :visible
 	
 	SAVE_PATH = "./Saves"
 	
