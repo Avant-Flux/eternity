@@ -26,6 +26,7 @@ module Wireframe
 			z = compute_z camera
 			transparency = transparency(camera)
 			zoom = camera.zoom
+			height = 1
 			
 			
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
@@ -46,10 +47,10 @@ module Wireframe
 								#~ vertex[0], vertex[1] - 1, quad_colors[i],
 								#~ next_vertex[0], next_vertex[1] - 1, quad_colors[i],
 									#~ z, :default, zoom
-				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
-								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
-								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
-								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
+				@window.draw_quad vertex[0], vertex[1], quad_colors[i],
+								next_vertex[0], next_vertex[1], quad_colors[i],
+								vertex[0], vertex[1] - height, quad_colors[i],
+								next_vertex[0], next_vertex[1] - height, quad_colors[i],
 								z, :default, zoom
 			end
 		end
