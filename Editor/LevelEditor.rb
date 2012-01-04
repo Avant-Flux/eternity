@@ -29,7 +29,7 @@ require_all './Editor/LevelEditor_lib/'
 
 class LevelEditor < Gosu::Window
 	def initialize
-		fps = 60
+		fps = 30
 		# Window should have a 16:9 aspect ratio
 		super(1100, 619, false, (1.0/fps)*1000)
 		self.caption = "Level Editor"
@@ -90,7 +90,7 @@ class LevelEditor < Gosu::Window
 				@camera.zoom_in
 			when Gosu::MsWheelDown
 				@camera.zoom_out
-			when Gosu::MsMiddle
+			when Gosu::MsRight
 				@pan = true
 			when Gosu::KbF
 				@show_fps = !@show_fps
@@ -102,7 +102,7 @@ class LevelEditor < Gosu::Window
 	end
 	
 	def button_up(id)
-		if id == Gosu::MsMiddle
+		if id == Gosu::MsRight
 			@pan = false
 		elsif id == Gosu::KbLeftControl || id == Gosu::KbRightControl
 			@mouse.mode = :default

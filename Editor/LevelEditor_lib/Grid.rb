@@ -32,8 +32,8 @@ class Grid < GameState
 								
 								
 			spacing = 5
-			quantity = 10
-								
+			quantity = 30
+			
 			# Draw horizontal griddings
 			(-quantity..quantity).each do |i|;
 				@window.draw_line	0,(i*spacing).to_px(camera.zoom), c,

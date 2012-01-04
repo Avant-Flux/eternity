@@ -290,6 +290,7 @@ class LevelEditorInterface < InterfaceState
 					:text => "Flattened", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
 					puts "Flattened"
+					Wireframe::Box.show_flattened = !Wireframe::Box.show_flattened
 				rescue
 					puts "Error: Flattened view can not be displayed"
 				end
