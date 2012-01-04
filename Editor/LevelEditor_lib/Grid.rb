@@ -29,6 +29,34 @@ class Grid < GameState
 								(v_y.x).to_px(camera.zoom), (v_y.y).to_px(camera.zoom), c, z
 			@window.draw_line	0,0, c,
 								-(v_y.x).to_px(camera.zoom), -(v_y.y).to_px(camera.zoom), c, z
+								
+								
+			spacing = 5
+			quantity = 10
+								
+			# Draw horizontal griddings
+			(-quantity..quantity).each do |i|;
+				@window.draw_line	0,(i*spacing).to_px(camera.zoom), c,
+									(v_x.x).to_px(camera.zoom), 
+									(v_x.y+i*spacing).to_px(camera.zoom), c, z
+				@window.draw_line	0,(i*spacing).to_px(camera.zoom), c,
+									-(v_x.x).to_px(camera.zoom), 
+									(v_x.y+i*spacing).to_px(camera.zoom), c, z
+			end
+			
+			# Draw vertical griddings
+			(-quantity..quantity).each do |i|
+				@window.draw_line	(i*spacing).to_px(camera.zoom),0, c,
+									(v_y.x+i*spacing).to_px(camera.zoom), 
+									(v_y.y).to_px(camera.zoom), c, z
+				
+				@window.draw_line	(i*spacing).to_px(camera.zoom),0, c,
+									-(v_y.x-i*spacing).to_px(camera.zoom), 
+									-(v_y.y).to_px(camera.zoom), c, z
+			end
+			
+			
+			# Draw y griddings
 		end
 	end
 end
