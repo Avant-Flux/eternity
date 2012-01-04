@@ -21,7 +21,7 @@ class LevelEditorInterface < InterfaceState
 		@sidebar_title = Widget::Label.new window, 0,0,
 				:relative => @sidebar, :width => @sidebar.width(:meters), :height => 30,
 				:background_color => Gosu::Color::NONE,
-				:text => "TITLE", :font => @font, :color => Gosu::Color::BLACK,
+				:text => "File", :font => @font, :color => Gosu::Color::BLACK,
 				:text_align => :left, :vertical_align => :bottom
 		
 		@name_box = Widget::TextField.new window, 0,40,
@@ -123,6 +123,10 @@ class LevelEditorInterface < InterfaceState
 		
 		add_gameobject @confirm_changes
 		add_gameobject @cancel_changes
+		
+		@draw_options.each_value do |widget|
+			add_gameobject widget
+		end
 		
 		#~ add_gameobject @export_uvs
 		#~ @sidebar.add_to space
@@ -242,6 +246,65 @@ class LevelEditorInterface < InterfaceState
 	end
 	
 	def create_draw_options(window)
+		x = 0
+		y = 150
 		
+		vert_offset = 35
+		
+		@draw_options = {
+			:title => Widget::Label.new( window, x,y,
+				:relative => @sidebar, :width => @sidebar.width(:meters), :height => 30,
+				:background_color => Gosu::Color::NONE,
+				:text => "View", :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom),
+			:wireframe => Widget::Button.new(window, 0,y+vert_offset,
+				:relative => @sidebar, :width => 100, :height => 30,
+				:background_color => Gosu::Color::WHITE,
+				:text => "Wireframe", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					puts "Wireframe"
+				rescue
+					puts "Error: Wireframe can not be rendered"
+				end
+				
+				#~ @gc = true
+			end,
+			:faces => Widget::Button.new( window, 120,y+vert_offset,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Faces", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					puts "Faces"
+				rescue
+					puts "Error: Faces of geometry can not be rendered"
+				end
+				
+				#~ @gc = true
+			end,
+			:flattened => Widget::Button.new( window, 0,y+vert_offset*2,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Flattened", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					puts "Flattened"
+				rescue
+					puts "Error: Flattened view can not be displayed"
+				end
+				
+				#~ @gc = true
+			end,
+			:grid => Widget::Button.new( window, 120,y+vert_offset*2,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Grid", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					puts "Grid"
+				rescue
+					puts "Error: Grid can not be displayed"
+				end
+				
+				#~ @gc = true
+			end
+		}
 	end
 end
