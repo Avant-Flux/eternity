@@ -82,6 +82,7 @@ module Widget
 		
 		def on_lose_focus
 			@active = false
+			@window.text_input = nil
 		end
 	end
 end
