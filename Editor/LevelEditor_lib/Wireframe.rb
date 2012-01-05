@@ -3,20 +3,30 @@ module Wireframe
 		@@show_wireframe = false
 		@@show_faces = true
 		@@show_flattened = false
+		@@show_selected = true
 		
 		alias :old_draw :draw
+		alias :old_init :initialize
+		
+		def initialize(window, entity)
+			old_init window, entity
+			
+			@selected = true
+		end
 		
 		def draw(camera)
-			if @@show_wireframe
-				draw_wireframe camera
-			end
-			
-			if @@show_faces
-				draw_faces camera
-			end
-			
-			if @@show_flattened
-				draw_flat camera
+			if (@@show_selected && @selected) || !@@show_selected
+				if @@show_wireframe
+					draw_wireframe camera
+				end
+				
+				if @@show_faces
+					draw_faces camera
+				end
+				
+				if @@show_flattened
+					draw_flat camera
+				end
 			end
 		end
 		
@@ -24,7 +34,7 @@ module Wireframe
 			# Render the faces of the flattened version of the level
 			# Code copied from Wireframe::Box.draw_sides and repurposed accordingly
 			z = compute_z camera
-			transparency = transparency(camera)
+			transparency = 0xcc
 			zoom = camera.zoom
 			height = 1
 			
@@ -53,6 +63,22 @@ module Wireframe
 								next_vertex[0], next_vertex[1] - height, quad_colors[i],
 								z, :default, zoom
 			end
+			
+			
+			# Quad for the top side of the box
+			color = 0xffffff
+			color = (transparency << 24) | color
+			#~ z = @entity.pz+@entity.py_+@entity.height(:meters)
+			
+			@window.draw_quad	@vertices[0][0], @vertices[0][1]-height, color,
+								@vertices[1][0], @vertices[1][1]-height, color,
+								@vertices[2][0], @vertices[2][1]-height, color,
+								@vertices[3][0], @vertices[3][1]-height, color,
+								z, :default, zoom
+		end
+		
+		def select
+			@selected = !@selected
 		end
 		
 		class << self

@@ -32,7 +32,7 @@ class LevelEditor < Gosu::Window
 		fps = 30
 		# Window should have a 16:9 aspect ratio
 		super(1100, 619, false, (1.0/fps)*1000)
-		self.caption = "Level Editor"
+		self.caption = "Level Editor v0.1"
 		
 		Cacheable.sprite_directory = "./Sprites"
 		
@@ -75,6 +75,17 @@ class LevelEditor < Gosu::Window
 	def draw
 		@states.draw
 		
+		#~ x = @camera.p.x.to_px(@camera.zoom)
+		#~ y = @camera.p.y.to_px(@camera.zoom)
+		#~ x = @camera.vertex_absolute(0).x.to_px(@camera.zoom)
+		#~ y = @camera.vertex_absolute(0).y.to_px(@camera.zoom)
+		x = self.width / 2
+		y = self.height / 2
+		self.draw_quad	x-10, y-10, Gosu::Color::RED,
+						x+10, y-10, Gosu::Color::RED,
+						x-10, y+10, Gosu::Color::RED,
+						x+10, y+10, Gosu::Color::RED, 50000
+		
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
 		end
@@ -86,11 +97,17 @@ class LevelEditor < Gosu::Window
 				close
 			when Gosu::MsLeft
 				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
+			when Gosu::MsRight
+				#~ @mouse.right_click(
+				#~ (CP::Vec2.new(mouse_x.to_meters, mouse_y.to_meters) - @camera.vertex_absolute(0)))
+				@mouse.right_click @camera.p
+				p @camera.p
+				#~ @mouse.right_click @camera.vertex_absolute(0)
 			when Gosu::MsWheelUp
 				@camera.zoom_in
 			when Gosu::MsWheelDown
 				@camera.zoom_out
-			when Gosu::MsRight
+			when Gosu::MsMiddle
 				@pan = true
 			when Gosu::KbF
 				@show_fps = !@show_fps
@@ -102,7 +119,7 @@ class LevelEditor < Gosu::Window
 	end
 	
 	def button_up(id)
-		if id == Gosu::MsRight
+		if id == Gosu::MsMiddle
 			@pan = false
 		elsif id == Gosu::KbLeftControl || id == Gosu::KbRightControl
 			@mouse.mode = :default

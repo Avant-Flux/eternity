@@ -36,13 +36,11 @@ class LevelEditorInterface < InterfaceState
 				:relative => @sidebar, :width => 100, :height => 30,
 				:background_color => Gosu::Color::WHITE,
 				:text => "Load", :font => @font, :color => Gosu::Color::BLUE do
-			puts "load"
-			
 			begin
 				@state = open.call LevelState, @name_box.text
-				@name_box.editable = false
+				#~ @name_box.editable = false
 			rescue
-				@name_box.reset
+				#~ @name_box.reset
 				@name_box.text = "File not found"
 			end
 			
@@ -263,7 +261,6 @@ class LevelEditorInterface < InterfaceState
 				:background_color => Gosu::Color::WHITE,
 				:text => "Wireframe", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
-					puts "Wireframe"
 					Wireframe::Box.show_wireframe = !Wireframe::Box.show_wireframe
 				rescue
 					puts "Error: Wireframe can not be rendered"
@@ -276,7 +273,6 @@ class LevelEditorInterface < InterfaceState
 					:background_color => Gosu::Color::WHITE,
 					:text => "Faces", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
-					puts "Faces"
 					Wireframe::Box.show_faces = !Wireframe::Box.show_faces
 				rescue
 					puts "Error: Faces of geometry can not be rendered"
@@ -289,7 +285,6 @@ class LevelEditorInterface < InterfaceState
 					:background_color => Gosu::Color::WHITE,
 					:text => "Flattened", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
-					puts "Flattened"
 					Wireframe::Box.show_flattened = !Wireframe::Box.show_flattened
 				rescue
 					puts "Error: Flattened view can not be displayed"
@@ -302,7 +297,6 @@ class LevelEditorInterface < InterfaceState
 					:background_color => Gosu::Color::WHITE,
 					:text => "Grid", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
-					puts "Grid"
 					@grid.visible = !@grid.visible?
 				rescue
 					puts "Error: Grid can not be displayed"
