@@ -98,11 +98,24 @@ class LevelEditor < Gosu::Window
 			when Gosu::MsLeft
 				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
 			when Gosu::MsRight
-				#~ @mouse.right_click(
-				#~ (CP::Vec2.new(mouse_x.to_meters, mouse_y.to_meters) - @camera.vertex_absolute(0)))
-				@mouse.right_click @camera.p
-				p @camera.p
-				#~ @mouse.right_click @camera.vertex_absolute(0)
+				puts ""
+				# Calculate displacement from center of screen in px
+				dx_px = mouse_x - self.width/2.0
+				dy_px = mouse_y - self.height/2.0
+				
+				#~ puts "#{dx_px} #{dy_px}"				
+				# Use that to calculate displacement from center point of camera tracking
+				dx_meters = dx_px / Physics.scale / @camera.zoom
+				dy_meters = dy_px / Physics.scale / @camera.zoom
+				#~ puts "#{dx_meters} #{dy_meters}"
+				
+				# Calculate absolute position of click within game world
+				v = CP::Vec2.new dx_meters, dy_meters
+				v.x += @camera.p.x
+				v.y += @camera.p.y
+				
+				# Initiate click event
+				@mouse.right_click v
 			when Gosu::MsWheelUp
 				@camera.zoom_in
 			when Gosu::MsWheelDown

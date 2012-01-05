@@ -71,16 +71,9 @@ class MouseHandler
 	def right_click(position)
 		# Perform a "raycast" into the scene and attempt to find a gameobject
 		target = nil
-		puts ""
 		@space.point_query position, CP::ALL_LAYERS, CP::NO_GROUP do |shape|
-			if shape.collision_type == :building_render_object
-				puts "render obj"
-			else
-				puts "base: #{shape.collision_type}"
-				#~ target = shape
-				if shape.collision_type == :building
-					target = shape
-				end
+			if shape.collision_type == :building
+				target = shape
 			end
 		end
 		

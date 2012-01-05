@@ -64,23 +64,6 @@ class LevelEditorInterface < InterfaceState
 			#~ @gc = true
 		end
 		
-		# Generate a "flat" version of the current level,
-		# similar to a cross section, or a top-down view.
-		@flatten = Widget::Button.new window, 0,110,
-				:relative => @sidebar, :width => 100, :height => 30,
-				:background_color => Gosu::Color::WHITE,
-				:text => "Flatten", :font => @font, :color => Gosu::Color::BLUE do
-			puts "Flatten"
-			
-			begin
-				
-			rescue
-				puts "Error generating flattened data"
-			end
-			
-			#~ @gc = true
-		end
-		
 		#~ @export_uvs = Widget::Button.new window, 120,110,
 				#~ :relative => @sidebar, :width => 100, :height => 30,
 				#~ :background_color => Gosu::Color::WHITE,
@@ -106,7 +89,6 @@ class LevelEditorInterface < InterfaceState
 		add_gameobject @name_box
 		add_gameobject @load
 		add_gameobject @save
-		add_gameobject @flatten
 		
 		@position_controls.each do |axis, control|
 			control.each do |widget|
