@@ -107,12 +107,12 @@ class LevelEditor < Gosu::Window
 					#~ puts "Scene"
 					click_scene
 				end
+			when Gosu::MsRight
+				@pan = true
 			when Gosu::MsWheelUp
 				@camera.zoom_in
 			when Gosu::MsWheelDown
 				@camera.zoom_out
-			when Gosu::MsMiddle
-				@pan = true
 			when Gosu::KbF
 				@show_fps = !@show_fps
 		end
@@ -123,7 +123,7 @@ class LevelEditor < Gosu::Window
 	end
 	
 	def button_up(id)
-		if id == Gosu::MsMiddle
+		if id == Gosu::MsRight
 			@pan = false
 		elsif id == Gosu::KbLeftControl || id == Gosu::KbRightControl
 			@mouse.mode = :default
