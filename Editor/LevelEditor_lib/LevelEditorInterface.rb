@@ -1,5 +1,5 @@
 class LevelEditorInterface < InterfaceState
-	attr_reader :mouse
+	attr_reader :mouse, :width
 	
 	def initialize(window, space, layers, name, open, close, grid)
 		super(window, space, layers, name, open, close)
@@ -13,9 +13,9 @@ class LevelEditorInterface < InterfaceState
 		
 		@mouse = MouseHandler.new space, layers
 		
-		sidebar_width = 250
-		@sidebar = Widget::Div.new window, window.width-sidebar_width,0,
-				:width => sidebar_width, :height => 100, :height_units => :percent,
+		@width = 250
+		@sidebar = Widget::Div.new window, window.width-width,0,
+				:width => width, :height => 100, :height_units => :percent,
 				:background_color => Gosu::Color::BLUE,
 				:padding_top => 10, :padding_bottom => 10, :padding_left => 10, :padding_right => 10
 		

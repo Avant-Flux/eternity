@@ -48,7 +48,8 @@ class LevelEditor < Gosu::Window
 		
 		@grid = @states.new_gamestate Grid, "Grid" # Create the grid state
 		
-		@mouse = @states.new_interface(LevelEditorInterface, "Interface", @grid).mouse
+		@interface = @states.new_interface(LevelEditorInterface, "Interface", @grid)
+		@mouse = @interface.mouse
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		# Hide fps by default
@@ -96,26 +97,16 @@ class LevelEditor < Gosu::Window
 			when Gosu::KbEscape
 				close
 			when Gosu::MsLeft
-				@mouse.click CP::Vec2.new(mouse_x, mouse_y)
-			when Gosu::MsRight
-				puts ""
-				# Calculate displacement from center of screen in px
-				dx_px = mouse_x - self.width/2.0
-				dy_px = mouse_y - self.height/2.0
-				
-				#~ puts "#{dx_px} #{dy_px}"				
-				# Use that to calculate displacement from center point of camera tracking
-				dx_meters = dx_px / Physics.scale / @camera.zoom
-				dy_meters = dy_px / Physics.scale / @camera.zoom
-				#~ puts "#{dx_meters} #{dy_meters}"
-				
-				# Calculate absolute position of click within game world
-				v = CP::Vec2.new dx_meters, dy_meters
-				v.x += @camera.p.x
-				v.y += @camera.p.y
-				
-				# Initiate click event
-				@mouse.right_click v
+				# Separate actions for when clicking in the UI versus in the scene
+				if mouse_x > self.width - @interface.width
+					# Clicking on UI
+					#~ puts "UI"
+					click_UI
+				else
+					# Clicking in scene
+					#~ puts "Scene"
+					click_scene
+				end
 			when Gosu::MsWheelUp
 				@camera.zoom_in
 			when Gosu::MsWheelDown
@@ -141,6 +132,33 @@ class LevelEditor < Gosu::Window
 	
 	def needs_cursor?
 		true
+	end
+	
+	private
+	
+	def click_UI
+		@mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
+	end
+	
+	def click_scene
+		#~ puts ""
+		# Calculate displacement from center of screen in px
+		dx_px = mouse_x - self.width/2.0
+		dy_px = mouse_y - self.height/2.0
+		
+		#~ puts "#{dx_px} #{dy_px}"				
+		# Use that to calculate displacement from center point of camera tracking
+		dx_meters = dx_px / Physics.scale / @camera.zoom
+		dy_meters = dy_px / Physics.scale / @camera.zoom
+		#~ puts "#{dx_meters} #{dy_meters}"
+		
+		# Calculate absolute position of click within game world
+		v = CP::Vec2.new dx_meters, dy_meters
+		v.x += @camera.p.x
+		v.y += @camera.p.y
+		
+		# Initiate click event
+		@mouse.click_scene v
 	end
 end
 

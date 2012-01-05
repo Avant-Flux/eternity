@@ -22,7 +22,7 @@ class MouseHandler
 		@mode = :default # :default, :multiple_select, :box_select
 	end
 	
-	def click(position)
+	def click_UI(position)
 		target = nil
 		@space.point_query position, @layers, CP::NO_GROUP do |shape|
 			if target
@@ -68,7 +68,7 @@ class MouseHandler
 		end
 	end
 	
-	def right_click(position)
+	def click_scene(position)
 		# Perform a "raycast" into the scene and attempt to find a gameobject
 		target = nil
 		@space.point_query position, CP::ALL_LAYERS, CP::NO_GROUP do |shape|
