@@ -76,16 +76,12 @@ class LevelEditor < Gosu::Window
 	def draw
 		@states.draw
 		
-		#~ x = @camera.p.x.to_px(@camera.zoom)
-		#~ y = @camera.p.y.to_px(@camera.zoom)
-		#~ x = @camera.vertex_absolute(0).x.to_px(@camera.zoom)
-		#~ y = @camera.vertex_absolute(0).y.to_px(@camera.zoom)
-		x = self.width / 2
-		y = self.height / 2
-		self.draw_quad	x-10, y-10, Gosu::Color::RED,
-						x+10, y-10, Gosu::Color::RED,
-						x-10, y+10, Gosu::Color::RED,
-						x+10, y+10, Gosu::Color::RED, 50000
+		#~ x = self.width / 2
+		#~ y = self.height / 2
+		#~ self.draw_quad	x-10, y-10, Gosu::Color::RED,
+						#~ x+10, y-10, Gosu::Color::RED,
+						#~ x-10, y+10, Gosu::Color::RED,
+						#~ x+10, y+10, Gosu::Color::RED, 50000
 		
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
@@ -100,11 +96,9 @@ class LevelEditor < Gosu::Window
 				# Separate actions for when clicking in the UI versus in the scene
 				if mouse_x > self.width - @interface.width
 					# Clicking on UI
-					#~ puts "UI"
 					click_UI
 				else
 					# Clicking in scene
-					#~ puts "Scene"
 					click_scene
 				end
 			when Gosu::MsRight
@@ -141,16 +135,13 @@ class LevelEditor < Gosu::Window
 	end
 	
 	def click_scene
-		#~ puts ""
 		# Calculate displacement from center of screen in px
 		dx_px = mouse_x - self.width/2.0
 		dy_px = mouse_y - self.height/2.0
 		
-		#~ puts "#{dx_px} #{dy_px}"				
 		# Use that to calculate displacement from center point of camera tracking
 		dx_meters = dx_px / Physics.scale / @camera.zoom
 		dy_meters = dy_px / Physics.scale / @camera.zoom
-		#~ puts "#{dx_meters} #{dy_meters}"
 		
 		# Calculate absolute position of click within game world
 		v = CP::Vec2.new dx_meters, dy_meters

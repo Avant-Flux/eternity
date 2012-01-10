@@ -3,7 +3,7 @@ module Wireframe
 		@@show_wireframe = false
 		@@show_faces = true
 		@@show_flattened = false
-		@@show_selected = true
+		@@show_only_selected = true
 		
 		alias :old_draw :draw
 		alias :old_init :initialize
@@ -11,11 +11,11 @@ module Wireframe
 		def initialize(window, entity)
 			old_init window, entity
 			
-			@selected = true
+			@selected = false
 		end
 		
 		def draw(camera)
-			if (@@show_selected && @selected) || !@@show_selected
+			if (@@show_only_selected && @selected) || !@@show_only_selected
 				if @@show_wireframe
 					draw_wireframe camera
 				end
@@ -23,10 +23,10 @@ module Wireframe
 				if @@show_faces
 					draw_faces camera
 				end
-				
-				if @@show_flattened
-					draw_flat camera
-				end
+			end
+			
+			if @@show_flattened
+				draw_flat camera
 			end
 		end
 		
@@ -94,6 +94,10 @@ module Wireframe
 				@@show_flattened = arg
 			end
 			
+			def show_only_selected=(arg)
+				@@show_only_selected = arg
+			end
+			
 			def show_wireframe
 				@@show_wireframe
 			end
@@ -104,6 +108,10 @@ module Wireframe
 			
 			def show_flattened
 				@@show_flattened
+			end
+			
+			def show_only_selected
+				@@show_only_selected
 			end
 		end
 	end

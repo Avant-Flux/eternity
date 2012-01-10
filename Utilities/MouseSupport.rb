@@ -7,6 +7,7 @@ require 'set'
 
 class MouseHandler
 	attr_accessor :mode
+	attr_reader :active # Change interface so only necessary methods pass through
 	
 	def initialize(space, layers)#, radius, mass, moment)
 		@space = space

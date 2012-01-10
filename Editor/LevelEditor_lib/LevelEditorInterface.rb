@@ -82,6 +82,7 @@ class LevelEditorInterface < InterfaceState
 		create_dimension_controls window
 		create_property_control_buttons window
 		create_draw_option_buttons window
+		create_visibility_controls window
 		
 		
 		add_gameobject @sidebar
@@ -106,6 +107,10 @@ class LevelEditorInterface < InterfaceState
 		add_gameobject @cancel_changes
 		
 		@draw_option_buttons.each_value do |widget|
+			add_gameobject widget
+		end
+		
+		@visibility_controls.each_value do |widget|
 			add_gameobject widget
 		end
 		
@@ -228,7 +233,7 @@ class LevelEditorInterface < InterfaceState
 	
 	def create_draw_option_buttons(window)
 		x = 0
-		y = 150
+		y = 110
 		
 		vert_offset = 35
 		
@@ -286,6 +291,47 @@ class LevelEditorInterface < InterfaceState
 				
 				#~ @gc = true
 			end
+		}
+	end
+	
+	def create_visibility_controls(window)
+		x = 0
+		y = 220
+		
+		vert_offset = 35
+		
+		@visibility_controls = {
+			:title => Widget::Label.new( window, x,y,
+				:relative => @sidebar, :width => @sidebar.width(:meters), :height => 30,
+				:background_color => Gosu::Color::NONE,
+				:text => "Visibility controls", :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom),
+			
+			:on => Widget::Button.new( window, 0,y+vert_offset,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Show all", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					Wireframe::Box.show_only_selected = false
+				rescue
+					puts "Error: Failed to make all wireframes visible"
+				end
+				
+				#~ @gc = true
+			end,
+			
+			:only_selected => Widget::Button.new( window, 120,y+vert_offset,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Selected", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					Wireframe::Box.show_only_selected = true
+				rescue
+					puts "Error: Can not toggle \"only selected\" option"
+				end
+				
+				#~ @gc = true
+			end,
 		}
 	end
 end
