@@ -83,6 +83,7 @@ class LevelEditorInterface < InterfaceState
 		create_property_control_buttons window
 		create_draw_option_buttons window
 		create_visibility_controls window
+		create_selection_controls window
 		
 		
 		add_gameobject @sidebar
@@ -114,6 +115,10 @@ class LevelEditorInterface < InterfaceState
 			add_gameobject widget
 		end
 		
+		@selection_controls.each_value do |widget|
+			add_gameobject widget
+		end
+		
 		#~ add_gameobject @export_uvs
 		#~ @sidebar.add_to space
 		#~ @load.add_to space
@@ -141,6 +146,10 @@ class LevelEditorInterface < InterfaceState
 		
 		vert_offset = 30
 		
+		@mouse.active.each do |active_widget|
+			
+		end
+		
 		[:x, :y, :z].each_with_index do |axis, i|
 			@position_controls[axis] = [
 				# Create label
@@ -154,7 +163,7 @@ class LevelEditorInterface < InterfaceState
 				:relative => @sidebar,
 				:background_color => Gosu::Color::WHITE,
 				:width => 85, :height => @font.height,
-				:text => "", :font => @font, :color => Gosu::Color::BLUE)
+				:text => "#{}", :font => @font, :color => Gosu::Color::BLUE)
 			]
 		end
 		
@@ -332,6 +341,64 @@ class LevelEditorInterface < InterfaceState
 				
 				#~ @gc = true
 			end,
+		}
+	end
+	
+	def create_selection_controls(window)
+		x = 0
+		y = 290
+		
+		vert_offset = 35
+		
+		@selection_controls = {
+			:title => Widget::Label.new( window, x,y,
+				:relative => @sidebar, :width => @sidebar.width(:meters), :height => 30,
+				:background_color => Gosu::Color::NONE,
+				:text => "Selection controls", :font => @font, :color => Gosu::Color::BLACK,
+				:text_align => :left, :vertical_align => :bottom),
+			
+			:all => Widget::Button.new( window, 0,y+vert_offset,
+					:relative => @sidebar, :width => 50, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "All", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					Wireframe::Box.all.each do |wireframe|
+						wireframe.selected = true
+					end
+				rescue
+					puts "Error: Can not select all object"
+				end
+				
+				#~ @gc = true
+			end,
+			:none => Widget::Button.new( window, 60,y+vert_offset,
+					:relative => @sidebar, :width => 50, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "None", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					Wireframe::Box.all.each do |wireframe|
+						wireframe.selected = false
+					end
+				rescue
+					puts "Error: Can not deselect all objects"
+				end
+				
+				#~ @gc = true
+			end,
+			:invert => Widget::Button.new( window, 120,y+vert_offset,
+					:relative => @sidebar, :width => 100, :height => 30,
+					:background_color => Gosu::Color::WHITE,
+					:text => "Invert", :font => @font, :color => Gosu::Color::BLUE) do
+				begin
+					Wireframe::Box.all.each do |wireframe|
+						wireframe.selected = !wireframe.selected
+					end
+				rescue
+					puts "Error: Can not deselect all objects"
+				end
+				
+				#~ @gc = true
+			end
 		}
 	end
 end

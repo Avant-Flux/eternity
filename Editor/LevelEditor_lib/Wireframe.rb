@@ -1,15 +1,20 @@
 module Wireframe
 	class Box < WireframeObj
-		@@show_wireframe = false
+		@@show_wireframe = true
 		@@show_faces = true
-		@@show_flattened = false
-		@@show_only_selected = true
+		@@show_flattened = true
+		@@show_only_selected = false
+		
+		@@all = Set.new # Hold all wireframes
 		
 		alias :old_draw :draw
 		alias :old_init :initialize
 		
+		attr_accessor :selected
+		
 		def initialize(window, entity)
 			old_init window, entity
+			@@all.add self
 			
 			@selected = false
 		end
@@ -112,6 +117,11 @@ module Wireframe
 			
 			def show_only_selected
 				@@show_only_selected
+			end
+			
+			def all
+				# Return set of all wireframe objects
+				@@all
 			end
 		end
 	end
