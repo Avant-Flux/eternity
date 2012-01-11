@@ -127,6 +127,16 @@ class LevelEditorInterface < InterfaceState
 	
 	def update
 		super
+		
+		unless @mouse.active.empty?
+			@position_controls[:x][1].text = @mouse.active.first.px_
+			@position_controls[:y][1].text = @mouse.active.first.py_
+			@position_controls[:z][1].text = @mouse.active.first.pz_
+			
+			@dimension_controls[:w][1].text = @mouse.active.first.width(:meters)
+			@dimension_controls[:d][1].text = @mouse.active.first.depth(:meters)
+			@dimension_controls[:h][1].text = @mouse.active.first.height(:meters)
+		end
 	end
 	
 	def draw
@@ -163,7 +173,7 @@ class LevelEditorInterface < InterfaceState
 				:relative => @sidebar,
 				:background_color => Gosu::Color::WHITE,
 				:width => 85, :height => @font.height,
-				:text => "#{}", :font => @font, :color => Gosu::Color::BLUE)
+				:text => "", :font => @font, :color => Gosu::Color::BLUE)
 			]
 		end
 		
@@ -193,7 +203,7 @@ class LevelEditorInterface < InterfaceState
 		vert_offset = 30
 		
 		[:w, :d, :h].each_with_index do |axis, i|
-			@position_controls[axis] = [
+			@dimension_controls[axis] = [
 				# Create label
 				Widget::Label.new(window, x,y+vert_offset*i,
 				:relative => @sidebar, :width => 10, :height => @font.height,

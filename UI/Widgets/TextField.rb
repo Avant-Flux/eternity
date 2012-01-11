@@ -84,6 +84,10 @@ module Widget
 			@active = false
 			@window.text_input = nil
 		end
+		
+		def text=(text)
+			@text = text
+		end
 	end
 end
 

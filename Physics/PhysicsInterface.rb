@@ -143,7 +143,7 @@ module Physics
 		def px_
 			# Return the x magnitude in terms of the isometric coordinate system
 			v = Physics::Direction::Y_HAT_BACK * @shape.body.p.y
-			return v.x + @shape.body.p.x
+			return ((v.x + @shape.body.p.x)*100).round/100.0
 		end
 		
 		def py_
@@ -152,7 +152,13 @@ module Physics
 			v = Physics::Direction::Y_HAT_BACK * @shape.body.p.y
 			#~ puts "vector: #{v1_dot} == #{v.y}  ?  #{v1_dot == v.y}"
 			
-			v.y
+			#~ v.y
+			return (v.y*100).round/100.0
+		end
+		
+		def pz_
+			# Added for completeness, but I do not think this method is totally necessary
+			return (@pz*100).round/100.0
 		end
 		
 		def px=(arg)
@@ -178,20 +184,6 @@ module Physics
 		def moving?
 			@shape.body.v.length >= 0
 		end
-		
-		# Get vectors in terms of psudo 3D coordinates
-		def x
-			@shape.body.p.x
-		end
-		
-		def y
-			@shape.body.p.y
-		end
-		
-		def z
-			@z
-		end
-		
 		
 		# Set vectors based on psudo 3D coordinates
 		def set_position space, layer, pos

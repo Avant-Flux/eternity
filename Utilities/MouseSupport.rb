@@ -18,7 +18,7 @@ class MouseHandler
 		#~ @mouse_shape.collision_type = :pointer
 		
 		#~ space.add @mouse_shape
-		@active = Set.new # Stack to hold all active/selected elements
+		@active = Array.new # Stack to hold all active/selected elements
 		
 		@mode = :default # :default, :multiple_select, :box_select
 	end
@@ -43,23 +43,11 @@ class MouseHandler
 				
 				case @mode
 					when :default
-						# Mark other objects as no longer active
-						@active.each do |obj|
-							obj.on_lose_focus
-						end
-						@active.clear
-						
 						# Call click event
 						target.gameobj.on_click
-						
-						# Add to active set
-						@active.add target.gameobj
 					when :multiple_select
 						# Call click event
 						target.gameobj.on_click
-						
-						# Add to active set
-						@active.add target.gameobj
 					when :box_select
 						
 				end
@@ -82,8 +70,29 @@ class MouseHandler
 			gameobj = target.gameobj
 			#~ puts gameobj.class
 			
-			if gameobj.is_a? Building
-				gameobj.wireframe.select
+			case @mode
+				when :default
+					# Mark other objects as no longer active
+					@active.each do |obj|
+						#~ obj.on_lose_focus
+					end
+					@active.clear
+					
+					
+					# Call click event
+					if gameobj.is_a? Building
+						gameobj.wireframe.select
+					end
+					
+					# Add to active set
+					@active << target.gameobj
+				when :multiple_select
+					# Call click event
+					
+					# Add to active set
+					@active << target.gameobj
+				when :box_select
+					
 			end
 		end
 	end

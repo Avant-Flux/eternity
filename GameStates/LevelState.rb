@@ -70,13 +70,10 @@ class LevelState < GameState
 				
 				x = gameobj.px_
 				y = gameobj.py_
-				z = gameobj.pz
+				z = gameobj.pz_
 				
 				# Round all values to two decimal places
 				# A beneficial side effect is that -0.0 will never be stored for zero
-				x = (x*100).round/100.0
-				y = (y*100).round/100.0
-				z = (z*100).round/100.0
 				
 				# Alternatively, do it this way...
 				#~ x = x.round 2
