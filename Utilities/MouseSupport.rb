@@ -7,7 +7,7 @@ require 'set'
 
 class MouseHandler
 	attr_accessor :mode
-	attr_reader :active # Change interface so only necessary methods pass through
+	attr_reader :active, :active_widgets # Change interface so only necessary methods pass through
 	
 	def initialize(space, layers)#, radius, mass, moment)
 		@space = space
@@ -18,7 +18,8 @@ class MouseHandler
 		#~ @mouse_shape.collision_type = :pointer
 		
 		#~ space.add @mouse_shape
-		@active = Array.new # Stack to hold all active/selected elements
+		@active = Array.new # Stack to hold all active/selected elements in the scene
+		@active_widgets = Array.new # Holds all active widgets from the UI
 		
 		@mode = :default # :default, :multiple_select, :box_select
 	end
@@ -43,11 +44,23 @@ class MouseHandler
 				
 				case @mode
 					when :default
+						# Mark other objects as no longer active
+						@active_widgets.each do |obj|
+							obj.on_lose_focus
+						end
+						@active_widgets.clear
+						
 						# Call click event
 						target.gameobj.on_click
+						
+						# Add to active set
+						@active_widgets << target.gameobj
 					when :multiple_select
 						# Call click event
 						target.gameobj.on_click
+						
+						# Add to active set
+						@active_widgets << target.gameobj
 					when :box_select
 						
 				end

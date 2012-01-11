@@ -161,6 +161,10 @@ module Physics
 			return (@pz*100).round/100.0
 		end
 		
+		def pz=(arg)
+			@pz = arg
+		end
+		
 		def px=(arg)
 			@shape.body.p.x = arg
 		end

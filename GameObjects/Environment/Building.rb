@@ -8,8 +8,11 @@ class Building
 	include Physics::ThreeD_Support
 	include Physics::ThreeD_Support::Box
 	
+	attr_reader :name
+	
 	def initialize(window, name, position, dimensions)
 		@window = window
+		@name = name
 		
 		init_physics	position, dimensions, :static, :static, :building
 		

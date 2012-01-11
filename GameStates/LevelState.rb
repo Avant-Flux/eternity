@@ -37,6 +37,11 @@ class LevelState < GameState
 		super
 	end
 	
+	def delete_gameobject(obj)
+		super(obj)
+		@queue.delete obj
+	end
+	
 	def add_player(player)
 		@player = player
 		self.add_gameobject player

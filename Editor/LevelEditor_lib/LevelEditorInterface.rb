@@ -123,19 +123,24 @@ class LevelEditorInterface < InterfaceState
 		#~ @sidebar.add_to space
 		#~ @load.add_to space
 		#~ @save.add_to space
+		
+		@displayed_element = nil
 	end
 	
 	def update
 		super
 		
 		unless @mouse.active.empty?
-			@position_controls[:x][1].text = @mouse.active.first.px_
-			@position_controls[:y][1].text = @mouse.active.first.py_
-			@position_controls[:z][1].text = @mouse.active.first.pz_
-			
-			@dimension_controls[:w][1].text = @mouse.active.first.width(:meters)
-			@dimension_controls[:d][1].text = @mouse.active.first.depth(:meters)
-			@dimension_controls[:h][1].text = @mouse.active.first.height(:meters)
+			if @displayed_element != @mouse.active.first
+				@displayed_element = @mouse.active.first
+				@position_controls[:x][1].text = @displayed_element.px_.to_s
+				@position_controls[:y][1].text = @displayed_element.py_.to_s
+				@position_controls[:z][1].text = @displayed_element.pz_.to_s
+				
+				@dimension_controls[:w][1].text = @displayed_element.width(:meters).to_s
+				@dimension_controls[:d][1].text = @displayed_element.depth(:meters).to_s
+				@dimension_controls[:h][1].text = @displayed_element.height(:meters).to_s
+			end
 		end
 	end
 	
@@ -176,21 +181,6 @@ class LevelEditorInterface < InterfaceState
 				:text => "", :font => @font, :color => Gosu::Color::BLUE)
 			]
 		end
-		
-		x_field = @position_controls[:x][1]
-		def x_field.on_click
-			puts "Meh~"
-		end
-		
-		y_field = @position_controls[:y][1]
-		def y_field.on_click
-			puts "Meh~"
-		end
-		
-		z_field = @position_controls[:z][1]
-		def z_field.on_click
-			puts "Meh~"
-		end
 	end
 	
 	def create_dimension_controls(window)
@@ -229,7 +219,38 @@ class LevelEditorInterface < InterfaceState
 				:text => "Confirm", :font => @font, :color => Gosu::Color::BLUE do
 			begin
 				puts "confirm"
-			rescue
+				@mouse.active.each_with_index do |gameobj, i|
+					# Remove current object, and create a new one of the same type
+					
+					# Remove current object
+					@state.delete_gameobject gameobj
+					
+					# Extract properties from input widgets
+					x = Float @position_controls[:x][1].text
+					y = Float @position_controls[:y][1].text
+					z = Float @position_controls[:z][1].text
+					
+					w = Float @dimension_controls[:w][1].text
+					d = Float @dimension_controls[:d][1].text
+					h = Float @dimension_controls[:h][1].text
+					
+					
+					position = [x,y,z]
+					dimensions = [w,d,h]
+					
+					new_obj =	if gameobj.class == Building
+									Building.new @window, gameobj.name, position, dimensions
+								end
+					
+					# Add object to space
+					@state.add_gameobject new_obj
+					
+					@space.rehash_static
+					
+					# Remove old object from selection, and add new object
+					@mouse.active[i] = new_obj
+				end
+			rescue => e
 				puts "Error: Properties not saved"
 			end
 			
@@ -241,7 +262,10 @@ class LevelEditorInterface < InterfaceState
 				:background_color => Gosu::Color::WHITE,
 				:text => "Cancel", :font => @font, :color => Gosu::Color::BLUE do
 			begin
-				puts "cancel"
+				@mouse.active_widgets.each do |widget|
+					widget.on_lose_focus
+				end
+				@mouse.active_widgets.clear
 			rescue
 				puts "Error: Cancel failed"
 			end
