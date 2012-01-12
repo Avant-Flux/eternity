@@ -41,26 +41,14 @@ class MouseHandler
 		if target
 			if target.gameobj.is_a? Widget::UI_Object
 				# UI Object found
+				widget = target.gameobj
 				
 				case @mode
 					when :default
-						# Mark other objects as no longer active
-						@active_widgets.each do |obj|
-							obj.on_lose_focus
-						end
-						@active_widgets.clear
-						
-						# Call click event
-						target.gameobj.on_click
-						
-						# Add to active set
-						@active_widgets << target.gameobj
+						deselect_widget
+						select_widget widget
 					when :multiple_select
-						# Call click event
-						target.gameobj.on_click
-						
-						# Add to active set
-						@active_widgets << target.gameobj
+						select_widget widget
 					when :box_select
 						
 				end
@@ -81,32 +69,53 @@ class MouseHandler
 		
 		if target
 			gameobj = target.gameobj
-			#~ puts gameobj.class
 			
 			case @mode
 				when :default
-					# Mark other objects as no longer active
-					@active.each do |obj|
-						#~ obj.on_lose_focus
-					end
-					@active.clear
-					
-					
-					# Call click event
-					if gameobj.is_a? Building
-						gameobj.wireframe.select
-					end
-					
-					# Add to active set
-					@active << target.gameobj
+					deselect_gameobject
+					select_gameobject gameobj
 				when :multiple_select
 					# Call click event
 					
 					# Add to active set
-					@active << target.gameobj
+					@active << gameobj
 				when :box_select
 					
 			end
 		end
+	end
+	
+	def select_gameobject(gameobj)
+		# Call click event
+		if gameobj.is_a? Building
+			gameobj.wireframe.select
+		end
+		
+		# Add to active set
+		@active << gameobj
+	end
+	
+	def deselect_gameobject
+		# Mark other objects as no longer active
+		@active.each do |obj|
+			#~ obj.on_lose_focus
+		end
+		@active.clear
+	end
+	
+	def select_widget(widget)
+		# Call click event
+		widget.on_click
+		
+		# Add to active set
+		@active_widgets << widget
+	end
+	
+	def deselect_widget
+		# Mark objects as no longer active
+		@active_widgets.each do |obj|
+			obj.on_lose_focus
+		end
+		@active_widgets.clear
 	end
 end

@@ -165,10 +165,6 @@ class LevelEditorInterface < InterfaceState
 		
 		vert_offset = 30
 		
-		@mouse.active.each do |active_widget|
-			
-		end
-		
 		[:x, :y, :z].each_with_index do |axis, i|
 			@position_controls[axis] = [
 				# Create label
@@ -461,8 +457,6 @@ class LevelEditorInterface < InterfaceState
 					@mouse.active.each_with_index do |gameobj, i|
 						@state.delete_gameobject gameobj
 					end
-					
-					@displayed_element = nil
 				rescue
 					puts "Error: Object could not be deleted"
 				end
@@ -476,6 +470,13 @@ class LevelEditorInterface < InterfaceState
 					:text => "New Bldg", :font => @font, :color => Gosu::Color::BLUE) do
 				begin
 					puts "Making new Building"
+					position = [0,0,0]
+					dimensions = [1,1,1]
+					building = Building.new @window, "NAME_1", position, dimensions
+					@state.add_gameobject building
+					
+					@mouse.deselect_gameobject
+					@mouse.select_gameobject building
 				rescue
 					puts "Error: Could not create new building"
 				end
