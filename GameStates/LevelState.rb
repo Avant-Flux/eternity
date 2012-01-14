@@ -65,12 +65,14 @@ class LevelState < GameState
 		# Call some sort of serialization method on each game object
 			# that method should explain how to re-create that game object from saved assets
 		# Store game object re-creation details in one text or YAML file
-		path = File.join LEVEL_DIRECTORY, (@name + "save3.txt")
+		path = File.join LEVEL_DIRECTORY, (@name + ".txt")
 		
 		File.open(path, "w") do |f|
+			puts "begin saving"
 			f.puts "# Eternity Level Data --- #{@name}"
 			f.puts "Spawn #{@spawn[0]} #{@spawn[1]} #{@spawn[2]}"
 			@gameobjects.each do |gameobj|
+			print "."
 				line = "#{gameobj.class} "
 				
 				x = gameobj.px_
@@ -104,7 +106,7 @@ class LevelState < GameState
 			end
 		end
 		
-		puts "save complete"
+		puts "\nsave complete"
 	end
 	
 	# Create UVs for each environmental object

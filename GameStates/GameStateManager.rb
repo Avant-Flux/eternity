@@ -63,13 +63,11 @@ class GameStateManager
 		
 		# Close the interface and return associated data
 		@close_prompt = lambda do |name|
-			if @stack[ACTIVE].size > 1
-				@stack[ACTIVE].each_with_index do |state, i|
-					
+			@stack[ACTIVE].each_with_index do |state, i|
+				if state.name == name
+					state.save
+					state.gc = true
 				end
-			else
-				state = @stack[ACTIVE][0]
-				state.save
 			end
 			
 			#~ data = self.delete_prompt name
