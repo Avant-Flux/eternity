@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-#~ Basic algorithm for drawing circle by kyonides
 
 require 'rubygems'
 require 'gosu'
@@ -11,9 +10,16 @@ class Window < Gosu::Window
 		super(1100, 688, false)
 		self.caption = "Draw Circles"
 		@img = TexPlay.create_blank_image(self, 500,500)
-		@angle = 1
+		
+		#~ @angle = 1 * Math::PI / 180
+		@angle = 1.0/128 * 2*Math::PI
+		
+		# Give angle as a slope, aka, a fraction of a circle
+		@slope = Math.tan @angle
 		
 		#~ draw_ring(300,300, 100, 360, Gosu::Color.new(0xFFFFFFFF))
+		draw_ring_bresenham 300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF)
+		draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 	end
@@ -25,8 +31,8 @@ class Window < Gosu::Window
 	def draw
 		@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
 		
-		#~ @img.draw(0,0,10)
-		draw_ring2(300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF))
+		@img.draw(0,0,10)
+		#~ draw_ring2(300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF))
 	end
 	
 	def button_down(id)
@@ -35,7 +41,10 @@ class Window < Gosu::Window
 		end
 		
 		if id == Gosu::Button::KbUp
-			@angle += 10
+			@angle += 1.0/128 * 2*Math::PI
+			@slope = Math.tan @angle
+			draw_ring_bresenham 300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF)
+			draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
 		end
 		if id == Gosu::Button::KbDown
 			@angle -= 10
@@ -53,6 +62,8 @@ class Window < Gosu::Window
 	end
 	
 	def draw_ring(cx, cy, r, angle, colors)
+		#~ Basic algorithm for drawing circle by kyonides
+		
 		#~ 0.step(angle, 0.1) do |a1|
 			#~ a2 = a1 + 1
 			#~ @img.line(cx + Gosu.offset_x(a1, r+40), cy + Gosu.offset_y(a1, r+40),
@@ -102,6 +113,162 @@ class Window < Gosu::Window
 			
 			self.draw_line	cx,cy, colors,
 							cx+dx,cy+dy, colors, 100
+		end
+	end
+	
+	def draw_ring_bresenham(cx, cy, r, angle, colors)
+		f = 1 - r
+		ddF_x = 1
+		ddF_y = -2*r
+		x = 0
+		y = r
+		
+		@img.pixel cx, cy + r if @angle >= 2*Math::PI * 1/4	# TAU/4
+		@img.pixel cx, cy - r if @angle >= 2*Math::PI * 3/4	# 3 TAU/4
+		@img.pixel cx + r, cy if @angle >= 2*Math::PI		# TAU or 0
+		@img.pixel cx - r, cy if @angle >= 2*Math::PI * 1/2	# TAU / 2
+		
+		while x < y
+			#~ puts f
+			#~ puts "#{x} #{y}"
+			# ddF_x == 2 * x + 1
+		    # ddF_y == -2 * y
+		    # f == x*x + y*y - radius*radius + 2*x - y + 1
+			
+			if f >= 0
+				y -= 1;
+				ddF_y += 2
+				f += ddF_y
+			end
+			
+			x += 1
+			ddF_x += 2
+			f += ddF_x
+			
+			# Outer is radian measure
+			# Inner is side ratio (tangent)
+			
+			if @angle < 2*Math::PI*1/8
+				# Within first octant
+				if (x.to_f)/(y) < @slope
+					@img.pixel cx+y, cy+x # Oct 1
+				end
+			else
+				# Expands past first octant
+				@img.pixel cx+y, cy+x # Oct 1
+				
+				if @angle <= 2*Math::PI*2/8
+					# Within octant 2
+					if (y.to_f)/(x) < @slope
+						@img.pixel cx+x, cy+y # Oct 2
+					end
+				else
+					# Expands past octant 2
+					@img.pixel cx+x, cy+y # Oct 2
+					
+					if @angle <= 2*Math::PI*3/8
+						# Within octant 3
+						if (y.to_f)/(-x) < @slope
+							@img.pixel cx-x, cy+y # Oct 3
+						end
+					else
+						# Expands past octant 3
+						@img.pixel cx-x, cy+y # Oct 3
+						
+						if @angle <= 2*Math::PI*4/8
+							# Within octant 4
+							if (x.to_f)/(-y) < @slope
+								@img.pixel cx-y, cy+x # Oct 4
+							end
+						else
+							# Expands past octant 4
+							@img.pixel cx-y, cy+x # Oct 4
+							
+							if @angle <= 2*Math::PI*5/8
+								# Within octant 5
+								if (-x.to_f)/(-y) < @slope
+									@img.pixel cx-y, cy-x # Oct 5
+								end
+							else
+								# Expands past octant 5
+								@img.pixel cx-y, cy-x # Oct 5
+								
+								if @angle <= 2*Math::PI*6/8
+									# Within octant 6
+									if (-y.to_f)/(-x) < @slope
+										@img.pixel cx-x, cy-y # Oct 6
+									end
+								else
+									# Expands past octant 6
+									@img.pixel cx-x, cy-y # Oct 6
+									
+									if @angle <= 2*Math::PI*7/8
+										# Within octant 7
+										if (-y.to_f)/(x) < @slope
+											@img.pixel cx+x, cy-y # Oct 7
+										end
+									else
+										# Expands past octant 7
+										@img.pixel cx+x, cy-y # Oct 7
+										
+										if @angle < 2*Math::PI*8/8
+											# Within octant 8
+											if (-x.to_f)/(y) < @slope
+												@img.pixel cx+y, cy-x # Oct 8
+											end
+										else
+											# Expands past octant 8
+											# Expanding past is impossible, thus, full circle
+											@img.pixel cx+y, cy-x # Oct 8
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+			
+			#~ if @angle > 0
+				#~ if (x)/(y).to_f < @slope
+					#~ @img.pixel cx+y, cy+x # Oct 1
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*1/8
+				#~ if (y)/(x).to_f < @slope
+					#~ @img.pixel cx+x, cy+y # Oct 2
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*2/8
+				#~ if (y)/(-x).to_f < @slope
+					#~ @img.pixel cx-x, cy+y # Oct 3
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*3/8
+				#~ if (x)/(-y).to_f < @slope
+					#~ @img.pixel cx-y, cy+x # Oct 4
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*4/8
+				#~ if (-x)/(-y).to_f < @slope
+					#~ @img.pixel cx-y, cy-x # Oct 5
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*5/8
+				#~ if (-y)/(-x).to_f < @slope
+					#~ @img.pixel cx-x, cy-y # Oct 6
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*6/8
+				#~ if (-y)/(x).to_f < @slope
+					#~ @img.pixel cx+x, cy-y # Oct 7
+				#~ end
+			#~ end
+			#~ if @angle > 2*Math::PI*7/8
+				#~ if (-x)/(y).to_f < @slope
+					#~ @img.pixel cx+y, cy-x # Oct 8
+				#~ end
+			#~ end
 		end
 	end
 end
