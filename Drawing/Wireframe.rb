@@ -69,12 +69,8 @@ module Wireframe
 		end
 		
 		def draw(camera)
-			#Pos is actually the player object,
-			# it was supposed to just be the position vector,
-			# but I wanted to consolidate the code for vector projection into one place
-			
 			draw_faces camera
-			draw_wireframe camera
+			#~ draw_wireframe camera
 		end
 		
 		def draw_faces(camera)
