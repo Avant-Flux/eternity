@@ -13,7 +13,7 @@ class UI_State < InterfaceState
 	def initialize(window, space, layers, name, open, close, player)
 		super(window, space, layers, name, open, close)
 		@player = player
-		@font = Gosu::Font.new @window, "Century Gothic Bold", 25
+		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
 		@left_gear = Gosu::Image.new window, "./Development/Interface/HUD_gear.png", false
 		@top_gear = Gosu::Image.new window, "./Development/Interface/HUD_topgear.png", false
@@ -72,8 +72,6 @@ class UI_State < InterfaceState
 		draw_mana_indicator side_gear_offset_x, side_gear_offset_y, scale_side_gears
 		draw_health_indicator side_gear_offset_x, side_gear_offset_y, scale_side_gears
 		draw_flux_indicator
-		
-		
 		
 		
 		weapon_offset_y = 30 # offset from top of screen
