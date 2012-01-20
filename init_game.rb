@@ -28,7 +28,7 @@ class Game_Window < Gosu::Window
 	def initialize
 		fps = 30
 		# Window should have a 16:9 aspect ratio
-		super(1100, 619, false, (1.0/fps)*1000)
+		super(1280, 720, false, (1.0/fps)*1000)
 		self.caption = "Project ETERNITY"
 		
 		Cacheable.sprite_directory = "./Sprites"
