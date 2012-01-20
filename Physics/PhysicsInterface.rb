@@ -185,6 +185,17 @@ module Physics
 			@shape.body.v.y = arg
 		end
 		
+		def fx_
+			v = Physics::Direction::Y_HAT_BACK * @shape.body.f.y
+			return ((v.x + @shape.body.f.x)*100).round/100.0
+		end
+		
+		def fy_
+			v = Physics::Direction::Y_HAT_BACK * @shape.body.f.y
+			
+			return (v.y*100).round/100.0
+		end
+		
 		def moving?
 			@shape.body.v.length >= 0
 		end

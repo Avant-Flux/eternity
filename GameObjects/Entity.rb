@@ -18,7 +18,7 @@ class Entity
 	include Combative
 	
 	attr_reader :name, :stats, :lvl, :element
-	attr_reader  :moving, :direction, :move_constant, :movement_force
+	attr_reader  :moving, :move_constant, :movement_force
 	attr_accessor :faction, :visible, :intense
 	
 	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction)
@@ -159,7 +159,7 @@ class Entity
 								#~ ((Math::PI)/4.0)
 								Physics::Direction::SE
 						end
-				
+		
 		@movement_force = unit_vector * @move_constant
 		
 		apply_force @movement_force
