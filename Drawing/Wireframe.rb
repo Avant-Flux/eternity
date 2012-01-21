@@ -207,7 +207,7 @@ module Wireframe
 		
 		def draw_front_and_right_sides(transparency, z, zoom)
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
-			4.times do |i|
+			quad_colors.each_index do |i|
 				#~ quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
 				quad_colors[i] = (transparency << 24) | quad_colors[i]
 			end
@@ -246,7 +246,7 @@ module Wireframe
 		
 		def draw_back_and_left_sides(transparency, z, zoom)
 			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
-			4.times do |i|
+			quad_colors.each_index do |i|
 				#~ quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
 				quad_colors[i] = (transparency << 24) | quad_colors[i]
 			end
