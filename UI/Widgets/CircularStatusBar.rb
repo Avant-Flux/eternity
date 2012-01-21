@@ -27,8 +27,8 @@ module Widget
 			draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
 		end
 		
-		def update
-			
+		def update(percent)
+			# Update the displayed angle to match the given percent
 		end
 		
 		def draw(x,y,z)

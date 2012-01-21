@@ -26,11 +26,11 @@ module Image
 		# TODO implement .hash and #hash
 		
 		def hash
-			
+			1
 		end
 		
 		def self.hash
-			
+			1
 		end
 		
 		def draw_centered(*args)

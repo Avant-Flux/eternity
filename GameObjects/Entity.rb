@@ -97,7 +97,7 @@ class Entity
 		@hp[:max] = @stats[:raw][:constitution]*5
 		@hp[:current] = @hp[:max]
 		
-		@mp[:max] = 10 # Arbitrary
+		@mp[:max] = 300# Arbitrary
 		@mp[:current] = @mp[:max]
 	end
 
@@ -160,9 +160,15 @@ class Entity
 								Physics::Direction::SE
 						end
 		
-		@movement_force = unit_vector * @move_constant
-		
-		apply_force @movement_force
+		#~ if in_air?
+			#~ @shape.surface_v = @shape.body.v
+			#~ @shape.body.f = CP::Vec2.new(0,0)
+		#~ else
+			#~ @shape.surface_v = CP::Vec2.new(0,0)
+			@movement_force = unit_vector * @move_constant
+			
+			apply_force @movement_force
+		#~ end
 		self.a = unit_vector.to_angle
 	end
 	

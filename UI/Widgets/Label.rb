@@ -12,7 +12,7 @@ module Widget
 		
 		include Widget::Background::Colored
 		
-		attr_accessor :text
+		attr_reader :text
 		
 		def initialize(window, x, y, options={})
 			# The actual button event is processed within Chipmunk
@@ -117,9 +117,21 @@ module Widget
 			end
 		end
 		
+		def text=(arg)
+			update_align = (@text.length != arg.length)
+			@text = arg
+			
+			if update_align
+				text_align @text_align
+				vertical_align @vertical_align
+			end
+		end
+		
 		private
 		
 		def text_align(align)
+			@text_align = align
+			
 			@font_offset_x = case align
 				when :left
 					0
@@ -131,6 +143,8 @@ module Widget
 		end
 		
 		def vertical_align(align)
+			@vertical_align = align
+			
 			@font_offset_y = case align
 				when :top
 					0

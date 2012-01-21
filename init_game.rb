@@ -7,6 +7,8 @@ require 'chipmunk'
 
 require 'require_all'
 #~ require 'profile'
+#~ require 'ruby-prof'
+#~ RubyProf.start
 
 require_all './Physics'
 
@@ -29,7 +31,7 @@ class Game_Window < Gosu::Window
 		fps = 30
 		# Window should have a 16:9 aspect ratio
 		super(1280, 720, false, (1.0/fps)*1000)
-		self.caption = "Project ETERNITY"
+		self.caption = "Eternity 0.11.0"
 		
 		Cacheable.sprite_directory = "./Sprites"
 		

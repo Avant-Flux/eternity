@@ -17,10 +17,34 @@ class UI_State < InterfaceState
 		
 		@left_gear = Gosu::Image.new window, "./Development/Interface/HUD_gear.png", false
 		@top_gear = Gosu::Image.new window, "./Development/Interface/HUD_topgear.png", false
+		
+		scale_side_gears = 0.25
+		heath_label_offset_x = 35
+		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)+heath_label_offset_x
+		y = @window.height - 20
+		@hp_numerical_display = Widget::Label.new window, x,y,
+								:width => 100, :height => @font.height,
+								#~ :background_color => Gosu::Color::FUCHSIA,
+								:text => "", :font => @font, :color => Gosu::Color::RED,
+								:text_align => :center, :vertical_align => :top
+		
+		heath_label_offset_x = 80
+		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
+		y = @window.height - 20
+		z = 100
+		@mp_numerical_display = Widget::Label.new window, x,y,
+								:width => 100, :height => @font.height,
+								#~ :background_color => Gosu::Color::FUCHSIA,
+								:text => "", :font => @font, :color => Gosu::Color::RED,
+								:text_align => :center, :vertical_align => :top
 	end
 	
 	def update
 		super
+		
+		# Optimize: only reset text when hp/mp values change
+		@hp_numerical_display.text = "#{@player.hp} | #{@player.max_hp}"
+		@mp_numerical_display.text = "#{@player.mp} | #{@player.max_mp}"
 	end
 	
 	def draw
@@ -102,11 +126,12 @@ class UI_State < InterfaceState
 		z = 100
 		@font.old_draw "MP", x,y,z, 1,1, Gosu::Color::RED
 		# Mana level (text)
-		heath_label_offset_x = 65
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
-		y = @window.height - 20
-		z = 100
-		@font.old_draw "#{@player.mp} | #{@player.max_mp}", x,y,z, 1,1, Gosu::Color::RED
+		@mp_numerical_display.draw
+		#~ heath_label_offset_x = 65
+		#~ x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
+		#~ y = @window.height - 20
+		#~ z = 100
+		#~ @font.old_draw "#{@player.mp} | #{@player.max_mp}", x,y,z, 1,1, Gosu::Color::RED
 	end
 	
 	def draw_health_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
@@ -121,12 +146,8 @@ class UI_State < InterfaceState
 		y = @window.height - 60
 		z = 100
 		@font.old_draw "HP", x,y,z, 1,1, Gosu::Color::RED
-		# Mana level (text)
-		heath_label_offset_x = 50
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)+heath_label_offset_x
-		y = @window.height - 20
-		z = 100
-		@font.old_draw "#{@player.hp} | #{@player.max_hp}", x,y,z, 1,1, Gosu::Color::RED
+		# Health level (text)
+		@hp_numerical_display.draw
 	end
 	
 	def draw_flux_indicator
