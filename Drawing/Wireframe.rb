@@ -77,8 +77,13 @@ module Wireframe
 			z = compute_z camera
 			transparency = transparency(camera)
 			
-			draw_sides transparency, z, camera.zoom
-			draw_top transparency, z, camera.zoom
+			if transparency == 0xff
+				draw_front_and_right_sides transparency, z, camera.zoom
+				draw_top transparency, z, camera.zoom
+			else
+				draw_sides transparency, z, camera.zoom
+				draw_top transparency, z, camera.zoom
+			end
 		end
 		
 		def draw_wireframe(camera)
@@ -200,6 +205,84 @@ module Wireframe
 			end
 		end
 		
+		def draw_front_and_right_sides(transparency, z, zoom)
+			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
+			4.times do |i|
+				#~ quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
+				quad_colors[i] = (transparency << 24) | quad_colors[i]
+			end
+			
+			@color.alpha = transparency
+			
+			#~ quad_z =	[
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters),
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters)
+						#~ ]
+			
+			#~ quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5, 
+						#~ @entity.pz-@entity.depth(:meters)*0.9, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5]
+			
+			[1, 0].each do |i|
+				vertex = @vertices[i]
+				next_vertex = @vertices[i+1]
+				next unless next_vertex
+				
+				#~ @window.draw_quad vertex[0], vertex[1], quad_colors[i],
+								#~ next_vertex[0], next_vertex[1], quad_colors[i],
+								#~ vertex[0], vertex[1] - 1, quad_colors[i],
+								#~ next_vertex[0], next_vertex[1] - 1, quad_colors[i],
+									#~ z, :default, zoom
+				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
+								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
+								z, :default, zoom
+			end
+		end
+		
+		def draw_back_and_left_sides(transparency, z, zoom)
+			quad_colors = [0xffee44, 0xff0011, 0x2244ff, 0x116622]
+			4.times do |i|
+				#~ quad_colors[i] = (transparencies[i] << 24) | quad_colors[i]
+				quad_colors[i] = (transparency << 24) | quad_colors[i]
+			end
+			
+			@color.alpha = transparency
+			
+			#~ quad_z =	[
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz + @entity.depth(:meters)*0.10,
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters),
+						#~ -@entity.py_ + @entity.pz - @entity.depth(:meters)
+						#~ ]
+			
+			#~ quad_z =	[@entity.pz-@entity.depth(:meters)*0.1, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5, 
+						#~ @entity.pz-@entity.depth(:meters)*0.9, 
+						#~ @entity.pz-@entity.depth(:meters)*0.5]
+			
+			[2, 3].each do |i|
+				vertex = @vertices[i]
+				next_vertex = @vertices[i+1]
+				next unless next_vertex
+				
+				#~ @window.draw_quad vertex[0], vertex[1], quad_colors[i],
+								#~ next_vertex[0], next_vertex[1], quad_colors[i],
+								#~ vertex[0], vertex[1] - 1, quad_colors[i],
+								#~ next_vertex[0], next_vertex[1] - 1, quad_colors[i],
+									#~ z, :default, zoom
+				@window.draw_quad vertex[0], vertex[1]-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1]-@entity.pz, quad_colors[i],
+								vertex[0], vertex[1] - @height-@entity.pz, quad_colors[i],
+								next_vertex[0], next_vertex[1] - @height-@entity.pz, quad_colors[i],
+								z, :default, zoom
+			end
+		end
+		
 		def draw_top(transparency, z, zoom)
 			# Quad for the top side of the box
 			color = 0xffffff
@@ -211,6 +294,12 @@ module Wireframe
 								@vertices[2][0], @vertices[2][1]-@height-@entity.pz, color,
 								@vertices[3][0], @vertices[3][1]-@height-@entity.pz, color,
 								z, :default, zoom
+		end
+		
+		private
+		
+		def draw_
+			
 		end
 	end
 	
