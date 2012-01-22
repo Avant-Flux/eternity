@@ -97,7 +97,7 @@ class Game_Window < Gosu::Window
 		#~ end
 		
 		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
 		end
 		
 		#~ color =	if @inpman.active?(:super) 
@@ -120,7 +120,6 @@ class Game_Window < Gosu::Window
 		@inpman.button_down(id)
 		
 		if id == Gosu::KbEscape
-			puts "#{@player.px}, #{@player.py}, #{@player.pz}"
 			close
 		end
 		if id == Gosu::KbF

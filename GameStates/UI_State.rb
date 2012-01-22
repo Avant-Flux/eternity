@@ -15,59 +15,76 @@ class UI_State < InterfaceState
 		@player = player
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
-		@left_gear = Gosu::Image.new window, "./Development/Interface/HUD_gear.png", false
-		@top_gear = Gosu::Image.new window, "./Development/Interface/HUD_topgear.png", false
+		@mana_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/mpgear.png", false
+		@health_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/hpgear.png", false
+		@flux_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/fluxgear.png", false
+		@level_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/levelgear.png", false
 		
-		scale_side_gears = 0.25
-		heath_label_offset_x = 35
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)+heath_label_offset_x
-		y = @window.height - 20
+		@weapon_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/weapongear.png", false
+		
+		heath_label_offset_x = 80
+		width = 50
+		x = (@window.width/2)+heath_label_offset_x
+		y = @window.height - 60 -20
+		@hp_label = Widget::Label.new window, x,y,
+					:width => width, :height => @font.height,
+					#~ :background_color => Gosu::Color::GREEN,
+					:text => "HP", :font => @font, :color => Gosu::Color::RED,
+					:text_align => :center, :vertical_align => :top
+		heath_label_offset_x = 10
+		width = 100
+		x = (@window.width/2) + heath_label_offset_x
+		y = @window.height - 35
 		@hp_numerical_display = Widget::Label.new window, x,y,
-								:width => 100, :height => @font.height,
-								#~ :background_color => Gosu::Color::FUCHSIA,
+								:width => width, :height => @font.height,
+								#~ :background_color => Gosu::Color::GREEN,
 								:text => "", :font => @font, :color => Gosu::Color::RED,
 								:text_align => :center, :vertical_align => :top
 		
 		heath_label_offset_x = 80
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
-		y = @window.height - 20
+		width = 50
+		x = (@window.width/2 - width)-heath_label_offset_x
+		y = @window.height - 60 - 20
+		@mp_label = Widget::Label.new window, x,y,
+					:width => width, :height => @font.height,
+					#~ :background_color => Gosu::Color::GREEN,
+					:text => "MP", :font => @font, :color => Gosu::Color::RED,
+					:text_align => :center, :vertical_align => :top
+		heath_label_offset_x = 10
+		width = 100
+		x = (@window.width/2 - width) - heath_label_offset_x
+		y = @window.height - 35
 		z = 100
 		@mp_numerical_display = Widget::Label.new window, x,y,
-								:width => 100, :height => @font.height,
+								:width => width, :height => @font.height,
 								#~ :background_color => Gosu::Color::FUCHSIA,
 								:text => "", :font => @font, :color => Gosu::Color::RED,
 								:text_align => :center, :vertical_align => :top
+		
+		width = 50
+		@level = Widget::Label.new window, (@window.width - width)/2, 25,
+				:width => width, :height => @font.height,
+				#~ :background_color => Gosu::Color::FUCHSIA,
+				:text => "", :font => @font, :color => Gosu::Color::RED,
+				:text_align => :center, :vertical_align => :bottom
+		
 	end
 	
 	def update
 		super
 		
-		# Optimize: only reset text when hp/mp values change
+		# Optimize: only reset text when values change
+		@level.text = "#{@player.lvl}"
 		@hp_numerical_display.text = "#{@player.hp} | #{@player.max_hp}"
 		@mp_numerical_display.text = "#{@player.mp} | #{@player.max_mp}"
 	end
 	
 	def draw
-		#~ # ========= Exp bar ========= 
-		#~ # Draw across top of screen
-		#~ corner = [0,0]
-		#~ width = @window.width
-		#~ height = 7
-		#~ color = Gosu::Color::GREEN
-		#~ 
-		#~ @window.draw_quad	corner[0],corner[1], color,
-							#~ corner[0]+width,corner[1], color,
-							#~ corner[0],corner[1]+height, color,
-							#~ corner[0]+width,corner[1]+height, color
-		#~ 
-		#~ # Draw tickmarks every 10%
-		#~ color = Gosu::Color::RED
-		#~ interval = width / 10
-		#~ 10.times do |i|
-			#~ @window.draw_line	corner[0] + i*interval, corner[1], color,
-								#~ corner[0] + i*interval, corner[1]+height+1, color
-		#~ end
-		
 		#~ # ========= Chat Box ========= 
 		#~ # Aligned to bottom-left
 		#~ height = 80
@@ -90,15 +107,17 @@ class UI_State < InterfaceState
 		
 		# ====================== NEW UI ======================
 		scale_side_gears = 0.25
-		side_gear_offset_x = 55
-		side_gear_offset_y = 45+40
+		#~ side_gear_offset_x = 55
+		side_gear_offset_x = 48
+		side_gear_offset_y = 45+40+20
 		
 		draw_mana_indicator side_gear_offset_x, side_gear_offset_y, scale_side_gears
 		draw_health_indicator side_gear_offset_x, side_gear_offset_y, scale_side_gears
 		draw_flux_indicator
 		
+		draw_level_indicator
 		
-		weapon_offset_y = 30 # offset from top of screen
+		weapon_offset_y = 20 # offset from top of screen
 		weapon_offset_x = 20
 		scale_weapons = 0.4
 		
@@ -115,37 +134,34 @@ class UI_State < InterfaceState
 	def draw_mana_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
 		# Mana
 		# Mana Orb
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-side_gear_offset_x
+		x = (@window.width/2 - @mana_gear.width/2)-side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
-		@left_gear.old_draw	x, y, z, scale_side_gears, scale_side_gears
+		@mana_gear.old_draw x, y, z 
 		# Mana label
-		heath_label_offset_x = 90
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
-		y = @window.height - 60
-		z = 100
-		@font.old_draw "MP", x,y,z, 1,1, Gosu::Color::RED
+		#~ heath_label_offset_x = 90
+		#~ x = (@window.width/2 - @mana_gear.width/2)-heath_label_offset_x
+		#~ y = @window.height - 60 - 20
+		#~ z = 100
+		#~ @font.old_draw "MP", x,y,z, 1,1, Gosu::Color::RED
+		@mp_label.draw
 		# Mana level (text)
 		@mp_numerical_display.draw
-		#~ heath_label_offset_x = 65
-		#~ x = (@window.width/2 - @top_gear.width/2*scale_side_gears)-heath_label_offset_x
-		#~ y = @window.height - 20
-		#~ z = 100
-		#~ @font.old_draw "#{@player.mp} | #{@player.max_mp}", x,y,z, 1,1, Gosu::Color::RED
 	end
 	
 	def draw_health_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
 		# Health
-		x = (@window.width/2 + @top_gear.width/2*scale_side_gears)+side_gear_offset_x
+		x = (@window.width/2 - @health_gear.width/2)+side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
-		@left_gear.old_draw	x, y, z, -scale_side_gears, scale_side_gears
-		# Mana label
-		heath_label_offset_x = 120
-		x = (@window.width/2 - @top_gear.width/2*scale_side_gears)+heath_label_offset_x
-		y = @window.height - 60
-		z = 100
-		@font.old_draw "HP", x,y,z, 1,1, Gosu::Color::RED
+		@health_gear.old_draw x, y, z
+		# Health label
+		#~ heath_label_offset_x = 120
+		#~ x = (@window.width/2 - @health_gear.width/2)+heath_label_offset_x
+		#~ y = @window.height - 60 -20
+		#~ z = 100
+		#~ @font.old_draw "HP", x,y,z, 1,1, Gosu::Color::RED
+		@hp_label.draw
 		# Health level (text)
 		@hp_numerical_display.draw
 	end
@@ -153,10 +169,9 @@ class UI_State < InterfaceState
 	def draw_flux_indicator
 		# Flux
 		scale_top_gear = 0.3
-		top_gear_offset_y = 160
-		@top_gear.old_draw	(@window.width/2 - @top_gear.width/2*scale_top_gear), 
-							@window.height - top_gear_offset_y, 100,
-							scale_top_gear, scale_top_gear
+		top_gear_offset_y = 150+20
+		@flux_gear.old_draw	(@window.width/2 - @flux_gear.width/2),
+							@window.height - top_gear_offset_y, 100
 	end
 	
 	def draw_left_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
@@ -164,14 +179,22 @@ class UI_State < InterfaceState
 		x = weapon_offset_x
 		y = weapon_offset_y
 		z = 100
-		@left_gear.old_draw	x, y, z, scale_weapons, scale_weapons
+		@weapon_gear.old_draw x, y, z
 	end
 	
 	def draw_right_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
-		# Right Weapon?
-		x = @window.width - weapon_offset_x
+		# Right Weapon
+		x = @window.width - weapon_offset_x - @weapon_gear.width
 		y = weapon_offset_y
 		z = 100
-		@left_gear.old_draw	x, y, z, -scale_weapons, scale_weapons
+		@weapon_gear.old_draw x, y, z
+	end
+	
+	def draw_level_indicator
+		x = @window.width/2 - @level_gear.width/2
+		y = 10
+		z = 100
+		@level_gear.old_draw x,y,z
+		@level.draw
 	end
 end
