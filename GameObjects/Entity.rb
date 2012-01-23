@@ -135,40 +135,50 @@ class Entity
 	def move(dir)
 		unit_vector =	case dir
 							when :up
-								#~ ((3*Math::PI)/2.0)
 								Physics::Direction::N
 							when :down
-								#~ ((Math::PI)/2.0)
 								Physics::Direction::S
 							when :left
-								#~ (Math::PI)
 								Physics::Direction::W
 							when :right
-								#~ 0
 								Physics::Direction::E
 							when :up_left
-								#~ ((5*Math::PI)/4.0)
 								Physics::Direction::NW
 							when :up_right
-								#~ ((7*Math::PI)/4.0)
 								Physics::Direction::NE
 							when :down_left
-								#~ ((3*Math::PI)/4.0)
 								Physics::Direction::SW
 							when :down_right
-								#~ ((Math::PI)/4.0)
 								Physics::Direction::SE
 						end
 		
 		#~ if in_air?
+		if pz > elevation
 			#~ @shape.surface_v = @shape.body.v
+			unless @in_air_move_constant
+				# Lock velocity from when on the ground
+				length = @shape.body.v.length
+				
+				# Use velocity from moving on ground, but allow jump-movement
+				# from a standstill
+				@in_air_move_constant = if length < 1
+					1
+				else
+					length
+				end
+			end
+			@shape.body.v = unit_vector * @in_air_move_constant
+			
 			#~ @shape.body.f = CP::Vec2.new(0,0)
-		#~ else
+		else
+			# Reset air movement constant
+			@in_air_move_constant = nil
+			
 			#~ @shape.surface_v = CP::Vec2.new(0,0)
 			@movement_force = unit_vector * @move_constant
 			
 			apply_force @movement_force
-		#~ end
+		end
 		self.a = unit_vector.to_angle
 	end
 	
@@ -216,35 +226,9 @@ class Entity
 	end
 	
 	private
-	EIGHTH = Math::PI/8
-	SECTOR1 = (1*EIGHTH)
-	SECTOR2 = (3*EIGHTH)
-	SECTOR3 = (5*EIGHTH)
-	SECTOR4 = (7*EIGHTH)
-	SECTOR5 = (9*EIGHTH)
-	SECTOR6 = (11*EIGHTH)
-	SECTOR7 = (13*EIGHTH)
 	
 	def compute_direction
 		angle = self.a
-		
-		#~ if angle < SECTOR1
-			#~ :right
-		#~ elsif angle < SECTOR2
-			#~ :down_right
-		#~ elsif angle < SECTOR3
-			#~ :down
-		#~ elsif angle < SECTOR4
-			#~ :down_left
-		#~ elsif angle < SECTOR5
-			#~ :left
-		#~ elsif angle < SECTOR6
-			#~ :up_left
-		#~ elsif angle < SECTOR7
-			#~ :up
-		#~ else #angle > (8*Math::PI/8) or between 0 and pi/8
-			#~ :up_right
-		#~ end
 		
 		if angle.between? Physics::Direction::NE_ANGLE, Physics::Direction::SE_ANGLE
 			return :right
