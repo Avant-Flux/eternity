@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 path = File.expand_path File.dirname(__FILE__)
 path = path[0..(path.rindex(File::SEPARATOR)-1)]
+Dir.chdir path
 
 require 'rubygems'
 require 'gosu'
