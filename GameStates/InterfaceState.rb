@@ -21,7 +21,9 @@ class InterfaceState < GameState
 	end
 	
 	def draw
-		
+		@gameobjects.each do |obj|
+			obj.draw
+		end
 	end
 	
 	def finalize

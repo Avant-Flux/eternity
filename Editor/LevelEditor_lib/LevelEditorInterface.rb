@@ -149,9 +149,7 @@ class LevelEditorInterface < InterfaceState
 	end
 	
 	def draw
-		@gameobjects.each do |obj|
-			obj.draw
-		end
+		super
 	end
 	
 	private
