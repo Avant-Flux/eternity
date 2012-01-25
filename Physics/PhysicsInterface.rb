@@ -185,6 +185,14 @@ module Physics
 			@shape.body.v.y = arg
 		end
 		
+		def f
+			@shape.body.f
+		end
+		
+		def f=(vec)
+			@shape.body.f = vec
+		end
+		
 		def fx_
 			v = Physics::Direction::Y_HAT_BACK * @shape.body.f.y
 			return ((v.x + @shape.body.f.x)*100).round/100.0

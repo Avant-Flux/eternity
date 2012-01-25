@@ -154,31 +154,18 @@ class Entity
 		
 		#~ if in_air?
 		if pz > elevation
-			#~ @shape.surface_v = @shape.body.v
-			unless @in_air_move_constant
-				# Lock velocity from when on the ground
-				length = @shape.body.v.length
-				
-				# Use velocity from moving on ground, but allow jump-movement
-				# from a standstill
-				@in_air_move_constant = if length < 1
-					1
-				else
-					length
-				end
-			end
-			@shape.body.v = unit_vector * @in_air_move_constant
-			
-			#~ @shape.body.f = CP::Vec2.new(0,0)
+			# Apply force for movement in air.
+			# Should be less than ground movement force in most instances
+			# 	if it's not, it sees like the character can fly
+			# Needs to be enough to allow for jump modulation, and jumping forward from standstill
+			@movement_force = unit_vector * @move_constant/20
 		else
-			# Reset air movement constant
-			@in_air_move_constant = nil
-			
-			#~ @shape.surface_v = CP::Vec2.new(0,0)
+			# Apply force for movement on the ground
 			@movement_force = unit_vector * @move_constant
-			
-			apply_force @movement_force
 		end
+		
+		apply_force @movement_force
+		
 		self.a = unit_vector.to_angle
 	end
 	
