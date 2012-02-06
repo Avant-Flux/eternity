@@ -158,7 +158,7 @@ class Entity
 			# Should be less than ground movement force in most instances
 			# 	if it's not, it sees like the character can fly
 			# Needs to be enough to allow for jump modulation, and jumping forward from standstill
-			@movement_force = unit_vector * @move_constant/20
+			@movement_force = unit_vector * @move_constant/10
 		else
 			# Apply force for movement on the ground
 			@movement_force = unit_vector * @move_constant

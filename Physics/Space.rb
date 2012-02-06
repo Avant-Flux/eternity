@@ -136,9 +136,9 @@ module Physics
 			else
 				if gameobj.pz > gameobj.elevation
 					# Resistive force of air resistance
-					# Neg acceleration needed to reverse direction of friction
-					normal_force = -9.8 * gameobj.mass 
-					coefficient_of_friction = 0.01
+					#~ # Neg acceleration needed to reverse direction of friction
+					#~ normal_force = -9.8 * gameobj.mass 
+					#~ coefficient_of_friction = 0.01
 					
 					#~ gameobj.v.normalize * normal_force * coefficient_of_friction
 					return CP::ZERO_VEC_2
