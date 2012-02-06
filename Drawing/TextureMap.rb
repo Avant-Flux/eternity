@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'RMagick'
+#~ require 'RMagick'
 
 module TextureMap
 	class Building
