@@ -167,17 +167,13 @@ class Game_Window < Gosu::Window
 			#~ key = eval "Gosu::Kb#{dir.to_s.capitalize}"
 			#~ @inpman.bind_action dir, key
 		end
-		@inpman.bind_action :up, Gosu::KbUp
-		@inpman.bind_action :down, Gosu::KbDown
-		@inpman.bind_action :left, Gosu::KbLeft
-		@inpman.bind_action :right, Gosu::KbRight
 		
 		@inpman.new_action :toggle_menu, :rising_edge do
 			@states.toggle_menu
 			#~ puts "switch to menu mode"
 			@inpman.mode = :menu
 		end
-		@inpman.bind_action :toggle_menu, Gosu::KbTab
+		
 		
 		@inpman.new_action :jump, :rising_edge do
 			if @player.intense
@@ -185,7 +181,7 @@ class Game_Window < Gosu::Window
 			end
 			@player.jump
 		end
-		@inpman.bind_action :jump, self.char_to_button_id(".")
+		
 		
 		@inpman.new_action :intense, :rising_edge do
 			@player.intense = true
@@ -193,107 +189,52 @@ class Game_Window < Gosu::Window
 		@inpman.new_action :intense, :falling_edge do
 			@player.intense = false
 		end
-		@inpman.bind_action :intense, Gosu::KbLeftShift
 		
+		[:magic, :left_hand, :right_hand].each  do |attack_type|
+			@inpman.new_action attack_type, :falling_edge do
+				attack = attack_type
+				
+				if attack_type == :magic
+					if @player.magic_charge
+						# Current implementation stores one charge, which
+						# can be spent on any one ability
+						attack = "charge_#{attack}".to_sym
+					end
+				else
+					if @player.equipment[attack_type].charge
+						# Current implementation stores one charge, which
+						# can be spent on any one ability
+						attack = "charge_#{attack}".to_sym
+					end
+				end
+				if @player.intense
+					attack = "intense_#{attack}".to_sym
+				end
+				
+				@player.send attack
+			end
 		
-		#~ [:magic, :left_hand, :right_hand].each do |attack_type|
-			#~ @inpman.new_action attack_type, :falling_edge do
-				#~ attack = attack_type.to_s
-				#~ 
-				#~ charge =	if attack_type == :magic
-								#~ @player.magic_charge
-							#~ else
-								#~ @player.equipment[attack_type].charge
-							#~ end
-				#~ 
-				#~ if charge
-					#~ attack = "charge_" + attack
-				#~ end
-				#~ 
-				#~ if @player.intense
-					#~ attack = "intense_" + attack
-				#~ end
-				#~ 
-				#~ @player.send attack.to_sym
-			#~ end
-			
 			#~ @inpman.new_sequence "intense_#{attack_type}".to_sym, :falling_edge do
 				#~ @player.send "intense_#{attack_type}".to_sym
 				#~ puts "hey"
+				#~ self.close
 			#~ end
 			
+			#~ @inpman.new_hold "prep_charge_#{attack_type}".to_sym, 2000 do
+				#~ 
+			#~ end
+			#~ charge_time = 
 			#~ eval %Q{
 				#~ @inpman.new_hold "prep_charge_#{attack_type}".to_sym, 2000 do
 					#~ 
 				#~ end
-			#~ }
-		#~ end
-		
-		["magic", "left_hand", "right_hand"].each do |attack_type|
-		
-			code = %Q{
-				@inpman.new_action :#{attack_type}, :falling_edge do
-					attack = "#{attack_type}"
-				}
-				
-			code << if attack_type == "magic"
-					%Q{
-					if @player.magic_charge
-					}
-				else
-					%Q{
-					if @player.equipment[:#{attack_type}].charge
-					}
-				end
-			code << %Q{			
-						attack = "charge_" + attack
-					end
-					
-					#~ if @player.intense
-						#~ attack = "intense_" + attack
-					#~ end
-					
-					@player.send attack.to_sym
-				end
-			}
-			
-			#~ puts code
-			
-			
-			@inpman.new_sequence "intense_#{attack_type}".to_sym, :rising_edge do
-				@player.send "intense_#{attack_type}".to_sym
-				#~ puts "hey"
-				#~ self.close
-			end
-			
-			eval code
-			
-			charge_time = 
-			eval %Q{
-				#~ @inpman.new_hold "prep_charge_#{attack_type}".to_sym, 2000 do
-					
-				#~ end
-			}
+			#~ };
 		end
-		
-		@inpman.bind_sequence :intense_magic, [:intense, :magic]
-		@inpman.bind_sequence :intense_left_hand, [:intense, :left_hand]
-		@inpman.bind_sequence :intense_right_hand, [:intense, :right_hand]
-		
-		@inpman.bind_action :magic, Gosu::KbO
-		@inpman.bind_action :left_hand, Gosu::KbE
-		@inpman.bind_action :right_hand, Gosu::KbU
-		
 		
 		@inpman.new_chord :magic_jump, :rising_edge do
 			puts "magic jump"
 		end
-		@inpman.bind_chord :magic_jump, [:magic, :jump]
 		
-		
-		#~ @inpman.bind_chord :intense_magic, [:intense, :magic]
-		#~ @inpman.bind_chord :intense_left_hand, [:intense, :left_hand]
-		#~ @inpman.bind_chord :intense_right_hand, [:intense, :right_hand]
 		
 		
 		
@@ -314,17 +255,17 @@ class Game_Window < Gosu::Window
 		@inpman.new_action :zoom_in, :active do
 			@camera.zoom_in
 		end
-		@inpman.bind_action :zoom_in, Gosu::KbJ
+		
 				
 		@inpman.new_action :zoom_out, :active do
 			@camera.zoom_out
 		end
-		@inpman.bind_action :zoom_out, Gosu::KbK
+		
 		
 		@inpman.new_action :zoom_reset, :rising_edge do
 			@camera.zoom_reset
 		end
-		@inpman.bind_action :zoom_reset, Gosu::Kb0
+		
 		
 		
 			#~ new_chord :super, [Gosu::KbLeftShift, Gosu::KbU]
@@ -336,6 +277,7 @@ class Game_Window < Gosu::Window
 		@inpman.mode = :menu
 		@inpman.new_action :toggle_menu, :rising_edge do
 			@states.toggle_menu
+			
 			#~ puts "switch to gameplay mode"
 			#~ puts "closing"
 			@inpman.mode = :gameplay
@@ -377,6 +319,11 @@ class Game_Window < Gosu::Window
 		
 		# Must remember to change the mode back to :gameplay before the game starts
 		@inpman.mode = :gameplay
+		
+		@inpman.bind_chord :magic_jump, [:magic, :jump]
+		
+		
+		load_keybindings
 	end
 	
 	def save_keybindings

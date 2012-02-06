@@ -158,28 +158,26 @@ class InputHandler
 	end
 	
 	[:action, :chord, :sequence].each do |input_type|
-		eval %Q{
-			def new_#{input_type}(name, type, &block)
-				if @mode[:#{input_type}][name]
-					@mode[:#{input_type}][name].functions[type] = block
-				else
-					@mode[:#{input_type}][name] = InputType::#{input_type.capitalize}.new(@mode, @buttons, type => block)
-				end
-				
+		define_method "new_#{input_type}".to_sym do |name, type, &block|
+			if @mode[input_type][name]
+				@mode[input_type][name].functions[type] = block
+			else
+				klass = eval "InputType::#{input_type.capitalize}"
+				@mode[input_type][name] = klass.new(@mode, @buttons, type => block)
 			end
-			
-			def bind_#{input_type}(name, trigger)
-				@mode[:#{input_type}][name].bind trigger
-			end
-			
-			def unbind_#{input_type}(name)
-				@mode[:#{input_type}][name].unbind
-			end
-			
-			def rebind_#{input_type}(name, trigger)
-				@mode[:#{input_type}][name].rebind trigger
-			end
-		}
+		end
+		
+		define_method "bind_#{input_type}".to_sym do |name, trigger|
+			@mode[input_type][name].bind trigger
+		end
+		
+		define_method "unbind_#{input_type}".to_sym do |name|
+			@mode[input_type][name].unbind
+		end
+		
+		define_method "rebind_#{input_type}".to_sym do |name, trigger|
+			@mode[input_type][name].rebind trigger
+		end
 	end
 	
 	def new_flag
