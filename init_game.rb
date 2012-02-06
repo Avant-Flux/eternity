@@ -327,11 +327,97 @@ class Game_Window < Gosu::Window
 	end
 	
 	def save_keybindings
-		
+		# Save bindings in the current format:
+		# action_name KeyID
 	end
 	
 	def load_keybindings
+		keybindings = Hash.new
 		
+		user = "Data1"
+		path = "./Saves/#{user}/keybindings.txt"
+		
+		if File.exist? path
+			File.open(path).each do |line|
+				# Ignore commented lines and whitespace-only lines
+				unless line[0] == "#" || line == "" 
+					input = line.split
+					
+					keybindings[input[0].downcase.to_sym] = input[1].to_i
+				end
+			end
+		#~ else
+			#~ File.new(path, "w")
+			#~ f.puts "# Eternity keybindings for #{user}"
+			#~ 
+			#~ f.close
+		end
+		
+		keybindings = {
+			# Place default keybindings here
+			:up => Gosu::KbUp,
+			:down => Gosu::KbDown,
+			:left => Gosu::KbLeft,
+			:right => Gosu::KbRight,
+			
+			:magic => Gosu::KbO,
+			:left_hand => Gosu::KbE,
+			:right_hand => Gosu::KbU,
+			
+			:toggle_menu => Gosu::KbTab,
+			:jump => self.char_to_button_id("."),
+			
+			:intense => Gosu::KbLeftShift,
+			
+			:zoom_in => Gosu::KbJ,
+			:zoom_out => Gosu::KbK,
+			:zoom_reset => Gosu::Kb0
+		}.merge! keybindings
+		
+		keybindings.each do |action, binding|
+			@inpman.bind_action  action, binding
+		end
+	end
+	
+	private
+	
+	def id_to_button(id)
+		# Convert the id to the corresponding button, and return a corresponding string
+		# This should work for both mouse input, and keyboard input
+		char = self.button_id_to_char id
+		if char
+			return char
+		else
+			return case id
+				when Gosu::MsLeft
+					"Left Click"
+				when Gosu::MsRight
+					"Right Click"
+				when Gosu::MsMiddle
+					"Middle Click"
+				when Gosu::MsWheelUp
+					"Wheel Up"
+				when Gosu::MsWheelDown
+					"Wheel Down"
+			end
+		end
+	end
+	
+	def path_to_keybindings
+		# Return the path to the player's keybinding settings file.
+		# If there is no file, make sure to create it first.
+		user = "Data1"
+		path = "./Saves/#{user}/keybindings.txt"
+		
+		unless File.exist? path
+			File.new(path, "w")
+			f.puts "# Eternity keybindings for #{user}"
+			
+			f.close
+		end
+		
+		
+		return path_to_keybindings
 	end
 end
 
