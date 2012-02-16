@@ -15,6 +15,7 @@ module Combative
 				if @equipment[:left_hand]
 					return @equipment[:left_hand].charge_time
 				else
+					# Assumes that LH button fires RH event when no weapon is equipped in LH
 					return charge_time :right_hand
 				end
 			when :right_hand
@@ -25,6 +26,7 @@ module Combative
 	[:magic].each do |attack_type|
 		define_method attack_type do ||
 			puts attack_type
+			self.mp -= 10
 		end
 		
 		define_method "intense_#{attack_type}".to_sym do ||
