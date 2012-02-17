@@ -10,6 +10,8 @@ require 'require_all'
 #~ require 'ruby-prof'
 #~ RubyProf.start
 
+require_all './Utilities'
+
 require_all './Physics'
 
 require_all './Combat'
@@ -17,8 +19,6 @@ require_all './Drawing'
 require_all './Equipment'
 require_all './Stats'
 require_all './Titles'
-
-require_all './Utilities'
 
 require_all './GameObjects'
 require_all './GameStates'
@@ -195,6 +195,11 @@ class Game_Window < Gosu::Window
 				attack = attack_type
 				
 				if attack_type == :magic
+					# Short-circuit method and stop casting if MP is too low
+					if @player.mp == 0
+						return
+					end
+					
 					if @player.magic_charge
 						# Current implementation stores one charge, which
 						# can be spent on any one ability
@@ -365,7 +370,7 @@ class Game_Window < Gosu::Window
 			:right_hand => Gosu::KbU,
 			
 			:toggle_menu => Gosu::KbTab,
-			:jump => self.char_to_button_id("."),
+			:jump => Gosu::KbSpace,
 			
 			:intense => Gosu::KbLeftShift,
 			
