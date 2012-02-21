@@ -93,24 +93,22 @@ class Entity
 		@mp[:max] = 300# Arbitrary
 		@mp[:current] = @mp[:max]
 	end
-
+	
 	stats :strength, :constitution, :dexterity, :power, :control, :flux
 	
 	# Create setters and getters for hp and mp
 	[:hp, :mp].each do |stat|
-		eval %Q{
-			def #{stat}
-				@#{stat}[:current]
-			end
-			
-			def #{stat}= val
-				@#{stat}[:current] = val
-			end
-			
-			def max_#{stat}
-				@#{stat}[:max]
-			end
-		}
+		define_method stat do ||
+			instance_variable_get("@#{stat}".to_sym)[:current]
+		end
+		
+		define_method "#{stat}=".to_sym do |val|
+			instance_variable_get("@#{stat}".to_sym)[:current] = val
+		end
+		
+		define_method "max_#{stat}".to_sym do ||
+			instance_variable_get("@#{stat}".to_sym)[:max]
+		end
 	end
 	
 
