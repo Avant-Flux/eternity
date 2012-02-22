@@ -6,7 +6,7 @@ module Creatures
 		
 		strength		11
 		constitution	3
-		dexterity		4 
+		dexterity		4
 		power			0
 		control			0
 		flux			0
