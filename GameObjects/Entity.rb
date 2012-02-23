@@ -44,7 +44,6 @@ class Entity
 		@shadow.update
 	end
 	
-	
 	def draw(camera)
 		# TODO may have to pass the z index from the game state manager
 		if visible

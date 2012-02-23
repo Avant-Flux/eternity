@@ -28,7 +28,7 @@ require_all './UI'
 
 class Game_Window < Gosu::Window
 	def initialize
-		fps = 30
+		fps = 60
 		# Window should have a 16:9 aspect ratio
 		super(1280, 720, false, (1.0/fps)*1000)
 		self.caption = "Eternity 0.11.0"
