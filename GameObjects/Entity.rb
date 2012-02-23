@@ -18,26 +18,25 @@ class Entity
 	# Status:		Properties imposed by effects, like status effects
 	attr_reader :attributes, :status
 	
-	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction)
-		@intense = false
+	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
+		@name = name
+		@lvl = lvl
+		@element = element
+		@faction = faction		#express faction spectrum as an integer, Dark = -100, Light = 100
 		
 		@animation = animations
 		
 		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
 		init_movement	
 		
+		init_stats
+		
 		@shadow = Shadow.new window, self
 		
-		@name = name
-		@element = element
-		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
+		@intense = false
 		@visible = true		#Controls whether or not to render the Entity
 		
-		@lvl = lvl
-		
 		@jump_count = 0
-		
-		init_stats
 	end
 	
 	def update
