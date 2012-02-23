@@ -18,15 +18,20 @@ class Entity
 	attr_reader :attributes, :status
 	
 	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction)
-		@movement_force = CP::Vec2::ZERO
-		@walk_constant = 500
-		@run_constant = 1200
-		
 		@intense = false
 		
 		@animation = animations
 		
 		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
+		@movement_force = CP::Vec2::ZERO
+		@walk_constant = 300
+		@air_move_constant = 50
+		@run_constant = 500
+		# Need to also set max velocity in some way
+		# The movement constants only use force, and thus dictate acceleration
+		# May not want to actually use the v_limit though, as that will make the entity "resist"
+		# 	being pushed around.
+		@shape.body.v_limit = 5
 		
 		@shadow = Shadow.new window, self
 		
@@ -71,14 +76,14 @@ class Entity
 			meta_eval do
 				define_method method do |val|
 					@default_stats ||= {}
-					@default_stats[method] = val
+					@default_stats[method] = val # TODO: Use struct instead
 				end
 			end
 		end
 	end
 	
 	def init_stats
-		@stats = Hash.new
+		@stats = Hash.new # TODO: Use struct instead of hash
 		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
 		
 		self.class.stats.each do |stat, val|
@@ -155,7 +160,7 @@ class Entity
 			# Should be less than ground movement force in most instances
 			# 	if it's not, it sees like the character can fly
 			# Needs to be enough to allow for jump modulation, and jumping forward from standstill
-			@movement_force = unit_vector * @move_constant/10
+			@movement_force = unit_vector * @air_move_constant
 		else
 			# Apply force for movement on the ground
 			@movement_force = unit_vector * @move_constant
