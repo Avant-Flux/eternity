@@ -13,6 +13,9 @@ class Entity
 	attr_reader :name, :stats, :lvl, :element
 	attr_reader  :moving, :move_constant, :movement_force
 	attr_accessor :faction, :visible, :intense
+	# Attributes:	Innate properties
+	# Status:		Properties imposed by effects, like status effects
+	attr_reader :attributes, :status
 	
 	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction)
 		@movement_force = CP::Vec2::ZERO
@@ -31,11 +34,13 @@ class Entity
 		@element = element
 		@faction = 0		#express faction spectrum as an integer, Dark = -100, Light = 100
 		@visible = true		#Controls whether or not to render the Entity
-
+		
 		@lvl = lvl
 		
 		@jump_count = 0
 		
+		@attributes = Hash.new
+		@status = Hash.new
 		init_stats
 	end
 	
@@ -123,6 +128,7 @@ class Entity
 		#~ end
 	end
 	
+
 	def move(dir)
 		unit_vector =	case dir
 							when :up
