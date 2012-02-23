@@ -1,8 +1,4 @@
 #!/usr/bin/ruby
-
-require 'rubygems'
-require 'gosu'
-
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include Physics::ThreeD_Support

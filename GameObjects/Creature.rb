@@ -1,6 +1,5 @@
 #!/usr/bin/ruby
  
-require "./GameObjects/Entity"
 class Creature < Entity
 	def initialize(window, name, pos=[0, 0, 0], mass=50, moment=10, lvl=1, element=:none, 
 					faction = 0)
