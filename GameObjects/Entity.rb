@@ -7,6 +7,7 @@ require 'gosu'
 class Entity
 	include Physics::ThreeD_Support
 	include Physics::ThreeD_Support::Cylinder
+	include Physics::Movement::Entity
 	
 	include Combative
 	
@@ -23,15 +24,7 @@ class Entity
 		@animation = animations
 		
 		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
-		@movement_force = CP::Vec2::ZERO
-		@walk_constant = 300
-		@air_move_constant = 50
-		@run_constant = 500
-		# Need to also set max velocity in some way
-		# The movement constants only use force, and thus dictate acceleration
-		# May not want to actually use the v_limit though, as that will make the entity "resist"
-		# 	being pushed around.
-		@shape.body.v_limit = 5
+		init_movement	
 		
 		@shadow = Shadow.new window, self
 		
