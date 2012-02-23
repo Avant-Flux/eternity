@@ -37,8 +37,6 @@ class Entity
 		
 		@jump_count = 0
 		
-		@attributes = Hash.new
-		@status = Hash.new
 		init_stats
 	end
 	
@@ -76,6 +74,9 @@ class Entity
 	end
 	
 	def init_stats
+		@attributes = Hash.new
+		@status = Hash.new
+		
 		@stats = Hash.new # TODO: Use struct instead of hash
 		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
 		
@@ -114,7 +115,6 @@ class Entity
 		end
 	end
 	
-
 	def resolve_ground_collision
 		@jump_count = 0
 	end
