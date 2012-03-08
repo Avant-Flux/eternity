@@ -336,7 +336,7 @@ module Physics
 	# but which are not directly related to physical properties
 	module Chipmunk
 		def in_air?
-			self.pz > 0
+			self.pz > self.elevation
 		end
 		
 		def mass

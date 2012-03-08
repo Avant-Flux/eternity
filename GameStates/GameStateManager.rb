@@ -92,7 +92,7 @@ class GameStateManager
 				end
 			end; end
 			
-			if @player.in_air?
+			if @player.pz > 0
 				@camera.arial_camera_add @player
 			end
 		end
