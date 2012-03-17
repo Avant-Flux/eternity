@@ -7,6 +7,12 @@ require 'chipmunk'
 
 require 'require_all'
 
+require 'gl'
+require 'glu'
+
+include Gl
+include Glu
+
 #~ require_all './UI/Widgets'
 
 class UI_State < InterfaceState
@@ -147,6 +153,13 @@ class UI_State < InterfaceState
 		@mp_label.draw
 		# Mana level (text)
 		@mp_numerical_display.draw
+		
+		@window.gl do
+			glBegin(GL_LINES)
+				glVertex2i(30,30)
+				glVertex2i(200,30)
+			glEnd()
+		end
 	end
 	
 	def draw_health_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
