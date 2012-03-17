@@ -22,7 +22,9 @@ class Entity
 		
 		@animation = animations
 		
-		init_physics	pos, (@animation.width/2.0).to_meters, mass, moment, :entity
+		# Radius was originally set to @animation.width/2.0, changed to better match
+		# human sprite width at maximum resolution
+		init_physics	pos, (@animation.width/3.5).to_meters, mass, moment, :entity
 		init_movement	
 		
 		init_stats

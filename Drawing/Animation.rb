@@ -33,7 +33,8 @@ module Animation
 		end
 		
 		def draw(x,y,z, z_index, zoom)
-			@current_frame.draw(x, y-z, z_index, zoom, :offset_x => :centered, :offset_y => :height)
+			# Additional x offset generated to offset feet of human sprite, at full size
+			@current_frame.draw(x, y-z+50.to_meters, z_index, zoom, :offset_x => :centered, :offset_y => :height)
 			# Draw skin layer again to create outline
 			#~ @current_frame.draw(x,y - z,z-1, zoom, 
 								#~ :offset_x => :centered, :offset_y => height + 30,
