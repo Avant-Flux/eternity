@@ -85,7 +85,7 @@ class Entity
 		@hp = {}
 		@mp = {}
 		
-		@hp[:max] = @stats[:raw][:constitution]*5
+		@hp[:max] = @stats[:raw][:constitution]*17
 		@hp[:current] = @hp[:max]
 		
 		@mp[:max] = 300# Arbitrary
