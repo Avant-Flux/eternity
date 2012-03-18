@@ -154,7 +154,7 @@ class UI_State < InterfaceState
 		# Mana level (text)
 		@mp_numerical_display.draw
 		
-		@window.gl do
+		@window.gl z do
 			glBegin(GL_LINES)
 				glVertex2i(30,30)
 				glVertex2i(200,30)
