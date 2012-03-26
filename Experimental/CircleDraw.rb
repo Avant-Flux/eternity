@@ -4,6 +4,14 @@ require 'rubygems'
 require 'gosu'
 require 'chingu'
 require 'texplay'
+
+require 'opengl'
+#~ require 'gl'
+#~ require 'glu'
+
+include Gl
+include Glu
+include Glut
  
 class Window < Gosu::Window
 	def initialize
@@ -22,6 +30,9 @@ class Window < Gosu::Window
 		draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
+		
+		@quadric = gluNewQuadric()
+
 	end
 	
 	def update
@@ -31,7 +42,9 @@ class Window < Gosu::Window
 	def draw
 		@font.draw "FPS: #{Gosu::fps}", 10, 10, 10
 		
-		@img.draw(0,0,10)
+		
+		draw_ring_partialdisk(300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF))
+		#~ @img.draw(0,0,10)
 		#~ draw_ring2(300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF))
 	end
 	
@@ -41,10 +54,11 @@ class Window < Gosu::Window
 		end
 		
 		if id == Gosu::Button::KbUp
-			@angle += 1.0/128 * 2*Math::PI
-			@slope = Math.tan @angle
-			draw_ring_bresenham 300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF)
-			draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
+			#~ @angle += 1.0/128 * 2*Math::PI
+			@angle += 10
+			#~ @slope = Math.tan @angle
+			#~ draw_ring_bresenham 300,300, 100, @angle, Gosu::Color.new(0xFFFFFFFF)
+			#~ draw_ring_bresenham 300,300, 100-20, @angle, Gosu::Color.new(0xFFFFFFFF)
 		end
 		if id == Gosu::Button::KbDown
 			@angle -= 10
@@ -59,6 +73,31 @@ class Window < Gosu::Window
 	
 	def button_up(id)
 		
+	end
+	
+	def draw_ring_partialdisk(cx,cy, r, angle, color, options={})
+		options = {
+			:stroke_width => 3,	# Width of the line
+			:slices => 30, # Number of subdivisions around the z axis.
+			:loops => 1, # Number of concentric rings about the origin.
+			
+			:start_angle => 0
+		}.merge! options
+		
+		self.gl do
+			#~ glPolygonMode(GL_FRONT, GL_FILL) # Probably doesn't affect quadrics
+			
+			glPushMatrix()
+				#~ glLoadIdentity()
+				
+				glColor3f(color.red, color.green, color.blue)
+				glTranslatef(cx, cy, 0)
+				# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
+				gluPartialDisk(@quadric, r-options[:stroke_width], r, 
+								10, options[:loops],
+								options[:start_angle], angle)
+			glPopMatrix()
+		end
 	end
 	
 	def draw_ring(cx, cy, r, angle, colors)
