@@ -14,16 +14,18 @@ module Widget
 				:relative => window,
 				:align => :left,
 				
-				:radius => 10 # Radius of the circular bar, in px
+				:radius => 10, # Radius of the circular bar, in px
 				:width_units => :px, # Should not change
 				:height_units => :px, # Should not change
 				
-				:percent => nil,
-				:angle => nil
+				:bar_units => :percent, # :percent, :angle
+				:bar_initial_value => 1.0
 			}.merge! options
 			options[:height] = options[:width] = options[:radius]
 			
 			super(window, x,y, options)
+			
+			@units  = options[:bar_units]
 			
 			@radius = options[:radius]
 			@stroke_width = options[:stroke_width]
@@ -33,20 +35,34 @@ module Widget
 			# The angle from which the status bar arc will start
 			# Given Gosu's coordinate system, 0deg is down, and positive rotation is CCW
 			@start_angle = options[:start_angle]
+			
 			# Store angle to arc through in degrees, as needed by gluPartialDisk
-			@angle = options[:angle]
-			# Cache percent represented on the bar
-			@percent = 0
+			# Cache percent represented on the bar as well
+			if options[:bar_units] == :percent
+				@percent = options[:bar_initial_value]
+				@angle = 360*@percent
+			else
+				@angle = options[:bar_initial_value]
+				@percent = @angle/360.0 / 100
+			end
 			
 			@color = options[:color]
 		end
 		
-		def update(percent)
+		def update(bar_value)
 			# Update the displayed angle to match the given percent
 			# Percents should be provided as a double (ex, 1.0, 0.20, etc)
-			if percent != @percent
-				@percent = percent
-				@angle = 360 * percent
+			# NOTE: May want to remove the equality check, as it will not work for doubles
+			if @units == :percent
+				if bar_value != @percent
+					@percent = bar_value
+					@angle = 360 * @percent
+				end
+			else # :degrees
+				if bar_value != @angle
+					@angle = bar_value
+					@percent = @angle/360.0 / 100
+				end
 			end
 		end
 		
