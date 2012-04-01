@@ -1,47 +1,37 @@
 class InterfaceEventListener
-	def initialize
-		
+	def initialize(mouse)
+		@mouse = mouse
 	end
 	
-	def mouse_down(*args, &block)
-		# Click event released
-		# Collision pre_solve and mouse button down
-		
+	[:mouse_down, :mouse_up, :mouse_in, :mouse_out].each do |method|
+		define_method method do |*args, &block|
+			instance_variable_set "@#{method}", block
+			instance_variable_set "@#{method}_args", args
+		end
 	end
-	
-	def mouse_up(*args, &block)
-		# Click event
-		# Collision pre_solve and mouse button NOT down
-		
-	end
-	
-	def mouse_in(*args, &block)
-		# Mouse is over widget
-		# Collision begin
-		
-	end
-	
-	def mouse_out(*args, &block)
-		# Mouse has moved away from the widget
-		# Collision separate
-		
-	end
-	
 	
 	# ===== Collision Handler Interface Methods =====
-	def begin
+	def begin(arbiter)
+		if @mouse_in
+			@mouse_in.call @mouse_in_args
+		end
+	end
+	
+	def pre_solve(arbiter)
+		if @mouse_down # && @mouse.button_down
+			@mouse_down.call @mouse_down_args
+		elsif @mouse_up # && @mouse.button_up
+			@mouse_up.call @mouse_up_args
+		end
+	end
+	
+	def post_solve(arbiter)
 		
 	end
 	
-	def pre_solve
-		
-	end
-	
-	def post_solve
-		
-	end
-	
-	def separate
-		
+	def separate(arbiter)
+		if @mouse_out
+			@mouse_out.call @mouse_out_args
+		end
 	end
 end
