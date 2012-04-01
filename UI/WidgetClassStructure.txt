@@ -51,9 +51,10 @@ ScrollingContext /// NOT YET IMPLEMENTED ///
 === TODO: Implement this and get rid of ScrollingDiv
 
 
-Event
+InterfaceEventListener
 === Base class for all events
 *** Mouse events should be implemented as collisions between the mouse and the widget
+*** Thus, use the collision handler interface
 	|-->	mouse_down
 	=== Click event released
 	=== Collision pre_solve and mouse button down
