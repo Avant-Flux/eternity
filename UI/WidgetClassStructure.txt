@@ -1,0 +1,80 @@
+Widget class structure
+
+
+---------- Core Widgets ----------
+*** Universal and reuseable ***
+----------------------------------
+DrawContext
+=== Establishes drawing context
+=== Draw context should have coordinate system just like Gosu::Window,
+=== so that widgets can be drawn inside
+	|-->	Widget
+	===	Establishes basic structure and options for widgets
+		|-->	Button
+		=== Clickable button
+			|--> ToggleButton
+			=== While button only fires an event when clicked
+			=== toggle buttons fire both a down and up event,
+			=== and will record their state (either :up or :down)
+		
+		|-->	ProgressBar
+		=== Linear progress bar
+		
+		|-->	CircularStatusBar
+		=== Like ProgressBar, but draws in a circle
+		
+		|-->	SpeechBubble
+		=== Speech bubbles which appear in-world when characters talk
+		
+		|-->	TextBox
+		=== Base for both TextArea and TextField
+		=== Only exists to hold overlapping code from those two classes
+			|-->	TextArea
+			=== Multi-line text input
+			
+			|-->	TextField
+			=== Single-line text input
+				|-->	Label
+				=== Displays text, but can not be edited by the enduser
+					|-->	Tooltip
+					=== Defines the behavior of mouseover tooltips
+					=== Similar to label, but appears on mouseover
+					=== Drawn using world coordinates instead of screen coordinates
+					=== 	like the way most other widgets do
+		
+		|-->	TextHandler
+		=== Currently, this file does nothing
+		=== TODO: Remove ineffectual file
+		
+ScrollingContext /// NOT YET IMPLEMENTED ///
+=== Like DrawContext, but provides a scrollbar
+=== TODO: Implement this and get rid of ScrollingDiv
+
+
+Event
+=== Base class for all events
+*** Mouse events should be implemented as collisions between the mouse and the widget
+	|-->	mouse_down
+	=== Click event released
+	=== Collision pre_solve and mouse button down
+	
+	|--> 	mouse_up
+	=== Click event
+	=== Collision pre_solve and mouse button NOT down
+	
+	|--> 	mouse_in
+	=== Mouse is over widget
+	=== Collision begin
+	
+	|--> 	mouse_out
+	=== Mouse has moved away from the widget
+	=== Collision separate
+	
+	|--> 	
+	=== 
+		
+---------- Eternity Widgets ----------
+*** Specific to Eternity ***
+|-->	
+
+------------------------------
