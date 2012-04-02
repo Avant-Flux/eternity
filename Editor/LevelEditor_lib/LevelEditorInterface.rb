@@ -11,7 +11,7 @@ class LevelEditorInterface < InterfaceState
 			false
 		end
 		
-		@mouse = MouseHandler.new space, layers
+		@mouse = MouseHandler.new space
 		
 		@width = 250
 		@sidebar = Widget::Div.new window, window.width-width,0,

@@ -9,9 +9,9 @@ class MouseHandler
 	attr_accessor :mode
 	attr_reader :active, :active_widgets # Change interface so only necessary methods pass through
 	
-	def initialize(space, layers)#, radius, mass, moment)
+	def initialize(space)#, layers, radius, mass, moment)
 		@space = space
-		@layers = layers
+		@layers = GameStateManager::UI_LAYER
 		#~ body = CP::Body.new mass, moment
 		#~ @mouse_shape = CP::Shape::Circle.new body, radius
 		

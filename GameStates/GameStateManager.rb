@@ -73,6 +73,9 @@ class GameStateManager
 			#~ data = self.delete_prompt name
 			#~ return data
 		end
+		
+		# Create mouse handler
+		@mouse = MouseHandler.new @space
 	end
 	
 	# Update all contained gamestates
