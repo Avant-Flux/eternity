@@ -1,27 +1,47 @@
 class InterfaceEventListener
 	def initialize(mouse)
 		@mouse = mouse
+		@click = false
 	end
 	
-	[:mouse_down, :mouse_up, :mouse_in, :mouse_out].each do |method|
+	[:mouse_down, :mouse_up, :mouse_in, :mouse_out, 
+	:hover, :drag].each do |method|
 		define_method method do |*args, &block|
 			instance_variable_set "@#{method}", block
 			instance_variable_set "@#{method}_args", args
 		end
+		
+		define_method "#{method}_event" do
+			instance_variable_get("@#{method}").call(instance_variable_get("@#{method}_args"))
+		end
+		
+		define_method "#{method}?" do
+			return instance_variable_get "@#{method}" != nil
+		end
 	end
+	
 	
 	# ===== Collision Handler Interface Methods =====
 	def begin(arbiter)
-		if @mouse_in
-			@mouse_in.call @mouse_in_args
+		if mouse_in?
+			mouse_in_event
 		end
 	end
 	
 	def pre_solve(arbiter)
-		if @mouse_down # && @mouse.button_down
-			@mouse_down.call @mouse_down_args
-		elsif @mouse_up # && @mouse.button_up
-			@mouse_up.call @mouse_up_args
+		if mouse_down? # && @mouse.button_down
+			mouse_down_event
+			@click = true
+		elsif mouse_up? && @click# && !@mouse.button_down
+			mouse_up_event
+			@click = false
+		else # hover event
+			hover_event
+		end
+		
+		if @click
+			# Drag event
+			drag_event
 		end
 	end
 	
@@ -30,8 +50,8 @@ class InterfaceEventListener
 	end
 	
 	def separate(arbiter)
-		if @mouse_out
-			@mouse_out.call @mouse_out_args
+		if mouse_out?
+			mouse_out_event
 		end
 	end
 end
