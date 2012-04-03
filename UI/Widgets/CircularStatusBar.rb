@@ -1,5 +1,9 @@
 module Widget
 	class CircularStatusBar < Div
+		# Currently offsetting by radius so the circular bar is drawn centered on 
+		# coordinates.  This has implications on the render context provided by
+		# this widget.
+		
 		def initialize(window, x,y, options={})
 			options = {
 				:stroke_width => 3,	# Width of the line
@@ -66,7 +70,7 @@ module Widget
 			end
 		end
 		
-		def draw(x,y)
+		def draw
 			# Draw the ring centered on the position specified by the central coord
 			# Coordinates are given in window coordinates, in units of px
 			
@@ -77,7 +81,7 @@ module Widget
 					#~ glLoadIdentity()
 					
 					glColor3f(@color.red, @color.green, @color.blue)
-					glTranslatef(x, y, 0)
+					glTranslatef(px+@radius, py+@radius, 0)
 					# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
 					gluPartialDisk(@quadric, @radius-@stroke_width, @radius, 
 									@slices, @loops, @start_angle, @angle)
