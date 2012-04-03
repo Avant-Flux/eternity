@@ -5,18 +5,22 @@ module Gosu
 		alias :old_draw :draw
 		alias :draw_UI :draw
 		
+		DEFAULT_OPTIONS = {
+			:offset_x => 0,
+			:offset_y => 0,
+			:offset_z => 0,
+			:factor_x => 1,
+			:factor_y => 1,
+			#~ options[:scale] => 1,
+			:color => 0xffffffff,
+			:mode => :default
+		}
+		
 		def draw(x, y, z, zoom, options={})
 			#Assume the coordinates are in units of meters from Chipmunk space.
 			#Scale the x and y, and compute the z-index to pass to the old draw method.
+			options = DEFAULT_OPTIONS.merge options
 			
-			options[:offset_x] ||= 0
-			options[:offset_y] ||= 0
-			options[:offset_z] ||= 0
-			options[:factor_x] ||= 1
-			options[:factor_y] ||= 1
-			#~ options[:scale] ||= 1
-			options[:color] ||= 0xffffffff
-			options[:mode] ||= :default
 			
 			if options[:opacity]
 				# Assume opacity is specified as a value 0-255
