@@ -154,12 +154,12 @@ class UI_State < InterfaceState
 		# Mana level (text)
 		@mp_numerical_display.draw
 		
-		@window.gl z do
-			glBegin(GL_LINES)
-				glVertex2i(30,30)
-				glVertex2i(200,30)
-			glEnd()
-		end
+		#~ @window.gl z do
+			#~ glBegin(GL_LINES)
+				#~ glVertex2i(30,30)
+				#~ glVertex2i(200,30)
+			#~ glEnd()
+		#~ end
 	end
 	
 	def draw_health_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)

@@ -8,7 +8,7 @@ class Player < Character
 	
 	strength		12
 	constitution	9
-	dexterity		6 
+	dexterity		6
 	power			6
 	control			3
 	flux			9
