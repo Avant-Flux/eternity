@@ -42,21 +42,25 @@ class Game_Window < Gosu::Window
 		#~ Need to reverse the order of traversal for :above using #reverse_each
 		#~ if the states need to updated it the proper order.
 		
+		@states = GameStateManager.new self, @camera, @player
+		
 		# Display splash while the game loads up
 		#~ @states.new_gamestate SplashState, "Startup"
 		
-		# Initialize input handler
+		# Initialize keyboard input handler
 		@inpman = InputHandler.new
 		init_input
-		
+		# Initialize mouse handler
+		#~ @mouse = MouseHandler.new space
 		
 		# Load player character data
 		@player = Player.new self, "Bob"
 		@player.equipment[:right_hand] = Weapons::Swords::Scimitar.new
 		@player.equipment[:left_hand] = Weapons::Guns::Handgun.new
 		
-		@states = GameStateManager.new self, @camera, @player
+		
 		@states.new_interface UI_State, "HUD", @player
+		
 		
 		# Init starting level of the game
 		@states.new_level LevelState, "Scrapyard"
