@@ -1,7 +1,7 @@
 class InterfaceEventListener
 	def initialize(mouse)
 		@mouse = mouse
-		@click = false
+		@click = nil
 	end
 	
 	[:mouse_down, :mouse_up, :mouse_in, :mouse_out, 
@@ -21,6 +21,11 @@ class InterfaceEventListener
 	end
 	
 	
+	def drag_event_callback
+		# Called on drag event
+		
+	end
+	
 	# ===== Collision Handler Interface Methods =====
 	def begin(arbiter)
 		if mouse_in?
@@ -37,11 +42,6 @@ class InterfaceEventListener
 			@click = false
 		else # hover event
 			hover_event
-		end
-		
-		if @click
-			# Drag event
-			drag_event
 		end
 	end
 	
