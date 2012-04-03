@@ -1,0 +1,4 @@
+# Function			Keycode
+#Jump				
+#Intense			
+#Attack				
