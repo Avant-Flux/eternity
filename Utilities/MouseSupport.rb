@@ -21,7 +21,9 @@ class MouseHandler
 		@active = Array.new # Stack to hold all active/selected elements in the scene
 		@active_widgets = Array.new # Holds all active widgets from the UI
 		
-		@mode = :default # :default, :multiple_select, :box_select
+		@mode = :default # :default, :multip233le_select, :box_select
+		
+		@status = :up
 	end
 	
 	def click_UI(position)
@@ -117,5 +119,25 @@ class MouseHandler
 			obj.on_lose_focus
 		end
 		@active_widgets.clear
+	end
+	
+	def drag_widget(widget, new_location)
+		
+	end
+	
+	def mouse_down(screen_x, screen_y)
+		@status = :down
+	end
+	
+	def mouse_up(screen_x, screen_y)
+		@status = :up
+	end
+	
+	def click(screen_x, screen_y)
+		if @status == :down
+			
+		else
+			@status = :down
+		end
 	end
 end
