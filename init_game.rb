@@ -42,6 +42,7 @@ class Game_Window < Gosu::Window
 		#~ Need to reverse the order of traversal for :above using #reverse_each
 		#~ if the states need to updated it the proper order.
 		
+		
 		@states = GameStateManager.new self, @camera, @player
 		
 		# Display splash while the game loads up
