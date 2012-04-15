@@ -60,7 +60,7 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
-		self.translate 400, 100 do # Translate relative to screen coordinates
+		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
 			self.transform *@tile_transform do
 				(0..x_count).each do |x| x *= width
 					(0..y_count).each do |y| y *= height
