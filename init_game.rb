@@ -39,9 +39,11 @@ class Game_Window < Gosu::Window
 		@tile_transform = [
 			Math.cos((8.79).to_rad), Math.sin((8.79).to_rad), 0, 0,
 			-Math.cos((65.1).to_rad), Math.sin((65.1).to_rad), 0, 0,
-			0 ,1, 0, 0,
+			0 ,0, 1, 0,
 			0, 0, 0, 1
 		]
+		
+		@player = Struct.new(:x, :y).new(0, 0)
 	end
 	
 	def update
@@ -62,14 +64,16 @@ class Game_Window < Gosu::Window
 		
 		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
 			self.transform *@tile_transform do
-				(0..x_count).each do |x| x *= width
-					(0..y_count).each do |y| y *= height
-						#~ color = Gosu::Color.new rand*255, rand*255, rand*255
-						x_factor = x.to_f/self.width
-						y_factor = y.to_f/self.height
-						color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
-						
-						draw_tile	x,y,0,	height,width, color
+				self.translate -@player.x*width, @player.y*height do # Relative to world
+					(0..x_count).each do |x| x *= width
+						(0..y_count).each do |y| y *= height
+							#~ color = Gosu::Color.new rand*255, rand*255, rand*255
+							x_factor = x.to_f/self.width
+							y_factor = y.to_f/self.height
+							color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+							
+							draw_tile	x,y,0,	height,width, color
+						end
 					end
 				end
 			end
@@ -88,6 +92,17 @@ class Game_Window < Gosu::Window
 		end
 		if id == Gosu::KbA
 			@steppable = true
+		end
+		
+		case id
+			when Gosu::KbUp
+				@player.y += 1
+			when Gosu::KbDown
+				@player.y -= 1
+			when Gosu::KbLeft
+				@player.x -= 1
+			when Gosu::KbRight
+				@player.x += 1
 		end
 	end
 	
