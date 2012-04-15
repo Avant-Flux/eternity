@@ -35,10 +35,13 @@ class Game_Window < Gosu::Window
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
-		# OpenGL transform is column-major, 
+		
+		x_scale = 1
+		y_scale = 1
+		# OpenGL transform is column-major
 		@tile_transform = [
-			Math.cos((8.79).to_rad), Math.sin((8.79).to_rad), 0, 0,
-			Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad), 0, 0,
+			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
+			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
 			0 ,0, 1, 0,
 			0, 0, 0, 1
 		]
