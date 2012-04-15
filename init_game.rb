@@ -38,7 +38,7 @@ class Game_Window < Gosu::Window
 		# OpenGL transform is column-major, 
 		@tile_transform = [
 			Math.cos((8.79).to_rad), Math.sin((8.79).to_rad), 0, 0,
-			-Math.cos((65.1).to_rad), Math.sin((65.1).to_rad), 0, 0,
+			Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad), 0, 0,
 			0 ,0, 1, 0,
 			0, 0, 0, 1
 		]
