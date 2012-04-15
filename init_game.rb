@@ -44,6 +44,8 @@ class Game_Window < Gosu::Window
 		]
 		
 		@player = Struct.new(:x, :y).new(0, 0)
+		
+		@zoom = 1
 	end
 	
 	def update
@@ -62,11 +64,14 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
+		
 		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
 			self.transform *@tile_transform do
 				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
-					draw_world	x_count,y_count,	tile_width,tile_height
-					draw_player	@player.x*tile_width, @player.y*tile_height, 5,	 Gosu::Color::RED
+					self.scale @zoom,@zoom, @player.x*tile_width,@player.y*tile_height  do
+						draw_world	x_count,y_count,	tile_width,tile_height
+						draw_player	@player.x*tile_width, @player.y*tile_height, 5,	 Gosu::Color::RED
+					end
 				end
 			end
 		end
@@ -95,6 +100,20 @@ class Game_Window < Gosu::Window
 				@player.x -= 1
 			when Gosu::KbRight
 				@player.x += 1
+		end
+		
+		case id
+			when Gosu::Kb0
+				@zoom = 1
+			when Gosu::Kb1
+				puts "zoom in: current zoom = #{@zoom}"
+				@zoom += 1
+			when Gosu::Kb2
+				puts "zoom out: current zoom = #{@zoom}"
+				@zoom -= 1
+		end
+		if @zoom < 1
+			@zoom = 1
 		end
 	end
 	
