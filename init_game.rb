@@ -66,6 +66,7 @@ class Game_Window < Gosu::Window
 			self.transform *@tile_transform do
 				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
 					draw_world	x_count,y_count,	tile_width,tile_height
+					draw_player	@player.x*tile_width, @player.y*tile_height, 5,	 Gosu::Color::RED
 				end
 			end
 		end
@@ -128,6 +129,22 @@ class Game_Window < Gosu::Window
 						x+width, y, color,
 						x+width, y+height, color,
 						x, y+height, color
+	end
+	
+	def draw_player(x,y,z, color)
+		# Draw a square in perspective centered on the player location
+		width = 6
+		height = 6
+		
+		half_width = width/2
+		half_height = height/2
+		
+		self.translate -half_width, -half_height do
+			self.draw_quad	x, y, color,
+							x+width, y, color,
+							x+width, y+height, color,
+							x, y+height, color
+		end
 	end
 end
 
