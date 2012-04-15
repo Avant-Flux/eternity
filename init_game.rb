@@ -56,25 +56,16 @@ class Game_Window < Gosu::Window
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
 		end
 		
-		width = 50
-		height = 50
+		tile_width = 50
+		tile_height = 50
 		
 		x_count = 10
 		y_count = 10
 		
 		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
 			self.transform *@tile_transform do
-				self.translate -@player.x*width, @player.y*height do # Relative to world
-					(0..x_count).each do |x| x *= width
-						(0..y_count).each do |y| y *= height
-							#~ color = Gosu::Color.new rand*255, rand*255, rand*255
-							x_factor = x.to_f/self.width
-							y_factor = y.to_f/self.height
-							color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
-							
-							draw_tile	x,y,0,	height,width, color
-						end
-					end
+				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
+					draw_world	x_count,y_count,	tile_width,tile_height
 				end
 			end
 		end
@@ -117,6 +108,19 @@ class Game_Window < Gosu::Window
 	
 	def needs_cursor?()
 		true
+	end
+	
+	def draw_world(x_count,y_count, tile_width,tile_height)
+		(0..x_count).each do |x| x *= tile_width
+			(0..y_count).each do |y| y *= tile_height
+				#~ color = Gosu::Color.new rand*255, rand*255, rand*255
+				x_factor = x.to_f/self.width
+				y_factor = y.to_f/self.height
+				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				
+				draw_tile	x,y,0,	tile_height,tile_width, color
+			end
+		end
 	end
 	
 	def draw_tile(x,y,z, height,width, color)
