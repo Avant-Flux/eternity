@@ -44,20 +44,7 @@ class Game_Window < Gosu::Window
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
 		
-		@inpman = InputHandler.new
-		@inpman.mode = :gameplay
-		@inpman.new_action :up, :active do
-			@player.y += @tile_height/10
-		end
-		@inpman.new_action :down, :active do
-			@player.y -= @tile_height/10
-		end
-		@inpman.new_action :left, :active do
-			@player.x -= @tile_width/10
-		end
-		@inpman.new_action :right, :active do
-			@player.x += @tile_width/10
-		end
+		init_input_system
 		
 		#TODO:	Change bind so there is only one bind method, which will search all input types
 		#		and bind action appropriately.
@@ -167,6 +154,24 @@ class Game_Window < Gosu::Window
 			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
+		end
+	end
+	
+	def init_input_system
+		@inpman = InputHandler.new
+		
+		@inpman.mode = :gameplay
+		@inpman.new_action :up, :active do
+			@player.y += @tile_height/10
+		end
+		@inpman.new_action :down, :active do
+			@player.y -= @tile_height/10
+		end
+		@inpman.new_action :left, :active do
+			@player.x -= @tile_width/10
+		end
+		@inpman.new_action :right, :active do
+			@player.x += @tile_width/10
 		end
 	end
 end
