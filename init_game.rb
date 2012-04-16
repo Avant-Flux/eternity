@@ -73,6 +73,10 @@ class Game_Window < Gosu::Window
 				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
 					self.scale @zoom,@zoom, @player.x*tile_width,@player.y*tile_height  do
 						draw_world	x_count,y_count,	tile_width,tile_height
+						
+						draw_circle	@player.x*tile_width,@player.y*tile_height,3,	200,
+									Gosu::Color::RED
+						
 						draw_player	@player.x*tile_width, @player.y*tile_height, 5,	 Gosu::Color::RED
 					end
 				end
@@ -109,10 +113,10 @@ class Game_Window < Gosu::Window
 			when Gosu::Kb0
 				@zoom = 1
 			when Gosu::Kb1
-				puts "zoom in: current zoom = #{@zoom}"
+				puts "zoom in"
 				@zoom += 1
 			when Gosu::Kb2
-				puts "zoom out: current zoom = #{@zoom}"
+				puts "zoom out"
 				@zoom -= 1
 		end
 		if @zoom < 1
@@ -166,6 +170,27 @@ class Game_Window < Gosu::Window
 							x+width, y, color,
 							x+width, y+height, color,
 							x, y+height, color
+		end
+	end
+	
+	def draw_circle(x,y,z, r, color, options={})
+		options = {
+			:stroke_width => 3,	# Width of the line
+			:slices => 30, # Number of subdivisions around the z axis.
+			:loops => 1, # Number of concentric rings about the origin.
+			
+			:start_angle => 0
+		}.merge! options
+		
+		self.gl z do
+			@quadric ||= gluNewQuadric()
+			
+			glColor(color.red, color.green, color.blue)
+			glTranslatef(x,y,0)
+			# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
+			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
+							options[:slices], options[:loops],
+							options[:start_angle], 360)
 		end
 	end
 end
