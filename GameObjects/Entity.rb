@@ -36,9 +36,9 @@ class Entity
 		#~ # human sprite width at maximum resolution
 		#~ init_physics	pos, (@animation.width/3.5).to_meters, mass, moment, :entity
 		#~ init_movement	
-		#~ 
-		#~ init_stats
-		#~ 
+		
+		init_stats
+		
 		#~ @shadow = Shadow.new window, self
 		#~ 
 		#~ @intense = false
