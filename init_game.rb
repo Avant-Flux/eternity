@@ -38,9 +38,7 @@ class Game_Window < Gosu::Window
 		
 		init_world_transforms
 		
-		@player = Struct.new(:x, :y).new(0, 0)
-		
-		
+		@player = Entity.new(self)
 	end
 	
 	def update

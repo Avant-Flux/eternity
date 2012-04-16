@@ -1,52 +1,60 @@
 #!/usr/bin/ruby
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
-	include Physics::ThreeD_Support
-	include Physics::ThreeD_Support::Cylinder
-	include Physics::Movement::Entity
+	#~ include Physics::ThreeD_Support
+	#~ include Physics::ThreeD_Support::Cylinder
+	#~ include Physics::Movement::Entity
 	
-	include Combative
+	#~ include Combative
 	
-	attr_reader :name, :stats, :lvl, :element
-	attr_reader  :moving, :move_constant, :movement_force
-	attr_accessor :faction, :visible, :intense
-	# Attributes:	Innate properties
-	# Status:		Properties imposed by effects, like status effects
-	attr_reader :attributes, :status
+	#~ attr_reader :name, :stats, :lvl, :element
+	#~ attr_reader  :moving, :move_constant, :movement_force
+	#~ attr_accessor :faction, :visible, :intense
+	#~ # Attributes:	Innate properties
+	#~ # Status:		Properties imposed by effects, like status effects
+	#~ attr_reader :attributes, :status
 	
-	def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
-		@name = name
-		@lvl = lvl
-		@element = element
-		@faction = faction		#express faction spectrum as an integer, Dark = -100, Light = 100
+	attr_accessor :x, :y
+	
+	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
+	def initialize(window)
+		@window = window
 		
-		@animation = animations
+		@x = 0
+		@y = 0
 		
-		# Radius was originally set to @animation.width/2.0, changed to better match
-		# human sprite width at maximum resolution
-		init_physics	pos, (@animation.width/3.5).to_meters, mass, moment, :entity
-		init_movement	
 		
-		init_stats
-		
-		@shadow = Shadow.new window, self
-		
-		@intense = false
-		@visible = true		#Controls whether or not to render the Entity
-		
-		@jump_count = 0
+		@visible = true
+		#~ @name = name
+		#~ @lvl = lvl
+		#~ @element = element
+		#~ @faction = faction		#express faction spectrum as an integer, Dark = -100, Light = 100
+		#~ 
+		#~ @animation = animations
+		#~ 
+		#~ # Radius was originally set to @animation.width/2.0, changed to better match
+		#~ # human sprite width at maximum resolution
+		#~ init_physics	pos, (@animation.width/3.5).to_meters, mass, moment, :entity
+		#~ init_movement	
+		#~ 
+		#~ init_stats
+		#~ 
+		#~ @shadow = Shadow.new window, self
+		#~ 
+		#~ @intense = false
+		#~ @visible = true		#Controls whether or not to render the Entity
+		#~ 
+		#~ @jump_count = 0
 	end
 	
 	def update
-		@animation.update(moving?, compute_direction)
-		@shadow.update
+		
 	end
 	
-	def draw(camera)
+	def draw
 		# TODO may have to pass the z index from the game state manager
 		if visible
-			@animation.draw px, py, pz, px_ - py_, camera.zoom
-			@shadow.draw camera.zoom
+			
 		end
 	end
 	
@@ -124,21 +132,6 @@ class Entity
 	
 	def visible?
 		@visible
-	end
-	
-	def set_random_element
-		@element = case rand 5
-			when 0
-				:fire
-			when 1
-				:water
-			when 2
-				:earth
-			when 3
-				:wind
-			when 4
-				:lightning
-		end
 	end
 	
 	def create
