@@ -35,12 +35,13 @@ class Game_Window < Gosu::Window
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
-		init_world_transforms
-		
 		@player = Entity.new(self)
 		
 		@tile_width = 50
 		@tile_height = 50
+		
+		@camera = Camera.new(self)
+		@camera.followed_entity = @player
 	end
 	
 	def update
@@ -57,23 +58,12 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
-		# Translate relative to screen coordinates
-		# Place world coordinate (0,0) at the center of the screen
-		self.translate self.width/2, self.height/2 do
-			self.transform *@trimetric_transform do
-				# Relative to world, center on player
-				self.translate -@player.x, -@player.y do
-					self.scale @zoom,@zoom, @player.x,@player.y  do
-						draw_world	x_count,y_count,	@tile_width,@tile_height
+		@camera.draw do
+			draw_world		x_count,y_count,	@tile_width,@tile_height
 						
-						draw_circle	@player.x,@player.y,3,	200,
-									Gosu::Color::RED
-						
-						@player.draw	@player.x, @player.y, 5,
-										Gosu::Color::RED
-					end
-				end
-			end
+			draw_circle		@player.x,@player.y,3,	200,	Gosu::Color::RED
+			
+			@player.draw	@player.x, @player.y, 5,		Gosu::Color::RED
 		end
 	end
 	
@@ -104,16 +94,13 @@ class Game_Window < Gosu::Window
 		
 		case id
 			when Gosu::Kb0
-				@zoom = 1
+				@camera.zoom_reset
 			when Gosu::Kb1
 				puts "zoom in"
-				@zoom += 1
+				@camera.zoom_in
 			when Gosu::Kb2
 				puts "zoom out"
-				@zoom -= 1
-		end
-		if @zoom < 1
-			@zoom = 1
+				@camera.zoom_out
 		end
 	end
 	
@@ -169,20 +156,6 @@ class Game_Window < Gosu::Window
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
 		end
-	end
-	
-	def init_world_transforms()
-		x_scale = 0.75
-		y_scale = 0.65
-		# OpenGL transform is column-major
-		@trimetric_transform = [
-			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
-			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
-			0 ,0, 1, 0,
-			0, 0, 0, 1
-		]
-		
-		@zoom = 1
 	end
 end
 

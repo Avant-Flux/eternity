@@ -6,46 +6,62 @@ require 'rubygems'
 require 'gosu'
 
 class Camera
-	include Physics::TwoD_Support
-	include Physics::TwoD_Support::Rect
+	#~ include Physics::TwoD_Support
+	#~ include Physics::TwoD_Support::Rect
+	#~ 
+	#~ attr_reader :shape, :queue
+	#~ attr_accessor :zoom
+	#~ 
+	#~ attr_accessor :transparency_mode
 	
-	attr_reader :shape, :queue
-	attr_accessor :zoom
+	attr_accessor :followed_entity
 	
-	attr_accessor :transparency_mode
+	#~ 
+	#~ alias :px_old :px
+	#~ alias :py_old :py
+	#~ alias :px_old= :px=
+	#~ alias :py_old= :py=
 	
-	alias :px_old :px
-	alias :py_old :py
-	alias :px_old= :px=
-	alias :py_old= :py=
-	
-	MAX_ZOOM = 1
-	MIN_ZOOM = 0.01
-	DEFAULT_ZOOM = 0.30
-	ZOOM_TICK = 0.005 # Percent to modulate the zoom by when zooming in or out
+	MAX_ZOOM = 10
+	MIN_ZOOM = 1
+	DEFAULT_ZOOM = 1
+	ZOOM_TICK = 0.2 # Percent to modulate the zoom by when zooming in or out
 
 	def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 		@window =  window
-		@followed_entity = nil
-		@zoom = zoom #Must be a percentage
-		@transparency_mode = transparency_mode # :selective, :always_on, :always_off
 		
-		# Center of screen
-		pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
+		x_scale = 0.75
+		y_scale = 0.65
+		# OpenGL transform is column-major
+		@trimetric_transform = [
+			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
+			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
+			0 ,0, 1, 0,
+			0, 0, 0, 1
+		]
 		
-		init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
-						50, :static, :camera, :centered
+		@zoom = 1
 		
-		@shape.sensor = true
-		
-		@queue = Hash.new
-		
-		shape_metaclass = class << @shape; self; end
-		[:add, :delete].each do |method|
-			shape_metaclass.send :define_method, method do |gameobj|
-				self.gameobj.queue[gameobj.layers].send method, gameobj
-			end
-		end
+		#~ @followed_entity = nil
+		#~ @zoom = zoom #Must be a percentage
+		#~ @transparency_mode = transparency_mode # :selective, :always_on, :always_off
+		#~ 
+		#~ # Center of screen
+		#~ pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
+		#~ 
+		#~ init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
+						#~ 50, :static, :camera, :centered
+		#~ 
+		#~ @shape.sensor = true
+		#~ 
+		#~ @queue = Hash.new
+		#~ 
+		#~ shape_metaclass = class << @shape; self; end
+		#~ [:add, :delete].each do |method|
+			#~ shape_metaclass.send :define_method, method do |gameobj|
+				#~ self.gameobj.queue[gameobj.layers].send method, gameobj
+			#~ end
+		#~ end
 	end
 	
 	def update
@@ -64,6 +80,21 @@ class Camera
 			#~ @queue[entity.layers].add entity
 			#~ arbiter.a.add arbiter.b.entity
 		#~ end
+	end
+	
+	def draw(&block)
+		# Translate relative to screen coordinates
+		# Place world coordinate (0,0) at the center of the screen
+		@window.translate @window.width/2, @window.height/2 do
+			@window.transform *@trimetric_transform do
+				# Relative to world, center on player
+				@window.translate -@followed_entity.x, -@followed_entity.y do
+					@window.scale @zoom,@zoom, @followed_entity.x,@followed_entity.y  do
+						block.call
+					end
+				end
+			end
+		end
 	end
 	
 	# Return the amount in pixels to offset the rendering
