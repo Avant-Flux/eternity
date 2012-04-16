@@ -33,20 +33,43 @@ class Game_Window < Gosu::Window
 		super(1280, 720, false, (1.0/fps)*1000)
 		self.caption = "Eternity 0.11.0"
 		
+		@tile_width = 50
+		@tile_height = 50
+		
+		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
 		@player = Entity.new(self)
 		
-		@tile_width = 50
-		@tile_height = 50
-		
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
+		
+		@inpman = InputHandler.new
+		@inpman.mode = :gameplay
+		@inpman.new_action :up, :active do
+			@player.y += @tile_height
+		end
+		@inpman.new_action :down, :active do
+			@player.y -= @tile_height
+		end
+		@inpman.new_action :left, :active do
+			@player.x -= @tile_width
+		end
+		@inpman.new_action :right, :active do
+			@player.x += @tile_width
+		end
+		
+		#TODO:	Change bind so there is only one bind method, which will search all input types
+		#		and bind action appropriately.
+		@inpman.bind_action :up, Gosu::KbUp
+		@inpman.bind_action :down, Gosu::KbDown
+		@inpman.bind_action :left, Gosu::KbLeft
+		@inpman.bind_action :right, Gosu::KbRight
 	end
 	
 	def update
 		#~ process_input
-		#~ @inpman.update
+		@inpman.update
 	end
 	
 	def draw
@@ -69,7 +92,7 @@ class Game_Window < Gosu::Window
 	
 	def button_down(id)
 		# Part of the update loop, not event-driven
-		#~ @inpman.button_down(id)
+		@inpman.button_down(id)
 		
 		if id == Gosu::KbEscape
 			close
@@ -79,17 +102,6 @@ class Game_Window < Gosu::Window
 		end
 		if id == Gosu::KbA
 			@steppable = true
-		end
-		
-		case id
-			when Gosu::KbUp
-				@player.y += @tile_height
-			when Gosu::KbDown
-				@player.y -= @tile_height
-			when Gosu::KbLeft
-				@player.x -= @tile_width
-			when Gosu::KbRight
-				@player.x += @tile_width
 		end
 		
 		case id
@@ -106,7 +118,7 @@ class Game_Window < Gosu::Window
 	
 	def button_up(id)
 		# Part of the update loop, not event-driven
-		#~ @inpman.button_up(id)
+		@inpman.button_up(id)
 		
 		if id == Gosu::KbA
 			@steppable = false
