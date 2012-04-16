@@ -35,10 +35,12 @@ class Game_Window < Gosu::Window
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
-		
 		init_world_transforms
 		
 		@player = Entity.new(self)
+		
+		@tile_width = 50
+		@tile_height = 50
 	end
 	
 	def update
@@ -51,23 +53,23 @@ class Game_Window < Gosu::Window
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
 		end
 		
-		tile_width = 50
-		tile_height = 50
 		
 		x_count = 10
 		y_count = 10
 		
-		
-		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
+		# Translate relative to screen coordinates
+		# Place world coordinate (0,0) at the center of the screen
+		self.translate self.width/2, self.height/2 do
 			self.transform *@trimetric_transform do
-				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
-					self.scale @zoom,@zoom, @player.x*tile_width,@player.y*tile_height  do
-						draw_world	x_count,y_count,	tile_width,tile_height
+				# Relative to world, center on player
+				self.translate -@player.x, -@player.y do
+					self.scale @zoom,@zoom, @player.x,@player.y  do
+						draw_world	x_count,y_count,	@tile_width,@tile_height
 						
-						draw_circle	@player.x*tile_width,@player.y*tile_height,3,	200,
+						draw_circle	@player.x,@player.y,3,	200,
 									Gosu::Color::RED
 						
-						@player.draw	@player.x*tile_width, @player.y*tile_height, 5,	 
+						@player.draw	@player.x, @player.y, 5,
 										Gosu::Color::RED
 					end
 				end
@@ -91,13 +93,13 @@ class Game_Window < Gosu::Window
 		
 		case id
 			when Gosu::KbUp
-				@player.y += 1
+				@player.y += @tile_height
 			when Gosu::KbDown
-				@player.y -= 1
+				@player.y -= @tile_height
 			when Gosu::KbLeft
-				@player.x -= 1
+				@player.x -= @tile_width
 			when Gosu::KbRight
-				@player.x += 1
+				@player.x += @tile_width
 		end
 		
 		case id
