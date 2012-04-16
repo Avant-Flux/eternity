@@ -47,16 +47,16 @@ class Game_Window < Gosu::Window
 		@inpman = InputHandler.new
 		@inpman.mode = :gameplay
 		@inpman.new_action :up, :active do
-			@player.y += @tile_height
+			@player.y += @tile_height/10
 		end
 		@inpman.new_action :down, :active do
-			@player.y -= @tile_height
+			@player.y -= @tile_height/10
 		end
 		@inpman.new_action :left, :active do
-			@player.x -= @tile_width
+			@player.x -= @tile_width/10
 		end
 		@inpman.new_action :right, :active do
-			@player.x += @tile_width
+			@player.x += @tile_width/10
 		end
 		
 		#TODO:	Change bind so there is only one bind method, which will search all input types
