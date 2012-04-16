@@ -36,19 +36,11 @@ class Game_Window < Gosu::Window
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
 		
-		x_scale = 0.75
-		y_scale = 0.65
-		# OpenGL transform is column-major
-		@tile_transform = [
-			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
-			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
-			0 ,0, 1, 0,
-			0, 0, 0, 1
-		]
+		init_world_transforms
 		
 		@player = Struct.new(:x, :y).new(0, 0)
 		
-		@zoom = 1
+		
 	end
 	
 	def update
@@ -69,7 +61,7 @@ class Game_Window < Gosu::Window
 		
 		
 		self.translate self.width/2, self.height/2 do # Translate relative to screen coordinates
-			self.transform *@tile_transform do
+			self.transform *@trimetric_transform do
 				self.translate -@player.x*tile_width, -@player.y*tile_height do # Relative to world
 					self.scale @zoom,@zoom, @player.x*tile_width,@player.y*tile_height  do
 						draw_world	x_count,y_count,	tile_width,tile_height
@@ -192,6 +184,20 @@ class Game_Window < Gosu::Window
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
 		end
+	end
+	
+	def init_world_transforms()
+		x_scale = 0.75
+		y_scale = 0.65
+		# OpenGL transform is column-major
+		@trimetric_transform = [
+			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
+			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
+			0 ,0, 1, 0,
+			0, 0, 0, 1
+		]
+		
+		@zoom = 1
 	end
 end
 
