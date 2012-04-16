@@ -88,8 +88,8 @@ class Camera
 		@window.translate @window.width/2, @window.height/2 do
 			@window.transform *@trimetric_transform do
 				# Relative to world, center on player
-				@window.translate -@followed_entity.x, -@followed_entity.y do
-					@window.scale @zoom,@zoom, @followed_entity.x,@followed_entity.y  do
+				@window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
+					@window.scale @zoom,@zoom, @followed_entity.body.p.x,@followed_entity.body.p.y  do
 						block.call
 					end
 				end

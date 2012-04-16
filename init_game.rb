@@ -36,27 +36,30 @@ class Game_Window < Gosu::Window
 		@tile_width = 50
 		@tile_height = 50
 		
-		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
+		@space = CP::Space.new
+		@space.iterations = 10
+		#~ @space.damping = 0.8
+		
 		@player = Entity.new(self)
+		@space.add_shape @player.shape
+		@space.add_body @player.body
 		
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
 		
 		init_input_system
-		
-		#TODO:	Change bind so there is only one bind method, which will search all input types
-		#		and bind action appropriately.
-		@inpman.bind_action :up, Gosu::KbUp
-		@inpman.bind_action :down, Gosu::KbDown
-		@inpman.bind_action :left, Gosu::KbLeft
-		@inpman.bind_action :right, Gosu::KbRight
+		bind_inputs
 	end
 	
 	def update
 		#~ process_input
+		
 		@inpman.update
+		@space.step 1/60.0
+		puts @player.body.p
+		#~ @player.body.reset_forces
 	end
 	
 	def draw
@@ -71,9 +74,9 @@ class Game_Window < Gosu::Window
 		@camera.draw do
 			draw_world		x_count,y_count,	@tile_width,@tile_height
 						
-			draw_circle		@player.x,@player.y,3,	200,	Gosu::Color::RED
+			draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
 			
-			@player.draw	@player.x, @player.y, 5,		Gosu::Color::RED
+			@player.draw	@player.body.p.x, @player.body.p.y, 5,		Gosu::Color::RED
 		end
 	end
 	
@@ -162,17 +165,30 @@ class Game_Window < Gosu::Window
 		
 		@inpman.mode = :gameplay
 		@inpman.new_action :up, :active do
-			@player.y += @tile_height/10
+			#~ @player.y += @tile_height/10
+			@player.body.apply_force CP::Vec2.new(0,500), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :down, :active do
-			@player.y -= @tile_height/10
+			#~ @player.y -= @tile_height/10
+			@player.body.apply_force CP::Vec2.new(0,-500), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :left, :active do
-			@player.x -= @tile_width/10
+			#~ @player.x -= @tile_width/10
+			@player.body.apply_force CP::Vec2.new(-500,0), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :right, :active do
-			@player.x += @tile_width/10
+			#~ @player.x += @tile_width/10
+			@player.body.apply_force CP::Vec2.new(500,0), CP::ZERO_VEC_2
 		end
+	end
+	
+	def bind_inputs
+		#TODO:	Change bind so there is only one bind method, which will search all input types
+		#		and bind action appropriately.
+		@inpman.bind_action :up, Gosu::KbUp
+		@inpman.bind_action :down, Gosu::KbDown
+		@inpman.bind_action :left, Gosu::KbLeft
+		@inpman.bind_action :right, Gosu::KbRight
 	end
 end
 

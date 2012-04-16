@@ -15,6 +15,7 @@ class Entity
 	#~ attr_reader :attributes, :status
 	
 	attr_accessor :x, :y
+	attr_accessor :body, :shape
 	
 	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
 	def initialize(window)
@@ -25,6 +26,9 @@ class Entity
 		
 		
 		@visible = true
+		
+		@body = CP::Body.new 100, CP::INFINITY
+		@shape = CP::Shape::Circle.new @body, 10, CP::ZERO_VEC_2
 		#~ @name = name
 		#~ @lvl = lvl
 		#~ @element = element
