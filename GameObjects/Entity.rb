@@ -51,10 +51,22 @@ class Entity
 		
 	end
 	
-	def draw
+	def draw(x,y,z, color)
 		# TODO may have to pass the z index from the game state manager
-		if visible
+		if @visible
+			# Draw a square in perspective centered on the player location
+			width = 6
+			height = 6
 			
+			half_width = width/2
+			half_height = height/2
+			
+			@window.translate -half_width, -half_height do # Draw centered
+				@window.draw_quad	x, y, color,
+									x+width, y, color,
+									x+width, y+height, color,
+									x, y+height, color
+			end
 		end
 	end
 	
