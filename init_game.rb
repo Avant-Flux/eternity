@@ -46,6 +46,13 @@ class Game_Window < Gosu::Window
 		@space.add_shape @player.shape
 		@space.add_body @player.body
 		
+		@npcs = Array.new
+		@npcs[0] = Entity.new(self)
+		@npcs.each do |npc|
+			@space.add_shape npc.shape
+			@space.add_body npc.body
+		end
+		
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
 		
@@ -131,6 +138,13 @@ class Game_Window < Gosu::Window
 					
 					
 					@player.draw	position.x, position.y, 5,		Gosu::Color::RED
+					@npcs.each do |npc|
+						npc_pos = CP::Vec2.new(0,0)
+						npc_pos += @camera.x_hat * npc.body.p.x
+						npc_pos += @camera.y_hat * npc.body.p.y
+						
+						npc.draw npc_pos.x, npc_pos.y, 5,		Gosu::Color::BLUE
+					end
 					#~ draw_circle		position.x, position.y, 3,	200,	Gosu::Color::RED
 				end
 			end
