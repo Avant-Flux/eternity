@@ -106,27 +106,20 @@ class Game_Window < Gosu::Window
 			self.translate self.width/2, self.height/2 do
 				# Zoom in on the given position
 				self.scale @camera.zoom, @camera.zoom, position.x, position.y do
-					# Set the origin of the trimetric coordinate system to the center of the window
-					#~ self.translate self.width/2, self.height/2 do 
-						# Trimetric view transform
-						self.transform *@trimetric_transform do
-							#~ @window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
-								#~ self.scale @camera.zoom,@camera.zoom, @player.body.p.x,@player.body.p.y  do
-									draw_world		x_count,y_count,	@tile_width,@tile_height
-									
-									draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
-									
-									#~ gl do
-										#~ glPushMatrix()
-											#~ glLoadIdentity()
-											#~ 
-										#~ glPopMatrix()
-									#~ end
-									#~ @player.draw	@player.body.p.x,@player.body.p.y,5,	Gosu::Color::RED
-								#~ end
-							#~ end
-						end
-					#~ end
+					# Trimetric view transform
+					self.transform *@trimetric_transform do
+						draw_world		x_count,y_count,	@tile_width,@tile_height
+						
+						draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+						
+						#~ gl do
+							#~ glPushMatrix()
+								#~ glLoadIdentity()
+								#~ 
+							#~ glPopMatrix()
+						#~ end
+						#~ @player.draw	@player.body.p.x,@player.body.p.y,5,	Gosu::Color::RED
+					end
 					
 					# Non-trimetric world draw
 					# Draw is referenced in screen coordinates, not world coordinates
