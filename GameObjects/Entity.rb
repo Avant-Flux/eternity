@@ -59,13 +59,13 @@ class Entity
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			# Draw a square in perspective centered on the player location
-			width = 6
-			height = 6
+			width = 20
+			height = 60
 			
 			half_width = width/2
 			half_height = height/2
 			
-			@window.translate -half_width, -half_height do # Draw centered
+			@window.translate -half_width, -height do # Draw centered at base
 				@window.draw_quad	x, y, color,
 									x+width, y, color,
 									x+width, y+height, color,
