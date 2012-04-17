@@ -27,15 +27,22 @@ class Camera
 	DEFAULT_ZOOM = 1
 	ZOOM_TICK = 0.2 # Percent to modulate the zoom by when zooming in or out
 
+	attr_accessor :x_hat, :y_hat
+	
+	
 	def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 		@window =  window
 		
 		x_scale = 0.75
 		y_scale = 0.65
 		# OpenGL transform is column-major
+		@x_hat = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad)) * x_scale
+		@y_hat = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad)) * y_scale
+
+		
 		@trimetric_transform = [
-			x_scale*Math.cos((8.79).to_rad), x_scale*Math.sin((8.79).to_rad), 0, 0,
-			y_scale*Math.cos((65.1).to_rad), -y_scale*Math.sin((65.1).to_rad), 0, 0,
+			@x_hat.x, @x_hat.y, 0, 0,
+			@y_hat.x, @y_hat.y, 0, 0,
 			0 ,0, 1, 0,
 			0, 0, 0, 1
 		]
@@ -88,13 +95,17 @@ class Camera
 		@window.translate @window.width/2, @window.height/2 do
 			@window.transform *@trimetric_transform do
 				# Relative to world, center on player
-				@window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
+				#~ @window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
 					@window.scale @zoom,@zoom, @followed_entity.body.p.x,@followed_entity.body.p.y  do
 						block.call
 					end
-				end
+				#~ end
 			end
 		end
+	end
+	
+	def translate(&block)
+		@window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y, &block
 	end
 	
 	# Return the amount in pixels to offset the rendering

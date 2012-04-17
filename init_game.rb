@@ -49,6 +49,10 @@ class Game_Window < Gosu::Window
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
 		
+		
+		@x_hat = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad))
+		@y_hat = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad))
+		
 		init_input_system
 		bind_inputs
 	end
@@ -71,13 +75,21 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
-		@camera.draw do
-			draw_world		x_count,y_count,	@tile_width,@tile_height
-						
-			draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+		#~ @camera.translate do
+			position = CP::Vec2.new(self.width/2, self.height/2)
+			position += @camera.x_hat * @player.body.p.x
+			position += @camera.y_hat * @player.body.p.y
 			
-			@player.draw	@player.body.p.x, @player.body.p.y, 5,		Gosu::Color::RED
-		end
+			@camera.draw do
+				draw_world		x_count,y_count,	@tile_width,@tile_height
+							
+				draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+			end
+			
+			
+			@player.draw	position.x, position.y, 5,		Gosu::Color::RED
+			#~ draw_circle		position.x, position.y,3,	200,	Gosu::Color::RED
+		#~ end
 	end
 	
 	def button_down(id)
