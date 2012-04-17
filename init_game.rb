@@ -88,8 +88,8 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
-		position = CP::Vec2.new(self.width/2, self.height/2)
-		#~ position = CP::Vec2.new(0,0)
+		#~ position = CP::Vec2.new(self.width/2, self.height/2)
+		position = CP::Vec2.new(0,0)
 		position += @camera.x_hat * @player.body.p.x
 		position += @camera.y_hat * @player.body.p.y
 		
@@ -100,7 +100,7 @@ class Game_Window < Gosu::Window
 				# Zoom in on the given position
 				self.scale @camera.zoom, @camera.zoom, position.x, position.y do
 					# Set the origin of the trimetric coordinate system to the center of the window
-					self.translate self.width/2, self.height/2 do 
+					#~ self.translate self.width/2, self.height/2 do 
 						# Trimetric view transform
 						self.transform *@trimetric_transform do
 							#~ @window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
@@ -119,7 +119,7 @@ class Game_Window < Gosu::Window
 								#~ end
 							#~ end
 						end
-					end
+					#~ end
 					
 					# Non-trimetric world draw
 					# Draw is referenced in screen coordinates, not world coordinates
