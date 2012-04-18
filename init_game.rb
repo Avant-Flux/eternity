@@ -97,7 +97,7 @@ class Game_Window < Gosu::Window
 				self.scale @camera.zoom, @camera.zoom, position.x, position.y do
 					# Trimetric view transform
 					self.transform *@trimetric_transform do
-						draw_world			x_count,y_count,	@tile_width,@tile_height
+						draw_world			x_count,y_count,	@tile_width,@tile_height,	0
 						
 						draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
 						
@@ -166,7 +166,7 @@ class Game_Window < Gosu::Window
 		true
 	end
 	
-	def draw_world(x_count,y_count, tile_width,tile_height)
+	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		(0..x_count).each do |x| x *= tile_width
 			(0..y_count).each do |y| y *= tile_height
 				#~ color = Gosu::Color.new rand*255, rand*255, rand*255
@@ -174,7 +174,7 @@ class Game_Window < Gosu::Window
 				y_factor = y.to_f/self.height
 				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				
-				draw_tile	x,y,0,	tile_height,tile_width, color
+				draw_tile	x,y,z,	tile_height,tile_width, color
 			end
 		end
 	end
