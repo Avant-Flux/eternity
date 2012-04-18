@@ -210,19 +210,15 @@ class Game_Window < Gosu::Window
 		
 		@inpman.mode = :gameplay
 		@inpman.new_action :up, :active do
-			#~ @player.y += @tile_height/10
 			@player.body.apply_force CP::Vec2.new(0,500), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :down, :active do
-			#~ @player.y -= @tile_height/10
 			@player.body.apply_force CP::Vec2.new(0,-500), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :left, :active do
-			#~ @player.x -= @tile_width/10
 			@player.body.apply_force CP::Vec2.new(-500,0), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :right, :active do
-			#~ @player.x += @tile_width/10
 			@player.body.apply_force CP::Vec2.new(500,0), CP::ZERO_VEC_2
 		end
 	end
