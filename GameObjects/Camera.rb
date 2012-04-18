@@ -33,16 +33,9 @@ class Camera
 	def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 		@window =  window
 		
-		x_scale = 0.75
-		y_scale = 0.65
-		# OpenGL transform is column-major
-		@x_hat = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad)) * x_scale
-		@y_hat = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad)) * y_scale
-
-		
 		@trimetric_transform = [
-			@x_hat.x, @x_hat.y, 0, 0,
-			@y_hat.x, @y_hat.y, 0, 0,
+			Physics::Direction::X_HAT.x, Physics::Direction::X_HAT.y, 0, 0,
+			Physics::Direction::Y_HAT.x, Physics::Direction::Y_HAT.y, 0, 0,
 			0 ,0, 1, 0,
 			0, 0, 0, 1
 		]

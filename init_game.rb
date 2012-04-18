@@ -60,20 +60,12 @@ class Game_Window < Gosu::Window
 		init_input_system
 		bind_inputs
 		
-		x_scale = 0.75
-		y_scale = 0.65
-		# OpenGL transform is column-major
-		@x_hat = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad)) * x_scale
-		@y_hat = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad)) * y_scale
-
-		
 		@trimetric_transform = [
-			@x_hat.x, @x_hat.y, 0, 0,
-			@y_hat.x, @y_hat.y, 0, 0,
+			Physics::Direction::X_HAT.x, Physics::Direction::X_HAT.y, 0, 0,
+			Physics::Direction::Y_HAT.x, Physics::Direction::Y_HAT.y, 0, 0,
 			0 ,0, 1, 0,
 			0, 0, 0, 1
-		]
-		
+		]		
 		@zoom = 1
 	end
 	
@@ -95,10 +87,7 @@ class Game_Window < Gosu::Window
 		x_count = 10
 		y_count = 10
 		
-		#~ position = CP::Vec2.new(self.width/2, self.height/2)
-		position = CP::Vec2.new(0,0)
-		position += @camera.x_hat * @player.body.p.x
-		position += @camera.y_hat * @player.body.p.y
+		position = @player.body.p.to_screen
 		
 		# Set origin of the entire game world to the given position
 		self.translate -position.x, -position.y do
@@ -124,17 +113,9 @@ class Game_Window < Gosu::Window
 					# Non-trimetric world draw
 					# Draw is referenced in screen coordinates, not world coordinates
 					
-					#~ position = CP::Vec2.new(self.width/2, self.height/2)
-					#~ position = CP::Vec2.new(0,0)
-					#~ position += @camera.x_hat * @player.body.p.x
-					#~ position += @camera.y_hat * @player.body.p.y
-					
-					
 					@player.draw	position.x, position.y, 5,		Gosu::Color::RED
 					@npcs.each do |npc|
-						npc_pos = CP::Vec2.new(0,0)
-						npc_pos += @camera.x_hat * npc.body.p.x
-						npc_pos += @camera.y_hat * npc.body.p.y
+						npc_pos = npc.body.p.to_screen
 						
 						npc.draw npc_pos.x, npc_pos.y, 5,		Gosu::Color::BLUE
 					end

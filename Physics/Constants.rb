@@ -16,22 +16,12 @@ module Physics
 	end
 	
 	module Direction
+		x_scale = 0.75
+		y_scale = 0.65
 		
-		#~ a = 85
-		#~ X_HAT = CP::Vec2.new(Math.cos((90-a).to_rad),Math.sin((90-a).to_rad))
-		#~ Y_HAT = CP::Vec2.new(Math.cos(a.to_rad), -Math.sin(a.to_rad))
-		
-		X_HAT = CP::Vec2.new 1, 0
-		Y_HAT = CP::Vec2.new(Math.cos(70.to_rad), -Math.sin(70.to_rad))
+		X_HAT = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad)) * x_scale
+		Y_HAT = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad)) * y_scale
 		Z_HAT = CP::Vec2.new 0, -1
-		# Scaling factor to covert the z stored (in meters)
-		# to the units needed for the current projection
-		#~ Z_SCALE = 1
-		
-		# Vector used to transform the coordinates used in the Eternity space
-		# back to the standard values in the xy cartesian plane
-		Y_HAT_BACK = CP::Vec2.new(Math.cos(70.to_rad)/Math.sin(70.to_rad),
-								-1/Math.sin(70.to_rad))
 		
 		N = Y_HAT
 		S = -Y_HAT
