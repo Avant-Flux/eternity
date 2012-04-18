@@ -99,9 +99,9 @@ class Game_Window < Gosu::Window
 					self.transform *@trimetric_transform do
 						draw_world			x_count,y_count,	@tile_width,@tile_height
 						
-						draw_circle			@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+						draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
 						
-						draw_magic_circle	@player.body.p.x,@player.body.p.y,3
+						draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 						
 						#~ gl do
 							#~ glPushMatrix()
