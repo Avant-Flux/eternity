@@ -28,7 +28,7 @@ class Entity
 		@visible = true
 		
 		@body = CP::Body.new 100, CP::INFINITY
-		@shape = CP::Shape::Circle.new @body, 10, CP::ZERO_VEC_2
+		@shape = CP::Shape::Circle.new @body, 30, CP::ZERO_VEC_2
 		#~ @name = name
 		#~ @lvl = lvl
 		#~ @element = element
@@ -59,7 +59,7 @@ class Entity
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			# Draw a square in perspective centered on the player location
-			width = 20
+			width = 40
 			height = 60
 			
 			half_width = width/2
