@@ -209,13 +209,20 @@ class Game_Window < Gosu::Window
 	
 	def draw_magic_circle(x,y,z)
 		@magic_circle ||= Gosu::Image.new(self, "./Sprites/Effects/firecircle.png", false)
+		@magic_circle_angle ||= 0
+		if @magic_circle_angle > 360
+			@magic_circle_angle = 0
+		else
+			@magic_circle_angle += 1
+		end
 		zoom = 0.3
 		color = Gosu::Color::RED
 		
 		self.scale zoom,zoom, x,y do
-			self.translate -@magic_circle.width/2, -@magic_circle.height/2 do
-				@magic_circle.old_draw(x,y,z, 1,1, color)
-			end
+			#~ self.translate -@magic_circle.width/2, -@magic_circle.height/2 do
+				#~ @magic_circle.old_draw(x,y,z, 1,1, color)
+				@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
+			#~ end
 		end
 	end
 	
