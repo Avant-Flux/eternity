@@ -97,9 +97,11 @@ class Game_Window < Gosu::Window
 				self.scale @camera.zoom, @camera.zoom, position.x, position.y do
 					# Trimetric view transform
 					self.transform *@trimetric_transform do
-						draw_world		x_count,y_count,	@tile_width,@tile_height
+						draw_world			x_count,y_count,	@tile_width,@tile_height
 						
-						draw_circle		@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+						draw_circle			@player.body.p.x,@player.body.p.y,3,	200,	Gosu::Color::RED
+						
+						draw_magic_circle	@player.body.p.x,@player.body.p.y,3
 						
 						#~ gl do
 							#~ glPushMatrix()
@@ -202,6 +204,18 @@ class Game_Window < Gosu::Window
 			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
+		end
+	end
+	
+	def draw_magic_circle(x,y,z)
+		@magic_circle ||= Gosu::Image.new(self, "./Sprites/Effects/firecircle.png", false)
+		zoom = 0.3
+		color = Gosu::Color::RED
+		
+		self.scale zoom,zoom, x,y do
+			self.translate -@magic_circle.width/2, -@magic_circle.height/2 do
+				@magic_circle.old_draw(x,y,z, 1,1, color)
+			end
 		end
 	end
 	
