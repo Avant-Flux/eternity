@@ -40,7 +40,7 @@ class Game_Window < Gosu::Window
 		
 		@space = CP::Space.new
 		@space.iterations = 10
-		#~ @space.damping = 0.8
+		@space.damping = 0.2
 		
 		@player = Entity.new(self)
 		@space.add_shape @player.shape
