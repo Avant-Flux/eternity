@@ -33,8 +33,8 @@ class Game_Window < Gosu::Window
 		super(1280, 720, false, (1.0/fps)*1000)
 		self.caption = "Eternity 0.11.0"
 		
-		@tile_width = 50
-		@tile_height = 50
+		@tile_width = 200
+		@tile_height = 200
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
@@ -110,6 +110,7 @@ class Game_Window < Gosu::Window
 							#~ glPopMatrix()
 						#~ end
 						#~ @player.draw	@player.body.p.x,@player.body.p.y,5,	Gosu::Color::RED
+						self.flush
 					end
 					
 					# Non-trimetric world draw

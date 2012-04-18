@@ -69,7 +69,7 @@ class Entity
 				@window.draw_quad	x, y, color,
 									x+width, y, color,
 									x+width, y+height, color,
-									x, y+height, color, y+100
+									x, y+height, color, -@body.p.y
 			end
 		end
 	end
