@@ -64,6 +64,8 @@ class Camera
 				#~ self.gameobj.queue[gameobj.layers].send method, gameobj
 			#~ end
 		#~ end
+		
+		@trimetric_queue = TrimetricQueue.new
 	end
 	
 	def update
@@ -88,38 +90,37 @@ class Camera
 		# Render code blocks to the display
 		position = @followed_entity.body.p.to_screen
 		
-		# Set origin of the entire game world to the given position
-		@window.translate -position.x, -position.y do
-			# Center the entire game world around the given position
-			@window.translate @window_offset_x, @window_offset_y do
-				@trimetric_queue.each do |z, queue|
-					@window.translate 0, -z do
-						# Zoom in on the given position
-						@window.scale @zoom,@zoom, position.x, position.y do
+		# Center the entire game world around the given position
+		@window.translate @window_offset_x, @window_offset_y do
+			# Zoom in on the given position
+			@window.scale @zoom,@zoom do
+				# Set origin of the entire game world to the given position
+				@window.translate -position.x, -position.y do
+					# Draw all trimetric world elements
+					@trimetric_queue.each do |z, queue|
+						@window.translate 0, -z do
 							# Trimetric view transform
 							@window.transform *@trimetric_transform do
 								queue.each {|block| block.call}
 							end
 							
 							@window.flush
-							
-							@billboard_block.call
 						end
 					end
+					
+					# Draw non-trimetric world elements
+					@billboard_block.call
 				end
 			end
 		end
 		
 		@window.flush
+		
+		@trimetric_queue.clear
 	end
 	
 	def draw_trimetric(z=0, &block)
-		# Capture block to be rendered with trimetric transform
-		# Trimetric queue is a hash table: key = z index, value = draw block
-		# 
-		@trimetric_queue ||= Hash.new
-		@trimetric_queue[z] ||= Array.new
-		@trimetric_queue[z] << block
+		@trimetric_queue.draw(z, block)
 	end
 	
 	def draw_billboarded(&block)
@@ -257,4 +258,18 @@ class Camera
 	# ==================================
 	# ===== End Position Accessors =====
 	# ==================================
+	
+	class TrimetricQueue < Hash
+		def initialize(*args)
+			super(*args)
+		end
+		
+		def draw(z=0, block)
+			# Capture block to be rendered with trimetric transform
+			# Trimetric queue is a hash table: key = z index, value = draw block
+			# 
+			self[z] ||= Array.new
+			self[z] << block
+		end
+	end
 end

@@ -90,6 +90,13 @@ class Game_Window < Gosu::Window
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 		
+		@camera.draw_trimetric 100 do
+			x_count = 3
+			y_count = 3
+			
+			draw_world			x_count,y_count,	@tile_width,@tile_height,	0
+		end
+		
 		@camera.draw_billboarded do
 			@player.draw	Gosu::Color::RED
 			@npcs.each do |npc|
