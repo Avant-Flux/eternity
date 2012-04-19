@@ -32,6 +32,8 @@ class Camera
 	
 	def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 		@window =  window
+		@window_offset_x = @window.width/2
+		@window_offset_y = @window.height/2
 		
 		@trimetric_transform = [
 			Physics::Direction::X_HAT.x, Physics::Direction::X_HAT.y, 0, 0,
@@ -89,7 +91,7 @@ class Camera
 		# Set origin of the entire game world to the given position
 		@window.translate -position.x, -position.y do
 			# Center the entire game world around the given position
-			@window.translate @window.width/2, @window.height/2 do
+			@window.translate @window_offset_x, @window_offset_y do
 				# Zoom in on the given position
 				@window.scale @zoom,@zoom, position.x, position.y do
 					# Trimetric view transform
