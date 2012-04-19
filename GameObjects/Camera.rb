@@ -82,19 +82,48 @@ class Camera
 		#~ end
 	end
 	
-	def draw(&block)
-		# Translate relative to screen coordinates
-		# Place world coordinate (0,0) at the center of the screen
-		@window.translate @window.width/2, @window.height/2 do
-			@window.transform *@trimetric_transform do
-				# Relative to world, center on player
-				#~ @window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y do
-					@window.scale @zoom,@zoom, @followed_entity.body.p.x,@followed_entity.body.p.y  do
-						block.call
+	def flush
+		# Render code blocks to the display
+		
+		position = @followed_entity.body.p.to_screen
+		
+		# Set origin of the entire game world to the given position
+		@window.translate -position.x, -position.y do
+			# Center the entire game world around the given position
+			@window.translate @window.width/2, @window.height/2 do
+				# Zoom in on the given position
+				@window.scale @zoom,@zoom, position.x, position.y do
+					# Trimetric view transform
+					@window.transform *@trimetric_transform do
+						@trimetric_block.call
 					end
-				#~ end
+					
+					@window.flush
+					
+					
+					@billboard_block.call
+				end
 			end
 		end
+		
+		@screen_block.call
+	end
+	
+	def draw_screen(&block)
+		# Draw based on screen coordinates
+		@screen_block = block
+	end
+	
+	def draw_trimetric(&block)
+		
+		@trimetric_block = block
+	end
+	
+	def draw_billboarded(&block)
+		# Non-trimetric world draw
+		# Draw is referenced in screen coordinates, not world coordinates
+		# However, the coordinate system has been translated around the tracked entity
+		@billboard_block = block
 	end
 	
 	def translate(&block)

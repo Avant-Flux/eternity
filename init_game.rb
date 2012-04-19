@@ -84,48 +84,33 @@ class Game_Window < Gosu::Window
 		end
 		
 		
-		x_count = 10
-		y_count = 10
 		
-		position = @player.body.p.to_screen
+		@camera.draw_trimetric do
+			x_count = 10
+			y_count = 10
+			
+			draw_world			x_count,y_count,	@tile_width,@tile_height,	0
+			
+			draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
+			
+			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
+		end
 		
-		# Set origin of the entire game world to the given position
-		self.translate -position.x, -position.y do
-			# Center the entire game world around the given position
-			self.translate self.width/2, self.height/2 do
-				# Zoom in on the given position
-				self.scale @camera.zoom, @camera.zoom, position.x, position.y do
-					# Trimetric view transform
-					self.transform *@trimetric_transform do
-						draw_world			x_count,y_count,	@tile_width,@tile_height,	0
-						
-						draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
-						
-						draw_magic_circle	@player.body.p.x,@player.body.p.y,0
-						
-						#~ gl do
-							#~ glPushMatrix()
-								#~ glLoadIdentity()
-								#~ 
-							#~ glPopMatrix()
-						#~ end
-						#~ @player.draw	@player.body.p.x,@player.body.p.y,5,	Gosu::Color::RED
-						self.flush
-					end
-					
-					# Non-trimetric world draw
-					# Draw is referenced in screen coordinates, not world coordinates
-					
-					@player.draw	position.x, position.y, 5,		Gosu::Color::RED
-					@npcs.each do |npc|
-						npc_pos = npc.body.p.to_screen
-						
-						npc.draw npc_pos.x, npc_pos.y, 5,		Gosu::Color::BLUE
-					end
-					#~ draw_circle		position.x, position.y, 3,	200,	Gosu::Color::RED
-				end
+		@camera.draw_billboarded do
+			position = @player.body.p.to_screen
+			@player.draw	position.x, position.y, 5,		Gosu::Color::RED
+			@npcs.each do |npc|
+				npc_pos = npc.body.p.to_screen
+				
+				npc.draw npc_pos.x, npc_pos.y, 5,		Gosu::Color::BLUE
 			end
 		end
+		
+		@camera.draw_screen do
+			
+		end
+		
+		@camera.flush
 	end
 	
 	def button_down(id)
