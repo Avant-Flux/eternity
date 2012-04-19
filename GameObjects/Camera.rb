@@ -92,16 +92,20 @@ class Camera
 		@window.translate -position.x, -position.y do
 			# Center the entire game world around the given position
 			@window.translate @window_offset_x, @window_offset_y do
-				# Zoom in on the given position
-				@window.scale @zoom,@zoom, position.x, position.y do
-					# Trimetric view transform
-					@window.transform *@trimetric_transform do
-						@trimetric_block.call
+				@trimetric_queue.each do |z, queue|
+					@window.translate 0, -z do
+						# Zoom in on the given position
+						@window.scale @zoom,@zoom, position.x, position.y do
+							# Trimetric view transform
+							@window.transform *@trimetric_transform do
+								queue.each {|block| block.call}
+							end
+							
+							@window.flush
+							
+							@billboard_block.call
+						end
 					end
-					
-					@window.flush
-					
-					@billboard_block.call
 				end
 			end
 		end
@@ -109,9 +113,13 @@ class Camera
 		@window.flush
 	end
 	
-	def draw_trimetric(&block)
+	def draw_trimetric(z=0, &block)
 		# Capture block to be rendered with trimetric transform
-		@trimetric_block = block
+		# Trimetric queue is a hash table: key = z index, value = draw block
+		# 
+		@trimetric_queue ||= Hash.new
+		@trimetric_queue[z] ||= Array.new
+		@trimetric_queue[z] << block
 	end
 	
 	def draw_billboarded(&block)
