@@ -103,8 +103,6 @@ class Camera
 							@window.transform *@trimetric_transform do
 								queue.each {|block| block.call}
 							end
-							
-							@window.flush
 						end
 					end
 					

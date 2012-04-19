@@ -83,18 +83,18 @@ class Game_Window < Gosu::Window
 			x_count = 10
 			y_count = 10
 			
-			draw_world			x_count,y_count,	@tile_width,@tile_height
+			draw_world			x_count,y_count,	@tile_width,@tile_height, 0
 			
 			draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
 			
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 		
-		@camera.draw_trimetric 100 do
+		@camera.draw_trimetric 200 do
 			x_count = 3
 			y_count = 3
 			
-			draw_world			x_count,y_count,	@tile_width,@tile_height
+			draw_world			x_count,y_count,	@tile_width,@tile_height, 200
 		end
 		
 		@camera.draw_billboarded do
@@ -139,7 +139,7 @@ class Game_Window < Gosu::Window
 		true
 	end
 	
-	def draw_world(x_count,y_count, tile_width,tile_height)
+	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		(0..x_count).each do |x|
 			(0..y_count).each do |y|
 				#~ color = Gosu::Color.new rand*255, rand*255, rand*255
@@ -147,8 +147,9 @@ class Game_Window < Gosu::Window
 				y_factor = y.to_f/y_count
 				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				
-				z = 0
-				draw_tile	x*tile_width,y*tile_width,z,	tile_height,tile_width, color
+				x_offset = x*tile_width
+				y_offset = y*tile_width
+				draw_tile	x_offset,y_offset,z,	tile_height,tile_width, color
 			end
 		end
 	end
@@ -157,7 +158,7 @@ class Game_Window < Gosu::Window
 		self.draw_quad	x, y, color,
 						x+width, y, color,
 						x+width, y+height, color,
-						x, y+height, color
+						x, y+height, color, z
 	end
 	
 	def draw_circle(x,y,z, r, color, options={})

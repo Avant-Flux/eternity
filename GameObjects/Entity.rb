@@ -59,7 +59,6 @@ class Entity
 		position = @body.p.to_screen
 		x = position.x
 		y = position.y
-		z = 5
 		
 		# TODO may have to pass the z index from the game state manager
 		if @visible
@@ -70,11 +69,12 @@ class Entity
 			half_width = width/2
 			half_height = height/2
 			
+			z=0
 			@window.translate -half_width, -height do # Draw centered at base
 				@window.draw_quad	x, y, color,
 									x+width, y, color,
 									x+width, y+height, color,
-									x, y+height, color, -@body.p.y
+									x, y+height, color, z
 			end
 		end
 	end
