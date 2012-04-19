@@ -74,7 +74,7 @@ class Game_Window < Gosu::Window
 		
 		@inpman.update
 		@space.step 1/60.0
-		puts @player.body.p
+		#~ puts @player.body.p
 		#~ @player.body.reset_forces
 	end
 	

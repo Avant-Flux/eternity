@@ -121,10 +121,6 @@ class Camera
 		@billboard_block = block
 	end
 	
-	def translate(&block)
-		@window.translate -@followed_entity.body.p.x, -@followed_entity.body.p.y, &block
-	end
-	
 	# Return the amount in pixels to offset the rendering
 	def offset
 		return	@window.width / 2.0 - px_old.to_px(@zoom),
