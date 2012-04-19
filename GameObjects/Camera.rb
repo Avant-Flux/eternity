@@ -269,5 +269,13 @@ class Camera
 			self[z] ||= Array.new
 			self[z] << block
 		end
+		
+		def clear
+			# ===== WARNING =====
+			# Memory will leak if empty arrays stick around indefinitely
+			self.each do |z, queue|
+				queue.clear
+			end
+		end
 	end
 end
