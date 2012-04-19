@@ -124,15 +124,6 @@ class Game_Window < Gosu::Window
 		if id == Gosu::KbA
 			@steppable = true
 		end
-		
-		case id
-			when Gosu::Kb0
-				@camera.zoom_reset
-			when Gosu::Kb1
-				@camera.zoom_in
-			when Gosu::Kb2
-				@camera.zoom_out
-		end
 	end
 	
 	def button_up(id)
@@ -224,6 +215,18 @@ class Game_Window < Gosu::Window
 		@inpman.new_action :right, :active do
 			@player.body.apply_force CP::Vec2.new(500,0), CP::ZERO_VEC_2
 		end
+		
+		@inpman.new_action :zoom_in, :active do
+			@camera.zoom_in
+		end
+		
+		@inpman.new_action :zoom_out, :active do
+			@camera.zoom_out
+		end
+		
+		@inpman.new_action :zoom_reset, :active_edge do
+			@camera.zoom_reset
+		end
 	end
 	
 	def bind_inputs
@@ -233,6 +236,10 @@ class Game_Window < Gosu::Window
 		@inpman.bind_action :down, Gosu::KbDown
 		@inpman.bind_action :left, Gosu::KbLeft
 		@inpman.bind_action :right, Gosu::KbRight
+		
+		@inpman.bind_action :zoom_in, Gosu::Kb1
+		@inpman.bind_action :zoom_out, Gosu::Kb2
+		@inpman.bind_action :zoom_reset, Gosu::Kb0
 	end
 end
 
