@@ -103,6 +103,8 @@ class Camera
 				end
 			end
 		end
+		
+		@window.flush
 	end
 	
 	def draw_trimetric(&block)
