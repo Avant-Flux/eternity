@@ -79,12 +79,6 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
-		end
-		
-		
-		
 		@camera.draw_trimetric do
 			x_count = 10
 			y_count = 10
@@ -103,11 +97,11 @@ class Game_Window < Gosu::Window
 			end
 		end
 		
-		@camera.draw_screen do
-			
-		end
-		
 		@camera.flush
+		
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
+		end
 	end
 	
 	def button_down(id)

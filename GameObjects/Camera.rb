@@ -105,13 +105,6 @@ class Camera
 				end
 			end
 		end
-		
-		@screen_block.call
-	end
-	
-	def draw_screen(&block)
-		# Draw based on screen coordinates
-		@screen_block = block
 	end
 	
 	def draw_trimetric(&block)
