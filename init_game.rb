@@ -97,12 +97,9 @@ class Game_Window < Gosu::Window
 		end
 		
 		@camera.draw_billboarded do
-			position = @player.body.p.to_screen
-			@player.draw	position.x, position.y, 5,		Gosu::Color::RED
+			@player.draw	Gosu::Color::RED
 			@npcs.each do |npc|
-				npc_pos = npc.body.p.to_screen
-				
-				npc.draw npc_pos.x, npc_pos.y, 5,		Gosu::Color::BLUE
+				npc.draw	Gosu::Color::BLUE
 			end
 		end
 		

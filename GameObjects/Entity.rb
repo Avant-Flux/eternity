@@ -55,7 +55,12 @@ class Entity
 		
 	end
 	
-	def draw(x,y,z, color)
+	def draw(color)
+		position = @body.p.to_screen
+		x = position.x
+		y = position.y
+		z = 5
+		
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			# Draw a square in perspective centered on the player location
