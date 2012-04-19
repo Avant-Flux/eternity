@@ -56,17 +56,8 @@ class Game_Window < Gosu::Window
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
 		
-		
 		init_input_system
 		bind_inputs
-		
-		@trimetric_transform = [
-			Physics::Direction::X_HAT.x, Physics::Direction::X_HAT.y, 0, 0,
-			Physics::Direction::Y_HAT.x, Physics::Direction::Y_HAT.y, 0, 0,
-			0 ,0, 1, 0,
-			0, 0, 0, 1
-		]		
-		@zoom = 1
 	end
 	
 	def update
