@@ -83,7 +83,7 @@ class Game_Window < Gosu::Window
 			x_count = 10
 			y_count = 10
 			
-			draw_world			x_count,y_count,	@tile_width,@tile_height,	0
+			draw_world			x_count,y_count,	@tile_width,@tile_height
 			
 			draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
 			
@@ -94,7 +94,7 @@ class Game_Window < Gosu::Window
 			x_count = 3
 			y_count = 3
 			
-			draw_world			x_count,y_count,	@tile_width,@tile_height,	0
+			draw_world			x_count,y_count,	@tile_width,@tile_height
 		end
 		
 		@camera.draw_billboarded do
@@ -139,15 +139,16 @@ class Game_Window < Gosu::Window
 		true
 	end
 	
-	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
-		(0..x_count).each do |x| x *= tile_width
-			(0..y_count).each do |y| y *= tile_height
+	def draw_world(x_count,y_count, tile_width,tile_height)
+		(0..x_count).each do |x|
+			(0..y_count).each do |y|
 				#~ color = Gosu::Color.new rand*255, rand*255, rand*255
-				x_factor = x.to_f/self.width
-				y_factor = y.to_f/self.height
+				x_factor = x.to_f/x_count
+				y_factor = y.to_f/y_count
 				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				
-				draw_tile	x,y,z,	tile_height,tile_width, color
+				z = 0
+				draw_tile	x*tile_width,y*tile_width,z,	tile_height,tile_width, color
 			end
 		end
 	end
