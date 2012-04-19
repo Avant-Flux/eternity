@@ -142,7 +142,6 @@ class Game_Window < Gosu::Window
 	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		(0..x_count).each do |x|
 			(0..y_count).each do |y|
-				#~ color = Gosu::Color.new rand*255, rand*255, rand*255
 				x_factor = x.to_f/x_count
 				y_factor = y.to_f/y_count
 				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
@@ -152,6 +151,9 @@ class Game_Window < Gosu::Window
 				draw_tile	x_offset,y_offset,z,	tile_height,tile_width, color
 			end
 		end
+		
+		#~ color = Gosu::Color.new 255-z/20, 255-z/20, 255-z/20
+		#~ self.draw_tile	0, 0, z, x_count*tile_width, y_count*tile_height, color
 	end
 	
 	def draw_tile(x,y,z, height,width, color)
