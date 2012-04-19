@@ -122,10 +122,8 @@ class Game_Window < Gosu::Window
 			when Gosu::Kb0
 				@camera.zoom_reset
 			when Gosu::Kb1
-				puts "zoom in"
 				@camera.zoom_in
 			when Gosu::Kb2
-				puts "zoom out"
 				@camera.zoom_out
 		end
 	end
