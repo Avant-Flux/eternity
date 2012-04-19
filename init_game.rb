@@ -226,7 +226,7 @@ class Game_Window < Gosu::Window
 			@camera.zoom_out
 		end
 		
-		@inpman.new_action :zoom_reset, :active_edge do
+		@inpman.new_action :zoom_reset, :rising_edge do
 			@camera.zoom_reset
 		end
 	end
