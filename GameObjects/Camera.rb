@@ -84,7 +84,6 @@ class Camera
 	
 	def flush
 		# Render code blocks to the display
-		
 		position = @followed_entity.body.p.to_screen
 		
 		# Set origin of the entire game world to the given position
@@ -100,7 +99,6 @@ class Camera
 					
 					@window.flush
 					
-					
 					@billboard_block.call
 				end
 			end
@@ -108,7 +106,7 @@ class Camera
 	end
 	
 	def draw_trimetric(&block)
-		
+		# Capture block to be rendered with trimetric transform
 		@trimetric_block = block
 	end
 	
