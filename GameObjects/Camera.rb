@@ -121,14 +121,14 @@ class Camera
 		@billboard_block = block
 	end
 	
-	# Return the amount in pixels to offset the rendering
-	def offset
-		return	@window.width / 2.0 - px_old.to_px(@zoom),
-				@window.height / 2.0 - py_old.to_px(@zoom)
+	def screen_offset(offset)
+		# Offset the camera by a measure relative to the screen
+		
 	end
 	
-	def [](key)
-		@queue[key] ||= Set.new
+	def world_offset(offset)
+		# Offset the camera by a measure relative to the world
+		
 	end
 	
 	# ==================================
