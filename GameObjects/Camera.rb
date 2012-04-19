@@ -23,9 +23,9 @@ class Camera
 	#~ alias :py_old= :py=
 	
 	MAX_ZOOM = 10
-	MIN_ZOOM = 1
+	MIN_ZOOM = 0.02
 	DEFAULT_ZOOM = 1
-	ZOOM_TICK = 0.2 # Percent to modulate the zoom by when zooming in or out
+	ZOOM_TICK = 0.01 # Percent to modulate the zoom by when zooming in or out
 
 	attr_accessor :x_hat, :y_hat, :zoom
 	
