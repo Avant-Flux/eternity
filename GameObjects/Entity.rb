@@ -14,21 +14,26 @@ class Entity
 	#~ # Status:		Properties imposed by effects, like status effects
 	#~ attr_reader :attributes, :status
 	
-	attr_accessor :x, :y
+	attr_accessor :z
 	attr_accessor :body, :shape
 	
 	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
 	def initialize(window)
 		@window = window
 		
-		@x = 0
-		@y = 0
-		
-		
 		@visible = true
 		
+		#~ File.join(Cacheable.sprite_directory, "People", "NewSprites.png")
+		spritesheet_filename = "./Sprites/People/NewSprites.png"
+		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
+		@sprite = @spritesheet[0]
+		
 		@body = CP::Body.new 100, CP::INFINITY
-		@shape = CP::Shape::Circle.new @body, 30, CP::ZERO_VEC_2
+		@shape = CP::Shape::Circle.new @body, (@sprite.width/2).to_meters, CP::ZERO_VEC_2
+		
+		@z = 0
+		
+		
 		#~ @name = name
 		#~ @lvl = lvl
 		#~ @element = element
@@ -52,29 +57,37 @@ class Entity
 	end
 	
 	def update
-		
+		i = if @body.f.y > 0
+			0
+		else
+			1
+		end
+		@sprite = @spritesheet[i]
 	end
 	
 	def draw(color)
+		# Use z position in meters for z-index
+		
 		position = @body.p.to_screen
 		x = position.x
-		y = position.y
+		y = position.y - @z.to_px
 		
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			# Draw a square in perspective centered on the player location
-			width = 40
-			height = 60
+			#~ width = 40
+			#~ height = 60
 			
-			half_width = width/2
-			half_height = height/2
+			#~ half_width = width/2
+			#~ half_height = height/2
 			
-			z=0
-			@window.translate -half_width, -height do # Draw centered at base
-				@window.draw_quad	x, y, color,
-									x+width, y, color,
-									x+width, y+height, color,
-									x, y+height, color, z
+			#~ @window.translate -half_width, -height do # Draw centered at base
+			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
+				@sprite.old_draw x,y, @z
+				#~ @window.draw_quad	x, y, color,
+									#~ x+width, y, color,
+									#~ x+width, y+height, color,
+									#~ x, y+height, color, @z
 			end
 		end
 	end

@@ -33,8 +33,8 @@ class Game_Window < Gosu::Window
 		super(1280, 720, false, (1.0/fps)*1000)
 		self.caption = "Eternity 0.11.0"
 		
-		@tile_width = 200
-		@tile_height = 200
+		@tile_width = 5
+		@tile_height = 5
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
@@ -67,6 +67,7 @@ class Game_Window < Gosu::Window
 		@space.step 1/60.0
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
+		@player.update
 	end
 	
 	def draw
@@ -81,11 +82,11 @@ class Game_Window < Gosu::Window
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 		
-		@camera.draw_trimetric 200 do
+		@camera.draw_trimetric 3 do
 			x_count = 3
 			y_count = 3
 			
-			draw_world			x_count,y_count,	@tile_width,@tile_height, 200
+			draw_world			x_count,y_count,	@tile_width,@tile_height, 3
 		end
 		
 		@camera.draw_billboarded do
@@ -148,6 +149,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw_tile(x,y,z, height,width, color)
+		# Use z position in meters for z-index
 		self.draw_quad	x, y, color,
 						x+width, y, color,
 						x+width, y+height, color,
@@ -183,7 +185,7 @@ class Game_Window < Gosu::Window
 		else
 			@magic_circle_angle += 1
 		end
-		zoom = 0.3
+		zoom = 0.01
 		color = Gosu::Color::RED
 		
 		self.scale zoom,zoom, x,y do
@@ -199,26 +201,29 @@ class Game_Window < Gosu::Window
 		
 		@inpman.mode = :gameplay
 		@inpman.new_action :up, :active do
-			@player.body.apply_force CP::Vec2.new(0,500), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(0,10), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :down, :active do
-			@player.body.apply_force CP::Vec2.new(0,-500), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(0,-10), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :left, :active do
-			@player.body.apply_force CP::Vec2.new(-500,0), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(-10,0), CP::ZERO_VEC_2
 		end
 		@inpman.new_action :right, :active do
-			@player.body.apply_force CP::Vec2.new(500,0), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(10,0), CP::ZERO_VEC_2
 		end
 		
+		@inpman.new_action :jump, :rising_edge do
+			@player.z += 1
+		end
+		
+		# Camera control
 		@inpman.new_action :zoom_in, :active do
 			@camera.zoom_in
 		end
-		
 		@inpman.new_action :zoom_out, :active do
 			@camera.zoom_out
 		end
-		
 		@inpman.new_action :zoom_reset, :rising_edge do
 			@camera.zoom_reset
 		end
@@ -231,6 +236,8 @@ class Game_Window < Gosu::Window
 		@inpman.bind_action :down, Gosu::KbDown
 		@inpman.bind_action :left, Gosu::KbLeft
 		@inpman.bind_action :right, Gosu::KbRight
+		
+		@inpman.bind_action :jump, Gosu::KbSpace
 		
 		@inpman.bind_action :zoom_in, Gosu::Kb1
 		@inpman.bind_action :zoom_out, Gosu::Kb2

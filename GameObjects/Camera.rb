@@ -98,7 +98,7 @@ class Camera
 				@window.translate -position.x, -position.y do
 					# Draw all trimetric world elements
 					@trimetric_queue.each do |z, queue|
-						@window.translate 0, -z do
+						@window.translate 0, -z.to_px do
 							# Trimetric view transform
 							@window.transform *@trimetric_transform do
 								queue.each {|block| block.call}
