@@ -140,13 +140,24 @@ class Game_Window < Gosu::Window
 	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		(0..x_count).each do |x|
 			(0..y_count).each do |y|
-				x_factor = x.to_f/x_count
-				y_factor = y.to_f/y_count
-				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				#~ x_factor = x.to_f/x_count
+				#~ y_factor = y.to_f/y_count
+				#~ color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				color = Gosu::Color::WHITE
 				
 				x_offset = x*tile_width
 				y_offset = y*tile_width
+				
 				draw_tile	x_offset,y_offset,z,	tile_height,tile_width, color
+				#~ position = CP::Vec2.new(x_offset, y_offset).to_screen
+				#~ position1 = Physics::Direction::X_HAT * x_offset
+				#~ position1 += Physics::Direction::Y_HAT * y_offset
+				#~ 
+				#~ position2 = Physics::Direction::X_HAT * (x_offset + tile_width)
+				#~ position2 += Physics::Direction::Y_HAT * (y_offset + )
+				#~ 
+				#~ self.draw_quad	position1.x, position1.y, color,
+								
 			end
 		end
 		
