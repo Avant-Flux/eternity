@@ -219,44 +219,6 @@ class Camera
 	# ===== End Zoom Controls =====
 	# =============================
 	
-	# ==============================
-	# ===== Position Accessors =====
-	# ==============================
-	def px
-		if @followed_entity
-			@followed_entity.px
-		else
-			self.px_old
-		end
-	end
-	
-	def py
-		if @followed_entity
-			@followed_entity.py
-		else
-			self.py_old
-		end
-	end
-	
-	def pz
-		if @followed_entity
-			@followed_entity.pz
-		else
-			0
-		end
-	end
-	
-	def py_
-		if @followed_entity
-			@followed_entity.py_
-		else
-			0
-		end
-	end
-	# ==================================
-	# ===== End Position Accessors =====
-	# ==================================
-	
 	class TrimetricQueue < Hash
 		def initialize(*args)
 			super(*args)
