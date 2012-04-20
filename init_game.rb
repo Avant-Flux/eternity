@@ -116,6 +116,12 @@ class Game_Window < Gosu::Window
 		if id == Gosu::KbA
 			@steppable = true
 		end
+		
+		if id == Gosu::MsWheelDown
+			@camera.zoom_in
+		elsif id == Gosu::MsWheelUp
+			@camera.zoom_out
+		end
 	end
 	
 	def button_up(id)
@@ -218,12 +224,12 @@ class Game_Window < Gosu::Window
 		end
 		
 		# Camera control
-		@inpman.new_action :zoom_in, :active do
-			@camera.zoom_in
-		end
-		@inpman.new_action :zoom_out, :active do
-			@camera.zoom_out
-		end
+		#~ @inpman.new_action :zoom_in, :rising_edge do
+			#~ @camera.zoom_in
+		#~ end
+		#~ @inpman.new_action :zoom_out, :active do
+			#~ @camera.zoom_out
+		#~ end
 		@inpman.new_action :zoom_reset, :rising_edge do
 			@camera.zoom_reset
 		end
@@ -239,9 +245,9 @@ class Game_Window < Gosu::Window
 		
 		@inpman.bind_action :jump, Gosu::KbSpace
 		
-		@inpman.bind_action :zoom_in, Gosu::Kb1
-		@inpman.bind_action :zoom_out, Gosu::Kb2
-		@inpman.bind_action :zoom_reset, Gosu::Kb0
+		#~ @inpman.bind_action :zoom_in, Gosu::Kb1
+		#~ @inpman.bind_action :zoom_out, Gosu::MsWheelDown
+		#~ @inpman.bind_action :zoom_reset, Gosu::Kb0
 	end
 end
 
