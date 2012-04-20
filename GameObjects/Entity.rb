@@ -28,7 +28,7 @@ class Entity
 		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
 		@sprite = @spritesheet[0]
 		
-		@body = CP::Body.new 100, CP::INFINITY
+		@body = CP::Body.new 60, CP::INFINITY
 		@shape = CP::Shape::Circle.new @body, (@sprite.width/2).to_meters, CP::ZERO_VEC_2
 		
 		@z = 0
