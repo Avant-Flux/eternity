@@ -87,7 +87,7 @@ class Entity
 		end
 	end
 	
-	def draw(color)
+	def draw
 		# Use z position in meters for z-index
 		
 		position = @body.p.to_screen

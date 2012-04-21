@@ -105,9 +105,9 @@ class Game_Window < Gosu::Window
 		end
 		
 		@camera.draw_billboarded do
-			@player.draw	Gosu::Color::RED
+			@player.draw
 			@npcs.each do |npc|
-				npc.draw	Gosu::Color::BLUE
+				npc.draw
 			end
 		end
 		
