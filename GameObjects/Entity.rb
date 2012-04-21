@@ -36,6 +36,7 @@ class Entity
 		@pz = 0
 		@vz = 0 
 		@az = 0
+		@g = -9.8
 		
 		
 		#~ @name = name
@@ -56,8 +57,8 @@ class Entity
 		#~ 
 		#~ @intense = false
 		#~ @visible = true		#Controls whether or not to render the Entity
-		#~ 
-		#~ @jump_count = 0
+		
+		@jump_count = 0
 	end
 	
 	def update
@@ -68,8 +69,21 @@ class Entity
 		end
 		@sprite = @spritesheet[i]
 		
+		dt = 1/60.0
+		@vz += @az * dt
+		@pz += @vz * dt
 		if @pz < @elevation
 			@pz = @elevation
+			@vz = 0
+			@az = 0
+			resolve_ground_collision
+		elsif @pz > @elevation
+			# TODO: Change conditional to be if in_air? to handle uneven terrain
+			# Apply gravity
+			@vz += @g * dt
+			@pz += @vz * dt
+		else
+			# Currently on the ground
 		end
 	end
 	
@@ -158,10 +172,10 @@ class Entity
 	end
 	
 	def jump
-		#~ if @jump_count < 3 #Do not exceed the jump count.
+		if @jump_count < 3 #Do not exceed the jump count.
 			@jump_count += 1
-			self.vz = 5 #On jump, set the velocity in the z direction
-		#~ end
+			@vz = 5 #On jump, set the velocity in the z direction
+		end
 	end
 	
 	def visible?

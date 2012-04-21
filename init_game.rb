@@ -231,7 +231,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		@inpman.new_action :jump, :rising_edge do
-			@player.pz += 1
+			@player.jump
 		end
 		
 		# Camera control
