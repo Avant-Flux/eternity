@@ -95,7 +95,7 @@ class Camera
 			# Zoom in on the given position
 			@window.scale @zoom,@zoom do
 				# Set origin of the entire game world to the given position
-				@window.translate -position.x, -position.y+@followed_entity.z.to_px do
+				@window.translate -position.x, -position.y+@followed_entity.pz.to_px do
 					# Draw all trimetric world elements
 					@trimetric_queue.each do |z, queue|
 						@window.translate 0, -z.to_px do

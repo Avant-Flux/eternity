@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 Dir.chdir File.dirname(__FILE__)
 
 require 'rubygems'
@@ -81,7 +81,7 @@ class Game_Window < Gosu::Window
 			
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
-		
+		#~ 
 		@camera.draw_trimetric 3 do
 			x_count = 3
 			y_count = 3
@@ -140,10 +140,10 @@ class Game_Window < Gosu::Window
 	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		(0..x_count).each do |x|
 			(0..y_count).each do |y|
-				#~ x_factor = x.to_f/x_count
-				#~ y_factor = y.to_f/y_count
-				#~ color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
-				color = Gosu::Color::WHITE
+				x_factor = x.to_f/x_count
+				y_factor = y.to_f/y_count
+				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				#~ color = Gosu::Color::WHITE
 				
 				x_offset = x*tile_width
 				y_offset = y*tile_width
@@ -231,7 +231,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		@inpman.new_action :jump, :rising_edge do
-			@player.z += 1
+			@player.pz += 1
 		end
 		
 		# Camera control

@@ -14,7 +14,7 @@ class Entity
 	#~ # Status:		Properties imposed by effects, like status effects
 	#~ attr_reader :attributes, :status
 	
-	attr_accessor :z
+	attr_accessor :pz
 	attr_accessor :body, :shape
 	
 	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
@@ -31,7 +31,11 @@ class Entity
 		@body = CP::Body.new 60, CP::INFINITY
 		@shape = CP::Shape::Circle.new @body, (@sprite.width/2).to_meters, CP::ZERO_VEC_2
 		
-		@z = 0
+		# Create values for 3rd dimension of physics
+		@elevation = 0
+		@pz = 0
+		@vz = 0 
+		@az = 0
 		
 		
 		#~ @name = name
@@ -63,6 +67,10 @@ class Entity
 			1
 		end
 		@sprite = @spritesheet[i]
+		
+		if @pz < @elevation
+			@pz = @elevation
+		end
 	end
 	
 	def draw(color)
@@ -70,24 +78,16 @@ class Entity
 		
 		position = @body.p.to_screen
 		x = position.x
-		y = position.y - @z.to_px
+		y = position.y - @pz.to_px
 		
 		# TODO may have to pass the z index from the game state manager
 		if @visible
-			# Draw a square in perspective centered on the player location
-			#~ width = 40
-			#~ height = 60
-			
-			#~ half_width = width/2
-			#~ half_height = height/2
-			
-			#~ @window.translate -half_width, -height do # Draw centered at base
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
-				@sprite.old_draw x,y, @z
+				@sprite.old_draw x,y, @pz
 				#~ @window.draw_quad	x, y, color,
 									#~ x+width, y, color,
 									#~ x+width, y+height, color,
-									#~ x, y+height, color, @z
+									#~ x, y+height, color, @pz
 			end
 		end
 	end
