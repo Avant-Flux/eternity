@@ -93,10 +93,14 @@ class Game_Window < Gosu::Window
 		[@player, *@npcs].each do |entity|
 			@camera.draw_trimetric entity.elevation do
 				# Draw shadow
-				r = 1
+				c = 1
+				r = (entity.pz - entity.elevation + c)
+				
+				c = 5
+				alpha = 1/(entity.pz - entity.elevation + c)
 				self.draw_circle	entity.body.p.x, entity.body.p.y, entity.elevation,
 									r,	Gosu::Color::BLACK,
-									:stroke_width => r, :slices => 20, :alpha => 0.2
+									:stroke_width => r, :slices => 20, :alpha => alpha
 			end
 		end
 		
