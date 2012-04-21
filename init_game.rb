@@ -77,16 +77,27 @@ class Game_Window < Gosu::Window
 			
 			draw_world			x_count,y_count,	@tile_width,@tile_height, 0
 			
-			draw_circle			@player.body.p.x,@player.body.p.y,0,	200,	Gosu::Color::RED
+			#~ draw_circle			@player.body.p.x,@player.body.p.y,0,	10,	Gosu::Color::RED
 			
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
-		#~ 
+		
 		@camera.draw_trimetric 3 do
 			x_count = 3
 			y_count = 3
 			
 			draw_world			x_count,y_count,	@tile_width,@tile_height, 3
+		end
+		
+		# Draw shadows
+		[@player, *@npcs].each do |entity|
+			@camera.draw_trimetric entity.elevation do
+				# Draw shadow
+				r = 1
+				self.draw_circle	entity.body.p.x, entity.body.p.y, entity.elevation,
+									r,	Gosu::Color::BLACK,
+									:stroke_width => r, :slices => 20, :alpha => 0.2
+			end
 		end
 		
 		@camera.draw_billboarded do
@@ -175,18 +186,24 @@ class Game_Window < Gosu::Window
 	
 	def draw_circle(x,y,z, r, color, options={})
 		options = {
-			:stroke_width => 3,	# Width of the line
+			:stroke_width => 1,	# Width of the line
 			:slices => 30, # Number of subdivisions around the z axis.
 			:loops => 1, # Number of concentric rings about the origin.
 			
-			:start_angle => 0
+			:start_angle => 0,
+			
+			:alpha => 1 # Float value
 		}.merge! options
 		
 		self.gl z do
 			@quadric ||= gluNewQuadric()
 			
-			glColor(color.red, color.green, color.blue)
+			glEnable(GL_BLEND)
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+			
+			glColor4f(color.red, color.green, color.blue, options[:alpha])
 			glTranslatef(x,y,0)
+			
 			# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
 			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
 							options[:slices], options[:loops],
