@@ -23,6 +23,6 @@ Make sure you have bundler installed
 
 
 Then, open a terminal, navigate to the directory for the game, and run
-	bundler install
+	bundle install
 
 This will allow bundler to install all remaining dependencies for the game.
