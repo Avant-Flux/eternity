@@ -50,16 +50,23 @@ class Game_Window < Gosu::Window
 		@space.iterations = 10
 		@space.damping = 0.2
 		
+		
+		
 		@player = Entity.new(self)
-		@space.add_shape @player.shape
-		@space.add_body @player.body
 		
 		@npcs = Array.new
 		@npcs[0] = Entity.new(self)
-		@npcs.each do |npc|
-			@space.add_shape npc.shape
-			@space.add_body npc.body
+		
+		
+		@entities = Array.new
+		@entities.push @player
+		@entities.push *@npcs
+		
+		
+		@entities.each do |entity|
+			entity.add_to @space
 		end
+		
 		
 		@camera = Camera.new(self)
 		@camera.followed_entity = @player
@@ -98,7 +105,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		# Draw shadows
-		[@player, *@npcs].each do |entity|
+		@entities.each do |entity|
 			# Draw shadow
 			@camera.draw_trimetric entity.elevation do
 				

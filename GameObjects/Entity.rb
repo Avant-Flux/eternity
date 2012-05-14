@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
+	include PhysicsInterface
 	#~ include Physics::ThreeD_Support
 	#~ include Physics::ThreeD_Support::Cylinder
 	#~ include Physics::Movement::Entity
@@ -28,16 +29,8 @@ class Entity
 		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
 		@sprite = @spritesheet[0]
 		
-		@body = CP::Body.new 60, CP::INFINITY
-		@shape = CP::Shape::Circle.new @body, (@sprite.width/2).to_meters, CP::ZERO_VEC_2
-		
-		# Create values for 3rd dimension of physics
-		@elevation = 0
-		@pz = 0
-		@vz = 0 
-		@az = 0
-		@g = -9.8
-		
+		init_physics	CP::Shape::Circle.new CP::Body.new(60, CP::INFINITY), 
+							(@sprite.width/2).to_meters, CP::ZERO_VEC_2
 		
 		#~ @name = name
 		#~ @lvl = lvl
@@ -57,8 +50,6 @@ class Entity
 		#~ 
 		#~ @intense = false
 		#~ @visible = true		#Controls whether or not to render the Entity
-		
-		@jump_count = 0
 	end
 	
 	def update
