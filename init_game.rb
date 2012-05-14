@@ -23,9 +23,15 @@ require_all './Stats'
 require_all './Titles'
 
 require_all './GameObjects'
-require_all './GameStates'
+#~ require_all './GameStates'
 
-require_all './UI'
+#~ require_all './UI'
+
+require 'gl'
+require 'glu'
+
+include Gl
+include Glu
 
 
 class Game_Window < Gosu::Window
