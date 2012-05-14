@@ -4,3 +4,25 @@ and are used with permission. Thanks a lot for those.
 The other animations are from LexusX, check him out on 
 deviantart (lexusx.deviantart.com).
 The effects were created through Particle Illusion 3.0.
+
+===== Installation =====
+To install, first insure that you have ruby 1.9 installed on your system.
+For Ubuntu Linux
+	Open a terminal and run...
+	
+	sudo apt-get install ruby1.9.1-full
+	
+For Windows
+	Download the installer from rubyinstaller.org
+	
+
+Make sure you have bundler installed
+	gem install bundler
+	
+	(Prepend "sudo" on Linux and OSX)
+
+
+Then, open a terminal, navigate to the directory for the game, and run
+	bundler install
+
+This will allow bundler to install all remaining dependencies for the game.
