@@ -106,9 +106,7 @@ class Game_Window < Gosu::Window
 		
 		# Draw shadows
 		@entities.each do |entity|
-			# Draw shadow
 			@camera.draw_trimetric entity.elevation do
-				
 				distance = entity.pz - entity.elevation
 				a = 1
 				b = 1
@@ -126,14 +124,9 @@ class Game_Window < Gosu::Window
 			end
 		end
 		
+		# Draw the entities themselves
 		@camera.draw_billboarded do
-			@player.draw
-			@npcs.each do |npc|
-				npc.draw
-			end
-			
-			# Draw the entity itself
-			@camera.draw_billboarded do
+			@entities.each do |entity|
 				entity.draw
 			end
 		end
