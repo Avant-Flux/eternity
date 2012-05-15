@@ -15,7 +15,19 @@ module Physics
 		end
 		
 		def step
+			super(dt) # Timestep in seconds
+			
+			# Iteration for third dimension
+		end
+		
+		private
+		
+		def dt
 			# TODO: Add means of calculating timestep dynamically
+			# Assumption:	dt will only be called once.
+			# 				If this method is called more than once,
+			# 				there is no guarantee the results will
+			# 				be consistent between calls.
 			dt = Gosu.milliseconds - @t_previous
 			
 			# convert to seconds
@@ -23,10 +35,7 @@ module Physics
 			
 			@t_previous = Gosu.milliseconds
 			
-			
-			super(dt) # Timestep in seconds
-			
-			# Iteration for third dimension
+			return dt
 		end
 	end
 end
