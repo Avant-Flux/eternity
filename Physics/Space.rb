@@ -10,12 +10,12 @@ module Physics
 			
 			self.iterations = 10
 			self.damping = 0.2
+			
+			@t_previous = Gosu.milliseconds
 		end
 		
 		def step
 			# TODO: Add means of calculating timestep dynamically
-			@t_previous = Gosu.milliseconds
-			
 			dt = Gosu.milliseconds - @t_previous
 			
 			# convert to seconds
