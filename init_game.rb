@@ -46,11 +46,7 @@ class Game_Window < Gosu::Window
 		
 		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
 		
-		@space = CP::Space.new
-		@space.iterations = 10
-		@space.damping = 0.2
-		
-		
+		@space = Physics::Space.new
 		
 		@player = Entity.new(self)
 		
@@ -77,9 +73,9 @@ class Game_Window < Gosu::Window
 	
 	def update
 		#~ process_input
-		
 		@inpman.update
-		@space.step 1/60.0
+		
+		@space.step
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
 		@player.update
