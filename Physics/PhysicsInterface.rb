@@ -5,6 +5,7 @@
 module PhysicsInterface
 	attr_reader :shape, :body
 	attr_accessor :pz, :vz, :az, :g
+	attr_accessor :jump_count
 	
 	def init_physics(shape)
 		@shape = shape
