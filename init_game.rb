@@ -104,9 +104,9 @@ class Game_Window < Gosu::Window
 		@entities.each do |entity|
 			@camera.draw_trimetric entity.elevation do
 				distance = entity.pz - entity.elevation
-				a = 1
-				b = 1
-				c = 1
+				a = 1 # Quadratic
+				b = 1 # Linear
+				c = 1 # Constant
 				factor = (a*distance + b)*distance + c
 				
 				c = 1
