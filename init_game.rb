@@ -129,6 +129,8 @@ class Game_Window < Gosu::Window
 		
 		@camera.flush
 		
+		
+		# Draw UI etc (screen-relative "flat" elements)
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
 		end
