@@ -4,6 +4,8 @@
 #			simple named actions
 #			chords - multiple buttons at once
 #			sequences - combos
+# 	This is a general input manager class, that can be used independently of
+# 	this game and engine.
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'

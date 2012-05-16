@@ -67,8 +67,8 @@ class Game_Window < Gosu::Window
 		@camera = Camera.new self
 		@camera.followed_entity = @player
 		
-		init_input_system
-		bind_inputs
+		@inpman = EternityInput.new @player, @camera
+		@inpman.bind_inputs
 	end
 	
 	def update
@@ -250,54 +250,6 @@ class Game_Window < Gosu::Window
 				@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
 			#~ end
 		end
-	end
-	
-	def init_input_system
-		@inpman = InputHandler.new
-		
-		@inpman.mode = :gameplay
-		@inpman.new_action :up, :active do
-			@player.body.apply_force CP::Vec2.new(0,10), CP::ZERO_VEC_2
-		end
-		@inpman.new_action :down, :active do
-			@player.body.apply_force CP::Vec2.new(0,-10), CP::ZERO_VEC_2
-		end
-		@inpman.new_action :left, :active do
-			@player.body.apply_force CP::Vec2.new(-10,0), CP::ZERO_VEC_2
-		end
-		@inpman.new_action :right, :active do
-			@player.body.apply_force CP::Vec2.new(10,0), CP::ZERO_VEC_2
-		end
-		
-		@inpman.new_action :jump, :rising_edge do
-			@player.jump
-		end
-		
-		# Camera control
-		#~ @inpman.new_action :zoom_in, :rising_edge do
-			#~ @camera.zoom_in
-		#~ end
-		#~ @inpman.new_action :zoom_out, :active do
-			#~ @camera.zoom_out
-		#~ end
-		@inpman.new_action :zoom_reset, :rising_edge do
-			@camera.zoom_reset
-		end
-	end
-	
-	def bind_inputs
-		#TODO:	Change bind so there is only one bind method, which will search all input types
-		#		and bind action appropriately.
-		@inpman.bind_action :up, Gosu::KbUp
-		@inpman.bind_action :down, Gosu::KbDown
-		@inpman.bind_action :left, Gosu::KbLeft
-		@inpman.bind_action :right, Gosu::KbRight
-		
-		@inpman.bind_action :jump, Gosu::KbSpace
-		
-		#~ @inpman.bind_action :zoom_in, Gosu::Kb1
-		#~ @inpman.bind_action :zoom_out, Gosu::MsWheelDown
-		#~ @inpman.bind_action :zoom_reset, Gosu::Kb0
 	end
 end
 
