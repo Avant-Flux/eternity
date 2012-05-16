@@ -59,8 +59,17 @@ class Game_Window < Gosu::Window
 		@entities.push *@npcs
 		
 		
+		@static_objects = Array.new
+		@static_objects.push StaticObject.new self
+		
+		
+		
 		@entities.each do |entity|
 			entity.add_to @space
+		end
+		
+		@static_objects.each do |static|
+			static.add_to @space
 		end
 		
 		
@@ -68,7 +77,7 @@ class Game_Window < Gosu::Window
 		@camera.followed_entity = @player
 		
 		@inpman = EternityInput.new @player, @camera
-		@inpman.bind_inputs
+		#~ @inpman.bind_inputs
 	end
 	
 	def update
@@ -98,6 +107,12 @@ class Game_Window < Gosu::Window
 			y_count = 3
 			
 			draw_world			x_count,y_count,	@tile_width,@tile_height, 3
+		end
+		
+		@static_objects.each do |static|
+			@camera.draw_trimetric static.pz do
+				static.draw
+			end
 		end
 		
 		# Draw shadows
@@ -171,11 +186,11 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
-		(0..x_count).each do |x|
-			(0..y_count).each do |y|
+		x_count.times do |x|
+			y_count.times do |y|
 				x_factor = x.to_f/x_count
 				y_factor = y.to_f/y_count
-				color = Gosu::Color.new x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				color = Gosu::Color.new 150, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				#~ color = Gosu::Color::WHITE
 				
 				x_offset = x*tile_width
