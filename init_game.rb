@@ -44,14 +44,14 @@ class Game_Window < Gosu::Window
 		@tile_width = 5
 		@tile_height = 5
 		
-		@font = Gosu::Font.new(self, "Trebuchet MS", 25)
+		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
 		@space = Physics::Space.new
 		
-		@player = Entity.new(self)
+		@player = Entity.new self
 		
 		@npcs = Array.new
-		@npcs[0] = Entity.new(self)
+		@npcs[0] = Entity.new self
 		
 		
 		@entities = Array.new
@@ -64,7 +64,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		
-		@camera = Camera.new(self)
+		@camera = Camera.new self
 		@camera.followed_entity = @player
 		
 		init_input_system
@@ -72,7 +72,7 @@ class Game_Window < Gosu::Window
 	end
 	
 	def update
-		#~ process_input
+		# process_input
 		@inpman.update
 		
 		@space.step
