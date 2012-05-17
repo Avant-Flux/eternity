@@ -24,7 +24,7 @@ class Camera
 	
 	MAX_ZOOM = 10
 	MIN_ZOOM = 0.02
-	DEFAULT_ZOOM = 1
+	DEFAULT_ZOOM = 0.2
 	ZOOM_TICK = 0.01 # Percent to modulate the zoom by when zooming in or out
 
 	attr_accessor :x_hat, :y_hat, :zoom
@@ -42,7 +42,7 @@ class Camera
 			0, 0, 0, 1
 		]
 		
-		@zoom = 1
+		@zoom = zoom
 		
 		#~ @followed_entity = nil
 		#~ @zoom = zoom #Must be a percentage

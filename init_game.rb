@@ -78,6 +78,8 @@ class Game_Window < Gosu::Window
 		
 		@inpman = EternityInput.new @player, @camera
 		#~ @inpman.bind_inputs
+		
+		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 	end
 	
 	def update
@@ -110,7 +112,7 @@ class Game_Window < Gosu::Window
 		end
 		
 		@static_objects.each do |static|
-			@camera.draw_trimetric static.pz do
+			@camera.draw_trimetric static.pz+static.height do
 				static.draw
 			end
 		end

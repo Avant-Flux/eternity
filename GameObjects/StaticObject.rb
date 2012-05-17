@@ -1,28 +1,35 @@
 class StaticObject
+	attr_reader :height
 	attr_accessor :pz, :vz, :az, :g
 	
 	def initialize(window)
 		@window = window
 		
-		@width = 10
-		@height = 10
+		@width = 30
+		@depth = 10
 		
-		@shape = CP::Shape::Poly.new CP::Body.new_static(),
+		@shape = Physics::Shape::Poly.new self, CP::Body.new_static(),
 					[CP::Vec2.new(0, 0),
-					CP::Vec2.new(0, @height),
-					CP::Vec2.new(@width, @height),
+					CP::Vec2.new(0, @depth),
+					CP::Vec2.new(@width, @depth),
 					CP::Vec2.new(@width, 0)], 
 					CP::ZERO_VEC_2
 		@body = @shape.body
+		@height = 3
 		
-		@pz = 5
+		@body.p = CP::Vec2.new(20, 50)
+		
+		@shape.collision_type = :static
+		
+		
+		@pz = 0
 		
 		
 		@tile_width = 5
 		@tile_height = 5
 		
 		@x_count = @width/@tile_width
-		@y_count = @height/@tile_height
+		@y_count = @depth/@tile_height
 	end
 	
 	def update
@@ -31,7 +38,9 @@ class StaticObject
 	
 	def draw
 		#~ @window.clip_to 0,0, @width, @height do
-			draw_world @x_count,@y_count, @tile_width,@tile_height, @pz
+		@window.translate @body.p.x, @body.p.y do
+			draw_world @x_count,@y_count, @tile_width,@tile_height, @pz+@height
+		end
 		#~ end
 	end
 	

@@ -55,12 +55,6 @@ module CollisionHandler
 		end
 		
 		def pre_solve(arbiter) #Determine whether to process collision or not
-			# Set collision normals so that collisons with the environment are calculated correctly
-			#~ case arbiter.normal(0)
-				#~ when CP::Vec2.new(0,-1)
-					#~ arbiter.normal(0) = Physics::Direction::Y_HAT
-			#~ end
-			
 			# Get game objects and shapes
 			entity = arbiter.a.gameobj
 			env = arbiter.b.gameobj
@@ -70,23 +64,23 @@ module CollisionHandler
 			
 			#Process actions involving what to do when on top, as well as side collisions
 			
-			if entity.pz >= env.height(:meters) + env.pz
+			if entity.pz >= env.height + env.pz
 				#If the entity collides from the side, accept the collision
 				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
-					entity.set_elevation env.height(:meters) + env.pz
+					entity.elevation = env.height + env.pz
 				end
 				
 				return false
 			elsif entity.pz < env.pz
-				if entity.height(:meters) > env.pz
+				if entity.pz + entity.height > env.pz
 					# Feet are below the bottom surface of the environment,
 					# but the head is colliding
-					entity.pz = env.pz - entity.height(:meters)
+					entity.pz = env.pz - entity.height
 					entity.vz = 0
-					entity.fz = 0
+					entity.az = 0
 				end
 				
-				if entity.pz + entity.height(:meters) < env.pz
+				if entity.pz + entity.height < env.pz
 					return false
 				else
 					#~ return true
@@ -103,14 +97,8 @@ module CollisionHandler
 				#~ # Pass underneath
 				#~ 
 				#~ return false
-			#~ else
-				#~ # Determine which side the collision is coming from,
-				#~ # and then apply the appropriate normal force
-				#~ 
-				#~ return true
 			else
 				# Correct collision normals
-				correct_collision_normals(arbiter)
 				return true
 			end
 		end
@@ -121,48 +109,6 @@ module CollisionHandler
 		
 		def separate(arbiter)	#Stuff to do after the shapes separate
 			#~ arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters) + arbiter.b.gameobj.pz
-		end
-		
-		private
-		
-		def correct_collision_normals(arbiter)
-			entity = arbiter.a.gameobj
-			env = arbiter.b.gameobj
-			
-			entity_shape = arbiter.a
-			env_shape = arbiter.b
-			
-			if arbiter.normal(0) == CP::Vec2.new(0,-1)
-				# Collide with South face
-				y = entity.fy_
-				if y > 0
-					f = Physics::Direction::Y_HAT * -y
-					entity_shape.body.apply_force f, CP::ZERO_VEC_2
-				end
-			elsif (arbiter.normal(0).x - Physics::Direction::Y_HAT.y).abs <= 0.00000001 &&
-			(arbiter.normal(0).y + Physics::Direction::Y_HAT.x).abs <= 0.00000001
-				# Collide with East face
-				x = entity.fx_
-				if x < 0
-					f = Physics::Direction::X_HAT * -x
-					entity_shape.body.apply_force f, CP::ZERO_VEC_2
-				end
-			elsif arbiter.normal(0) == CP::Vec2.new(0,1)
-				# Collide with North face
-				y = entity.fy_
-				if y < 0
-					f = Physics::Direction::Y_HAT * -y
-					entity_shape.body.apply_force f, CP::ZERO_VEC_2
-				end
-			elsif (arbiter.normal(0).x + Physics::Direction::Y_HAT.y).abs <= 0.00000001 &&
-			(arbiter.normal(0).y - Physics::Direction::Y_HAT.x).abs <= 0.00000001
-				# Collide with West face
-				x = entity.fx_
-				if x > 0
-					f = Physics::Direction::X_HAT * -x
-					entity_shape.body.apply_force f, CP::ZERO_VEC_2
-				end
-			end
 		end
 	end
 	

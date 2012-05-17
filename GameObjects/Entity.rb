@@ -29,8 +29,9 @@ class Entity
 		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
 		@sprite = @spritesheet[0]
 		
-		init_physics	CP::Shape::Circle.new CP::Body.new(60, CP::INFINITY), 
-							(@sprite.width/2).to_meters, CP::ZERO_VEC_2
+		init_physics	Physics::Shape::Circle.new self, CP::Body.new(60, CP::INFINITY), 
+						(@sprite.width/2).to_meters, CP::ZERO_VEC_2
+		@shape.collision_type = :entity
 		
 		#~ @name = name
 		#~ @lvl = lvl

@@ -68,6 +68,6 @@ class EternityInput < InputHandler
 		
 		#~ @inpman.bind_action :zoom_in, Gosu::Kb1
 		#~ @inpman.bind_action :zoom_out, Gosu::MsWheelDown
-		#~ @inpman.bind_action :zoom_reset, Gosu::Kb0
+		bind_action :zoom_reset, Gosu::Kb0
 	end
 end
