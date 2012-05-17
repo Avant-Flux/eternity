@@ -15,6 +15,13 @@ module PhysicsInterface
 		
 		@jump_count = 0
 	end
+	
+	def jump
+		if @jump_count < 3 #Do not exceed the jump count.
+			@jump_count += 1
+			@body.vz = 5 #On jump, set the velocity in the z direction
+		end
+	end
 
 	def add_to(space)
 		space.add_shape @shape
