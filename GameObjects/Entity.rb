@@ -29,7 +29,7 @@ class Entity
 		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
 		@sprite = @spritesheet[0]
 		
-		init_physics	Physics::Shape::Circle.new self, CP::Body.new(60, CP::INFINITY), 
+		init_physics	Physics::Shape::Circle.new self, Physics::Body.new(self, 60, CP::INFINITY), 
 						(@sprite.width/2).to_meters, CP::ZERO_VEC_2
 		@shape.collision_type = :entity
 		
@@ -60,23 +60,6 @@ class Entity
 			1
 		end
 		@sprite = @spritesheet[i]
-		
-		dt = 1/60.0
-		@vz += @az * dt
-		@pz += @vz * dt
-		if @pz < @elevation
-			@pz = @elevation
-			@vz = 0
-			@az = 0
-			resolve_ground_collision
-		elsif @pz > @elevation
-			# TODO: Change conditional to be if in_air? to handle uneven terrain
-			# Apply gravity
-			@vz += @g * dt
-			@pz += @vz * dt
-		else
-			# Currently on the ground
-		end
 	end
 	
 	def draw
@@ -84,12 +67,12 @@ class Entity
 		
 		position = @body.p.to_screen
 		x = position.x
-		y = position.y - @pz.to_px
+		y = position.y - @body.pz.to_px
 		
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
-				@sprite.old_draw x,y, @pz
+				@sprite.old_draw x,y, @body.pz
 				#~ @window.draw_quad	x, y, color,
 									#~ x+width, y, color,
 									#~ x+width, y+height, color,
@@ -166,7 +149,7 @@ class Entity
 	def jump
 		if @jump_count < 3 #Do not exceed the jump count.
 			@jump_count += 1
-			@vz = 5 #On jump, set the velocity in the z direction
+			@body.vz = 5 #On jump, set the velocity in the z direction
 		end
 	end
 	
