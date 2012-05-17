@@ -60,8 +60,10 @@ class Game_Window < Gosu::Window
 		
 		
 		@static_objects = Array.new
-		@static_objects.push StaticObject.new self, [30,10,3], [20,50,0]
+		@static_objects.push StaticObject.new self, [50,50,0], [0,0,0]
 		
+		@static_objects.push StaticObject.new self, [30,10,3], [20,50,0]
+		@static_objects.push StaticObject.new self, [30,10,6], [20,60,0]
 		
 		
 		@entities.each do |entity|
@@ -93,17 +95,6 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		@camera.draw_trimetric do
-			x_count = 10
-			y_count = 10
-			
-			draw_world			x_count,y_count,	@tile_width,@tile_height, 0
-			
-			#~ draw_circle			@player.body.p.x,@player.body.p.y,0,	10,	Gosu::Color::RED
-			
-			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
-		end
-		
 		@camera.draw_trimetric 3 do
 			x_count = 3
 			y_count = 3
@@ -135,6 +126,12 @@ class Game_Window < Gosu::Window
 									r,	Gosu::Color::BLACK,
 									:stroke_width => r, :slices => 20, :alpha => alpha
 			end
+		end
+		
+		@camera.draw_trimetric do
+			#~ draw_circle			@player.body.p.x,@player.body.p.y,0,	10,	Gosu::Color::RED
+			
+			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 		
 		# Draw the entities themselves
