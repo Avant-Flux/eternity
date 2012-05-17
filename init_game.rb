@@ -60,7 +60,7 @@ class Game_Window < Gosu::Window
 		
 		
 		@static_objects = Array.new
-		@static_objects.push StaticObject.new self
+		@static_objects.push StaticObject.new self, [30,10,3], [20,50,0]
 		
 		
 		
