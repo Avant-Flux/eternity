@@ -26,5 +26,8 @@ module PhysicsInterface
 	def add_to(space)
 		space.add_shape @shape
 		space.add_body @body
+		
+		# TODO:	Perform initial raycast when adding entity to space to determine
+		# 		starting elevation.
 	end
 end

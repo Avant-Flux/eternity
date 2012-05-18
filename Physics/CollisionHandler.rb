@@ -65,40 +65,28 @@ module CollisionHandler
 			#Process actions involving what to do when on top, as well as side collisions
 			
 			if entity.body.pz >= env.height + env.pz
-				#If the entity collides from the side, accept the collision
+				# On top of the environment
 				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
 					entity.body.elevation = env.height + env.pz
 				end
 				
 				return false
-			elsif entity.body.pz < env.pz
+			elsif entity.body.pz < env.pz - entity.height
 				if entity.body.pz + entity.height > env.pz
 					# Feet are below the bottom surface of the environment,
 					# but the head is colliding
 					entity.body.pz = env.pz - entity.height
 					entity.body.vz = 0
 					entity.body.az = 0
-				end
-				
-				if entity.body.pz + entity.height < env.pz
+					return false
+				elsif entity.body.pz + entity.height <= env.pz
+					# Entity is below the environment object
 					return false
 				else
 					#~ return true
 				end
-				
-				
-				#~ if entity.height(:meters) < env.pz
-					#~ return false
-				#~ else
-					#~ return true
-				#~ end
-			
-			#~ elsif entity.height(:meters) < env.pz
-				#~ # Pass underneath
-				#~ 
-				#~ return false
 			else
-				# Correct collision normals
+				# Collide on the side
 				return true
 			end
 		end

@@ -60,20 +60,24 @@ class Game_Window < Gosu::Window
 		
 		
 		@static_objects = Array.new
-		@static_objects.push StaticObject.new self, [50,50,0], [0,0,0]
+		@static_objects.push StaticObject.new self, [50,50,0], [0,0,0] # Main area
 		
-		@static_objects.push StaticObject.new self, [30,10,3], [20,50,0]
-		@static_objects.push StaticObject.new self, [30,10,6], [20,60,0]
+		@static_objects.push StaticObject.new self, [10,10,2], [-5,-5,0] # Raised spawn
 		
+		@static_objects.push StaticObject.new self, [30,10,3], [20,50,0] # First step
+		@static_objects.push StaticObject.new self, [30,10,6], [20,60,0] # Second step
 		
-		@entities.each do |entity|
-			entity.add_to @space
-		end
+		@static_objects.push StaticObject.new self, [15,15,1], [-30,16,4] # Floating platform
+		@static_objects.push StaticObject.new self, [15,15,3], [-15,16,0] # Step to floating platform
+		
 		
 		@static_objects.each do |static|
 			static.add_to @space
 		end
 		
+		@entities.each do |entity|
+			entity.add_to @space
+		end
 		
 		@camera = Camera.new self
 		@camera.followed_entity = @player
@@ -95,13 +99,6 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		@camera.draw_trimetric 3 do
-			x_count = 3
-			y_count = 3
-			
-			draw_world			x_count,y_count,	@tile_width,@tile_height, 3
-		end
-		
 		@static_objects.each do |static|
 			@camera.draw_trimetric static.pz+static.height do
 				static.draw
