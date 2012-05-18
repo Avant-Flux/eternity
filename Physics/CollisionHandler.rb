@@ -56,19 +56,28 @@ module CollisionHandler
 		
 		def pre_solve(arbiter) #Determine whether to process collision or not
 			# Get game objects and shapes
-			entity = arbiter.a.gameobj
-			env = arbiter.b.gameobj
-			
 			entity_shape = arbiter.a
 			env_shape = arbiter.b
 			
+			entity = entity_shape.gameobject
+			env = env_shape.gameobject
+			
+			
+			
+			
 			#Process actions involving what to do when on top, as well as side collisions
 			
-			if entity.body.pz >= env.height + env.pz
+			if entity.body.pz >= (elevation = env.height + env.pz)
 				# On top of the environment
-				if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
-					entity.body.elevation = env.height + env.pz
+				#~ puts "over"
+				#~ if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
+					#~ entity.body.elevation = env.height + env.pz
+				#~ end
+				
+				if 	(entity.body.pz >= elevation && elevation > entity.body.elevation)
+					entity.body.elevation = elevation
 				end
+				
 				
 				return false
 			elsif entity.body.pz < env.pz - entity.height
@@ -97,6 +106,15 @@ module CollisionHandler
 		
 		def separate(arbiter)	#Stuff to do after the shapes separate
 			#~ arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters) + arbiter.b.gameobj.pz
+			
+			# Get game objects and shapes
+			entity_shape = arbiter.a
+			env_shape = arbiter.b
+			
+			entity = entity_shape.gameobject
+			env = env_shape.gameobject
+			
+			entity.body.elevation = 0
 		end
 	end
 	
@@ -138,12 +156,12 @@ module CollisionHandler
 		#~ a has collision type :camera
 		#~ b is the Chipmunk object for the Entity
 		def begin(arbiter)
-			arbiter.a.add arbiter.b.gameobj
+			arbiter.a.add arbiter.b.gameobject
 			false
 		end
 				
 		def separate(arbiter)
-			arbiter.a.delete arbiter.b.gameobj
+			arbiter.a.delete arbiter.b.gameobject
 		end
 	end
 end

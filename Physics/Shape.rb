@@ -6,28 +6,28 @@ require 'chipmunk'
 module Physics
 	module Shape
 		class Circle < CP::Shape::Circle
-			attr_reader :gameobj
+			attr_reader :gameobject
 		
-			def initialize(gameobj, *args)
-				@gameobj = gameobj
+			def initialize(gameobject, *args)
+				@gameobject = gameobject
 				super(*args)
 			end
 		end
 		
 		class Rect < CP::Shape::Rect
-			attr_reader :gameobj
+			attr_reader :gameobject
 		
-			def initialize(gameobj, *args)
-				@gameobj = gameobj
+			def initialize(gameobject, *args)
+				@gameobject = gameobject
 				super(*args)
 			end
 		end
 		
 		class Poly < CP::Shape::Poly
-			attr_reader :gameobj
+			attr_reader :gameobject
 			
-			def initialize(gameobj, *args)
-				@gameobj = gameobj
+			def initialize(gameobject, *args)
+				@gameobject = gameobject
 				super(*args)
 			end
 		end
