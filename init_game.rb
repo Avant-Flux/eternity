@@ -100,7 +100,7 @@ class Game_Window < Gosu::Window
 	def draw
 		@static_objects.each do |static|
 			@camera.draw_trimetric static.pz+static.height do
-				static.draw
+				static.draw_trimetric
 			end
 		end
 		

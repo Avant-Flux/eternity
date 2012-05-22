@@ -29,18 +29,39 @@ class StaticObject
 		
 		@x_count = @width/@tile_width
 		@y_count = @depth/@tile_height
+		
+		
+		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
+		@side = TexPlay.create_blank_image(@window, 512,512)
+		
 	end
 	
 	def update
 		
 	end
 	
-	def draw
+	def draw_trimetric
+		# Draw the trimetric portion of static objects
+		# This accounts for the top surfaces of flat objects.
+		
 		#~ @window.clip_to 0,0, @width, @height do
 		@window.translate @body.p.x, @body.p.y do
 			draw_world @x_count,@y_count, @tile_width,@tile_height, @pz+@height
 		end
 		#~ end
+	end
+	
+	def draw_billboarded
+		# Draw the billboarded portion of static objects
+		# Accounts for sides and slanted tops
+		
+		position = @body.p.to_screen
+		x = position.x
+		y = position.y - @body.pz.to_px
+		
+		@window.translate @body.p.x, @body.p.y do
+			#~ @side.old_draw x,y, @body.pz
+		end
 	end
 	
 	def add_to(space)
