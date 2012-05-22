@@ -16,6 +16,7 @@ class StateManager
 		@entities.push *@npcs
 		
 		
+		# TODO:  Free @static_objects if #update is not necessary
 		@static_objects = Array.new
 		@static_objects.push StaticObject.new @window, [50,50,0], [0,0,0] # Main area
 		
@@ -27,12 +28,10 @@ class StateManager
 		@static_objects.push StaticObject.new @window, [15,15,1], [0,16,6] # Floating platform
 		@static_objects.push StaticObject.new @window, [15,15,3], [15,16,0] # Step to floating platform
 		
-		@static_objects.each do |static|
-			static.add_to @space
-		end
-		
-		@entities.each do |entity|
-			entity.add_to @space
+		[@static_objects, @entities].each do |object_array|
+			object_array.each do |obj|
+				obj.add_to @space
+			end
 		end
 	end
 	
