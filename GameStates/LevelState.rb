@@ -16,11 +16,6 @@ class LevelState < GameState
 		super(window, space, layers, name)
 		
 		@queue = render_queue
-		
-		# Change position of buildings as well as all other game objects to be
-		# specified in terms of the game's isometric projection.
-		# Buildings have already been changed to behave in this way, other objects have not.
-		# Change the behavior of the physics bindings, not the gameobjects
 	end
 	
 	def update
