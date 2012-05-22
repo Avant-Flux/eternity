@@ -98,50 +98,14 @@ class Game_Window < Gosu::Window
 	end
 	
 	def draw
-		@static_objects.each do |static|
-			@camera.draw_trimetric static.pz+static.height do
-				static.draw_trimetric
-			end
-		end
-		
-		# Draw shadows
-		@entities.each do |entity|
-			@camera.draw_trimetric entity.body.elevation do
-				distance = entity.body.pz - entity.body.elevation
-				a = 1 # Quadratic
-				b = 1 # Linear
-				c = 1 # Constant
-				factor = (a*distance + b)*distance + c
-				
-				c = 1
-				r = (entity.body.pz - entity.body.elevation + c)
-				
-				c = 1
-				alpha = 1/factor
-				self.draw_circle	entity.body.p.x, entity.body.p.y, entity.body.elevation,
-									r,	Gosu::Color::BLACK,
-									:stroke_width => r, :slices => 20, :alpha => alpha
-			end
-		end
-		
-		@camera.draw_trimetric do
-			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
-		end
-		
-		# Draw the entities themselves
-		@camera.draw_billboarded do
-			@entities.each do |entity|
-				entity.draw
-			end
-		end
+		draw_static_objects
+		draw_shadows
+		draw_ground_effects
+		draw_entities
 		
 		@camera.flush
 		
-		
-		# Draw UI etc (screen-relative "flat" elements)
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
+		draw_screen
 	end
 	
 	def button_down(id)
@@ -218,6 +182,58 @@ class Game_Window < Gosu::Window
 		
 		self.scale zoom,zoom, x,y do
 			@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
+		end
+	end
+	
+	private
+	
+	def draw_static_objects
+		@static_objects.each do |static|
+			@camera.draw_trimetric static.pz+static.height do
+				static.draw_trimetric
+			end
+		end
+	end
+	
+	def draw_entities
+		@camera.draw_billboarded do
+			@entities.each do |entity|
+				entity.draw
+			end
+		end
+	end
+	
+	def draw_shadows
+		@entities.each do |entity|
+			@camera.draw_trimetric entity.body.elevation do
+				distance = entity.body.pz - entity.body.elevation
+				a = 1 # Quadratic
+				b = 1 # Linear
+				c = 1 # Constant
+				factor = (a*distance + b)*distance + c
+				
+				c = 1
+				r = (entity.body.pz - entity.body.elevation + c)
+				
+				c = 1
+				alpha = 1/factor
+				self.draw_circle	entity.body.p.x, entity.body.p.y, entity.body.elevation,
+									r,	Gosu::Color::BLACK,
+									:stroke_width => r, :slices => 20, :alpha => alpha
+			end
+		end
+	end
+	
+	def draw_ground_effects
+		@camera.draw_trimetric do
+			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
+		end
+	end
+	
+	def draw_screen
+		# Draw screen-relative "flat" elements (UI etc)
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
 		end
 	end
 end
