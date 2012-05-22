@@ -82,19 +82,11 @@ class StaticObject
 				y_offset = y*tile_width
 				
 				draw_tile	x_offset,y_offset,z,	tile_height,tile_width, color
-				#~ position = CP::Vec2.new(x_offset, y_offset).to_screen
-				#~ position1 = Physics::Direction::X_HAT * x_offset
-				#~ position1 += Physics::Direction::Y_HAT * y_offset
-				#~ 
-				#~ position2 = Physics::Direction::X_HAT * (x_offset + tile_width)
-				#~ position2 += Physics::Direction::Y_HAT * (y_offset + )
-				#~ 
-				#~ self.draw_quad	position1.x, position1.y, color,
 			end
 		end
 		
 		#~ color = Gosu::Color.new 255-z/20, 255-z/20, 255-z/20
-		#~ self.draw_tile	0, 0, z, x_count*tile_width, y_count*tile_height, color
+		#~ draw_tile	0, 0, z, x_count*tile_width, y_count*tile_height, color
 	end
 	
 	def draw_tile(x,y,z, height,width, color)

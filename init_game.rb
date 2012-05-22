@@ -125,8 +125,6 @@ class Game_Window < Gosu::Window
 		end
 		
 		@camera.draw_trimetric do
-			#~ draw_circle			@player.body.p.x,@player.body.p.y,0,	10,	Gosu::Color::RED
-			
 			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 		
@@ -180,42 +178,6 @@ class Game_Window < Gosu::Window
 		true
 	end
 	
-	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
-		x_count.times do |x|
-			y_count.times do |y|
-				x_factor = x.to_f/x_count
-				y_factor = y.to_f/y_count
-				color = Gosu::Color.new 150, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
-				#~ color = Gosu::Color::WHITE
-				
-				x_offset = x*tile_width
-				y_offset = y*tile_width
-				
-				draw_tile	x_offset,y_offset,z,	tile_height,tile_width, color
-				#~ position = CP::Vec2.new(x_offset, y_offset).to_screen
-				#~ position1 = Physics::Direction::X_HAT * x_offset
-				#~ position1 += Physics::Direction::Y_HAT * y_offset
-				#~ 
-				#~ position2 = Physics::Direction::X_HAT * (x_offset + tile_width)
-				#~ position2 += Physics::Direction::Y_HAT * (y_offset + )
-				#~ 
-				#~ self.draw_quad	position1.x, position1.y, color,
-								
-			end
-		end
-		
-		#~ color = Gosu::Color.new 255-z/20, 255-z/20, 255-z/20
-		#~ self.draw_tile	0, 0, z, x_count*tile_width, y_count*tile_height, color
-	end
-	
-	def draw_tile(x,y,z, height,width, color)
-		# Use z position in meters for z-index
-		self.draw_quad	x, y, color,
-						x+width, y, color,
-						x+width, y+height, color,
-						x, y+height, color, z
-	end
-	
 	def draw_circle(x,y,z, r, color, options={})
 		options = {
 			:stroke_width => 1,	# Width of the line
@@ -255,10 +217,7 @@ class Game_Window < Gosu::Window
 		color = Gosu::Color::RED
 		
 		self.scale zoom,zoom, x,y do
-			#~ self.translate -@magic_circle.width/2, -@magic_circle.height/2 do
-				#~ @magic_circle.old_draw(x,y,z, 1,1, color)
-				@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
-			#~ end
+			@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
 		end
 	end
 end
