@@ -6,7 +6,6 @@ require 'rubygems'
 require 'gosu'
 require 'texplay'
 
-require './Drawing/GosuPatch'
 require './Drawing/Circle'
 require './Drawing/ImageCache'
 

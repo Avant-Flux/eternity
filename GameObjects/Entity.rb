@@ -72,7 +72,7 @@ class Entity
 		# TODO may have to pass the z index from the game state manager
 		if @visible
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
-				@sprite.old_draw x,y, @body.pz
+				@sprite.draw x,y, @body.pz
 				#~ @window.draw_quad	x, y, color,
 									#~ x+width, y, color,
 									#~ x+width, y+height, color,

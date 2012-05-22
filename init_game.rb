@@ -142,7 +142,7 @@ class Game_Window < Gosu::Window
 		
 		# Draw UI etc (screen-relative "flat" elements)
 		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, :color => Gosu::Color::FUCHSIA
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
 		end
 	end
 	
