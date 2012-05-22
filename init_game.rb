@@ -55,12 +55,12 @@ class Game_Window < Gosu::Window
 		@camera = Camera.new self
 		@camera.followed_entity = @player
 		
+		# Input manager holds the only other reference to the camera
+		# other than this window.  Thus, if the camera get changed,
+		# it will break the ability of the input to affect the camera.
 		@inpman = EternityInput.new @player, @camera
 		
 		@state_manager = StateManager.new self, @space, @player
-		
-		
-		#~ @inpman.bind_inputs
 		
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 	end
@@ -72,14 +72,11 @@ class Game_Window < Gosu::Window
 		@space.step
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
-		#~ @player.update
-		@state_manager.update
+		@state_manager.update # Update the entities within the active state
 	end
 	
 	def draw
 		@state_manager.draw # Draw gameworld state
-		
-		@camera.flush
 		
 		draw_screen
 	end
