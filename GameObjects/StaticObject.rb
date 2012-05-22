@@ -33,7 +33,7 @@ class StaticObject
 		
 		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
 		@side = TexPlay.create_blank_image(@window, 512,512)
-		
+		#~ @side.line 0,0
 	end
 	
 	def update
@@ -60,7 +60,7 @@ class StaticObject
 		y = position.y - @body.pz.to_px
 		
 		@window.translate @body.p.x, @body.p.y do
-			#~ @side.old_draw x,y, @body.pz
+			@side.draw x,y,@body.pz
 		end
 	end
 	
