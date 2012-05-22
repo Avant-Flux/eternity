@@ -2,6 +2,7 @@
 #Parent class of all Creatures, Fighting NPCs, and PCs
 class Entity
 	include PhysicsInterface
+	include Statistics
 	#~ include Physics::ThreeD_Support
 	#~ include Physics::ThreeD_Support::Cylinder
 	#~ include Physics::Movement::Entity
@@ -17,6 +18,13 @@ class Entity
 	
 	attr_accessor :pz, :elevation
 	attr_accessor :body, :shape
+	
+	strength		0
+	constitution	0
+	dexterity		0
+	power			0
+	control			0
+	flux			0
 	
 	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
 	def initialize(window)
@@ -47,8 +55,6 @@ class Entity
 		
 		#~ init_stats
 		
-		#~ @shadow = Shadow.new window, self
-		#~ 
 		#~ @intense = false
 		#~ @visible = true		#Controls whether or not to render the Entity
 	end
@@ -78,67 +84,6 @@ class Entity
 									#~ x+width, y+height, color,
 									#~ x, y+height, color, @pz
 			end
-		end
-	end
-	
-	def self.stats *arr
-		# Method taken from _why's Dwemthy's Array
-		# and subsequently modified
-		return @default_stats if arr.empty?
-		
-		#~ attr_accessor *arr
-		
-		# Create one method to set each value, for the names given
-		# in the arguments array
-		arr.each do |method|
-			meta_eval do
-				define_method method do |val|
-					@default_stats ||= {}
-					@default_stats[method] = val # TODO: Use struct instead
-				end
-			end
-		end
-	end
-	
-	def init_stats
-		@attributes = Hash.new
-		@status = Hash.new
-		
-		@stats = Hash.new # TODO: Use struct instead of hash
-		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
-		
-		self.class.stats.each do |stat, val|
-			#~ instance_variable_set("@#{stat}", val)
-			@stats[:raw][stat] = val
-		end
-		
-		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
-								:defence => @stats[:raw][:constitution]}
-		
-		@hp = {}
-		@mp = {}
-		
-		@hp[:max] = @stats[:raw][:constitution]*17
-		@hp[:current] = @hp[:max]
-		
-		@mp[:max] = 300# Arbitrary
-		@mp[:current] = @mp[:max]
-	end
-	
-	stats :strength, :constitution, :dexterity, :power, :control, :flux
-	
-	# Create setters and getters for hp and mp
-	[:hp, :mp].each do |stat|
-		define_method stat do ||
-			instance_variable_get("@#{stat}".to_sym)[:current]
-		end
-		
-		define_method "#{stat}=".to_sym do |val|
-			instance_variable_get("@#{stat}".to_sym)[:current] = val
-		end
-		
-		define_method "max_#{stat}".to_sym do ||
-			instance_variable_get("@#{stat}".to_sym)[:max]
 		end
 	end
 	

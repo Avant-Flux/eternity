@@ -6,6 +6,79 @@
 #~ Allow user to level up to 200, with the remaining 100 being gained from titles.
 #~ At this level of code, mana and flux must advance at the same rate. (ie, by the same formula)
 
+
+module Statistics
+	def self.included(base_class)
+		base_class.class_eval do |klass|
+			extend ClassMethods
+			
+			klass.stats :strength, :constitution, :dexterity, :power, :control, :flux
+		end
+	end
+	
+	module ClassMethods
+		def stats *arr
+			# Method taken from _why's Dwemthy's Array
+			# and subsequently modified
+			return @default_stats if arr.empty?
+			
+			#~ attr_accessor *arr
+			
+			# Create one method to set each value, for the names given
+			# in the arguments array
+			arr.each do |method|
+				meta_eval do
+					define_method method do |val|
+						@default_stats ||= {}
+						@default_stats[method] = val # TODO: Use struct instead
+					end
+				end
+			end
+		end
+	end
+	
+	def init_stats
+		@attributes = Hash.new
+		@status = Hash.new
+		
+		@stats = Hash.new # TODO: Use struct instead of hash
+		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
+		
+		self.class.stats.each do |stat, val|
+			#~ instance_variable_set("@#{stat}", val)
+			@stats[:raw][stat] = val
+		end
+		
+		@stats[:composite]	=	{:attack => @stats[:raw][:strength], 
+								:defence => @stats[:raw][:constitution]}
+		
+		@hp = {}
+		@mp = {}
+		
+		@hp[:max] = @stats[:raw][:constitution]*17
+		@hp[:current] = @hp[:max]
+		
+		@mp[:max] = 300# Arbitrary
+		@mp[:current] = @mp[:max]
+	end
+	
+	# Create setters and getters for hp and mp
+	[:hp, :mp].each do |stat|
+		define_method stat do ||
+			instance_variable_get("@#{stat}".to_sym)[:current]
+		end
+		
+		define_method "#{stat}=".to_sym do |val|
+			instance_variable_get("@#{stat}".to_sym)[:current] = val
+		end
+		
+		define_method "max_#{stat}".to_sym do ||
+			instance_variable_get("@#{stat}".to_sym)[:max]
+		end
+	end
+end
+
+
 module Compute_Stats
 	MAX_HP = 10000
 	MAX_MP = 10000
