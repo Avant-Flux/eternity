@@ -59,19 +59,20 @@ module Physics
 			
 			body.vz += body.az * dt
 			body.pz += body.vz * dt
+			
+			if body.pz > body.elevation
+				# TODO: Change conditional to be if in_air? to handle uneven terrain
+				# Apply gravity
+				body.vz += body.g * dt
+				body.pz += body.vz * dt
+			end
+			
 			if body.pz < body.elevation
 				body.pz = body.elevation
 				body.vz = 0
 				body.az = 0
 				
 				body.gameobject.resolve_ground_collision
-			elsif body.pz > body.elevation
-				# TODO: Change conditional to be if in_air? to handle uneven terrain
-				# Apply gravity
-				body.vz += body.g * dt
-				body.pz += body.vz * dt
-			else
-				# Currently on the ground
 			end
 		end
 		
