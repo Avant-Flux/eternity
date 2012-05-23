@@ -1,5 +1,6 @@
 class StaticObject
-	attr_reader :height
+	attr_reader :width, :depth, :height
+	attr_reader :body, :shape
 	attr_accessor :pz, :vz, :az, :g
 	
 	def initialize(window, dimensions, position)

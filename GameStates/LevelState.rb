@@ -12,11 +12,13 @@ class LevelState #< GameState
 	path = path[0..(path.rindex(File::SEPARATOR))]
 	LEVEL_DIRECTORY = File.join path, "Levels"
 	
+	attr_reader :name
 	attr_accessor :spawn
 	
-	def initialize(window, space)
+	def initialize(window, space, name)
 		@window = window
 		@space = space
+		@name = name
 		#~ super(window, space, layers, name)
 		
 		#~ @queue = render_queue
@@ -100,48 +102,55 @@ class LevelState #< GameState
 		# Call some sort of serialization method on each game object
 			# that method should explain how to re-create that game object from saved assets
 		# Store game object re-creation details in one text or YAML file
-		path = File.join LEVEL_DIRECTORY, (@name + ".txt")
+		# 
+		# Note:	All static objects must be loaded before any entities, otherwise unpredictable
+		# 		behavior of entity placement will result.
+		path = File.join LEVEL_DIRECTORY, (@name + "_SAVE_TEST.txt")
 		
 		File.open(path, "w") do |f|
 			puts "begin saving"
 			f.puts "# Eternity Level Data --- #{@name}"
 			f.puts "Spawn #{@spawn[0]} #{@spawn[1]} #{@spawn[2]}"
-			@gameobjects.each do |gameobj|
-			print "."
-				line = "#{gameobj.class} "
+			f.puts
+			
+			@static_objects.each do |gameobj|
+				print "." # Output something so it's clear the save method is doing work
 				
-				x = gameobj.px_
-				y = gameobj.py_
-				z = gameobj.pz_
+				# The tabs at the end of the lines are so that the file will line up nicely
 				
-				# Round all values to two decimal places
-				# A beneficial side effect is that -0.0 will never be stored for zero
-				
-				# Alternatively, do it this way...
-				#~ x = x.round 2
-				#~ y = y.round 2
-				#~ z = z.round 2
-				#~ 
-				#~ if x == 0
-					#~ x = 0
-				#~ end
-				#~ if y == 0
-					#~ y = 0
-				#~ end
-				#~ if z == 0
-					#~ z = 0
-				#~ end
-				
-				# Insert position
-				line << "#{x} #{y} #{z} "
+				line = "#{gameobj.class}	"
 				
 				# Insert dimensions
-				line << "#{gameobj.width(:meters)} #{gameobj.depth(:meters)} #{gameobj.height(:meters)}"
+				line << "#{gameobj.width} #{gameobj.depth} #{gameobj.height}		"
+				
+				# Insert position
+				line << "#{gameobj.body.p.x} #{gameobj.body.p.y} #{gameobj.pz}"
+				
+				f.puts line
+			end
+			
+			f.puts # Empty line as separator
+			
+			@entities.each do |gameobj|
+				print "." # Output something so it's clear the save method is doing work
+				
+				next if gameobj == @player
+				
+				#~ line = "#{gameobj.class} "
+				line = "NPC"
+				
+				# Insert dimensions
+				#~ line << "#{gameobj.width} #{gameobj.depth} #{gameobj.height} "
+				
+				# Insert position
+				#~ line << "#{gameobj.body.p.x} #{gameobj.body.p.y} #{gameobj.body.pz}"
+				
 				f.puts line
 			end
 		end
 		
-		puts "\nsave complete"
+		puts ""
+		puts "save complete"
 	end
 	
 	# Create UVs for each environmental object
@@ -165,7 +174,7 @@ class LevelState #< GameState
 		def load(window, space, name)
 			# TODO: Through exception if no spawn defined
 			
-			level =	LevelState.new window, space
+			level =	LevelState.new window, space, name
 			
 			path = File.join LEVEL_DIRECTORY, (name + ".txt")
 			

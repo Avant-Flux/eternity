@@ -1,4 +1,6 @@
 class StateManager
+	# TODO: Save states as they pop off the stack
+	
 	def initialize(window, space, player)
 		@window = window	# Parent window
 		@space = space		# Chipmunk space used for queries and to add gameobjects to
@@ -45,5 +47,13 @@ class StateManager
 	def add_player(player)
 		state = @stack.last
 		state.add_player player
+	end
+	
+	def save
+		# Save the internal status of the game world
+		# Ideally, this should either pause the game or run in a separate thread
+		@stack.each do |state|
+			state.save
+		end
 	end
 end
