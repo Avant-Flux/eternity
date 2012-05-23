@@ -8,7 +8,8 @@ class StateManager
 		@stack = Array.new()
 		
 		
-		@stack << LevelState.new(@window, @space, @player)
+		@stack << LevelState.new(@window, @space)
+		add_player(@player)
 	end
 	
 	def update
@@ -39,5 +40,10 @@ class StateManager
 									
 			end
 		end
+	end
+	
+	def add_player(player)
+		state = @stack.last
+		state.add_player player
 	end
 end

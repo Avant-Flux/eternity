@@ -12,10 +12,9 @@ class LevelState #< GameState
 	
 	attr_accessor :spawn
 	
-	def initialize(window, space, player)
+	def initialize(window, space)
 		@window = window
 		@space = space
-		@player = player
 		#~ super(window, space, layers, name)
 		
 		#~ @queue = render_queue
@@ -25,7 +24,6 @@ class LevelState #< GameState
 		@npcs[0] = Entity.new @window
 		
 		@entities = Array.new
-		@entities.push @player
 		@entities.push *@npcs
 		
 		
@@ -88,18 +86,10 @@ class LevelState #< GameState
 	
 	def add_player(player)
 		@player = player
-		self.add_gameobject player
-		player.set_position @space, @layers, @spawn
-
-		#~ player.px = @spawn[0]
-		#~ player.py = -@spawn[2]
-		#~ 
-		#~ pos = Physics::Direction::Y_HAT*@spawn[1]
-		#~ player.px += pos.x
-		#~ player.py -= pos.y
-		#~ 
-		#~ player.pz = @spawn[2]
-		#~ player.px, player.py, player.pz = @spawn
+		@player.add_to @space
+		@entities << @player
+		
+		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn if @spawn
 	end
 	
 	# Save all elements of the level, but not the camera
