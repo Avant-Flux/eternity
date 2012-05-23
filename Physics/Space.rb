@@ -19,7 +19,7 @@ module Physics
 			super(body)
 			
 			@bodies.add body
-			body.elevation = initial_elevation body
+			body.add_elevation initial_elevation body
 		end
 		
 		def add_shape(shape)
@@ -91,9 +91,7 @@ module Physics
 					new_elevation = env.height + env.pz
 					
 					if new_elevation > elevation
-						if body.elevation == nil || new_elevation <= body.pz
-							elevation = new_elevation
-						end
+						elevation = new_elevation
 					end
 				end
 			end

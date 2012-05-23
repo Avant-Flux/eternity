@@ -62,41 +62,42 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			
-			
-			
 			#Process actions involving what to do when on top, as well as side collisions
-			
 			if entity.body.pz >= (elevation = env.height + env.pz)
 				# On top of the environment
 				#~ puts "over"
-				#~ if env_shape.point_query entity_shape.body.local2world(CP::Vec2::ZERO)
-					#~ entity.body.elevation = env.height + env.pz
-				#~ end
 				
-				if 	(entity.body.pz >= elevation && elevation > entity.body.elevation)
-					entity.body.elevation = elevation
+				if entity.body.pz >= elevation && elevation > entity.body.elevation
+					entity.body.add_elevation elevation
 				end
 				
 				
 				return false
-			elsif entity.body.pz < env.pz - entity.height
-				if entity.body.pz + entity.height > env.pz
-					# Feet are below the bottom surface of the environment,
-					# but the head is colliding
-					entity.body.pz = env.pz - entity.height
-					entity.body.vz = 0
-					entity.body.az = 0
-					return false
-				elsif entity.body.pz + entity.height <= env.pz
-					# Entity is below the environment object
-					return false
-				else
-					#~ return true
-				end
 			else
-				# Collide on the side
-				return true
+				# Feet are beneath elevation level
+				if entity.body.pz < env.pz
+					# Feet are beneath the z of the static object
+					if entity.body.pz + entity.height > env.pz
+						# Head is inside the static object (ie, colliding)
+						#~ puts "head collision"
+						entity.body.pz = env.pz - entity.height
+						entity.body.vz = 0
+						entity.body.az = 0
+						return false
+					else
+						# Entity is below the static object
+						#~ puts "beneath"
+						return false
+					end
+				else
+					# Less than elevation, greater than or equal to env.pz
+					#~ puts "side collision"
+					#~ if elevation > entity.body.elevation
+						return true
+					#~ else
+						#~ return false
+					#~ end
+				end
 			end
 		end
 		
@@ -114,7 +115,8 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			entity.body.elevation = 0
+			elevation = env.height + env.pz
+			entity.body.delete_elevation elevation
 		end
 	end
 	

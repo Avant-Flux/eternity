@@ -6,6 +6,7 @@ require "bundler/setup"
 
 require 'gosu'
 require 'chipmunk'
+require 'algorithms'
 
 require 'require_all'
 #~ require 'profile'
