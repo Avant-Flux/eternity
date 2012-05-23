@@ -1,5 +1,7 @@
 module Physics
 	class Body < CP::Body
+		# TODO: Remove pointer to gameobject if it proves unnecessary
+		
 		attr_reader :gameobject
 		attr_accessor :pz, :vz, :az, :g
 		#~ attr_accessor :elevation
