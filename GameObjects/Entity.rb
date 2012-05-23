@@ -88,7 +88,7 @@ class Entity
 	end
 	
 	def resolve_ground_collision
-		@jump_count = 0
+		reset_jump
 	end
 	
 	def visible?

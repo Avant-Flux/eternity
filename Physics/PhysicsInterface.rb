@@ -22,6 +22,10 @@ module PhysicsInterface
 			@body.vz = 5 #On jump, set the velocity in the z direction
 		end
 	end
+	
+	def reset_jump
+		@jump_count = 0
+	end
 
 	def add_to(space)
 		space.add_shape @shape
