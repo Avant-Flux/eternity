@@ -13,12 +13,13 @@ require 'glu'
 include Gl
 include Glu
 
-#~ require_all './UI/Widgets'
-
-class UI_State < InterfaceState
-	def initialize(window, space, layers, name, open, close, player)
-		super(window, space, layers, name, open, close)
+class UI_State# < InterfaceState
+	def initialize(window, space, player)
+		@window = window
+		@space = space
 		@player = player
+		
+		
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
 		@mana_gear = Gosu::Image.new window,
@@ -82,10 +83,10 @@ class UI_State < InterfaceState
 	end
 	
 	def update
-		super
+		#~ super
 		
 		# Optimize: only reset text when values change
-		@level.text = "#{@player.lvl}"
+		@level.text = "#{@player.level}"
 		@hp_numerical_display.text = "#{@player.hp} | #{@player.max_hp}"
 		@mp_numerical_display.text = "#{@player.mp} | #{@player.max_mp}"
 	end
@@ -143,7 +144,7 @@ class UI_State < InterfaceState
 		x = (@window.width/2 - @mana_gear.width/2)-side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
-		@mana_gear.old_draw x, y, z 
+		@mana_gear.draw x, y, z 
 		# Mana label
 		#~ heath_label_offset_x = 90
 		#~ x = (@window.width/2 - @mana_gear.width/2)-heath_label_offset_x
@@ -167,7 +168,7 @@ class UI_State < InterfaceState
 		x = (@window.width/2 - @health_gear.width/2)+side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
-		@health_gear.old_draw x, y, z
+		@health_gear.draw x, y, z
 		# Health label
 		#~ heath_label_offset_x = 120
 		#~ x = (@window.width/2 - @health_gear.width/2)+heath_label_offset_x
@@ -183,7 +184,7 @@ class UI_State < InterfaceState
 		# Flux
 		scale_top_gear = 0.3
 		top_gear_offset_y = 150+20
-		@flux_gear.old_draw	(@window.width/2 - @flux_gear.width/2),
+		@flux_gear.draw	(@window.width/2 - @flux_gear.width/2),
 							@window.height - top_gear_offset_y, 100
 	end
 	
@@ -192,7 +193,7 @@ class UI_State < InterfaceState
 		x = weapon_offset_x
 		y = weapon_offset_y
 		z = 100
-		@weapon_gear.old_draw x, y, z
+		@weapon_gear.draw x, y, z
 	end
 	
 	def draw_right_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
@@ -200,14 +201,14 @@ class UI_State < InterfaceState
 		x = @window.width - weapon_offset_x - @weapon_gear.width
 		y = weapon_offset_y
 		z = 100
-		@weapon_gear.old_draw x, y, z
+		@weapon_gear.draw x, y, z
 	end
 	
 	def draw_level_indicator
 		x = @window.width/2 - @level_gear.width/2
 		y = 10
 		z = 100
-		@level_gear.old_draw x,y,z
+		@level_gear.draw x,y,z
 		@level.draw
 	end
 end

@@ -26,7 +26,7 @@ require_all './Titles'
 require_all './GameObjects'
 require_all './GameStates'
 
-#~ require_all './UI'
+require_all './UI'
 
 require 'gl'
 require 'glu'
@@ -64,6 +64,9 @@ class Game_Window < Gosu::Window
 		@state_manager = StateManager.new self, @space, @player
 		
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
+		
+		
+		@ui_state = UI_State.new self, @space, @player
 	end
 	
 	def update
@@ -74,12 +77,14 @@ class Game_Window < Gosu::Window
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
 		@state_manager.update # Update the entities within the active state
+		@ui_state.update
 	end
 	
 	def draw
 		@state_manager.draw # Draw gameworld state
 		
 		draw_screen
+		@ui_state.draw
 	end
 	
 	def button_down(id)

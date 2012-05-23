@@ -7,9 +7,6 @@ require 'chipmunk'
 module Widget
 	# Similar to button, but not clickable
 	class Label < UI_Object
-		include Physics::TwoD_Support
-		include Physics::TwoD_Support::Rect
-		
 		include Widget::Background::Colored
 		
 		attr_reader :text
@@ -46,7 +43,7 @@ module Widget
 				y += options[:relative].render_y
 			end
 			
-			width =		case options[:width_units]
+			@width =		case options[:width_units]
 							when :px
 								options[:width]
 							when :em
@@ -68,7 +65,7 @@ module Widget
 								(output * options[:width]/100.0).to_i
 						end
 					
-			height =	case options[:height_units]
+			@height =	case options[:height_units]
 							when :px
 								options[:height]
 							when :em
@@ -92,7 +89,15 @@ module Widget
 			
 			mass = 100
 			moment = 100
-			init_physics [x,y], width, height, mass, moment, :button
+			
+			#~ @body = CP::Body.new_static()
+			@body = CP::Body.new(mass, moment)
+			@shape = Physics::Shape::Rect.new self, @body, @width, @height
+			
+			@shape.collision_type = :button
+			@body.p = CP::Vec2.new(x,y)
+			
+			#~ init_physics [x,y], width, height, mass, moment, :button
 			
 			if options[:text]
 				@text = options[:text]
@@ -113,7 +118,7 @@ module Widget
 		def draw
 			draw_background @pz
 			if @font
-				@font.draw @text, px+@font_offset_x, py+@font_offset_y, pz, :color => @color
+				@font.draw @text, @body.p.x+@font_offset_x, @body.p.y+@font_offset_y, @pz, 1,1, @color
 			end
 		end
 		
@@ -136,9 +141,9 @@ module Widget
 				when :left
 					0
 				when :center
-					(width(:meters) - @font.text_width(@text))/2
+					(@width - @font.text_width(@text))/2
 				when :right
-					(width(:meters) - @font.text_width(@text))
+					(@width - @font.text_width(@text))
 			end
 		end
 		
@@ -149,11 +154,11 @@ module Widget
 				when :top
 					0
 				when :middle
-					(height(:meters) - @font.height)/2 + 2
+					(@height - @font.height)/2 + 2
 					# Constant at the end may have to change
 					# with font or platform
 				when :bottom
-					height(:meters) - @font.height+5
+					@height - @font.height+5
 					# Constant at the end may have to change
 					# with font or platform
 			end

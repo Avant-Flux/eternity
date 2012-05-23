@@ -18,6 +18,7 @@ class Entity
 	
 	attr_accessor :pz, :elevation
 	attr_accessor :body, :shape
+	attr_reader :level
 	
 	strength		0
 	constitution	0
@@ -54,6 +55,7 @@ class Entity
 		#~ init_movement	
 		
 		init_stats
+		@level = 1
 		
 		#~ @intense = false
 		#~ @visible = true		#Controls whether or not to render the Entity

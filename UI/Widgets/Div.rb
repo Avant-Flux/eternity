@@ -9,8 +9,8 @@ module Widget
 	# Other widgets, as well as Gosu::Image instances, should
 	# be able to exist within this context.
 	class Div < UI_Object
-		include Physics::TwoD_Support
-		include Physics::TwoD_Support::Rect
+		#~ include Physics::TwoD_Support
+		#~ include Physics::TwoD_Support::Rect
 		
 		include Background::Colored
 		
@@ -63,7 +63,7 @@ module Widget
 				y += options[:relative].render_y
 			end
 			
-			width =		case options[:width_units]
+			@width =		case options[:width_units]
 							when :px
 								options[:width]
 							when :em
@@ -85,7 +85,7 @@ module Widget
 								(output * options[:width]/100.0).to_i
 						end
 					
-			height =	case options[:height_units]
+			@height =	case options[:height_units]
 							when :px
 								options[:height]
 							when :em
@@ -114,7 +114,12 @@ module Widget
 			#~ mass = 100
 			#~ moment = 100
 			#~ init_physics	[x,y], width, height, mass, moment, :div
-			init_physics	[x,y], width, height, :static, :static, :div
+			@body = CP::Body.new_static()
+			@shape = Physics::Shape::Rect self, @body, @width, @height
+			@shape.collision_type = :div
+			
+			
+			#~ init_physics	[x,y], width, height, :static, :static, :div
 			
 			init_background	options[:background_color]
 			
