@@ -27,8 +27,10 @@ class StaticObject
 		@tile_width = 5
 		@tile_height = 5
 		
-		@x_count = @width/@tile_width
-		@y_count = @depth/@tile_height
+		# NOTE:	This will cause issues with surfaces that can not be evenly
+		# 		filled by tiles
+		@x_count = (@width/@tile_width).to_i
+		@y_count = (@depth/@tile_height).to_i
 		
 		
 		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
@@ -66,6 +68,10 @@ class StaticObject
 	
 	def add_to(space)
 		space.add_static_shape @shape
+	end
+	
+	def remove_from(space)
+		space.remove_static_shape @shape
 	end
 	
 	private

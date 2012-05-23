@@ -36,4 +36,9 @@ module PhysicsInterface
 		# TODO:	Perform initial raycast when adding entity to space to determine
 		# 		starting elevation.
 	end
+	
+	def remove_from(space)
+		space.remove_shape @shape
+		space.remove_body @body
+	end
 end

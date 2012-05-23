@@ -3,6 +3,8 @@
 require 'rubygems'
 require 'chipmunk'
 
+require 'set'
+
 class LevelState #< GameState
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
@@ -19,31 +21,10 @@ class LevelState #< GameState
 		
 		#~ @queue = render_queue
 		
-		
-		@npcs = Array.new
-		@npcs[0] = Entity.new @window
-		
-		@entities = Array.new
-		@entities.push *@npcs
-		
+		@entities = Set.new
 		
 		# TODO:  Free @static_objects if #update is not necessary
 		@static_objects = Array.new
-		@static_objects.push StaticObject.new @window, [50,50,0], [0,0,0] # Main area
-		
-		@static_objects.push StaticObject.new @window, [10,10,2], [-5,-5,0] # Raised spawn
-		
-		@static_objects.push StaticObject.new @window, [30,10,3], [20,50,0] # First step
-		@static_objects.push StaticObject.new @window, [30,10,6], [20,60,0] # Second step
-		
-		@static_objects.push StaticObject.new @window, [15,15,1], [0,16,6] # Floating platform
-		@static_objects.push StaticObject.new @window, [15,15,3], [15,16,0] # Step to floating platform
-		
-		[@static_objects, @entities].each do |object_array|
-			object_array.each do |obj|
-				obj.add_to @space
-			end
-		end
 	end
 	
 	def update
@@ -79,9 +60,29 @@ class LevelState #< GameState
 		super
 	end
 	
+	def add_gameobject(obj)
+		if obj.is_a? StaticObject
+			@static_objects << obj
+		else
+			@entities.add obj
+		end
+		
+		obj.add_to @space
+	end
+	
 	def delete_gameobject(obj)
-		super(obj)
-		@queue.delete obj
+		#~ super(obj)
+		#~ @queue.delete obj
+		
+		collection = if obj.is_a? StaticObject
+			@static_objects
+		else
+			@entities
+		end
+		
+		collection.delete obj
+		
+		obj.remove_from @space
 	end
 	
 	def add_player(player)
@@ -89,7 +90,7 @@ class LevelState #< GameState
 		@player.add_to @space
 		@entities << @player
 		
-		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn if @spawn
+		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn
 	end
 	
 	# Save all elements of the level, but not the camera
@@ -161,8 +162,10 @@ class LevelState #< GameState
 	end
 	
 	class << self
-		def load(window, space, layers, name, render_queue)
-			level =	LevelState.new window, space, layers, name, render_queue
+		def load(window, space, name)
+			# TODO: Through exception if no spawn defined
+			
+			level =	LevelState.new window, space
 			
 			path = File.join LEVEL_DIRECTORY, (name + ".txt")
 			
@@ -174,28 +177,34 @@ class LevelState #< GameState
 				if args[0] && args[0][0] != "#" # Ignore empty lines, and commented out lines
 					# check the first letter of the first word
 					
-					game_object = case args[0][0]
-						when "B"
+					game_object = case args[0] # Check the first parameter
+						when "Building"
 							building_count += 1
-							Building.new	window, "#{name}_#{building_count}",
-											[args[1].to_f, args[2].to_f, args[3].to_f], 
-											[args[4].to_f, args[5].to_f, args[6].to_f]
+							#~ Building.new	window, "#{name}_#{building_count}",
+											#~ [args[1].to_f, args[2].to_f, args[3].to_f], 
+											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
+							args.shift
+							StaticObject.new	window, 
+												[args[0].to_f, args[1].to_f, args[2].to_f], 
+												[args[3].to_f, args[4].to_f, args[5].to_f]
 						when "d"
 							nil
 						when "r"
 							nil
 						when "e"
 							nil
-						when "n"
-							nil
-						when "S" # Spawn
+						when "NPC"
+							# TODO: Move NPC to spawn
+							# TODO: Allow specifying NPC position in file
+							Entity.new window
+						when "Spawn"
 							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
-							nil
+							nil # "Return nothing"
 						else
 							raise ArgumentError, "improper gameobject type"
 					end
 					
-					unless game_object == nil
+					if game_object
 						level.add_gameobject game_object
 					end
 				end
