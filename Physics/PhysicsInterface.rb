@@ -6,9 +6,11 @@ module PhysicsInterface
 	attr_reader :shape, :body, :height
 	attr_accessor :jump_count
 	
-	def init_physics(shape)
+	def init_physics(collision_type, shape)
 		@shape = shape
 		@body = shape.body
+		
+		@shape.collision_type = collision_type
 		
 		@height = 2
 		
