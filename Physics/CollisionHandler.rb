@@ -118,38 +118,6 @@ module CollisionHandler
 		end
 	end
 	
-	# Used for the tops of non-moving environmental pieces and buildings
-	class EntityEnvTop
-		def begin(arbiter)
-			return false
-		end
-		
-		#~ def pre(arbiter) #Determine whether to process collision or not
-			#~ return true
-			#~ #Process actions involving what to do when on top, as well as side collisions
-			#~ physics_a = arbiter.a.physics_obj
-			#~ physics_b = arbiter.b.physics_obj
-			#~ 
-			#~ if physics_a.pz - physics_b.height < -0.15
-				#~ #If the entity collides from the side, accept the collision
-				#~ puts arbiter.a.physics_obj.pz - arbiter.a.physics_obj.elevation
-				#~ puts arbiter.a.physics_obj.pz - arbiter.b.physics_obj.height
-				#~ return true
-			#~ else
-				#~ physics_a.set_elevation
-				#~ return false
-			#~ end
-		#~ end
-		
-		#~ def post_solve(arbiter) #Do stuff after the collision has be evaluated
-			#~ 
-		#~ end
-		#~ 
-		#~ def separate(arbiter)	#Stuff to do after the shapes separate
-			#~ arbiter.a.physics_obj.set_elevation
-		#~ end
-	end
-	
 	#~ Collision type for usage with the CP::Shape and CP::Body used for the camera
 	#~ This is the collision handler for a sensor object
 	class Camera
