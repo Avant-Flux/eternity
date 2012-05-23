@@ -53,7 +53,7 @@ class Entity
 		#~ init_physics	pos, (@animation.width/3.5).to_meters, mass, moment, :entity
 		#~ init_movement	
 		
-		#~ init_stats
+		init_stats
 		
 		#~ @intense = false
 		#~ @visible = true		#Controls whether or not to render the Entity
