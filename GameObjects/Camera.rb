@@ -66,6 +66,7 @@ class Camera
 		#~ end
 		
 		@trimetric_queue = TrimetricQueue.new
+		@billboard_queue = Array.new
 	end
 	
 	def update
@@ -107,7 +108,9 @@ class Camera
 					end
 					
 					# Draw non-trimetric world elements
-					@billboard_block.call
+					@billboard_queue.each do |block|
+						block.call
+					end
 				end
 			end
 		end
@@ -115,6 +118,7 @@ class Camera
 		@window.flush
 		
 		@trimetric_queue.clear
+		@billboard_queue.clear
 	end
 	
 	def draw_trimetric(z=0, &block)
@@ -125,7 +129,7 @@ class Camera
 		# Non-trimetric world draw
 		# Draw is referenced in screen coordinates, not world coordinates
 		# However, the coordinate system has been translated around the tracked entity
-		@billboard_block = block
+		@billboard_queue << block
 	end
 	
 	def screen_offset(offset)
