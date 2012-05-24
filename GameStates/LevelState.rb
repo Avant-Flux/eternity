@@ -47,6 +47,19 @@ class LevelState #< GameState
 		draw_shadows
 		draw_ground_effects
 		draw_entities
+		#~ @window.camera.draw_billboarded do
+			#~ c = 1
+			#~ r = (@player.body.pz - @player.body.elevation + c).to_px
+			#~ r = 1.to_px
+			#~ 
+			#~ position = @player.body.p.to_screen
+			#~ x = position.x
+			#~ y = (position.y - @player.body.elevation.to_px)
+			#~ 
+			#~ @window.draw_circle	x, y, @player.body.pz, r,
+								#~ Gosu::Color.new(100, 255,0,0),
+								#~ :stroke_width => 5
+		#~ end
 	end
 	
 	def draw_magic_circle(x,y,z)
