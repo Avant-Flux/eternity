@@ -187,7 +187,7 @@ class LevelState #< GameState
 	
 	class << self
 		def load(window, space, name)
-			# TODO: Through exception if no spawn defined
+			# TODO: Throw exception if no spawn defined
 			
 			level =	LevelState.new window, space, name
 			
