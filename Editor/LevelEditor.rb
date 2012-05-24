@@ -3,40 +3,7 @@ path = File.expand_path File.dirname(__FILE__)
 path = path[0..(path.rindex(File::SEPARATOR)-1)]
 Dir.chdir path
 
-require 'rubygems'
-require "bundler/setup"
-
-require 'gosu'
-require 'chipmunk'
-require 'algorithms'
-
-require 'require_all'
-#~ require 'profile'
-#~ require 'ruby-prof'
-#~ RubyProf.start
-
-require_all './Utilities'
-
-require_all './Physics'
-
-require_all './Combat'
-require_all './Drawing'
-require_all './Equipment'
-require_all './Stats'
-require_all './Titles'
-
-require_all './GameObjects'
-require_all './GameStates'
-
-require_all './UI'
-
 require './GameWindow'
-
-require 'gl'
-require 'glu'
-
-include Gl
-include Glu
 
 class LevelEditor < GameWindow
 	def initialize
