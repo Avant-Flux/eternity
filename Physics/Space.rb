@@ -4,6 +4,8 @@ require 'set'
 
 module Physics
 	class Space < CP::Space
+		attr_reader :dt
+		
 		def initialize
 			super()
 			
@@ -27,13 +29,13 @@ module Physics
 		end
 		
 		def step
-			dt = timestep()
+			@dt = timestep()
 			
 			@bodies.each do |body|
-				vertical_integration body, dt
+				vertical_integration body, @dt
 			end
 			
-			super(dt) # Timestep in seconds
+			super(@dt) # Timestep in seconds
 		end
 		
 		private

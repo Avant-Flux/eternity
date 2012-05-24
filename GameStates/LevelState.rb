@@ -33,6 +33,13 @@ class LevelState #< GameState
 		@entities.each do |entity|
 			entity.update
 		end
+		
+		@magic_circle_angle ||= 0
+		if @magic_circle_angle > 360
+			@magic_circle_angle -= 360
+		else
+			@magic_circle_angle += 30 * @space.dt
+		end
 	end
 	
 	def draw
@@ -44,12 +51,7 @@ class LevelState #< GameState
 	
 	def draw_magic_circle(x,y,z)
 		@magic_circle ||= Gosu::Image.new(@window, "./Sprites/Effects/firecircle.png", false)
-		@magic_circle_angle ||= 0
-		if @magic_circle_angle > 360
-			@magic_circle_angle = 0
-		else
-			@magic_circle_angle += 1
-		end
+		
 		zoom = 0.01
 		color = Gosu::Color::RED
 		
