@@ -16,7 +16,6 @@ class Entity
 	#~ # Status:		Properties imposed by effects, like status effects
 	#~ attr_reader :attributes, :status
 	
-	attr_accessor :pz, :elevation
 	attr_accessor :body, :shape
 	attr_reader :level
 	
