@@ -38,7 +38,7 @@ elsif RUBY_PLATFORM.downcase.include?("mswin32")
 elsif RUBY_PLATFORM.downcase.include?("darwin")
 	puts "Installing for OSX"
 	
-	gem "ruby-opengl", :require => ["gl", "glu"]
+	gem "ruby-opengl2", :require => ["gl", "glu"]
 	#~ sudo gem install rake #rake is installed by default
 	#Gems do not appear to need separate dependencies on OSX
 	#with the exception of imagemagick
