@@ -16,8 +16,8 @@ module Physics
 	end
 	
 	module Direction
-		x_scale = 0.75
-		y_scale = 0.50
+		x_scale = 1.0
+		y_scale = 0.6
 		
 		X_HAT = CP::Vec2.new(Math.cos((8.79).to_rad), Math.sin((8.79).to_rad)) * x_scale * Physics.scale
 		Y_HAT = CP::Vec2.new(Math.cos((65.1).to_rad), -Math.sin((65.1).to_rad)) * y_scale * Physics.scale
