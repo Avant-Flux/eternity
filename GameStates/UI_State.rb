@@ -124,9 +124,11 @@ class UI_State# < InterfaceState
 		
 		draw_level_indicator
 		
-		weapon_offset_y = @window.height - @weapon_gear.height - 20 # offset from top of screen
-		weapon_offset_x = 90
-		scale_weapons = 0.4
+		
+		
+		weapon_offset_x = 90 # offset from center
+		weapon_offset_y = 20 # offset from bottom of screen
+		scale_weapons = 1
 		
 		draw_left_weapon_indicator weapon_offset_x, weapon_offset_y, scale_weapons
 		draw_right_weapon_indicator weapon_offset_x, weapon_offset_y, scale_weapons		
@@ -193,18 +195,18 @@ class UI_State# < InterfaceState
 	
 	def draw_left_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
 		# Left Weapon
-		x = @window.width/2 - weapon_offset_x - @weapon_gear.width
-		y = weapon_offset_y
+		x = @window.width/2 - weapon_offset_x - @weapon_gear.width*scale_weapons
+		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
 		z = 100
-		@weapon_gear.draw x, y, z
+		@weapon_gear.draw x, y, z, scale_weapons,scale_weapons
 	end
 	
 	def draw_right_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
 		# Right Weapon
 		x = @window.width/2 + weapon_offset_x
-		y = weapon_offset_y
+		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
 		z = 100
-		@weapon_gear.draw x, y, z
+		@weapon_gear.draw x, y, z, scale_weapons,scale_weapons
 	end
 	
 	def draw_level_indicator
