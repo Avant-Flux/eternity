@@ -124,8 +124,8 @@ class UI_State# < InterfaceState
 		
 		draw_level_indicator
 		
-		weapon_offset_y = 20 # offset from top of screen
-		weapon_offset_x = 20
+		weapon_offset_y = @window.height - @weapon_gear.height - 20 # offset from top of screen
+		weapon_offset_x = 90
 		scale_weapons = 0.4
 		
 		draw_left_weapon_indicator weapon_offset_x, weapon_offset_y, scale_weapons
@@ -141,6 +141,7 @@ class UI_State# < InterfaceState
 	def draw_mana_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
 		# Mana
 		# Mana Orb
+		# Blue fill
 		x = (@window.width/2 - @mana_gear.width/2)-side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
@@ -165,6 +166,7 @@ class UI_State# < InterfaceState
 	
 	def draw_health_indicator(side_gear_offset_x, side_gear_offset_y, scale_side_gears)
 		# Health
+		# Red fill
 		x = (@window.width/2 - @health_gear.width/2)+side_gear_offset_x
 		y = @window.height - side_gear_offset_y
 		z = 100
@@ -182,6 +184,7 @@ class UI_State# < InterfaceState
 	
 	def draw_flux_indicator
 		# Flux
+		# White fill
 		scale_top_gear = 0.3
 		top_gear_offset_y = 150+20
 		@flux_gear.draw	(@window.width/2 - @flux_gear.width/2),
@@ -190,7 +193,7 @@ class UI_State# < InterfaceState
 	
 	def draw_left_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
 		# Left Weapon
-		x = weapon_offset_x
+		x = @window.width/2 - weapon_offset_x - @weapon_gear.width
 		y = weapon_offset_y
 		z = 100
 		@weapon_gear.draw x, y, z
@@ -198,7 +201,7 @@ class UI_State# < InterfaceState
 	
 	def draw_right_weapon_indicator(weapon_offset_x, weapon_offset_y, scale_weapons)
 		# Right Weapon
-		x = @window.width - weapon_offset_x - @weapon_gear.width
+		x = @window.width/2 + weapon_offset_x
 		y = weapon_offset_y
 		z = 100
 		@weapon_gear.draw x, y, z
