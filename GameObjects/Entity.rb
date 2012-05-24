@@ -20,12 +20,12 @@ class Entity
 	attr_accessor :body, :shape
 	attr_reader :level
 	
-	strength		0
-	constitution	0
-	dexterity		0
-	power			0
-	control			0
-	flux			0
+	strength		1
+	constitution	1
+	dexterity		1
+	power			1
+	control			1
+	flux			1
 	
 	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
 	def initialize(window)
