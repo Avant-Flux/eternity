@@ -35,7 +35,7 @@ include Gl
 include Glu
 
 
-class Game_Window < Gosu::Window
+class GameWindow < Gosu::Window
 	attr_accessor :camera
 	
 	def initialize
@@ -77,14 +77,14 @@ class Game_Window < Gosu::Window
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
 		@state_manager.update # Update the entities within the active state
-		@ui_state.update
+		
+		update_screen # Update the HUD and other screen-relative elements
 	end
 	
 	def draw
 		@state_manager.draw # Draw gameworld state
 		
 		draw_screen
-		@ui_state.draw
 	end
 	
 	def button_down(id)
@@ -150,14 +150,16 @@ class Game_Window < Gosu::Window
 	
 	private
 	
+	def update_screen
+		@ui_state.update
+	end
+	
 	def draw_screen
 		# Draw screen-relative "flat" elements (UI etc)
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
 		end
+		
+		@ui_state.draw
 	end
 end
-
-
-
-Game_Window.new.show
