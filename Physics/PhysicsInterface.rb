@@ -14,8 +14,10 @@ module PhysicsInterface
 		
 		@height = 2
 		
-		
 		@jump_count = 0
+		
+		@body.v_limit = 50
+		#~ @body.w_limit = 100 # Limit rotational velocity
 	end
 	
 	def jump
