@@ -47,6 +47,7 @@ class StateManager
 	def add_player(player)
 		state = @stack.last
 		state.add_player player
+		player.body.reset
 	end
 	
 	def save

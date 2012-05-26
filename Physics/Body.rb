@@ -24,6 +24,23 @@ module Physics
 			@az = 0
 		end
 		
+		def reset
+			# Restore the body to it's original state.
+			@elevation_heap.clear
+			@elevation_heap << 0
+			
+			@pz = 0
+			@vz = 0
+			@az = 0
+			
+			self.p.x = self.p.y = 0.0
+			self.v.x = self.v.y = 0.0
+			self.f.x = self.f.y = 0.0
+			self.a = 0.0 # angle
+			self.w = 0.0 # Angular velocity
+			self.t = 0.0 # Torque (double)
+		end
+		
 		def elevation
 			@elevation_heap.max
 		end
