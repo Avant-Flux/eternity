@@ -27,17 +27,18 @@ class EternityInput < InputHandler
 	def init_gameplay_inputs
 		# Create actions
 		self.mode = :gameplay
+		
 		new_action :up, :active do
-			@player.body.apply_force CP::Vec2.new(0,10), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(0,300), CP::ZERO_VEC_2
 		end
 		new_action :down, :active do
-			@player.body.apply_force CP::Vec2.new(0,-10), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(0,-300), CP::ZERO_VEC_2
 		end
 		new_action :left, :active do
-			@player.body.apply_force CP::Vec2.new(-10,0), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(-300,0), CP::ZERO_VEC_2
 		end
 		new_action :right, :active do
-			@player.body.apply_force CP::Vec2.new(10,0), CP::ZERO_VEC_2
+			@player.body.apply_force CP::Vec2.new(300,0), CP::ZERO_VEC_2
 		end
 		
 		new_action :jump, :rising_edge do
@@ -63,6 +64,7 @@ class EternityInput < InputHandler
 	def bind_inputs
 		#TODO:	Change bind so there is only one bind method, which will search all input types
 		#		and bind action appropriately.
+		# 		The implication of this is that name symbols must be unique.
 		bind_action :up, Gosu::KbUp
 		bind_action :down, Gosu::KbDown
 		bind_action :left, Gosu::KbLeft
