@@ -56,4 +56,12 @@ class StateManager
 			state.save
 		end
 	end
+	
+	def reload
+		# Reload the state on top of the stack
+		# Intended for testing purposes only
+		state = @stack.pop
+		@stack.push LevelState.load @window, @space, state.name
+		add_player @player
+	end
 end

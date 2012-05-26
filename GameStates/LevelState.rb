@@ -75,6 +75,17 @@ class LevelState #< GameState
 	
 	def finalize
 		super
+		
+		# TODO: Refrain from using finalize and remove objects in some other manner.
+		# 		Using finalize delays removal until the object is GCed
+		
+		@entities.each do |entity|
+			entity.remove_from @space
+		end
+		
+		@static_objects.each do |obj|
+			obj.remove_from @space
+		end
 	end
 	
 	def add_gameobject(obj)

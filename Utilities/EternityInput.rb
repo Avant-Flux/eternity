@@ -4,12 +4,12 @@
 class EternityInput < InputHandler
 	attr_accessor :player
 	
-	def initialize(player, camera)
+	def initialize(player, camera, state_manager)
 		super()
 		
 		@player = player
 		@camera = camera
-		
+		@state_manager = state_manager
 		
 		init_gameplay_inputs
 		
@@ -44,6 +44,10 @@ class EternityInput < InputHandler
 			@player.jump
 		end
 		
+		new_action :reload_level, :rising_edge do
+			@state_manager.reload
+		end
+		
 		# Camera control
 		#~ new_action :zoom_in, :rising_edge do
 			#~ @camera.zoom_in
@@ -65,6 +69,8 @@ class EternityInput < InputHandler
 		bind_action :right, Gosu::KbRight
 		
 		bind_action :jump, Gosu::KbSpace
+		
+		bind_action :reload_level, Gosu::KbF1
 		
 		#~ @inpman.bind_action :zoom_in, Gosu::Kb1
 		#~ @inpman.bind_action :zoom_out, Gosu::MsWheelDown
