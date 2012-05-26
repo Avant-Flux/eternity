@@ -22,7 +22,6 @@ module Physics
 			@pz = 0
 			@vz = 0 
 			@az = 0
-			@g = -9.8
 		end
 		
 		def elevation

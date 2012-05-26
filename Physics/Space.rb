@@ -14,6 +14,8 @@ module Physics
 			
 			@t_previous = Gosu.milliseconds
 			
+			@g = -9.8
+			
 			@bodies = Set.new()
 		end
 		
@@ -65,7 +67,7 @@ module Physics
 			if body.pz > body.elevation
 				# TODO: Change conditional to be if in_air? to handle uneven terrain
 				# Apply gravity
-				body.vz += body.g * dt
+				body.vz += @g * dt
 				body.pz += body.vz * dt
 			end
 			
