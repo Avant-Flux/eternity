@@ -35,7 +35,10 @@ module Physics
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
+				apply_friction body
 			end
+			
+			
 			
 			super(@dt) # Timestep in seconds
 		end
@@ -77,6 +80,30 @@ module Physics
 				body.az = 0
 				
 				body.gameobject.resolve_ground_collision
+			end
+		end
+		
+		def apply_friction(body)
+			# Apply a force of friction in the opposite direction of the velocity
+			u = 0.7 # Coefficient of friction
+			
+			
+			magnitude = body.v.length
+			puts magnitude
+			if magnitude > 0.01 # Only apply friction if object is in motion
+				#~ puts "moving"
+				
+				direction_vector = body.v / magnitude
+				#~ puts direction_vector.length
+				# Normal force
+				# Currently assuming that all terrain in flat
+				# TODO:	Update normal force to take account of terrain
+				# 		Normal = mg*cos(theta)
+				normal = body.m * @g
+				
+				friction = direction_vector*u*normal
+				
+				body.apply_force friction, CP::ZERO_VEC_2
 			end
 		end
 		
