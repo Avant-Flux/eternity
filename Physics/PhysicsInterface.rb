@@ -16,8 +16,27 @@ module PhysicsInterface
 		
 		@jump_count = 0
 		
-		@body.v_limit = 50
+		@body.v_limit = 10
 		#~ @body.w_limit = 100 # Limit rotational velocity
+		
+		@shape.u = 0.7
+		
+		@movement_coefficient = 50
+	end
+	
+	def move(direction)
+		vec = case direction
+			when :up
+				CP::Vec2.new(0,1) * @movement_coefficient
+			when :down
+				CP::Vec2.new(0,-1) * @movement_coefficient
+			when :left
+				CP::Vec2.new(-1,0) * @movement_coefficient
+			when :right
+				CP::Vec2.new(1,0) * @movement_coefficient
+		end
+		
+		@body.apply_force vec, CP::ZERO_VEC_2
 	end
 	
 	def jump

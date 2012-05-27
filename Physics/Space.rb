@@ -35,7 +35,7 @@ module Physics
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
-				apply_friction body
+				#~ apply_friction body
 			end
 			
 			
@@ -90,7 +90,7 @@ module Physics
 			
 			magnitude = body.v.length
 			puts magnitude
-			if magnitude > 0.01 # Only apply friction if object is in motion
+			if magnitude > 0.9 # Only apply friction if object is in motion
 				#~ puts "moving"
 				
 				direction_vector = body.v / magnitude

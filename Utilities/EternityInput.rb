@@ -28,17 +28,10 @@ class EternityInput < InputHandler
 		# Create actions
 		self.mode = :gameplay
 		
-		new_action :up, :active do
-			@player.body.apply_force CP::Vec2.new(0,300), CP::ZERO_VEC_2
-		end
-		new_action :down, :active do
-			@player.body.apply_force CP::Vec2.new(0,-300), CP::ZERO_VEC_2
-		end
-		new_action :left, :active do
-			@player.body.apply_force CP::Vec2.new(-300,0), CP::ZERO_VEC_2
-		end
-		new_action :right, :active do
-			@player.body.apply_force CP::Vec2.new(300,0), CP::ZERO_VEC_2
+		[:up, :down, :left, :right].each do |direction|
+			new_action direction, :active do
+				@player.move direction
+			end
 		end
 		
 		new_action :jump, :rising_edge do
