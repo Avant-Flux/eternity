@@ -46,7 +46,7 @@ module Physics
 		end
 		
 		def add_elevation(elevation)
-			@elevation_heap << elevation unless @elevation_heap.max == elevation
+			@elevation_heap << elevation
 		end
 		
 		def delete_elevation(elevation)

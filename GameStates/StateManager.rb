@@ -47,7 +47,6 @@ class StateManager
 	def add_player(player)
 		state = @stack.last
 		state.add_player player
-		player.body.reset
 	end
 	
 	def save
@@ -63,6 +62,8 @@ class StateManager
 		# Intended for testing purposes only
 		state = @stack.pop
 		@stack.push LevelState.load @window, @space, state.name
+		
+		@player.body.reset
 		add_player @player
 	end
 end
