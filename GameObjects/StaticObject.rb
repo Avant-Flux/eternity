@@ -60,9 +60,13 @@ class StaticObject
 		x = position.x
 		y = position.y - @body.pz.to_px
 		
-		@window.translate @body.p.x, @body.p.y do
-			@side.draw x,y,@body.pz
-		end
+		
+		
+		#~ puts offset if x == 0 and y == 0
+		
+		#~ @window.translate 0, do
+			@side.draw x,y-@side.height+@billboard_offset, @body.p.y
+		#~ end
 	end
 	
 	def add_to(space)
