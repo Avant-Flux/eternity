@@ -34,9 +34,7 @@ class StaticObject
 		@y_count = (@depth/@tile_height).to_i
 		
 		
-		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
-		@side = TexPlay.create_blank_image(@window, 512,512)
-		#~ @side.line 0,0
+		@side = create_wireframe
 	end
 	
 	def update
@@ -76,6 +74,81 @@ class StaticObject
 	end
 	
 	private
+	
+	def create_wireframe
+		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
+		# All angle measures are hard codede, based on the trimetric projection
+		# found on wikipedia's axiometric projection page.
+		# 65.1 => angle of Y_HAT with the horizontal
+		# 8.79 => angle of X_HAT with the horizontal
+		
+		# TODO: Reduce memory consumption of algorithm
+		#		Current implementation 
+		# TODO:	Create separate wireframe class
+		# TODO:	Wireframes should only be generated as a placeholder
+		# 		Should attempt to load textures first.  If texture loading fails, generate
+		# 		wireframe and save to the location of the missing texture.
+		
+		# Currently, image_x and image_y are in meters
+		image_x = @width*Math.cos(8.79.to_rad) + @depth*Math.cos(65.1.to_rad)
+		image_y = @height + @depth*Math.sin(65.1.to_rad) + @width*Math.sin(8.79.to_rad)
+		side = TexPlay.create_blank_image(@window, 1000,1000)
+		#~ @side = TexPlay.create_blank_image(@window, image_x.to_px,image_y.to_px)
+		
+		side.fill 0,0, :color => :white
+		
+		texplay_color = :red
+		texplay_thickness = 7
+		
+		# Create points for bottom layer
+		bottom_points = Array.new(4)
+		bottom_points[0] = [0, @width*Math.sin(8.79.to_rad)]
+		bottom_points[1] = [@width*Math.cos(8.79.to_rad), 0]
+		bottom_points[2] = [image_x, @depth*Math.sin(65.1.to_rad)]
+		bottom_points[3] = [@depth*Math.cos(65.1.to_rad), bottom_points[0][1] + bottom_points[2][1]]
+		
+		# Convert points to px
+		bottom_points.each do |pt|
+			pt.collect! do |i|
+				i.to_px
+			end
+		end
+		
+		# Flip y axis
+		bottom_points.each do |pt|
+			#~ puts pt.class
+			pt[1] = side.height - pt[1]
+		end
+		
+		# Draw bottom layer
+		polyline_points = [*bottom_points[0], *bottom_points[1], *bottom_points[2], *bottom_points[3]]
+		#~ puts polyline_points
+		side.polyline	polyline_points, :color => texplay_color, :closed => true, 
+						:thickness => texplay_thickness
+		
+		# Offset points for top layer
+		top_points = bottom_points.clone
+		top_points.each do |pt|
+			pt[1] -= @height.to_px
+		end
+		
+		# Draw top layer
+		polyline_points = [*top_points[0], *top_points[1], *top_points[2], *top_points[3]]
+		side.polyline	polyline_points, :color => texplay_color, :closed => true, 
+						:thickness => texplay_thickness
+		
+		# Draw lines connecting top and bottom
+		4.times do |i|
+			side.line	bottom_points[i][0], bottom_points[i][1], top_points[i][0], top_points[i][1],
+						:color => texplay_color, :thickness => texplay_thickness
+		end
+		
+		# Create offset for drawing @side
+		@billboard_offset = @width*Math.sin(8.79.to_rad)
+		@billboard_offset = @billboard_offset.to_px
+		
+		return side
+	end
 	
 	def draw_world(x_count,y_count, tile_width,tile_height, z=0)
 		x_count.times do |x|
