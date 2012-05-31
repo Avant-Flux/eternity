@@ -122,6 +122,7 @@ class Camera
 	end
 	
 	def draw_trimetric(z=0, &block)
+		# The z parameter specifies world z coordinate, not z-index
 		@trimetric_queue.draw(z, block)
 	end
 	
@@ -129,6 +130,7 @@ class Camera
 		# Non-trimetric world draw
 		# Draw is referenced in screen coordinates, not world coordinates
 		# However, the coordinate system has been translated around the tracked entity
+		# TODO: Consider if it is necessary to pass z-index or z position
 		@billboard_queue << block
 	end
 	
