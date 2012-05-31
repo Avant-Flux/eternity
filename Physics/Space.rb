@@ -89,7 +89,7 @@ module Physics
 			
 			
 			magnitude = body.v.length
-			puts magnitude
+			#~ puts magnitude
 			if magnitude > 0.9 # Only apply friction if object is in motion
 				#~ puts "moving"
 				
@@ -100,6 +100,8 @@ module Physics
 				# TODO:	Update normal force to take account of terrain
 				# 		Normal = mg*cos(theta)
 				normal = body.m * @g
+				
+				# Friction should be in the opposite direction of velocity
 				
 				friction = direction_vector*u*normal
 				
