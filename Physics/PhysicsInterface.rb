@@ -21,7 +21,7 @@ module PhysicsInterface
 		
 		@shape.u = 0.7
 		
-		@movement_coefficient = 10
+		@movement_coefficient = 500
 	end
 	
 	def move(direction)
