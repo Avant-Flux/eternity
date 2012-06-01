@@ -81,6 +81,7 @@ class StaticObject
 	
 	def create_wireframe
 		# Dimensions can not exceed 1022 x 1022, as per limitations of texplay
+		# TODO: Patch texplay so it can handle images larger than one OpenGl texture
 		# All angle measures are hard codede, based on the trimetric projection
 		# found on wikipedia's axiometric projection page.
 		# 65.1 => angle of Y_HAT with the horizontal
