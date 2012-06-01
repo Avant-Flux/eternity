@@ -109,6 +109,41 @@ module Physics
 			end
 		end
 		
+		
+		def apply_resistive_force(body, dt)
+			# Apply resistive forces for the current body
+			
+			#~ puts "friction #{resistive_force} #{gameobj.f} #{gameobj.f.normalize} #{gameobj.v.lengthsq}"
+
+			#~ puts "#{gameobj.f} #{gameobj.v}"
+			if body.v.length < 0.01
+				# Resistive force can not be computed
+				# Return a zero vector so this "force" can be applied without incident
+				f = CP::ZERO_VEC_2
+			else
+				if body.pz > body.elevation
+					# Resistive force of air resistance
+					#~ # Neg acceleration needed to reverse direction of friction
+					#~ normal_force = -9.8 * gameobj.mass
+					#~ coefficient_of_friction = 0.01
+					
+					#~ gameobj.v.normalize * normal_force * coefficient_of_friction
+					f = CP::ZERO_VEC_2
+				else
+					# Force of friction
+					# Neg acceleration needed to reverse direction of friction
+					normal_force = @g * body.mass 
+					coefficient_of_friction = 0.4
+					
+					f = body.v.normalize * normal_force * coefficient_of_friction
+				end
+			end
+			
+			body.apply_force f, CP::ZERO_VEC_2
+			#~ body.v.x /= 1 + f.x * @dt
+			#~ body.v.y /= 1 + f.y * @dt
+		end
+		
 		def initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
 			# Calculate initial elevation
 			# Take the maximum of all possible elevations
