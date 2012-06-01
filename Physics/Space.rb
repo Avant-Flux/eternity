@@ -35,10 +35,10 @@ module Physics
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
-				#~ apply_friction body
+				apply_friction body
+				
+				#~ apply_resistive_force body, @dt
 			end
-			
-			
 			
 			super(@dt) # Timestep in seconds
 		end
@@ -90,7 +90,7 @@ module Physics
 			
 			magnitude = body.v.length
 			#~ puts magnitude
-			if magnitude > 0.9 # Only apply friction if object is in motion
+			if magnitude > 0.2 # Only apply friction if object is in motion
 				#~ puts "moving"
 				
 				direction_vector = body.v / magnitude
@@ -105,7 +105,16 @@ module Physics
 				
 				friction = direction_vector*u*normal
 				
-				body.apply_force friction, CP::ZERO_VEC_2
+				parallel_force = body.f.project(direction_vector)
+				
+				if friction.length >= parallel_force.length
+					# If the friction is greater than the current force parallel to the
+					# friction, simply zero out the current forces on the body in that direction
+					body.apply_force -parallel_force, CP::ZERO_VEC_2
+				else
+					# Else, apply the force of friction as normal
+					body.apply_force friction, CP::ZERO_VEC_2
+				end
 			end
 		end
 		
