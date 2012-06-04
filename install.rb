@@ -6,7 +6,7 @@ require 'rubygems'
 # Current installer will always attempt to install the bundler gem
 # TODO: Only install bundler if not already installed
 gems = %x[gem list]
-unless gem.include? "bundler"
+unless gems.include? "bundler"
 	if RUBY_PLATFORM.downcase.include?("mswin32")
 		# Platform is Windows
 		puts "Windows!"
