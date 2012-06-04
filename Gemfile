@@ -36,12 +36,16 @@ if RUBY_PLATFORM.downcase.include?("linux")
 elsif RUBY_PLATFORM.downcase.include?("mswin32")
 	puts "Installing for windows"
 	
-	gem "ruby-opengl", :require => ["gl", "glu"]
+	%[bundle config build.ruby-opengl --platform i386-mswin32]
+	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
+	
 	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("mingw")
 	puts "Installing for windows: RubyInstaller version"
 	
-	gem "ruby-opengl", :require => ["gl", "glu"]
+	%[bundle config build.ruby-opengl --platform i386-mswin32]
+	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
+	
 	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("darwin")
 	puts "Installing for OSX"
@@ -65,6 +69,8 @@ end
 gem "rake"
 gem "gosu", "~>0.7.43"
 gem "chipmunk", "~>5.3.4.5"
+# Texplay current version does not build on Windows, even with MinGW 
+# pre-compiled freeglut supplied
 #~ gem "texplay", "~>0.4.2"
 #~ gem "rmagick", "~>2.13.1", :require => "RMagick"
 #~ gem "eventmachine", "~>0.12.10" # TODO: Fix so it builds on mingw, or precompile.
