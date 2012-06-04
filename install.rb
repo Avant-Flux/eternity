@@ -23,4 +23,4 @@ end
 puts "Bundler ready"
 
 puts "Dependencies will now install..."
-exec bundle install
+exec "bundle install"
