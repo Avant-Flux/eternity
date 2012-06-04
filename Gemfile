@@ -31,14 +31,23 @@ if RUBY_PLATFORM.downcase.include?("linux")
 			end
 		end
 	end
+	
+	gem "texplay", "~>0.4.2"
 elsif RUBY_PLATFORM.downcase.include?("mswin32")
 	puts "Installing for windows"
 	
 	gem "ruby-opengl", :require => ["gl", "glu"]
+	gem "texplay", ">=0.3.2"
+elsif RUBY_PLATFORM.downcase.include?("mingw")
+	puts "Installing for windows: RubyInstaller version"
+	
+	gem "ruby-opengl", :require => ["gl", "glu"]
+	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("darwin")
 	puts "Installing for OSX"
 	
 	gem "ruby-opengl2", :require => ["gl", "glu"]
+	gem "texplay", "~>0.4.2"
 	#~ sudo gem install rake #rake is installed by default
 	#Gems do not appear to need separate dependencies on OSX
 	#with the exception of imagemagick
@@ -56,7 +65,7 @@ end
 gem "rake"
 gem "gosu", "~>0.7.43"
 gem "chipmunk", "~>5.3.4.5"
-gem "texplay", "~>0.4.2"
+#~ gem "texplay", "~>0.4.2"
 #~ gem "rmagick", "~>2.13.1", :require => "RMagick"
 #~ gem "eventmachine", "~>0.12.10" # TODO: Fix so it builds on mingw, or precompile.
 gem "require_all"
