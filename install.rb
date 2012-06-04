@@ -25,4 +25,10 @@ rescue LoadError
 end
 
 puts "Bundler ready"
-sleep(5)
+sleep(10)
+
+puts "Installing dependencies"
+%x[bundle install]
+
+puts "Done!"
+sleep(30)
