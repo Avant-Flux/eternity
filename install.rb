@@ -28,5 +28,5 @@ puts "Bundler ready"
 puts "Dependencies will now install..."
 # Set up path to freeglut
 freeglut_path = File.join Dir.pwd, "Dependencies", "freeglut"
-%x[bundle config build.texplay --with-opt-dir=#{freeglut_path}]
+%x[bundle config build.texplay --with-opt-dir="#{freeglut_path}"]
 exec "bundle install"
