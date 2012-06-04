@@ -58,6 +58,6 @@ gem "gosu", "~>0.7.43"
 gem "chipmunk", "~>5.3.4.5"
 gem "texplay", "~>0.4.2"
 #~ gem "rmagick", "~>2.13.1", :require => "RMagick"
-gem "eventmachine", "~>0.12.10"
+#~ gem "eventmachine", "~>0.12.10" # TODO: Fix so it builds on mingw, or precompile.
 gem "require_all"
-gem "algorithms", ">=0.5.0"
+gem "algorithms", ">=0.5.0" # TODO: Precompile windows gem for this library
