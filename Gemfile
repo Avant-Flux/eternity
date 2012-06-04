@@ -36,15 +36,15 @@ if RUBY_PLATFORM.downcase.include?("linux")
 elsif RUBY_PLATFORM.downcase.include?("mswin32")
 	puts "Installing for windows"
 	
-	%[bundle config build.ruby-opengl --platform i386-mswin32]
-	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
+	#~ %[bundle config build.ruby-opengl --platform mswin32]
+	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"], :platform => :mswin32
 	
 	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("mingw")
 	puts "Installing for windows: RubyInstaller version"
 	
-	%[bundle config build.ruby-opengl --platform mswin32]
-	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
+	#~ %[bundle config build.ruby-opengl --platform mswin32]
+	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"], :platform => :mswin32
 	
 	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("darwin")
