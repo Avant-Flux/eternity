@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'gosu'
 require 'chingu'
-require 'texplay'
+#~ require 'texplay'
 
 require 'opengl'
 #~ require 'gl'

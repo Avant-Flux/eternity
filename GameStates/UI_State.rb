@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'gosu'
-require 'texplay'
 require 'chipmunk'
 
 require 'require_all'
