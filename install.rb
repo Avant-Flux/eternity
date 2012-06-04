@@ -21,10 +21,6 @@ else
 end
 
 puts "Bundler ready"
-sleep(10)
 
-puts "Installing dependencies"
-%x[bundle install]
-
-puts "Done!"
-sleep(30)
+puts "Dependencies will now install..."
+exec bundle install
