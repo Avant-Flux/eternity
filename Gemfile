@@ -44,7 +44,9 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 	puts "Installing for windows: RubyInstaller version"
 	
 	#~ %[bundle config build.ruby-opengl --platform mswin32]
-	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"], :platform => :mswin
+	#~ gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"], :platform => :mswin
+	%[gem install ruby-opengl --platform mswin32 --version 0.60.0]
+	gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
 	
 	gem "texplay", ">=0.3.2"
 elsif RUBY_PLATFORM.downcase.include?("darwin")
