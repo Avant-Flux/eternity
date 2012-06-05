@@ -3,19 +3,19 @@ Spawn 0 0 0
 # Dimensions first, the position
 
 # Main area
-Building	50 50 0		0 0 0
+Building	50 50 0		0 0 0		$texture_1$	$texture_2$
 # Raised spawn
-Building	10 10 2		-5 -5 0
+Building	10 10 2		-5 -5 0		$texture_1$	$texture_2$
 
 # First step
-Building	30 10 3		20 50 0
+Building	30 10 3		20 50 0		$texture_1$	$texture_2$
 # Second step
-Building	30 10 6		20 60 0
+Building	30 10 6		20 60 0		$texture_1$	$texture_2$
 
 # Floating platform
-Building	15 15 1		0 16 6 
+Building	15 15 1		0 16 6 		$texture_1$	$texture_2$
 # Step to floating platform
-Building	15 15 3		15 16 0
+Building	15 15 3		15 16 0		$texture_1$	$texture_2$
 
 
 # Must place NPCS after the level geometry is set
