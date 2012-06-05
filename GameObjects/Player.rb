@@ -12,14 +12,16 @@ class Player < Character
 	power			6
 	control			3
 	flux			9
-
-	def initialize(window, name, pos = [0, 0, 0], 
-					subsprites={}, mass=60, moment=20)
+	
+	def initialize(window, x=0,y=0,z=0)
+	#~ def initialize(window, name, pos = [0, 0, 0], 
+					#~ subsprites={}, mass=60, moment=20)
 					
-		subsprites = {:body => "body", :face => "eyes", :hair => "hair", 
-					:upper => "shirt", :lower => "pants", :footwear => "shoes"}.merge! subsprites
+		#~ subsprites = {:body => "body", :face => "eyes", :hair => "hair", 
+					#~ :upper => "shirt", :lower => "pants", :footwear => "shoes"}.merge! subsprites
 		
-		super(window, name, pos, subsprites, mass, moment)
+		#~ super(window, name, pos, subsprites, mass, moment)
+		super(window, x,y,z)
 		
 		@max_combo = 0
 		@combo = 0
