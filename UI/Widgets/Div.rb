@@ -114,9 +114,9 @@ module Widget
 			#~ moment = 100
 			#~ init_physics	[x,y], width, height, mass, moment, :div
 			@body = CP::Body.new_static()
-			@shape = Physics::Shape::Rect self, @body, @width, @height
+			@shape = Physics::Shape::Rect.new self, @body, @width, @height
 			@shape.collision_type = :div
-			
+			@body.p = CP::Vec2.new(x,y)
 			
 			#~ init_physics	[x,y], width, height, :static, :static, :div
 			
