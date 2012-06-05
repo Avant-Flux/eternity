@@ -33,9 +33,20 @@ class Building < StaticObject
 	private
 	
 	def load_texture(name)
-		#~ path = File.join @@texture_directory, name
-		#~ Gosu::Image.new @window, path, false
+		name = ""
 		
-		return nil
+		path = File.join @@texture_directory, name
+		puts path
+		
+		texture = nil
+		if path != @@texture_directory
+			puts "No texture"
+		else
+			if File.exist? path
+				texture = Gosu::Image.new @window, path, false
+			end
+		end
+		
+		return texture
 	end
 end
