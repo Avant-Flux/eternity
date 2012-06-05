@@ -220,9 +220,12 @@ class LevelState #< GameState
 											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
 							args.shift
                             puts "Created new Building #{args[0]},#{args[1]},#{args[2]} at #{args[3]},#{args[4]},#{args[5]}"
-							StaticObject.new	window, 
-												[args[0].to_f, args[1].to_f, args[2].to_f], 
-												[args[3].to_f, args[4].to_f, args[5].to_f]
+                            
+                            args.collect! {|i| i.to_f}
+							#~ StaticObject.new	window, 
+												#~ args[0], args[1], args[2], 
+												#~ args[3], args[4], args[5]
+							Building.new window, *args
 						when "d"
                             puts "#{args[0]} not implemented"
 							nil
