@@ -50,8 +50,10 @@ module PhysicsInterface
 		@jump_count = 0
 	end
 	
-	def warp(position)
-		@body.p.x, @body.p.y, @body.pz = position
+	def warp(x,y,z)
+		@body.p.x = x
+		@body.p.y = y
+		@body.pz = z
 	end
 
 	def add_to(space)

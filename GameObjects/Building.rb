@@ -5,12 +5,17 @@
 # 	Save and free when outside a certain distance
 # Should draw billboarded component, and provide method for drawing 
 # trimetric component as well
-class Building
-	def initialize
+class Building < StaticObject
+	def initialize(window, height,width,depth, x,y,z, front_texture=nil, back_texture=nil)
 		# Physics init
 		# Door init
 		# Establish level to load
 		# 	Perhaps use metaprogramming interface for clean decedent implementation
+		
+		super(window, height, width, depth, x,y,z)
+		
+		@front_texture = load_texture front_texture
+		@back_texture = load_texture back_texture
 	end
 	
 	# Load the contents of the building
@@ -21,5 +26,12 @@ class Building
 	# Save the contents of the building to the disk
 	def save
 		
+	end
+	
+	private
+	
+	def load_texture(name)
+		# TODO: Create base path as class variable
+		return nil
 	end
 end

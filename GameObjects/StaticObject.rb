@@ -5,10 +5,12 @@ class StaticObject
 	attr_reader :body, :shape
 	attr_accessor :pz, :vz, :az, :g
 	
-	def initialize(window, dimensions, position)
+	def initialize(window, width,depth,height, x,y,z)
 		@window = window
 		
-		@width, @depth, @height = dimensions
+		@width = width
+		@depth = depth
+		@height = height
 		
 		@shape = Physics::Shape::Poly.new self, CP::Body.new_static(),
 					[CP::Vec2.new(0, 0),
@@ -19,8 +21,8 @@ class StaticObject
 		@body = @shape.body
 		
 		
-		@body.p = CP::Vec2.new(position[0], position[1])
-		@pz = position[2]
+		@body.p = CP::Vec2.new(x, y)
+		@pz = z
 		
 		
 		@shape.collision_type = :static

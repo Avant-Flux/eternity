@@ -14,7 +14,7 @@ class Character < Entity
 	
 	#~ def initialize(window, name, pos = [0, 0, 0], 
 					#~ subsprites={}, mass=120, moment=20)
-	def initialize(window)
+	def initialize(window, x=0,y=0,z=0)
 					
 		#~ subsprites = {:body => 1, :face => 1, :hair => 1, 
 					#~ :upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
@@ -24,7 +24,7 @@ class Character < Entity
 		#~ super(window, animation, name, pos, mass, moment, 1, :none, 0)
 		super(window)
 		
-		
+		self.warp(x,y,z)
 		#Remember to set atk and def based on str and con as well as other factors
 		
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
