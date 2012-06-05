@@ -8,7 +8,6 @@ require './GameWindow'
 class LevelEditor < GameWindow
 	def initialize
 		super
-		
 	end
 	
 	def update
@@ -23,7 +22,6 @@ class LevelEditor < GameWindow
 	
 	def button_down(id)
 		super(id)
-		
 	end
 	
 	def button_up(id)
@@ -37,7 +35,9 @@ class LevelEditor < GameWindow
 	end
 	
 	def draw_screen
-		
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
+		end
 	end
 	
 	def click_UI
