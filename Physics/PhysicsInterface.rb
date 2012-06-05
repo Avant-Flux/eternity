@@ -49,6 +49,10 @@ module PhysicsInterface
 	def reset_jump
 		@jump_count = 0
 	end
+	
+	def warp(position)
+		@body.p.x, @body.p.y, @body.pz = position
+	end
 
 	def add_to(space)
 		space.add_shape @shape
