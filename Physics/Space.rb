@@ -84,36 +84,52 @@ module Physics
 		end
 		
 		def apply_friction(body)
-			# Apply a force of friction in the opposite direction of the velocity
-			u = 0.7 # Coefficient of friction
+			# Apply a resistive force in the opposite direction of the velocity
+			
 			
 			
 			magnitude = body.v.length
 			#~ puts magnitude
-			if magnitude > 0.2 # Only apply friction if object is in motion
+			if magnitude > 0.0 # Only apply resistive forces if object is in motion
 				#~ puts "moving"
 				
-				direction_vector = body.v / magnitude
-				#~ puts direction_vector.length
-				# Normal force
-				# Currently assuming that all terrain in flat
-				# TODO:	Update normal force to take account of terrain
-				# 		Normal = mg*cos(theta)
-				normal = body.m * @g
-				
 				# Friction should be in the opposite direction of velocity
+				# Parallel, but opposite sign
+				direction_vector = body.v / magnitude
 				
-				friction = direction_vector*u*normal
+				# TODO: Implement the following block as a true function
+				resistive_force = if body.pz > body.elevation # if body.in_air?
+					# Air resistance
+					
+					# Pseudo-return
+					CP::ZERO_VEC_2
+				else
+					# Friction
+					u = 0.7 # Coefficient of friction
+					# TODO: Calculate coefficient of friction by adding surface and entity components
+					
+					#~ puts direction_vector.length
+					# Normal force
+					# Currently assuming that all terrain in flat
+					# TODO:	Update normal force to take account of terrain
+					# 		Normal = mg*cos(theta)
+					normal = body.m * @g
+					
+					# Pseudo-return
+					direction_vector*u*normal
+				end
+				
 				
 				parallel_force = body.f.project(direction_vector)
 				
-				if friction.length >= parallel_force.length
-					# If the friction is greater than the current force parallel to the
-					# friction, simply zero out the current forces on the body in that direction
+				if resistive_force.length >= parallel_force.length
+					# If the resistive force is greater than the current force parallel to the
+					# resistive force, simply zero out the current forces on the body in that 
+					# direction
 					body.apply_force -parallel_force, CP::ZERO_VEC_2
 				else
-					# Else, apply the force of friction as normal
-					body.apply_force friction, CP::ZERO_VEC_2
+					# Else, apply the resistive force as normal
+					body.apply_force resistive_force, CP::ZERO_VEC_2
 				end
 			end
 		end
