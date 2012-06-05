@@ -77,7 +77,7 @@ class Entity
 		y = position.y - @body.pz.to_px
 		
 		# TODO may have to pass the z index from the game state manager
-		if @visible
+		if @visible && @window.camera.visible?(self)
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
 				@sprite.draw x,y, @body.pz
 				#~ @window.draw_quad	x, y, color,
