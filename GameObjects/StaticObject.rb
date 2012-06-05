@@ -38,7 +38,7 @@ class StaticObject
 		@y_count = (@depth/@tile_height).to_i
 		
 		
-		@side = create_wireframe
+		#~ @side = create_wireframe
 	end
 	
 	def update
@@ -67,11 +67,7 @@ class StaticObject
 		
 		
 		
-		#~ puts offset if x == 0 and y == 0
-		
-		#~ @window.translate 0, do
-			@side.draw x,y-@side.height+@billboard_offset, @body.p.y
-		#~ end
+		#~ @side.draw x,y-@side.height+@billboard_offset, @body.p.y
 	end
 	
 	def add_to(space)
