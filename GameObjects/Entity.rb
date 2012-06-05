@@ -37,6 +37,7 @@ class Entity
 		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
 		@sprite = @spritesheet[0]
 		
+		# TODO: Allow setting mass and moment through constructor, or based on stats
 		init_physics	:entity, Physics::Shape::Circle.new(self, 
 						Physics::Body.new(self, 60, CP::INFINITY), 
 						(@sprite.width/2).to_meters)
