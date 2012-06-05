@@ -225,6 +225,26 @@ class Camera
 	# ===== End Zoom Controls =====
 	# =============================
 	
+	
+	# ===========================
+	# ===== Culling Methods =====
+	# ===========================
+	
+	# Reject gameobject if it falls outside the viewing volume
+	# Return true if object rejected
+	def cull?(gameobj)
+		return false
+	end
+	
+	# Returns true if and only if the object inside the viewing volume
+	def visible?(gameobj)
+		return true
+	end
+	
+	# ===============================
+	# ===== End Culling Methods =====
+	# ===============================
+	
 	class TrimetricQueue < Hash
 		def initialize(*args)
 			super(*args)
