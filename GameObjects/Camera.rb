@@ -250,8 +250,8 @@ class Camera
 			super(*args)
 		end
 		
+		# Capture block to be rendered with trimetric transform
 		def draw(z=0, block)
-			# Capture block to be rendered with trimetric transform
 			# Trimetric queue is a hash table: key = z index, value = draw block
 			# 
 			self[z] ||= Array.new
@@ -266,4 +266,6 @@ class Camera
 			end
 		end
 	end
+	
+	
 end
