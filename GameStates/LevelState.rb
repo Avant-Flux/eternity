@@ -226,7 +226,7 @@ class LevelState #< GameState
                             puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
                             
                             6.times do |i|
-								args[i] = i.to_f
+								args[i] = args[i].to_f
                             end
                             
 							Building.new window, *args
