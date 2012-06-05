@@ -6,6 +6,8 @@
 # Should draw billboarded component, and provide method for drawing 
 # trimetric component as well
 class Building < StaticObject
+	@@texture_directory = File.join(Dir.pwd, "Sprites", "Buildings")
+	
 	def initialize(window, height,width,depth, x,y,z, front_texture=nil, back_texture=nil)
 		# Physics init
 		# Door init
@@ -31,7 +33,9 @@ class Building < StaticObject
 	private
 	
 	def load_texture(name)
-		# TODO: Create base path as class variable
+		#~ path = File.join @@texture_directory, name
+		#~ Gosu::Image.new @window, path, false
+		
 		return nil
 	end
 end
