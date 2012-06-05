@@ -200,7 +200,9 @@ class LevelState #< GameState
 		def load(window, space, name)
 			# TODO: Throw exception if no spawn defined
             
-            characters = Hash[ "GENERIC", Character ]
+            characters = {
+                             "GENERIC" => Character
+                         }
 			
 			level =	LevelState.new window, space, name
 			
@@ -221,7 +223,7 @@ class LevelState #< GameState
 											#~ [args[1].to_f, args[2].to_f, args[3].to_f], 
 											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
 							args.shift
-                            puts "Created new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}'"
+                            puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
                             args.collect! {|i| i.to_f}
 							Building.new window, *args
 						when "d"
@@ -237,10 +239,8 @@ class LevelState #< GameState
 							#~ Entity.new window
                             args.shift
                             puts "Creating new NPC #{args[0]} at #{args[1]},#{args[2]},#{args[3]}"
-                            # TODO: select class from dictionary with args[0]
-                            #~ Character.new window,
-                            #~               [ args[1].to_f, args[2].to_f, args[3].to_f ]
-                            characters[ args[0] ].new window
+                            characters[ args[0] ].new window,
+                                                      args[1].to_f, args[2].to_f, args[3].to_f
 						when "Spawn"
                             puts "Setting level spawn to #{args[1]},#{args[2]},#{args[3]}"
 							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
