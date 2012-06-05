@@ -33,8 +33,6 @@ class Building < StaticObject
 	private
 	
 	def load_texture(name)
-		name = ""
-		
 		path = File.join @@texture_directory, name
 		puts path
 		

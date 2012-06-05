@@ -224,7 +224,11 @@ class LevelState #< GameState
 											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
 							args.shift
                             puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
-                            args.collect! {|i| i.to_f}
+                            
+                            6.times do |i|
+								args[i] = i.to_f
+                            end
+                            
 							Building.new window, *args
 						when "d"
                             puts "#{args[0]} not implemented"
