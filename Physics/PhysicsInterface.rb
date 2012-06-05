@@ -16,12 +16,12 @@ module PhysicsInterface
 		
 		@jump_count = 0
 		
-		@body.v_limit = 10
+		@body.v_limit = 30
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
 		@shape.u = 0.7
 		
-		@movement_coefficient = 500
+		@movement_coefficient = 400
 	end
 	
 	def move(direction)
