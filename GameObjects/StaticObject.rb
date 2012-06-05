@@ -1,3 +1,5 @@
+# Defines the behavior of static objects, but provides no rendering capacity
+
 class StaticObject
 	attr_reader :width, :depth, :height
 	attr_reader :body, :shape
