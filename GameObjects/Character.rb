@@ -5,16 +5,26 @@ class Character < Entity
 	attr_accessor :charge, :str, :con
 	attr_accessor :inventory, :equipment
 	
-	def initialize(window, name, pos = [0, 0, 0], 
-					subsprites={}, mass=120, moment=20)
+	strength		1
+	constitution	1
+	dexterity		1
+	power			1
+	control			1
+	flux			1
+	
+	#~ def initialize(window, name, pos = [0, 0, 0], 
+					#~ subsprites={}, mass=120, moment=20)
+	def initialize(window)
 					
-		subsprites = {:body => 1, :face => 1, :hair => 1, 
-					:upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
+		#~ subsprites = {:body => 1, :face => 1, :hair => 1, 
+					#~ :upper => "shirt1", :lower => "pants1", :footwear => "shoes1"}.merge! subsprites
 		
-		animation = Animation::Entity.new window, subsprites
+		#~ animation = Animation::Entity.new window, subsprites
 		
-		super(window, animation, name, pos, mass, moment, 1, :none, 0)
-
+		#~ super(window, animation, name, pos, mass, moment, 1, :none, 0)
+		super(window)
+		
+		
 		#Remember to set atk and def based on str and con as well as other factors
 		
 		@charge = 0			#0 is normal, 1 is fired-up, -1 is suppressed
