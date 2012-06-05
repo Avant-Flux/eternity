@@ -51,7 +51,7 @@ class GameWindow < Gosu::Window
 		
 		@space = Physics::Space.new
 		
-		@player = Entity.new self
+		@player = Player.new self
 		
 		@camera = Camera.new self
 		@camera.followed_entity = @player
