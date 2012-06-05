@@ -19,7 +19,7 @@ Building	15 15 3		15 16 0		$texture_1$	$texture_2$
 
 
 # Must place NPCS after the level geometry is set
-NPC			an_npc		0 0 0
+NPC			GENERIC		10 10 0
 
 d
 
