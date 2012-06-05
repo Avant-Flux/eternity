@@ -219,24 +219,33 @@ class LevelState #< GameState
 											#~ [args[1].to_f, args[2].to_f, args[3].to_f], 
 											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
 							args.shift
+                            puts "Created new Building #{args[0]},#{args[1]},#{args[2]} at #{args[3]},#{args[4]},#{args[5]}"
 							StaticObject.new	window, 
 												[args[0].to_f, args[1].to_f, args[2].to_f], 
 												[args[3].to_f, args[4].to_f, args[5].to_f]
 						when "d"
+                            puts "#{args[0]} not implemented"
 							nil
 						when "r"
+                            puts "#{args[0]} not implemented"
 							nil
 						when "e"
+                            puts "#{args[0]} not implemented"
 							nil
 						when "NPC"
 							# TODO: Move NPC to spawn
 							# TODO: Allow specifying NPC position in file
-							Entity.new window
+							#~ Entity.new window
+                            args.shift
+                            puts "Creating new NPC #{args[0]} at #{args[1]},#{args[2]},#{args[3]}"
+                            Character.new window #~ , args[0],
+                            #~               [ args[1], args[2], args[3] ]
 						when "Spawn"
+                            puts "Setting level spawn to #{args[1]},#{args[2]},#{args[3]}"
 							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
 							nil # "Return nothing"
 						else
-							raise ArgumentError, "improper gameobject type"
+							raise ArgumentError, "improper gameobject type: #{args[0]}"
 					end
 					
 					if game_object
