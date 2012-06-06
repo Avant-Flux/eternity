@@ -14,6 +14,8 @@ class LevelEditorInterface
 		end
 		
 		#~ @mouse = MouseHandler.new space
+		@compass = Compass.new window, 20, window.height-150
+		
 		
 		width = 250
 		@sidebar = Widget::Div.new window, window.width-width,0,
@@ -72,6 +74,8 @@ class LevelEditorInterface
 	end
 	
 	def draw
+		@compass.draw
+		
 		@sidebar.draw
 		@sidebar_title.draw
 		@name_box.draw
