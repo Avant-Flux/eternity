@@ -11,6 +11,11 @@ class LevelEditor < GameWindow
 		super
 		
 		@interface = LevelEditorInterface.new self, @space
+		
+		# TODO: Implement custom cursors inside of the mouse handler class
+		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
+		cursor_file = File.join cursor_directory, "default_cursor.png"
+		@cursor = Gosu::Image.new self, cursor_file, false
 	end
 	
 	def update
@@ -36,6 +41,10 @@ class LevelEditor < GameWindow
 		super(id)
 	end
 	
+	def needs_cursor?()
+		false
+	end
+	
 	private
 	
 	def update_screen
@@ -49,9 +58,7 @@ class LevelEditor < GameWindow
 		
 		@interface.draw
 		
-		# Draw circle around the mouse pointer
-		self.draw_circle	self.mouse_x, self.mouse_y, 0,
-							50, Gosu::Color::RED
+		@cursor.draw self.mouse_x-@cursor.width/2, self.mouse_y-@cursor.height/2, 0
 	end
 	
 	def click_UI
