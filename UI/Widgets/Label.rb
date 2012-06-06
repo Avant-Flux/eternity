@@ -50,11 +50,8 @@ module Widget
 								options[:width] * options[:relative].font.text_width('m')
 							when :percent
 								# Specify :meters so that the measurement is not scaled
-								output =	if options[:relative].is_a? Gosu::Window
-										options[:relative].send :width
-									else
-										options[:relative].send :width, :meters
-									end
+								output = options[:relative].width
+								
 								
 								if options[:relative].respond_to? :padding
 									output -= options[:relative].padding[:left]

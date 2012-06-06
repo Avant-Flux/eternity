@@ -143,14 +143,20 @@ module Widget
 			draw_background @pz
 		end
 		
-		#~ private
+		def width
+			@shape.width
+		end
+		
+		def height
+			@shape.height
+		end
 		
 		def render_x
-			self.px+@padding[:left]
+			@body.p.x+@padding[:left]
 		end
 		
 		def render_y
-			self.py+@padding[:top]
+			@body.p.y+@padding[:top]
 		end
 		
 		private

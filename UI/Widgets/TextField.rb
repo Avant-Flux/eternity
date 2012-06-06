@@ -37,7 +37,7 @@ module Widget
 				@text = @window.text_input.text
 			end
 			
-			if @font.text_width(@text) < width(:meters)
+			if @font.text_width(@text) < width
 				text_align :left
 			else
 				text_align :right
@@ -45,7 +45,7 @@ module Widget
 		end
 		
 		def draw
-			@window.clip_to px,py, width(:meters), height(:meters) do
+			@window.clip_to @body.p.x,@body.p.y, @width, @height do
 				super
 				
 				if @active
@@ -56,7 +56,7 @@ module Widget
 					
 					if @blink >= reset_time && @blink < reset_time + delay
 						@window.draw_line	px+text_width, py, @color,
-											px+text_width, py+height(:meters), @color, @pz+3
+											px+text_width, py+@height, @color, @pz+3
 					elsif @blink > reset_time + delay
 						@blink = 0
 					end
