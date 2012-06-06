@@ -16,7 +16,8 @@ class LevelEditor < GameWindow
 		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
 		@cursor = {
 			:default => Gosu::Image.new(self, File.join(cursor_directory, "default_cursor.png"), false),
-			:place => Gosu::Image.new(self, File.join(cursor_directory, "place_cursor.png"), false)
+			:place => Gosu::Image.new(self, File.join(cursor_directory, "place_cursor.png"), false),
+			:box => Gosu::Image.new(self, File.join(cursor_directory, "box_cursor.png"), false)
 		}
 		@selected_cursor = :default
 	end
@@ -37,6 +38,7 @@ class LevelEditor < GameWindow
 			@selected_cursor = :place
 			click_UI
 		elsif id == Gosu::MsRight
+			@selected_cursor = :box
 			click_scene
 		end
 	end
