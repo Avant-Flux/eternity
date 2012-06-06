@@ -85,9 +85,6 @@ module Physics
 		
 		def apply_friction(body)
 			# Apply a resistive force in the opposite direction of the velocity
-			
-			
-			
 			magnitude = body.v.length
 			#~ puts magnitude
 			if magnitude > 0.0 # Only apply resistive forces if object is in motion

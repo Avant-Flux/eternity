@@ -1,6 +1,8 @@
 # Stores specifics for input within Eternity
 # General input managed by InputHandler
 
+require 'set'
+
 class EternityInput < InputHandler
 	attr_accessor :player
 	
@@ -11,9 +13,51 @@ class EternityInput < InputHandler
 		@camera = camera
 		@state_manager = state_manager
 		
+		@movement_dir = Set.new
+		
 		init_gameplay_inputs
 		
 		bind_inputs
+	end
+	
+	def update
+		super()
+		
+		# NOTE:	Currently favors movement left and up
+		# 		Thus, if both up and down are pressed, the player will move up
+		puts @movement_dir.inspect
+		
+		unless @movement_dir.empty?
+			move_direction = ""
+			if @movement_dir.include? :up
+				if move_direction == ""
+					move_direction += "up"
+				end
+			end	
+			if @movement_dir.include? :down
+				if move_direction == ""
+					move_direction += "down"
+				end
+			end
+			
+			if @movement_dir.include? :left
+				unless move_direction == ""
+					move_direction += "_"
+				end
+				
+				move_direction += "left"
+			elsif @movement_dir.include? :right
+				unless move_direction == ""
+					move_direction += "_"
+				end
+				
+				move_direction += "right"
+			end
+			
+			move_direction = move_direction.to_sym
+			
+			@player.move move_direction
+		end
 	end
 	
 	def bind_input(action, key)
@@ -29,8 +73,12 @@ class EternityInput < InputHandler
 		self.mode = :gameplay
 		
 		[:up, :down, :left, :right].each do |direction|
-			new_action direction, :active do
-				@player.move direction
+			new_action direction, :rising_edge do
+				@movement_dir.add direction
+			end
+			
+			new_action direction, :falling_edge do
+				@movement_dir.delete direction
 			end
 		end
 		
