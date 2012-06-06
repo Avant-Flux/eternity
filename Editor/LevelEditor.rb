@@ -68,6 +68,8 @@ class LevelEditor < GameWindow
 		
 		@interface.draw
 		
+		flush
+		
 		@cursor[@selected_cursor].draw	self.mouse_x-@cursor[@selected_cursor].width/2, 
 								self.mouse_y-@cursor[@selected_cursor].height/2, 0
 	end
