@@ -15,7 +15,8 @@ class LevelEditor < GameWindow
 		# TODO: Implement custom cursors inside of the mouse handler class
 		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
 		@cursor = {
-			:default => Gosu::Image.new(self, File.join(cursor_directory, "default_cursor.png"), false)
+			:default => Gosu::Image.new(self, File.join(cursor_directory, "default_cursor.png"), false),
+			:place => Gosu::Image.new(self, File.join(cursor_directory, "place_cursor.png"), false)
 		}
 		@selected_cursor = :default
 	end
@@ -33,6 +34,7 @@ class LevelEditor < GameWindow
 		super(id)
 		
 		if id == Gosu::MsLeft
+			@selected_cursor = :place
 			click_UI
 		elsif id == Gosu::MsRight
 			click_scene
@@ -41,6 +43,10 @@ class LevelEditor < GameWindow
 	
 	def button_up(id)
 		super(id)
+		
+		if id == Gosu::MsLeft || id == Gosu::MsRight
+			@selected_cursor = :default
+		end
 	end
 	
 	def needs_cursor?()
