@@ -1,0 +1,89 @@
+sidebar{
+	
+}
+
+div{
+	z-index: 0;
+	relative: window;
+	align: left;
+	
+	position: static; /* static, dynamic, relative */ 
+	anchor: top_left; /* NOT IMPLEMENTED broad descriptor of where the object is anchored */
+	anchor-offset: nil; /* NOT IMPLEMENTED CP::Vec2 to offset from the anchor */
+	
+	width: 1px;
+	height: 1px;
+	
+	background-color: blue; /* Can use the colors defined by Gosu, or a color code */
+	
+/*
+	padding: 0 0 0 0;
+*/
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	
+	/* Positioning */
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+label{
+	
+}
+
+text-area{
+
+}
+
+text-field{
+	
+}
+
+tooltip{
+	
+}
+
+progress-bar{
+	top: 5;
+	bottom: 5;
+	left: 5;
+	right: 5;
+}
+
+progress-bar.circular{
+	top: 10;
+	color: black;
+	bar-percentage: 0;
+}
+
+progress-bar#health{
+	bar-percentage: 100;
+}
+
+.bold{
+	font-style: bold;
+}
+
+
+[
+	{:media_types=>[:all], 
+		:rules=>div { z-index: 0; relative: window; align: left; position: static; anchor: top_left; anchor-offset: nil; width: 1px; height: 1px; background-color: blue; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; top: 0; bottom: 0; left: 0; right: 0; }
+	}, 
+	
+	{:media_types=>[:all], :rules=>progress-bar { top: 5; bottom: 5; left: 5; right: 5; }}, 
+	
+	{:media_types=>[:all], :rules=>progress-bar.circular { top: 10color: black; bar-percentage: 0; }}, 
+	
+	{:media_types=>[:all], :rules=>progress-bar#health { bar-percentage: 100; }}, 
+	
+	{:media_types=>[:all], :rules=>.bold { font-style: bold; }}
+]
+
+
+
+
+
