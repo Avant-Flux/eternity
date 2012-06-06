@@ -9,6 +9,7 @@ require_all './Editor/LevelEditor_lib'
 class LevelEditor < GameWindow
 	def initialize
 		super
+		self.caption = "Level Editor v0.00.1"
 		
 		@interface = LevelEditorInterface.new self, @space
 		
@@ -28,7 +29,23 @@ class LevelEditor < GameWindow
 	end
 	
 	def draw
-		super
+		if @selected_cursor == :box # right click active
+			@camera.draw_trimetric do
+				r = 20.to_meters
+				draw_circle	0,0,0,
+							r, Gosu::Color::FUCHSIA,
+							:stroke_width => r
+			end
+		end
+		
+		super()
+		
+		#~ if @selected_cursor == :place # left click active
+			#~ r = 20
+			#~ draw_circle	self.mouse_x,self.mouse_y,0,
+						#~ r, Gosu::Color::FUCHSIA,
+						#~ :stroke_width => r
+		#~ end
 	end
 	
 	def button_down(id)
@@ -50,11 +67,11 @@ class LevelEditor < GameWindow
 		
 		
 		if id == Gosu::MsLeft
-			if @selected_cursor == :place
+			if @selected_cursor == :place # left click active
 				@selected_cursor = :default
 			end
 		elsif id == Gosu::MsRight
-			if @selected_cursor == :box
+			if @selected_cursor == :box # right click active
 				@selected_cursor = :default
 			end
 		end
@@ -86,6 +103,8 @@ class LevelEditor < GameWindow
 	def click_UI
 		#~ @mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
 		puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
+		
+		
 	end
 	
 	def click_scene
