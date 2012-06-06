@@ -4,10 +4,13 @@ path = path[0..(path.rindex(File::SEPARATOR)-1)]
 Dir.chdir path
 
 require './GameWindow'
+require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
 	def initialize
 		super
+		
+		@interface = LevelEditorInterface.new self, @space
 	end
 	
 	def update
