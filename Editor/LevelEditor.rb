@@ -35,10 +35,12 @@ class LevelEditor < GameWindow
 		super(id)
 		
 		if id == Gosu::MsLeft
-			@selected_cursor = :place
+			@selected_cursor = :place if @selected_cursor == :default
+			
 			click_UI
 		elsif id == Gosu::MsRight
-			@selected_cursor = :box
+			@selected_cursor = :box if @selected_cursor == :default
+			
 			click_scene
 		end
 	end
@@ -46,8 +48,15 @@ class LevelEditor < GameWindow
 	def button_up(id)
 		super(id)
 		
-		if id == Gosu::MsLeft || id == Gosu::MsRight
-			@selected_cursor = :default
+		
+		if id == Gosu::MsLeft
+			if @selected_cursor == :place
+				@selected_cursor = :default
+			end
+		elsif id == Gosu::MsRight
+			if @selected_cursor == :box
+				@selected_cursor = :default
+			end
 		end
 	end
 	
