@@ -23,9 +23,21 @@ class EternityInput < InputHandler
 	def update
 		super()
 		
+		move_player
+	end
+	
+	def bind_input(action, key)
+		# Bind a particular action
+		# This is generally useful for rebinding a key at runtime
+		bind_action action, key
+	end
+	
+	private
+	
+	def move_player
 		# NOTE:	Currently favors movement left and up
 		# 		Thus, if both up and down are pressed, the player will move up
-		puts @movement_dir.inspect
+		#~ puts @movement_dir.inspect
 		
 		unless @movement_dir.empty?
 			move_direction = ""
@@ -59,14 +71,6 @@ class EternityInput < InputHandler
 			@player.move move_direction
 		end
 	end
-	
-	def bind_input(action, key)
-		# Bind a particular action
-		# This is generally useful for rebinding a key at runtime
-		bind_action action, key
-	end
-	
-	private
 	
 	def init_gameplay_inputs
 		# Create actions
