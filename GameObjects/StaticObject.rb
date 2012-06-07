@@ -161,7 +161,7 @@ class StaticObject
 			y_count.times do |y|
 				x_factor = x.to_f/x_count
 				y_factor = y.to_f/y_count
-				color = Gosu::Color.new 20, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				color = Gosu::Color.new 100, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				#~ color = Gosu::Color::WHITE
 				
 				x_offset = x*tile_width
