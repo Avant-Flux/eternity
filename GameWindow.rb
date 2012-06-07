@@ -61,7 +61,7 @@ class GameWindow < Gosu::Window
 		# Input manager holds the only other reference to the camera
 		# other than this window.  Thus, if the camera get changed,
 		# it will break the ability of the input to affect the camera.
-		@inpman = EternityInput.new @player, @camera, @state_manager
+		@inpman = EternityInput.new @player, @camera, @state_manager, @ui_state_manager
 	end
 	
 	def update

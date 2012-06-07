@@ -6,16 +6,20 @@ require 'set'
 class EternityInput < InputHandler
 	attr_accessor :player
 	
-	def initialize(player, camera, state_manager)
+	def initialize(player, camera, state_manager, ui_state_manager)
 		super()
 		
 		@player = player
 		@camera = camera
 		@state_manager = state_manager
+		@ui_state_manager = ui_state_manager
 		
 		@movement_dir = Set.new
 		
 		init_gameplay_inputs
+		init_map_inputs
+		
+		self.mode = :gameplay
 		
 		bind_inputs
 	end
@@ -104,6 +108,22 @@ class EternityInput < InputHandler
 		new_action :zoom_reset, :rising_edge do
 			@camera.zoom_reset
 		end
+		
+		new_action :open_map, :rising_edge do
+			@ui_state_manager.open_map
+			self.mode = :map
+		end
+	end
+	
+	def init_map_inputs
+		self.mode = :map
+		
+		new_action :close_map, :rising_edge do
+			@ui_state_manager.pop Map
+			self.mode = :gameplay
+		end
+		
+		bind_action :close_map, Gosu::KbTab
 	end
 	
 	def bind_inputs
@@ -122,5 +142,7 @@ class EternityInput < InputHandler
 		#~ @inpman.bind_action :zoom_in, Gosu::Kb1
 		#~ @inpman.bind_action :zoom_out, Gosu::MsWheelDown
 		bind_action :zoom_reset, Gosu::Kb0
+		
+		bind_action :open_map, Gosu::KbTab
 	end
 end
