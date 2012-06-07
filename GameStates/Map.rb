@@ -17,7 +17,7 @@ class Map
 		y_padding = 50
 		@background = Widget::Div.new window, x_padding/2, y_padding/2,
 				:width => window.width-x_padding, :height => window.height-y_padding,
-				:background_color => Gosu::Color::WHITE,
+				:background_color => Gosu::Color.new(200, 0,0,0),
 				:padding_top => y_padding/2, :padding_bottom => y_padding/2, 
 				:padding_left => x_padding/2, :padding_right => x_padding/2
 		
@@ -57,36 +57,42 @@ class Map
 		@state_manager.stack.each do |state|
 			# Draw static objects
 			state.each_static do |object|
-				
-				
 				# Clip to map confines
+				# Move object within map confines
+				# Zoom in
+				#~ @window.scale 4,4, 0,0 do
+				@window.clip_to	@background.render_x, @background.render_y, 
+								@background.width-50, @background.height-50 do
+				#~ @window.translate @x, @y do
+				#~ @window.translate -@x, -@y do
+				@window.translate @x, @y do
+				@window.scale @zoom,@zoom do
 				
-					# Move object within map confines
+				#~ @window.translate -@x, -@y do
+				@window.transform *@map_transform do
+				
+					z = object.pz + object.height
 					
-						# Zoom in
-						@window.scale 4,4, @background.render_x, @background.render_y do
-						@window.clip_to @background.render_x, @background.render_y, @background.height, @background.width do
-						@window.translate @background.render_x+10, @background.render_y+10 do
-							
-							z = object.pz + object.height
-							
-							color_modulation = 100
-							base_color = Gosu::Color.new(255, 218-color_modulation/2,40,38)
-							base_color.red += (z/30.0)*color_modulation
-							color = base_color
-							
-							
-							@window.draw_quad	object.body.p.x, object.body.p.y, color,
-												object.body.p.x, object.body.p.y+object.depth, color,
-												object.body.p.x+object.width, object.body.p.y+object.depth, color,
-												object.body.p.x+object.width, object.body.p.y, color,
-												z
-													
-						end
-					end
-				
+					color_modulation = 100
+					base_color = Gosu::Color.new(200, 218-color_modulation/2,40,38)
+					base_color.red += (z/30.0)*color_modulation
+					color = base_color
+					
+					
+					@window.draw_quad	object.body.p.x, object.body.p.y, color,
+										object.body.p.x, object.body.p.y+object.depth, color,
+										object.body.p.x+object.width, object.body.p.y+object.depth, color,
+										object.body.p.x+object.width, object.body.p.y, color,
+										z
+														
 				end
+				end
+				end
+				end
+			
 			end
+			
+			@window.flush
 			
 			if state != @state_manager.stack.last
 				@dimming_screen.draw
