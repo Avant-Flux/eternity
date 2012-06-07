@@ -3,11 +3,13 @@ class StateManager
 	
 	attr_reader :stack
 	
-	def initialize(window, space, player)
+	def initialize(window, player)
 		@window = window	# Parent window
-		@space = space		# Chipmunk space used for queries and to add gameobjects to
 		@player = player
 		#~ @layers = layers	# Bitvector specifying which layers to use with Chipmunk
+		
+		@space = Physics::Space.new
+		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		
 		@stack = Array.new()
 		
@@ -18,6 +20,7 @@ class StateManager
 	
 	def update
 		# Only update the state on the top of the stack
+		@space.step
 		@stack.last.update
 	end
 	

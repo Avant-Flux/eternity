@@ -49,45 +49,42 @@ class GameWindow < Gosu::Window
 		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		
-		@space = Physics::Space.new
-		
 		@player = Player.new self
 		
 		@camera = Camera.new self
 		@camera.followed_entity = @player
 		
 		
-		@state_manager = StateManager.new self, @space, @player
+		@state_manager = StateManager.new self, @player
+		@ui_state_manager = UI_StateManager.new self, @player, @state_manager
 		
 		# Input manager holds the only other reference to the camera
 		# other than this window.  Thus, if the camera get changed,
 		# it will break the ability of the input to affect the camera.
 		@inpman = EternityInput.new @player, @camera, @state_manager
-		
-		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
-		
-		
-		@ui_state = UI_State.new self, @space, @player
-		
-		@map = Map.new self, @space, @player, @state_manager
 	end
 	
 	def update
 		# process_input
 		@inpman.update
 		
-		@space.step
 		#~ puts @player.body.p
 		#~ @player.body.reset_forces
 		@state_manager.update # Update the entities within the active state
 		
-		update_screen # Update the HUD and other screen-relative elements
+		@ui_state_manager.update
 	end
 	
 	def draw
-		@state_manager.draw # Draw gameworld state
+		# Draw gameworld state
+		@state_manager.draw
 		
-		draw_screen
+		# Draw screen-relative "flat" elements (UI etc)
+		@ui_state_manager.draw
+		
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
+		end
 	end
 	
 	def button_down(id)
@@ -149,24 +146,5 @@ class GameWindow < Gosu::Window
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
 		end
-	end
-	
-	private
-	
-	def update_screen
-		@ui_state.update
-	end
-	
-	def draw_screen
-		# Draw screen-relative "flat" elements (UI etc)
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
-		
-		@ui_state.draw
-		
-		flush
-		
-		@map.draw
 	end
 end
