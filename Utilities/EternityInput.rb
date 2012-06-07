@@ -123,7 +123,19 @@ class EternityInput < InputHandler
 			self.mode = :gameplay
 		end
 		
+		new_action :zoom_in, :active do
+			@ui_state_manager.current.zoom += 0.2
+		end
+		
+		new_action :zoom_out, :active do
+			@ui_state_manager.current.zoom -= 0.2
+		end
+		
+		
+		
 		bind_action :close_map, Gosu::KbTab
+		bind_action :zoom_in, Gosu::KbLeftShift
+		bind_action :zoom_out, Gosu::KbRightShift
 	end
 	
 	def bind_inputs

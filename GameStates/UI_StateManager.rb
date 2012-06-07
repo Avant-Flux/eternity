@@ -30,6 +30,10 @@ class UI_StateManager
 		end
 	end
 	
+	def current
+		return @stack.last
+	end
+	
 	# Close all states, up to and including a state of the given class
 	# If no parameter, then just pop one state
 	# WARNING: Can completely deplete the stack, which will result in no UI

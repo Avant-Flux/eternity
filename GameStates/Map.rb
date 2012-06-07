@@ -4,6 +4,8 @@
 # 	Higher elements are darker, like is Assassin's Creed 2
 
 class Map
+	attr_accessor :zoom
+	
 	def initialize(window, space, player, state_manager)
 		@window = window
 		@space = space
@@ -28,6 +30,17 @@ class Map
 		@colors = {
 			:building => Gosu::Color.new((0.05*255).to_i, 218,40,38)
 		}
+		
+		
+		@x = @background.render_x+10
+		@y = @background.render_y+10
+		@zoom = 1
+		@map_transform = [
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, -1, 0,
+			0, 0, 0, 1
+		]
 	end
 	
 	def update
