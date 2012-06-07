@@ -5,13 +5,15 @@ class UI_StateManager
 		@player = player
 		@state_manager = state_manager
 		
-		@space = Physics::Space.new
+		@space = CP::Space.new
 		
 		@ui_state = UI_State.new @window, @space, @player
 		@map = Map.new @window, @space, @player, @state_manager
 	end
 	
 	def update
+		#~ @space.step 1/60.0
+		
 		@ui_state.update
 		@map.update
 	end
