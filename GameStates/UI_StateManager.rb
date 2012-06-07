@@ -7,24 +7,26 @@ class UI_StateManager
 		
 		@space = CP::Space.new
 		
-		@ui_state = UI_State.new @window, @space, @player
-		@map = Map.new @window, @space, @player, @state_manager
+		#~ @stack = Array.new
+		@stack = [
+			UI_State.new(@window, @space, @player),
+			Map.new(@window, @space, @player, @state_manager)
+		]
 	end
 	
 	def update
 		#~ @space.step 1/60.0
 		
-		@ui_state.update
-		@map.update
+		@stack.each do |interface|
+			interface.update
+		end
 	end
 	
 	def draw
-		@ui_state.draw
-		
-		@window.flush
-		
-		@map.draw
-		
-		@window.flush
+		@stack.each do |interface|
+			interface.draw
+			
+			@window.flush
+		end
 	end
 end
