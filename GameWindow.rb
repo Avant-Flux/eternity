@@ -68,6 +68,8 @@ class GameWindow < Gosu::Window
 		
 		
 		@ui_state = UI_State.new self, @space, @player
+		
+		@map = Map.new self, @space, @player, @state_manager
 	end
 	
 	def update
@@ -162,5 +164,9 @@ class GameWindow < Gosu::Window
 		end
 		
 		@ui_state.draw
+		
+		flush
+		
+		@map.draw
 	end
 end

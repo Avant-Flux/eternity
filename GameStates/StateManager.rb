@@ -1,6 +1,8 @@
 class StateManager
 	# TODO: Save states as they pop off the stack
 	
+	attr_reader :stack
+	
 	def initialize(window, space, player)
 		@window = window	# Parent window
 		@space = space		# Chipmunk space used for queries and to add gameobjects to
