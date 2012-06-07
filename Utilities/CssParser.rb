@@ -39,6 +39,7 @@ class CssParser
 			css += line
 		end
 		
+		# Strip out extraneous bits
 		css.gsub! COMMENT_REGEX, ""
 		css.gsub! WHITESPACE_REGEX, ""
 		
@@ -48,14 +49,59 @@ class CssParser
 			selectors, styles = rule.split "{"
 			
 			
-			styles.split(";").each do |style|
-				property, value = style.split ":"
-			end
+			style_hash = parse_styles styles
 			
 			
 			selectors.split(",").each do |selector|
 				
 			end
 		end
+	end
+	
+	private
+	
+	# Replace dashes with underscores, and convert to a symbol
+	def parse_property(property_string)
+		return property_string.split("-").join("_").to_sym
+	end
+	
+	# Convert value from string into proper type
+	def parse_value(property, value_string)
+		if property == :color
+			if value_string[0] == "#"
+				# HEX code
+			else
+				begin
+					return Gosu::Color.const_get value_string
+				rescue
+					# Not one of the default colors, begin to parse color format
+					# argb, ahsv, hsv, rgba
+					
+					# 
+					value_string
+				end
+			end
+		elsif
+			
+		end
+		
+		return nil
+	end
+	
+	# Convert the styles under the current selector(s) into a hash
+	def parse_styles(style_string)
+		# Store all the styles defined under this statement
+		style_hash = Hash.new
+		
+		style_string.split(";").each do |style|
+			property, value = style.split ":"
+			
+			property = parse_property property
+			value = parse_value property, value
+			
+			style_hash[property] = value
+		end
+		
+		return style_hash
 	end
 end
