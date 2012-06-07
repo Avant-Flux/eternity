@@ -99,6 +99,11 @@ class Map
 			end
 		end
 		
+		radius = 10
+		@window.draw_circle	@player.body.p.x*@zoom+@x, @player.body.p.y*@zoom+@y, 0,
+							radius, Gosu::Color::WHITE,
+							:stroke_width => radius
+		
 		@window.flush
 	end
 end
