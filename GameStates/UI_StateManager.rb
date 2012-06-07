@@ -7,10 +7,10 @@ class UI_StateManager
 		
 		@space = CP::Space.new
 		
-		#~ @stack = Array.new
+		@map = Map.new(@window, @space, @player, @state_manager)
+		#~ @stack = Array.new5
 		@stack = [
 			UI_State.new(@window, @space, @player),
-			Map.new(@window, @space, @player, @state_manager)
 		]
 	end
 	
@@ -28,5 +28,22 @@ class UI_StateManager
 			
 			@window.flush
 		end
+	end
+	
+	# Close all states, up to and including a state of the given class
+	# If no parameter, then just pop one state
+	# WARNING: Can completely deplete the stack, which will result in no UI
+	def pop(klass=nil)
+		if klass
+			begin
+				state = @stack.pop
+			end until(state.is_a? klass)
+		else
+			@stack.pop
+		end
+	end
+	
+	def open_map
+		@stack << @map 
 	end
 end
