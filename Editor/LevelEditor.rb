@@ -4,20 +4,25 @@ path = path[0..(path.rindex(File::SEPARATOR)-1)]
 Dir.chdir path
 
 require './GameWindow'
+require './Editor/LE_UI_State'
 
 class LevelEditor < GameWindow
+    
+    
 	def initialize
-		super
+		#~ super
+        
+        @ui_state = UI_State.new self, @space, @player
 	end
 	
 	def update
-		super
-		
+		#~ super
+        
+		@ui_state.update
 	end
 	
 	def draw
 		super
-		
 	end
 	
 	def button_down(id)
@@ -35,9 +40,7 @@ class LevelEditor < GameWindow
 	end
 	
 	def draw_screen
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
+		super
 	end
 	
 	def click_UI
