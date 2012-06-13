@@ -15,6 +15,7 @@ module PhysicsInterface
 		@height = 2
 		
 		@jump_count = 0
+		@jump_limit = 1000000000
 		
 		@body.v_limit = 10
 		#~ @body.w_limit = 100 # Limit rotational velocity
@@ -52,7 +53,7 @@ module PhysicsInterface
 	end
 	
 	def jump
-		if @jump_count < 3 #Do not exceed the jump count.
+		if @jump_count < @jump_limit #Do not exceed the jump count.
 			@jump_count += 1
 			@body.vz = 5 #On jump, set the velocity in the z direction
 		end
