@@ -16,7 +16,7 @@ module CssParser
 				}
 			}
 			@classes = {
-				:test_class = {
+				:test_class => {
 					:color => "blue"
 				}
 			}
@@ -82,8 +82,6 @@ module CssParser
 						value_string
 					end
 				end
-			elsif
-				
 			end
 			
 			return nil
