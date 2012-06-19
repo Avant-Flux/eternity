@@ -10,7 +10,7 @@ module Physics
 			super()
 			
 			self.iterations = 10
-			self.damping = 0.2
+			#~ self.damping = 0.2
 			
 			@t_previous = Gosu.milliseconds
 			
