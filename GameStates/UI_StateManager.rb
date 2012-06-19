@@ -23,6 +23,39 @@ class UI_StateManager
 	end
 	
 	def draw
+		#~ stencil_buffer_test
+		
+		@stack.each do |interface|
+			interface.draw
+			
+			@window.flush
+		end
+	end
+	
+	def current
+		return @stack.last
+	end
+	
+	# Close all states, up to and including a state of the given class
+	# If no parameter, then just pop one state
+	# WARNING: Can completely deplete the stack, which will result in no UI
+	def pop(klass=nil)
+		if klass
+			begin
+				state = @stack.pop
+			end until(state.is_a? klass)
+		else
+			@stack.pop
+		end
+	end
+	
+	def open_map
+		@stack << @map 
+	end
+	
+	private
+	
+	def stencil_buffer_test
 		z_index = 1
 		mask = lambda do
 			
@@ -59,32 +92,5 @@ class UI_StateManager
 				glEnd()
 			glPopMatrix()
 		end
-		
-		@stack.each do |interface|
-			interface.draw
-			
-			@window.flush
-		end
-	end
-	
-	def current
-		return @stack.last
-	end
-	
-	# Close all states, up to and including a state of the given class
-	# If no parameter, then just pop one state
-	# WARNING: Can completely deplete the stack, which will result in no UI
-	def pop(klass=nil)
-		if klass
-			begin
-				state = @stack.pop
-			end until(state.is_a? klass)
-		else
-			@stack.pop
-		end
-	end
-	
-	def open_map
-		@stack << @map 
 	end
 end
