@@ -114,9 +114,9 @@ module Widget
 			#~ moment = 100
 			#~ init_physics	[x,y], width, height, mass, moment, :div
 			@body = CP::Body.new_static()
-			@shape = Physics::Shape::Rect self, @body, @width, @height
+			@shape = Physics::Shape::Rect.new self, @body, @width, @height
 			@shape.collision_type = :div
-			
+			@body.p = CP::Vec2.new(x,y)
 			
 			#~ init_physics	[x,y], width, height, :static, :static, :div
 			
@@ -143,14 +143,20 @@ module Widget
 			draw_background @pz
 		end
 		
-		#~ private
+		def width
+			@shape.width
+		end
+		
+		def height
+			@shape.height
+		end
 		
 		def render_x
-			self.px+@padding[:left]
+			@body.p.x+@padding[:left]
 		end
 		
 		def render_y
-			self.py+@padding[:top]
+			@body.p.y+@padding[:top]
 		end
 		
 		private

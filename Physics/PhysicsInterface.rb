@@ -16,25 +16,37 @@ module PhysicsInterface
 		
 		@jump_count = 0
 		
-		@body.v_limit = 30
+		@body.v_limit = 10
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
 		@shape.u = 0.7
 		
-		@movement_coefficient = 400
+		@movement_coefficient = 500
 	end
 	
 	def move(direction)
+		puts direction
+		
 		vec = case direction
 			when :up
-				CP::Vec2.new(0,1) * @movement_coefficient
+				CP::Vec2.new(0,1)
 			when :down
-				CP::Vec2.new(0,-1) * @movement_coefficient
+				CP::Vec2.new(0,-1)
 			when :left
-				CP::Vec2.new(-1,0) * @movement_coefficient
+				CP::Vec2.new(-1,0)
 			when :right
-				CP::Vec2.new(1,0) * @movement_coefficient
+				CP::Vec2.new(1,0)
+			when :up_right
+				CP::Vec2.new(1,1).normalize!
+			when :up_left
+				CP::Vec2.new(-1,1).normalize!
+			when :down_right
+				CP::Vec2.new(1,-1).normalize!
+			when :down_left
+				CP::Vec2.new(-1,-1).normalize!
 		end
+		
+		vec *= @movement_coefficient
 		
 		@body.apply_force vec, CP::ZERO_VEC_2
 	end

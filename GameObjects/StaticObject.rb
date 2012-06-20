@@ -38,7 +38,7 @@ class StaticObject
 		@y_count = (@depth/@tile_height).to_i
 		
 		
-		@side = create_wireframe
+		#~ @side = create_wireframe
 	end
 	
 	def update
@@ -67,11 +67,7 @@ class StaticObject
 		
 		
 		
-		#~ puts offset if x == 0 and y == 0
-		
-		#~ @window.translate 0, do
-			@side.draw x,y-@side.height+@billboard_offset, @body.p.y
-		#~ end
+		#~ @side.draw x,y-@side.height+@billboard_offset, @body.p.y
 	end
 	
 	def add_to(space)
@@ -165,7 +161,7 @@ class StaticObject
 			y_count.times do |y|
 				x_factor = x.to_f/x_count
 				y_factor = y.to_f/y_count
-				color = Gosu::Color.new 150, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
+				color = Gosu::Color.new 100, x_factor*255, y_factor*255, (x_factor+y_factor)*150+105
 				#~ color = Gosu::Color::WHITE
 				
 				x_offset = x*tile_width

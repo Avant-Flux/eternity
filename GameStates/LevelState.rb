@@ -88,6 +88,14 @@ class LevelState #< GameState
 		end
 	end
 	
+	def each_static(*args, &block)
+		@static_objects.each *args, &block
+	end
+	
+	def each_entity(*args)
+		@entities.each *args, &block
+	end
+	
 	def add_gameobject(obj)
 		if obj.is_a? StaticObject
 			@static_objects << obj

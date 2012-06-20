@@ -1,101 +1,101 @@
 # Eternity Level Data --- Scrapyard
 Spawn 15.5 2.0 16
-Building 0.0 0.0 15.0 7.0 10.0 17.0
-Building 7.0 0.0 15.0 8.0 6.0 17.0
-Building 15.0 0.0 15.0 1.0 6.0 1.0
-Building 16.0 0.0 0.0 8.0 6.0 32.0
-Building 24.0 0.0 0.0 10.0 1.0 32.0
-Building 34.0 0.0 0.0 6.0 14.0 32.0
-Building 24.0 1.0 4.0 2.0 3.0 4.0
-Building 26.0 1.0 0.0 1.0 3.0 4.0
-Building 27.0 1.0 0.0 1.0 3.0 0.0
-Building 28.0 1.0 0.0 1.0 3.0 32.0
-Building 29.0 1.0 19.0 5.0 3.0 1.0
-Building 24.0 4.0 4.0 2.0 2.0 8.0
-Building 26.0 4.0 0.0 3.0 5.0 38.0
-Building 29.0 4.0 20.0 5.0 10.0 4.0
-Building 7.0 6.0 18.0 3.0 3.0 4.0
-Building 10.0 6.0 18.0 1.0 3.0 2.0
-Building 11.0 6.0 17.0 1.0 3.0 1.0
-Building 15.0 6.0 15.0 3.0 3.0 1.0
-Building 18.0 6.0 0.0 1.0 3.0 20.0
-Building 21.0 9.0 0.0 8.0 4.0 38.0
-Building 1.0 10.0 21.0 2.0 2.0 3.0
-Building 3.0 10.0 21.0 2.0 2.0 1.0
-Building 5.0 10.0 21.0 4.0 6.0 1.0
-Building 21.0 13.0 0.0 1.0 6.0 38.0
-Building 22.0 13.0 24.0 7.0 1.0 6.0
-Building 22.0 14.0 20.0 12.0 1.0 4.0
-Building 34.0 14.0 20.0 5.0 2.0 2.0
-Building 22.0 15.0 24.0 2.0 2.0 6.0
-Building 24.0 15.0 0.0 2.0 2.0 36.0
-Building 26.0 15.0 22.0 8.0 4.0 2.0
-Building 39.0 14.0 0.0 1.0 6.0 38.0
-Building 0.0 16.0 0.0 7.0 3.0 38.0
-Building 34.0 16.0 22.0 1.0 2.0 6.0
-Building 35.0 16.0 0.0 2.0 2.0 38.0
-Building 37.0 16.0 22.0 2.0 2.0 2.0
-Building 7.0 17.0 21.0 5.0 8.0 1.0
-Building 22.0 17.0 26.0 2.0 2.0 2.0
-Building 24.0 17.0 24.0 2.0 2.0 2.0
-Building 34.0 18.0 24.0 5.0 2.0 4.0
-Building 5.0 19.0 21.0 2.0 6.0 1.0
-Building 12.0 19.0 22.0 2.0 2.0 8.0
-Building 22.0 19.0 0.0 5.0 2.0 38.0
-Building 27.0 19.0 23.0 5.0 11.0 1.0
-Building 32.0 19.0 24.0 2.0 7.0 2.0
-Building 34.0 20.0 0.0 6.0 2.0 38.0
-Building 1.0 21.0 22.0 2.0 2.0 4.0
-Building 22.0 21.0 28.0 3.0 1.0 2.0
-Building 25.0 21.0 26.0 1.0 1.0 2.0
-Building 26.0 21.0 24.0 1.0 1.0 2.0
-Building 22.0 22.0 26.0 2.0 2.0 6.0
-Building 24.0 22.0 0.0 3.0 2.0 38.0
-Building 34.0 22.0 0.0 1.0 6.0 26.0
-Building 35.0 22.0 0.0 2.0 2.0 24.0
-Building 37.0 22.0 0.0 2.0 4.0 20.0
-Building 39.0 22.0 0.0 1.0 6.0 38.0
-Building 1.0 23.0 22.0 4.0 2.0 2.0
-Building 12.0 23.0 22.0 4.0 2.0 2.0
-Building 22.0 24.0 24.0 5.0 2.0 2.0
-Building 7.0 25.0 22.0 2.0 4.0 6.0
-Building 9.0 25.0 22.0 3.0 4.0 2.0
-Building 12.0 25.0 0.0 10.0 7.0 38.0
-Building 35.0 24.0 0.0 2.0 2.0 38.0
-Building 22.0 26.0 24.0 5.0 1.0 8.0
-Building 32.0 26.0 0.0 2.0 2.0 30.0
-Building 35.0 26.0 0.0 2.0 2.0 24.0
-Building 37.0 26.0 0.0 2.0 2.0 30.0
-Building 22.0 27.0 0.0 5.0 5.0 38.0
-Building 32.0 28.0 0.0 2.0 2.0 34.0
-Building 34.0 28.0 0.0 6.0 4.0 38.0
-Building 7.0 29.0 26.0 2.0 2.0 12.0
-Building 9.0 29.0 24.0 3.0 2.0 2.0
-Building 27.0 30.0 0.0 5.0 2.0 38.0
-Building 32.0 30.0 0.0 2.0 2.0 36.0
-Building 14.0 6.0 16.0 1.0 3.0 1.0
-Building 13.0 6.0 17.0 1.0 3.0 1.0
-Building 12.0 6.0 17.0 1.0 3.0 2.0
-Building 7.0 9.0 21.0 2.0 1.0 3.0
-Building 1.0 14.0 21.0 2.0 2.0 3.0
-Building 1.0 12.0 21.0 2.0 2.0 4.0
-Building 3.0 14.0 21.0 2.0 2.0 2.0
-Building 7.0 16.0 22.0 2.0 1.0 2.0
-Building 3.0 19.0 22.0 2.0 2.0 1.0
-Building 1.0 19.0 22.0 2.0 2.0 3.0
-Building 0.0 10.0 21.0 1.0 6.0 11.0
-Building 3.0 12.0 21.0 2.0 2.0 13.0
-Building 9.0 9.0 15.0 10.0 8.0 23.0
-Building 16.0 19.0 10.0 6.0 6.0 28.0
-Building 0.0 19.0 22.0 1.0 6.0 16.0
-Building 0.0 25.0 20.0 7.0 7.0 18.0
-Building 7.0 31.0 20.0 5.0 1.0 18.0
-Building 3.0 21.0 21.0 2.0 2.0 17.0
-Building 12.0 21.0 21.0 2.0 2.0 17.0
-Building 14.0 19.0 22.0 2.0 4.0 3.0
-Building 12.0 17.0 22.0 3.0 2.0 5.0
-Building 15.0 17.0 20.0 2.0 2.0 3.0
-Building 17.0 17.0 18.0 2.0 2.0 2.0
-Building 19.0 17.0 16.0 2.0 2.0 2.0
-Building 19.0 9.0 15.0 2.0 8.0 1.0
-Building 19.0 6.0 12.0 7.0 3.0 5.0
+Building 0.0 0.0 15.0 7.0 10.0 17.0 bleh bleh
+Building 7.0 0.0 15.0 8.0 6.0 17.0 bleh bleh
+Building 15.0 0.0 15.0 1.0 6.0 1.0 bleh bleh
+Building 16.0 0.0 0.0 8.0 6.0 32.0 bleh bleh
+Building 24.0 0.0 0.0 10.0 1.0 32.0 bleh bleh
+Building 34.0 0.0 0.0 6.0 14.0 32.0 bleh bleh
+Building 24.0 1.0 4.0 2.0 3.0 4.0 bleh bleh
+Building 26.0 1.0 0.0 1.0 3.0 4.0 bleh bleh
+Building 27.0 1.0 0.0 1.0 3.0 0.0 bleh bleh
+Building 28.0 1.0 0.0 1.0 3.0 32.0 bleh bleh
+Building 29.0 1.0 19.0 5.0 3.0 1.0 bleh bleh
+Building 24.0 4.0 4.0 2.0 2.0 8.0 bleh bleh
+Building 26.0 4.0 0.0 3.0 5.0 38.0 bleh bleh
+Building 29.0 4.0 20.0 5.0 10.0 4.0 bleh bleh
+Building 7.0 6.0 18.0 3.0 3.0 4.0 bleh bleh
+Building 10.0 6.0 18.0 1.0 3.0 2.0 bleh bleh
+Building 11.0 6.0 17.0 1.0 3.0 1.0 bleh bleh
+Building 15.0 6.0 15.0 3.0 3.0 1.0 bleh bleh
+Building 18.0 6.0 0.0 1.0 3.0 20.0 bleh bleh
+Building 21.0 9.0 0.0 8.0 4.0 38.0 bleh bleh
+Building 1.0 10.0 21.0 2.0 2.0 3.0 bleh bleh
+Building 3.0 10.0 21.0 2.0 2.0 1.0 bleh bleh
+Building 5.0 10.0 21.0 4.0 6.0 1.0 bleh bleh
+Building 21.0 13.0 0.0 1.0 6.0 38.0 bleh bleh
+Building 22.0 13.0 24.0 7.0 1.0 6.0 bleh bleh
+Building 22.0 14.0 20.0 12.0 1.0 4.0 bleh bleh
+Building 34.0 14.0 20.0 5.0 2.0 2.0 bleh bleh
+Building 22.0 15.0 24.0 2.0 2.0 6.0 bleh bleh
+Building 24.0 15.0 0.0 2.0 2.0 36.0 bleh bleh
+Building 26.0 15.0 22.0 8.0 4.0 2.0 bleh bleh
+Building 39.0 14.0 0.0 1.0 6.0 38.0 bleh bleh
+Building 0.0 16.0 0.0 7.0 3.0 38.0 bleh bleh
+Building 34.0 16.0 22.0 1.0 2.0 6.0 bleh bleh
+Building 35.0 16.0 0.0 2.0 2.0 38.0 bleh bleh
+Building 37.0 16.0 22.0 2.0 2.0 2.0 bleh bleh
+Building 7.0 17.0 21.0 5.0 8.0 1.0 bleh bleh
+Building 22.0 17.0 26.0 2.0 2.0 2.0 bleh bleh
+Building 24.0 17.0 24.0 2.0 2.0 2.0 bleh bleh
+Building 34.0 18.0 24.0 5.0 2.0 4.0 bleh bleh
+Building 5.0 19.0 21.0 2.0 6.0 1.0 bleh bleh
+Building 12.0 19.0 22.0 2.0 2.0 8.0 bleh bleh
+Building 22.0 19.0 0.0 5.0 2.0 38.0 bleh bleh
+Building 27.0 19.0 23.0 5.0 11.0 1.0 bleh bleh
+Building 32.0 19.0 24.0 2.0 7.0 2.0 bleh bleh
+Building 34.0 20.0 0.0 6.0 2.0 38.0 bleh bleh
+Building 1.0 21.0 22.0 2.0 2.0 4.0 bleh bleh
+Building 22.0 21.0 28.0 3.0 1.0 2.0 bleh bleh
+Building 25.0 21.0 26.0 1.0 1.0 2.0 bleh bleh
+Building 26.0 21.0 24.0 1.0 1.0 2.0 bleh bleh
+Building 22.0 22.0 26.0 2.0 2.0 6.0 bleh bleh
+Building 24.0 22.0 0.0 3.0 2.0 38.0 bleh bleh
+Building 34.0 22.0 0.0 1.0 6.0 26.0 bleh bleh
+Building 35.0 22.0 0.0 2.0 2.0 24.0 bleh bleh
+Building 37.0 22.0 0.0 2.0 4.0 20.0 bleh bleh
+Building 39.0 22.0 0.0 1.0 6.0 38.0 bleh bleh
+Building 1.0 23.0 22.0 4.0 2.0 2.0 bleh bleh
+Building 12.0 23.0 22.0 4.0 2.0 2.0 bleh bleh
+Building 22.0 24.0 24.0 5.0 2.0 2.0 bleh bleh
+Building 7.0 25.0 22.0 2.0 4.0 6.0 bleh bleh
+Building 9.0 25.0 22.0 3.0 4.0 2.0 bleh bleh
+Building 12.0 25.0 0.0 10.0 7.0 38.0 bleh bleh
+Building 35.0 24.0 0.0 2.0 2.0 38.0 bleh bleh
+Building 22.0 26.0 24.0 5.0 1.0 8.0 bleh bleh
+Building 32.0 26.0 0.0 2.0 2.0 30.0 bleh bleh
+Building 35.0 26.0 0.0 2.0 2.0 24.0 bleh bleh
+Building 37.0 26.0 0.0 2.0 2.0 30.0 bleh bleh
+Building 22.0 27.0 0.0 5.0 5.0 38.0 bleh bleh
+Building 32.0 28.0 0.0 2.0 2.0 34.0 bleh bleh
+Building 34.0 28.0 0.0 6.0 4.0 38.0 bleh bleh
+Building 7.0 29.0 26.0 2.0 2.0 12.0 bleh bleh
+Building 9.0 29.0 24.0 3.0 2.0 2.0 bleh bleh
+Building 27.0 30.0 0.0 5.0 2.0 38.0 bleh bleh
+Building 32.0 30.0 0.0 2.0 2.0 36.0 bleh bleh
+Building 14.0 6.0 16.0 1.0 3.0 1.0 bleh bleh
+Building 13.0 6.0 17.0 1.0 3.0 1.0 bleh bleh
+Building 12.0 6.0 17.0 1.0 3.0 2.0 bleh bleh
+Building 7.0 9.0 21.0 2.0 1.0 3.0 bleh bleh
+Building 1.0 14.0 21.0 2.0 2.0 3.0 bleh bleh
+Building 1.0 12.0 21.0 2.0 2.0 4.0 bleh bleh
+Building 3.0 14.0 21.0 2.0 2.0 2.0 bleh bleh
+Building 7.0 16.0 22.0 2.0 1.0 2.0 bleh bleh
+Building 3.0 19.0 22.0 2.0 2.0 1.0 bleh bleh
+Building 1.0 19.0 22.0 2.0 2.0 3.0 bleh bleh
+Building 0.0 10.0 21.0 1.0 6.0 11.0 bleh bleh
+Building 3.0 12.0 21.0 2.0 2.0 13.0 bleh bleh
+Building 9.0 9.0 15.0 10.0 8.0 23.0 bleh bleh
+Building 16.0 19.0 10.0 6.0 6.0 28.0 bleh bleh
+Building 0.0 19.0 22.0 1.0 6.0 16.0 bleh bleh
+Building 0.0 25.0 20.0 7.0 7.0 18.0 bleh bleh
+Building 7.0 31.0 20.0 5.0 1.0 18.0 bleh bleh
+Building 3.0 21.0 21.0 2.0 2.0 17.0 bleh bleh
+Building 12.0 21.0 21.0 2.0 2.0 17.0 bleh bleh
+Building 14.0 19.0 22.0 2.0 4.0 3.0 bleh bleh
+Building 12.0 17.0 22.0 3.0 2.0 5.0 bleh bleh
+Building 15.0 17.0 20.0 2.0 2.0 3.0 bleh bleh
+Building 17.0 17.0 18.0 2.0 2.0 2.0 bleh bleh
+Building 19.0 17.0 16.0 2.0 2.0 2.0 bleh bleh
+Building 19.0 9.0 15.0 2.0 8.0 1.0 bleh bleh
+Building 19.0 6.0 12.0 7.0 3.0 5.0 bleh bleh
