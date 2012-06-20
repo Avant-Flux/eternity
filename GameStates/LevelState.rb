@@ -231,11 +231,12 @@ class LevelState #< GameState
 											#~ [args[1].to_f, args[2].to_f, args[3].to_f], 
 											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
 							args.shift
-                            puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
                             
                             6.times do |i|
 								args[i] = args[i].to_f
                             end
+                            
+                            puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
                             
 							Building.new window, *args
 						when "d"

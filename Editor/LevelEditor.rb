@@ -4,10 +4,17 @@ path = path[0..(path.rindex(File::SEPARATOR)-1)]
 Dir.chdir path
 
 require './GameWindow'
+##require './Editor/LE_UI_State'
 require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
+    
+    
 	def initialize
+		###~ super
+        
+        ##@ui_state = UI_State.new self, @space, @player
+        
 		super
 		self.caption = "Level Editor v0.00.1"
 		
@@ -24,11 +31,14 @@ class LevelEditor < GameWindow
 	end
 	
 	def update
-		super
-		
+		#~ super
+        
+		@ui_state.update
 	end
 	
 	def draw
+		##super
+        
 		if @selected_cursor == :box # right click active
 			@camera.draw_trimetric do
 				r = 20.to_meters
@@ -88,6 +98,8 @@ class LevelEditor < GameWindow
 	end
 	
 	def draw_screen
+		##super
+        
 		if @show_fps
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
 		end
