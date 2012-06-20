@@ -11,10 +11,6 @@ class LevelEditor < GameWindow
     
     
 	def initialize
-		###~ super
-        
-        ##@ui_state = UI_State.new self, @space, @player
-        
 		super
 		self.caption = "Level Editor v0.00.1"
 		
@@ -31,9 +27,7 @@ class LevelEditor < GameWindow
 	end
 	
 	def update
-		#~ super
-        
-		@ui_state.update
+		super
 	end
 	
 	def draw
