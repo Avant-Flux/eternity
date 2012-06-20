@@ -17,7 +17,7 @@ module PhysicsInterface
 		@jump_count = 0
 		@jump_limit = 1000000000
 		
-		@body.v_limit = 10
+		#~ @body.v_limit = 10
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
 		@shape.u = 0.7

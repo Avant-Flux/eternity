@@ -42,6 +42,10 @@ module Physics
 			end
 			
 			super(@dt) # Timestep in seconds
+			
+			@bodies.each do |body|
+				body.reset_forces
+			end
 		end
 		
 		private
@@ -117,9 +121,8 @@ module Physics
 					u = 0.7 # Coefficient of friction
 					# TODO: Calculate coefficient of friction by adding surface and entity components
 					
-					#~ puts direction_vector.length
 					# Normal force
-					# Currently assuming that all terrain in flat
+					# Currently assuming that all terrain is flat
 					# TODO:	Update normal force to take account of terrain
 					# 		Normal = mg*cos(theta)
 					normal = body.m * @g
@@ -130,66 +133,13 @@ module Physics
 				
 				
 				# Acceleration is a vector
-				#~ a = resistive_force*body.m
-				#~ v  = a*dt
-				#~ 
-				#~ body.v = v
+				a = resistive_force/body.m
+				v  = a*dt
 				
-				#~ body.apply_force resistive_force/2, CP::ZERO_VEC_2
-				#~ body.update_position dt
+				#~ puts v
 				
-				
-				#~ body.apply_force resistive_force, CP::ZERO_VEC_2
-				
-				body.apply_force resistive_force, CP::ZERO_VEC_2
-				
-				#~ parallel_force = body.f.project(direction_vector)
-				#~ 
-				#~ if resistive_force.length >= parallel_force.length
-					#~ # If the resistive force is greater than the current force parallel to the
-					#~ # resistive force, simply zero out the current forces on the body in that 
-					#~ # direction
-					#~ body.apply_force -parallel_force, CP::ZERO_VEC_2
-				#~ else
-					#~ # Else, apply the resistive force as normal
-					#~ body.apply_force resistive_force, CP::ZERO_VEC_2
-				#~ end
+				body.v += v
 			end
-		end
-		
-		
-		def apply_resistive_force(body, dt)
-			# Apply resistive forces for the current body
-			
-			#~ puts "friction #{resistive_force} #{gameobj.f} #{gameobj.f.normalize} #{gameobj.v.lengthsq}"
-
-			#~ puts "#{gameobj.f} #{gameobj.v}"
-			if body.v.length < 0.01
-				# Resistive force can not be computed
-				# Return a zero vector so this "force" can be applied without incident
-				f = CP::ZERO_VEC_2
-			else
-				if body.pz > body.elevation
-					# Resistive force of air resistance
-					#~ # Neg acceleration needed to reverse direction of friction
-					#~ normal_force = -9.8 * gameobj.mass
-					#~ coefficient_of_friction = 0.01
-					
-					#~ gameobj.v.normalize * normal_force * coefficient_of_friction
-					f = CP::ZERO_VEC_2
-				else
-					# Force of friction
-					# Neg acceleration needed to reverse direction of friction
-					normal_force = @g * body.mass 
-					coefficient_of_friction = 0.4
-					
-					f = body.v.normalize * normal_force * coefficient_of_friction
-				end
-			end
-			
-			body.apply_force f, CP::ZERO_VEC_2
-			#~ body.v.x /= 1 + f.x * @dt
-			#~ body.v.y /= 1 + f.y * @dt
 		end
 		
 		def initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
