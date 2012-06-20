@@ -35,10 +35,7 @@ module Physics
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
-				#~ puts body.v.length
 				apply_friction body, @dt
-				
-				#~ apply_resistive_force body, @dt
 			end
 			
 			super(@dt) # Timestep in seconds
@@ -89,17 +86,6 @@ module Physics
 		end
 		
 		def apply_friction(body, dt)
-			# Try applying force integration to velocity "manually",
-			# without using #apply_force
-			#
-			# If that doesn't work, just use damping, at least for now.  It's not worth the time.
-			# 	Damping can not be used with the current structure.  Forces would need to be reset.
-			# 	every frame for every object for damping to mimic friction in that way.
-			# 
-			# Currently friction force can not reverse the direction of an object.
-			# 	This is caused by the magnitude of the force of friction not being 
-			# 	allowed to exceed the net force in the direction of friction.
-			
 			# Apply a resistive force in the opposite direction of the velocity
 			magnitude = body.v.length
 			puts "v: #{body.v.length}  f: #{body.f.length}"
