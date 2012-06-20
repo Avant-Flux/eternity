@@ -55,7 +55,7 @@ module PhysicsInterface
 				@walk_force
 			when :run
 				@run_force
-		end 
+		end
 		
 		@body.apply_force vec, CP::ZERO_VEC_2
 	end
@@ -69,6 +69,11 @@ module PhysicsInterface
 	
 	def reset_jump
 		@jump_count = 0
+	end
+	
+	def in_air?
+		# TODO: Move into body
+		return @body.pz > @body.elevation
 	end
 	
 	def warp(x,y,z)
