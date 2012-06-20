@@ -3,8 +3,8 @@
 # Methods that are used to manage Chipmunk attributes
 # through the objects they are attached to, rather than the chipmunk objects.
 module PhysicsInterface
-	attr_reader :shape, :body, :height
-	attr_accessor :jump_count
+	attr_reader :shape, :body, :height, :jump_count
+	attr_accessor :running
 	
 	def init_physics(collision_type, shape)
 		@shape = shape
@@ -22,10 +22,13 @@ module PhysicsInterface
 		
 		@shape.u = 0.7
 		
-		@movement_coefficient = 700
+		@walk_force = 500
+		@run_force = 700
+		
+		@running = false
 	end
 	
-	def move(direction)
+	def move(direction, type)
 		puts direction
 		
 		vec = case direction
@@ -47,7 +50,12 @@ module PhysicsInterface
 				CP::Vec2.new(-1,-1).normalize!
 		end
 		
-		vec *= @movement_coefficient
+		vec *= case type
+			when :walk
+				@walk_force
+			when :run
+				@run_force
+		end 
 		
 		@body.apply_force vec, CP::ZERO_VEC_2
 	end

@@ -72,7 +72,11 @@ class EternityInput < InputHandler
 			
 			move_direction = move_direction.to_sym
 			
-			@player.move move_direction
+			if @player.running
+				@player.move move_direction, :run
+			else
+				@player.move move_direction, :walk
+			end
 		end
 	end
 	
@@ -88,6 +92,13 @@ class EternityInput < InputHandler
 			new_action direction, :falling_edge do
 				@movement_dir.delete direction
 			end
+		end
+		
+		new_action :run, :rising_edge do
+			@player.running = true
+		end
+		new_action :run, :falling_edge do
+			@player.running = false
 		end
 		
 		new_action :jump, :rising_edge do
@@ -148,6 +159,8 @@ class EternityInput < InputHandler
 		bind_action :right, Gosu::KbRight
 		
 		bind_action :jump, Gosu::KbSpace
+		
+		bind_action :run, Gosu::KbLeftShift
 		
 		bind_action :reload_level, Gosu::KbF1
 		
