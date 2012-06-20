@@ -131,14 +131,7 @@ module Physics
 					direction_vector*u*normal
 				end
 				
-				
-				# Acceleration is a vector
-				a = resistive_force/body.m
-				v  = a*dt
-				
-				#~ puts v
-				
-				body.v += v
+				body.apply_force resistive_force, CP::ZERO_VEC_2
 			end
 		end
 		
