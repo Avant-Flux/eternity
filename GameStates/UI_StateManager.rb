@@ -23,6 +23,8 @@ class UI_StateManager
 	end
 	
 	def draw
+		#~ stencil_buffer_test
+		
 		@stack.each do |interface|
 			interface.draw
 			
@@ -49,5 +51,46 @@ class UI_StateManager
 	
 	def open_map
 		@stack << @map 
+	end
+	
+	private
+	
+	def stencil_buffer_test
+		z_index = 1
+		mask = lambda do
+			
+			#~ glColor3f(0,255,0)
+			
+			glPushMatrix()
+				glTranslatef(100,100,0)
+				#~ r = 1000
+				#~ glTranslatef(100,100,0)
+				#~ gluPartialDisk(gluNewQuadric(), r,r, 30, 1,	0, 360)
+				
+				width = 200
+				height = 200
+				glBegin(GL_TRIANGLES)
+					glVertex2f(0,0)
+					glVertex2f(width,0)
+					glVertex2f(width,height)
+				glEnd()
+			glPopMatrix()
+		end
+		@window.stencil mask, z_index do
+			glColor3f(255,0,0)
+			
+			glPushMatrix()
+				#~ glTranslatef(100,100,0)
+				
+				width = 600
+				height = 600
+				glBegin(GL_QUADS)
+					glVertex2f(0,0)
+					glVertex2f(width,0)
+					glVertex2f(width,height)
+					glVertex2f(0,height)
+				glEnd()
+			glPopMatrix()
+		end
 	end
 end

@@ -16,6 +16,13 @@ unless gems.include? "bundler"
 		# when you use the rubyinstaller.org version
 		puts "Still windows!"
 		%x[gem install bundler]
+		
+		puts "Bundler ready"
+
+		puts "Dependencies will now install..."
+		# Set up path to freeglut
+		#~ freeglut_path = File.join Dir.pwd, "Dependencies", "freeglut"
+		#~ %x[bundle config build.texplay --with-opt-dir="#{freeglut_path}"]
 	else
 		# Assume all non-windows platforms are unix-based
 		puts "NOT windows!"
@@ -23,10 +30,5 @@ unless gems.include? "bundler"
 	end
 end
 
-puts "Bundler ready"
 
-puts "Dependencies will now install..."
-# Set up path to freeglut
-#~ freeglut_path = File.join Dir.pwd, "Dependencies", "freeglut"
-#~ %x[bundle config build.texplay --with-opt-dir="#{freeglut_path}"]
 exec "bundle install"

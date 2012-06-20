@@ -9,9 +9,9 @@ class LevelEditorInterface
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
-		space.set_default_collision_func do
-			false
-		end
+		#~ space.set_default_collision_func do
+			#~ false
+		#~ end
 		
 		#~ @mouse = MouseHandler.new space
 		@compass = Compass.new window, 20, window.height-150

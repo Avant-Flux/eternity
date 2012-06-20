@@ -30,9 +30,11 @@ require_all './UI'
 
 require 'gl'
 require 'glu'
+require 'glut'
 
 include Gl
 include Glu
+include Glut
 
 
 class GameWindow < Gosu::Window
@@ -145,6 +147,67 @@ class GameWindow < Gosu::Window
 			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
 							options[:slices], options[:loops],
 							options[:start_angle], 360)
+		end
+	end
+	
+	# Utilize OpenGL's stencil buffer to perform functionality similar to masks
+	# in Photoshop.
+	# Precondition:	Mask is a lambda which draws into the buffer
+	#				Z is the z-index of the calls.  Think more scheduling than depth test.
+	# 				The implicit block parameter is the code to be drawn "behind" the mask
+	def stencil(mask, z=0, &block)
+		# NOTE:	Super NOT threadsafe.  Entire method must be run at once, to insure proper 
+		# 		z-indexing.  Gosu is currently not threadsafe anyway, so this is not a problem.
+		# 		However, if the engine does become threadsafe, know that there needs to be 
+		# 		a barrier around this method, or similar.
+		#
+		# gl blocks introduce new context where Gosu calls can not be used.
+		# NOTE: This means that no Gosu calls can be used within this method
+		no_planes = 0x0
+		all_planes = 0xff
+		#~ all_planes = 0x7
+		
+		self.gl z do
+			# === Much code taken from the wikibooks OpenGl Stencil Buffer page
+			glutInitDisplayMode(GLUT_RGBA|GLUT_ALPHA|GLUT_DOUBLE|GLUT_DEPTH|GLUT_STENCIL)
+
+			glClear(GL_DEPTH_BUFFER_BIT)
+
+			# Enable stencil buffer
+			glEnable(GL_STENCIL_TEST)
+			
+			# Disable color and depth buffers
+			glColorMask(false, false, false, false)
+			glDepthMask(false)
+			
+			glStencilFunc(GL_NEVER, 1, all_planes)
+			glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP) # Draw 1s on test fail (always)
+			
+			# Draw stencil pattern
+			glStencilMask(all_planes)
+			glClear(GL_STENCIL_BUFFER_BIT)
+			
+			# ===== Draw mask
+			mask.call
+			
+			# Re-enable color and depth buffers
+			glColorMask(true, true, true, true)
+			glDepthMask(true)
+			glStencilMask(no_planes)
+			
+			# Draw where stencil's value is 0
+			glStencilFunc(GL_EQUAL, 0, all_planes)
+			## (nothing to draw)
+			
+			# Draw only where stencil's value is 1
+			glStencilFunc(GL_EQUAL, 1, all_planes)
+			
+			# ===== Draw the actual stuff
+			#~ mask.call
+			block.call
+			
+			# Turn stencil buffer off
+			glDisable(GL_STENCIL_TEST)
 		end
 	end
 end
