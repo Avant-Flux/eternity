@@ -30,7 +30,7 @@ module PhysicsInterface
 	end
 	
 	def move(direction, type)
-		puts direction
+		#~ puts direction
 		
 		vec = case direction
 			when :up
