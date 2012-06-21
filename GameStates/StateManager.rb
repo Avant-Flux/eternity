@@ -71,4 +71,8 @@ class StateManager
 		@player.body.reset
 		add_player @player
 	end
+    
+    def get_top
+        return stack[0]
+    end
 end

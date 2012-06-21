@@ -32,7 +32,7 @@ class LevelEditor < GameWindow
         
         ## State data ##
         
-        @EDITOR_STATE = "NONE"
+        @EDITOR_STATE = :NONE
         @SELECTED_BUILDING = "$none$"
 	end
 	
@@ -41,21 +41,25 @@ class LevelEditor < GameWindow
         
         case @EDITOR_STATE
             # Placing buildings, NPCs, and spawn points may have different cursors in the future
-            when "NONE"
+            when :NONE
                 @selected_cursor = :default
-            when "PLACING_BUILDING"
+            when :PLACING_BUILDING
                 @selected_cursor = :place
-            when "PLACING_NPC"
+            when :PLACING_NPC
                 @selected_cursor = :place
-            when "PLACING_SPAWN"
+            when :PLACING_SPAWN
                 @selected_cursor = :place
-            when "BOX"
+            when :BOX
                 @selected_cursor = :box
         end
 	end
+    
+    def switch_state( state_id )
+        nil
+    end
 	
 	def draw
-		##super
+		#~ super
         
 		if @selected_cursor == :box # right click active
 			@camera.draw_trimetric do
@@ -91,8 +95,11 @@ class LevelEditor < GameWindow
             when Gosu::KbA
                 super id
             when Gosu::KbZ
-                @EDITOR_STATE = "PLACING_BUILDING"
+                @EDITOR_STATE = :PLACING_BUILDING
             when Gosu::MsLeft
+                if @EDITOR_STATE == :PLACING_BUILDING
+                    click_scene
+                end
             when Gosu::MsRight
         end
         
@@ -114,7 +121,7 @@ class LevelEditor < GameWindow
             when Gosu::KbA
                 super id
             when Gosu::KbZ
-                @EDITOR_STATE = "NONE"
+                @EDITOR_STATE = :NONE
             when Gosu::MsLeft
             when Gosu::MsRight
         end
@@ -190,10 +197,10 @@ class LevelEditor < GameWindow
 		end
         
 		case @EDITOR_STATE
-            when "NONE"
+            when :NONE
                 #~ Remove print later; debug only
                 puts "no state"
-            when "PLACING_BUILDING"
+            when :PLACING_BUILDING
                 # Temporary variable values
                 @SELECTED_BUILDING = "buildingA"
                 
@@ -204,17 +211,21 @@ class LevelEditor < GameWindow
                 #
                 
                 if @SELECTED_BUILDING != "$none$"
-                    Building.new self,
-                                 *@buildings[ @SELECTED_BUILDING ],
-                                 x, y, z
+                    building_data = *@buildings[ @SELECTED_BUILDING ]
+                    building = Building.new self,
+                                            building_data[ :size ],
+                                            x, y, z,
+                                            building_data[ :textures ]
+                                            
+                    @state_manager.get_top.add_gameobject building
                 else
                     puts "No selected building"
                 end
-            when "PLACING_NPC"
+            when :PLACING_NPC
                 nil
-            when "PLACING_SPAWN"
+            when :PLACING_SPAWN
                 nil
-            when "BOX"
+            when :BOX
                 nil
         end
 	end
@@ -224,7 +235,10 @@ class LevelEditor < GameWindow
         
         File.open( path, "r" ).each do |line|
             args = line.split
-            @buildings[ args[0] ] = [ args[1].to_f, args[2].to_f, args[3].to_f ]
+            @buildings[ args[0] ] = {
+                                        :size => [ args[1].to_f, args[2].to_f, args[3].to_f ],
+                                        :textures => [ args[4], args[5] ]
+                                    }
             puts "recognized new building type #{args[0]}"
         end
     end
