@@ -24,10 +24,34 @@ class LevelEditor < GameWindow
 			:box => Gosu::Image.new(self, File.join(cursor_directory, "box_cursor.png"), false)
 		}
 		@selected_cursor = :default
+        
+        @ui_state_manager.pop
+        
+        @buildings = {}
+        load_buildings
+        
+        ## State data ##
+        
+        @EDITOR_STATE = "NONE"
+        @SELECTED_BUILDING = "$none$"
 	end
 	
 	def update
 		super
+        
+        case @EDITOR_STATE
+            # Placing buildings, NPCs, and spawn points may have different cursors in the future
+            when "NONE"
+                @selected_cursor = :default
+            when "PLACING_BUILDING"
+                @selected_cursor = :place
+            when "PLACING_NPC"
+                @selected_cursor = :place
+            when "PLACING_SPAWN"
+                @selected_cursor = :place
+            when "BOX"
+                @selected_cursor = :box
+        end
 	end
 	
 	def draw
@@ -43,6 +67,10 @@ class LevelEditor < GameWindow
 		end
 		
 		super()
+        
+        @ui_state_manager.draw
+        
+        draw_screen
 		
 		#~ if @selected_cursor == :place # left click active
 			#~ r = 20
@@ -53,32 +81,53 @@ class LevelEditor < GameWindow
 	end
 	
 	def button_down(id)
-		super(id)
+        #~ @inpman.button_down(id)
 		
-		if id == Gosu::MsLeft
-			@selected_cursor = :place if @selected_cursor == :default
-			
-			click_UI
-		elsif id == Gosu::MsRight
-			@selected_cursor = :box if @selected_cursor == :default
-			
-			click_scene
-		end
+        case id
+            when Gosu::KbEscape
+                super id
+            when Gosu::KbF
+                super id
+            when Gosu::KbA
+                super id
+            when Gosu::KbZ
+                @EDITOR_STATE = "PLACING_BUILDING"
+            when Gosu::MsLeft
+            when Gosu::MsRight
+        end
+        
+		#~ if id == Gosu::MsLeft
+		#~ 	@selected_cursor = :place if @selected_cursor == :default
+		#~ 	
+		#~ 	click_UI
+		#~ elsif id == Gosu::MsRight
+		#~ 	@selected_cursor = :box if @selected_cursor == :default
+		#~ 	
+		#~ 	click_scene
+		#~ end
 	end
 	
 	def button_up(id)
-		super(id)
+		#~ @inpman.button_up(id)
 		
-		
-		if id == Gosu::MsLeft
-			if @selected_cursor == :place # left click active
-				@selected_cursor = :default
-			end
-		elsif id == Gosu::MsRight
-			if @selected_cursor == :box # right click active
-				@selected_cursor = :default
-			end
-		end
+        case id
+            when Gosu::KbA
+                super id
+            when Gosu::KbZ
+                @EDITOR_STATE = "NONE"
+            when Gosu::MsLeft
+            when Gosu::MsRight
+        end
+        
+		#~ if id == Gosu::MsLeft
+		#~ 	if @selected_cursor == :place # left click active
+		#~ 		@selected_cursor = :default
+		#~ 	end
+		#~ elsif id == Gosu::MsRight
+		#~ 	if @selected_cursor == :box # right click active
+		#~ 		@selected_cursor = :default
+		#~ 	end
+		#~ end
 	end
 	
 	def needs_cursor?()
@@ -139,8 +188,46 @@ class LevelEditor < GameWindow
 								5, Gosu::Color::RED, 
 								:stroke_width => 100
 		end
-		
+        
+		case @EDITOR_STATE
+            when "NONE"
+                #~ Remove print later; debug only
+                puts "no state"
+            when "PLACING_BUILDING"
+                # Temporary variable values
+                @SELECTED_BUILDING = "buildingA"
+                
+                # TODO: x,y,z to be set with raytrace
+                x = 0
+                y = 0
+                z = 0
+                #
+                
+                if @SELECTED_BUILDING != "$none$"
+                    Building.new self,
+                                 *@buildings[ @SELECTED_BUILDING ],
+                                 x, y, z
+                else
+                    puts "No selected building"
+                end
+            when "PLACING_NPC"
+                nil
+            when "PLACING_SPAWN"
+                nil
+            when "BOX"
+                nil
+        end
 	end
+    
+    def load_buildings
+        path = File.join "Levels", "Buildings.txt"
+        
+        File.open( path, "r" ).each do |line|
+            args = line.split
+            @buildings[ args[0] ] = [ args[1].to_f, args[2].to_f, args[3].to_f ]
+            puts "recognized new building type #{args[0]}"
+        end
+    end
 end
 
 LevelEditor.new.show
