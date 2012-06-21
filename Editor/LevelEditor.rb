@@ -22,43 +22,43 @@ class LevelEditor < GameWindow
 			:box => Gosu::Image.new(self, File.join(cursor_directory, "box_cursor.png"), false)
 		}
 		@selected_cursor = :default
-        
-        @ui_state_manager.pop
-        
-        @buildings = {}
-        load_buildings
-        
-        ## State data ##
-        
-        @EDITOR_STATE = :NONE
-        @SELECTED_BUILDING = "$none$"
+		
+		@ui_state_manager.pop
+		
+		@buildings = {}
+		load_buildings
+		
+		## State data ##
+		
+		@EDITOR_STATE = :NONE
+		@SELECTED_BUILDING = "$none$"
 	end
 	
 	def update
 		super
-        
-        case @EDITOR_STATE
-            # Placing buildings, NPCs, and spawn points may have different cursors in the future
-            when :NONE
-                @selected_cursor = :default
-            when :PLACING_BUILDING
-                @selected_cursor = :place
-            when :PLACING_NPC
-                @selected_cursor = :place
-            when :PLACING_SPAWN
-                @selected_cursor = :place
-            when :BOX
-                @selected_cursor = :box
-        end
+		
+		case @EDITOR_STATE
+			# Placing buildings, NPCs, and spawn points may have different cursors in the future
+			when :NONE
+				@selected_cursor = :default
+			when :PLACING_BUILDING
+				@selected_cursor = :place
+			when :PLACING_NPC
+				@selected_cursor = :place
+			when :PLACING_SPAWN
+				@selected_cursor = :place
+			when :BOX
+				@selected_cursor = :box
+		end
 	end
-    
-    def switch_state( state_id )
-        nil
-    end
+	
+	def switch_state( state_id )
+		nil
+	end
 	
 	def draw
 		#~ super
-        
+		
 		if @selected_cursor == :box # right click active
 			@camera.draw_trimetric do
 				r = 20.to_meters
@@ -69,8 +69,8 @@ class LevelEditor < GameWindow
 		end
 		
 		super()
-        
-        draw_screen
+		
+		draw_screen
 		
 		#~ if @selected_cursor == :place # left click active
 			#~ r = 20
@@ -202,50 +202,50 @@ class LevelEditor < GameWindow
 		end
         
 		case @EDITOR_STATE
-            when :NONE
-                #~ Remove print later; debug only
-                puts "no state"
-            when :PLACING_BUILDING
-                # Temporary variable values
-                @SELECTED_BUILDING = "buildingA"
-                
-                # TODO: x,y,z to be set with raytrace
-                x = 0
-                y = 0
-                z = 0
-                #
-                
-                if @SELECTED_BUILDING != "$none$"
-                    building_data = *@buildings[ @SELECTED_BUILDING ]
-                    building = Building.new self,
-                                            building_data[ :size ],
-                                            x, y, z,
-                                            building_data[ :textures ]
-                                            
-                    @state_manager.get_top.add_gameobject building
-                else
-                    puts "No selected building"
-                end
-            when :PLACING_NPC
-                nil
-            when :PLACING_SPAWN
-                nil
-            when :BOX
-                nil
+			when :NONE
+			#~ Remove print later; debug only
+			puts "no state"
+			when :PLACING_BUILDING
+				# Temporary variable values
+				@SELECTED_BUILDING = "buildingA"
+				
+				# TODO: x,y,z to be set with raytrace
+				x = 0
+				y = 0
+				z = 0
+				#
+				
+				if @SELECTED_BUILDING != "$none$"
+					building_data = *@buildings[ @SELECTED_BUILDING ]
+					building = Building.new self,
+											building_data[ :size ],
+											x, y, z,
+											building_data[ :textures ]
+				
+					@state_manager.get_top.add_gameobject building
+				else
+					puts "No selected building"
+				end
+			when :PLACING_NPC
+				nil
+			when :PLACING_SPAWN
+				nil
+			when :BOX
+				nil
         end
 	end
     
     def load_buildings
-        path = File.join "Levels", "Buildings.txt"
-        
-        File.open( path, "r" ).each do |line|
-            args = line.split
-            @buildings[ args[0] ] = {
-                                        :size => [ args[1].to_f, args[2].to_f, args[3].to_f ],
-                                        :textures => [ args[4], args[5] ]
-                                    }
-            puts "recognized new building type #{args[0]}"
-        end
+		path = File.join "Levels", "Buildings.txt"
+		
+		File.open( path, "r" ).each do |line|
+			args = line.split
+			@buildings[ args[0] ] = {
+				:size => [ args[1].to_f, args[2].to_f, args[3].to_f ],
+				:textures => [ args[4], args[5] ]
+			}
+			puts "recognized new building type #{args[0]}"
+		end
     end
 end
 
