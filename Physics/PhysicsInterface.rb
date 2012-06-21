@@ -2,7 +2,6 @@
 
 # Methods that are used to manage Chipmunk attributes
 # through the objects they are attached to, rather than the chipmunk objects.
-# TODO: zero out velocity if the velocity of the Entity is below a certain threshold.
 module PhysicsInterface
 	attr_reader :shape, :body, :height, :jump_count
 	attr_accessor :running
@@ -56,6 +55,11 @@ module PhysicsInterface
 				@walk_force
 			when :run
 				@run_force
+		end
+		
+		# Reduce forces considerably if the Entity is in the air
+		if in_air?
+			vec *= 0.1
 		end
 		
 		@body.apply_force vec, CP::ZERO_VEC_2
