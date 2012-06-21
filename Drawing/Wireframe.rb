@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'texplay'
+#~ require 'texplay'
 
 module Gosu
 	class Image

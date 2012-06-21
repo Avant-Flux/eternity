@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'gosu'
-require 'texplay'
+#~ require 'texplay'
 
 #~ require './Drawing/ImageCache'
 #~ require './Drawing/GosuPatch'

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require 'gosu'
-require 'texplay'
+#~ require 'texplay'
 
 require './Drawing/ImageCache'
 
