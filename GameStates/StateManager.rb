@@ -1,6 +1,9 @@
 class StateManager
 	# TODO: Save states as they pop off the stack
 	# TODO: F1 to reload doesn't work as expected.  Suspect that space is not being cleared.
+	# NOTE:	Even though this access means that @stack is not really a stack, it is necessary
+	# 		for the top down camera to draw the game world without having to pass
+	# 		every game object into the camera.
 	attr_reader :stack
 	
 	def initialize(window, player)
@@ -54,6 +57,22 @@ class StateManager
 		state.add_player player
 	end
 	
+	def top
+		return stack[0]
+	end
+	
+    # Iterate over all states
+	def each(&block)
+		@stack.each &block
+	end
+    
+	def push(state)
+		
+	end
+	
+	alias :<< :push
+	
+	
 	def save
 		# Save the internal status of the game world
 		# Ideally, this should either pause the game or run in a separate thread
@@ -71,8 +90,4 @@ class StateManager
 		@player.body.reset
 		add_player @player
 	end
-    
-    def top
-        return stack[0]
-    end
 end
