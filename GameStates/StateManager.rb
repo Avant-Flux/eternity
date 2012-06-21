@@ -14,7 +14,7 @@ class StateManager
 		@stack = Array.new()
 		
 		
-		@stack << LevelState.load(@window, @space, "TestArea2")
+		@stack << LevelState.load(@window, @space, "Tutorial")
 		add_player(@player)
 	end
 	
