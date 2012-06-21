@@ -135,11 +135,11 @@ class EternityInput < InputHandler
 		end
 		
 		new_action :zoom_in, :active do
-			@ui_state_manager.current.zoom += 0.2
+			@ui_state_manager.current.camera.zoom_in
 		end
 		
 		new_action :zoom_out, :active do
-			@ui_state_manager.current.zoom -= 0.2
+			@ui_state_manager.current.camera.zoom_out
 		end
 		
 		
