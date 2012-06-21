@@ -60,7 +60,7 @@ class StaticObject
 			@window.draw_quad	0,0, @color, 
 								@width,0, @color,
 								@width,@depth, @color,
-								0,@depth, @color
+								0,@depth, @color, @pz+@height
 		end
 		#~ end
 	end
