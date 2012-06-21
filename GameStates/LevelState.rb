@@ -92,7 +92,7 @@ class LevelState #< GameState
 		@static_objects.each *args, &block
 	end
 	
-	def each_entity(*args)
+	def each_entity(*args, &block)
 		@entities.each *args, &block
 	end
 	
