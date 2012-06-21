@@ -2,133 +2,82 @@ module Camera
 	# Camera which produces a straight-down top-down view.  Useful for maps etc.
 	# Entites may be rendered in a symbolic format, as the trimetric do not make
 	# sense in this projection.
+	# 
+	# Unlike the trimetric camera which follows a specific Entity in the world,
+	# this camera creates a dummy Entity and follows that, in order to implement a free-look
+	# camera.
 	class TopDownCamera
-		#~ include Physics::TwoD_Support
-		#~ include Physics::TwoD_Support::Rect
-		#~ 
-		#~ attr_reader :shape, :queue
 		#~ attr_accessor :zoom
-		#~ 
 		#~ attr_accessor :transparency_mode
-		
 		attr_accessor :followed_entity
 		
-		#~ 
-		#~ alias :px_old :px
-		#~ alias :py_old :py
-		#~ alias :px_old= :px=
-		#~ alias :py_old= :py=
-		
 		MAX_ZOOM = 10
-		MIN_ZOOM = 0.02
-		DEFAULT_ZOOM = 0.16
-		ZOOM_TICK = 0.01 # Percent to modulate the zoom by when zooming in or out
+		MIN_ZOOM = 0.2
+		DEFAULT_ZOOM = 1
+		ZOOM_TICK = 0.2 # Percent to modulate the zoom by when zooming in or out
 	
-		attr_accessor :x_hat, :y_hat, :zoom
+		attr_accessor :zoom
 		
 		
-		def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
+		def initialize(window, state_manager, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 			@window =  window
+			@state_manager = state_manager
+			
 			@window_offset_x = @window.width/2
 			@window_offset_y = @window.height/2
 			
-			@trimetric_transform = [
-				Physics::Direction::X_HAT.x, Physics::Direction::X_HAT.y, 0, 0,
-				Physics::Direction::Y_HAT.x, Physics::Direction::Y_HAT.y, 0, 0,
+			@transform = [
+				1, 0, 0, 0,
+				0, -1, 0, 0,
 				0, 0, 1, 0,
 				0, 0, 0, 1
 			]
 			
 			@zoom = zoom
-			
-			#~ @followed_entity = nil
-			#~ @zoom = zoom #Must be a percentage
-			#~ @transparency_mode = transparency_mode # :selective, :always_on, :always_off
-			#~ 
-			#~ # Center of screen
-			#~ pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
-			#~ 
-			#~ init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
-							#~ 50, :static, :camera, :centered
-			#~ 
-			#~ @shape.sensor = true
-			#~ 
-			#~ @queue = Hash.new
-			#~ 
-			#~ shape_metaclass = class << @shape; self; end
-			#~ [:add, :delete].each do |method|
-				#~ shape_metaclass.send :define_method, method do |gameobj|
-					#~ self.gameobj.queue[gameobj.layers].send method, gameobj
-				#~ end
-			#~ end
-			
-			@trimetric_queue = TrimetricQueue.new
-			@billboard_queue = Array.new
 		end
 		
 		def update
-			#~ @shape.body.reset_forces
-			#~ self.move(@entity.shape.body.f)
 			if @followed_entity
 				#~ warp @followed_entity.p
 				self.px_old = @followed_entity.px
 				self.py_old = @followed_entity.py - @followed_entity.pz
 			end
 			
-			#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
-									#~ @shape.body.p.x + @bb[2], @shape.body.p.y + @bb[1]) do |shape|
-				#~ entity = shape.entity
-				#~ @queue[entity.layers] ||= Set.new
-				#~ @queue[entity.layers].add entity
-				#~ arbiter.a.add arbiter.b.entity
-			#~ end
 		end
 		
-		def flush
-			# Render code blocks to the display
-			position = @followed_entity.body.p.to_screen
-			
-			# Center the entire game world around the given position
-			@window.translate @window_offset_x, @window_offset_y do
-				# Zoom in on the given position
+		def draw
+			# Move map origin to center of screen
+			@window.translate @window.width/2, @window.height/2 do
+				# Zoom in
 				@window.scale @zoom,@zoom do
-					# Set origin of the entire game world to the given position
-					@window.translate -position.x, -position.y+@followed_entity.body.pz.to_px do
-						# Draw all trimetric world elements
-						@trimetric_queue.each do |z, queue|
-							@window.translate 0, -z.to_px do
-								# Trimetric view transform
-								@window.transform *@trimetric_transform do
-									queue.each {|block| block.call}
+					# Transform coordinate system
+					@window.transform *@transform do
+						# Draw objects
+						@state_manager.each do |state|
+							# Draw static objects
+							state.each_static do |object|
+								draw_static(object)
+							end
+							
+							@window.scale 1/@zoom,1/@zoom do
+								state.each_entity do |entity|
+									draw_entity(entity)
 								end
 							end
-						end
-						
-						# Draw non-trimetric world elements
-						@billboard_queue.each do |block|
-							block.call
+							
+							@window.flush
+							
+							if state != @state_manager.stack.last
+								#~ @dimming_screen.draw
+							end
 						end
 					end
 				end
 			end
-			
-			@window.flush
-			
-			@trimetric_queue.clear
-			@billboard_queue.clear
 		end
 		
-		def draw_trimetric(z=0, &block)
-			# The z parameter specifies world z coordinate, not z-index
-			@trimetric_queue.draw(z, block)
-		end
-		
-		def draw_billboarded(&block)
-			# Non-trimetric world draw
-			# Draw is referenced in screen coordinates, not world coordinates
-			# However, the coordinate system has been translated around the tracked entity
-			# TODO: Consider if it is necessary to pass z-index or z position
-			@billboard_queue << block
+		def draw_top_down(&block)
+			
 		end
 		
 		def screen_offset(offset)
@@ -170,35 +119,6 @@ module Camera
 		# ======================================
 		# ===== End Camera Control Methods =====
 		# ======================================
-	
-	
-		# Add the corresponding game object when it's in the air,
-		# and thus "detached" from the physics object which typically
-		# controls rendering.
-		# Actually, this needs to trigger whenever pz > 0,
-		# as this separation will occur even when the entity is not
-		# in the air.
-		def arial_camera_add(gameobj)
-			half_width = gameobj.width(:meters)/2.0
-			height = gameobj.height(:meters)
-			
-			# Create bb in local coordinates
-			l = -half_width
-			b = 0
-			r = half_width
-			t = height
-			
-			# Translate to global
-			t += gameobj.py - gameobj.pz
-			b += gameobj.py - gameobj.pz
-			l += gameobj.px
-			r += gameobj.px
-			
-			bb = CP::BB.new l,b,r,t
-			#~ if @shape.bb.intersect? bb
-			@shape.add gameobj
-			#~ end
-		end
 		
 		# =========================
 		# ===== Zoom Controls =====
@@ -238,30 +158,29 @@ module Camera
 			return true
 		end
 		
-		# ===============================
-		# ===== End Culling Methods =====
-		# ===============================
+		private
 		
-		class TrimetricQueue < Hash
-			def initialize(*args)
-				super(*args)
-			end
+		def draw_static(object)
+			z = object.pz + object.height
+							
+			color_modulation = 100
+			base_color = Gosu::Color.new(200, 218-color_modulation/2,40,38)
+			base_color.red += (z/30.0)*color_modulation
+			color = base_color
 			
-			# Capture block to be rendered with trimetric transform
-			def draw(z=0, block)
-				# Trimetric queue is a hash table: key = z index, value = draw block
-				# 
-				self[z] ||= Array.new
-				self[z] << block
-			end
 			
-			def clear
-				# ===== WARNING =====
-				# Memory will leak if empty arrays stick around indefinitely
-				self.each do |z, queue|
-					queue.clear
-				end
-			end
+			@window.draw_quad	object.body.p.x, object.body.p.y, color,
+								object.body.p.x, object.body.p.y+object.depth, color,
+								object.body.p.x+object.width, object.body.p.y+object.depth, color,
+								object.body.p.x+object.width, object.body.p.y, color,
+								z
+		end
+		
+		def draw_entity(entity)
+			radius = 10
+			@window.draw_circle	entity.body.p.x*@zoom, entity.body.p.y*@zoom, entity.body.pz,
+								radius, Gosu::Color::WHITE,
+								:stroke_width => radius
 		end
 	end
 end
