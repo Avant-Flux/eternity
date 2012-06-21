@@ -267,6 +267,5 @@ module Camera
 				end
 			end
 		end
-		
 	end
 end
