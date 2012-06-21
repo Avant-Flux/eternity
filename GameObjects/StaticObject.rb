@@ -39,6 +39,9 @@ class StaticObject
 		
 		
 		#~ @side = create_wireframe
+		
+		# Test color.  Useful for just setting up test levels, etc.
+		@color = Gosu::Color.argb(150, 255*rand, 255*rand, 255*rand)
 	end
 	
 	def update
@@ -51,7 +54,13 @@ class StaticObject
 		
 		#~ @window.clip_to 0,0, @width, @height do
 		@window.translate @body.p.x, @body.p.y do
-			draw_world @x_count,@y_count, @tile_width,@tile_height, @pz+@height
+			#~ draw_world @x_count,@y_count, @tile_width,@tile_height, @pz+@height
+			
+			
+			@window.draw_quad	0,0, @color, 
+								@width,0, @color,
+								@width,@depth, @color,
+								0,@depth, @color
 		end
 		#~ end
 	end
