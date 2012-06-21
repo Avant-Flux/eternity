@@ -53,7 +53,7 @@ class GameWindow < Gosu::Window
 		
 		@player = Player.new self
 		
-		@camera = Camera.new self
+		@camera = Camera::TrimetricCamera.new self
 		@camera.followed_entity = @player
 		
 		
