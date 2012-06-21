@@ -8,10 +8,8 @@ require './GameWindow'
 require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
-    
-    
 	def initialize
-		super
+		super()
 		self.caption = "Level Editor v0.00.1"
 		
 		@interface = LevelEditorInterface.new self, @space
@@ -72,8 +70,6 @@ class LevelEditor < GameWindow
 		
 		super()
         
-        @ui_state_manager.draw
-        
         draw_screen
 		
 		#~ if @selected_cursor == :place # left click active
@@ -98,7 +94,7 @@ class LevelEditor < GameWindow
                 @EDITOR_STATE = :PLACING_BUILDING
             when Gosu::MsLeft
                 if @EDITOR_STATE == :PLACING_BUILDING
-                    click_scene
+                    mouse_down_scene
                 end
             when Gosu::MsRight
         end
@@ -106,11 +102,11 @@ class LevelEditor < GameWindow
 		if id == Gosu::MsLeft
 			@selected_cursor = :place if @selected_cursor == :default
 			
-			click_UI
+			mouse_down_UI
 		elsif id == Gosu::MsRight
 			@selected_cursor = :box if @selected_cursor == :default
 			
-			click_scene
+			mouse_down_scene
 		end
 	end
 	
@@ -122,19 +118,17 @@ class LevelEditor < GameWindow
                 super id
             when Gosu::KbZ
                 @EDITOR_STATE = :NONE
-            when Gosu::MsLeft
-            when Gosu::MsRight
         end
         
-		#~ if id == Gosu::MsLeft
-		#~ 	if @selected_cursor == :place # left click active
-		#~ 		@selected_cursor = :default
-		#~ 	end
-		#~ elsif id == Gosu::MsRight
-		#~ 	if @selected_cursor == :box # right click active
-		#~ 		@selected_cursor = :default
-		#~ 	end
-		#~ end
+		if id == Gosu::MsLeft
+			if @selected_cursor == :place # left click active
+				@selected_cursor = :default
+			end
+		elsif id == Gosu::MsRight
+			if @selected_cursor == :box # right click active
+				@selected_cursor = :default
+			end
+		end
 	end
 	
 	def needs_cursor?()
@@ -162,14 +156,22 @@ class LevelEditor < GameWindow
 								self.mouse_y-@cursor[@selected_cursor].height/2, 0
 	end
 	
-	def click_UI
-		#~ @mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
-		puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
-		
+	
+	def mouse_up_UI
 		
 	end
 	
-	def click_scene
+	def mouse_down_UI
+		#~ @mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
+		puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
+		
+	end
+	
+	def mouse_up_scene
+		
+	end
+	
+	def mouse_down_scene
 		puts "CLICK!"
 		# Calculate displacement from center of screen in px
 		#~ dx_px = mouse_x - self.width/2.0
@@ -187,14 +189,16 @@ class LevelEditor < GameWindow
 		#~ # Initiate click event
 		#~ @mouse.click_scene v
 		
-		puts "x: #{@camera.followed_entity.body.p.x}   y:#{@camera.followed_entity.body.p.y}"
+		x = @camera.followed_entity.body.p.x
+		y = @camera.followed_entity.body.p.y
+		
+		puts "x: #{x}   y:#{y}"
+		
 		
 		@camera.draw_trimetric do
-			self.draw_circle	0, 
-								0, 
-								0,
-								5, Gosu::Color::RED, 
-								:stroke_width => 100
+			r = 5
+			self.draw_circle	x, y, 0,	r,
+								Gosu::Color::WHITE, :stroke_width => r
 		end
         
 		case @EDITOR_STATE
