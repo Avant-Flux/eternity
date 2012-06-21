@@ -35,7 +35,7 @@ module Physics
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
-				apply_friction body, @dt
+				apply_resistive_force body, @dt
 			end
 			
 			super(@dt) # Timestep in seconds
@@ -85,7 +85,7 @@ module Physics
 			end
 		end
 		
-		def apply_friction(body, dt)
+		def apply_resistive_force(body, dt)
 			# Apply a resistive force in the opposite direction of the velocity
 			magnitude = body.v.length
 			#~ puts "v: #{body.v.length}  f: #{body.f.length}"
@@ -98,23 +98,9 @@ module Physics
 				
 				# TODO: Implement the following block as a true function
 				resistive_force = if body.gameobject.in_air?
-					# Air resistance
-					
-					# Pseudo-return
-					CP::ZERO_VEC_2
+					air_resistance body, direction_vector
 				else
-					# Friction
-					u = 0.7 # Coefficient of friction
-					# TODO: Calculate coefficient of friction by adding surface and entity components
-					
-					# Normal force
-					# Currently assuming that all terrain is flat
-					# TODO:	Update normal force to take account of terrain
-					# 		Normal = mg*cos(theta)
-					normal = body.m * @g
-					
-					# Pseudo-return
-					direction_vector*u*normal
+					friction body, direction_vector
 				end
 				
 				body.apply_force resistive_force, CP::ZERO_VEC_2
@@ -148,6 +134,25 @@ module Physics
 			end
 			
 			return elevation
+		end
+		
+		private
+		
+		def air_resistance(body, movement_direction)
+			return CP::ZERO_VEC_2
+		end
+		
+		def friction(body, movement_direction)
+			u = 0.7 # Coefficient of friction
+			# TODO: Calculate coefficient of friction by adding surface and entity components
+			
+			# Normal force
+			# Currently assuming that all terrain is flat
+			# TODO:	Update normal force to take account of terrain
+			# 		Normal = mg*cos(theta)
+			normal = body.m * @g
+			
+			movement_direction*u*normal # g is negative, so the direction will be reversed
 		end
 	end
 end
