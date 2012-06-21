@@ -103,13 +103,17 @@ module Camera
 							@window.translate 0, -z.to_px do
 								# Trimetric view transform
 								@window.transform *@trimetric_transform do
-									queue.each {|block| block.call}
+									queue.each do |block|
+										# TODO: Call culling for trimetric elements here
+										block.call
+									end
 								end
 							end
 						end
 						
 						# Draw non-trimetric world elements
 						@billboard_queue.each do |block|
+							# TODO: Cull billboarded elements here.
 							block.call
 						end
 					end
@@ -175,35 +179,6 @@ module Camera
 		# ===== End Camera Control Methods =====
 		# ======================================
 	
-	
-		# Add the corresponding game object when it's in the air,
-		# and thus "detached" from the physics object which typically
-		# controls rendering.
-		# Actually, this needs to trigger whenever pz > 0,
-		# as this separation will occur even when the entity is not
-		# in the air.
-		def arial_camera_add(gameobj)
-			half_width = gameobj.width(:meters)/2.0
-			height = gameobj.height(:meters)
-			
-			# Create bb in local coordinates
-			l = -half_width
-			b = 0
-			r = half_width
-			t = height
-			
-			# Translate to global
-			t += gameobj.py - gameobj.pz
-			b += gameobj.py - gameobj.pz
-			l += gameobj.px
-			r += gameobj.px
-			
-			bb = CP::BB.new l,b,r,t
-			#~ if @shape.bb.intersect? bb
-			@shape.add gameobj
-			#~ end
-		end
-		
 		# =========================
 		# ===== Zoom Controls =====
 		# =========================
