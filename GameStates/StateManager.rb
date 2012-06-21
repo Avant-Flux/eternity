@@ -1,6 +1,6 @@
 class StateManager
 	# TODO: Save states as they pop off the stack
-	
+	# TODO: F1 to reload doesn't work as expected.  Suspect that space is not being cleared.
 	attr_reader :stack
 	
 	def initialize(window, player)
