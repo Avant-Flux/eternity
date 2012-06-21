@@ -89,7 +89,7 @@ module Physics
 			# Apply a resistive force in the opposite direction of the velocity
 			magnitude = body.v.length
 			#~ puts "v: #{body.v.length}  f: #{body.f.length}"
-			if magnitude > 0.2 # Only apply resistive forces if object is in motion
+			if magnitude > 0.04 # Only apply resistive forces if object is in motion
 				#~ puts "moving"
 				
 				# Friction should be in the opposite direction of velocity
@@ -118,6 +118,11 @@ module Physics
 				end
 				
 				body.apply_force resistive_force, CP::ZERO_VEC_2
+			else
+				# If velocity is below a certain threshold, set it to zero.
+				# Used to combat inaccuracies with floats.
+				body.v.x = 0
+				body.v.y = 0
 			end
 		end
 		
