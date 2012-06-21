@@ -96,15 +96,15 @@ class LevelEditor < GameWindow
             when Gosu::MsRight
         end
         
-		#~ if id == Gosu::MsLeft
-		#~ 	@selected_cursor = :place if @selected_cursor == :default
-		#~ 	
-		#~ 	click_UI
-		#~ elsif id == Gosu::MsRight
-		#~ 	@selected_cursor = :box if @selected_cursor == :default
-		#~ 	
-		#~ 	click_scene
-		#~ end
+		if id == Gosu::MsLeft
+			@selected_cursor = :place if @selected_cursor == :default
+			
+			click_UI
+		elsif id == Gosu::MsRight
+			@selected_cursor = :box if @selected_cursor == :default
+			
+			click_scene
+		end
 	end
 	
 	def button_up(id)
@@ -163,6 +163,7 @@ class LevelEditor < GameWindow
 	end
 	
 	def click_scene
+		puts "CLICK!"
 		# Calculate displacement from center of screen in px
 		#~ dx_px = mouse_x - self.width/2.0
 		#~ dy_px = mouse_y - self.height/2.0
