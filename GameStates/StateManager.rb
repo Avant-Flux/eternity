@@ -72,7 +72,7 @@ class StateManager
 		add_player @player
 	end
     
-    def get_top
+    def top
         return stack[0]
     end
 end
