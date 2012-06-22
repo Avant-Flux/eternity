@@ -210,6 +210,7 @@ class LevelEditor < GameWindow
 				@SELECTED_BUILDING = "buildingA"
 				
 				# TODO: x,y,z to be set with raytrace
+				# TODO: Separate different editor states into classes for clarity
 				x = 0
 				y = 0
 				z = 0
