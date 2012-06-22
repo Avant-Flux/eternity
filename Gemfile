@@ -48,7 +48,8 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 	puts "Installing ruby-opengl"
 	path_to_gem = File.join BASEPATH, "Dependencies", "ruby-opengl-0.60.1-x86-mingw32-ruby19.gem"
 	%x[gem install --local "#{path_to_gem}"]
-	 
+	
+	gem "ruby-opengl", "~>0.60.1"
 	
 	#~ %x[gem install ruby-opengl2 --version 0.60.3]
 	
