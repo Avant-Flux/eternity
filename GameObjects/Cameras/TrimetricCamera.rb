@@ -28,7 +28,7 @@ module Camera
 		DEFAULT_ZOOM = 0.16
 		ZOOM_TICK = 0.01 # Percent to modulate the zoom by when zooming in or out
 	
-		attr_accessor :x_hat, :y_hat, :zoom
+		attr_accessor :zoom
 		
 		
 		def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
