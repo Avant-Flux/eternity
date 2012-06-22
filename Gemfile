@@ -47,10 +47,13 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 	#~ gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"], :platform => :mswin
 	puts "Installing ruby-opengl"
 	path_to_gem = File.join BASEPATH, "Dependencies", "ruby-opengl-0.60.1-x86-mingw32-ruby19.gem"
-	%x[gem install --local #{path_to_gem}]
+	%x[gem install --local "#{path_to_gem}"]
 	 
 	
+	#~ %x[gem install ruby-opengl2 --version 0.60.3]
+	
 	#~ %x[gem install ruby-opengl --platform mswin32 --version 0.60.0]
+	
 	#~ gem "ruby-opengl", "0.60.0", :require => ["gl", "glu"]
 	
 	
