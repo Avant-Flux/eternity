@@ -34,7 +34,25 @@ class InputHandler
 	end
 	
 	def mode=(mode)
-		@modes[mode] ||= {:sequence => {}, :chord => {}, :flag => {}, :action => {}}
+		# Set the current input mode.
+		# If the mode does not currently exist, create it.
+		
+		if @modes[mode]
+			# If the mode already exists, make sure to mark relevant input types as active
+			# Currently only marks actions
+			# TODO: Update other input types as well
+			@modes[mode][:action].each do |name, handler|
+				handler.buttons.each do |button|
+					if @buttons.include? button
+						handler.active = true
+						break
+					end
+				end
+				 
+			end
+		else
+			@modes[mode] = {:sequence => {}, :chord => {}, :flag => {}, :action => {}}
+		end
 		@mode = @modes[mode]
 		#~ @modes.each do |key, mode|
 			#~ puts "#{key} --> #{mode}"

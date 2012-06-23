@@ -2,6 +2,7 @@ module InputType
 	#Hold methods common to all classes under the InputType module
 	class BasicInput
 		attr_accessor :functions, :active
+		attr_reader :buttons
 		
 		def initialize(inputs, buttons, functions={})
 			# Hash of all inputs within the same mode as this one
