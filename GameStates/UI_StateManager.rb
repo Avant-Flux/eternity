@@ -23,7 +23,7 @@ class UI_StateManager
 	end
 	
 	def draw
-		#~ stencil_buffer_test
+		stencil_buffer_test
 		
 		@stack.each do |interface|
 			interface.draw
@@ -76,11 +76,12 @@ class UI_StateManager
 				glEnd()
 			glPopMatrix()
 		end
+		
 		@window.stencil mask, z_index do
 			glColor3f(255,0,0)
 			
 			glPushMatrix()
-				#~ glTranslatef(100,100,0)
+				glTranslatef(100,100,0)
 				
 				width = 600
 				height = 600

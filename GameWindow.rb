@@ -163,9 +163,20 @@ class GameWindow < Gosu::Window
 		#
 		# gl blocks introduce new context where Gosu calls can not be used.
 		# NOTE: This means that no Gosu calls can be used within this method
+		puts "stencil buffer bitplanes: #{glGetIntegerv(GL_STENCIL_BITS)}"
 		no_planes = 0x0
+		# Generate bitvectory of the length of GL_STENCIL_BITS
+		#~ all_planes = 0x1
+		#~ (glGetIntegerv(GL_STENCIL_BITS)-1).times do
+			#~ all_planes >> 1
+			#~ all_planes += 0x1
+		#~ end
+		#~ puts all_planes.to_s 2
 		all_planes = 0xff
+		#~ puts all_planes.to_s 2
 		#~ all_planes = 0x7
+		
+		
 		
 		self.gl z do
 			# === Much code taken from the wikibooks OpenGl Stencil Buffer page
