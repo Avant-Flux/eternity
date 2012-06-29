@@ -3,7 +3,6 @@
 class StaticObject
 	attr_reader :width, :depth, :height
 	attr_reader :body, :shape
-	attr_accessor :pz
 	
 	def initialize(window, width,depth,height, x,y,z)
 		@window = window
@@ -24,10 +23,10 @@ class StaticObject
 		
 		
 		@body.p = CP::Vec2.new(x, y)
-		
+		@body.pz = z
+
 		
 		@shape.collision_type = :static
-		
 		
 		
 		@tile_width = 5

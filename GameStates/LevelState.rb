@@ -223,6 +223,7 @@ class LevelState #< GameState
 			File.open(path, "r").each do |line|
 				args = line.split
 				
+				# TODO: Strip leading whitespace, so indentation can be used in level format.
 				if args[0] && args[0][0] != "#" # Ignore empty lines, and commented out lines
 					# check the first letter of the first word
 					
@@ -305,6 +306,7 @@ class LevelState #< GameState
 	
 	def draw_shadows
 		# TODO: Split this method into two helper methods - one for entity, one for environment
+		# TODO: Cache calculations for static shadows.
 		# Draw environment shadows first, then shadows cast by Entities
 		# Project shadow onto the terrain directly below the object.  ie, the highest of the low
 		@static_objects.each do |static|
@@ -322,7 +324,7 @@ class LevelState #< GameState
 				
 				# Find the tallest static object underneath this static object
 				if shape.static?
-					if shape.body.pz > render_height && shape.body.pz < static.pz
+					if shape.body.pz > render_height && shape.body.pz < static.body.pz
 						render_height = shape.body.pz
 					end
 				end
