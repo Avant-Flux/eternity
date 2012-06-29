@@ -67,6 +67,8 @@ module Physics
 		#~ def initialize(gameobject)
 		def initialize()
 			super(CP::INFINITY, CP::INFINITY)
+			# Beoran's C bindings of Chipmunk also set this property:
+			# body->node.idleTime = (cpFloat)INFINITY;
 			
 			@pz = 0
 		end
