@@ -281,7 +281,7 @@ class LevelState #< GameState
 	
 	def draw_static_objects
 		@static_objects.each do |static|
-			z_index = static.pz+static.height
+			z_index = static.body.pz+static.height
 			
 			@window.camera.draw_trimetric z_index do
 				static.draw_trimetric

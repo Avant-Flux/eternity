@@ -125,7 +125,7 @@ module Physics
 			point_query body.local2world(CP::Vec2::ZERO), layers, group do |shape|
 				if shape.gameobject.is_a? StaticObject
 					env = shape.gameobject
-					new_elevation = env.height + env.pz
+					new_elevation = env.height + env.body.pz
 					
 					if new_elevation > elevation
 						elevation = new_elevation

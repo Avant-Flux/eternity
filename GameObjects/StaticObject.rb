@@ -3,7 +3,7 @@
 class StaticObject
 	attr_reader :width, :depth, :height
 	attr_reader :body, :shape
-	attr_accessor :pz, :vz, :az, :g
+	attr_accessor :pz
 	
 	def initialize(window, width,depth,height, x,y,z)
 		@window = window
@@ -12,7 +12,8 @@ class StaticObject
 		@depth = depth
 		@height = height
 		
-		@shape = Physics::Shape::Poly.new self, CP::Body.new_static(),
+		# TODO: Attach width, depth, and height to @shape
+		@shape = Physics::Shape::Poly.new self, Physics::StaticBody.new(),
 					[CP::Vec2.new(0, 0),
 					CP::Vec2.new(0, @depth),
 					CP::Vec2.new(@width, @depth),
@@ -22,7 +23,6 @@ class StaticObject
 		
 		
 		@body.p = CP::Vec2.new(x, y)
-		@pz = z
 		
 		
 		@shape.collision_type = :static
@@ -60,7 +60,7 @@ class StaticObject
 			@window.draw_quad	0,0, @color, 
 								@width,0, @color,
 								@width,@depth, @color,
-								0,@depth, @color, @pz+@height
+								0,@depth, @color, @body.pz+@height
 		end
 		#~ end
 	end
@@ -72,7 +72,7 @@ class StaticObject
 		# lower than entites which attempt to pass in front of it.
 		position = @body.p.to_screen
 		x = position.x
-		y = position.y - @pz.to_px
+		y = position.y - @body.pz.to_px
 		
 		
 		

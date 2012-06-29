@@ -59,4 +59,19 @@ module Physics
 			end
 		end
 	end
+	
+	class StaticBody < CP::Body
+		attr_reader :gameobject
+		attr_accessor :pz
+		attr_reader :width, :depth, :height # Specifies bounding volume
+		
+		#~ def initialize(gameobject)
+		def initialize()
+			super(CP::INFINITY, CP::INFINITY)
+			
+			@pz = 0
+			
+			
+		end
+	end
 end

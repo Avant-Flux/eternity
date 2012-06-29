@@ -63,7 +63,7 @@ module CollisionHandler
 			env = env_shape.gameobject
 			
 			#Process actions involving what to do when on top, as well as side collisions
-			if entity.body.pz >= (elevation = env.height + env.pz)
+			if entity.body.pz >= (elevation = env.height + env.body.pz)
 				# On top of the environment
 				#~ puts "over"
 				
@@ -75,12 +75,12 @@ module CollisionHandler
 				return false
 			else
 				# Feet are beneath elevation level
-				if entity.body.pz < env.pz
+				if entity.body.pz < env.body.pz
 					# Feet are beneath the z of the static object
-					if entity.body.pz + entity.height > env.pz
+					if entity.body.pz + entity.height > env.body.pz
 						# Head is inside the static object (ie, colliding)
 						#~ puts "head collision"
-						entity.body.pz = env.pz - entity.height
+						entity.body.pz = env.body.pz - entity.height
 						entity.body.vz = 0
 						entity.body.az = 0
 						return false
@@ -90,7 +90,7 @@ module CollisionHandler
 						return false
 					end
 				else
-					# Less than elevation, greater than or equal to env.pz
+					# Less than elevation, greater than or equal to env.body.pz
 					#~ puts "side collision"
 					#~ if elevation > entity.body.elevation
 						return true
@@ -115,7 +115,7 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			elevation = env.height + env.pz
+			elevation = env.height + env.body.pz
 			entity.body.delete_elevation elevation
 		end
 	end
