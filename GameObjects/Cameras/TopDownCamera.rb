@@ -161,7 +161,7 @@ module Camera
 		private
 		
 		def draw_static(object)
-			z = object.pz + object.height
+			z = object.body.pz + object.height
 							
 			color_modulation = 100
 			base_color = Gosu::Color.new(200, 218-color_modulation/2,40,38)
