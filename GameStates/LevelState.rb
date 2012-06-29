@@ -78,7 +78,9 @@ class LevelState #< GameState
 		
 		# TODO: Refrain from using finalize and remove objects in some other manner.
 		# 		Using finalize delays removal until the object is GCed
-		
+		# NOTE: Remove the finalize method ASAP.  It will not actually work as expected.
+		# 		The objects may be GCed before #finalize is called.  It's implementation
+		# 		dependent, not language defined.
 		@entities.each do |entity|
 			entity.remove_from @space
 		end
@@ -302,6 +304,43 @@ class LevelState #< GameState
 	end
 	
 	def draw_shadows
+		# TODO: Split this method into two helper methods - one for entity, one for environment
+		# Draw environment shadows first, then shadows cast by Entities
+		# Project shadow onto the terrain directly below the object.  ie, the highest of the low
+		@static_objects.each do |static|
+			# Set to zero, so in the worst case, shadows are draw on the ground.
+			# NOTE: This assumes the world is zero-based.
+			# 		Really should just be the lowest number possible for the current level.
+			render_height = 0
+			
+			# l, b, r, t
+			bb = CP::BB.new	static.body.p.x,				static.body.p.y, 
+							static.body.p.x+static.width,	static.body.p.x+static.height
+			@space.bb_query bb, CP::ALL_LAYERS, CP::NO_GROUP do |shape|
+				# For all objects inside the XY plane cross-section of the bounding volume
+				# around the static object
+				
+				# Find the tallest static object underneath this static object
+				if shape.static?
+					if shape.body.pz > render_height && shape.body.pz < static.pz
+						render_height = shape.body.pz
+					end
+				end
+			end
+			
+			# Render the actual environment shadow
+			@window.camera.draw_trimetric render_height do
+				shadow_color = Gosu::Color.rgba(0xffffffaa) # TODO: Make instance variable
+				c = shadow_color
+				
+				@window.draw_quad	static.body.p.x, static.body.p.y, c,
+									static.body.p.x+static.width, static.body.p.y, c,
+									static.body.p.x+static.width, static.body.p.y+static.depth, c,
+									static.body.p.x, static.body.p.y+static.depth, c,
+									render_height
+			end
+		end
+		
 		@entities.each do |entity|
 			@window.camera.draw_trimetric entity.body.elevation do
 				distance = entity.body.pz - entity.body.elevation

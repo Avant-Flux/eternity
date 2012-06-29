@@ -13,6 +13,7 @@ class StaticObject
 		@height = height
 		
 		# TODO: Attach width, depth, and height to @shape
+		# NOTE: Local origin of static objects is the bottom left corner
 		@shape = Physics::Shape::Poly.new self, Physics::StaticBody.new(),
 					[CP::Vec2.new(0, 0),
 					CP::Vec2.new(0, @depth),
