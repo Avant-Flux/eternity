@@ -9,8 +9,8 @@ class WeaponIndicator < Widget::Div
 
 	def initialize(window, x,y, options={})
 		options =	{
-						:resolution => "720p"
-						}.merge! options
+			:resolution => "720p"
+		}.merge! options
 		
 		# Caching which bypasses the asset-manager cache
 		@@weapon_gear ||= if options[:resolution] == "720p"
@@ -28,14 +28,17 @@ class WeaponIndicator < Widget::Div
 		
 	end
 	
-	def draw
-		@@weapon_gear.old_draw weapon_offset_x, weapon_offset_y, z
-		@window.gl @pz do
-			glBegin(GL_LINES)
-				glVertex2i(30,30)
-				glVertex2i(200,30)
-			glEnd()
-		end
+	def draw(x,y, scale)
+		super()
+		@@weapon_gear.draw x, y, @pz, scale,scale
+		
+		
+		#~ @window.gl @pz do
+			#~ glBegin(GL_LINES)
+				#~ glVertex2i(30,30)
+				#~ glVertex2i(200,30)
+			#~ glEnd()
+		#~ end
 	end
 end
 
