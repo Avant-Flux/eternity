@@ -30,8 +30,41 @@ They are positioned according to "normal flow," a concept taken from HTML/CSS
 Elements are placed in-scene, and thus change position on screen as the camera moves.
 
 --- Relative ---
+NOTE:	This should be depreciated, as all elements have a relative component
+		The only real positioning difference is world vs screen coordinates.
 Positioning is calculated relative to another element, instead of to viewport coordinates (static)
 or world coordinates (dynamic)
+
+===== Coordinate systems =====
+--- Screen coordinates ---
+Units:	Px
+Axis:	Same as Gosu
+		Should be origin in top-left
+		X - Pos is right
+		Y - Pos is down
+
+--- World coordinates ---
+Units:	Meters
+Axis:	Specifics defined by physics constants
+		Based on trimetric projection
+		Right-hand system
+		X - To the right
+		Y - Into the screen
+		Z - Up the screen
+
+===== Relative Placement =====
+--- Screen Coordinates ---
+
+	Elements relative to only the screen, should be set such that the relative parameter
+	points to a Gosu::Window reference.
+
+--- World Coordinates ---
+
+	Top-level elements (those not relative to any GameObject) should be set relative to nil.
+	They will be placed as if they were an Entity, but without any sort of collision object.
+	
+	If you want to attach a sensor, you should create an GameObject with a sensor object attached,
+	and then position the widget relative to that GameObject.
 
 
 ===== Position Control =====

@@ -64,6 +64,123 @@ module Widget
 			#~ y = calculate_geometry_and_position window, options, :top, :bottom, :height, :y
 			
 			
+			# Offset in ems set relative to containers em width
+			# Width and Height set relative to current object em width
+			
+			
+			# There are no inline elements in this style, as there is no natural flow.
+			# 
+			# All positioning should be done relative to the coordinate system established by
+			# the element specified by options[:relative].  Transformation into "global" 
+			# coordinates should be done at the very end.
+			# 	Only chain once, as each element stores global coordinates, NOT local ones
+			
+			if options[:position] == :static
+				# Units: Px
+				if options[:width] == :auto
+					# Stretch to fit container
+					# Remember to take :top, :bottom, :left, :right into account
+					width	=	relative.width - options[:left] - options[:right]
+					x += options[:left]
+				else
+					# Sized element
+					
+					# Calculate size in pixels
+					width = case options[:width_units]
+						when :percent
+							# Doesn't matter if the object the percent is relative to is measured in
+							# meters or pixels.  If it's world relative, the input with be meters,
+							# and the output will be meters.  Similarly for screen, but with pixels.
+							options[:width] * relative.width
+						when :px
+							options[:width]
+						when :meters
+							options[:width].to_px
+						when :em
+							options[:width] * options[:relative].font.text_width('m')
+					end
+					
+					
+					# Calculate offset from sides
+					if options[:left] == :auto && options[:right] == :auto
+						# Center on x-axis
+						# TODO: Remember to convert relative.width to pixels
+						#~ x = relative.width / 2 - width / 2
+						x = (relative.width - width) / 2
+					else
+						# Set relative to positioning options
+						# Check if left or right is numerical
+						# Left has priority (lower number of x-axis)
+						# Align edge to corresponding edge of container, with offset
+						if options[:left] != :auto
+							x = 0 + 0 + options[:left]
+						elsif options[:right] != :auto
+							x = relative.width - width - options[:right]
+						end
+					end
+				end
+				
+				if options[:height] == :auto
+					# Stretch to fit
+					# Stretch to fit container
+					# Remember to take :top, :bottom, :left, :right into account
+					height	=	relative.height - options[:top] - options[:bottom]
+					y += options[:top]
+				else
+					# Sized
+					
+					
+					# Calculate size in pixels
+					height = case options[:height_units]
+						when :percent
+							# Doesn't matter if the object the percent is relative to is measured in
+							# meters or pixels.  If it's world relative, the input with be meters,
+							# and the output will be meters.  Similarly for screen, but with pixels.
+							options[:height] * relative.width
+						when :px
+							options[:height]
+						when :meters
+							options[:height].to_px
+						when :em
+							options[:height] * options[:relative].font.text_width('m')
+					end
+					
+					
+					if options[:top] == :auto && options[:bottom] == :auto
+						# Center on y-axis
+						#~ y = relative.height / 2 - height / 2
+						y = (relative.height - height) / 2
+					else
+						# Set relative to positioning options
+						# Check if top or bottom is numerical
+						# Top has priority (lower number of y-axis)
+						# Align edge to corresponding edge of container, with offset
+						if options[:top] != :auto
+							y = 0 + 0 + options[:top]
+						elsif options[:bottom] != :auto
+							y = relative.height - height - options[:bottom]
+						end
+					end
+				end
+			elsif options[:position] == :dynamic
+				# Units: Meters
+				
+				# For :auto dimension, stretch to fit, if there is a parent
+				# 	If no parent is declared (element is relative to a gameobject)
+				# 	shrinkwrap the element
+			end
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			if options[:relative] != window
 				x += options[:relative].render_x
