@@ -13,36 +13,44 @@ module Widget
 		
 		include Background::Colored
 		
+		attr_reader :width, :height # TODO: Delegate width and height to physics object 
 		attr_reader :padding
 		
+		DEFAULTS = {
+			:z_index => 0,
+			:align => :left,
+			
+			:position => :static, # static, dynamic
+			#~ :anchor => :top_left # broad descriptor of where the object is anchored
+			#~ :anchor_offset => nil # CP::Vec2 to offset from the anchor
+			
+			:width => 1, # Number or :auto
+			:width_units => :px, # px, em, 
+			:height => 1,
+			:height_units => :px,
+			
+			:background_color => Gosu::Color::BLUE,
+			
+			:padding_top => 0,
+			:padding_bottom => 0,
+			:padding_left => 0,
+			:padding_right => 0,
+			
+			# Positioning
+			:top => 0,
+			:bottom => 0,
+			:left => 0,
+			:right => 0
+		}
+		
 		def initialize(window, x, y, options={})
-			options = 	{
-				:z_index => 0,
-				:relative => window,
-				:align => :left,
-				
-				:position => :static, # static, dynamic, relative
-				#~ :anchor => :top_left # broad descriptor of where the object is anchored
-				#~ :anchor_offset => nil # CP::Vec2 to offset from the anchor
-				
-				:width => 1,
-				:width_units => :px,
-				:height => 1,
-				:height_units => :px,
-				
-				:background_color => Gosu::Color::BLUE,
-				
-				:padding_top => 0,
-				:padding_bottom => 0,
-				:padding_left => 0,
-				:padding_right => 0,
-				
-				# Positioning
-				:top => 0,
-				:bottom => 0,
-				:left => 0,
-				:right => 0
-			}.merge! options
+			# TODO: Change the :relative hash parameter into a real argument
+			options[:relative] ||= window
+			options = DEFAULTS.merge options
+			
+			# TODO:	Throw error unless both this widget and the widget it is relative to are
+			# 		either both :static, or both :dynamic in :position
+			
 			
 			# ===== Z Index
 			if options[:relative] != window
