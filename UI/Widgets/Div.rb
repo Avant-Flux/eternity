@@ -62,63 +62,14 @@ module Widget
 				y += options[:relative].render_y
 			end
 			
-			@width =		case options[:width_units]
-							when :px
-								options[:width]
-							when :em
-								# Not defined for the window
-								options[:width] * options[:relative].font.text_width('m')
-							when :percent
-								# Specify :meters so that the measurement is not scaled
-								output =	if options[:relative].is_a? Gosu::Window
-										options[:relative].send :width
-									else
-										options[:relative].send :width, :meters
-									end
-								
-								if options[:relative].respond_to? :padding
-									output -= options[:relative].padding[:left]
-									output -= options[:relative].padding[:right]
-								end
-								
-								(output * options[:width]/100.0).to_i
-						end
-					
-			@height =	case options[:height_units]
-							when :px
-								options[:height]
-							when :em
-								# Not defined for the window
-								options[:height] * options[:relative].font.text_width('m')
-							when :percent
-								# Specify :meters so that the measurement is not scaled
-								output =	if options[:relative].is_a? Gosu::Window
-										options[:relative].send :height
-									else
-										options[:relative].send :height, :meters
-									end
-									
-								if options[:relative].respond_to? :padding
-									output -= options[:relative].padding[:top]
-									output -= options[:relative].padding[:bottom]
-								end
-								
-								(output * options[:height]/100.0).to_i
-						end
+			set_width options
+			set_height options
 			
 			#~ width =	dimension options[:relative], options[:width_units], options[:width]
 			#~ height = dimension options[:relative], options[:height_units], options[:height]
 			
+			init_physics x,y
 			
-			#~ mass = 100
-			#~ moment = 100
-			#~ init_physics	[x,y], width, height, mass, moment, :div
-			@body = CP::Body.new_static()
-			@shape = Physics::Shape::Rect.new self, @body, @width, @height
-			@shape.collision_type = :div
-			@body.p = CP::Vec2.new(x,y)
-			
-			#~ init_physics	[x,y], width, height, :static, :static, :div
 			
 			init_background	options[:background_color]
 			
@@ -128,11 +79,12 @@ module Widget
 			@align = options[:align]
 			
 			# This hash should be frozen if information can not be edited at runtime
-			@padding = {:top => options[:padding_top],
-						:bottom => options[:padding_bottom],
-						:left => options[:padding_left],
-						:right => options[:padding_right]
-						}
+			@padding = {
+				:top => options[:padding_top],
+				:bottom => options[:padding_bottom],
+				:left => options[:padding_left],
+				:right => options[:padding_right]
+			}
 		end
 		
 		def update
@@ -160,6 +112,66 @@ module Widget
 		end
 		
 		private
+		
+		def init_physics(x,y)
+			#~ mass = 100
+			#~ moment = 100
+			#~ init_physics	[x,y], width, height, mass, moment, :div
+			@body = CP::Body.new_static()
+			@shape = Physics::Shape::Rect.new self, @body, @width, @height
+			@shape.collision_type = :div
+			@body.p = CP::Vec2.new(x,y)
+			
+			#~ init_physics	[x,y], width, height, :static, :static, :div
+		end
+		
+		def set_width(options)
+			@width = case options[:width_units]
+				when :px
+					options[:width]
+				when :em
+					# Not defined for the window
+					options[:width] * options[:relative].font.text_width('m')
+				when :percent
+					# Specify :meters so that the measurement is not scaled
+					output =	if options[:relative].is_a? Gosu::Window
+							options[:relative].send :width
+						else
+							options[:relative].send :width, :meters
+						end
+					
+					if options[:relative].respond_to? :padding
+						output -= options[:relative].padding[:left]
+						output -= options[:relative].padding[:right]
+					end
+					
+					(output * options[:width]/100.0).to_i
+			end
+		end
+		
+		def set_height(options)
+			@height = case options[:height_units]
+				when :px
+					options[:height]
+				when :em
+					# Not defined for the window
+					options[:height] * options[:relative].font.text_width('m')
+				when :percent
+					# Specify :meters so that the measurement is not scaled
+					output =	if options[:relative].is_a? Gosu::Window
+							options[:relative].send :height
+						else
+							options[:relative].send :height, :meters
+						end
+						
+					if options[:relative].respond_to? :padding
+						output -= options[:relative].padding[:top]
+						output -= options[:relative].padding[:bottom]
+					end
+					
+					(output * options[:height]/100.0).to_i
+			end
+		end
 		
 		def calculate_geometry_and_position(window, options, side1, side2, dimension, axis)
 			if options[:position] == :static
