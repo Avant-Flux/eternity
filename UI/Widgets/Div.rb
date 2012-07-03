@@ -13,7 +13,7 @@ module Widget
 		
 		include Background::Colored
 		
-		attr_reader :width, :height # TODO: Delegate width and height to physics object 
+		attr_reader :width, :height # TODO: Delegate width and height to physics object
 		attr_reader :padding
 		
 		DEFAULTS = {
@@ -174,14 +174,6 @@ module Widget
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
 			if options[:relative] != window
 				x += options[:relative].render_x
 				y += options[:relative].render_y
@@ -295,95 +287,6 @@ module Widget
 					end
 					
 					(output * options[:height]/100.0).to_i
-			end
-		end
-		
-		def calculate_geometry_and_position(window, options, side1, side2, dimension, axis)
-			if options[:position] == :static
-				if options[side1] == :auto && options[side2] == :auto
-					# Expand to fill container in both pos and neg directions of axis
-					# Expand to remaining space in the parent container
-					# Not the same as setting width to 100% of container
-					# Ideally, you want to examine how much of the parent is already occupied
-					# 	by siblings of the current element
-					
-				elsif options[side1] != :auto && options[side2] == :auto
-					# Side closer to origin has defined position, far side expands as much as possible
-					# Not the same as setting width to 100% of container
-					
-				elsif options[side1] != :auto && options[side2] == :auto
-					# Close side expands as much as possible, far side 
-					# Not the same as setting width to 100% of container
-					
-				else
-					# Expand to both sides to the maximum extent possible
-					# Not the same as setting width to 100% of container
-					
-				end
-			else # options[:position] == :relative
-				
-			end
-			
-			
-			
-			#~ if options[side1] != :auto && options[side2] != :auto
-				#~ options[dimension] = options[:relative].send(dimension) - options[side1] - options[side2]
-				#~ 
-				#~ if options[:relative] == window
-					#~ return 0
-				#~ else
-					#~ return options[:relative].send("render_#{axis}")
-				#~ end
-			#~ else
-				#~ if options[side1] != :auto
-					#~ # Align to top and set height explicitly
-					#~ # If height is not set, then expand to remaning height of container
-					#~ if options[:relative] == window
-						#~ return options[side1]
-					#~ else
-						#~ return options[:relative].send("render_#{axis}") + options[side1]
-					#~ end
-				#~ end
-				#~ 
-				#~ if options[side2] != :auto
-					#~ # Align to bottom and set height explicitly
-					#~ # If height is not set, then expand to remaning height of container
-					#~ if options[:relative] == window
-						#~ return options[side2]
-					#~ else
-						#~ return options[:relative].send("render_#{axis}") - options[side2]
-					#~ end
-				#~ end
-			#~ end
-		end
-		
-		def relative_size(relative, dimension)
-			if relative.is_a? Gosu::Window
-				relative.send dimension
-			else
-				relative.send dimension, :meters
-			end
-		end
-		
-		# Convert the value in the specified dimension to pixels
-		def dimension(relative, padding, units, value)
-			return case units
-				when :px
-					value
-				when :em
-					# Not defined for the window
-					value * relative.font.text_width('m')
-				when :percent
-					# Specify :meters so that the measurement is not scaled
-					x =	if relative.is_a? Gosu::Window
-							relative.send :width
-						else
-							relative.send :width, :meters
-						end
-					x -= padding[:left]
-					x -= padding[:right]
-					
-					(x * value/100.0).to_i
 			end
 		end
 	end
