@@ -331,6 +331,9 @@ class LevelState #< GameState
 				end
 			end
 			
+			# Do not draw shadows which would be obscured by the base of the static object.
+			# Ex) Building is located at (0,0, 10), don't draw shadow if z = 10
+			next if render_height == static.body.pz
 			
 			# Render the actual environment shadow
 			@window.camera.draw_trimetric render_height do
