@@ -305,9 +305,21 @@ class LevelState #< GameState
 	end
 	
 	def draw_shadows
-		# TODO: Split this method into two helper methods - one for entity, one for environment
-		# TODO: Cache calculations for static shadows.
 		# Draw environment shadows first, then shadows cast by Entities
+		draw_static_object_shadows
+		draw_entity_shadows
+	end
+	
+	def draw_ground_effects
+		@window.camera.draw_trimetric do
+			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
+		end
+	end
+	
+	private
+	
+	def draw_static_object_shadows
+		# TODO: Cache calculations for static shadows.
 		# Project shadow onto the terrain directly below the object.  ie, the highest of the low
 		@static_objects.each do |static|
 			# Set to zero, so in the worst case, shadows are draw on the ground.
@@ -347,7 +359,9 @@ class LevelState #< GameState
 									render_height
 			end
 		end
-		
+	end
+	
+	def draw_entity_shadows
 		@entities.each do |entity|
 			@window.camera.draw_trimetric entity.body.elevation do
 				distance = entity.body.pz - entity.body.elevation
@@ -365,12 +379,6 @@ class LevelState #< GameState
 									r,	Gosu::Color::BLACK,
 									:stroke_width => r, :slices => 20, :alpha => alpha
 			end
-		end
-	end
-	
-	def draw_ground_effects
-		@window.camera.draw_trimetric do
-			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
 		end
 	end
 end
