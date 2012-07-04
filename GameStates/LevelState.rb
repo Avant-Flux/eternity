@@ -305,7 +305,9 @@ class LevelState #< GameState
 	end
 	
 	def draw_shadows
-		# Draw environment shadows first, then shadows cast by Entities
+		# Due to how alpha blending works, order should be arbitrary.
+		# These methods could even be threaded to further improve performance.
+		# However, Gosu is not threadsafe.
 		draw_static_object_shadows
 		draw_entity_shadows
 	end
@@ -349,6 +351,9 @@ class LevelState #< GameState
 			
 			# Render the actual environment shadow
 			@window.camera.draw_trimetric render_height do
+				# NOTE: Different alpha value need to be passed for each object, although other
+				# 		aspects of color will remain the same.  Consider dropping to direct OpenGL
+				# 		to optimize the solution to this problem.
 				shadow_color = Gosu::Color.rgba(0xffffffaa) # TODO: Make instance variable
 				c = shadow_color
 				
