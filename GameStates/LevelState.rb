@@ -317,18 +317,20 @@ class LevelState #< GameState
 			
 			# l, b, r, t
 			bb = CP::BB.new	static.body.p.x,				static.body.p.y, 
-							static.body.p.x+static.width,	static.body.p.x+static.height
+							static.body.p.x+static.width,	static.body.p.y+static.depth
 			@space.bb_query bb, CP::ALL_LAYERS, CP::NO_GROUP do |shape|
 				# For all objects inside the XY plane cross-section of the bounding volume
 				# around the static object
 				
 				# Find the tallest static object underneath this static object
 				if shape.static?
-					if shape.body.pz > render_height && shape.body.pz < static.body.pz
-						render_height = shape.body.pz
+					new_height = shape.gameobject.height + shape.body.pz
+					if new_height > render_height && new_height < static.body.pz
+						render_height = new_height
 					end
 				end
 			end
+			
 			
 			# Render the actual environment shadow
 			@window.camera.draw_trimetric render_height do
