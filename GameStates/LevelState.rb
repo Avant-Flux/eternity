@@ -27,6 +27,8 @@ class LevelState #< GameState
 		
 		# TODO:  Free @static_objects if #update is not necessary
 		@static_objects = Array.new
+		
+		@magic_circle = GroundEffect.new window, space
 	end
 	
 	def update
@@ -34,12 +36,7 @@ class LevelState #< GameState
 			entity.update
 		end
 		
-		@magic_circle_angle ||= 0
-		if @magic_circle_angle > 360
-			@magic_circle_angle -= 360
-		else
-			@magic_circle_angle += 30 * @space.dt
-		end
+		@magic_circle.update
 	end
 	
 	def draw
@@ -47,17 +44,6 @@ class LevelState #< GameState
 		draw_shadows
 		draw_ground_effects
 		draw_entities
-	end
-	
-	def draw_magic_circle(x,y,z)
-		@magic_circle ||= Gosu::Image.new(@window, "./Sprites/Effects/firecircle.png", false)
-		
-		zoom = 0.01
-		color = Gosu::Color::RED
-		
-		@window.scale zoom,zoom, x,y do
-			@magic_circle.draw_rot(x,y,z, @magic_circle_angle, 0.5,0.5, 1,1, color)
-		end
 	end
 	
 	def finalize
@@ -301,7 +287,7 @@ class LevelState #< GameState
 	
 	def draw_ground_effects
 		@window.camera.draw_trimetric do
-			draw_magic_circle	@player.body.p.x,@player.body.p.y,0
+			@magic_circle.draw	@player.body.p.x, @player.body.p.y, 0
 		end
 	end
 	
