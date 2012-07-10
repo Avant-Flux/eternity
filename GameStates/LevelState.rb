@@ -212,31 +212,31 @@ class LevelState #< GameState
 								args[i] = args[i].to_f
                             end
                             
-                            puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
+                            #~ puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
                             
 							Building.new window, *args
 						when "d"
-                            puts "#{args[0]} not implemented"
+                            #~ puts "#{args[0]} not implemented"
 							nil
 						when "r"
-                            puts "#{args[0]} not implemented"
+                            #~ puts "#{args[0]} not implemented"
 							nil
 						when "e"
-                            puts "#{args[0]} not implemented"
+                            #~ puts "#{args[0]} not implemented"
 							nil
 						when "NPC"
 							#~ Entity.new window
                             args.shift
                             selected = characters[ args[0] ]
                             if selected == nil
-                                puts "Invalid NPC type '#{args[0]}'"
+                                #~ puts "Invalid NPC type '#{args[0]}'"
                             else
-                                puts "Creating new NPC #{args[0]} at #{args[1]},#{args[2]},#{args[3]}"
+                                #~ puts "Creating new NPC #{args[0]} at #{args[1]},#{args[2]},#{args[3]}"
                                 selected.new window,
                                              args[1].to_f, args[2].to_f, args[3].to_f
                             end
 						when "Spawn"
-                            puts "Setting level spawn to #{args[1]},#{args[2]},#{args[3]}"
+                            #~ puts "Setting level spawn to #{args[1]},#{args[2]},#{args[3]}"
 							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
 							nil # "Return nothing"
 						else
