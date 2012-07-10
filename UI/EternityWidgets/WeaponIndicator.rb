@@ -28,9 +28,9 @@ class WeaponIndicator < Widget::Div
 		
 	end
 	
-	def draw(x,y, scale)
+	def draw(scale)
 		super()
-		@@weapon_gear.draw x, y, @pz, scale,scale
+		@@weapon_gear.draw self.render_x, self.render_y, @pz, scale,scale
 		
 		
 		#~ @window.gl @pz do

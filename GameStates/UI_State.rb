@@ -41,24 +41,35 @@ class UI_State# < InterfaceState
 		@flux_indicator = FluxIndicator.new window, x,y
 		
 		
-		
+		# --- Positioning notes
+		# Flux				:	centered
+		# Mana/HP			:	offset relative to Flux
+		# Weapon Indicators	:	offset relative to 
 		
 		
 		weapon_offset_x = 90 # offset from center
 		weapon_offset_y = 20 # offset from bottom of screen
 		scale_weapons = 1
 		
-		x = @window.width/2 + weapon_offset_x
-		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
+		x = @window.width/2 - weapon_offset_x - @weapon_gear.width
 		z = 100
-		@left_weapon = WeaponIndicator.new window, x,y
+		@left_weapon = WeaponIndicator.new window, x,0,
+							:relative => window,
+							:top => :auto,	:bottom => weapon_offset_y,
+							
+							:z_index => -2,
+							
+							:background_color => Gosu::Color::WHITE
 		
-		#~ x = 0
-		#~ y = 0
 		x = @window.width/2 + weapon_offset_x
-		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
 		z = 100
-		@right_weapon = WeaponIndicator.new window, x,y
+		@right_weapon = WeaponIndicator.new window, x,0,
+							:relative => window,
+							:top => :auto,	:bottom => weapon_offset_y,
+							
+							:z_index => -2,
+							
+							:background_color => Gosu::Color::WHITE
 	end
 	
 	def update
@@ -83,21 +94,13 @@ class UI_State# < InterfaceState
 		@level_indicator.draw
 		
 		
-		weapon_offset_x = 90 # offset from center
-		weapon_offset_y = 20 # offset from bottom of screen
 		scale_weapons = 1
 		
 		# TODO: !!!!! Finish implementation of WeaponIndicator !!!!!
-		x = @window.width/2 - weapon_offset_x - @weapon_gear.width*scale_weapons
-		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
-		z = 100
-		@left_weapon.draw x, y, scale_weapons
+		@left_weapon.draw scale_weapons
 		
 		# Right Weapon
-		x = @window.width/2 + weapon_offset_x
-		y = @window.height - @weapon_gear.height*scale_weapons - weapon_offset_y
-		z = 100
-		@right_weapon.draw x, y, scale_weapons
+		@right_weapon.draw scale_weapons
 	end
 	
 	def finalize
