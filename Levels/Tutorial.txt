@@ -3,7 +3,7 @@ Spawn 7 3 0
 # Dimensions first, the position
 
 # Main area
-Building	15 45 2		0 0 0		$texture_1$	$texture_2$
+Building	15 45 0		0 0 0		$texture_1$	$texture_2$
 
 # Corridor to left
 Building	8 13 0		-8 18 0		$texture_1$	$texture_2$
