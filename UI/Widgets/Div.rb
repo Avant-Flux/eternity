@@ -8,9 +8,6 @@ module Widget
 	# Other widgets, as well as Gosu::Image instances, should
 	# be able to exist within this context.
 	class Div < UI_Object
-		#~ include Physics::TwoD_Support
-		#~ include Physics::TwoD_Support::Rect
-		
 		include Background::Colored
 		
 		attr_reader :padding
@@ -23,9 +20,9 @@ module Widget
 			#~ :anchor => :top_left # broad descriptor of where the object is anchored
 			#~ :anchor_offset => nil # CP::Vec2 to offset from the anchor
 			
-			:width => 1, # Number or :auto
+			:width => :auto, # Number or :auto
 			:width_units => :px, # px, em, 
-			:height => 1,
+			:height => :auto,
 			:height_units => :px,
 			
 			:background_color => Gosu::Color::BLUE,
