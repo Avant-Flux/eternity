@@ -12,6 +12,10 @@ are sufficiently different, it is completely acceptable to brake from establishe
 The aim is not to re-implement HTML/CSS, but the concept of relativistic positioning seen there,
 which should be easility understandable from a graphic design standpoint.
 
+There are no inline elements in this style, as there is no natural flow.  This is because this
+system is designed to allow for placing of interface widgets, which are mostly graphical data
+(ie, images).  In contrast, text layout forms the basis of HTML.
+
 Style Notes within this doc:
 Visual		Detail		Explanation
 =====		5x =		Section headers
@@ -19,7 +23,6 @@ Visual		Detail		Explanation
 			\n\n		End of section break
 =============================
 =============================
-
 
 ===== Position Types =====
 --- Static --- (DEFAULT VALUE)

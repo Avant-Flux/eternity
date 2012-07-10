@@ -13,7 +13,6 @@ module Widget
 		
 		include Background::Colored
 		
-		attr_reader :width, :height # TODO: Delegate width and height to physics object
 		attr_reader :padding
 		
 		DEFAULTS = {
@@ -48,118 +47,44 @@ module Widget
 			options[:relative] ||= window
 			options = DEFAULTS.merge options
 			
+			@relative = options[:relative]
 			# TODO:	Throw error unless both this widget and the widget it is relative to are
 			# 		either both :static, or both :dynamic in :position
 			
-			
 			# ===== Z Index
-			if options[:relative] != window
-				options[:z_index] += options[:relative].pz + 1
+			if @relative != window
+				options[:z_index] += @relative.pz + 1
 			end
 			
 			super(window, options[:z_index])
 			
 			# ===== Calculate geometry and position
-			#~ x = calculate_geometry_and_position window, options, :left, :right, :width, :x
-			#~ y = calculate_geometry_and_position window, options, :top, :bottom, :height, :y
-			
-			
 			# Offset in ems set relative to containers em width
 			# Width and Height set relative to current object em width
 			
-			
-			# There are no inline elements in this style, as there is no natural flow.
-			# 
 			# All positioning should be done relative to the coordinate system established by
 			# the element specified by options[:relative].  Transformation into "global" 
 			# coordinates should be done at the very end.
 			# 	Only chain once, as each element stores global coordinates, NOT local ones
+			dimensions = {}
+			position = []
 			
 			if options[:position] == :static
 				# Units: Px
-				if options[:width] == :auto
-					# Stretch to fit container
-					# Remember to take :top, :bottom, :left, :right into account
-					width	=	relative.width - options[:left] - options[:right]
-					x += options[:left]
-				else
-					# Sized element
-					
-					# Calculate size in pixels
-					width = case options[:width_units]
-						when :percent
-							# Doesn't matter if the object the percent is relative to is measured in
-							# meters or pixels.  If it's world relative, the input with be meters,
-							# and the output will be meters.  Similarly for screen, but with pixels.
-							options[:width] * relative.width
-						when :px
-							options[:width]
-						when :meters
-							options[:width].to_px
-						when :em
-							options[:width] * options[:relative].font.text_width('m')
-					end
-					
-					
-					# Calculate offset from sides
-					if options[:left] == :auto && options[:right] == :auto
-						# Center on x-axis
-						# TODO: Remember to convert relative.width to pixels
-						#~ x = relative.width / 2 - width / 2
-						x = (relative.width - width) / 2
-					else
-						# Set relative to positioning options
-						# Check if left or right is numerical
-						# Left has priority (lower number of x-axis)
-						# Align edge to corresponding edge of container, with offset
-						if options[:left] != :auto
-							x = 0 + 0 + options[:left]
-						elsif options[:right] != :auto
-							x = relative.width - width - options[:right]
-						end
-					end
-				end
+				axis = Axis.new
 				
-				if options[:height] == :auto
-					# Stretch to fit
-					# Stretch to fit container
-					# Remember to take :top, :bottom, :left, :right into account
-					height	=	relative.height - options[:top] - options[:bottom]
-					y += options[:top]
-				else
-					# Sized
-					
-					
-					# Calculate size in pixels
-					height = case options[:height_units]
-						when :percent
-							# Doesn't matter if the object the percent is relative to is measured in
-							# meters or pixels.  If it's world relative, the input with be meters,
-							# and the output will be meters.  Similarly for screen, but with pixels.
-							options[:height] * relative.width
-						when :px
-							options[:height]
-						when :meters
-							options[:height].to_px
-						when :em
-							options[:height] * options[:relative].font.text_width('m')
-					end
-					
-					
-					if options[:top] == :auto && options[:bottom] == :auto
-						# Center on y-axis
-						#~ y = relative.height / 2 - height / 2
-						y = (relative.height - height) / 2
+				[:width, :height].each_with_index do |d, i|
+					if options[d] == :auto
+						# Stretch to fit container
+						# Remember to take :top, :bottom, :left, :right into account
+						# TODO: Take padding into account as well
+						dimensions[d] =	static_stretched_dimension d, axis
+						
+						position[i] += options[axis.dimension(d).low]
 					else
-						# Set relative to positioning options
-						# Check if top or bottom is numerical
-						# Top has priority (lower number of y-axis)
-						# Align edge to corresponding edge of container, with offset
-						if options[:top] != :auto
-							y = 0 + 0 + options[:top]
-						elsif options[:bottom] != :auto
-							y = relative.height - height - options[:bottom]
-						end
+						units = options["#{d}_units".to_sym]
+						dimensions[d] = static_sized_dimension d, units, options
+						position[i] = static_sized_position d, axis, dimensions, options
 					end
 				end
 			elsif options[:position] == :dynamic
@@ -168,24 +93,28 @@ module Widget
 				# For :auto dimension, stretch to fit, if there is a parent
 				# 	If no parent is declared (element is relative to a gameobject)
 				# 	shrinkwrap the element
+				
+				# NOTE:	Try to use the same dimension code from :static,
+				# 		but with new positioning code.  Widgets will still be billboarded
+				# 		viewport-relative in their size.  This means that objects further
+				# 		away will not be rendered any smaller.  This is in concert with
+				# 		the trimetric projection, which does not have perspective deformation.
 			end
 			
 			
-			
-			
-			
-			if options[:relative] != window
-				x += options[:relative].render_x
-				y += options[:relative].render_y
+			# Move widget into position relative to it's parent
+			# TODO: Consider padding
+			if @relative != window
+				x += @relative.render_x
+				y += @relative.render_y
 			end
 			
-			set_width options
-			set_height options
+			# Move object into global position
+			position[0] += x
+			position[1] += y
 			
-			#~ width =	dimension options[:relative], options[:width_units], options[:width]
-			#~ height = dimension options[:relative], options[:height_units], options[:height]
-			
-			init_physics x,y
+			# Set-up Chipmunk object to store physical properties of this widget
+			init_physics dimensions[:width], dimensions[:height], *position
 			
 			
 			init_background	options[:background_color]
@@ -230,64 +159,88 @@ module Widget
 		
 		private
 		
-		def init_physics(x,y)
+		def init_physics(width,height, x,y)
 			#~ mass = 100
 			#~ moment = 100
 			#~ init_physics	[x,y], width, height, mass, moment, :div
 			@body = CP::Body.new_static()
-			@shape = Physics::Shape::Rect.new self, @body, @width, @height
+			@shape = Physics::Shape::Rect.new self, @body, width, height
 			@shape.collision_type = :div
 			@body.p = CP::Vec2.new(x,y)
 			
 			#~ init_physics	[x,y], width, height, :static, :static, :div
 		end
 		
-		def set_width(options)
-			@width = case options[:width_units]
-				when :px
-					options[:width]
-				when :em
-					# Not defined for the window
-					options[:width] * options[:relative].font.text_width('m')
+		def static_stretched_dimension(d, axis)
+			@relative.send(d) - style[axis.dimension(d).low] - style[axis.dimension(d).high]
+		end
+		
+		def static_sized_dimension(dimension, units, style)
+			# Screen-relative, so all units eventually convert to px
+			case units
 				when :percent
-					# Specify :meters so that the measurement is not scaled
-					output =	if options[:relative].is_a? Gosu::Window
-							options[:relative].send :width
-						else
-							options[:relative].send :width, :meters
-						end
-					
-					if options[:relative].respond_to? :padding
-						output -= options[:relative].padding[:left]
-						output -= options[:relative].padding[:right]
-					end
-					
-					(output * options[:width]/100.0).to_i
+					# Doesn't matter if the object the percent is relative to is measured in
+					# meters or pixels.  If it's world relative, the input with be meters,
+					# and the output will be meters.  Similarly for screen, but with pixels.
+					return style[dimension] * @relative.send(dimension)
+				when :px
+					return style[dimension]
+				when :meters
+					return style[dimension].to_px
+				when :em
+					return style[dimension] * @relative.font.text_width('m')
 			end
 		end
 		
-		def set_height(options)
-			@height = case options[:height_units]
-				when :px
-					options[:height]
-				when :em
-					# Not defined for the window
-					options[:height] * options[:relative].font.text_width('m')
-				when :percent
-					# Specify :meters so that the measurement is not scaled
-					output =	if options[:relative].is_a? Gosu::Window
-							options[:relative].send :height
-						else
-							options[:relative].send :height, :meters
-						end
-						
-					if options[:relative].respond_to? :padding
-						output -= options[:relative].padding[:top]
-						output -= options[:relative].padding[:bottom]
-					end
-					
-					(output * options[:height]/100.0).to_i
+		def static_sized_position(d, axis, dimensions, style)
+			# Screen relative, so all units eventually convert to px
+			# Calculate offset from boundaries
+			if style[axis.dimension(d).low] == :auto && 
+			style[axis.dimension(d).high] == :auto
+				# Center on axis
+				# TODO: Remember to convert relative dimension to pixels
+				#~ x = relative.width / 2 - width / 2
+				#~ x = (relative.width - width) / 2
+				return (@relative.send(d) - dimensions[d]) / 2
+			else
+				# Set relative to positioning options
+				# Check if left or right is numerical
+				# Priority to low end of axis
+				# Align edge to corresponding edge of container, with offset
+				# TODO: Consider padding
+				if style[axis.dimension(d).low] != :auto
+					return 0 + 0 + style[axis.dimension(d).low]
+				elsif style[axis.dimension(d).high] != :auto
+					return @relative.send(d) - dimensions[d] - style[axis.dimension(d).high]
+				end
 			end
+		end
+		
+		class Axis
+			def initialize
+				@hash = {
+					:x => Foo.new(:left, :right),
+					:y => Foo.new(:top, :bottom),
+				}
+				@hash.freeze # No further changes
+			end
+			
+			def [](arg)
+				@hash[arg]
+			end
+			
+			def dimension(d)
+				case d
+					when :width
+						@hash[:x]
+					when :height
+						@hash[:y]
+				end
+			end
+			
+			private
+			
+			Foo = Struct.new(:low, :high)
 		end
 	end
 end
