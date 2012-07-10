@@ -50,7 +50,7 @@ module Widget
 			
 			# ===== Z Index
 			if @relative != window
-				options[:z_index] += @relative.pz + 1
+				options[:z_index] += @relative.pz
 			end
 			
 			super(window, options[:z_index])
