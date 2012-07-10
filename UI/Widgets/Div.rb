@@ -75,9 +75,9 @@ module Widget
 						# Stretch to fit container
 						# Remember to take :top, :bottom, :left, :right into account
 						# TODO: Take padding into account as well
-						dimensions[d] =	static_stretched_dimension d, axis
+						dimensions[d] =	static_stretched_dimension d, axis, options
 						
-						position[i] += options[axis.dimension(d).low]
+						position[i] = options[axis.dimension(d).low]
 					else
 						units = options["#{d}_units".to_sym]
 						dimensions[d] = static_sized_dimension d, units, options
@@ -111,7 +111,7 @@ module Widget
 			position[1] += y
 			
 			# Set-up Chipmunk object to store physical properties of this widget
-			init_physics dimensions[:width], dimensions[:height], *position
+			init_physics dimensions[:width], dimensions[:height], *position, :div
 			
 			
 			init_background	options[:background_color]
@@ -156,19 +156,19 @@ module Widget
 		
 		private
 		
-		def init_physics(width,height, x,y)
+		def init_physics(width,height, x,y, collision_type)
 			#~ mass = 100
 			#~ moment = 100
 			#~ init_physics	[x,y], width, height, mass, moment, :div
 			@body = CP::Body.new_static()
 			@shape = Physics::Shape::Rect.new self, @body, width, height
-			@shape.collision_type = :div
+			@shape.collision_type = collision_type
 			@body.p = CP::Vec2.new(x,y)
 			
 			#~ init_physics	[x,y], width, height, :static, :static, :div
 		end
 		
-		def static_stretched_dimension(d, axis)
+		def static_stretched_dimension(d, axis, style)
 			@relative.send(d) - style[axis.dimension(d).low] - style[axis.dimension(d).high]
 		end
 		
