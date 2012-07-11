@@ -23,7 +23,7 @@ class UI_StateManager
 	end
 	
 	def draw
-		stencil_buffer_test
+		#~ stencil_buffer_test
 		
 		@stack.each do |interface|
 			interface.draw
