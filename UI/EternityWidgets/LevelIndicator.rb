@@ -26,19 +26,28 @@ class LevelIndicator < Widget::Div
 			:right => 0
 		}.merge! options
 		
+		@level_gear = Gosu::Image.new window,
+						"./Development/Interface/interface720/levelgear.png", false
+		options[:width] = @level_gear.width
+		options[:height] = @level_gear.height
+		
 		super(window, x,y, options)
 		
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
-		width = 50
-		@level = Widget::Label.new window, (window.width - width)/2, 25,
-				:width => width, :height => @font.height,
-				#~ :background_color => Gosu::Color::FUCHSIA,
+		@level = Widget::Label.new window, 0, 0,
+				:relative => self,
+				:width => :auto, :height => @font.height,
+				
+				:top => :auto,	:bottom => :auto,
+				:left => 0,		:right => 0,
+				
+				:background_color => Gosu::Color::NONE,
+				
 				:text => "", :font => @font, :color => Gosu::Color::RED,
-				:text_align => :center, :vertical_align => :bottom
+				:text_align => :center, :vertical_align => :middle
 		
-		@level_gear = Gosu::Image.new window,
-						"./Development/Interface/interface720/levelgear.png", false
+		
 	end
 	
 	def update(level)
@@ -48,10 +57,7 @@ class LevelIndicator < Widget::Div
 	
 	def draw
 		super()
-		x = @window.width/2 - @level_gear.width/2
-		y = 10
-		z = 100
-		@level_gear.draw x,y,z
+		@level_gear.draw self.render_x, self.render_y, @pz
 		@level.draw
 	end
 end
