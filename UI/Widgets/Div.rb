@@ -106,6 +106,10 @@ module Widget
 				y += @relative.render_y
 			end
 			
+			margins = margin options
+			x += margins[0]
+			y += margins[1]
+			
 			# Move object into global position
 			position[0] += x
 			position[1] += y
@@ -168,6 +172,58 @@ module Widget
 			#~ init_physics	[x,y], width, height, :static, :static, :div
 		end
 		
+		def margin(style)
+			x_offset = 0
+			y_offset = 0
+			
+			# Convert units to px
+			# The margin offset will always be relative to another widget
+			# 	If the parent is a window
+			# 		Offset from the edge as normal
+			# 	If the parent is not a widget, and the current widget is dynamic
+			# 		The widget is placed world-relative
+			# 		However, the widget is offset as if it was being placed relative to an
+			# 		 invisible widget.
+			# Position relative to the inner box of the parent
+			# 	ie, don't forget about the padding
+			
+			
+			# Convert measurements to px
+			[:margin_top, :margin_right, :margin_bottom, :margin_left].each_with_index do |margin_type, i|
+				if margin_type
+					case style["#{margin_type}_units".to_sym]
+						when :percent
+							if i % 2 == 0
+								style[margin_type] *=  @relative.height/100.0
+							else
+								style[margin_type] *=  @relative.width/100.0
+							end
+						when :em
+							style[margin_type] *= @relative.font.text_width('m')
+					end
+				end
+			end
+			
+			if style[:margin_left]
+				x_offset += style[:margin_left]
+			end
+			
+			if style[:margin_right]
+				x_offset -= style[:margin_right]
+			end
+			
+			if style[:margin_top]
+				y_offset += style[:margin_top]
+			end
+			
+			if style[:margin_bottom]
+				y_offset -= style[:margin_bottom]
+			end
+			
+			
+			return x_offset, y_offset
+		end
+		
 		def static_stretched_dimension(d, axis, style)
 			@relative.send(d) - style[axis.dimension(d).low] - style[axis.dimension(d).high]
 		end
@@ -179,7 +235,7 @@ module Widget
 					# Doesn't matter if the object the percent is relative to is measured in
 					# meters or pixels.  If it's world relative, the input with be meters,
 					# and the output will be meters.  Similarly for screen, but with pixels.
-					return style[dimension] * @relative.send(dimension)
+					return style[dimension]/100.0 * @relative.send(dimension)
 				when :px
 					return style[dimension]
 				when :meters
