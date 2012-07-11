@@ -9,6 +9,12 @@ class Numeric
 		self/(Physics.scale.to_f) #Insure that integer division is not used
 	end
 	
+	def to_em(font)
+		# Convert from pixels to ems
+		# Font assumed to be Gosu::Font object
+		self/font.text_width('m')
+	end
+	
 	#Code taken from MoreChipmunkAndRMagick.rb from the gosu demos
 	def radians_to_vec2
 		CP::Vec2.new(Math::cos(self), Math::sin(self))
