@@ -24,28 +24,46 @@ class UI_State# < InterfaceState
 		@weapon_gear = Gosu::Image.new window,
 						"./Development/Interface/interface720/weapongear.png", false
 		
-		x = 0
-		y = 0
-		@level_indicator = LevelIndicator.new window, x,y
-		
-		x = 0
-		y = 0
-		@mana_indicator = MP_Indicator.new window, x, y
-		
-		x = 0
-		y = 0
-		@hp_indicator = HP_Indicator.new window, x, y
-		
-		x = 0
-		y = 0
-		@flux_indicator = FluxIndicator.new window, x,y
+		@level_indicator = LevelIndicator.new window, 0,0,
+								:relative => window,
+								:top => 10,		:bottom => :auto,
+								:left => :auto,	:right => :auto
 		
 		
 		# --- Positioning notes
 		# Flux				:	centered
 		# Mana/HP			:	offset relative to Flux
-		# Weapon Indicators	:	offset relative to 
+		# Weapon Indicators	:	offset relative to Resource gauges
+		@flux_indicator = FluxIndicator.new window, 0,0,
+								:relative => window,
+								:top => :auto,	:bottom => 95,
+								:left => :auto,	:right => :auto,
+								
+								:z_index => 0,
+								
+								:background_color => Gosu::Color::NONE
 		
+		@mana_indicator = MP_Indicator.new window, 0,0,
+								:relative => @flux_indicator,
+								:z_index => -1,
+								
+								:margin_right => 100,	:margin_right_units => :percent,
+								:margin_top => 100,		:margin_top_units => :percent,
+								:top => -10,		:bottom => :auto,
+								:left => :auto,		:right => -16,
+								
+								:background_color => Gosu::Color::NONE
+		
+		@hp_indicator = HP_Indicator.new window, 0,0,
+								:relative => @flux_indicator,
+								:z_index => -1,
+								
+								:margin_left => 100,	:margin_left_units => :percent,
+								:margin_top => 100,		:margin_top_units => :percent,
+								:top => -10,		:bottom => :auto,
+								:left => -16,	:right => :auto,
+								
+								:background_color => Gosu::Color::NONE
 		
 		weapon_offset_x = 90 # offset from center
 		weapon_offset_y = 20 # offset from bottom of screen

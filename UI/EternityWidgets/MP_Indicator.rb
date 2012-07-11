@@ -24,10 +24,10 @@ class MP_Indicator < Widget::Div
 						:top => :auto,			:bottom => :auto,
 						:left => :auto,			:right => 0,
 						
-						:text => "MP", :font => @font, :color => Gosu::Color::RED,
-						:text_align => :center, :vertical_align => :top,
+						:text => "MP", :font => @font, :color => Gosu::Color::BLUE,
+						:text_align => :center, :vertical_align => :bottom,
 						
-						:background_color => Gosu::Color::NONE
+						:background_color => Gosu::Color::YELLOW
 		
 		heath_label_offset_x = 10
 		width = 100
@@ -42,10 +42,10 @@ class MP_Indicator < Widget::Div
 									:top => 0,			:bottom => :auto,
 									:left => :auto,		:right => -5,
 									
-									:text => "", :font => @font, :color => Gosu::Color::RED,
+									:text => "", :font => @font, :color => Gosu::Color::BLUE,
 									:text_align => :center, :vertical_align => :top,
 									
-									:background_color => Gosu::Color::FUCHSIA
+									:background_color => Gosu::Color::NONE
 	end
 	
 	def update(mp, max_mp)
