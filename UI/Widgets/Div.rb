@@ -7,6 +7,7 @@ module Widget
 	# A roped-off zone where content can be rendered
 	# Other widgets, as well as Gosu::Image instances, should
 	# be able to exist within this context.
+	# TODO: Style should cascade, copying non-overridden style options from parent
 	class Div < UI_Object
 		include Background::Colored
 		
@@ -25,7 +26,7 @@ module Widget
 			:height => :auto,
 			:height_units => :px,
 			
-			:background_color => Gosu::Color::BLUE,
+			:background_color => Gosu::Color::GREEN, # obnoxious color by default
 			
 			:padding_top => 0,
 			:padding_bottom => 0,
