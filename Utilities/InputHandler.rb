@@ -6,6 +6,7 @@
 #			sequences - combos
 # 	This is a general input manager class, that can be used independently of
 # 	this game and engine.
+# TODO: Define global keybindings, which execute regardless of gameplay state
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'
