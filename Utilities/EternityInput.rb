@@ -6,9 +6,10 @@ require 'set'
 class EternityInput < InputHandler
 	attr_accessor :player
 	
-	def initialize(player, camera, state_manager, ui_state_manager)
+	def initialize(window, player, camera, state_manager, ui_state_manager)
 		super()
 		
+		@window = window
 		@player = player
 		@camera = camera
 		@state_manager = state_manager
@@ -84,6 +85,10 @@ class EternityInput < InputHandler
 		# Create actions
 		self.mode = :gameplay
 		
+		new_action :close, :rising_edge do
+			@window.close
+		end
+		
 		[:up, :down, :left, :right].each do |direction|
 			new_action direction, :rising_edge do
 				@movement_dir.add direction
@@ -153,6 +158,8 @@ class EternityInput < InputHandler
 		#TODO:	Change bind so there is only one bind method, which will search all input types
 		#		and bind action appropriately.
 		# 		The implication of this is that name symbols must be unique.
+		bind_action :close, Gosu::KbEscape
+		
 		bind_action :up, Gosu::KbUp
 		bind_action :down, Gosu::KbDown
 		bind_action :left, Gosu::KbLeft

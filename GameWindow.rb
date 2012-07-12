@@ -63,7 +63,7 @@ class GameWindow < Gosu::Window
 		# Input manager holds the only other reference to the camera
 		# other than this window.  Thus, if the camera get changed,
 		# it will break the ability of the input to affect the camera.
-		@inpman = EternityInput.new @player, @camera, @state_manager, @ui_state_manager
+		@inpman = EternityInput.new self, @player, @camera, @state_manager, @ui_state_manager
 	end
 	
 	def update
@@ -93,9 +93,6 @@ class GameWindow < Gosu::Window
 		# Part of the update loop, not event-driven
 		@inpman.button_down(id)
 		
-		if id == Gosu::KbEscape
-			close
-		end
 		if id == Gosu::KbF
 			@show_fps = !@show_fps
 		end
