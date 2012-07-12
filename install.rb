@@ -4,6 +4,8 @@ Dir.chdir File.dirname(__FILE__)
 require 'rubygems'
 
 # Current installer will always attempt to install the bundler gem
+# TODO: Install glut32.dll to C:\Windows\system
+# 		Available here: http://user.xmission.com/~nate/glut.html
 # TODO: Only install bundler if not already installed
 gems = %x[gem list]
 unless gems.include? "bundler"
