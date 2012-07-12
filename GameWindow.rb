@@ -38,13 +38,14 @@ include Glut
 
 
 class GameWindow < Gosu::Window
-	attr_accessor :camera
+	attr_accessor :camera, :show_fps
 	
 	def initialize
 		@target_fps = 60
 		# Window should have a 16:9 aspect ratio
 		super(1280, 720, false, (1.0/@target_fps)*1000)
 		self.caption = "Eternity 0.11.4"
+		@show_fps = false
 		
 		@tile_width = 5
 		@tile_height = 5
@@ -92,10 +93,6 @@ class GameWindow < Gosu::Window
 	def button_down(id)
 		# Part of the update loop, not event-driven
 		@inpman.button_down(id)
-		
-		if id == Gosu::KbF
-			@show_fps = !@show_fps
-		end
 		
 		if id == Gosu::MsWheelDown
 			@camera.zoom_in

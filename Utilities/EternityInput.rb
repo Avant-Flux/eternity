@@ -89,6 +89,10 @@ class EternityInput < InputHandler
 			@window.close
 		end
 		
+		new_action :show_fps, :rising_edge do
+			@window.show_fps = !@window.show_fps
+		end
+		
 		[:up, :down, :left, :right].each do |direction|
 			new_action direction, :rising_edge do
 				@movement_dir.add direction
@@ -159,6 +163,7 @@ class EternityInput < InputHandler
 		#		and bind action appropriately.
 		# 		The implication of this is that name symbols must be unique.
 		bind_action :close, Gosu::KbEscape
+		bind_action :show_fps, @window.char_to_button_id("f")
 		
 		bind_action :up, Gosu::KbUp
 		bind_action :down, Gosu::KbDown
