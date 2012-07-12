@@ -99,9 +99,6 @@ class GameWindow < Gosu::Window
 		if id == Gosu::KbF
 			@show_fps = !@show_fps
 		end
-		if id == Gosu::KbA
-			@steppable = true
-		end
 		
 		if id == Gosu::MsWheelDown
 			@camera.zoom_in
@@ -113,10 +110,6 @@ class GameWindow < Gosu::Window
 	def button_up(id)
 		# Part of the update loop, not event-driven
 		@inpman.button_up(id)
-		
-		if id == Gosu::KbA
-			@steppable = false
-		end
 	end
 	
 	def needs_cursor?()
