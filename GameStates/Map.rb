@@ -3,6 +3,9 @@
 # Topology represented by darkness of element
 # 	Higher elements are darker, like is Assassin's Creed 2
 
+# TODO: Create entity to track camera position.
+# 		Move to position of player when map is opened.
+# 		Then, allow moving with mouse, or movement keys.
 class Map
 	attr_reader :camera
 	
@@ -36,10 +39,11 @@ class Map
 		@y = @player.body.p.y+@background.render_y+10
 		
 		@camera = Camera::TopDownCamera.new @window, @state_manager
+		@camera.follow @player
 	end
 	
 	def update
-		
+		@camera.update
 	end
 	
 	def draw

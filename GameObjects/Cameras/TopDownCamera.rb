@@ -34,15 +34,21 @@ module Camera
 			]
 			
 			@zoom = zoom
+			
+			@center = CP::ZERO_VEC_2
 		end
 		
 		def update
 			if @followed_entity
 				#~ warp @followed_entity.p
-				self.px_old = @followed_entity.px
-				self.py_old = @followed_entity.py - @followed_entity.pz
+				#~ self.px_old = @followed_entity.px
+				#~ self.py_old = @followed_entity.py - @followed_entity.pz
+				
+				puts "recenter"
+				@center = @followed_entity.body.p
+			else
+				@center = CP::ZERO_VEC_2
 			end
-			
 		end
 		
 		def draw
@@ -53,6 +59,10 @@ module Camera
 					# Transform coordinate system
 					@window.transform *@transform do
 						# Draw objects
+						
+						
+						@window.translate -@center.x, -@center.y do
+						
 						@state_manager.each do |state|
 							# Draw static objects
 							state.each_static do |object|
@@ -70,6 +80,8 @@ module Camera
 							if state != @state_manager.stack.last
 								#~ @dimming_screen.draw
 							end
+						end
+						
 						end
 					end
 				end
@@ -100,7 +112,7 @@ module Camera
 			#~ pos = [@entity.x - @center.x,
 					#~ @entity.y - @center.y]
 					
-			warp @followed_entity.p
+			#~ warp @followed_entity.body.p
 		end
 		
 		def move(force, offset=CP::Vec2::ZERO)
@@ -108,9 +120,9 @@ module Camera
 		end
 		
 		# Warp to the specified coordinate
-		def warp(vec2)
-			self.p = vec2
-		end
+		#~ def warp(vec2)
+			#~ self.p = vec2
+		#~ end
 		
 		# Move smoothly to a given point in the given time interval
 		def pan(pos=[0,0,0], dt)
