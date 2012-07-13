@@ -25,6 +25,10 @@ unless gems.include? "bundler"
 		# Set up path to freeglut
 		#~ freeglut_path = File.join Dir.pwd, "Dependencies", "freeglut"
 		#~ %x[bundle config build.texplay --with-opt-dir="#{freeglut_path}"]
+	elsif RUBY_PLATFORM.downcase.include?("darwin")
+		# Install on OSX
+		# NOTE: Assuming installation on MacRuby
+		%x[sudo macgem install bundler]
 	else
 		# Assume all non-windows platforms are unix-based
 		puts "NOT windows!"

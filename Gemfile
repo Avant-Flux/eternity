@@ -65,6 +65,8 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 elsif RUBY_PLATFORM.downcase.include?("darwin")
 	puts "Installing for OSX"
 	
+	# NOTE: OSX (macruby at least) needs mkrf to install opengl2
+	gem "mkrf"
 	gem "ruby-opengl2", :require => ["gl", "glu"]
 	gem "texplay", "~>0.4.2"
 	#~ sudo gem install rake #rake is installed by default
