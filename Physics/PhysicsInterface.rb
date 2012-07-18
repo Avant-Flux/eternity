@@ -22,7 +22,7 @@ module PhysicsInterface
 		@shape.u = 1.7
 		
 		@walk_force = 9000
-		#~ @run_force = 9999
+		@run_force = 9000
 		
 		@running = false
 	end
