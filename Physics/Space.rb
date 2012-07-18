@@ -143,7 +143,7 @@ module Physics
 		end
 		
 		def friction(body, movement_direction)
-			u = 0.7 # Coefficient of friction
+			u = 1.7# Coefficient of friction
 			# TODO: Calculate coefficient of friction by adding surface and entity components
 			
 			# Normal force
@@ -152,7 +152,7 @@ module Physics
 			# 		Normal = mg*cos(theta)
 			normal = body.m * @g
 			
-			movement_direction*u*normal # g is negative, so the direction will be reversed
+			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
 		end
 	end
 end

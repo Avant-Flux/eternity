@@ -13,17 +13,16 @@ module PhysicsInterface
 		@shape.collision_type = collision_type
 		
 		@height = 2
-		
 		@jump_count = 0
 		@jump_limit = 1000000000
 		
-		#~ @body.v_limit = 10
+		@body.v_limit = 12
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
-		@shape.u = 0.7
+		@shape.u = 1.7
 		
-		@walk_force = 500
-		@run_force = 700
+		@walk_force = 9000
+		#~ @run_force = 9999
 		
 		@running = false
 	end
@@ -48,6 +47,8 @@ module PhysicsInterface
 				CP::Vec2.new(1,-1).normalize!
 			when :down_left
 				CP::Vec2.new(-1,-1).normalize!
+			else
+				
 		end
 		
 		vec *= case type
