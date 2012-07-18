@@ -44,7 +44,6 @@ module Camera
 				#~ self.px_old = @followed_entity.px
 				#~ self.py_old = @followed_entity.py - @followed_entity.pz
 				
-				puts "recenter"
 				@center = @followed_entity.body.p
 			else
 				@center = CP::ZERO_VEC_2
