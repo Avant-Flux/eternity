@@ -18,11 +18,12 @@ class EternityInput < InputHandler
 		@movement_dir = Set.new
 		
 		init_gameplay_inputs
+		bind_gameplay_inputs
+		
 		init_map_inputs
+		bind_map_inputs
 		
 		self.mode = :gameplay
-		
-		bind_inputs
 	end
 	
 	def update
@@ -150,15 +151,9 @@ class EternityInput < InputHandler
 		new_action :zoom_out, :active do
 			@ui_state_manager.current.camera.zoom_out
 		end
-		
-		
-		
-		bind_action :close_map, Gosu::KbTab
-		bind_action :zoom_in, Gosu::KbLeftShift
-		bind_action :zoom_out, Gosu::KbRightShift
 	end
 	
-	def bind_inputs
+	def bind_gameplay_inputs
 		#TODO:	Change bind so there is only one bind method, which will search all input types
 		#		and bind action appropriately.
 		# 		The implication of this is that name symbols must be unique.
@@ -181,5 +176,11 @@ class EternityInput < InputHandler
 		bind_action :zoom_reset, Gosu::Kb0
 		
 		bind_action :open_map, Gosu::KbTab
+	end
+	
+	def bind_map_inputs
+		bind_action :close_map, Gosu::KbTab
+		bind_action :zoom_in, Gosu::KbLeftShift
+		bind_action :zoom_out, Gosu::KbRightShift
 	end
 end
