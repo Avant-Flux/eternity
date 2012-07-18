@@ -14,9 +14,9 @@ module PhysicsInterface
 		
 		@height = 2
 		@jump_count = 0
-		@jump_limit = 1000000000
+		@jump_limit = 2
 		
-		@body.v_limit = 12
+		@body.v_limit = 50
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
 		@shape.u = 1.7
@@ -47,8 +47,7 @@ module PhysicsInterface
 				CP::Vec2.new(1,-1).normalize!
 			when :down_left
 				CP::Vec2.new(-1,-1).normalize!
-			else
-				
+
 		end
 		
 		vec *= case type
@@ -62,8 +61,11 @@ module PhysicsInterface
 		if in_air?
 			vec *= 0.1
 		end
-		
-		@body.apply_force vec, CP::ZERO_VEC_2
+		if body.v.length > 12
+			body.v = body.v.clamp 12
+		else
+			@body.apply_force vec, CP::ZERO_VEC_2
+		end
 	end
 	
 	def jump
