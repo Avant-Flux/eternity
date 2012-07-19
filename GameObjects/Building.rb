@@ -15,11 +15,17 @@ class Building < StaticObject
 		# Door init
 		# Establish level to load
 		# 	Perhaps use metaprogramming interface for clean decedent implementation
+		@window = window
+		@front_texture = load_texture front_texture
+		@back_texture = load_texture back_texture
+		
+		if @front_texture
+			depth = width = height = 564.to_meters
+		end
 		
 		super(window, height, width, depth, x,y,z)
 		
-		@front_texture = load_texture front_texture
-		@back_texture = load_texture back_texture
+		
 	end
 	
 	def draw_billboarded
@@ -32,7 +38,7 @@ class Building < StaticObject
 			
 			pos = @body.p.to_screen
 			
-			@front_texture.draw_rot	pos.x, pos.y-@height.to_px-528,
+			@front_texture.draw_rot	pos.x, pos.y-@height.to_px-420,
 									@body.pz, 0, 0,0, scale,scale, color
 			
 			#~ c = Gosu::Color::RED
