@@ -14,14 +14,14 @@ module PhysicsInterface
 		
 		@height = 2
 		@jump_count = 0
-		@jump_limit = 2
+		@jump_limit = 20000000000000000
 		
 		@body.v_limit = 50
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
 		@shape.u = 1.7
 		
-		@walk_force = 9000
+		@walk_force = 3000
 		@run_force = 9000
 		
 		@running = false
