@@ -70,10 +70,22 @@ class LevelEditor < GameWindow
 		
 		if button_down? Gosu::MsLeft
 			@camera.draw_billboarded do 
-				pos_var  = @player.body.p.to_screen
-				mouse_world_pos = CP::Vec2.new(self.mouse_x,self.mouse_y).to_world
-				total_pos = mouse_world_pos + @player.body.p
-				draw_circle(total_pos.x.to_px,total_pos.y.to_px, 0,300,Gosu::Color::GREEN, :stroke_width => 50)
+				mouse = CP::Vec2.new mouse_x, mouse_y
+				mouse.x += -self.width/2
+				mouse.y += -self.height/2
+				
+				world_position = mouse.to_world
+				world_position /= @camera.zoom
+				world_position += @player.body.p
+				
+				
+				render_position = world_position.to_screen
+				draw_circle		render_position.x, render_position.y, 
+								0,300,Gosu::Color::GREEN, :stroke_width => 50
+								
+				@state_manager.space.point_query world_position do |shape| 
+					p shape
+				end
 			end
 		end
 		
@@ -111,13 +123,8 @@ class LevelEditor < GameWindow
         end
         
 		if id == Gosu::MsLeft
-			#@selected_cursor = :place if @selected_cursor == :default
+			@selected_cursor = :place if @selected_cursor == :default
 			#mouse_down_UI
-			puts "test"
-			@state_manager.space.point_query(CP::Vec2.new(self.mouse_x,self.mouse_y).to_world) do |shape| 
-				p shape
-			end
-			
 			
 		elsif id == Gosu::MsRight
 			@selected_cursor = :box if @selected_cursor == :default

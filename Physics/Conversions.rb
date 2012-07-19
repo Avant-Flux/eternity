@@ -44,9 +44,10 @@ module CP
 		
 		def to_world
 			# Convert from screen to world coordinates
-			transform = [[0.895324,-0.194743],[0.273363,0.457149],[-0.111135,0.555586]]
-			p Physics::Transform::SCREEN_TO_WORLD
-			p Matrix[[self.x, self.y]]
+			#~ transform = [[0.895324,-0.194743],[0.273363,0.457149],[-0.111135,0.555586]]
+			
+			#~ p Physics::Transform::SCREEN_TO_WORLD
+			#~ p Matrix[[self.x, self.y]]
 			matrix = Physics::Transform::SCREEN_TO_WORLD*Matrix[[self.x],[self.y]]
 			position = CP::Vec2.new(matrix[0,0],matrix[1,0])
 			
