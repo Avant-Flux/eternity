@@ -50,6 +50,8 @@ module PhysicsInterface
 
 		end
 		
+		@body.a = vec.to_angle
+		
 		vec *= case type
 			when :walk
 				@walk_force

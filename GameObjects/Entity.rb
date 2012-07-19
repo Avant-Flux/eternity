@@ -67,7 +67,18 @@ class Entity
 		else
 			1
 		end
-		@sprite = @spritesheet[i]
+		
+		case compute_direction
+			when :down
+				@sprite = @spritesheet[0]
+			when :up
+				@sprite = @spritesheet[1]
+			when :left
+				@sprite = @spritesheet[2]
+			when :right
+				@sprite = @spritesheet[3]
+		end
+		
 	end
 	
 	def draw
@@ -116,7 +127,8 @@ class Entity
 	private
 	
 	def compute_direction
-		angle = self.a
+		angle = @body.a
+		#~ angle = @body.v.to_angle
 		
 		if angle.between? Physics::Direction::NE_ANGLE, Physics::Direction::SE_ANGLE
 			return :right
