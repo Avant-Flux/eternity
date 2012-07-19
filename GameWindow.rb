@@ -95,9 +95,9 @@ class GameWindow < Gosu::Window
 		@inpman.button_down(id)
 		
 		if id == Gosu::MsWheelDown
-			@camera.zoom_in
-		elsif id == Gosu::MsWheelUp
 			@camera.zoom_out
+		elsif id == Gosu::MsWheelUp
+			@camera.zoom_in
 		end
 	end
 	
