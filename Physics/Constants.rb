@@ -1,3 +1,5 @@
+require 'matrix'
+
 require './Physics/Conversions'
 
 module Physics
@@ -40,5 +42,12 @@ module Physics
 		NW_ANGLE = NW.to_angle
 		SE_ANGLE = SE.to_angle
 		SW_ANGLE = SW.to_angle
+	end
+	
+	module Transform
+		matrix = Matrix[[Physics::Direction::X_HAT.x, Physics::Direction::Y_HAT.x, 0],
+				[Physics::Direction::X_HAT.y, Physics::Direction::Y_HAT.y, 1]]
+		
+		SCREEN_TO_WORLD = matrix.transpose*(matrix*matrix.transpose).inverse
 	end
 end	
