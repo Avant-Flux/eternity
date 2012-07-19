@@ -7,6 +7,7 @@
 # 	This is a general input manager class, that can be used independently of
 # 	this game and engine.
 # TODO: Define global keybindings, which execute regardless of gameplay state
+# TODO: Use Gosu::Window#button_down? to detect button state, instead of maintaining a separate boolean
 begin
   # In case you use Gosu via RubyGems.
   require 'rubygems'

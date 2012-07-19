@@ -192,7 +192,7 @@ class LevelState #< GameState
 			path = File.join LEVEL_DIRECTORY, (name + ".txt")
 			
 			building_count = 0
-						
+			
 			File.open(path, "r").each do |line|
 				args = line.split
 				
@@ -203,29 +203,15 @@ class LevelState #< GameState
 					game_object = case args[0] # Check the first parameter
 						when "Building"
 							building_count += 1
-							#~ Building.new	window, "#{name}_#{building_count}",
-											#~ [args[1].to_f, args[2].to_f, args[3].to_f], 
-											#~ [args[4].to_f, args[5].to_f, args[6].to_f]
+							
 							args.shift
                             
                             6.times do |i|
 								args[i] = args[i].to_f
                             end
                             
-                            #~ puts "Creating new Building at #{args[3]},#{args[4]},#{args[5]} (size: #{args[0]},#{args[1]},#{args[2]} textures: '#{args[6]}','#{args[7]}')"
-                            
 							Building.new window, *args
-						when "d"
-                            #~ puts "#{args[0]} not implemented"
-							nil
-						when "r"
-                            #~ puts "#{args[0]} not implemented"
-							nil
-						when "e"
-                            #~ puts "#{args[0]} not implemented"
-							nil
 						when "NPC"
-							#~ Entity.new window
                             args.shift
                             selected = characters[ args[0] ]
                             if selected == nil
@@ -236,7 +222,6 @@ class LevelState #< GameState
                                              args[1].to_f, args[2].to_f, args[3].to_f
                             end
 						when "Spawn"
-                            #~ puts "Setting level spawn to #{args[1]},#{args[2]},#{args[3]}"
 							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
 							nil # "Return nothing"
 						else
@@ -318,7 +303,7 @@ class LevelState #< GameState
 			
 			# Do not draw shadows which would be obscured by the base of the static object.
 			# Ex) Building is located at (0,0, 10), don't draw shadow if z = 10
-			next if render_height == static.body.pz
+			#~ next if render_height == static.body.pz
 			
 			# Render the actual environment shadow
 			@window.camera.draw_trimetric render_height do

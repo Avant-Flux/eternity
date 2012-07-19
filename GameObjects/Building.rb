@@ -6,7 +6,8 @@
 # Should draw billboarded component, and provide method for drawing 
 # trimetric component as well
 class Building < StaticObject
-	@@texture_directory = File.join(Dir.pwd, "Sprites", "Buildings")
+	#~ @@texture_directory = File.join(Dir.pwd, "Sprites", "Buildings")
+	@@texture_directory = File.join(Dir.pwd, "Development", "Sprites")
 	
 	def initialize(window, height,width,depth, x,y,z, front_texture=nil, back_texture=nil)
 		# Physics init
@@ -18,6 +19,29 @@ class Building < StaticObject
 		
 		@front_texture = load_texture front_texture
 		@back_texture = load_texture back_texture
+	end
+	
+	def draw_billboarded
+		super()
+		
+		if @front_texture
+			z = 0
+			scale = 1
+			
+			pos = @body.p.to_screen
+			
+			@front_texture.draw_rot	pos.x, pos.y-@height.to_px,
+									@body.pz, 0, 0,0, scale,scale
+			
+			#~ c = Gosu::Color::RED
+			#~ @window.translate 0, -@height.to_px do
+				#~ @window.draw_quad	pos.x, pos.y, c,
+									#~ pos.x+@width.to_px, pos.y, c,
+									#~ pos.x+@width.to_px, pos.y+@depth.to_px, c,
+									#~ pos.x, pos.y+@depth.to_px, c,
+									#~ 1000
+			#~ end
+		end
 	end
 	
 	# Load the contents of the building
@@ -33,16 +57,15 @@ class Building < StaticObject
 	private
 	
 	def load_texture(name)
-		path = File.join @@texture_directory, name
-		#~ puts path
+		puts "filename: #{name}"
+		
+		path = File.join @@texture_directory, "#{name}.png"
+		puts path
 		
 		texture = nil
-		if path != @@texture_directory
-			#~ puts "No texture"
-		else
-			if File.exist? path
-				texture = Gosu::Image.new @window, path, false
-			end
+		if File.exist? path
+			puts "loaded"
+			texture = Gosu::Image.new @window, path, false
 		end
 		
 		return texture
