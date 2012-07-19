@@ -72,6 +72,30 @@ class StateManager
 	
 	alias :<< :push
 	
+	# ==================================
+	# Raycasting
+	# ==================================
+	
+	def raycast(&block)
+		
+		mouse = CP::Vec2.new @window.mouse_x, @window.mouse_y
+		mouse.x += -@window.width/2
+		mouse.y += -@window.height/2
+		
+		world_position = mouse.to_world
+		world_position /= @window.camera.zoom
+		world_position += @window.camera.followed_entity.body.p
+		
+		@space.point_query world_position, &block
+		
+		# DEBUG CODE
+		# Draw circle on screen to show the raycast point
+		@window.camera.draw_billboarded do 
+			render_position = world_position.to_screen
+			@window.draw_circle		render_position.x, render_position.y, 
+									0,300,Gosu::Color::GREEN, :stroke_width => 50
+		end
+	end
 	
 	def save
 		# Save the internal status of the game world

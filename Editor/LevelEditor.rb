@@ -69,23 +69,8 @@ class LevelEditor < GameWindow
 		end
 		
 		if button_down? Gosu::MsLeft
-			@camera.draw_billboarded do 
-				mouse = CP::Vec2.new mouse_x, mouse_y
-				mouse.x += -self.width/2
-				mouse.y += -self.height/2
-				
-				world_position = mouse.to_world
-				world_position /= @camera.zoom
-				world_position += @player.body.p
-				
-				
-				render_position = world_position.to_screen
-				draw_circle		render_position.x, render_position.y, 
-								0,300,Gosu::Color::GREEN, :stroke_width => 50
-								
-				@state_manager.space.point_query world_position do |shape| 
-					p shape
-				end
+			@state_manager.raycast do |shape| 
+				p shape
 			end
 		end
 		
