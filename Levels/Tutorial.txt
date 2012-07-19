@@ -6,7 +6,7 @@ Spawn 7 3 0
 Building	15 45 0		0 0 0		$texture_1$	$texture_2$
 
 # Junk block in main area
-Building	2 2 2		3 25 0		DATCUBE	$texture_2$
+Building	1.4540625 1.4540625 1.4540625		3 25 0		junk_block	$texture_2$
 
 # Corridor to left
 Building	8 13 0		-8 18 0		$texture_1$	$texture_2$

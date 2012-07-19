@@ -7,8 +7,8 @@
 # trimetric component as well
 class Building < StaticObject
 	#~ @@texture_directory = File.join(Dir.pwd, "Sprites", "Buildings")
-	#~ @@texture_directory = File.join(Dir.pwd, "Development", "Sprites")
-	@@texture_directory = File.join(Dir.pwd, "Sprites")
+	@@texture_directory = File.join(Dir.pwd, "Development", "Sprites")
+	#~ @@texture_directory = File.join(Dir.pwd, "Sprites")
 	
 	def initialize(window, height,width,depth, x,y,z, front_texture=nil, back_texture=nil)
 		# Physics init
@@ -18,10 +18,6 @@ class Building < StaticObject
 		@window = window
 		@front_texture = load_texture front_texture
 		@back_texture = load_texture back_texture
-		
-		if @front_texture
-			depth = width = height = 564.to_meters
-		end
 		
 		super(window, height, width, depth, x,y,z)
 		
@@ -34,12 +30,12 @@ class Building < StaticObject
 		if @front_texture
 			z = 0
 			scale = 1
-			color = Gosu::Color.rgba(255,255,255, 100)
+			#~ color = Gosu::Color.rgba(255,255,255, 100)
 			
 			pos = @body.p.to_screen
 			
-			@front_texture.draw_rot	pos.x, pos.y-@height.to_px-420,
-									@body.pz, 0, 0,0, scale,scale, color
+			@front_texture.draw_rot	pos.x, pos.y-@height.to_px-426,
+									@body.pz, 0, 0,0, scale,scale
 			
 			#~ c = Gosu::Color::RED
 			#~ @window.translate 0, -@height.to_px do
