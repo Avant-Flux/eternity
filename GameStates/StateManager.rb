@@ -4,7 +4,7 @@ class StateManager
 	# NOTE:	Even though this access means that @stack is not really a stack, it is necessary
 	# 		for the top down camera to draw the game world without having to pass
 	# 		every game object into the camera.
-	attr_reader :stack
+	attr_reader :stack, :space
 	
 	def initialize(window, player)
 		@window = window	# Parent window

@@ -46,8 +46,9 @@ module Physics
 	
 	module Transform
 		matrix = Matrix[[Physics::Direction::X_HAT.x, Physics::Direction::Y_HAT.x, 0],
-				[Physics::Direction::X_HAT.y, Physics::Direction::Y_HAT.y, 1]]
+				[-Physics::Direction::X_HAT.y, -Physics::Direction::Y_HAT.y, 1]]
 		
 		SCREEN_TO_WORLD = matrix.transpose*(matrix*matrix.transpose).inverse
+		printf #{SCREEN_TO_WORLD}
 	end
 end	

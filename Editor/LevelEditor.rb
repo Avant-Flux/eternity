@@ -100,9 +100,25 @@ class LevelEditor < GameWindow
         end
         
 		if id == Gosu::MsLeft
-			@selected_cursor = :place if @selected_cursor == :default
+			#@selected_cursor = :place if @selected_cursor == :default
+			#mouse_down_UI
+			c = CP::Shape::Circle.new(CP::Body.new(0,0),1)
+			@camera.draw_billboarded do 
+				#draw_circle(@player.body.p.x.to_px,@player.body.p.y.to_px, 0,50000,Gosu::Color::FUCHSIA)
+				pos_var  = @player.body.p.to_screen
+				mouse_world_pos = CP::Vec2.new(self.mouse_x,self.mouse_y).to_world
+				total_pos = mouse_world_pos + @player.body.p
+				draw_circle(total_pos.x.to_px,total_pos.y.to_px, 0,300,Gosu::Color::GREEN, :stroke_width => 50)
+
+			end
 			
-			mouse_down_UI
+			
+			puts "test"
+			@state_manager.space.point_query(CP::Vec2.new(self.mouse_x,self.mouse_y).to_world) do |shape| 
+				p shape
+			end
+			
+			
 		elsif id == Gosu::MsRight
 			@selected_cursor = :box if @selected_cursor == :default
 			

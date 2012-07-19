@@ -107,6 +107,8 @@ module Physics
 			else
 				# If velocity is below a certain threshold, set it to zero.
 				# Used to combat inaccuracies with floats.
+				
+				
 				body.v.x = 0
 				body.v.y = 0
 			end
@@ -151,6 +153,8 @@ module Physics
 			# TODO:	Update normal force to take account of terrain
 			# 		Normal = mg*cos(theta)
 			normal = body.m * @g
+			
+			printf #{body.v.to_world}
 			
 			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
 		end
