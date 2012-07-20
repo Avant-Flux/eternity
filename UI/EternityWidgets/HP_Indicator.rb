@@ -50,22 +50,8 @@ class HP_Indicator < Widget::Div
 									:text_align => :center, :vertical_align => :top,
 									
 									:background_color => Gosu::Color::NONE
-	end
-	
-	def update(hp, max_hp)
-		@hp_numerical_display.text = "#{hp} | #{max_hp}"
-	end
-	
-	def draw
-		super()
-		scale_side_gears = 0.25
-		#~ side_gear_offset_x = 55
-		side_gear_offset_x = 48
-		side_gear_offset_y = 45+40+20
 		
-		# Health
-		# Red fill
-		mask = lambda do
+		@mask = lambda do
 			# Must be all OpenGL code
 			glColor3f(1.0,1.0,1.0)
 			
@@ -83,8 +69,22 @@ class HP_Indicator < Widget::Div
 				glEnd()
 			glPopMatrix()
 		end
+	end
+	
+	def update(hp, max_hp)
+		@hp_numerical_display.text = "#{hp} | #{max_hp}"
+	end
+	
+	def draw
+		super()
+		scale_side_gears = 0.25
+		#~ side_gear_offset_x = 55
+		side_gear_offset_x = 48
+		side_gear_offset_y = 45+40+20
 		
-		@window.stencil mask, @pz do
+		# Health
+		# Red fill
+		@window.stencil @mask, @pz do
 			glPushMatrix()
 				glTranslatef(self.render_x+10, self.render_y+10, 0)
 				
@@ -116,7 +116,7 @@ class HP_Indicator < Widget::Div
 		end
 		
 		#~ @window.gl do
-			#~ mask.call
+			#~ @mask.call
 		#~ end
 		
 		@health_gear.draw self.render_x, self.render_y, @pz

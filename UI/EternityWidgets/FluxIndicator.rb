@@ -14,19 +14,7 @@ class FluxIndicator < Widget::Div
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
 		
-		
-	end
-	
-	def update
-		super()
-	end
-	
-	def draw
-		super()
-		
-		# Flux
-		# White fill
-		mask = lambda {
+		@mask = lambda {
 			# Must be all OpenGL code
 			glColor3f(1.0,1.0,1.0)
 			glEnable(GL_ALPHA_TEST)
@@ -53,8 +41,18 @@ class FluxIndicator < Widget::Div
 				glEnd()
 			glPopMatrix()
 		}
+	end
+	
+	def update
+		super()
+	end
+	
+	def draw
+		super()
 		
-		@window.stencil mask, @pz do
+		# Flux
+		# White fill
+		@window.stencil @mask, @pz do
 			glPushMatrix()
 				glTranslatef(self.render_x+17, self.render_y-7, 0)
 				
@@ -86,7 +84,7 @@ class FluxIndicator < Widget::Div
 		end
 		
 		#~ @window.gl do
-			#~ mask.call
+			#~ @mask.call
 		#~ end
 		
 		@flux_gear.draw	self.render_x, self.render_y, @pz#, 1,1, Gosu::Color.new(0x55ffffff)

@@ -42,19 +42,7 @@ class MP_Indicator < Widget::Div
 									:text_align => :center, :vertical_align => :top,
 									
 									:background_color => Gosu::Color::NONE
-	end
-	
-	def update(mp, max_mp)
-		super()
-		@mp_numerical_display.text = "#{mp} | #{max_mp}"
-	end
-	
-	def draw
-		super()
-		# Mana
-		# Mana Orb
-		# Blue fill
-		mask = lambda do
+		@mask = lambda do
 			# Must be all OpenGL code
 			glPushMatrix()
 				glColor3f(1.0,1.0,1.0)
@@ -72,8 +60,19 @@ class MP_Indicator < Widget::Div
 				glEnd()
 			glPopMatrix()
 		end
-		
-		@window.stencil mask, @pz do
+	end
+	
+	def update(mp, max_mp)
+		super()
+		@mp_numerical_display.text = "#{mp} | #{max_mp}"
+	end
+	
+	def draw
+		super()
+		# Mana
+		# Mana Orb
+		# Blue fill
+		@window.stencil @mask, @pz do
 			glPushMatrix()
 				glTranslatef(self.render_x+10, self.render_y+10, 0)
 				
@@ -105,7 +104,7 @@ class MP_Indicator < Widget::Div
 		end
 		
 		#~ @window.gl do
-			#~ mask.call
+			#~ @mask.call
 		#~ end
 		
 		@mana_gear.draw self.render_x, self.render_y, @pz
