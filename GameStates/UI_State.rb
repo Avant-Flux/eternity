@@ -36,7 +36,7 @@ class UI_State# < InterfaceState
 		# Flux				:	centered
 		# Mana/HP			:	offset relative to Flux
 		# Weapon Indicators	:	offset relative to Resource gauges
-		@flux_indicator = FluxIndicator.new window, 0,0,
+		@flux_indicator = FluxIndicator.new window, 0,0, player,
 								:relative => window,
 								:top => :auto,	:bottom => 120,
 								:left => :auto,	:right => :auto,
@@ -118,7 +118,7 @@ class UI_State# < InterfaceState
 		zoom = display_resolution / widget_resolution
 		
 		# NOTE: Scaling results in aliasing of text and graphics
-		@window.scale zoom,zoom, @window.width/2, @window.height do
+		#~ @window.scale zoom,zoom, @window.width/2, @window.height do
 			# ====================== NEW UI ======================
 			@mp_indicator.draw
 			@hp_indicator.draw
@@ -131,7 +131,7 @@ class UI_State# < InterfaceState
 			
 			# Right Weapon
 			@right_weapon.draw
-		end
+		#~ end
 	end
 	
 	def finalize
