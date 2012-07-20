@@ -10,13 +10,9 @@ class MP_Indicator < Widget::Div
 		options[:width] = @mana_gear.width
 		super(window, x,y, options)
 		
-		heath_label_offset_x = 80
-		width = 50
-		x = (@window.width/2 - width)-heath_label_offset_x
-		y = @window.height - 60 - 20
 		@mp_label = Widget::Label.new window, 0,0,
 						:relative => self,
-						:width => width, :height => @font.height,
+						:width => 50, :height => @font.height,
 						
 						:margin_right => 100,	:margin_right_units => :percent,
 						:margin_top => 10,		:margin_top_units => :px,
@@ -29,13 +25,9 @@ class MP_Indicator < Widget::Div
 						
 						:background_color => Gosu::Color::YELLOW
 		
-		heath_label_offset_x = 10
-		width = 100
-		x = (@window.width/2 - width) - heath_label_offset_x
-		y = @window.height - 35
 		@mp_numerical_display = Widget::Label.new window, 0,0,
 									:relative => self,
-									:width => width, :height => @font.height,
+									:width => 100, :height => @font.height,
 									
 									:margin_top => 100, :margin_top_units => :percent,
 									

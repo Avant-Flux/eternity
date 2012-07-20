@@ -21,8 +21,8 @@ class UI_State# < InterfaceState
 		
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
-		@weapon_gear = Gosu::Image.new window,
-						"./Development/Interface/interface720/weapongear.png", false
+		#~ @weapon_gear = Gosu::Image.new window,
+						#~ "./Development/Interface/interface720/weapongear.png", false
 		
 		@level_indicator = LevelIndicator.new window, 0,0,
 								:relative => window,
@@ -43,7 +43,7 @@ class UI_State# < InterfaceState
 								
 								:background_color => Gosu::Color::NONE
 		
-		@mana_indicator = MP_Indicator.new window, 0,0,
+		@mp_indicator = MP_Indicator.new window, 0,0,
 								:relative => @flux_indicator,
 								:z_index => -1,
 								
@@ -65,15 +65,18 @@ class UI_State# < InterfaceState
 								
 								:background_color => Gosu::Color::NONE
 		
-		weapon_offset_x = 90 # offset from center
-		weapon_offset_y = 20 # offset from bottom of screen
+		weapon_offset_x = 20 # offset from center
+		weapon_offset_y = -20 # offset from bottom of screen
 		scale_weapons = 1
 		
-		x = @window.width/2 - weapon_offset_x - @weapon_gear.width
+		#~ x = @window.width/2 - weapon_offset_x - @weapon_gear.width
 		z = 100
-		@left_weapon = WeaponIndicator.new window, x,0,
-							:relative => window,
+		@left_weapon = WeaponIndicator.new window, 0,0,
+							:relative => @mp_indicator,
+							:margin_right => 100,	:margin_right_units => :percent,
+							
 							:top => :auto,	:bottom => weapon_offset_y,
+							:right => weapon_offset_x, :left => :auto,
 							
 							:z_index => -2,
 							
@@ -81,9 +84,12 @@ class UI_State# < InterfaceState
 		
 		x = @window.width/2 + weapon_offset_x
 		z = 100
-		@right_weapon = WeaponIndicator.new window, x,0,
-							:relative => window,
+		@right_weapon = WeaponIndicator.new window, 0,0,
+							:relative => @hp_indicator,
+							:margin_left => 100,	:margin_left_units => :percent,
+							
 							:top => :auto,	:bottom => weapon_offset_y,
+							:right => :auto, :left => weapon_offset_x,
 							
 							:z_index => -2,
 							
@@ -96,7 +102,7 @@ class UI_State# < InterfaceState
 		# TODO: Optimize - only reset text when values change
 		@level_indicator.update(@player.level)
 		
-		@mana_indicator.update(@player.mp, @player.max_mp)
+		@mp_indicator.update(@player.mp, @player.max_mp)
 		@hp_indicator.update(@player.hp, @player.max_hp)
 		
 		#~ @left_weapon.update
@@ -105,7 +111,7 @@ class UI_State# < InterfaceState
 	
 	def draw
 		# ====================== NEW UI ======================
-		@mana_indicator.draw
+		@mp_indicator.draw
 		@hp_indicator.draw
 		@flux_indicator.draw
 		
