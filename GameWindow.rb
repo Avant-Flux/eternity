@@ -117,6 +117,7 @@ class GameWindow < Gosu::Window
 			:loops => 1, # Number of concentric rings about the origin.
 			
 			:start_angle => 0,
+			:angle => 360,
 			
 			:alpha => 1 # Float value
 		}.merge! options
@@ -126,14 +127,18 @@ class GameWindow < Gosu::Window
 			
 			glEnable(GL_BLEND)
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+			#~ glBlendFunc(GL_SRC_ALPHA, GL_ONE)
 			
-			glColor4f(color.red, color.green, color.blue, options[:alpha])
+			#~ puts color.red
+			
+			#~ puts color.red.to_f / 255
+			glColor4f(color.red / 255.to_f, color.green / 255.to_f, color.blue / 255.to_f, options[:alpha])
 			glTranslatef(x,y,0)
 			
 			# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
 			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
 							options[:slices], options[:loops],
-							options[:start_angle], 360)
+							options[:start_angle], options[:angle])
 		end
 	end
 	
