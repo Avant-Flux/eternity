@@ -67,15 +67,18 @@ class HP_Indicator < Widget::Div
 		# Red fill
 		mask = lambda do
 			# Must be all OpenGL code
+			glColor3f(1.0,1.0,1.0)
+			
 			glPushMatrix()
-				glTranslatef(self.render_x+10, self.render_y+self.height+10, 0)
+				glTranslatef(self.render_x+10, self.render_y+self.height-10, 0)
 				
 				hp_percent = @player.hp.to_f/@player.max_hp
 				
+				height = -self.height+21
 				glBegin(GL_QUADS)
 					glVertex2i(0, 0)
-					glVertex2i(0, -self.height*hp_percent)
-					glVertex2i(self.width, -self.height*hp_percent)
+					glVertex2i(0, height*hp_percent)
+					glVertex2i(self.width, height*hp_percent)
 					glVertex2i(self.width, 0)
 				glEnd()
 			glPopMatrix()
@@ -95,22 +98,26 @@ class HP_Indicator < Widget::Div
 				
 				glColor3f(1.0,1.0,1.0)
 				
-				# Backface culling used to make sure polygon winding is correct
-				glEnable(GL_CULL_FACE)
-				glCullFace(GL_BACK)
+				#~ # Backface culling used to make sure polygon winding is correct
+				#~ glEnable(GL_CULL_FACE)
+				#~ glCullFace(GL_BACK)
 				
 				glBegin(GL_QUADS)
-					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.bottom); 
+					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.top); 
 						glVertex2i(0, 0)
-					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.top);
+					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.bottom);
 						glVertex2i(0, @health_fill.height)
-					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.top);
+					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.bottom);
 						glVertex2i(@health_fill.width, @health_fill.height)
-					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.bottom); 
+					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.top); 
 						glVertex2i(@health_fill.width, 0)
 				glEnd()
 			glPopMatrix()
 		end
+		
+		#~ @window.gl do
+			#~ mask.call
+		#~ end
 		
 		@health_gear.draw self.render_x, self.render_y, @pz
 		

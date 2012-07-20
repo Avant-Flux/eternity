@@ -57,14 +57,17 @@ class MP_Indicator < Widget::Div
 		mask = lambda do
 			# Must be all OpenGL code
 			glPushMatrix()
-				glTranslatef(self.render_x+10, self.render_y+self.height+10, 0)
+				glColor3f(1.0,1.0,1.0)
+				
+				glTranslatef(self.render_x+10, self.render_y+self.height-12, 0)
 				
 				mp_percent = @player.mp.to_f/@player.max_mp
 				
+				height = -self.height+23
 				glBegin(GL_QUADS)
 					glVertex2i(0, 0)
-					glVertex2i(0, -self.height*mp_percent)
-					glVertex2i(self.width, -self.height*mp_percent)
+					glVertex2i(0, height*mp_percent)
+					glVertex2i(self.width, height*mp_percent)
 					glVertex2i(self.width, 0)
 				glEnd()
 			glPopMatrix()
@@ -84,22 +87,26 @@ class MP_Indicator < Widget::Div
 				
 				glColor3f(1.0,1.0,1.0)
 				
-				# Backface culling used to make sure polygon winding is correct
-				glEnable(GL_CULL_FACE)
-				glCullFace(GL_BACK)
+				#~ # Backface culling used to make sure polygon winding is correct
+				#~ glEnable(GL_CULL_FACE)
+				#~ glCullFace(GL_BACK)
 				
 				glBegin(GL_QUADS)
-					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.bottom); 
+					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.top); 
 						glVertex2i(0, 0)
-					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.top);
+					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.bottom);
 						glVertex2i(0, @mana_fill.height)
-					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.top);
+					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.bottom);
 						glVertex2i(@mana_fill.width, @mana_fill.height)
-					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.bottom); 
+					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.top); 
 						glVertex2i(@mana_fill.width, 0)
 				glEnd()
 			glPopMatrix()
 		end
+		
+		#~ @window.gl do
+			#~ mask.call
+		#~ end
 		
 		@mana_gear.draw self.render_x, self.render_y, @pz
 		
