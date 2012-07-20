@@ -14,7 +14,7 @@ class WeaponIndicator < Widget::Div
 		
 		# Caching which bypasses the asset-manager cache
 		@@weapon_gear ||= if options[:resolution] == "720p"
-			Gosu::Image.new window, "./Development/Interface/interface720/weapongear.png", false
+			Gosu::Image.new window, "./Development/Interface/new_interface/left_weapon.png", false
 		elsif options[:resolution] == "1080p"
 			Gosu::Image.new window, "./Development/Interface/interface1080/weapongear.png", false
 		end
@@ -28,9 +28,9 @@ class WeaponIndicator < Widget::Div
 		
 	end
 	
-	def draw(scale)
+	def draw
 		super()
-		@@weapon_gear.draw self.render_x, self.render_y, @pz, scale,scale
+		@@weapon_gear.draw self.render_x, self.render_y, @pz
 		
 		
 		#~ @window.gl @pz do

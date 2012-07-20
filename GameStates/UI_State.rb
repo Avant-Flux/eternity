@@ -27,7 +27,9 @@ class UI_State# < InterfaceState
 		@level_indicator = LevelIndicator.new window, 0,0,
 								:relative => window,
 								:top => 10,		:bottom => :auto,
-								:left => :auto,	:right => :auto
+								:left => :auto,	:right => :auto,
+								
+								:background_color => Gosu::Color::NONE
 		
 		
 		# --- Positioning notes
@@ -36,38 +38,37 @@ class UI_State# < InterfaceState
 		# Weapon Indicators	:	offset relative to Resource gauges
 		@flux_indicator = FluxIndicator.new window, 0,0,
 								:relative => window,
-								:top => :auto,	:bottom => 95,
+								:top => :auto,	:bottom => 120,
 								:left => :auto,	:right => :auto,
 								
 								:z_index => 0,
 								
 								:background_color => Gosu::Color::NONE
 		
-		@mp_indicator = MP_Indicator.new window, 0,0,
+		@mp_indicator = MP_Indicator.new window, 0,0, player,
 								:relative => @flux_indicator,
 								:z_index => -1,
 								
 								:margin_right => 100,	:margin_right_units => :percent,
 								:margin_top => 100,		:margin_top_units => :percent,
-								:top => -10,		:bottom => :auto,
-								:left => :auto,		:right => -16,
+								:top => -12,		:bottom => :auto,
+								:left => :auto,		:right => -50,
 								
 								:background_color => Gosu::Color::NONE
 		
-		@hp_indicator = HP_Indicator.new window, 0,0,
+		@hp_indicator = HP_Indicator.new window, 0,0, player,
 								:relative => @flux_indicator,
 								:z_index => -1,
 								
 								:margin_left => 100,	:margin_left_units => :percent,
 								:margin_top => 100,		:margin_top_units => :percent,
-								:top => -10,		:bottom => :auto,
-								:left => -16,	:right => :auto,
+								:top => -12,		:bottom => :auto,
+								:left => -50,	:right => :auto,
 								
 								:background_color => Gosu::Color::NONE
 		
-		weapon_offset_x = 20 # offset from center
-		weapon_offset_y = -20 # offset from bottom of screen
-		scale_weapons = 1
+		weapon_offset_x = 20
+		weapon_offset_y = 0
 		
 		#~ x = @window.width/2 - weapon_offset_x - @weapon_gear.width
 		z = 100
@@ -80,7 +81,7 @@ class UI_State# < InterfaceState
 							
 							:z_index => -2,
 							
-							:background_color => Gosu::Color::WHITE
+							:background_color => Gosu::Color::NONE
 		
 		x = @window.width/2 + weapon_offset_x
 		z = 100
@@ -93,7 +94,7 @@ class UI_State# < InterfaceState
 							
 							:z_index => -2,
 							
-							:background_color => Gosu::Color::WHITE
+							:background_color => Gosu::Color::NONE
 	end
 	
 	def update
@@ -110,21 +111,27 @@ class UI_State# < InterfaceState
 	end
 	
 	def draw
-		# ====================== NEW UI ======================
-		@mp_indicator.draw
-		@hp_indicator.draw
-		@flux_indicator.draw
-		
 		@level_indicator.draw
 		
+		widget_resolution = 1080.0
+		display_resolution = @window.height
+		zoom = display_resolution / widget_resolution
 		
-		scale_weapons = 1
-		
-		# TODO: !!!!! Finish implementation of WeaponIndicator !!!!!
-		@left_weapon.draw scale_weapons
-		
-		# Right Weapon
-		@right_weapon.draw scale_weapons
+		# NOTE: Scaling results in aliasing of text and graphics
+		@window.scale zoom,zoom, @window.width/2, @window.height do
+			# ====================== NEW UI ======================
+			@mp_indicator.draw
+			@hp_indicator.draw
+			@flux_indicator.draw
+			
+			
+			# TODO: !!!!! Finish implementation of WeaponIndicator !!!!!
+			# TODO: Allow different graphics for left and right weapon indicator
+			@left_weapon.draw
+			
+			# Right Weapon
+			@right_weapon.draw
+		end
 	end
 	
 	def finalize

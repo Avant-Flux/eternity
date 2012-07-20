@@ -1,9 +1,14 @@
 class HP_Indicator < Widget::Div
-	def initialize(window, x,y, options={})
+	def initialize(window, x,y, player, options={})
+		@player = player
+		
 		@font = Gosu::Font.new window, "Helvetica Bold", 25
 		
 		@health_gear = Gosu::Image.new window,
-						"./Development/Interface/interface720/hpgear.png", false
+						"./Development/Interface/new_interface/health_gauge.png", false
+		@health_fill = Gosu::Image.new window,
+						"./Development/Interface/new_interface/health_fill.png", false
+		
 		options[:width] = @health_gear.width
 		options[:height] = @health_gear.height
 		
@@ -36,12 +41,12 @@ class HP_Indicator < Widget::Div
 									:relative => self,
 									:width => width, :height => @font.height,
 									
-									:margin_top => 100, :margin_top_units => :percent,
+									:top => :auto,			:bottom => :auto,
+									:left => :auto,		:right => :auto,
 									
-									:top => 0,			:bottom => :auto,
-									:left => -5,		:right => :auto,
-									
-									:text => "", :font => @font, :color => Gosu::Color::RED,
+									:text => "", :font => @font,
+									#~ :color => Gosu::Color.rgb(86,86,86),
+									:color => Gosu::Color::WHITE,
 									:text_align => :center, :vertical_align => :top,
 									
 									:background_color => Gosu::Color::NONE
@@ -60,6 +65,53 @@ class HP_Indicator < Widget::Div
 		
 		# Health
 		# Red fill
+		mask = lambda do
+			# Must be all OpenGL code
+			glPushMatrix()
+				glTranslatef(self.render_x+10, self.render_y+self.height+10, 0)
+				
+				hp_percent = @player.hp.to_f/@player.max_hp
+				
+				glBegin(GL_QUADS)
+					glVertex2i(0, 0)
+					glVertex2i(0, -self.height*hp_percent)
+					glVertex2i(self.width, -self.height*hp_percent)
+					glVertex2i(self.width, 0)
+				glEnd()
+			glPopMatrix()
+		end
+		
+		@window.stencil mask, @pz do
+			glPushMatrix()
+				glTranslatef(self.render_x+10, self.render_y+10, 0)
+				
+				glEnable(GL_ALPHA_TEST)
+				glAlphaFunc(GL_GREATER, 0)
+				
+				glEnable(GL_TEXTURE_2D)
+				glBindTexture(GL_TEXTURE_2D, @health_fill.gl_tex_info.tex_name)
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+				
+				glColor3f(1.0,1.0,1.0)
+				
+				# Backface culling used to make sure polygon winding is correct
+				glEnable(GL_CULL_FACE)
+				glCullFace(GL_BACK)
+				
+				glBegin(GL_QUADS)
+					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.bottom); 
+						glVertex2i(0, 0)
+					glTexCoord2d(@health_fill.gl_tex_info.left, @health_fill.gl_tex_info.top);
+						glVertex2i(0, @health_fill.height)
+					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.top);
+						glVertex2i(@health_fill.width, @health_fill.height)
+					glTexCoord2d(@health_fill.gl_tex_info.right, @health_fill.gl_tex_info.bottom); 
+						glVertex2i(@health_fill.width, 0)
+				glEnd()
+			glPopMatrix()
+		end
+		
 		@health_gear.draw self.render_x, self.render_y, @pz
 		
 		@hp_label.draw

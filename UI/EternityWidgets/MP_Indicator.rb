@@ -1,10 +1,14 @@
 class MP_Indicator < Widget::Div
-	def initialize(window, x,y, options={})
+	def initialize(window, x,y, player, options={})
+		@player = player
+		
 		@font = Gosu::Font.new window, "Helvetica Bold", 25
 				
 		# Background
 		@mana_gear = Gosu::Image.new window,
-						"./Development/Interface/interface720/mpgear.png", false
+						"./Development/Interface/new_interface/mana_gauge.png", false
+		@mana_fill = Gosu::Image.new window,
+						"./Development/Interface/new_interface/mana_fill.png", false
 		
 		options[:height] = @mana_gear.height
 		options[:width] = @mana_gear.width
@@ -29,12 +33,12 @@ class MP_Indicator < Widget::Div
 									:relative => self,
 									:width => 100, :height => @font.height,
 									
-									:margin_top => 100, :margin_top_units => :percent,
+									:top => :auto,			:bottom => :auto,
+									:left => :auto,		:right => :auto,
 									
-									:top => 0,			:bottom => :auto,
-									:left => :auto,		:right => -5,
-									
-									:text => "", :font => @font, :color => Gosu::Color::BLUE,
+									:text => "", :font => @font,
+									#~ :color => Gosu::Color.rgb(86,86,86),
+									:color => Gosu::Color::WHITE,
 									:text_align => :center, :vertical_align => :top,
 									
 									:background_color => Gosu::Color::NONE
@@ -50,7 +54,54 @@ class MP_Indicator < Widget::Div
 		# Mana
 		# Mana Orb
 		# Blue fill
-		@mana_gear.draw self.render_x, self.render_y, @pz 
+		mask = lambda do
+			# Must be all OpenGL code
+			glPushMatrix()
+				glTranslatef(self.render_x+10, self.render_y+self.height+10, 0)
+				
+				mp_percent = @player.mp.to_f/@player.max_mp
+				
+				glBegin(GL_QUADS)
+					glVertex2i(0, 0)
+					glVertex2i(0, -self.height*mp_percent)
+					glVertex2i(self.width, -self.height*mp_percent)
+					glVertex2i(self.width, 0)
+				glEnd()
+			glPopMatrix()
+		end
+		
+		@window.stencil mask, @pz do
+			glPushMatrix()
+				glTranslatef(self.render_x+10, self.render_y+10, 0)
+				
+				glEnable(GL_ALPHA_TEST)
+				glAlphaFunc(GL_GREATER, 0)
+				
+				glEnable(GL_TEXTURE_2D)
+				glBindTexture(GL_TEXTURE_2D, @mana_fill.gl_tex_info.tex_name)
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+				
+				glColor3f(1.0,1.0,1.0)
+				
+				# Backface culling used to make sure polygon winding is correct
+				glEnable(GL_CULL_FACE)
+				glCullFace(GL_BACK)
+				
+				glBegin(GL_QUADS)
+					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.bottom); 
+						glVertex2i(0, 0)
+					glTexCoord2d(@mana_fill.gl_tex_info.left, @mana_fill.gl_tex_info.top);
+						glVertex2i(0, @mana_fill.height)
+					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.top);
+						glVertex2i(@mana_fill.width, @mana_fill.height)
+					glTexCoord2d(@mana_fill.gl_tex_info.right, @mana_fill.gl_tex_info.bottom); 
+						glVertex2i(@mana_fill.width, 0)
+				glEnd()
+			glPopMatrix()
+		end
+		
+		@mana_gear.draw self.render_x, self.render_y, @pz
 		
 		@mp_label.draw
 		# Mana level (text)
