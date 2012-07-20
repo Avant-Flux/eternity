@@ -76,7 +76,7 @@ class StateManager
 	# Raycasting
 	# ==================================
 	
-	def raycast(&block)
+	def raycast_mouse(&block)
 		
 		mouse = CP::Vec2.new @window.mouse_x, @window.mouse_y
 		mouse.x += -@window.width/2
@@ -88,6 +88,7 @@ class StateManager
 		
 		@space.point_query world_position, &block
 		
+		
 		# DEBUG CODE
 		# Draw circle on screen to show the raycast point
 		@window.camera.draw_billboarded do 
@@ -95,6 +96,21 @@ class StateManager
 			@window.draw_circle		render_position.x, render_position.y, 
 									0,300,Gosu::Color::GREEN, :stroke_width => 50
 		end
+	end
+	
+	def raycast(screen_x,screen_y)
+		screen_pos = CP::Vec2.new screen_x, screen_y
+		screen_pos.x += -@window.width/2
+		screen_pos.y += -@window.height/2
+		
+		world_position = screen_pos.to_world
+		world_position /= @window.camera.zoom
+		world_position += @window.camera.followed_entity.body.p
+		
+		return world_position
+	
+	
+	
 	end
 	
 	def save

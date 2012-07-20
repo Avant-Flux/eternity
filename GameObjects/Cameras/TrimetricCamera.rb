@@ -74,7 +74,6 @@ module Camera
 			#~ @shape.body.reset_forces
 			#~ self.move(@entity.shape.body.f)
 			if @followed_entity
-				#~ warp @followed_entity.p
 				self.px_old = @followed_entity.px
 				self.py_old = @followed_entity.py - @followed_entity.pz
 			end
@@ -153,22 +152,8 @@ module Camera
 		# ===== Camera Control Methods =====
 		# ==================================
 		
-		def follow(entity)
-			@followed_entity = entity
-			
-			#~ pos = [@entity.x - @center.x,
-					#~ @entity.y - @center.y]
-					
-			warp @followed_entity.p
-		end
-		
 		def move(force, offset=CP::Vec2::ZERO)
 			@shape.body.apply_force force, offset
-		end
-		
-		# Warp to the specified coordinate
-		def warp(vec2)
-			self.p = vec2
 		end
 		
 		# Move smoothly to a given point in the given time interval

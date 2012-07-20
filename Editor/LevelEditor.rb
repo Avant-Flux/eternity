@@ -23,6 +23,8 @@ class LevelEditor < GameWindow
 		}
 		@selected_cursor = :default
 		
+		
+		
 		@ui_state_manager.pop
 		
 		@buildings = {}
@@ -50,6 +52,13 @@ class LevelEditor < GameWindow
 			when :BOX
 				@selected_cursor = :box
 		end
+		
+		#if button_down? Gosu::MsLeft
+		#	@state_manager.raycast_mouse do |shape| 
+		#		
+		#	end
+		#end
+		
 	end
 	
 	def switch_state( state_id )
@@ -68,9 +77,34 @@ class LevelEditor < GameWindow
 			end
 		end
 		
-		if button_down? Gosu::MsLeft
-			@state_manager.raycast do |shape| 
-				p shape
+		if button_down? Gosu::MsMiddle
+			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+		
+			dif_x = @cur_mouse.x - @pos_mouse.x
+			dif_y = @cur_mouse.y - @pos_mouse.y
+		
+			if dif_x.abs > 0.05 && dif_y.abs > 0.05
+				
+				if dif_x > 0 && dif_y > 0
+					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+				elsif dif_x > 0 && dif_y < 0
+					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+
+				elsif dif_x < 0 && dif_y > 0
+					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+
+				elsif dif_x < 0 && dif_y < 0
+					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+				end
+				
+				
+				
+
+				@pos_mouse = @cur_mouse
 			end
 		end
 		
@@ -110,11 +144,31 @@ class LevelEditor < GameWindow
 		if id == Gosu::MsLeft
 			@selected_cursor = :place if @selected_cursor == :default
 			#mouse_down_UI
+			@state_manager.raycast_mouse do |shape| 
+				if shape.gameobject.is_a? Building
+					@selected_building = shape.gameobject
+				end
+			end
 			
 		elsif id == Gosu::MsRight
 			@selected_cursor = :box if @selected_cursor == :default
-			
 			mouse_down_scene
+			
+		elsif id == Gosu::MsMiddle
+			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			@pos_center = @state_manager.raycast self.width/2, self.height/2
+			
+			@temp_var = Entity.new self
+			@temp_var.body.p = @pos_center
+			
+			@camera.followed_entity = @temp_var
+			
+		elsif id == Gosu::MsWheelDown
+				@camera.zoom_in
+		elsif id == Gosu::MsWheelUp
+				@camera.zoom_out
+				
+				
 		end
 	end
 	
@@ -132,12 +186,19 @@ class LevelEditor < GameWindow
 			if @selected_cursor == :place # left click active
 				printf "mouse1"
 				@selected_cursor = :default
+				@selected_building = nil
 			end
 		elsif id == Gosu::MsRight
 			if @selected_cursor == :box # right click active
 				print "mouse2"
 				@selected_cursor = :default
 			end
+		elsif id == Gosu::MsMiddle
+			@pos_center = @state_manager.raycast self.width/2, self.height/2
+			@temp_var.body.p = @pos_center
+			#set screen follow shape to nil
+		
+		
 		end
 	end
 	
@@ -249,7 +310,7 @@ class LevelEditor < GameWindow
 	end
     
     def load_buildings
-		path = File.join "Levels", "Buildings.txt"
+		path = File.join "Levels", "Tutorial.txt"
 		
 		File.open( path, "r" ).each do |line|
 			args = line.split
