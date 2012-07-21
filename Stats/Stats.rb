@@ -30,7 +30,7 @@ module Statistics
 				meta_eval do
 					define_method method do |val|
 						@default_stats ||= {}
-						@default_stats[method] = val # TODO: Use struct instead
+						@default_stats[method] = val
 					end
 				end
 			end
@@ -41,7 +41,7 @@ module Statistics
 		@attributes = Hash.new
 		@status = Hash.new
 		
-		@stats = Hash.new # TODO: Use struct instead of hash
+		@stats = Hash.new # TODO: optimization - Use struct instead of hash
 		@stats[:raw] = {} # strength, constitution, dexterity, mobility, power, skill, flux
 		
 		self.class.stats.each do |stat, val|
