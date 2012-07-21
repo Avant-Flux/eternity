@@ -51,7 +51,8 @@ class LevelState #< GameState
 	# 		collision geometry will remain in the space.
 	def finish
 		# Player is an entity, and will be removed with the rest of them.
-		# NOTE: This implies that if 
+		# NOTE:	This implies that if player is in a sub-level (ie inside a building)
+		# 		the player will have to be re-added to the space
 		@entities.each do |entity|
 			entity.remove_from @space
 		end

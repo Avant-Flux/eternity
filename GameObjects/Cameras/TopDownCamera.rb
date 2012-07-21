@@ -15,7 +15,7 @@ module Camera
 		MIN_ZOOM = 0.2
 		DEFAULT_ZOOM = 1
 		ZOOM_TICK = 0.2 # Percent to modulate the zoom by when zooming in or out
-	
+		
 		attr_accessor :zoom
 		
 		

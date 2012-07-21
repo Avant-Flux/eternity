@@ -97,7 +97,7 @@ class StaticObject
 		# 65.1 => angle of Y_HAT with the horizontal
 		# 8.79 => angle of X_HAT with the horizontal
 		
-		# TODO: Reduce memory consumption of algorithm
+		# TODO: optimization - Reduce memory consumption of algorithm
 		#		Current implementation 
 		# TODO:	Create separate wireframe class
 		# TODO:	Wireframes should only be generated as a placeholder
