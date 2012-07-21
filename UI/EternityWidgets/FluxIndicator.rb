@@ -3,9 +3,9 @@ class FluxIndicator < Widget::Div
 		@player = player
 		
 		@flux_gear = Gosu::Image.new window,
-						"./Development/Interface/new_interface/flux_gauge.png", false
+						"#{Widget::IMAGE_DIR}/flux_gauge.png", false
 		@flux_fill = Gosu::Image.new window,
-						"./Development/Interface/new_interface/flux_fill.png", false
+						"#{Widget::IMAGE_DIR}/flux_fill.png", false
 		options[:width] = @flux_gear.width
 		options[:height] = @flux_gear.height
 		

@@ -6,9 +6,9 @@ class MP_Indicator < Widget::Div
 				
 		# Background
 		@mana_gear = Gosu::Image.new window,
-						"./Development/Interface/new_interface/mana_gauge.png", false
+						"#{Widget::IMAGE_DIR}/mana_gauge.png", false
 		@mana_fill = Gosu::Image.new window,
-						"./Development/Interface/new_interface/mana_fill.png", false
+						"#{Widget::IMAGE_DIR}/mana_fill.png", false
 		
 		options[:height] = @mana_gear.height
 		options[:width] = @mana_gear.width

@@ -5,9 +5,9 @@ class HP_Indicator < Widget::Div
 		@font = Gosu::Font.new window, "Helvetica Bold", 25
 		
 		@health_gear = Gosu::Image.new window,
-						"./Development/Interface/new_interface/health_gauge.png", false
+						"#{Widget::IMAGE_DIR}/health_gauge.png", false
 		@health_fill = Gosu::Image.new window,
-						"./Development/Interface/new_interface/health_fill.png", false
+						"#{Widget::IMAGE_DIR}/health_fill.png", false
 		
 		options[:width] = @health_gear.width
 		options[:height] = @health_gear.height
