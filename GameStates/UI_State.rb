@@ -124,12 +124,7 @@ class UI_State# < InterfaceState
 			@hp_indicator.draw
 			@flux_indicator.draw
 			
-			
-			# TODO: !!!!! Finish implementation of WeaponIndicator !!!!!
-			# TODO: Allow different graphics for left and right weapon indicator
 			@left_weapon.draw
-			
-			# Right Weapon
 			@right_weapon.draw
 		#~ end
 	end

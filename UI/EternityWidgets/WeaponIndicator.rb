@@ -11,7 +11,7 @@ class WeaponIndicator < Widget::Div
 		# Caching which bypasses the asset-manager cache
 		@@weapon_gear ||= Gosu::Image.new window, 
 							"./Development/Interface/new_interface/left_weapon.png", false
-		
+		# TODO: Allow different graphic for left and right weapon indicator (def shared parent)
 		options[:width] = @@weapon_gear.width
 		options[:height] = @@weapon_gear.height
 		super window, x,y, options
