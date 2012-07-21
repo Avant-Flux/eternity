@@ -69,8 +69,8 @@ module Physics
 			body.vz += body.az * dt
 			body.pz += body.vz * dt
 			
-			if body.pz > body.elevation
-				# TODO: Change conditional to be if in_air? to handle uneven terrain
+			# TODO: See if this double if structure really prevents flicker on ground collision
+			if body.in_air?
 				# Apply gravity
 				body.vz += @g * dt
 				body.pz += body.vz * dt

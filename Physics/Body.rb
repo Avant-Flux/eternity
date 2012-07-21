@@ -58,6 +58,10 @@ module Physics
 				@elevation_heap << 0
 			end
 		end
+		
+		def in_air?
+			return @pz > self.elevation
+		end
 	end
 	
 	class StaticBody < CP::Body
