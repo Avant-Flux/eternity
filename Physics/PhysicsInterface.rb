@@ -60,7 +60,7 @@ module PhysicsInterface
 		end
 		
 		# Reduce forces considerably if the Entity is in the air
-		if in_air?
+		if @body.in_air?
 			vec *= 0.1
 		end
 		if body.v.length > 12
@@ -79,11 +79,6 @@ module PhysicsInterface
 	
 	def reset_jump
 		@jump_count = 0
-	end
-	
-	def in_air?
-		# TODO: Move into body
-		return @body.pz > @body.elevation
 	end
 	
 	def warp(x,y,z)

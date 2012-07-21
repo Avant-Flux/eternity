@@ -97,7 +97,7 @@ module Physics
 				direction_vector = body.v / magnitude
 				
 				# TODO: Implement the following block as a true function
-				resistive_force = if body.gameobject.in_air?
+				resistive_force = if body.in_air?
 					air_resistance body, direction_vector
 				else
 					friction body, direction_vector
