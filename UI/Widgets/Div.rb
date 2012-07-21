@@ -40,7 +40,7 @@ module Widget
 			:right => 0
 		}
 		
-		def initialize(window, x, y, options={})
+		def initialize(window, options={})
 			# TODO: Change the :relative hash parameter into a real argument
 			options[:relative] ||= window
 			options = DEFAULTS.merge options
@@ -103,17 +103,13 @@ module Widget
 			# Move widget into position relative to it's parent
 			# TODO: Consider padding
 			if @relative != window
-				x += @relative.render_x
-				y += @relative.render_y
+				position[0] += @relative.render_x
+				position[1] += @relative.render_y
 			end
 			
 			margins = margin options
-			x += margins[0]
-			y += margins[1]
-			
-			# Move object into global position
-			position[0] += x
-			position[1] += y
+			position[0] += margins[0]
+			position[1] += margins[1]
 			
 			# Set-up Chipmunk object to store physical properties of this widget
 			init_physics dimensions[:width], dimensions[:height], *position, :div

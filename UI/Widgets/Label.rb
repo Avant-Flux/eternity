@@ -10,7 +10,7 @@ module Widget
 		
 		attr_reader :text
 		
-		def initialize(window, x, y, options={})
+		def initialize(window, options={})
 			# The actual button event is processed within Chipmunk
 			options = {
 				:text_align => :center, #:center, :left, :right
@@ -21,7 +21,7 @@ module Widget
 				:color => Gosu::Color::WHITE
 			}.merge! options
 			
-			super(window, x,y, options)
+			super(window, options)
 			
 			if options[:text]
 				# TODO: Throw exception if other necessary parameters are not set.

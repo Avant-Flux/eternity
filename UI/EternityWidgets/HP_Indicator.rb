@@ -12,13 +12,13 @@ class HP_Indicator < Widget::Div
 		options[:width] = @health_gear.width
 		options[:height] = @health_gear.height
 		
-		super(window, x,y, options)
+		super(window, options)
 		
 		heath_label_offset_x = 80
 		width = 50
 		x = (@window.width/2)+heath_label_offset_x
 		y = @window.height - 60 -20
-		@hp_label = Widget::Label.new window, 0,0,
+		@hp_label = Widget::Label.new window,
 						:relative => self,
 						:width => width, :height => @font.height,
 						
@@ -37,7 +37,7 @@ class HP_Indicator < Widget::Div
 		width = 100
 		x = (@window.width/2) + heath_label_offset_x
 		y = @window.height - 35
-		@hp_numerical_display = Widget::Label.new window, 0,0,
+		@hp_numerical_display = Widget::Label.new window,
 									:relative => self,
 									:width => width, :height => @font.height,
 									

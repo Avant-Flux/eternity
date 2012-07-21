@@ -12,9 +12,9 @@ class MP_Indicator < Widget::Div
 		
 		options[:height] = @mana_gear.height
 		options[:width] = @mana_gear.width
-		super(window, x,y, options)
+		super(window, options)
 		
-		@mp_label = Widget::Label.new window, 0,0,
+		@mp_label = Widget::Label.new window,
 						:relative => self,
 						:width => 50, :height => @font.height,
 						
@@ -29,7 +29,7 @@ class MP_Indicator < Widget::Div
 						
 						:background_color => Gosu::Color::YELLOW
 		
-		@mp_numerical_display = Widget::Label.new window, 0,0,
+		@mp_numerical_display = Widget::Label.new window,
 									:relative => self,
 									:width => 100, :height => @font.height,
 									

@@ -35,15 +35,6 @@ module Widget
 			end
 		end
 		
-		def position(type=:absolute)
-			# Either :absolute
-		end
-		
-		# position	:absolute, :to_bottom
-		# 			:relative, widget, :to_top
-		# align		:left/:right/:center/:top/:bottom
-		# offset	10 #in px
-		
 		def on_click
 		end
 		

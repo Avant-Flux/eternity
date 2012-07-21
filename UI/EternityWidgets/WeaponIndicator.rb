@@ -14,7 +14,7 @@ class WeaponIndicator < Widget::Div
 		# TODO: Allow different graphic for left and right weapon indicator (def shared parent)
 		options[:width] = @@weapon_gear.width
 		options[:height] = @@weapon_gear.height
-		super window, x,y, options
+		super window, options
 	end
 	
 	def update
@@ -31,7 +31,7 @@ class WeaponIndicator < Widget::Div
 							self.width/2-12, color,
 							:stroke_width => 14, :alpha => 1.0,
 							:start_angle => 0, :angle => 360*percent/100.to_f
-		
+		\
 		@@weapon_gear.draw self.render_x, self.render_y, @pz
 		
 		

@@ -18,16 +18,22 @@ class Map
 		
 		x_padding = 50
 		y_padding = 50
-		@background = Widget::Div.new window, x_padding/2, y_padding/2,
+		@background = Widget::Div.new window,
 				:width => window.width-x_padding, :height => window.height-y_padding,
+				
+				:left => x_padding/2, :top => y_padding/2,
+				
 				:background_color => Gosu::Color.new(200, 0,0,0),
 				:padding_top => y_padding/2, :padding_bottom => y_padding/2, 
 				:padding_left => x_padding/2, :padding_right => x_padding/2
 		
 		x_padding = 50
 		y_padding = 50
-		@dimming_screen = Widget::Div.new window, x_padding/2, y_padding/2,
+		@dimming_screen = Widget::Div.new window,
 				:width => window.width-x_padding, :height => window.height-y_padding,
+				
+				:left => x_padding/2, :top => y_padding/2,
+				
 				:background_color => Gosu::Color.new((0.70*255).to_i, 0,0,0)
 		
 		@colors = {

@@ -9,7 +9,7 @@ class FluxIndicator < Widget::Div
 		options[:width] = @flux_gear.width
 		options[:height] = @flux_gear.height
 		
-		super(window, x,y, options)
+		super(window, options)
 		
 		@font = Gosu::Font.new @window, "Helvetica Bold", 25
 		
