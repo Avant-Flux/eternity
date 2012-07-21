@@ -46,14 +46,12 @@ class LevelState #< GameState
 		draw_entities
 	end
 	
-	def finalize
-		super
-		
-		# TODO: Refrain from using finalize and remove objects in some other manner.
-		# 		Using finalize delays removal until the object is GCed
-		# NOTE: Remove the finalize method ASAP.  It will not actually work as expected.
-		# 		The objects may be GCed before #finalize is called.  It's implementation
-		# 		dependent, not language defined.
+	# Clean up the things managed by this state
+	# NOTE:	This method MUST be called when the state is cleared, or the
+	# 		collision geometry will remain in the space.
+	def finish
+		# Player is an entity, and will be removed with the rest of them.
+		# NOTE: This implies that if 
 		@entities.each do |entity|
 			entity.remove_from @space
 		end

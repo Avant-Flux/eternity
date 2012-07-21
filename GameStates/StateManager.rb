@@ -4,7 +4,7 @@ class StateManager
 	# NOTE:	Even though this access means that @stack is not really a stack, it is necessary
 	# 		for the top down camera to draw the game world without having to pass
 	# 		every game object into the camera.
-	attr_reader :stack, :space
+	attr_reader :stack
 	
 	def initialize(window, player)
 		@window = window	# Parent window
@@ -12,6 +12,11 @@ class StateManager
 		#~ @layers = layers	# Bitvector specifying which layers to use with Chipmunk
 		
 		@space = Physics::Space.new
+		@space.set_default_collision_func do
+			puts "default"
+			
+			false
+		end
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		
 		@stack = Array.new()
@@ -72,30 +77,21 @@ class StateManager
 	
 	alias :<< :push
 	
+	# Remove top state, and tell it to clean up after itself
+	# TODO: Move player back to appropriate spot in previous state.  Not the same as the spawn.
+	def pop
+		state = @stack.pop
+		state.finish
+		
+		return state
+	end
+	
 	# ==================================
 	# Raycasting
 	# ==================================
 	
 	def raycast_mouse(&block)
-		
-		mouse = CP::Vec2.new @window.mouse_x, @window.mouse_y
-		mouse.x += -@window.width/2
-		mouse.y += -@window.height/2
-		
-		world_position = mouse.to_world
-		world_position /= @window.camera.zoom
-		world_position += @window.camera.followed_entity.body.p
-		
-		@space.point_query world_position, &block
-		
-		
-		# DEBUG CODE
-		# Draw circle on screen to show the raycast point
-		@window.camera.draw_billboarded do 
-			render_position = world_position.to_screen
-			@window.draw_circle		render_position.x, render_position.y, 
-									0,300,Gosu::Color::GREEN, :stroke_width => 50
-		end
+		@space.point_query raycast(@window.mouse_x, @window.mouse_y), &block
 	end
 	
 	def raycast(screen_x,screen_y)
@@ -107,10 +103,15 @@ class StateManager
 		world_position /= @window.camera.zoom
 		world_position += @window.camera.followed_entity.body.p
 		
+		# DEBUG CODE
+		# Draw circle on screen to show the raycast point
+		@window.camera.draw_billboarded do 
+			render_position = world_position.to_screen
+			@window.draw_circle		render_position.x, render_position.y, 
+									0,300,Gosu::Color::GREEN, :stroke_width => 50
+		end
+		
 		return world_position
-	
-	
-	
 	end
 	
 	def save
@@ -124,7 +125,8 @@ class StateManager
 	def reload
 		# Reload the state on top of the stack
 		# Intended for testing purposes only
-		state = @stack.pop
+		state = self.pop
+		
 		@stack.push LevelState.load @window, @space, state.name
 		
 		@player.body.reset
