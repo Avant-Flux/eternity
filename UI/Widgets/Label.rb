@@ -21,6 +21,18 @@ module Widget
 				:color => Gosu::Color::WHITE
 			}.merge! options
 			
+			unless options[:font]
+				# Raise exception
+			end
+			
+			unless options[:text]
+				# Raise exception
+			end
+			
+			unless options[:color]
+				# Raise exception
+			end
+			
 			super(window, options)
 			
 			if options[:text]
