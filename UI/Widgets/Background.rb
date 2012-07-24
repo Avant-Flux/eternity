@@ -7,6 +7,8 @@ module Widget
 	# Mix in which specifies behaviors for drawing different kinds of backgrounds
 	module Background
 		module Colored
+			attr_accessor :background_color
+			
 			def init_background(color)
 				@background_color = color # Gosu::Color format
 				

@@ -8,6 +8,7 @@ module Widget
 	class Label < Div
 		include Widget::Background::Colored
 		
+		attr_accessor :color
 		attr_reader :text
 		
 		def initialize(window, options={})

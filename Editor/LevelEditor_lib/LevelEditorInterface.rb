@@ -12,6 +12,30 @@ class LevelEditorInterface
 		#~ end
 		
 		#~ @mouse = MouseHandler.new space
+		init_widgets window
+		
+		@active_tab = :static
+	end
+	
+	def update
+		switch_to_tab :static
+	end
+	
+	def draw
+		@compass.draw
+		
+		@sidebar.draw
+		@sidebar_title.draw
+		@tabs.each_value {|tab| tab.draw}
+		
+		#~ @name_box.draw
+		#~ @load.draw
+		#~ @save.draw
+	end
+	
+	private
+	
+	def init_widgets(window)
 		@compass = Compass.new	window,
 			:relative => window,
 			
@@ -80,19 +104,10 @@ class LevelEditorInterface
 		}
 	end
 	
-	def update
+	def switch_to_tab(new_tab)
+		@tabs[@active_tab].color = Gosu::Color::BLACK
+		@tabs[new_tab].color = Gosu::Color::WHITE
 		
-	end
-	
-	def draw
-		@compass.draw
-		
-		@sidebar.draw
-		@sidebar_title.draw
-		@tabs.each_value {|tab| tab.draw}
-		
-		#~ @name_box.draw
-		#~ @load.draw
-		#~ @save.draw
+		@active_tab = new_tab
 	end
 end
