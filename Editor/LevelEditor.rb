@@ -87,6 +87,22 @@ class LevelEditor < GameWindow
 
 		end
 		
+		if button_down? Gosu::MsLeft
+		 
+			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			dif_x = @cur_mouse.x - @pos_mouse.x
+			dif_y = @cur_mouse.y - @pos_mouse.y
+
+			@selected_building.body.p.x = @selected_building.body.p.x + dif_x
+			@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+			
+			@pos_mouse = @cur_mouse
+			
+			
+
+		end
+		
+		
 		super()
 		
 		draw_screen
@@ -121,15 +137,17 @@ class LevelEditor < GameWindow
         end
         
 		if id == Gosu::MsLeft
+		#@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 			@selected_cursor = :place if @selected_cursor == :default
 			#mouse_down_UId
+			closest_shape = nil
 			@state_manager.raycast_mouse do |shape| 
-				#if shape.gameobject.is_a? Building
-					@selected_building = shape.gameobject
-				#end
-				#puts "world position: #{shape.body.p}"
-				#puts "screen position: #{@statemanager.raycast shape.body.p.x, shape.body.p.y}"
-
+					closest_shape ||= shape
+					if shape.body.pz > closest_shape.body.pz
+						closest_shape = shape
+					end
+					@selected_building = closest_shape				
 
 			end
 			
@@ -148,9 +166,17 @@ class LevelEditor < GameWindow
 			@camera.followed_entity = @temp_var
 			
 		elsif id == Gosu::MsWheelDown
+			if button_down? Gosu::MsLeft
+				@selected_building.body.pz += 1
+			else
 				@camera.zoom_in
+			end
 		elsif id == Gosu::MsWheelUp
+			if button_down? Gosu::MsLeft
+				@selected_building.body.pz -= 1
+			else
 				@camera.zoom_out
+			end
 				
 				
 		end
@@ -172,6 +198,7 @@ class LevelEditor < GameWindow
 				@selected_cursor = :default
 				@selected_building = nil
 			end
+			@state_manager.rehash_space
 		elsif id == Gosu::MsRight
 			if @selected_cursor == :box # right click active
 				print "mouse2"

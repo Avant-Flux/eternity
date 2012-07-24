@@ -112,6 +112,11 @@ class StateManager
 		end
 	end
 	
+	def rehash_space
+		@space.rehash_static
+	
+	end
+	
 	def reload
 		# Reload the state on top of the stack
 		# Intended for testing purposes only
