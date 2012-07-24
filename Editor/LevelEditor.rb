@@ -79,33 +79,12 @@ class LevelEditor < GameWindow
 		
 		if button_down? Gosu::MsMiddle
 			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-		
 			dif_x = @cur_mouse.x - @pos_mouse.x
 			dif_y = @cur_mouse.y - @pos_mouse.y
-		
-			if dif_x.abs > 0.05 && dif_y.abs > 0.05
-				
-				if dif_x > 0 && dif_y > 0
-					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
-				elsif dif_x > 0 && dif_y < 0
-					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
 
-				elsif dif_x < 0 && dif_y > 0
-					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
 
-				elsif dif_x < 0 && dif_y < 0
-					@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-					@temp_var.body.p.y = @temp_var.body.p.y - dif_y
-				end
-				
-				
-				
-
-				@pos_mouse = @cur_mouse
-			end
 		end
 		
 		super()
@@ -143,11 +122,15 @@ class LevelEditor < GameWindow
         
 		if id == Gosu::MsLeft
 			@selected_cursor = :place if @selected_cursor == :default
-			#mouse_down_UI
+			#mouse_down_UId
 			@state_manager.raycast_mouse do |shape| 
-				if shape.gameobject.is_a? Building
+				#if shape.gameobject.is_a? Building
 					@selected_building = shape.gameobject
-				end
+				#end
+				#puts "world position: #{shape.body.p}"
+				#puts "screen position: #{@statemanager.raycast shape.body.p.x, shape.body.p.y}"
+
+
 			end
 			
 		elsif id == Gosu::MsRight
@@ -159,6 +142,7 @@ class LevelEditor < GameWindow
 			@pos_center = @state_manager.raycast self.width/2, self.height/2
 			
 			@temp_var = Entity.new self
+			@temp_var.shape.collision_type = :none
 			@temp_var.body.p = @pos_center
 			
 			@camera.followed_entity = @temp_var
@@ -195,9 +179,7 @@ class LevelEditor < GameWindow
 			end
 		elsif id == Gosu::MsMiddle
 			@pos_center = @state_manager.raycast self.width/2, self.height/2
-			@temp_var.body.p = @pos_center
-			#set screen follow shape to nil
-		
+			@temp_var.body.p = @pos_center		
 		
 		end
 	end
@@ -236,7 +218,7 @@ class LevelEditor < GameWindow
 	
 	def mouse_down_UI
 		#~ @mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
-		puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
+		#puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
 		
 	end
 	
@@ -245,7 +227,6 @@ class LevelEditor < GameWindow
 	end
 	
 	def mouse_down_scene
-		puts "CLICK!"
 		# Calculate displacement from center of screen in px
 		#~ dx_px = mouse_x - self.width/2.0
 		#~ dy_px = mouse_y - self.height/2.0
@@ -265,13 +246,13 @@ class LevelEditor < GameWindow
 		x = @camera.followed_entity.body.p.x
 		y = @camera.followed_entity.body.p.y
 		
-		puts "x: #{x}   y:#{y}"
+		#puts "x: #{x}   y:#{y}"
 		
 		
 		@camera.draw_trimetric do
 			r = 5
-			self.draw_circle	x, y, 0,	r,
-								Gosu::Color::WHITE, :stroke_width => r
+			#self.draw_circle	x, y, 0,	r,
+			#					Gosu::Color::WHITE, :stroke_width => r
 		end
         
 		case @EDITOR_STATE
@@ -318,7 +299,7 @@ class LevelEditor < GameWindow
 				:size => [ args[1].to_f, args[2].to_f, args[3].to_f ],
 				:textures => [ args[4], args[5] ]
 			}
-			puts "recognized new building type #{args[0]}"
+			#puts "recognized new building type #{args[0]}"
 		end
     end
 end
