@@ -12,7 +12,7 @@ class LevelEditor < GameWindow
 		super()
 		self.caption = "Level Editor v0.00.1"
 		
-		#@interface = LevelEditorInterface.new self, @space
+		@interface = LevelEditorInterface.new self, @space
 		
 		# TODO: Implement custom cursors inside of the mouse handler class
 		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
@@ -58,7 +58,7 @@ class LevelEditor < GameWindow
 		#		
 		#	end
 		#end
-		
+		@interface.update
 	end
 	
 	def switch_state( state_id )
@@ -201,7 +201,7 @@ class LevelEditor < GameWindow
 			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
 		end
 		
-		#@interface.draw
+		@interface.draw
 		
 		flush
 		
