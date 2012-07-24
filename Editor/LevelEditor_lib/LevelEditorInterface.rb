@@ -18,7 +18,7 @@ class LevelEditorInterface
 	end
 	
 	def update
-		switch_to_tab :static
+		switch_to_tab :spawn
 	end
 	
 	def draw
@@ -27,6 +27,7 @@ class LevelEditorInterface
 		@sidebar.draw
 		@sidebar_title.draw
 		@tabs.each_value {|tab| tab.draw}
+		@gameobject_selector_panel[@active_tab].draw
 		
 		#~ @name_box.draw
 		#~ @load.draw
@@ -98,6 +99,42 @@ class LevelEditorInterface
 				
 				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK,
 				
+				
+				:background_color => Gosu::Color::BLUE
+			)
+		}
+		
+		offset_y = 55
+		@gameobject_selector_panel = {
+			:static => Widget::Div.new(window,
+				:relative => @sidebar,
+				
+				:top => offset_y, :bottom => :auto,
+				:left => 5, :right => 5,
+				
+				:height => 500, :width => :auto,
+				
+				:background_color => Gosu::Color::RED
+			),
+			
+			:entity => Widget::Div.new(window,
+				:relative => @sidebar,
+				
+				:top => offset_y, :bottom => :auto,
+				:left => 5, :right => 5,
+				
+				:height => 500, :width => :auto,
+				
+				:background_color => Gosu::Color::GREEN
+			),
+			
+			:spawn => Widget::Div.new(window,
+				:relative => @sidebar,
+				
+				:top => offset_y, :bottom => :auto,
+				:left => 5, :right => 5,
+				
+				:height => 500, :width => :auto,
 				
 				:background_color => Gosu::Color::BLUE
 			)
