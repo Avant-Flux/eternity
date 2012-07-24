@@ -97,9 +97,6 @@ class LevelEditor < GameWindow
 			@selected_building.body.p.y = @selected_building.body.p.y + dif_y
 			
 			@pos_mouse = @cur_mouse
-			
-			
-
 		end
 		
 		
@@ -167,13 +164,13 @@ class LevelEditor < GameWindow
 			
 		elsif id == Gosu::MsWheelDown
 			if button_down? Gosu::MsLeft
-				@selected_building.body.pz += 1
+				@selected_building.body.pz -= 1
 			else
 				@camera.zoom_in
 			end
 		elsif id == Gosu::MsWheelUp
 			if button_down? Gosu::MsLeft
-				@selected_building.body.pz -= 1
+				@selected_building.body.pz += 1
 			else
 				@camera.zoom_out
 			end
