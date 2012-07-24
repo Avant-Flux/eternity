@@ -2,7 +2,7 @@
 class Compass < Widget::Div
 	#~ include Widget::Background::Image
 	
-	def initialize(window, x,y, options={})
+	def initialize(window, options={})
 		image_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
 		
 		file = File.join image_directory, "compass.png"
@@ -17,7 +17,7 @@ class Compass < Widget::Div
 			:height => @img.height
 		}.merge! options
 		
-		super(window, x,y, options)
+		super(window, options)
 	end
 	
 	def update
