@@ -18,7 +18,7 @@ class LevelEditorInterface
 	end
 	
 	def update
-		switch_to_tab :spawn
+		switch_to_tab :static
 	end
 	
 	def draw
@@ -74,9 +74,8 @@ class LevelEditorInterface
 				
 				:width => 100, :height => @font.height,
 				
-				:font => @font, :text => "Static", :color => Gosu::Color::BLACK,
-				
-				:background_color => Gosu::Color::RED),
+				:font => @font, :text => "Static", :color => Gosu::Color::BLACK
+			),
 			:entity => Widget::Label.new(window,
 				:relative => @sidebar,
 				
@@ -85,9 +84,7 @@ class LevelEditorInterface
 				
 				:width => 100, :height => @font.height,
 				
-				:font => @font, :text => "Entity", :color => Gosu::Color::BLACK,
-				
-				:background_color => Gosu::Color::GREEN
+				:font => @font, :text => "Entity", :color => Gosu::Color::BLACK
 			),
 			:spawn => Widget::Label.new(window,
 				:relative => @sidebar,
@@ -97,48 +94,21 @@ class LevelEditorInterface
 				
 				:width => 100, :height => @font.height,
 				
-				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK,
-				
-				
-				:background_color => Gosu::Color::BLUE
+				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK
 			)
 		}
 		
 		offset_y = 55
 		@gameobject_selector_panel = {
-			:static => Widget::Div.new(window,
-				:relative => @sidebar,
-				
-				:top => offset_y, :bottom => :auto,
-				:left => 5, :right => 5,
-				
-				:height => 500, :width => :auto,
-				
-				:background_color => Gosu::Color::RED
-			),
-			
-			:entity => Widget::Div.new(window,
-				:relative => @sidebar,
-				
-				:top => offset_y, :bottom => :auto,
-				:left => 5, :right => 5,
-				
-				:height => 500, :width => :auto,
-				
-				:background_color => Gosu::Color::GREEN
-			),
-			
-			:spawn => Widget::Div.new(window,
-				:relative => @sidebar,
-				
-				:top => offset_y, :bottom => :auto,
-				:left => 5, :right => 5,
-				
-				:height => 500, :width => :auto,
-				
-				:background_color => Gosu::Color::BLUE
-			)
+			:static => StaticObjectPanel.new(window, @sidebar, offset_y),
+			:entity => EntityPanel.new(window, @sidebar, offset_y),
+			:spawn => SpawnPanel.new(window, @sidebar, offset_y)
 		}
+		
+		# Set color of tabs to match the panels
+		@gameobject_selector_panel.each do |type, panel|
+			@tabs[type].background_color = panel.background_color
+		end
 	end
 	
 	def switch_to_tab(new_tab)
