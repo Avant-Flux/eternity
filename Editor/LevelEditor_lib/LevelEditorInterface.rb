@@ -107,6 +107,7 @@ class LevelEditorInterface
 		
 		# Set color of tabs to match the panels
 		@gameobject_selector_panel.each do |type, panel|
+			panel.background_color.alpha = 100
 			@tabs[type].background_color = panel.background_color
 		end
 	end
