@@ -45,6 +45,10 @@ attr_accessor :selected_cursor
 		
 		@EDITOR_STATE = :NONE
 		@SELECTED_BUILDING = "$none$"
+		
+		init_editor_inputs
+		bind_editor_inputs
+		@inpman.mode = :editor
 	end
 	
 	def update
@@ -88,29 +92,8 @@ attr_accessor :selected_cursor
 			end
 		#end
 		
-		if button_down? Gosu::MsMiddle
-			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			dif_x = @cur_mouse.x - @pos_mouse.x
-			dif_y = @cur_mouse.y - @pos_mouse.y
-
-			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
-
-		end
-		
 		if button_down? Gosu::MsLeft
-			unless button_down?(Gosu::KbLeftControl) || button_down?(Gosu::KbRightControl)
 			
-
-				@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-				dif_x = @cur_mouse.x - @pos_mouse.x
-				dif_y = @cur_mouse.y - @pos_mouse.y
-
-				@selected_building.body.p.x = @selected_building.body.p.x + dif_x
-				@selected_building.body.p.y = @selected_building.body.p.y + dif_y
-				
-				@pos_mouse = @cur_mouse
-			end
 		end
 		
 		
@@ -129,7 +112,7 @@ attr_accessor :selected_cursor
 	end
 	
 	def button_down(id)
-        #~ @inpman.button_down(id)
+        @inpman.button_down(id)
 		
         case id
             when Gosu::KbEscape
@@ -144,37 +127,13 @@ attr_accessor :selected_cursor
                 if @EDITOR_STATE == :PLACING_BUILDING
                     mouse_down_scene
                 end
-            when Gosu::MsRight
         end
         
-		if id == Gosu::MsLeft
-		#@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			@selected_cursor = :place if @selected_cursor == :default
-			#mouse_down_UId
-			closest_shape = nil
-			@state_manager.raycast_mouse do |shape| 
-					closest_shape ||= shape
-					if shape.body.pz > closest_shape.body.pz
-						closest_shape = shape
-					end
-					@selected_building = closest_shape				
-
-			end
 			
-		elsif id == Gosu::MsRight
+			
+		if id == Gosu::MsRight
 			@selected_cursor = :box if @selected_cursor == :default
 			mouse_down_scene
-			
-		elsif id == Gosu::MsMiddle
-			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			@pos_center = @state_manager.raycast self.width/2, self.height/2
-			
-			@temp_var = Entity.new self
-			@temp_var.shape.collision_type = :none
-			@temp_var.body.p = @pos_center
-			
-			@camera.followed_entity = @temp_var
 			
 		elsif id == Gosu::MsWheelDown
 			if button_down? Gosu::MsLeft
@@ -207,18 +166,12 @@ attr_accessor :selected_cursor
 			if @selected_cursor == :place # left click active
 				printf "mouse1"
 				@selected_cursor = :default
-				@selected_building = nil
 			end
-			@state_manager.rehash_space
 		elsif id == Gosu::MsRight
 			if @selected_cursor == :box # right click active
 				print "mouse2"
 				@selected_cursor = :default
 			end
-		elsif id == Gosu::MsMiddle
-			@pos_center = @state_manager.raycast self.width/2, self.height/2
-			@temp_var.body.p = @pos_center		
-		
 		end
 	end
 	
@@ -340,6 +293,78 @@ attr_accessor :selected_cursor
 			#puts "recognized new building type #{args[0]}"
 		end
     end
+    
+    def init_editor_inputs
+		@inpman.mode = :editor
+		
+		@inpman.new_action :pan, :active do
+			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			dif_x = @cur_mouse.x - @pos_mouse.x
+			dif_y = @cur_mouse.y - @pos_mouse.y
+
+			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+		end
+		
+		@inpman.new_action :test, :rising_edge do
+			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			@pos_center = @state_manager.raycast self.width/2, self.height/2
+		end
+		
+		@inpman.new_action :test2, :rising_edge do
+			@pos_center = @state_manager.raycast self.width/2, self.height/2
+			@temp_var.body.p = @pos_center		
+		end
+		
+		@inpman.new_action :move_object, :active do
+			unless button_down?(Gosu::KbLeftControl) || button_down?(Gosu::KbRightControl)
+			
+
+				@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+				dif_x = @cur_mouse.x - @pos_mouse.x
+				dif_y = @cur_mouse.y - @pos_mouse.y
+
+				@selected_building.body.p.x = @selected_building.body.p.x + dif_x
+				@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+				
+				@pos_mouse = @cur_mouse
+			end
+		end
+		
+		@inpman.new_action :select_object, :rising_edge do
+			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			@selected_cursor = :place if @selected_cursor == :default
+			#mouse_down_UId
+			closest_shape = nil
+			@state_manager.raycast_mouse do |shape| 
+					closest_shape ||= shape
+					if shape.body.pz > closest_shape.body.pz
+						closest_shape = shape
+					end
+					@selected_building = closest_shape				
+
+			end
+		end
+		
+		@inpman.new_action :msleft_up, :rising_edge do
+			@selected_building = nil
+			@state_manager.rehash_space
+		end
+	end
+	
+	def bind_editor_inputs
+		@inpman.mode = :editor
+		
+		@inpman.bind_action :pan, Gosu::MsMiddle
+		@inpman.bind_action :test, Gosu::MsMiddle
+		@inpman.bind_action :test2, Gosu::MsMiddle
+		
+		@inpman.bind_action :select_object, Gosu::MsLeft
+		@inpman.bind_action :move_object, Gosu::MsLeft
+		@inpman.bind_action :msleft_up, Gosu::MsLeft
+		
+		
+	end
 end
 
 LevelEditor.new.show
