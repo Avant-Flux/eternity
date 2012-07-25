@@ -23,6 +23,12 @@ class LevelEditorInterface
 	end
 	
 	def update
+	
+		if @window.mouse_x >= @sidebar.body.p.x
+			@window.selected_cursor = :menu
+		else
+			@window.selected_cursor = :default
+		end
 		switch_to_tab :static
 	end
 	

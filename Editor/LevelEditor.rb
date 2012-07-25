@@ -14,7 +14,7 @@ attr_accessor :selected_cursor
 	def initialize
 		super()
 		self.caption = "Level Editor v0.00.1"
-		
+				
 		@interface = LevelEditorInterface.new self
 		@temp_var = Entity.new self
 		
@@ -80,7 +80,7 @@ attr_accessor :selected_cursor
 		#~ super
 		
 		#if @selected_cursor == :box # right click active
-			@camera.draw_trimetric do
+			@camera.draw_trimetric 0 do
 				r = 2
 				draw_circle *@state_manager.top.spawn,
 							r, Gosu::Color::RED,
