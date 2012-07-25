@@ -8,7 +8,7 @@ class SpawnPanel < Widget::Div
 			:top => offset_y, :bottom => :auto,
 			:left => 5, :right => 5,
 			
-			:height => 500, :width => :auto,
+			:height => 400, :width => :auto,
 			
 			:background_color => Gosu::Color::BLUE
 		}.merge! options

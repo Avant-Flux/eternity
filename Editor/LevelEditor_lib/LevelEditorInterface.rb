@@ -18,6 +18,7 @@ class LevelEditorInterface
 		add_to_space @sidebar_title
 		@tabs.each_value {|tab| add_to_space tab}
 		@gameobject_selector_panel.each_value {|panel| add_to_space panel} 
+		add_to_space @save
 		
 		@active_tab = :static
 	end
@@ -40,7 +41,7 @@ class LevelEditorInterface
 		
 		#~ @name_box.draw
 		#~ @load.draw
-		#~ @save.draw
+		@save.draw
 	end
 	
 	private
@@ -118,6 +119,18 @@ class LevelEditorInterface
 		@gameobject_selector_panel.each do |type, panel|
 			panel.background_color.alpha = 100
 			@tabs[type].background_color = panel.background_color
+		end
+		
+		@save = Widget::Button.new window,
+			:relative => @sidebar,
+			
+			:top => :auto, :bottom => 30,
+			:left => 10, :right => :auto,
+			
+			:width => 100, :height => @font.height,
+			:font => @font, :text => "Save", :color => Gosu::Color::BLACK do
+			# Save click event
+			
 		end
 	end
 	

@@ -6,12 +6,12 @@ require 'chipmunk'
 module Widget
 	# Clickable button object
 	class Button < Label
-		def initialize(window, x, y, options={}, &block)
+		def initialize(window, options={}, &block)
 			#~ options = 	{
-							
-						#~ }.merge! options
+				
+			#~ }.merge! options
 			
-			super(window, x, y, options, &block)
+			super(window, options)
 			
 			@block = block
 		end
