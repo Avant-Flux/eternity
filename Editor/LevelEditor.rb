@@ -88,15 +88,18 @@ class LevelEditor < GameWindow
 		end
 		
 		if button_down? Gosu::MsLeft
-		 
-			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			dif_x = @cur_mouse.x - @pos_mouse.x
-			dif_y = @cur_mouse.y - @pos_mouse.y
-
-			@selected_building.body.p.x = @selected_building.body.p.x + dif_x
-			@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+			unless button_down?(Gosu::KbLeftControl) || button_down?(Gosu::KbRightControl)
 			
-			@pos_mouse = @cur_mouse
+
+				@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+				dif_x = @cur_mouse.x - @pos_mouse.x
+				dif_y = @cur_mouse.y - @pos_mouse.y
+
+				@selected_building.body.p.x = @selected_building.body.p.x + dif_x
+				@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+				
+				@pos_mouse = @cur_mouse
+			end
 		end
 		
 		
