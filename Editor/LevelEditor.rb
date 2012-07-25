@@ -13,13 +13,21 @@ class LevelEditor < GameWindow
 		self.caption = "Level Editor v0.00.1"
 		
 		@interface = LevelEditorInterface.new self, @space
+		@temp_var = Entity.new self
+		
+		@temp_var.shape.collision_type = :none
+		@temp_var.body.p.x = @state_manager.top.spawn[0]
+		@temp_var.body.p.y = @state_manager.top.spawn[1]
+		@temp_var.body.pz = @state_manager.top.spawn[2]
+		@camera.followed_entity = @temp_var
 		
 		# TODO: Implement custom cursors inside of the mouse handler class
 		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
 		@cursor = {
 			:default => Gosu::Image.new(self, File.join(cursor_directory, "default_cursor.png"), false),
 			:place => Gosu::Image.new(self, File.join(cursor_directory, "place_cursor.png"), false),
-			:box => Gosu::Image.new(self, File.join(cursor_directory, "box_cursor.png"), false)
+			:box => Gosu::Image.new(self, File.join(cursor_directory, "box_cursor.png"), false),
+			:menu => Gosu::Image.new(self, File.join(cursor_directory, "menu_cursor.png"),false)
 		}
 		@selected_cursor = :default
 		
@@ -68,14 +76,14 @@ class LevelEditor < GameWindow
 	def draw
 		#~ super
 		
-		if @selected_cursor == :box # right click active
+		#if @selected_cursor == :box # right click active
 			@camera.draw_trimetric do
-				r = 20.to_meters
-				draw_circle	0,0,0,
+				r = 2
+				draw_circle *@state_manager.top.spawn,
 							r, Gosu::Color::FUCHSIA,
 							:stroke_width => r
 			end
-		end
+		#end
 		
 		if button_down? Gosu::MsMiddle
 			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
