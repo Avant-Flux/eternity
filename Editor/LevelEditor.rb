@@ -8,6 +8,9 @@ require './GameWindow'
 require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
+
+attr_accessor :selected_cursor
+
 	def initialize
 		super()
 		self.caption = "Level Editor v0.00.1"
@@ -80,7 +83,7 @@ class LevelEditor < GameWindow
 			@camera.draw_trimetric do
 				r = 2
 				draw_circle *@state_manager.top.spawn,
-							r, Gosu::Color::FUCHSIA,
+							r, Gosu::Color::RED,
 							:stroke_width => r
 			end
 		#end
