@@ -12,7 +12,7 @@ class LevelEditor < GameWindow
 		super()
 		self.caption = "Level Editor v0.00.1"
 		
-		@interface = LevelEditorInterface.new self, @space
+		@interface = LevelEditorInterface.new self
 		@temp_var = Entity.new self
 		
 		@temp_var.shape.collision_type = :none

@@ -11,6 +11,7 @@ module Widget
 	class Div < UI_Object
 		include Background::Colored
 		
+		attr_reader :shape
 		attr_reader :padding
 		
 		DEFAULTS = {

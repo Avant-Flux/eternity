@@ -1,9 +1,9 @@
 class LevelEditorInterface
 	attr_reader :mouse, :width
 	
-	def initialize(window, space)
+	def initialize(window)
 		@window = window
-		@space = space
+		@space = CP::Space.new # Just for UI stuff
 		
 		@font = Gosu::Font.new window, "Trebuchet MS", 25
 		
@@ -13,6 +13,11 @@ class LevelEditorInterface
 		
 		#~ @mouse = MouseHandler.new space
 		init_widgets window
+		
+		add_to_space @sidebar
+		add_to_space @sidebar_title
+		@tabs.each_value {|tab| add_to_space tab}
+		@gameobject_selector_panel.each_value {|panel| add_to_space panel} 
 		
 		@active_tab = :static
 	end
@@ -117,5 +122,9 @@ class LevelEditorInterface
 		@tabs[new_tab].color = Gosu::Color::WHITE
 		
 		@active_tab = new_tab
+	end
+	
+	def add_to_space(widget)
+		@space.add_static_shape widget.shape
 	end
 end
