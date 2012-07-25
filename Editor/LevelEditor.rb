@@ -46,6 +46,8 @@ attr_accessor :selected_cursor
 		@EDITOR_STATE = :NONE
 		@SELECTED_BUILDING = "$none$"
 		
+		init_menu_inputs
+		bind_menu_inputs
 		init_editor_inputs
 		bind_editor_inputs
 		@inpman.mode = :editor
@@ -55,6 +57,11 @@ attr_accessor :selected_cursor
 		@selected_cursor = :default
 		
 		super
+		if self.mouse_x >= @interface.sidebar.body.p.x
+			@inpman.mode = :editor_menu
+		else
+			@inpman.mode = :editor
+		end
 		
 		@interface.update
 	end
@@ -240,7 +247,7 @@ attr_accessor :selected_cursor
     def init_editor_inputs
 		@inpman.mode = :editor
 		
-		@inpman.new_action :test, :rising_edge do
+		@inpman.new_action :set_pan, :rising_edge do
 			@old_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 		end
 		
@@ -296,7 +303,7 @@ attr_accessor :selected_cursor
 		@inpman.mode = :editor
 		
 		@inpman.bind_action :pan, Gosu::MsMiddle
-		@inpman.bind_action :test, Gosu::MsMiddle
+		@inpman.bind_action :set_pan, Gosu::MsMiddle
 		#~ @inpman.bind_action :test2, Gosu::MsMiddle
 		
 		@inpman.bind_action :select_object, Gosu::MsLeft
@@ -305,6 +312,22 @@ attr_accessor :selected_cursor
 		
 		@inpman.bind_action :place_cursor, Gosu::MsLeft
 		
+	end
+	
+	def init_menu_inputs
+		@inpman.mode = :editor_menu
+		
+		
+		
+		@inpman.new_action :menu_click, :rising_edge do
+			@interface.click(self.mouse_x, self.mouse_y)
+			puts "do some stuff"
+		end
+		
+	end
+	
+	def bind_menu_inputs
+		@inpman.bind_action :menu_click, Gosu::MsLeft
 	end
 end
 

@@ -1,5 +1,6 @@
 class LevelEditorInterface
 	attr_reader :mouse, :width
+	attr_reader :sidebar
 	
 	def initialize(window)
 		@window = window
@@ -42,6 +43,15 @@ class LevelEditorInterface
 		#~ @name_box.draw
 		#~ @load.draw
 		@save.draw
+	end
+	
+	def click(mouse_x,mouse_y)
+		@space.point_query CP::Vec2.new(mouse_x,mouse_y) do |target|
+		puts "target: #{target}"
+			if target.gameobject.respond_to? :on_click 
+				target.gameobject.on_click
+			end
+		end
 	end
 	
 	private
@@ -129,6 +139,8 @@ class LevelEditorInterface
 			
 			:width => 100, :height => @font.height,
 			:font => @font, :text => "Save", :color => Gosu::Color::BLACK do
+			
+			puts "saving..."
 			# Save click event
 			
 		end
@@ -144,4 +156,5 @@ class LevelEditorInterface
 	def add_to_space(widget)
 		@space.add_static_shape widget.shape
 	end
+	
 end
