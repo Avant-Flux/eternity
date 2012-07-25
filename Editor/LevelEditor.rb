@@ -92,11 +92,6 @@ attr_accessor :selected_cursor
 			end
 		#end
 		
-		if button_down? Gosu::MsLeft
-			
-		end
-		
-		
 		super()
 		
 		draw_screen
@@ -116,11 +111,7 @@ attr_accessor :selected_cursor
 		
         case id
             when Gosu::KbEscape
-                super id
-            when Gosu::KbF
-                super id
-            when Gosu::KbA
-                super id
+                close
             when Gosu::KbZ
                 @EDITOR_STATE = :PLACING_BUILDING
             when Gosu::MsLeft
@@ -153,7 +144,7 @@ attr_accessor :selected_cursor
 	end
 	
 	def button_up(id)
-		#~ @inpman.button_up(id)
+		@inpman.button_up(id)
 		
         case id
             when Gosu::KbA
@@ -297,6 +288,10 @@ attr_accessor :selected_cursor
     def init_editor_inputs
 		@inpman.mode = :editor
 		
+		@inpman.new_action :test, :rising_edge do
+			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+		end
+		
 		@inpman.new_action :pan, :active do
 			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 			dif_x = @cur_mouse.x - @pos_mouse.x
@@ -306,27 +301,15 @@ attr_accessor :selected_cursor
 			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
 		end
 		
-		@inpman.new_action :test, :rising_edge do
-			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			@pos_center = @state_manager.raycast self.width/2, self.height/2
-		end
-		
-		@inpman.new_action :test2, :rising_edge do
-			@pos_center = @state_manager.raycast self.width/2, self.height/2
-			@temp_var.body.p = @pos_center		
-		end
-		
 		@inpman.new_action :move_object, :active do
 			unless button_down?(Gosu::KbLeftControl) || button_down?(Gosu::KbRightControl)
-			
-
 				@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 				dif_x = @cur_mouse.x - @pos_mouse.x
 				dif_y = @cur_mouse.y - @pos_mouse.y
-
+				if @selected_building
 				@selected_building.body.p.x = @selected_building.body.p.x + dif_x
 				@selected_building.body.p.y = @selected_building.body.p.y + dif_y
-				
+				end
 				@pos_mouse = @cur_mouse
 			end
 		end
@@ -337,16 +320,15 @@ attr_accessor :selected_cursor
 			#mouse_down_UId
 			closest_shape = nil
 			@state_manager.raycast_mouse do |shape| 
-					closest_shape ||= shape
-					if shape.body.pz > closest_shape.body.pz
-						closest_shape = shape
-					end
-					@selected_building = closest_shape				
-
+				closest_shape ||= shape
+				if shape.body.pz > closest_shape.body.pz
+					closest_shape = shape
+				end
+				@selected_building = closest_shape				
 			end
 		end
 		
-		@inpman.new_action :msleft_up, :rising_edge do
+		@inpman.new_action :msleft_up, :falling_edge do
 			@selected_building = nil
 			@state_manager.rehash_space
 		end

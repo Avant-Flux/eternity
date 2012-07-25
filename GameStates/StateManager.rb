@@ -99,7 +99,13 @@ class StateManager
 		world_position /= @window.camera.zoom
 		world_position += @window.camera.followed_entity.body.p
 		
-
+		# DEBUG CODE
+		# Draw circle on screen to show the raycast point
+		#~ @window.camera.draw_billboarded do 
+			#~ render_position = world_position.to_screen
+			#~ @window.draw_circle		render_position.x, render_position.y, 
+									#~ 0,300,Gosu::Color::GREEN, :stroke_width => 50
+		#~ end
 		
 		return world_position
 	end
