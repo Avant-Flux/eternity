@@ -52,32 +52,11 @@ attr_accessor :selected_cursor
 	end
 	
 	def update
+		@selected_cursor = :default
+		
 		super
 		
-		case @EDITOR_STATE
-			# Placing buildings, NPCs, and spawn points may have different cursors in the future
-			when :NONE
-				@selected_cursor = :default
-			when :PLACING_BUILDING
-				@selected_cursor = :place
-			when :PLACING_NPC
-				@selected_cursor = :place
-			when :PLACING_SPAWN
-				@selected_cursor = :place
-			when :BOX
-				@selected_cursor = :box
-		end
-		
-		#if button_down? Gosu::MsLeft
-		#	@state_manager.raycast_mouse do |shape| 
-		#		
-		#	end
-		#end
 		@interface.update
-	end
-	
-	def switch_state( state_id )
-		nil
 	end
 	
 	def draw
@@ -95,15 +74,6 @@ attr_accessor :selected_cursor
 		super()
 		
 		draw_screen
-		
-		#~ if @selected_cursor == :place # left click active
-			#~ r = 20
-			#~ draw_circle	self.mouse_x,self.mouse_y,0,
-						#~ r, Gosu::Color::FUCHSIA,
-						#~ :stroke_width => r
-		#~ end
-
-		
 	end
 	
 	def button_down(id)
@@ -122,11 +92,7 @@ attr_accessor :selected_cursor
         
 			
 			
-		if id == Gosu::MsRight
-			@selected_cursor = :box if @selected_cursor == :default
-			mouse_down_scene
-			
-		elsif id == Gosu::MsWheelDown
+		if id == Gosu::MsWheelDown
 			if button_down? Gosu::MsLeft
 				@selected_building.body.pz -= 1
 			else
@@ -152,18 +118,6 @@ attr_accessor :selected_cursor
             when Gosu::KbZ
                 @EDITOR_STATE = :NONE
         end
-        
-		if id == Gosu::MsLeft
-			if @selected_cursor == :place # left click active
-				printf "mouse1"
-				@selected_cursor = :default
-			end
-		elsif id == Gosu::MsRight
-			if @selected_cursor == :box # right click active
-				print "mouse2"
-				@selected_cursor = :default
-			end
-		end
 	end
 	
 	def needs_cursor?()
@@ -188,9 +142,7 @@ attr_accessor :selected_cursor
 		flush
 		
 		@cursor[@selected_cursor].draw	self.mouse_x-@cursor[@selected_cursor].width/2, 
-								self.mouse_y-@cursor[@selected_cursor].height/2, 0
-								
-
+										self.mouse_y-@cursor[@selected_cursor].height/2, 0
 	end
 	
 	
@@ -289,13 +241,13 @@ attr_accessor :selected_cursor
 		@inpman.mode = :editor
 		
 		@inpman.new_action :test, :rising_edge do
-			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
+			@old_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 		end
 		
 		@inpman.new_action :pan, :active do
 			@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			dif_x = @cur_mouse.x - @pos_mouse.x
-			dif_y = @cur_mouse.y - @pos_mouse.y
+			dif_x = @cur_mouse.x - @old_mouse.x
+			dif_y = @cur_mouse.y - @old_mouse.y
 
 			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
 			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
@@ -306,18 +258,19 @@ attr_accessor :selected_cursor
 				@cur_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
 				dif_x = @cur_mouse.x - @pos_mouse.x
 				dif_y = @cur_mouse.y - @pos_mouse.y
+				
 				if @selected_building
-				@selected_building.body.p.x = @selected_building.body.p.x + dif_x
-				@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+					@selected_building.body.p.x = @selected_building.body.p.x + dif_x
+					@selected_building.body.p.y = @selected_building.body.p.y + dif_y
 				end
+				
 				@pos_mouse = @cur_mouse
 			end
 		end
 		
 		@inpman.new_action :select_object, :rising_edge do
 			@pos_mouse = @state_manager.raycast self.mouse_x,self.mouse_y
-			@selected_cursor = :place if @selected_cursor == :default
-			#mouse_down_UId
+			
 			closest_shape = nil
 			@state_manager.raycast_mouse do |shape| 
 				closest_shape ||= shape
@@ -332,6 +285,11 @@ attr_accessor :selected_cursor
 			@selected_building = nil
 			@state_manager.rehash_space
 		end
+		
+		@inpman.new_action :place_cursor, :active do
+			@selected_cursor = :place #if @selected_cursor == :default
+		end
+		
 	end
 	
 	def bind_editor_inputs
@@ -339,12 +297,13 @@ attr_accessor :selected_cursor
 		
 		@inpman.bind_action :pan, Gosu::MsMiddle
 		@inpman.bind_action :test, Gosu::MsMiddle
-		@inpman.bind_action :test2, Gosu::MsMiddle
+		#~ @inpman.bind_action :test2, Gosu::MsMiddle
 		
 		@inpman.bind_action :select_object, Gosu::MsLeft
 		@inpman.bind_action :move_object, Gosu::MsLeft
 		@inpman.bind_action :msleft_up, Gosu::MsLeft
 		
+		@inpman.bind_action :place_cursor, Gosu::MsLeft
 		
 	end
 end
