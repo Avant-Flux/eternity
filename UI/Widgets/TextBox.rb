@@ -7,7 +7,7 @@ module Widget
 	# Parent of TextField and TextArea
 	# Define the area for text to be drawn, but not the borders etc.
 	class TextBox < Label
-		def initialize(window, x,y, options={})
+		def initialize(window, options={})
 			options =	{
 							:background_color => Gosu::Color::NONE,
 							:editable => false	# Determines if the text can be edited or not
@@ -17,7 +17,7 @@ module Widget
 				raise ArgumentError, "No font specified"
 			end
 			
-			super window, x, y, options
+			super window, options
 			
 			#~ 
 			#~ @i = 0

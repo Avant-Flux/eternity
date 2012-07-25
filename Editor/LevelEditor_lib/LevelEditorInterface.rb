@@ -20,6 +20,8 @@ class LevelEditorInterface
 		@tabs.each_value {|tab| add_to_space tab}
 		@gameobject_selector_panel.each_value {|panel| add_to_space panel} 
 		add_to_space @save
+		add_to_space @load
+		add_to_space @filepath
 		
 		@active_tab = :static
 	end
@@ -29,7 +31,7 @@ class LevelEditorInterface
 			@window.selected_cursor = :menu
 		end
 		
-		switch_to_tab :static
+		switch_to_tab :entity
 	end
 	
 	def draw
@@ -40,8 +42,9 @@ class LevelEditorInterface
 		@tabs.each_value {|tab| tab.draw}
 		@gameobject_selector_panel[@active_tab].draw
 		
+		@filepath.draw
 		#~ @name_box.draw
-		#~ @load.draw
+		@load.draw
 		@save.draw
 	end
 	
@@ -86,7 +89,7 @@ class LevelEditorInterface
 		
 		tab_vert_offset = 30
 		@tabs = {
-			:static => Widget::Label.new(window,
+			:static => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => tab_vert_offset, :bottom => :auto,
@@ -95,8 +98,12 @@ class LevelEditorInterface
 				:width => 100, :height => @font.height,
 				
 				:font => @font, :text => "Static", :color => Gosu::Color::BLACK
-			),
-			:entity => Widget::Label.new(window,
+			) do
+				switch_to_tab :static
+			end,
+			
+			
+			:entity => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => tab_vert_offset, :bottom => :auto,
@@ -105,8 +112,12 @@ class LevelEditorInterface
 				:width => 100, :height => @font.height,
 				
 				:font => @font, :text => "Entity", :color => Gosu::Color::BLACK
-			),
-			:spawn => Widget::Label.new(window,
+			) do
+				switch_to_tab :entity
+			end,
+			
+			
+			:spawn => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => tab_vert_offset, :bottom => :auto,
@@ -115,7 +126,9 @@ class LevelEditorInterface
 				:width => 100, :height => @font.height,
 				
 				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK
-			)
+			) do
+				switch_to_tab :spawn
+			end
 		}
 		
 		offset_y = 55
@@ -131,6 +144,17 @@ class LevelEditorInterface
 			@tabs[type].background_color = panel.background_color
 		end
 		
+		@filepath = Widget::TextField.new window,
+			:relative => @sidebar,
+			
+			:top => :auto, :bottom => 70,
+			:left => :auto, :right => :auto,
+			
+			:width => 200, :height => @font.height,
+			:font => @font, :text => "Filename: #{@window.state_manager.top.name}", :color => Gosu::Color::WHITE,
+			
+			:background_color => Gosu::Color::BLACK
+		
 		@save = Widget::Button.new window,
 			:relative => @sidebar,
 			
@@ -142,6 +166,20 @@ class LevelEditorInterface
 			
 			puts "saving..."
 			# Save click event
+			# Save current level to path specified by @filepath widget
+			
+		end
+		
+		@load = Widget::Button.new window,
+			:relative => @sidebar,
+			
+			:top => :auto, :bottom => 30,
+			:left => :auto, :right => 10,
+			
+			:width => 100, :height => @font.height,
+			:font => @font, :text => "Load", :color => Gosu::Color::BLACK do
+			# Load click event
+			# Load file specified in @filepath widget
 			
 		end
 	end

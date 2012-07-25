@@ -5,10 +5,11 @@ require 'chipmunk'
 
 module Widget
 	# One line text input
+	# TODO: Consider padding
 	class TextField < TextBox
 		attr_accessor :editable
 		
-		def initialize(window, x,y, options={})
+		def initialize(window, options={})
 			options =	{
 							:background_color => Gosu::Color::NONE,
 							:editable => true,	# Determines if the text can be edited or not
@@ -19,7 +20,7 @@ module Widget
 				raise ArgumentError, "No font specified"
 			end
 			
-			super window, x,y, options
+			super window, options
 			
 			if options[:initial_temp_text]
 				@temp = true
@@ -45,7 +46,7 @@ module Widget
 		end
 		
 		def draw
-			@window.clip_to @body.p.x,@body.p.y, @width, @height do
+			@window.clip_to @body.p.x,@body.p.y, self.width, self.height do
 				super
 				
 				if @active

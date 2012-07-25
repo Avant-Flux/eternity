@@ -8,8 +8,8 @@ require './GameWindow'
 require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
-
 attr_accessor :selected_cursor
+attr_reader :state_manager # TODO: Remove if possible
 
 	def initialize
 		super()
