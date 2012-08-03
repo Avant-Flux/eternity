@@ -31,7 +31,8 @@ class LevelEditorInterface
 			@window.selected_cursor = :menu
 		end
 		
-		switch_to_tab :entity
+		@gameobject_selector_panel[@active_tab].update
+		
 	end
 	
 	def draw
@@ -50,8 +51,9 @@ class LevelEditorInterface
 	
 	def click(mouse_x,mouse_y)
 		@space.point_query CP::Vec2.new(mouse_x,mouse_y) do |target|
-		puts "target: #{target}"
+		
 			if target.gameobject.respond_to? :on_click 
+				puts "target: #{target.gameobject}"
 				target.gameobject.on_click
 			end
 		end
@@ -93,11 +95,12 @@ class LevelEditorInterface
 				:relative => @sidebar,
 				
 				:top => tab_vert_offset, :bottom => :auto,
-				:left => 0, :right => :auto,
+				:left => 5, :right => :auto,
 				
-				:width => 100, :height => @font.height,
+				:width => 97, :height => @font.height,
 				
-				:font => @font, :text => "Static", :color => Gosu::Color::BLACK
+				:font => @font, :text => "Static", :color => Gosu::Color::WHITE
+				
 			) do
 				switch_to_tab :static
 			end,
@@ -109,10 +112,12 @@ class LevelEditorInterface
 				:top => tab_vert_offset, :bottom => :auto,
 				:left => :auto, :right => :auto,
 				
-				:width => 100, :height => @font.height,
+				:width => 97, :height => @font.height,
 				
 				:font => @font, :text => "Entity", :color => Gosu::Color::BLACK
+
 			) do
+
 				switch_to_tab :entity
 			end,
 			
@@ -121,11 +126,12 @@ class LevelEditorInterface
 				:relative => @sidebar,
 				
 				:top => tab_vert_offset, :bottom => :auto,
-				:left => :auto, :right => 0,
+				:left => :auto, :right => 5,
 				
-				:width => 100, :height => @font.height,
+				:width => 97, :height => @font.height,
 				
 				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK
+
 			) do
 				switch_to_tab :spawn
 			end
@@ -164,7 +170,6 @@ class LevelEditorInterface
 			:width => 100, :height => @font.height,
 			:font => @font, :text => "Save", :color => Gosu::Color::BLACK do
 			
-			puts "saving..."
 			# Save click event
 			# Save current level to path specified by @filepath widget
 			

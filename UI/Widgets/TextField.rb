@@ -56,8 +56,8 @@ module Widget
 					text_width = @font.text_width(@text[0..@window.text_input.selection_start])
 					
 					if @blink >= reset_time && @blink < reset_time + delay
-						@window.draw_line	px+text_width, py, @color,
-											px+text_width, py+@height, @color, @pz+3
+						@window.draw_line	@body.p.x+text_width, @body.p.y, @color,
+											@body.p.x+text_width, @body.p.y+@height, @color, @pz+3
 					elsif @blink > reset_time + delay
 						@blink = 0
 					end
