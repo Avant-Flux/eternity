@@ -13,12 +13,9 @@ gems = %x[gem list]
 unless gems.include? "bundler"
 	if RUBY_PLATFORM.downcase.include?("mswin32")
 		# Platform is Windows
-		puts "Windows!"
 		%x[gem install bundler]
 	elsif RUBY_PLATFORM.downcase.include?("mingw")
-		# Not sure what this windows is, but it's what you get
-		# when you use the rubyinstaller.org version
-		puts "Still windows!"
+		# Windows - RubyInstaller version
 		%x[gem install bundler]
 		
 		puts "Bundler ready"
