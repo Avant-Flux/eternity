@@ -23,7 +23,7 @@ module Physics
 			super(body)
 			
 			@bodies.add body
-			body.add_elevation initial_elevation body
+			set_initial_elevation body
 		end
 		
 		def add_shape(shape)
@@ -114,7 +114,7 @@ module Physics
 			end
 		end
 		
-		def initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
+		def set_initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
 			# Calculate initial elevation
 			# Take the maximum of all possible elevations
 			# 
@@ -122,23 +122,21 @@ module Physics
 			# Elevation for objects already in the space in handled by Physics::Space
 			# Even so, the layers variable may need to be changed,
 			# if there are some elements which should not be tested against.
-			elevation = 0
+			puts body.gameobject
+			p body.p
 			
-			point_query body.local2world(CP::Vec2::ZERO), layers, group do |shape|
-				if shape.gameobject.is_a? StaticObject
-					env = shape.gameobject
-					new_elevation = env.height + env.body.pz
-					
-					if new_elevation > elevation
-						elevation = new_elevation
-					end
+			
+			point_query body.p, layers, group do |shape|
+				#~ if shape.gameobject.is_a? StaticObject
+				if shape.body != body
+					body.elevation_queue.add shape.gameobject
 				end
 			end
 			
-			return elevation
+			puts body.elevation
+			
+			body.pz = body.elevation
 		end
-		
-		private
 		
 		def air_resistance(body, movement_direction)
 			return CP::ZERO_VEC_2

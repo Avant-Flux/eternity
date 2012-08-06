@@ -67,10 +67,10 @@ module CollisionHandler
 				# On top of the environment
 				#~ puts "over"
 				
-				if entity.body.pz >= elevation && elevation > entity.body.elevation
-					entity.body.add_elevation elevation
-				end
-				
+				#~ if entity.body.pz >= elevation && elevation > entity.body.elevation
+					#~ entity.body.add_elevation elevation
+				#~ end
+				entity.body.elevation_queue.add env
 				
 				return false
 			else
@@ -115,8 +115,9 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			elevation = env.height + env.body.pz
-			entity.body.delete_elevation elevation
+			#~ elevation = env.height + env.body.pz
+			#~ entity.body.delete_elevation elevation
+			entity.body.elevation_queue.delete env
 		end
 	end
 	

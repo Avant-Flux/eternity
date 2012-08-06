@@ -3,7 +3,7 @@ Spawn 7 3 0
 # Dimensions first, the position
 
 # Main area
-Building	15 45 0		0 0 0		$texture_1$	$texture_2$
+Building	15 45 3		0 0 0		$texture_1$	$texture_2$
 
 # Junk block in main area
 Building	1.4540625 1.4540625 1.4540625		3 25 0		junk_block	$texture_2$

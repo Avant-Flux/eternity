@@ -1,8 +1,11 @@
+require 'set'
+
 module Physics
 	class Body < CP::Body
 		# TODO: Remove pointer to gameobject if it proves unnecessary
 		# 		Currently only used for #resolve_ground_collision
 		attr_reader :gameobject
+		attr_reader :elevation_queue
 		attr_accessor :pz, :vz, :az, :g
 		#~ attr_accessor :elevation
 		
@@ -13,10 +16,10 @@ module Physics
 			
 			# Create values for 3rd dimension of physics
 			
-			# TODO: Attempt to remove elevation if it is only needed for shadows
-			# Elevation is set by the space
-			@elevation_heap = Containers::MaxHeap.new
-			@elevation_heap << 0
+			# Set contains all objects which could possibly contribute to the elevation
+			# Populated by the "collision" of objects within the space
+			@elevation_queue = Set.new
+			
 			
 			@pz = 0
 			@vz = 0 
@@ -25,8 +28,7 @@ module Physics
 		
 		def reset
 			# Restore the body to it's original state.
-			@elevation_heap.clear
-			@elevation_heap << 0
+			@elevation_queue.clear
 			
 			@pz = 0
 			@vz = 0
@@ -41,15 +43,17 @@ module Physics
 		end
 		
 		def elevation
-			@elevation_heap.max
-		end
-		
-		def add_elevation(elevation)
-			@elevation_heap << elevation
-		end
-		
-		def delete_elevation(elevation)
-			@elevation_heap.delete elevation
+			max_elevation = 0
+			@elevation_queue.each do |env|
+				
+				new_elevation = env.height + env.body.pz
+				
+				if new_elevation > max_elevation
+					max_elevation = new_elevation
+				end
+			end
+			
+			return max_elevation
 		end
 		
 		def in_air?

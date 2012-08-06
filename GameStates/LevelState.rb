@@ -93,14 +93,18 @@ class LevelState #< GameState
 		collection.delete obj
 		
 		obj.remove_from @space
+		
+		return obj
 	end
 	
 	def add_player(player)
 		@player = player
+		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn
+		
 		@player.add_to @space
 		@entities << @player
 		
-		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn
+		return @spawn
 	end
 	
 	# Save all elements of the level, but not the camera
