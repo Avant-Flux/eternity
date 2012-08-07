@@ -117,23 +117,18 @@ module Physics
 		def set_initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
 			# Calculate initial elevation
 			# Take the maximum of all possible elevations
+			# Also, set initial z position to match elevation.
 			# 
 			# This method is only used to set initial elevation.
 			# Elevation for objects already in the space in handled by Physics::Space
 			# Even so, the layers variable may need to be changed,
 			# if there are some elements which should not be tested against.
-			puts body.gameobject
-			p body.p
-			
 			
 			point_query body.p, layers, group do |shape|
-				#~ if shape.gameobject.is_a? StaticObject
-				if shape.body != body
+				if shape.gameobject.is_a? StaticObject
 					body.elevation_queue.add shape.gameobject
 				end
 			end
-			
-			puts body.elevation
 			
 			body.pz = body.elevation
 		end
