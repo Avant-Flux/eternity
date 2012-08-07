@@ -33,8 +33,9 @@ class Entity
 		@visible = true
 		
 		#~ File.join(Cacheable.sprite_directory, "People", "NewSprites.png")
-		spritesheet_filename = "./Sprites/People/NewSprites.png"
-		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, 295, 640, false)
+		#~ spritesheet_filename = "./Sprites/People/NewSprites.png"
+		spritesheet_filename = "./Sprites/People/male_spritesheet.png"
+		@spritesheet = Gosu::Image::load_tiles(window, spritesheet_filename, -4, -2, false)
 		@sprite = @spritesheet[0]
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
@@ -68,17 +69,7 @@ class Entity
 			1
 		end
 		
-		case compute_direction
-			when :down
-				@sprite = @spritesheet[0]
-			when :up
-				@sprite = @spritesheet[1]
-			when :left
-				@sprite = @spritesheet[2]
-			when :right
-				@sprite = @spritesheet[3]
-		end
-		
+		@sprite = @spritesheet[compute_direction]
 	end
 	
 	def draw
@@ -128,18 +119,12 @@ class Entity
 	
 	def compute_direction
 		angle = @body.a
-		#~ angle = @body.v.to_angle
+		#~ puts angle
 		
-		if angle.between? Physics::Direction::NE_ANGLE, Physics::Direction::SE_ANGLE
-			return :right
-		elsif angle.between? Physics::Direction::SE_ANGLE, Physics::Direction::SW_ANGLE
-			return :down
-		elsif angle.between? Physics::Direction::SW_ANGLE, Physics::Direction::NW_ANGLE
-			return :left
-		elsif angle.between? Physics::Direction::NW_ANGLE, Physics::Direction::NE_ANGLE
-			return :up
-		else
-			:left
-		end
+		# All angles are in CP space - thus, radians
+		#~ puts angle + Math::PI # 2PI is left, angle increases CCW
+		#~ puts ((angle + Math::PI)/(Math::PI*2))*8
+		
+		return (((angle + Math::PI)/(Math::PI*2))*8).to_i - 1
 	end
 end
