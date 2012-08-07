@@ -63,12 +63,6 @@ class Entity
 	end
 	
 	def update
-		i = if @body.f.y > 0
-			0
-		else
-			1
-		end
-		
 		@sprite = @spritesheet[compute_direction]
 	end
 	
@@ -118,13 +112,14 @@ class Entity
 	private
 	
 	def compute_direction
-		angle = @body.a
+		#~ angle = @body.a
 		#~ puts angle
 		
 		# All angles are in CP space - thus, radians
 		#~ puts angle + Math::PI # 2PI is left, angle increases CCW
 		#~ puts ((angle + Math::PI)/(Math::PI*2))*8
 		
-		return (((angle + Math::PI)/(Math::PI*2))*8).to_i - 1
+		#~ return (((@body.a + Math::PI)/(Math::PI*2))*8).to_i - 1
+		return 4*@body.a/Math::PI + 3
 	end
 end
