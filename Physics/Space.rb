@@ -147,8 +147,6 @@ module Physics
 			# 		Normal = mg*cos(theta)
 			normal = body.m * @g
 			
-			printf #{body.v.to_world}
-			
 			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
 		end
 	end
