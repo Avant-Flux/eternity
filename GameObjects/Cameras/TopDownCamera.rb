@@ -76,7 +76,7 @@ module Camera
 							
 							@window.flush
 							
-							if state != @state_manager.stack.last
+							if state != @state_manager.top
 								#~ @dimming_screen.draw
 							end
 						end

@@ -1,7 +1,4 @@
 class StateManager
-	# TODO: Save states as they pop off the stack
-	attr_reader :stack # TODO: Needed only for TopDownCamera.  Remove ASAP
-	
 	def initialize(window, player)
 		@window = window	# Parent window
 		@player = player
@@ -59,7 +56,7 @@ class StateManager
 	end
 	
 	def top
-		return stack[0]
+		return @stack[0]
 	end
 	
     # Iterate over all states
