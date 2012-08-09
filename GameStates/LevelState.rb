@@ -150,7 +150,7 @@ class LevelState #< GameState
 				line << "#{gameobj.width} #{gameobj.depth} #{gameobj.height}		"
 				
 				# Insert position
-				line << "#{gameobj.body.p.x} #{gameobj.body.p.y} #{gameobj.pz}"
+				line << "#{gameobj.body.p.x} #{gameobj.body.p.y} #{gameobj.body.pz}"
 				
 				f.puts line
 			end
