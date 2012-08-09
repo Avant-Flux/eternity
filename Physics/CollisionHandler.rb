@@ -65,11 +65,6 @@ module CollisionHandler
 			#Process actions involving what to do when on top, as well as side collisions
 			if entity.body.pz >= (elevation = env.height + env.body.pz)
 				# On top of the environment
-				#~ puts "over"
-				
-				#~ if entity.body.pz >= elevation && elevation > entity.body.elevation
-					#~ entity.body.add_elevation elevation
-				#~ end
 				entity.body.elevation_queue.add env
 				
 				return false
@@ -79,24 +74,18 @@ module CollisionHandler
 					# Feet are beneath the z of the static object
 					if entity.body.pz + entity.height > env.body.pz
 						# Head is inside the static object (ie, colliding)
-						#~ puts "head collision"
 						entity.body.pz = env.body.pz - entity.height
 						entity.body.vz = 0
 						entity.body.az = 0
 						return false
 					else
 						# Entity is below the static object
-						#~ puts "beneath"
 						return false
 					end
 				else
 					# Less than elevation, greater than or equal to env.body.pz
 					#~ puts "side collision"
-					#~ if elevation > entity.body.elevation
-						return true
-					#~ else
-						#~ return false
-					#~ end
+					return true
 				end
 			end
 		end
@@ -106,8 +95,6 @@ module CollisionHandler
 		#~ end
 		
 		def separate(arbiter)	#Stuff to do after the shapes separate
-			#~ arbiter.a.gameobj.reset_elevation arbiter.b.gameobj.height(:meters) + arbiter.b.gameobj.pz
-			
 			# Get game objects and shapes
 			entity_shape = arbiter.a
 			env_shape = arbiter.b
@@ -115,14 +102,12 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			#~ elevation = env.height + env.body.pz
-			#~ entity.body.delete_elevation elevation
 			entity.body.elevation_queue.delete env
 		end
 	end
 	
-	#~ Collision type for usage with the CP::Shape and CP::Body used for the camera
-	#~ This is the collision handler for a sensor object
+	# Collision type for usage with the CP::Shape and CP::Body used for the camera
+	# This is the collision handler for a sensor object
 	class Camera
 		#~ a has collision type :camera
 		#~ b is the Chipmunk object for the Entity
