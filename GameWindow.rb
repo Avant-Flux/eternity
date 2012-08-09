@@ -112,7 +112,7 @@ class GameWindow < Gosu::Window
 	
 	# Define operations to be performed on window shutdown
 	def close
-		@state_manager.clear # Clear will dump all states
+		#~ @state_manager.clear # Clear will dump all states
 		
 		super()
 	end
