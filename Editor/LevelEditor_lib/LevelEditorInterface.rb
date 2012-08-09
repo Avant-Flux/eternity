@@ -103,6 +103,7 @@ class LevelEditorInterface
 				
 			) do
 				switch_to_tab :static
+				@gameobject_selector_panel[:static].list_static_objects
 			end,
 			
 			
