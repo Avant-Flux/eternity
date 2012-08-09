@@ -6,7 +6,7 @@ module Physics
 	MAX_Z = 10000000
 
 	# Set the scale for conversion between meters and pixels
-	@@scale = 640/165.0*100 # Pixels per meter
+	@@scale = 390/165.0*100 # Pixels per meter
 	class << self
 		def scale
 			@@scale
