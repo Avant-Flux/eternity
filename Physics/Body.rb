@@ -44,9 +44,15 @@ module Physics
 		
 		def elevation
 			max_elevation = 0
+			puts @elevation_queue.size
 			@elevation_queue.each do |env|
 				
-				new_elevation = env.height + env.body.pz
+				new_elevation = if env.is_a? Slope
+					env.height_at self.p.x, self.p.y
+				else
+					env.height
+				end
+				new_elevation += env.body.pz
 				
 				if new_elevation > max_elevation
 					max_elevation = new_elevation

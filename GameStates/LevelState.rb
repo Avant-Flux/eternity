@@ -236,6 +236,19 @@ class LevelState #< GameState
                             end
                             
 							Building.new window, *args
+						when "Slope"
+							building_count += 1
+							
+							args.shift
+                            
+                            7.times do |i|
+								args[i] = args[i].to_f
+                            end
+                            args[7] = args[7].to_sym
+                           
+                            p args
+                            
+							Slope.new window, *args
 						when "NPC"
                             args.shift
                             selected = characters[ args[0] ]
