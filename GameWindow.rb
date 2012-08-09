@@ -106,8 +106,15 @@ class GameWindow < Gosu::Window
 		@inpman.button_up(id)
 	end
 	
-	def needs_cursor?()
+	def needs_cursor?
 		true
+	end
+	
+	# Define operations to be performed on window shutdown
+	def close
+		@state_manager.clear # Clear will dump all states
+		
+		super()
 	end
 	
 	def draw_circle(x,y,z, r, color, options={})

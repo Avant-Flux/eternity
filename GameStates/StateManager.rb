@@ -26,7 +26,7 @@ class StateManager
 	def update
 		# Only update the state on the top of the stack
 		@space.step
-		@stack.last.update
+		@stack.last.update if @stack.last
 	end
 	
 	def draw
@@ -83,11 +83,17 @@ class StateManager
 	# TODO: Move player back to appropriate spot in previous state.  Not the same as the spawn.
 	
 	# Move top active state to inactive set
+	# Returns true if the operation was successful
 	def pop
 		state = @stack.pop
-		state.finish
-		
-		@cache[state.name] = state
+		if state
+			state.finish
+			@cache[state.name] = state
+			
+			return true
+		else
+			return false
+		end
 	end
 	
 	# Load a LevelState with the given name into memory
@@ -105,11 +111,15 @@ class StateManager
 		end
 	end
 	
-	# Pop all states, and dump each state to disk
-	def clear()
-		while state = self.pop
+	# Pop all states, and dump all states to disk
+	def clear
+		while state = self.pop;	end
+		
+		@cache.each do |name, state|
 			state.dump
 		end
+		
+		@cache.clear
 	end
 	
 	# ==================================
