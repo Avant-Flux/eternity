@@ -5,7 +5,10 @@ require 'chipmunk'
 
 require 'set'
 
+# TODO: Remove @space from initialize, as it is not needed on init.
 class LevelState #< GameState
+	include Comparable
+	
 	# Defines the behavior for a slice of a level.
 	# A slice is similar to one floor of a building.
 	path = File.expand_path File.dirname(__FILE__)
@@ -76,8 +79,6 @@ class LevelState #< GameState
 		else
 			@entities.add obj
 		end
-		
-		obj.add_to @space
 	end
 	
 	def delete_gameobject(obj)
@@ -107,8 +108,21 @@ class LevelState #< GameState
 		return @spawn
 	end
 	
+	def add_to(space)
+		# Must add entities last, so they can have proper elevation
+		@space = space
+		
+		@static_objects.each do |obj|
+			obj.add_to @space
+		end
+		
+		@entities.each do |entity|
+			entity.add_to @space
+		end
+	end
+	
 	# Save all elements of the level, but not the camera
-	def save
+	def dump
 		# Get all physics objects with the appropriate layers variable
 		# Get the corresponding game objects
 		# Call some sort of serialization method on each game object
@@ -180,6 +194,14 @@ class LevelState #< GameState
 		end
 		
 		puts "export of #{self.name} complete"
+	end
+	
+	def <=>(another)
+		if another.is_a? String
+			@name <=> another
+		else
+			@name <=> another.name
+		end
 	end
 	
 	class << self

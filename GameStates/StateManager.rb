@@ -12,10 +12,14 @@ class StateManager
 		end
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		
-		@stack = Array.new()
+		@stack = Array.new	# Active gamestates
+		@cache = Hash.new	# States loaded into memory, but not currently active
 		
 		
-		@stack << LevelState.load(@window, @space, "Tutorial")
+		self.load "Tutorial"
+		self.push "Tutorial"
+		
+		
 		add_player(@player)
 	end
 	
@@ -64,19 +68,48 @@ class StateManager
 		@stack.each &block
 	end
     
-	def push(state)
+    # Move gamestate from cache to active stack
+    # Places gameobjects into the physics space
+	def push(state_name)
+		state = @cache.delete(state_name)
+		state.add_to @space
 		
+		@stack << state
 	end
 	
 	alias :<< :push
 	
 	# Remove top state, and tell it to clean up after itself
 	# TODO: Move player back to appropriate spot in previous state.  Not the same as the spawn.
+	
+	# Move top active state to inactive set
 	def pop
 		state = @stack.pop
 		state.finish
 		
-		return state
+		@cache[state.name] = state
+	end
+	
+	# Load a LevelState with the given name into memory
+	# Loaded states are placed in the cache, not the active stack
+	def load(state_name)
+		@cache[state_name] = LevelState.load(@window, @space, state_name)
+	end
+	
+	# Save level with given name to disk
+	# Searches within only the cache
+	def dump(state_name)
+		# TODO: Refine dump() so it cascades
+		if state = @cache.delete(state_name)
+			state.dump
+		end
+	end
+	
+	# Pop all states, and dump each state to disk
+	def clear()
+		while state = self.pop
+			state.dump
+		end
 	end
 	
 	# ==================================
