@@ -48,17 +48,17 @@ class StaticObjectPanel < Widget::Div
 				object = Widget::Button.new @window,
 					:relative => self,
 					
-					:top => :auto, :bottom => :auto,
-					:left => :auto, :right => :auto,
+					:top => y_offset, :bottom => :auto,
+					:left => 300, :right => 0,
 					
-					:width =>100, :height => @font.height,
+					:width => 0, :height => @font.height,
 					
-					:font => @font, :text => object.to_s, :color => Gosu::Color::WHITE do
+					:font => @font, :text => object.to_s, :align => 'right' do
 						#necessary?
 					end
 					
 					@static_objects << object
-					y_offset += 20 + object.height
+					y_offset += 2 + object.height
 			end
 		end
 	
