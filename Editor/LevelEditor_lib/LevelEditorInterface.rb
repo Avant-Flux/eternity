@@ -120,6 +120,8 @@ class LevelEditorInterface
 			) do
 
 				switch_to_tab :entity
+				@gameobject_selector_panel[:entity].list_entity_objects
+
 			end,
 			
 			
@@ -135,6 +137,7 @@ class LevelEditorInterface
 
 			) do
 				switch_to_tab :spawn
+				@gameobject_selector_panel[:spawn].list_spawn
 			end
 		}
 		

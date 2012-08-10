@@ -233,7 +233,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
     
     def load_buildings
 		path = File.join "Levels", "Tutorial.txt"
-		
+		@count = 0
 		File.open( path, "r" ).each do |line|
 			args = line.split
 			@buildings[ args[0] ] = {
@@ -241,7 +241,9 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 				:textures => [ args[4], args[5] ]
 			}
 			#puts "recognized new building type #{args[0]}"
+			@count += 1
 		end
+		puts "building count: #{@buildings.length}"
     end
     
     def init_editor_inputs

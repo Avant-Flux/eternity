@@ -18,18 +18,18 @@ class StaticObjectPanel < Widget::Div
 		
 		@static_objects = []
 		
-		list_static_objects
+		
 		
 		#if not @buildings == nil
 
 		#end
 		
 		super(window, options)
+		
+		list_static_objects
 	end
 	
-	def update
-		#list_static_objects
-	
+	def update	
 		super()
 	end
 	
@@ -42,25 +42,24 @@ class StaticObjectPanel < Widget::Div
 	
 	def list_static_objects
 		y_offset = 20
-		if not @window.buildings == nil
-			@window.buildings.each do |object| 
-			puts object
+			@window.state_manager.top.each_static do |object| 
 				object = Widget::Button.new @window,
 					:relative => self,
 					
 					:top => y_offset, :bottom => :auto,
-					:left => 300, :right => 0,
+					:left => 130, :right => :auto,
 					
 					:width => 0, :height => @font.height,
 					
-					:font => @font, :text => object.to_s, :align => 'right' do
+					:font => @font, :text => "o" + object.to_s, :align => 'left' do
 						#necessary?
-					end
-					
-					@static_objects << object
-					y_offset += 2 + object.height
+				end
+				
+				@static_objects << object
+				
+				y_offset += 2 + object.height
+
 			end
-		end
 	
 	end
 	
