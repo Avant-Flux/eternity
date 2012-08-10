@@ -11,6 +11,7 @@ class StateManager
 			false
 		end
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
+		@space.add_collision_handler :entity, :slope, CollisionHandler::EntitySlope.new
 		
 		@stack = Array.new	# Active gamestates
 		@cache = Hash.new	# States loaded into memory, but not currently active

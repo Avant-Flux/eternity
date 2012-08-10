@@ -12,7 +12,7 @@ class Slope < StaticObject
 		# would have a direction of north.
 		@slope_direction = slope_direction
 		
-		#~ @shape.collision_type = :slope
+		@shape.collision_type = :slope
 		
 		@slope =	if @slope_direction == :north || @slope_direction == :south
 						# Y and Z
@@ -60,7 +60,7 @@ class Slope < StaticObject
 	end
 	
 	def height_at(x,y)
-		puts "#{x}, #{y}"
+		#~ puts "#{x}, #{y}"
 		# Return the height of the slope as a function of an Entity's position on the slope
 		# TODO: Cap plane at the ends so that elevation is not calculated for outside objects
 		if @slope_direction == :north || @slope_direction == :south
