@@ -128,8 +128,4 @@ class UI_State# < InterfaceState
 			@right_weapon.draw
 		#~ end
 	end
-	
-	def finalize
-		super
-	end
 end
