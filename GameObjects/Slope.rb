@@ -16,47 +16,10 @@ class Slope < StaticObject
 		
 		@shape.collision_type = :slope
 		
-		@slope =	if @slope_direction == :north || @slope_direction == :south
-						# Y and Z
-						
-						dz = (height_high - height_low)
-						
-						dy = 	if @slope_direction == :north
-									@depth
-								elsif @slope_direction == :south
-									-@depth
-								end
-						
-						# return
-						dz.to_f / dy.to_f
-					elsif @slope_direction == :east || @slope_direction == :west
-						# X and Z
-						dz = (height_high - height_low)
-						
-						dx =	if @slope_direction == :east
-									east_x - west_x
-								elsif @slope_direction == :west
-									west_x - east_x
-								end
-						
-						
-						# return
-						dz.to_f / dx.to_f
-					end
+		@slope = slope(height_low, height_high, slope_direction)
+		@slope_constant = slope_constant(z, height_high, slope_direction, @slope)
 		
-		axis = axis = case @slope_direction
-			when :north
-				north_y
-			when :south
-				south_y
-			when :east
-				east_x
-			when :west
-				west_x
-		end
-		@slope_constant = (z + height_high) - @slope*axis
-		
-		@surface_points = slope_verts # Used to draw quad for top of object
+		@surface_points = surface_verts # Used to draw quad for top of object
 		@surface_z = @body.pz+@height_low
 	end
 	
@@ -110,7 +73,7 @@ class Slope < StaticObject
 		@body.p.x + @width
 	end
 	
-	def slope_verts
+	def surface_verts
 		points = []
 		@shape.each_vertex_absolute_with_index do |vert, i|
 			vert = vert.to_screen
@@ -144,5 +107,47 @@ class Slope < StaticObject
 		end
 		
 		return points
+	end
+	
+	def slope(height_low, height_high, slope_direction)
+		if slope_direction == :north || slope_direction == :south
+			# Y and Z
+			
+			dz = (height_high - height_low)
+			
+			dy = 	if slope_direction == :north
+						@depth
+					elsif slope_direction == :south
+						-@depth
+					end
+			
+			return dz.to_f / dy.to_f
+		elsif slope_direction == :east || slope_direction == :west
+			# X and Z
+			dz = (height_high - height_low)
+			
+			dx =	if slope_direction == :east
+						@width
+					elsif slope_direction == :west
+						-@width
+					end
+			
+			return dz.to_f / dx.to_f
+		end
+	end
+	
+	def slope_constant(z, height_high, slope_direction, slope)
+		axis = case slope_direction
+			when :north
+				north_y
+			when :south
+				south_y
+			when :east
+				east_x
+			when :west
+				west_x
+		end
+		
+		(z + height_high) - slope*axis
 	end
 end
