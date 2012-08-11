@@ -1,6 +1,7 @@
 # All slopes must be rectangular.  Thus, the incline must be aligned to
 # north, south, east, or west.
 
+# TODO: Fix "falling down little stairs" issue when going down slopes.
 class Slope < StaticObject
 	def initialize(window, width,depth,height_low,height_high, x,y,z, slope_direction)
 		super(window, width,depth,height_high, x,y,z)
@@ -78,17 +79,17 @@ class Slope < StaticObject
 	end
 	
 	def height_at(x,y)
-		#~ puts "#{x}, #{y}"
 		# Return the height of the slope as a function of an Entity's position on the slope
 		# TODO: Cap plane at the ends so that elevation is not calculated for outside objects
-		if @slope_direction == :north || @slope_direction == :south
+		z = if @slope_direction == :north || @slope_direction == :south
 			# Y and Z
-			puts @slope*y + @slope_constant
-			return @slope*y + @slope_constant
+			@slope*y + @slope_constant
 		elsif @slope_direction == :east || @slope_direction == :west
 			# X and Z
-			return @slope*x + @slope_constant
+			@slope*x + @slope_constant
 		end
+		
+		return z.round(1)
 	end
 	
 	private

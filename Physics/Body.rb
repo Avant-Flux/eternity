@@ -47,8 +47,7 @@ module Physics
 			
 			@elevation_queue.each do |env|
 				new_elevation = if env.is_a? Slope
-					env.height_at self.p.x, self.p.y
-					#~ env.height
+					env.height_at(self.p.x, self.p.y)
 				else
 					env.height
 				end
