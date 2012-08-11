@@ -11,6 +11,7 @@ class UI_StateManager
 		#~ @stack = Array.new5
 		@stack = [
 			UI_State.new(@window, @space, @player),
+			DebugDisplay.new(@window, @space, @player)
 		]
 	end
 	
