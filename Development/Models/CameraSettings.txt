@@ -1,0 +1,20 @@
+Camera Settings
+
+Main Character
+
+	420x420
+
+	Ortho Scale: 9.25
+
+Golem
+
+	1260x1260
+
+	Ortho Scale: 27.75
+
+
+
+
+**note**
+
+Increase the scale and resolution by same factor
