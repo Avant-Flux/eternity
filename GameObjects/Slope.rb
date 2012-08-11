@@ -4,7 +4,8 @@
 class Slope < StaticObject
 	def initialize(window, width,depth,height_low,height_high, x,y,z, slope_direction)
 		super(window, width,depth,height_high, x,y,z)
-		@max_height = height_high
+		@height_high = height_high
+		@height_low = height_low
 		
 		# Slope direction is one of -  :north, :south, :east, :west
 		# Direction specifies which end is the higher elevation.
@@ -53,10 +54,27 @@ class Slope < StaticObject
 				west_x
 		end
 		@slope_constant = (z + height_high) - @slope*axis
+		
+		@surface_points = slope_verts # Used to draw quad for top of object
+		@surface_z = @body.pz+@height_low
+	end
+	
+	def draw_trimetric
+		#~ @window.translate @body.p.x, @body.p.y do
+			#~ 
+		#~ end
+	end
+	
+	def draw_billboarded
+		@window.draw_quad	@surface_points[0].x, @surface_points[0].y, @color,
+							@surface_points[1].x, @surface_points[1].y, @color,
+							@surface_points[2].x, @surface_points[2].y, @color,
+							@surface_points[3].x, @surface_points[3].y, @color,
+							@surface_z
 	end
 	
 	def height
-		return @max_height
+		return @height_high
 	end
 	
 	def height_at(x,y)
@@ -89,5 +107,41 @@ class Slope < StaticObject
 	
 	def west_x
 		@body.p.x + @width
+	end
+	
+	def slope_verts
+		points = []
+		@shape.each_vertex_absolute_with_index do |vert, i|
+			vert = vert.to_screen
+			
+			vert_is_raised = case @slope_direction
+				when :north
+					if i == 1 || i == 2
+						true
+					end
+				when :south
+					if i == 0 || i == 3
+						true
+					end
+				when :east
+					if i == 2 || i == 3
+						true
+					end
+				when :west
+					if i == 0 || i == 1
+						true
+					end
+			end
+			
+			vert.y -= if vert_is_raised
+				 @height_high.to_px
+			else
+				@height_low.to_px
+			end
+			
+			points << vert
+		end
+		
+		return points
 	end
 end
