@@ -10,8 +10,6 @@ require 'algorithms'
 
 require 'require_all'
 #~ require 'profile'
-#~ require 'ruby-prof'
-#~ RubyProf.start
 
 require_all './Utilities'
 
