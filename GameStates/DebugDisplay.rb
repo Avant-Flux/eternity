@@ -42,9 +42,9 @@ class DebugDisplay
 		format = "%.3f"
 		
 		debug_print "Player", [
-			"px, py : #{format % @player.body.p.x}, #{format % @player.body.p.y}",
-			"vx, vy : #{format % @player.body.v.x}, #{format % @player.body.v.y}",
-			"fx, fy : #{format % @player.body.f.x}, #{format % @player.body.f.y}"
+			"px, py, pz : #{format % @player.body.p.x}, #{format % @player.body.p.y}, #{format % @player.body.pz}",
+			"vx, vy, vz : #{format % @player.body.v.x}, #{format % @player.body.v.y}, #{format % @player.body.vz}",
+			"fx, fy, az : #{format % @player.body.f.x}, #{format % @player.body.f.y}, #{format % @player.body.az}"
 		], 0,100
 	end
 	
