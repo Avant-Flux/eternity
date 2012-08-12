@@ -23,6 +23,10 @@ class Slope < StaticObject
 		@surface_z = @body.pz+@height_low
 	end
 	
+	def update
+		@surface_points = surface_verts
+	end
+	
 	def draw_trimetric
 		#~ @window.translate @body.p.x, @body.p.y do
 			#~ 
@@ -109,6 +113,8 @@ class Slope < StaticObject
 			else
 				@height_low.to_px
 			end
+			
+			vert.y -= @body.pz.to_px
 			
 			points << vert
 		end

@@ -39,6 +39,10 @@ class LevelState #< GameState
 			entity.update
 		end
 		
+		@static_objects.each do |static|
+			static.update
+		end
+		
 		@magic_circle.update
 	end
 	
