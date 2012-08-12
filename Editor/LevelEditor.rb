@@ -36,7 +36,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		
 		
 		
-		@ui_state_manager.pop
+		@ui_state_manager.pop(UI_State)
 		
 		@buildings = {}
 		load_buildings
