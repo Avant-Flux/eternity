@@ -52,7 +52,14 @@ class Slope < StaticObject
 			@slope*x + @slope_constant
 		end
 		
-		return z.round(1)
+		z = z.round(1)
+		if z > @height_high + @body.pz
+			z = @height_high
+		elsif z < @height_low + @body.pz
+			z = @height_low
+		end
+		
+		return z
 	end
 	
 	private

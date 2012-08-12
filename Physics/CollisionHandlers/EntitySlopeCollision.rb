@@ -31,7 +31,13 @@ module CollisionHandler
 				else
 					# Less than elevation, greater than or equal to env.body.pz
 					#~ puts "side collision"
-					return false
+					# Only accept as side collision if the center of the entity is outside the
+					# cross section of the ramp.
+					if env_shape.point_query(entity.body.p)
+						return false
+					else
+						return true
+					end
 				end
 			end
 		end
