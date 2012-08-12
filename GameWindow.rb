@@ -43,7 +43,7 @@ class GameWindow < Gosu::Window
 		@target_fps = 60
 		# Window should have a 16:9 aspect ratio
 		super(1280, 720, false, (1.0/@target_fps)*1000)
-		self.caption = "Eternity 0.11.4"
+		self.caption = "Eternity 0.11.5"
 		@show_fps = false
 		
 		@tile_width = 5
