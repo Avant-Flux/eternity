@@ -15,6 +15,8 @@ class DebugDisplay
 	def draw
 		player_info
 		camera_info
+		
+		physics_space_info
 	end
 	
 	private
@@ -54,5 +56,13 @@ class DebugDisplay
 		debug_print "Camera", [
 			"zoom: #{format % @window.camera.zoom}"
 		], 0,0
+	end
+	
+	def physics_space_info
+		format = "%.5f"
+		
+		debug_print "Space", [
+			"@dt: #{format % @window.state_manager.dt} (#{format % (1/@window.state_manager.dt)})"
+		], 300,0
 	end
 end

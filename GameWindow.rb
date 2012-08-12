@@ -37,6 +37,7 @@ include Glut
 
 class GameWindow < Gosu::Window
 	attr_accessor :camera, :show_fps
+	attr_reader :state_manager, :ui_state_manager
 	
 	def initialize
 		@target_fps = 60

@@ -174,4 +174,12 @@ class StateManager
 		@player.body.reset
 		add_player @player
 	end
+	
+	# ====================
+	# Physics
+	# ====================
+	
+	def dt
+		@space.dt
+	end
 end
