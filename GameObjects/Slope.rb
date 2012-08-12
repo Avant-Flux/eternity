@@ -20,7 +20,7 @@ class Slope < StaticObject
 		@slope_constant = slope_constant(z, height_high, slope_direction, @slope)
 		
 		@surface_points = surface_verts # Used to draw quad for top of object
-		@surface_z = @body.pz+@height_low
+		@surface_z = @body.pz+@height_high
 	end
 	
 	def update

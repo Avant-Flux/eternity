@@ -43,6 +43,8 @@ module Physics
 		end
 		
 		def elevation
+			# Highest height lower than the entity
+			# NOTE: Current implementation does not allow for tunnels
 			max_elevation = 0
 			
 			@elevation_queue.each do |env|
@@ -60,6 +62,20 @@ module Physics
 			end
 			
 			return max_elevation
+		end
+		
+		def z_index
+			z = 0
+			
+			@elevation_queue.each do |env|
+				new_z = env.height + env.body.pz
+				
+				if new_z > z
+					z = new_z
+				end
+			end
+			
+			return z + self.elevation
 		end
 		
 		def in_air?
