@@ -15,6 +15,7 @@ module Physics
 			@t_previous = Gosu.milliseconds
 			
 			@g = -9.8
+			@dt = 1
 			
 			@bodies = Set.new()
 		end
