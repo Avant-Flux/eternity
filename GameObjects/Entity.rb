@@ -66,7 +66,11 @@ class Entity
 		@sprite = @spritesheet[compute_direction]
 	end
 	
-	def draw
+	def draw_trimetric
+		
+	end
+	
+	def draw_billboarded
 		# Use z position in meters for z-index
 		
 		position = @body.p.to_screen
@@ -74,7 +78,7 @@ class Entity
 		y = position.y - @body.pz.to_px
 		
 		# TODO may have to pass the z index from the game state manager
-		if @visible && @window.camera.visible?(self)
+		#~ if @visible && @window.camera.visible?(self)
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
 				@sprite.draw x,y, @body.z_index
 				#~ @window.draw_quad	x, y, color,
@@ -82,7 +86,11 @@ class Entity
 									#~ x+width, y+height, color,
 									#~ x, y+height, color, @pz
 			end
-		end
+		#~ end
+	end
+	
+	def draw_shadow
+		
 	end
 	
 	def resolve_ground_collision

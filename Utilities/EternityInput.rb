@@ -127,7 +127,7 @@ class EternityInput < InputHandler
 			#~ @camera.zoom_out
 		#~ end
 		new_action :zoom_reset, :rising_edge do
-			@camera.zoom_reset
+			@state_manager.camera.zoom_reset
 		end
 		
 		new_action :open_map, :rising_edge do

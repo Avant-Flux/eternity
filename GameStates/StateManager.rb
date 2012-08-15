@@ -1,4 +1,6 @@
 class StateManager
+	attr_reader :camera
+	
 	def initialize(window, player)
 		@window = window	# Parent window
 		@player = player
@@ -13,6 +15,9 @@ class StateManager
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		@space.add_collision_handler :entity, :slope, CollisionHandler::EntitySlope.new
 		
+		@camera = Camera::TrimetricCamera.new window, @space
+		@camera.followed_entity = player
+		
 		@stack = Array.new	# Active gamestates
 		@cache = Hash.new	# States loaded into memory, but not currently active
 		
@@ -26,6 +31,8 @@ class StateManager
 	
 	def update
 		# Only update the state on the top of the stack
+		@camera.update
+		
 		@space.step
 		@stack.last.update if @stack.last
 	end
@@ -41,7 +48,7 @@ class StateManager
 		@stack.each_with_index do |state|
 			state.draw
 			
-			@window.camera.flush
+			@camera.flush
 			
 			if state != @stack.last
 				# Render translucent quad

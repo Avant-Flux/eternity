@@ -6,22 +6,17 @@ require 'rubygems'
 require 'gosu'
 
 module Camera
+	# Draws any objects it finds within the scene.
+	# Static objects must implement #draw_trimetric and #draw_billboarded
+	# Non-statics must implement #draw_billboarded
 	class TrimetricCamera
 		#~ include Physics::TwoD_Support
 		#~ include Physics::TwoD_Support::Rect
 		#~ 
 		#~ attr_reader :shape, :queue
-		#~ attr_accessor :zoom
-		#~ 
 		#~ attr_accessor :transparency_mode
 		
 		attr_accessor :followed_entity
-		
-		#~ 
-		#~ alias :px_old :px
-		#~ alias :py_old :py
-		#~ alias :px_old= :px=
-		#~ alias :py_old= :py=
 		
 		MAX_ZOOM = 10
 		MIN_ZOOM = 0.02
@@ -31,8 +26,10 @@ module Camera
 		attr_accessor :zoom
 		
 		
-		def initialize(window, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
+		def initialize(window, space, zoom=DEFAULT_ZOOM, transparency_mode=:selective)
 			@window =  window
+			@space = space
+			
 			@window_offset_x = @window.width/2
 			@window_offset_y = @window.height/2
 			
@@ -43,10 +40,8 @@ module Camera
 				0, 0, 0, 1
 			]
 			
-			@zoom = zoom
-			
 			#~ @followed_entity = nil
-			#~ @zoom = zoom #Must be a percentage
+			@zoom = zoom #Must be a percentage
 			#~ @transparency_mode = transparency_mode # :selective, :always_on, :always_off
 			#~ 
 			#~ # Center of screen
@@ -66,29 +61,48 @@ module Camera
 				#~ end
 			#~ end
 			
-			@trimetric_queue = TrimetricQueue.new
-			@billboard_queue = Array.new
+			@queue = []
+			
+			#~ @bounding_box = CP::BB.new() # l,b,r,t
+			@body = Physics::Body.new self, 10, CP::INFINITY
+			#~ @shape = Physics::Rect.new self, @body, window.width, window.width
+			#~ @shape.sensor = true
 		end
 		
 		def update
+			@queue.clear
+			
 			#~ @shape.body.reset_forces
 			#~ self.move(@entity.shape.body.f)
-			if @followed_entity
-				self.px_old = @followed_entity.px
-				self.py_old = @followed_entity.py - @followed_entity.pz
+			
+			#~ if @followed_entity
+				#~ self.px_old = @followed_entity.px
+				#~ self.py_old = @followed_entity.py - @followed_entity.pz
+			#~ end
+			
+			# TODO: Try sensor object instead of bb query, as bb query method seems to cause tearing
+			shape = @followed_entity.shape
+			radius = @window.width.to_meters*4
+			@space.bb_query CP::BB.new(shape.body.p.x - radius, shape.body.p.y - radius,
+									shape.body.p.x + radius, shape.body.p.y + radius) do |shape|
+				@queue << shape.gameobject
 			end
 			
-			#~ space.bb_query CP::BB.new(@shape.body.p.x + @bb[0], @shape.body.p.y + @bb[3],
-									#~ @shape.body.p.x + @bb[2], @shape.body.p.y + @bb[1]) do |shape|
-				#~ entity = shape.entity
-				#~ @queue[entity.layers] ||= Set.new
-				#~ @queue[entity.layers].add entity
-				#~ arbiter.a.add arbiter.b.entity
+			#~ @space.each_entity do |gameobject|
+				#~ @queue << gameobject
 			#~ end
 		end
 		
+		# Render code blocks to the display
 		def flush
-			# Render code blocks to the display
+			#~ @billboard_queue.sort! do |a, b|
+				#~ # Return -1, 0, or 1, just like Comparable<=>
+				#~ screen_pos_a = a.body.p.to_screen
+				#~ screen_pos_b = b.body.p.to_screen
+				#~ 
+				#~ screen_pos_a.y <=> screen_pos_b.y
+			#~ end
+			
 			position = @followed_entity.body.p.to_screen
 			
 			# Center the entire game world around the given position
@@ -97,23 +111,21 @@ module Camera
 				@window.scale @zoom,@zoom do
 					# Set origin of the entire game world to the given position
 					@window.translate -position.x, -position.y+@followed_entity.body.pz.to_px do
-						# Draw all trimetric world elements
-						@trimetric_queue.each do |z, queue|
-							@window.translate 0, -z.to_px do
-								# Trimetric view transform
-								@window.transform *@trimetric_transform do
-									queue.each do |block|
-										# TODO: Call culling for trimetric elements here
-										block.call
+						@queue.each do |gameobject|
+							if gameobject.is_a? StaticObject
+								# TRIMETRIC PORTION
+								@window.translate 0, -gameobject.z_index.to_px do
+									# Trimetric view transform
+									@window.transform *@trimetric_transform do
+										gameobject.draw_trimetric
 									end
 								end
 							end
 						end
 						
-						# Draw non-trimetric world elements
-						@billboard_queue.each do |block|
-							# TODO: Cull billboarded elements here.
-							block.call
+						@queue.each do |gameobject|
+							# BILLBOARDED PORTION
+							gameobject.draw_billboarded
 						end
 					end
 				end
@@ -121,21 +133,8 @@ module Camera
 			
 			@window.flush
 			
-			@trimetric_queue.clear
-			@billboard_queue.clear
-		end
-		
-		def draw_trimetric(z=0, &block)
-			# The z parameter specifies world z coordinate, not z-index
-			@trimetric_queue.draw(z, block)
-		end
-		
-		def draw_billboarded(&block)
-			# Non-trimetric world draw
-			# Draw is referenced in screen coordinates, not world coordinates
-			# However, the coordinate system has been translated around the tracked entity
-			# TODO: Consider if it is necessary to pass z-index or z position
-			@billboard_queue << block
+			#~ @trimetric_queue.clear
+			#~ @billboard_queue.clear
 		end
 		
 		def screen_offset(offset)
@@ -205,27 +204,5 @@ module Camera
 		# ===============================
 		# ===== End Culling Methods =====
 		# ===============================
-		
-		class TrimetricQueue < Hash
-			def initialize(*args)
-				super(*args)
-			end
-			
-			# Capture block to be rendered with trimetric transform
-			def draw(z=0, block)
-				# Trimetric queue is a hash table: key = z index, value = draw block
-				# 
-				self[z] ||= Array.new
-				self[z] << block
-			end
-			
-			def clear
-				# ===== WARNING =====
-				# Memory will leak if empty arrays stick around indefinitely
-				self.each do |z, queue|
-					queue.clear
-				end
-			end
-		end
 	end
 end

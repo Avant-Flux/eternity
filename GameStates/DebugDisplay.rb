@@ -54,7 +54,7 @@ class DebugDisplay
 		format = "%.3f"
 		
 		debug_print "Camera", [
-			"zoom: #{format % @window.camera.zoom}"
+			"zoom: #{format % @window.state_manager.camera.zoom}"
 		], 0,0
 	end
 	

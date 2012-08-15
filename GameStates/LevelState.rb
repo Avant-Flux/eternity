@@ -47,10 +47,10 @@ class LevelState #< GameState
 	end
 	
 	def draw
-		draw_static_objects
-		draw_shadows
-		draw_ground_effects
-		draw_entities
+		#~ draw_static_objects
+		#~ draw_shadows
+		#~ draw_ground_effects
+		#~ draw_entities
 	end
 	
 	# Clean up the things managed by this state
@@ -310,12 +310,6 @@ class LevelState #< GameState
 		# However, Gosu is not threadsafe.
 		draw_static_object_shadows
 		draw_entity_shadows
-	end
-	
-	def draw_ground_effects
-		@window.camera.draw_trimetric do
-			@magic_circle.draw	@player.body.p.x, @player.body.p.y, 0
-		end
 	end
 	
 	def draw_static_object_shadows

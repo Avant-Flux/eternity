@@ -53,10 +53,6 @@ class GameWindow < Gosu::Window
 		
 		@player = Player.new self
 		
-		@camera = Camera::TrimetricCamera.new self
-		@camera.followed_entity = @player
-		
-		
 		@state_manager = StateManager.new self, @player
 		@ui_state_manager = UI_StateManager.new self, @player, @state_manager
 		
@@ -94,9 +90,9 @@ class GameWindow < Gosu::Window
 		@inpman.button_down(id)
 		
 		if id == Gosu::MsWheelDown
-			@camera.zoom_out
+			@state_manager.camera.zoom_out
 		elsif id == Gosu::MsWheelUp
-			@camera.zoom_in
+			@state_manager.camera.zoom_in
 		end
 	end
 	
