@@ -60,7 +60,7 @@ class StaticObject
 			@window.draw_quad	0,0, @color, 
 								@width,0, @color,
 								@width,@depth, @color,
-								0,@depth, @color, @body.pz+@height
+								0,@depth, @color, z_index
 		end
 		#~ end
 	end
@@ -85,6 +85,10 @@ class StaticObject
 	
 	def remove_from(space)
 		space.remove_static_shape @shape
+	end
+	
+	def z_index
+		@body.pz + @height
 	end
 	
 	private
