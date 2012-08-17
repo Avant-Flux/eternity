@@ -48,7 +48,7 @@ class StateManager
 		@stack.each_with_index do |state|
 			state.draw
 			
-			@camera.flush
+			@camera.draw
 			
 			if state != @stack.last
 				# Render translucent quad

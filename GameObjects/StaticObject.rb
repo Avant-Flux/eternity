@@ -79,6 +79,53 @@ class StaticObject
 		#~ @side.draw x,y-@side.height+@billboard_offset, @body.p.y
 	end
 	
+	def draw_shadow(render_height)
+		# TODO: Cache calculations for static shadows.
+		# Project shadow onto the terrain directly below the object.  ie, the highest of the low
+		
+		
+		# Do not draw shadows which would be obscured by the base of the static object.
+		# Ex) Building is located at (0,0, 10), don't draw shadow if z = 10
+		#~ next if render_height == static.body.pz
+		
+		# Render the actual environment shadow
+		# NOTE: Different alpha value need to be passed for each object, although other
+		# 		aspects of color will remain the same.  Consider dropping to direct OpenGL
+		# 		to optimize the solution to this problem.
+		shadow_color = Gosu::Color.rgba(0xffffffaa) # TODO: Make instance variable
+		c = shadow_color
+		
+		@window.draw_quad	@body.p.x, @body.p.y, c,
+							@body.p.x+@width, @body.p.y, c,
+							@body.p.x+@width, @body.p.y+@depth, c,
+							@body.p.x, @body.p.y+@depth, c,
+							render_height
+	end
+	
+	def shadow_height(space)
+		# Set to zero, so in the worst case, shadows are draw on the ground.
+		# NOTE: This assumes the world is zero-based.
+		# 		Really should just be the lowest number possible for the current level.
+		render_height = 0
+		
+		# l, b, r, t
+		bb = CP::BB.new	@body.p.x, @body.p.y, @body.p.x+@width, @body.p.y+@depth
+		space.bb_query bb, CP::ALL_LAYERS, CP::NO_GROUP do |shape|
+			# For all objects inside the XY plane cross-section of the bounding volume
+			# around the static object
+			
+			# Find the tallest static object underneath this static object
+			if @body.static?
+				new_height = shape.gameobject.height + shape.body.pz
+				if new_height > render_height && new_height < @body.pz
+					render_height = new_height
+				end
+			end
+		end
+		
+		return render_height
+	end
+	
 	def add_to(space)
 		space.add_static_shape @shape
 	end

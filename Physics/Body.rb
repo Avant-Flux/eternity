@@ -65,6 +65,7 @@ module Physics
 		end
 		
 		def z_index
+			# TODO: Try to move z_index calculations completely into Entity/StaticObject
 			z = 0
 			
 			@elevation_queue.each do |env|

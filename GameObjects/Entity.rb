@@ -80,7 +80,7 @@ class Entity
 		# TODO may have to pass the z index from the game state manager
 		#~ if @visible && @window.camera.visible?(self)
 			@window.translate -@sprite.width/2, -@sprite.height do # Draw centered at base
-				@sprite.draw x,y, @body.z_index
+				@sprite.draw x,y, z_index
 				#~ @window.draw_quad	x, y, color,
 									#~ x+width, y, color,
 									#~ x+width, y+height, color,
@@ -90,7 +90,24 @@ class Entity
 	end
 	
 	def draw_shadow
+		distance = @body.pz - @body.elevation
+		a = 1 # Quadratic
+		b = 1 # Linear
+		c = 1 # Constant
+		factor = (a*distance + b)*distance + c
 		
+		c = 1
+		r = (@body.pz - @body.elevation + c)
+		
+		c = 1
+		alpha = 1/factor
+		@window.draw_circle	@body.p.x, @body.p.y, @body.elevation,
+							r,	Gosu::Color::WHITE,
+							:stroke_width => r, :slices => 20, :alpha => alpha
+	end
+	
+	def z_index
+		@body.z_index
 	end
 	
 	def resolve_ground_collision
