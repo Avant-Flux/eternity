@@ -30,4 +30,11 @@ class GroundEffect
 			@image.draw_rot	x,y,z, @angle, 0.5,0.5, 1,1, @color
 		end
 	end
+	
+	def draw_trimetric
+		
+	end
+	
+	def draw_billboarded
+	end
 end
