@@ -118,7 +118,7 @@ class UI_State# < InterfaceState
 		zoom = display_resolution / widget_resolution
 		
 		# NOTE: Scaling results in aliasing of text and graphics
-		#~ @window.scale zoom,zoom, @window.width/2, @window.height do
+		@window.scale zoom,zoom, @window.width/2, @window.height do
 			# ====================== NEW UI ======================
 			@mp_indicator.draw
 			@hp_indicator.draw
@@ -126,6 +126,6 @@ class UI_State# < InterfaceState
 			
 			@left_weapon.draw
 			@right_weapon.draw
-		#~ end
+		end
 	end
 end
