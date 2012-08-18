@@ -70,9 +70,9 @@ class StaticObject
 		# Accounts for sides and slanted tops
 		# Needs to be drawn in higher z-index than the trimetric portion, but
 		# lower than entites which attempt to pass in front of it.
-		position = @body.p.to_screen
-		x = position.x
-		y = position.y - @body.pz.to_px
+		#~ position = @body.p.to_screen
+		#~ x = position.x
+		#~ y = position.y - @body.pz.to_px
 		
 		
 		
