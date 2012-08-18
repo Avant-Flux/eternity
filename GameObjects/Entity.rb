@@ -107,7 +107,7 @@ class Entity
 	end
 	
 	def z_index
-		@body.z_index
+		return @body.pz
 	end
 	
 	def resolve_ground_collision

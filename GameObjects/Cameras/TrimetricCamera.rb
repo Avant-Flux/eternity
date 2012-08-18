@@ -194,6 +194,7 @@ module Camera
 		def draw_trimetric
 			@queue.each do |gameobject|
 				# Go up the screen to compensate for z position, then draw trimetric
+				# TODO: Move z calculation into Entity and StaticObject for better polymorphism
 				z = if gameobject.is_a? Entity
 					gameobject.body.pz
 				elsif gameobject.is_a? StaticObject

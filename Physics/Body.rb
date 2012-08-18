@@ -64,21 +64,6 @@ module Physics
 			return max_elevation
 		end
 		
-		def z_index
-			# TODO: Try to move z_index calculations completely into Entity/StaticObject
-			z = 0
-			
-			@elevation_queue.each do |env|
-				new_z = env.height + env.body.pz
-				
-				if new_z > z
-					z = new_z
-				end
-			end
-			
-			return self.elevation
-		end
-		
 		def in_air?
 			return @pz > self.elevation
 		end
