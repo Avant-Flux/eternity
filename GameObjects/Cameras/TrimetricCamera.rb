@@ -63,7 +63,6 @@ module Camera
 			
 			@queue = []
 			
-			#~ @bounding_box = CP::BB.new() # l,b,r,t
 			#~ @body = Physics::Body.new self, 10, CP::INFINITY
 			#~ @shape = Physics::Shape::Rect.new self, @body, window.width.to_meters, window.width.to_meters
 			#~ @shape.sensor = true
@@ -80,10 +79,15 @@ module Camera
 			
 			# TODO: Try sensor object instead of bb query, as bb query method seems to cause tearing
 			# NOTE: Cause of screen tearing seems to be related to running too many OpenGL apps (browser tabs)
-			shape = @followed_entity.shape
+			
+			# TODO: Optimize bb offset on the world z axis
+			center = @followed_entity.body.p - CP::Vec2.new(0,@followed_entity.body.pz.to_px).to_world
 			radius = @window.width.to_meters*4
-			@space.bb_query CP::BB.new(shape.body.p.x - radius, shape.body.p.y - radius,
-									shape.body.p.x + radius, shape.body.p.y + radius) do |shape|
+			
+			# l,b,r,t
+			bb = CP::BB.new	center.x - radius,		center.y - radius,
+							center.x + radius,		center.y + radius
+			@space.bb_query bb do |shape|
 				@queue << shape.gameobject
 			end
 		end
@@ -220,7 +224,6 @@ module Camera
 				elsif gameobject.is_a? StaticObject
 					render_height = gameobject.shadow_height(@space)
 					#~ if gameobject.is_a?(Slope) || render_height != gameobject.body.pz
-					
 						@window.translate 0, -render_height.to_px do
 							@window.transform *@trimetric_transform do
 								gameobject.draw_shadow render_height
