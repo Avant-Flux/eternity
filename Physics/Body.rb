@@ -76,7 +76,7 @@ module Physics
 				end
 			end
 			
-			return z + self.elevation + @pz
+			return self.elevation
 		end
 		
 		def in_air?

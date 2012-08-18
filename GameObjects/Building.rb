@@ -35,7 +35,7 @@ class Building < StaticObject
 			pos = @body.p.to_screen
 			
 			@front_texture.draw_rot	pos.x, pos.y-@height.to_px-426,
-									z_index-1, 0, 0,0, scale,scale
+									z_index, 0, 0,0, scale,scale
 			
 			#~ c = Gosu::Color::RED
 			#~ @window.translate 0, -@height.to_px do

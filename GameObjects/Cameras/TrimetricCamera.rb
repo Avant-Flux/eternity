@@ -86,23 +86,21 @@ module Camera
 									shape.body.p.x + radius, shape.body.p.y + radius) do |shape|
 				@queue << shape.gameobject
 			end
-			
-			#~ @space.each_entity do |gameobject|
-				#~ @queue << gameobject
-			#~ end
 		end
 		
 		# Render code blocks to the display
 		def draw
 			# NOTE: Current rendering algorithm is 3-pass
 			
-			#~ @billboard_queue.sort! do |a, b|
-				#~ # Return -1, 0, or 1, just like Comparable<=>
-				#~ screen_pos_a = a.body.p.to_screen
-				#~ screen_pos_b = b.body.p.to_screen
-				#~ 
-				#~ screen_pos_a.y <=> screen_pos_b.y
-			#~ end
+			@queue.sort! do |a, b|
+				# Return -1, 0, or 1, just like Comparable<=>
+				screen_pos_a = a.body.p.to_screen
+				screen_pos_b = b.body.p.to_screen
+				
+				screen_pos_a.y <=> screen_pos_b.y
+				#~ screen_pos_b.y <=> screen_pos_a.y
+				#~ b.body.p.y <=> a.body.p.y
+			end
 			
 			position = @followed_entity.body.p.to_screen
 			
@@ -121,8 +119,6 @@ module Camera
 			
 			@window.flush
 			@queue.clear
-			#~ @trimetric_queue.clear
-			#~ @billboard_queue.clear
 		end
 		
 		def screen_offset(offset)
@@ -198,7 +194,13 @@ module Camera
 		def draw_trimetric
 			@queue.each do |gameobject|
 				# Go up the screen to compensate for z position, then draw trimetric
-				@window.translate 0, -gameobject.z_index.to_px do
+				z = if gameobject.is_a? Entity
+					gameobject.body.pz
+				elsif gameobject.is_a? StaticObject
+					gameobject.body.pz + gameobject.height
+				end
+				
+				@window.translate 0, -z.to_px do
 					@window.transform *@trimetric_transform do
 						gameobject.draw_trimetric
 					end

@@ -135,7 +135,7 @@ class StaticObject
 	end
 	
 	def z_index
-		@body.pz + @height
+		@body.pz
 	end
 	
 	private

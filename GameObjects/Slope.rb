@@ -38,7 +38,7 @@ class Slope < StaticObject
 							@surface_points[1].x, @surface_points[1].y, @color,
 							@surface_points[2].x, @surface_points[2].y, @color,
 							@surface_points[3].x, @surface_points[3].y, @color,
-							@surface_z
+							z_index
 	end
 	
 	def height
