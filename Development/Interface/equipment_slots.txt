@@ -1,0 +1,19 @@
+head
+	high
+	mid
+	low
+neck
+shoulders
+back
+torso
+belt
+pants	(needs rename, basically the butt armor)
+leg
+feet
+
+-- two of each of the following - right and left side
+wrist
+hand
+arm
+weapon
+ring
