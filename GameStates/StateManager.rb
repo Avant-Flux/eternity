@@ -4,6 +4,7 @@ class StateManager
 	def initialize(window, player)
 		@window = window	# Parent window
 		@player = player
+		
 		#~ @layers = layers	# Bitvector specifying which layers to use with Chipmunk
 		
 		@space = Physics::Space.new

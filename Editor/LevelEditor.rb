@@ -14,7 +14,10 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	def initialize
 		super()
 		self.caption = "Level Editor v0.00.1"
-				
+		
+		#camera from state manager
+		@camera = @state_manager.camera
+		
 		@interface = LevelEditorInterface.new self
 		@temp_var = Entity.new self
 		
@@ -69,14 +72,12 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	def draw
 		#~ super
 		
-		#if @selected_cursor == :box # right click active
-			@camera.draw_trimetric 0 do
-				r = 2
-				draw_circle *@state_manager.top.spawn,
-							r, Gosu::Color::RED,
-							:stroke_width => r
-			end
-		#end
+			#@camera.draw_trimetric 0 do
+		#		r = 2
+		#		draw_circle *@state_manager.top.spawn,
+		#					r, Gosu::Color::RED,
+		#					:stroke_width => r
+		#	end
 		
 		super()
 		
@@ -323,7 +324,6 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		
 		@inpman.new_action :menu_click, :rising_edge do
 			@interface.click(self.mouse_x, self.mouse_y)
-			puts "do some stuff"
 		end
 		
 	end
