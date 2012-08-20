@@ -18,7 +18,18 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		#camera from state manager
 		@camera = @state_manager.camera
 		
-		@interface = LevelEditorInterface.new self
+		space = CP::Space.new # Just for UI stuff
+		font = Gosu::Font.new self, "Trebuchet MS", 25
+		
+		#~ space.set_default_collision_func do
+			#~ false
+		#~ end
+		
+		@interface = PlacementState.new self, space, font
+		
+		
+		
+		
 		@temp_var = Entity.new self
 		
 		@temp_var.shape.collision_type = :none
@@ -36,6 +47,16 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 			:menu => Gosu::Image.new(self, File.join(cursor_directory, "menu_cursor.png"),false)
 		}
 		@selected_cursor = :default
+		
+		
+		
+		@compass = Compass.new	self,
+			:relative => self,
+			
+			:top => :auto, :bottom => 20,
+			:left => 20, :right => :auto
+		
+		
 		
 		
 		
@@ -66,6 +87,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 			@inpman.mode = :editor
 		end
 		
+		@compass.update
 		@interface.update
 	end
 	
@@ -140,10 +162,8 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	
 	def draw_screen
 		##super
+        @compass.draw
         
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
 		
 		@interface.draw
 		
@@ -151,6 +171,10 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		
 		@cursor[@selected_cursor].draw	self.mouse_x-@cursor[@selected_cursor].width/2, 
 										self.mouse_y-@cursor[@selected_cursor].height/2, 0
+		
+		if @show_fps
+			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
+		end
 	end
 	
 	
