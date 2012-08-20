@@ -27,4 +27,10 @@ class LevelEditorInterface
 			end
 		end
 	end
+	
+	private
+	
+	def add_to_space(widget)
+		@space.add_static_shape widget.shape
+	end
 end

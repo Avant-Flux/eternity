@@ -199,9 +199,4 @@ class PlacementState < LevelEditorInterface
 		
 		@active_tab = new_tab
 	end
-	
-	def add_to_space(widget)
-		@space.add_static_shape widget.shape
-	end
-	
 end
