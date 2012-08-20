@@ -18,25 +18,16 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		#camera from state manager
 		@camera = @state_manager.camera
 		
-		space = CP::Space.new # Just for UI stuff
-		font = Gosu::Font.new self, "Trebuchet MS", 25
-		
-		#~ space.set_default_collision_func do
-			#~ false
-		#~ end
-		
-		@interface = PlacementState.new self, space, font
-		
-		
-		
-		
 		@temp_var = Entity.new self
-		
 		@temp_var.shape.collision_type = :none
 		@temp_var.body.p.x = @state_manager.top.spawn[0]
 		@temp_var.body.p.y = @state_manager.top.spawn[1]
 		@temp_var.body.pz = @state_manager.top.spawn[2]
 		@camera.followed_entity = @temp_var
+		
+		
+		
+		
 		
 		# TODO: Implement custom cursors inside of the mouse handler class
 		cursor_directory = File.join Dir.pwd, "Development", "Interface", "Level Editor"
@@ -57,7 +48,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 			:left => 20, :right => :auto
 		
 		
-		
+		@interface = EditorStateManager.new self
 		
 		
 		@ui_state_manager.pop(UI_State)
@@ -81,7 +72,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		@selected_cursor = :default
 		
 		super
-		if self.mouse_x >= @interface.sidebar.body.p.x
+		if @interface.over_UI?(self.mouse_x, self.mouse_y)
 			@inpman.mode = :editor_menu
 		else
 			@inpman.mode = :editor
