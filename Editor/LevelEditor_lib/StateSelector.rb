@@ -101,16 +101,6 @@ class StateSelector < LevelEditorInterface
 	
 	end
 	
-	def click_create()
-		if @create_mode
-			@create_mode = false
-			@create.color = Gosu::Color::BLACK
-		else 
-			@create_mode = true
-			@create.color = Gosu::Color::WHITE
-		end
-	end
-	
 	def switch_to_mode(new_mode)
 		@modes[@active_mode].color = Gosu::Color::BLACK
 		@modes[new_mode].color = Gosu::Color::WHITE
