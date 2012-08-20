@@ -1,5 +1,7 @@
-class StateSelector
-	def initialize
+class StateSelector < LevelEditorInterface
+	def initialize(state_manager)
+		
+		
 		@create = Widget::Button.new window,
 			:relative => @sidebar,
 			
@@ -16,5 +18,13 @@ class StateSelector
 					@create.color = Gosu::Color::WHITE
 				end
 			end
+	end
+	
+	def update
+		
+	end
+	
+	def draw
+		
 	end
 end
