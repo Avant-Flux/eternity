@@ -5,6 +5,7 @@ class StateSelector < LevelEditorInterface
 		init_widgets window
 		
 		@button_width = 80
+		@button_space = 3
 		@active_mode = :default
 		
 		@state_manager = state_manager
@@ -53,43 +54,43 @@ class StateSelector < LevelEditorInterface
 				:relative => @sidebar,
 				
 				:top => 3, :bottom => :auto,
-				:left => 86, :right => :auto,
+				:left => (2*@button_space+@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
 				:font => @font, :text => "Create", :color => Gosu::Color::BLACK)
 			do 
 				switch_to_mode :create
-			end
+			end,
 			
 			:edit => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => 3, :bottom => :auto,
-				:left => 166, :right => :auto,
+				:left => (3*@button_space+2*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
 				:font => @font, :text => "Edit", :color => Gosu::Color::BLACK)
 			do 
 				switch_to_mode :edit
-			end
+			end,
 			
 			:spawn => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => 3, :bottom => :auto,
-				:left => 249, :right => :auto,
+				:left => (4*@button_space+3*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
 				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK)
 			do 
 				switch_to_mode :spawn
-			end
+			end,
 			
 			:default => Widget::Button.new(window,
 				:relative => @sidebar,
 				
 				:top => 3, :bottom => :auto,
-				:left => 332, :right => :auto,
+				:left => (5*@button_space+4*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
 				:font => @font, :text => "Default", :color => Gosu::Color::WHITE)
