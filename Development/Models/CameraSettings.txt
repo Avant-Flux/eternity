@@ -19,4 +19,4 @@ Golem
 
 Increase the scale and resolution by same factor
 
-TODO: Reduce resolution of all renders by 50-60%%
+TODO: Reduce resolution of all renders by 50-60%
