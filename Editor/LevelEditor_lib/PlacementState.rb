@@ -15,7 +15,6 @@ class PlacementState < LevelEditorInterface
 		add_to_space @save
 		add_to_space @load
 		add_to_space @filepath
-		add_to_space @create
 		
 		@active_tab = :static
 	end
@@ -39,7 +38,6 @@ class PlacementState < LevelEditorInterface
 		#~ @name_box.draw
 		@load.draw
 		@save.draw
-		@create.draw
 	end
 	
 	private
@@ -168,29 +166,7 @@ class PlacementState < LevelEditorInterface
 			# Load file specified in @filepath widget
 			
 		end
-		
-		@create = Widget::Button.new window,
-			:relative => @sidebar,
-			
-			:top => :auto, :bottom => 110,
-			:left => 10, :right => :auto,
-			
-			:width => 100, :height => @font.height,
-			:font => @font, :text => "Create", :color => Gosu::Color::BLACK do 
-				click_create
-			
-			end
 
-	end
-	
-	def click_create()
-		if @create_mode
-			@create_mode = false
-			@create.color = Gosu::Color::BLACK
-		else 
-			@create_mode = true
-			@create.color = Gosu::Color::WHITE
-		end
 	end
 	
 	def switch_to_tab(new_tab)
