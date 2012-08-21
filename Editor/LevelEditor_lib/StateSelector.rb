@@ -12,7 +12,14 @@ class StateSelector < LevelEditorInterface
 		@active_mode = :default
 
 		
+
 		@state_manager = state_manager
+		add_to_space @topbar
+		add_to_space @topbar_title
+		@modes.each_value do |mode|
+			add_to_space mode
+		end
+
 	end
 	
 	def update
