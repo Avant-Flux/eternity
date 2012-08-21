@@ -31,11 +31,9 @@ class EditorStateManager
 		@selector_ui.draw
 	end
 	
-	
-	[:click].each do |method|
-		define_method method do |*args|
-			@states[@active].send method, *args
-		end
+	def click(mouse_x,mouse_y)
+		@states[@active].click(mouse_x,mouse_y)
+		@selector_ui.click(mouse_x,mouse_y)
 	end
 	
 	def switch_to(state)

@@ -75,14 +75,16 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		@selected_cursor = :default
 		
 		super
-		if @interface.over_UI?(self.mouse_x, self.mouse_y)
+
+		
+		@compass.update
+		@interface.update
+		
+		if @selected_cursor == :menu
 			@inpman.mode = :editor_menu
 		else
 			@inpman.mode = :editor
 		end
-		
-		@compass.update
-		@interface.update
 	end
 	
 	def draw
