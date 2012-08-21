@@ -83,18 +83,22 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	end
 	
 	def draw
-		#~ super
-		
-			#@camera.draw_trimetric 0 do
-		#		r = 2
-		#		draw_circle *@state_manager.top.spawn,
-		#					r, Gosu::Color::RED,
-		#					:stroke_width => r
-		#	end
-		
 		super()
 		
-		draw_screen
+		##super
+        @compass.draw
+        
+		
+		@interface.draw
+		
+		flush
+		
+		@cursor[@selected_cursor].draw	self.mouse_x-@cursor[@selected_cursor].width/2, 
+										self.mouse_y-@cursor[@selected_cursor].height/2, 0
+		
+		if @show_framerate
+			@font.draw "FPS: #{Gosu::fps}", 10,self.height-@font.height,10, 1,1, Gosu::Color::FUCHSIA
+		end
 	end
 	
 	def button_down(id)
@@ -147,106 +151,6 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	
 	private
 	
-	def update_screen
-		
-	end
-	
-	def draw_screen
-		##super
-        @compass.draw
-        
-		
-		@interface.draw
-		
-		flush
-		
-		@cursor[@selected_cursor].draw	self.mouse_x-@cursor[@selected_cursor].width/2, 
-										self.mouse_y-@cursor[@selected_cursor].height/2, 0
-		
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
-	end
-	
-	
-	def mouse_up_UI
-		
-	end
-	
-	def mouse_down_UI
-		#~ @mouse.click_UI CP::Vec2.new(mouse_x, mouse_y)
-		#puts "x: #{self.mouse_x}   y: #{self.mouse_y}"
-		
-	end
-	
-	def mouse_up_scene
-		
-	end
-	
-	def mouse_down_scene
-		# Calculate displacement from center of screen in px
-		#~ dx_px = mouse_x - self.width/2.0
-		#~ dy_px = mouse_y - self.height/2.0
-		#~ 
-		#~ # Use that to calculate displacement from center point of camera tracking
-		#~ dx_meters = dx_px / Physics.scale / @camera.zoom
-		#~ dy_meters = dy_px / Physics.scale / @camera.zoom
-		#~ 
-		#~ # Calculate absolute position of click within game world
-		#~ v = CP::Vec2.new dx_meters, dy_meters
-		#~ v.x += @camera.p.x
-		#~ v.y += @camera.p.y
-		#~ 
-		#~ # Initiate click event
-		#~ @mouse.click_scene v
-		
-		x = @camera.followed_entity.body.p.x
-		y = @camera.followed_entity.body.p.y
-		
-		#puts "x: #{x}   y:#{y}"
-		
-		
-		@camera.draw_trimetric do
-			r = 5
-			#self.draw_circle	x, y, 0,	r,
-			#					Gosu::Color::WHITE, :stroke_width => r
-		end
-        
-		case @EDITOR_STATE
-			when :NONE
-			#~ Remove print later; debug only
-			puts "no state"
-			when :PLACING_BUILDING
-				# Temporary variable values
-				@SELECTED_BUILDING = "buildingA"
-				
-				# TODO: x,y,z to be set with raytrace
-				# TODO: Separate different editor states into classes for clarity
-				x = 0
-				y = 0
-				z = 0
-				#
-				
-				if @SELECTED_BUILDING != "$none$"
-					building_data = *@buildings[ @SELECTED_BUILDING ]
-					building = Building.new self,
-											building_data[ :size ],
-											x, y, z,
-											building_data[ :textures ]
-				
-					@state_manager.get_top.add_gameobject building
-				else
-					puts "No selected building"
-				end
-			when :PLACING_NPC
-				nil
-			when :PLACING_SPAWN
-				nil
-			when :BOX
-				nil
-        end
-	end
-    
     def load_buildings
 		path = File.join "Levels", "Tutorial.txt"
 		@count = 0
