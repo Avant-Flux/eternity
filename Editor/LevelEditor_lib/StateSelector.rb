@@ -24,7 +24,9 @@ class StateSelector < LevelEditorInterface
 	def draw
 		@topbar.draw
 		@topbar_title.draw
-		@create.draw
+		@modes.each_value do |mode|
+			mode.draw
+		end
 		
 	end
 	
