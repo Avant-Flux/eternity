@@ -14,11 +14,7 @@ class StateSelector < LevelEditorInterface
 		
 
 		@state_manager = state_manager
-		add_to_space @topbar
-		add_to_space @topbar_title
-		@modes.each_value do |mode|
-			add_to_space mode
-		end
+		add_widgets_to_space
 
 	end
 	
@@ -119,5 +115,21 @@ class StateSelector < LevelEditorInterface
 		@modes[new_mode].color = Gosu::Color::WHITE
 		
 		@active_mode = new_mode
+	end
+	
+	def add_widgets_to_space
+		add_to_space @topbar
+		add_to_space @topbar_title
+		@modes.each_value do |mode|
+			add_to_space mode
+		end
+	end
+	
+	def remove_widgets
+		remove_from_space @topbar
+		remove_from_space @topbar_title
+		@modes.each_value do |mode|
+			remove_from_space mode
+		end
 	end
 end
