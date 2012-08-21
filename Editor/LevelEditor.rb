@@ -14,6 +14,9 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	def initialize
 		super()
 		self.caption = "Level Editor v0.00.1"
+		# deliberately different from the name in GameWindow, created so indicator can be
+		# drawn in a different location
+		@show_framerate = false
 		
 		#camera from state manager
 		@camera = @state_manager.camera
@@ -104,33 +107,24 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 	def button_down(id)
         @inpman.button_down(id)
 		
-        case id
-            when Gosu::KbEscape
-                close
-            when Gosu::KbZ
-                @EDITOR_STATE = :PLACING_BUILDING
-            when Gosu::MsLeft
-                if @EDITOR_STATE == :PLACING_BUILDING
-                    mouse_down_scene
-                end
-        end
-        
+		case id
+			when Gosu::KbEscape
+				close
+			when Gosu::KbF
+				@show_framerate = !@show_framerate
 			
-			
-		if id == Gosu::MsWheelDown
-			if button_down? Gosu::MsLeft
-				@selected_building.body.pz -= 1
-			else
-				@camera.zoom_in
-			end
-		elsif id == Gosu::MsWheelUp
-			if button_down? Gosu::MsLeft
-				@selected_building.body.pz += 1
-			else
-				@camera.zoom_out
-			end
-				
-				
+			when Gosu::MsWheelDown
+				if button_down? Gosu::MsLeft
+					@selected_building.body.pz -= 1
+				else
+					@camera.zoom_in
+				end
+			when Gosu::MsWheelUp
+				if button_down? Gosu::MsLeft
+					@selected_building.body.pz += 1
+				else
+					@camera.zoom_out
+				end
 		end
 	end
 	
