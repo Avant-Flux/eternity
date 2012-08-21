@@ -33,4 +33,8 @@ class LevelEditorInterface
 	def add_to_space(widget)
 		@space.add_static_shape widget.shape
 	end
+	
+	def remove_from_space(widget)
+		@space.remove_static_shape widget.shape
+	end
 end
