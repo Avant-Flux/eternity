@@ -14,11 +14,11 @@ class EditorStateManager
 		@selector_ui = StateSelector.new @window, @space, @font, self
 		
 		@states = {
-			:placement => PlacementState.new(@window, @space, @font)#,
-			#~ :geometry_creation => GeometryCreationstate.new(@window, @space, @font)
+			:default => PlacementState.new(@window, @space, @font),
+			:edit => GeometryCreationstate.new(@window, @space, @font)
 		}
 		
-		@active = :placement
+		@active = :default
 	end
 	
 	def update
