@@ -9,7 +9,7 @@ require_all './Editor/LevelEditor_lib'
 
 class LevelEditor < GameWindow
 attr_accessor :selected_cursor
-attr_reader :state_manager, :buildings # TODO: Remove if possible
+attr_reader :state_manager, :buildings, :inpman # TODO: Remove if possible
 
 	def initialize
 		super()
@@ -21,12 +21,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		#camera from state manager
 		@camera = @state_manager.camera
 		
-		@temp_var = Entity.new self
-		@temp_var.shape.collision_type = :none
-		@temp_var.body.p.x = @state_manager.top.spawn[0]
-		@temp_var.body.p.y = @state_manager.top.spawn[1]
-		@temp_var.body.pz = @state_manager.top.spawn[2]
-		@camera.followed_entity = @temp_var
+		
 		
 		
 		
@@ -51,7 +46,7 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 			:left => 20, :right => :auto
 		
 		
-		@interface = EditorStateManager.new self
+		@interface = EditorStateManager.new self, @inpman
 		
 		
 		@ui_state_manager.pop(UI_State)
@@ -64,10 +59,6 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		@EDITOR_STATE = :NONE
 		@SELECTED_BUILDING = "$none$"
 		
-		init_menu_inputs
-		bind_menu_inputs
-		init_editor_inputs
-		bind_editor_inputs
 		@inpman.mode = :editor
 	end
 	
@@ -79,12 +70,6 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 		
 		@compass.update
 		@interface.update
-		
-		if @selected_cursor == :menu
-			@inpman.mode = :editor_menu
-		else
-			@inpman.mode = :editor
-		end
 	end
 	
 	def draw
@@ -114,20 +99,9 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
 				close
 			when Gosu::KbF
 				@show_framerate = !@show_framerate
-			
-			when Gosu::MsWheelDown
-				if button_down? Gosu::MsLeft
-					@selected_building.body.pz -= 1
-				else
-					@camera.zoom_in
-				end
-			when Gosu::MsWheelUp
-				if button_down? Gosu::MsLeft
-					@selected_building.body.pz += 1
-				else
-					@camera.zoom_out
-				end
 		end
+		
+		@interface.button_down(id)
 	end
 	
 	def button_up(id)
@@ -139,6 +113,8 @@ attr_reader :state_manager, :buildings # TODO: Remove if possible
             when Gosu::KbZ
                 @EDITOR_STATE = :NONE
         end
+        
+        @interface.button_up(id)
 	end
 	
 	def needs_cursor?()

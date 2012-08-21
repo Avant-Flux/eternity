@@ -1,6 +1,6 @@
 # Manages states for the level editor
 class EditorStateManager
-	def initialize(window)
+	def initialize(window, inpman)
 		# TODO: Load up states instead of hard-coding
 		
 		@window = window
@@ -14,11 +14,13 @@ class EditorStateManager
 		@selector_ui = StateSelector.new @window, @space, @font, self
 		
 		@states = {
-			:default => PlacementState.new(@window, @space, @font),
-			:edit => GeometryCreationstate.new(@window, @space, @font)
+			:default => PlacementState.new(@window, @space, @font, inpman),
+			#~ :create => GeometryCreationstate.new(@window, @space, @font)
 		}
 		
 		@active = :default
+		
+		@states[@active].add_widgets_to_space
 	end
 	
 	def update
@@ -29,6 +31,12 @@ class EditorStateManager
 	def draw
 		@states[@active].draw
 		@selector_ui.draw
+	end
+	
+	[:button_down, :button_up].each do |method|
+		define_method method do |*args|
+			@states[@active].send method, *args
+		end
 	end
 	
 	def click(mouse_x,mouse_y)

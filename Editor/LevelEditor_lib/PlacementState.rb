@@ -2,19 +2,17 @@ class PlacementState < LevelEditorInterface
 	attr_reader :mouse, :width
 	attr_reader :sidebar
 	
-	def initialize(window, space, font)
+	def initialize(window, space, font, inpman)
 		super(window, space, font)
 		
 		#~ @mouse = MouseHandler.new space
 		init_widgets window
 		
-		add_to_space @sidebar
-		add_to_space @sidebar_title
-		@tabs.each_value {|tab| add_to_space tab}
-		@gameobject_selector_panel.each_value {|panel| add_to_space panel} 
-		add_to_space @save
-		add_to_space @load
-		add_to_space @filepath
+		
+		init_ui_inputs inpman
+		bind_ui_inputs inpman
+		init_scene_inputs inpman
+		bind_scene_inputs inpman
 		
 		@active_tab = :static
 	end
@@ -22,10 +20,12 @@ class PlacementState < LevelEditorInterface
 	def update
 		if @window.mouse_x >= @sidebar.body.p.x
 			@window.selected_cursor = :menu
+			@window.inpman.mode = :editor_menu
+		#~ else
+			#~ @window.inpman.mode = :editor
 		end
 		
 		@gameobject_selector_panel[@active_tab].update
-		
 	end
 	
 	def draw
@@ -38,6 +38,31 @@ class PlacementState < LevelEditorInterface
 		#~ @name_box.draw
 		@load.draw
 		@save.draw
+	end
+	
+	def button_down(id)
+		case id
+			when Gosu::MsWheelDown
+				if @window.button_down? Gosu::MsLeft
+					if @seleted_building
+						@selected_building.body.pz -= 1
+					end
+				else
+					@window.camera.zoom_in
+				end
+			when Gosu::MsWheelUp
+				if @window.button_down? Gosu::MsLeft
+					if @seleted_building
+						@selected_building.body.pz += 1
+					end
+				else
+					@window.camera.zoom_out
+				end
+		end
+	end
+	
+	def button_up(id)
+		
 	end
 	
 	private
@@ -166,7 +191,87 @@ class PlacementState < LevelEditorInterface
 			# Load file specified in @filepath widget
 			
 		end
+	end
+	
+	def init_scene_inputs(inpman)
+		inpman.mode = :editor
+		
+		inpman.new_action :set_pan, :rising_edge do
+			@old_mouse = @window.state_manager.raycast @window.mouse_x,@window.mouse_y
+		end
+		
+		inpman.new_action :pan, :active do
+			@cur_mouse = @window.state_manager.raycast @window.mouse_x,@window.mouse_y
+			dif_x = @cur_mouse.x - @old_mouse.x
+			dif_y = @cur_mouse.y - @old_mouse.y
 
+			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
+			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+		end
+		
+		inpman.new_action :move_object, :active do
+			unless @window.button_down?(Gosu::KbLeftControl) || @window.button_down?(Gosu::KbRightControl)
+				@cur_mouse = @window.state_manager.raycast @window.mouse_x,@window.mouse_y
+				dif_x = @cur_mouse.x - @pos_mouse.x
+				dif_y = @cur_mouse.y - @pos_mouse.y
+				
+				if @selected_building
+					@selected_building.body.p.x = @selected_building.body.p.x + dif_x
+					@selected_building.body.p.y = @selected_building.body.p.y + dif_y
+				end
+				
+				@pos_mouse = @cur_mouse
+			end
+		end
+		
+		inpman.new_action :select_object, :rising_edge do
+			@pos_mouse = @window.state_manager.raycast @window.mouse_x, @window.mouse_y
+			
+			closest_shape = nil
+			@window.state_manager.raycast_mouse do |shape| 
+				closest_shape ||= shape
+				if shape.body.pz > closest_shape.body.pz
+					closest_shape = shape
+				end
+				@selected_building = closest_shape				
+			end
+		end
+		
+		inpman.new_action :msleft_up, :falling_edge do
+			@selected_building = nil
+			@window.state_manager.rehash_space
+		end
+		
+		inpman.new_action :place_cursor, :active do
+			@selected_cursor = :place #if @selected_cursor == :default
+		end
+	end
+	
+	def bind_scene_inputs(inpman)
+		inpman.mode = :editor
+		
+		inpman.bind_action :pan, Gosu::MsMiddle
+		inpman.bind_action :set_pan, Gosu::MsMiddle
+		#~ @inpman.bind_action :test2, Gosu::MsMiddle
+		
+		inpman.bind_action :select_object, Gosu::MsLeft
+		inpman.bind_action :move_object, Gosu::MsLeft
+		inpman.bind_action :msleft_up, Gosu::MsLeft
+		
+		inpman.bind_action :place_cursor, Gosu::MsLeft
+	end
+	
+	def init_ui_inputs(inpman)
+		inpman.mode = :editor_menu
+		
+		inpman.new_action :menu_click, :rising_edge do
+			self.click(@window.mouse_x, @window.mouse_y)
+		end
+	end
+	
+	def bind_ui_inputs(inpman)
+		inpman.mode = :editor_menu
+		inpman.bind_action :menu_click, Gosu::MsLeft
 	end
 	
 	def switch_to_tab(new_tab)

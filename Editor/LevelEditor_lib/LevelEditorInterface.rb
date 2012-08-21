@@ -6,6 +6,13 @@ class LevelEditorInterface
 		@window = window
 		@space = space
 		@font = font
+		
+		@temp_var = Entity.new @window
+		@temp_var.shape.collision_type = :none
+		@temp_var.body.p.x = @window.state_manager.top.spawn[0]
+		@temp_var.body.p.y = @window.state_manager.top.spawn[1]
+		@temp_var.body.pz = @window.state_manager.top.spawn[2]
+		@window.camera.followed_entity = @temp_var
 	end
 	
 	def update
