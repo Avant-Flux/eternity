@@ -37,9 +37,10 @@ class EditorStateManager
 	end
 	
 	def switch_to(state)
+		@states[@active].remove_widgets_from_space
+		@states[state].add_widgets_to_space
+		
 		@active = state
-		# TODO: Remove old state from space
-		# TODO: Add new state to space
 	end
 	
 	def over_UI?(mouse_x, mouse_y)
