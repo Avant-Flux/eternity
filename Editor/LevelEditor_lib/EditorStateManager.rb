@@ -42,8 +42,5 @@ class EditorStateManager
 		
 		@active = state
 	end
-	
-	def over_UI?(mouse_x, mouse_y)
-		mouse_x >= @states[@active].sidebar.body.p.x
-	end
+
 end

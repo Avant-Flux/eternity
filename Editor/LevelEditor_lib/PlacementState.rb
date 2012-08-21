@@ -175,4 +175,25 @@ class PlacementState < LevelEditorInterface
 		
 		@active_tab = new_tab
 	end
+
+	{
+		:add_widgets_to_space => :add_to_space,
+		:remove_widgets_from_space => :remove_from_space,
+	}.each do |interface_method, backend_method|
+		define_method interface_method do
+			self.send backend_method, @sidebar
+			self.send backend_method, @sidebar_title
+			self.send backend_method, @save
+			self.send backend_method, @load
+			self.send backend_method, @filepath
+			@tabs.each_value do |tab|
+				self.send backend_method, tab
+			end
+			@gameobject_selector_panel.each_value do |panel|
+				self.send backend_method, panel
+			end
+			
+		end
+	end
+	
 end

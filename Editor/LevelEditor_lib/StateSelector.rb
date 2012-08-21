@@ -110,6 +110,9 @@ class StateSelector < LevelEditorInterface
 	end
 	
 	def switch_to_mode(new_mode)
+	
+		@state_manager.switch_to(new_mode)
+		
 		@modes[@active_mode].color = Gosu::Color::BLACK
 		@modes[new_mode].color = Gosu::Color::WHITE
 		
