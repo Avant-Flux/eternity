@@ -15,7 +15,6 @@ class StateSelector < LevelEditorInterface
 
 		@state_manager = state_manager
 		add_widgets_to_space
-
 	end
 	
 	def update
@@ -117,19 +116,16 @@ class StateSelector < LevelEditorInterface
 		@active_mode = new_mode
 	end
 	
-	def add_widgets_to_space
-		add_to_space @topbar
-		add_to_space @topbar_title
-		@modes.each_value do |mode|
-			add_to_space mode
-		end
-	end
-	
-	def remove_widgets
-		remove_from_space @topbar
-		remove_from_space @topbar_title
-		@modes.each_value do |mode|
-			remove_from_space mode
+	{
+		:add_widgets_to_space => :add_to_space,
+		:remove_widgets_from_space => :remove_from_space,
+	}.each do |interface_method, backend_method|
+		define_method interface_method do
+			self.send backend_method, @topbar
+			self.send backend_method, @topbar_title
+			@modes.each_value do |mode|
+				self.send backend_method, mode
+			end
 		end
 	end
 end
