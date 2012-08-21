@@ -21,7 +21,18 @@ class EditorStateManager
 		@active = :placement
 	end
 	
-	[:update, :draw, :click].each do |method|
+	def update
+		@states[@active].update
+		@selector_ui.update
+	end
+	
+	def draw
+		@states[@active].draw
+		@selector_ui.draw
+	end
+	
+	
+	[:click].each do |method|
 		define_method method do |*args|
 			@states[@active].send method, *args
 		end
