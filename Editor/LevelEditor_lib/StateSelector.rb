@@ -1,12 +1,16 @@
 class StateSelector < LevelEditorInterface
-	def initialize(window, space, font, state_manger)
+	def initialize(window, space, font, state_manager)
 		super(window, space, font)
 		
-		init_widgets window
+		
 		
 		@button_width = 80
 		@button_space = 3
+		
+		init_widgets window
+		
 		@active_mode = :default
+
 		
 		@state_manager = state_manager
 	end
@@ -26,18 +30,18 @@ class StateSelector < LevelEditorInterface
 	
 	def init_widgets(window)
 	
-		@topbar = Widget::Div.new	window,
+		@topbar = Widget::Div.new window,
 			:relative => window,
 			
 			:top => 0, :bottom => :auto,
-			:left => 0, :right => :auto,
+			:left => 0, :right => 0,
 			
 			:width => :auto, :height => @font.height+6,
 			
 			:background_color => Gosu::Color.rgba(255,255,255, 100)
 			
 		@topbar_title = Widget::Label.new window,
-			:relative => @sidebar,
+			:relative => @topbar,
 			
 			:top => 3, :bottom => :auto,
 			:left => 3, :right => :auto,
@@ -51,50 +55,50 @@ class StateSelector < LevelEditorInterface
 		@modes = {
 				
 			:create => Widget::Button.new(window,
-				:relative => @sidebar,
+				:relative => @topbar,
 				
 				:top => 3, :bottom => :auto,
 				:left => (2*@button_space+@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
-				:font => @font, :text => "Create", :color => Gosu::Color::BLACK)
-			do 
+				:font => @font, :text => "Create", :color => Gosu::Color::BLACK
+			) do 
 				switch_to_mode :create
 			end,
 			
 			:edit => Widget::Button.new(window,
-				:relative => @sidebar,
+				:relative => @topbar,
 				
 				:top => 3, :bottom => :auto,
 				:left => (3*@button_space+2*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
-				:font => @font, :text => "Edit", :color => Gosu::Color::BLACK)
-			do 
+				:font => @font, :text => "Edit", :color => Gosu::Color::BLACK
+			) do 
 				switch_to_mode :edit
 			end,
 			
 			:spawn => Widget::Button.new(window,
-				:relative => @sidebar,
+				:relative => @topbar,
 				
 				:top => 3, :bottom => :auto,
 				:left => (4*@button_space+3*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
-				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK)
-			do 
+				:font => @font, :text => "Spawn", :color => Gosu::Color::BLACK
+			) do 
 				switch_to_mode :spawn
 			end,
 			
 			:default => Widget::Button.new(window,
-				:relative => @sidebar,
+				:relative => @topbar,
 				
 				:top => 3, :bottom => :auto,
 				:left => (5*@button_space+4*@button_width), :right => :auto,
 				
 				:width => @button_width, :height => @font.height,
-				:font => @font, :text => "Default", :color => Gosu::Color::WHITE)
-			do 
+				:font => @font, :text => "Default", :color => Gosu::Color::WHITE
+			) do 
 				switch_to_mode :default
 			end
 		}
