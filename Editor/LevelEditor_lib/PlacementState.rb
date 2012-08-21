@@ -21,8 +21,8 @@ class PlacementState < LevelEditorInterface
 		if @window.mouse_x >= @sidebar.body.p.x
 			@window.selected_cursor = :menu
 			@window.inpman.mode = :editor_menu
-		#~ else
-			#~ @window.inpman.mode = :editor
+		else
+			@window.inpman.mode = :editor
 		end
 		
 		@gameobject_selector_panel[@active_tab].update
