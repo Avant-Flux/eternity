@@ -28,6 +28,15 @@ class LevelEditorInterface
 		
 	end
 	
+	# If scroll events are fixed in input handler, #buton_up/down can be removed.
+	def button_up(id)
+		
+	end
+	
+	def button_down(id)
+	
+	end
+	
 	def click(mouse_x,mouse_y)
 		# TODO: Click events should only trigger for UI widget with highest z index
 		@space.point_query CP::Vec2.new(mouse_x,mouse_y) do |target|
