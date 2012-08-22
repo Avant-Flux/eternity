@@ -18,9 +18,7 @@ class StateSelector < LevelEditorInterface
 	end
 	
 	def update
-		if @window.mouse_y <= (@topbar.body.p.y + @topbar.height)
-			@window.selected_cursor = :menu
-		end
+		super()
 	end
 	
 	def draw

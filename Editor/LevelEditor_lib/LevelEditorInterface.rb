@@ -16,8 +16,11 @@ class LevelEditorInterface
 	end
 	
 	def update
-		if @window.mouse_x >= @sidebar.body.p.x
+		if in_menu?
 			@window.selected_cursor = :menu
+			@window.inpman.mode = :editor_menu
+		else
+			@window.inpman.mode = :editor
 		end
 	end
 	
@@ -33,6 +36,11 @@ class LevelEditorInterface
 				target.gameobject.on_click
 			end
 		end
+	end
+	
+	# Return true if the cursor is over the UI element.  Should be defined by all children.
+	def in_menu?
+		false
 	end
 	
 	private

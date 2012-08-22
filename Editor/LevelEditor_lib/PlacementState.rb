@@ -18,12 +18,7 @@ class PlacementState < LevelEditorInterface
 	end
 	
 	def update
-		if @window.mouse_x >= @sidebar.body.p.x
-			@window.selected_cursor = :menu
-			@window.inpman.mode = :editor_menu
-		else
-			@window.inpman.mode = :editor
-		end
+		super()
 		
 		@gameobject_selector_panel[@active_tab].update
 	end
@@ -229,17 +224,10 @@ class PlacementState < LevelEditorInterface
 	
 	def init_ui_inputs(inpman)
 		super(inpman)
-		inpman.mode = :editor_menu
-		
-		inpman.new_action :menu_click, :rising_edge do
-			self.click(@window.mouse_x, @window.mouse_y)
-		end
 	end
 	
 	def bind_ui_inputs(inpman)
 		super(inpman)
-		inpman.mode = :editor_menu
-		inpman.bind_action :menu_click, Gosu::MsLeft
 	end
 	
 	def switch_to_tab(new_tab)
