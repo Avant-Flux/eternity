@@ -44,7 +44,7 @@ class PlacementState < LevelEditorInterface
 		case id
 			when Gosu::MsWheelDown
 				if @window.button_down? Gosu::MsLeft
-					if @seleted_building
+					if @selected_building
 						@selected_building.body.pz -= 1
 					end
 				else
@@ -52,7 +52,7 @@ class PlacementState < LevelEditorInterface
 				end
 			when Gosu::MsWheelUp
 				if @window.button_down? Gosu::MsLeft
-					if @seleted_building
+					if @selected_building
 						@selected_building.body.pz += 1
 					end
 				else
