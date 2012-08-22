@@ -1,9 +1,14 @@
 class GeometryCreationstate < LevelEditorInterface
-	def initialize(window, space, font)
+	def initialize(window, space, font, inpman)
 		super(window, space, font)
 		init_widgets window
 		
 		@pos1 = CP::Vec2.new 0,0
+		
+		init_ui_inputs inpman, :editor_menu
+		bind_ui_inputs inpman, :editor_menu
+		init_scene_inputs inpman, :editor
+		bind_scene_inputs inpman, :editor
 	end
 	
 	def update

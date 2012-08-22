@@ -9,10 +9,10 @@ class PlacementState < LevelEditorInterface
 		init_widgets window
 		
 		
-		init_ui_inputs inpman
-		bind_ui_inputs inpman
-		init_scene_inputs inpman
-		bind_scene_inputs inpman
+		init_ui_inputs inpman, :editor_menu
+		bind_ui_inputs inpman, :editor_menu
+		init_scene_inputs inpman, :editor
+		bind_scene_inputs inpman, :editor
 		
 		@active_tab = :static
 	end
@@ -189,9 +189,8 @@ class PlacementState < LevelEditorInterface
 		end
 	end
 	
-	def init_scene_inputs(inpman)
-		super(inpman)
-		inpman.mode = :editor
+	def init_scene_inputs(inpman, state_name)
+		super(inpman, state_name)
 		
 		inpman.new_action :move_object, :active do
 			unless @window.button_down?(Gosu::KbLeftControl) || @window.button_down?(Gosu::KbRightControl)
@@ -213,22 +212,19 @@ class PlacementState < LevelEditorInterface
 		end
 	end
 	
-	def bind_scene_inputs(inpman)
-		super(inpman)
-		inpman.mode = :editor
-		
+	def bind_scene_inputs(inpman, state_name)
+		super(inpman, state_name)
 		
 		inpman.bind_action :move_object, Gosu::MsLeft
-		
 		inpman.bind_action :place_cursor, Gosu::MsLeft
 	end
 	
-	def init_ui_inputs(inpman)
-		super(inpman)
+	def init_ui_inputs(inpman, state_name)
+		super(inpman, state_name)
 	end
 	
-	def bind_ui_inputs(inpman)
-		super(inpman)
+	def bind_ui_inputs(inpman, state_name)
+		super(inpman, state_name)
 	end
 	
 	def switch_to_tab(new_tab)

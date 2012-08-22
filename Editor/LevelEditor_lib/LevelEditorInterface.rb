@@ -53,8 +53,8 @@ class LevelEditorInterface
 		@space.remove_static_shape widget.shape
 	end
 	
-	def init_scene_inputs(inpman)
-		inpman.mode = :editor
+	def init_scene_inputs(inpman, state_name)
+		inpman.mode = state_name
 		
 		inpman.new_action :set_pan, :rising_edge do
 			@old_mouse = @window.state_manager.raycast @window.mouse_x,@window.mouse_y
@@ -88,8 +88,8 @@ class LevelEditorInterface
 		end
 	end
 	
-	def bind_scene_inputs(inpman)
-		inpman.mode = :editor
+	def bind_scene_inputs(inpman, state_name)
+		inpman.mode = state_name
 		
 		inpman.bind_action :pan, Gosu::MsMiddle
 		inpman.bind_action :set_pan, Gosu::MsMiddle
@@ -99,16 +99,16 @@ class LevelEditorInterface
 		inpman.bind_action :msleft_up, Gosu::MsLeft
 	end
 	
-	def init_ui_inputs(inpman)
-		inpman.mode = :editor_menu
+	def init_ui_inputs(inpman, state_name)
+		inpman.mode = state_name
 		
 		inpman.new_action :menu_click, :rising_edge do
 			self.click(@window.mouse_x, @window.mouse_y)
 		end
 	end
 	
-	def bind_ui_inputs(inpman)
-		inpman.mode = :editor_menu
+	def bind_ui_inputs(inpman, state_name)
+		inpman.mode = state_name
 		inpman.bind_action :menu_click, Gosu::MsLeft
 	end
 end
