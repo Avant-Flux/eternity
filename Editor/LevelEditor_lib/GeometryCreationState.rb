@@ -79,6 +79,13 @@ class GeometryCreationstate < LevelEditorInterface
 	
 	end
 	
+	def button_up(id)
+		
+	end
+	
+	def button_down(id)
+	
+	end
 	
 	{
 		:add_widgets_to_space => :add_to_space,
