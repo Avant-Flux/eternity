@@ -117,6 +117,10 @@ class StateSelector < LevelEditorInterface
 		@active_mode = new_mode
 	end
 	
+	def in_menu?
+		return (@window.mouse_y <= (@topbar.body.p.y + @topbar.height))
+	end
+	
 	{
 		:add_widgets_to_space => :add_to_space,
 		:remove_widgets_from_space => :remove_from_space,

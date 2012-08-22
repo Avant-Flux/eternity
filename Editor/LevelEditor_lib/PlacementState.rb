@@ -21,6 +21,8 @@ class PlacementState < LevelEditorInterface
 		super()
 		
 		@gameobject_selector_panel[@active_tab].update
+		
+		puts "in menu? #{in_menu?}"
 	end
 	
 	def draw
@@ -236,6 +238,11 @@ class PlacementState < LevelEditorInterface
 		
 		@active_tab = new_tab
 	end
+	
+	def in_menu?
+		return (@window.mouse_x >= @sidebar.body.p.x)
+	end
+	
 
 	{
 		:add_widgets_to_space => :add_to_space,
