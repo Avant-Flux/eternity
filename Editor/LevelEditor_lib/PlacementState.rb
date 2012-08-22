@@ -22,7 +22,6 @@ class PlacementState < LevelEditorInterface
 		
 		@gameobject_selector_panel[@active_tab].update
 		
-		puts "in menu? #{in_menu?}"
 	end
 	
 	def draw
