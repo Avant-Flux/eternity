@@ -125,6 +125,25 @@ module Camera
 			@queue.clear
 		end
 		
+		# Immediately execute draw code, transformed to fit in trimetric perspective
+		# To be used for debug purposes ONLY
+		# Code copy-pasted from other segments of this camera class.
+		def draw_trimetric(&block)
+			@window.translate @window_offset_x, @window_offset_y do
+				# Zoom in on the given position
+				@window.scale @zoom,@zoom do
+					# Set origin of the entire game world to the given position
+					@window.translate -position.x, -position.y+@followed_entity.body.pz.to_px do
+						#~ @window.translate 0, -gameobject.body.elevation.to_px do
+							@window.transform *@trimetric_transform do
+								block.call
+							end
+						#~ end
+					end
+				end
+			end
+		end
+		
 		def screen_offset(offset)
 			# Offset the camera by a measure relative to the screen
 			
