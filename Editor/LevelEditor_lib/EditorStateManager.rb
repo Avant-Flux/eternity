@@ -15,7 +15,7 @@ class EditorStateManager
 		
 		@states = {
 			:default => PlacementState.new(@window, @space, @font, inpman),
-			#~ :create => GeometryCreationstate.new(@window, @space, @font)
+			:create => GeometryCreationstate.new(@window, @space, @font)
 		}
 		
 		@active = :default
