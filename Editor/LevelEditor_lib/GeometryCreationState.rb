@@ -2,17 +2,23 @@ class GeometryCreationstate < LevelEditorInterface
 	def initialize(window, space, font, inpman)
 		super(window, space, font)
 		init_widgets window
+		@window = 
 		
+		@new_rect = 
 		@pos1 = CP::Vec2.new 0,0
 		
 		init_ui_inputs inpman, :editor_menu
 		bind_ui_inputs inpman, :editor_menu
 		init_scene_inputs inpman, :editor
 		bind_scene_inputs inpman, :editor
+
+		@pos2 = CP::Vec2.new 0,0
 	end
 	
 	def update
-
+		if @now_drawing
+			draw_rect
+		end
 	end
 	
 	def draw
@@ -81,15 +87,88 @@ class GeometryCreationstate < LevelEditorInterface
 			
 			:width => 80, :height => @font.height,
 			:font => @font, :text => "text", :color => Gosu::Color::BLACK
+			
+		projections = {
+			:trimetric_projection => Widget::Button.new(window,
+				:relative => @sidebar,
+
+				:top => 40, :bottom => :auto,
+				:left => 100, :right => :auto,
+				
+				:width => 80, :height => @font.height,
+				:font => @font, :text => "Trimetric", :color => Gosu::Color::BLACK
+				
+			) do
+
+			end,
+			
+			:screen_projection => Widget::Button.new(window,
+				:relative => @sidebar,
+
+				:top => 40, :bottom => :auto,
+				:left => 100, :right => :auto,
+				
+				:width => 80, :height => @font.height,
+				:font => @font, :text => "Screen", :color => Gosu::Color::BLACK
+				
+			) do
+
+			end			
+		}
 	
 	end
-	
-	def button_up(id)
+		
+	def button_down(id)
 		
 	end
 	
-	def button_down(id)
+	def button_up(id)
+
+	end
+
 	
+	
+	def init_scene_inputs(inpman)
+		super(inpman)
+		inpman.mode = :create
+		
+		inpman.new_action :start_rect, :rising_edge do
+			@pos1.x = @window.mouse_x
+			@pos1.y = @window.mouse_y
+		end
+		
+		inpman.new_action :creating_rect, :active do
+			@pos2.x = @window.mouse_x
+			@pos2.y = @window.mouse_y
+			@now_drawing = true		
+		end
+		
+		inpman.new_action :finish_rect, :falling_edge do
+			@now_drawing = false
+			#create rectangle entity for pos1 and pos2
+			@pos1 = nil
+			@pos2 = nil
+			
+		end
+		
+	end
+	
+	def bind_scene_inputs(inpman)
+		super(inpman)
+		inpman.mode = :create
+		
+		
+		inpman.bind_action :move_object, Gosu::MsLeft
+		
+		inpman.bind_action :place_cursor, Gosu::MsLeft
+	end
+	
+	def draw_rect
+		#use @pos1 and @pos2
+	end
+	
+	def in_menu?
+		return (@window.mouse_x >= @sidebar.body.p.x)
 	end
 	
 	{
