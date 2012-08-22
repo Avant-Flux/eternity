@@ -19,8 +19,6 @@ class LevelEditorInterface
 		if in_menu?
 			@window.selected_cursor = :menu
 			@window.inpman.mode = :editor_menu
-		else
-			@window.inpman.mode = :editor
 		end
 	end
 	

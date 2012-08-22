@@ -219,14 +219,6 @@ class PlacementState < LevelEditorInterface
 		inpman.bind_action :place_cursor, Gosu::MsLeft
 	end
 	
-	def init_ui_inputs(inpman, state_name)
-		super(inpman, state_name)
-	end
-	
-	def bind_ui_inputs(inpman, state_name)
-		super(inpman, state_name)
-	end
-	
 	def switch_to_tab(new_tab)
 		@tabs[@active_tab].color = Gosu::Color::BLACK
 		@tabs[new_tab].color = Gosu::Color::WHITE

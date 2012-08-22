@@ -63,10 +63,12 @@ attr_reader :state_manager, :buildings, :inpman # TODO: Remove if possible
 	end
 	
 	def update
-		@selected_cursor = :default
+		
 		
 		super
 
+		@selected_cursor = :default
+		@inpman.mode = :editor
 		
 		@compass.update
 		@interface.update
