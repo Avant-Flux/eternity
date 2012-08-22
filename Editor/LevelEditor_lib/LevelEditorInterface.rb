@@ -2,7 +2,7 @@ class LevelEditorInterface
 	attr_reader :mouse, :width
 	attr_reader :sidebar
 	
-	def initialize(window, space, font)
+	def initialize(window, space, font, inpman)
 		@window = window
 		@space = space
 		@font = font
@@ -13,6 +13,9 @@ class LevelEditorInterface
 		@temp_var.body.p.y = @window.state_manager.top.spawn[1]
 		@temp_var.body.pz = @window.state_manager.top.spawn[2]
 		@window.camera.followed_entity = @temp_var
+		
+		init_ui_inputs inpman, :editor_menu
+		bind_ui_inputs inpman, :editor_menu
 	end
 	
 	def update

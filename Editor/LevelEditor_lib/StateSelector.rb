@@ -1,6 +1,6 @@
 class StateSelector < LevelEditorInterface
-	def initialize(window, space, font, state_manager)
-		super(window, space, font)
+	def initialize(window, space, font, inpman, state_manager)
+		super(window, space, font, inpman)
 		
 		
 		

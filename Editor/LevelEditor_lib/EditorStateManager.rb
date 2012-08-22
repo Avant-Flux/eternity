@@ -11,7 +11,7 @@ class EditorStateManager
 			#~ false
 		#~ end
 		
-		@selector_ui = StateSelector.new @window, @space, @font, self
+		@selector_ui = StateSelector.new @window, @space, @font, inpman, self
 		
 		@states = {
 			:default => PlacementState.new(@window, @space, @font, inpman),

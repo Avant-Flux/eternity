@@ -3,14 +3,12 @@ class PlacementState < LevelEditorInterface
 	attr_reader :sidebar
 	
 	def initialize(window, space, font, inpman)
-		super(window, space, font)
+		super(window, space, font, inpman)
 		
 		#~ @mouse = MouseHandler.new space
 		init_widgets window
 		
 		
-		init_ui_inputs inpman, :editor_menu
-		bind_ui_inputs inpman, :editor_menu
 		init_scene_inputs inpman, :editor
 		bind_scene_inputs inpman, :editor
 		

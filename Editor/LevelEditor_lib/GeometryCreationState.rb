@@ -1,27 +1,26 @@
 class GeometryCreationstate < LevelEditorInterface
 	def initialize(window, space, font, inpman)
-		super(window, space, font)
+		super(window, space, font, inpman)
 		init_widgets window
-		@window = 
 		
-		@new_rect = 
+		#~ @new_rect = 
 		@pos1 = CP::Vec2.new 0,0
 		
-		init_ui_inputs inpman, :editor_menu
-		bind_ui_inputs inpman, :editor_menu
-		init_scene_inputs inpman, :editor
-		bind_scene_inputs inpman, :editor
+		#~ init_scene_inputs inpman, :editor
+		#~ bind_scene_inputs inpman, :editor
 
 		@pos2 = CP::Vec2.new 0,0
 	end
 	
 	def update
-		if @now_drawing
-			draw_rect
-		end
+		super()
 	end
 	
 	def draw
+		if @now_drawing
+			draw_rect
+		end
+		
 		@sidebar.draw
 		@sidebar_title.draw
 		@point1.draw
@@ -30,6 +29,18 @@ class GeometryCreationstate < LevelEditorInterface
 		@position2.draw
 	end
 
+	def button_down(id)
+		
+	end
+	
+	def button_up(id)
+
+	end
+	
+	def in_menu?
+		return (@window.mouse_x >= @sidebar.body.p.x)
+	end
+	
 	def init_widgets(window)
 		@sidebar = Widget::Div.new	window,
 			:relative => window,
@@ -117,14 +128,6 @@ class GeometryCreationstate < LevelEditorInterface
 		}
 	
 	end
-		
-	def button_down(id)
-		
-	end
-	
-	def button_up(id)
-
-	end
 
 	def init_scene_inputs(inpman, state_name)
 		super(inpman, state_name)
@@ -153,20 +156,14 @@ class GeometryCreationstate < LevelEditorInterface
 	
 	def bind_scene_inputs(inpman, state_name)
 		super(inpman, state_name)
-		inpman.mode = :create
-		
 		
 		inpman.bind_action :move_object, Gosu::MsLeft
 		
-		inpman.bind_action :place_cursor, Gosu::MsLeft
+		#~ inpman.bind_action :place_cursor, Gosu::MsLeft
 	end
 	
 	def draw_rect
 		#use @pos1 and @pos2
-	end
-	
-	def in_menu?
-		return (@window.mouse_x >= @sidebar.body.p.x)
 	end
 	
 	{
