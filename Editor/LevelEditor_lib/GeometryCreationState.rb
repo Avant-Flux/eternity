@@ -126,10 +126,8 @@ class GeometryCreationstate < LevelEditorInterface
 
 	end
 
-	
-	
-	def init_scene_inputs(inpman)
-		super(inpman)
+	def init_scene_inputs(inpman, state_name)
+		super(inpman, state_name)
 		inpman.mode = :create
 		
 		inpman.new_action :start_rect, :rising_edge do
@@ -153,8 +151,8 @@ class GeometryCreationstate < LevelEditorInterface
 		
 	end
 	
-	def bind_scene_inputs(inpman)
-		super(inpman)
+	def bind_scene_inputs(inpman, state_name)
+		super(inpman, state_name)
 		inpman.mode = :create
 		
 		
