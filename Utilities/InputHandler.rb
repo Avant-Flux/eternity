@@ -114,6 +114,37 @@ class InputHandler
 		#~ @mode[input_type] = InputType::Flag.new
 	end
 	
+	def inspect
+		output = ""
+		@modes.each do |mode_name, events|
+			output << "=== #{mode_name} ==="
+			output << "\n"
+			
+			events.each do |event_type, event_list|
+				output << "\t" # Indent line
+				# TODO: Use sprintf for correct alignment
+				output << "---#{event_type}---"
+				
+				output << "\n"
+				
+				
+				event_list.each do |event_name, event|
+					output << "\t\t" # Double indent
+					# TODO: Use sprintf
+					output << "#{event_name.to_s}"
+					
+					output << " : "
+					
+					output << "#{event.binding}"
+					output << "\n"
+				end
+				
+			end
+		end
+		
+		return output
+	end
+	
 	#~ private
 	#~ 
 	#~ def process_input

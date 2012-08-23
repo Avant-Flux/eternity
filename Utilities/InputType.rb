@@ -45,6 +45,12 @@ module InputType
 			@all_triggers = nil
 		end
 		
+		# Return the current keybinding
+		# To be used for debug purposes only
+		def binding
+			return @trigger
+		end
+		
 		# In theory this is supposed to be different from bind
 		# bind should add a new binding
 		# rebind should erase all previous bindings and create a new binding
