@@ -1,0 +1,9 @@
+Diablo 3 Resolution notes
+
+Zoomed in character height
+	1/3 of screen @ 1080p =	360 px
+Zoomed out
+	like half of that =		~180 px
+
+Poison ents
+	2.5 character height =	450 or 900
