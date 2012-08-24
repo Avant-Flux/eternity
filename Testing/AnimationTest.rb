@@ -1,8 +1,13 @@
 Dir.chdir File.dirname(__FILE__)
 Dir.chdir ".." # Move into parent folder, IE project root
 
-#~ require './GameWindow'
+require './GameWindow'
 require 'rubygems'
+require 'require_all'
+#~ require_all './Physics'
+#~ require_all './GameObjects/Cameras'
+
+
 require 'gosu'
 
 #~ class Window < GameWindow
@@ -16,6 +21,16 @@ class Window < Gosu::Window
 		
 		@font = Gosu::Font.new self, "Trebuchet MS", 25
 		@zoom = 1
+		
+		@camera = Camera::TrimetricCamera.new self, nil
+		@camera.followed_entity = Entity.new self
+		
+		
+		@terrain_color = Gosu::Color::WHITE
+		@terrain_width = 20
+		@terrain_depth = 20
+		@camera.followed_entity.body.p.x = @terrain_width / 2
+		@camera.followed_entity.body.p.y = @terrain_depth / 2
 		
 		
 		@tick = 0
@@ -39,7 +54,18 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@sprite.draw 0,0,0, @zoom, @zoom
+		@camera.draw_trimetric_now do
+			draw_quad	0,0,							@terrain_color,
+						@terrain_width, 0,				@terrain_color,
+						@terrain_width, @terrain_depth,	@terrain_color,
+						0, @terrain_depth,				@terrain_color
+		end
+		
+		#~ position = @camera.followed_entity.body.p.to_screen
+		#~ puts position
+		x = self.width/2
+		y = self.height/4*3
+		@sprite.draw_rot x, y, 0, 0,0.5,1, @zoom, @zoom
 		
 		format = "%0.3f"
 		@font.draw "zoom: #{format % @zoom}", 0,0,0
