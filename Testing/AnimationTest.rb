@@ -18,6 +18,7 @@ class Window < Gosu::Window
 		@zoom = 1
 		
 		
+		@tick = 0
 		@i = 0
 		spritesheet_filename = "./Development/Models/golem/walk.png"
 		@frames = Gosu::Image::load_tiles(self, spritesheet_filename, -8, -6, false)
@@ -26,7 +27,15 @@ class Window < Gosu::Window
 	end
 	
 	def update
-		@i = 0
+		@tick += 1
+		if @tick == 2
+			@i += 1
+			@i = 0 if @i == @frames.length
+			
+			@tick = 0
+		end
+		
+		@sprite = @frames[@i]
 	end
 	
 	def draw
@@ -34,6 +43,9 @@ class Window < Gosu::Window
 		
 		format = "%0.3f"
 		@font.draw "zoom: #{format % @zoom}", 0,0,0
+		
+		# Game engine framerate display
+		@font.draw "fps: #{Gosu::fps}", 200,0,0
 	end
 	
 	def button_down(id)
