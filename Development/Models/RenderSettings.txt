@@ -18,4 +18,9 @@ Gather
 	Distance:	20
 	Sampling:	Constant QMC
 	Samples:	10
-	
+
+
+Make sure to set the material of the plane the object sits on:
+Shadow
+	Shadows only	ON			(only shadows cast on object drawn, not the object)
+		Dropdown - "Shadow Only"
