@@ -54,10 +54,6 @@ attr_reader :state_manager, :buildings, :inpman # TODO: Remove if possible
 		@buildings = {}
 		load_buildings
 		
-		## State data ##
-		
-		@EDITOR_STATE = :NONE
-		@SELECTED_BUILDING = "$none$"
 		
 		@inpman.mode = :editor
 	end
