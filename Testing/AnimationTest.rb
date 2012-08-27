@@ -34,23 +34,39 @@ class Window < Gosu::Window
 		
 		
 		@tick = 0
-		@i = 0
-		spritesheet_filename = "./Sprites/Creatures/golem_walk.png"
-		@frames = Gosu::Image::load_tiles(self, spritesheet_filename, -8, -6, false)
-		@sprite = @frames[@i]
-		#~ @sprite = Gosu::Image.new self, "./Development/Models/golem/0001.png", false
+		@i = 1
+		spritesheet_filename =  "./Sprites/gearblade.dds"
+		#~ @frames = Gosu::Image::load_tiles(self, "./Sprites/Creatures/Golem_Walk_S.png", -8, -6, false)
+		#~ @frames2 = Gosu::Image::load_tiles(self, "./Sprites/Creatures/Golem_Walk_N.png", -8, -6, false)
+		
+		#~ @frames = []
+		#~ directions = ["South"].each do |direction|
+			#~ (1..48).each do |i|
+				#~ 
+				#~ 
+				#~ @frames << load_sprite("Golem", "Walk", direction, i)
+			#~ end
+		#~ end
+		
+		#~ @sprite = @frames[@i]
+		#~ @sprite = Gosu::Image.new self, "./Sprites/gearblade.dds", false
+		
+		@sprite = Gosu::Image.new self, "/home/ravenskrag/Code/GameDev/Eternity/Renders/Golem/Walk/South/Render1_0031.png", false
+		#~ @sprite = load_sprite("Golem", "Walk", "South", @i)
 	end
 	
 	def update
 		@tick += 1
 		if @tick == 2
 			@i += 1
-			@i = 0 if @i == @frames.length
+			#~ @i = 0 if @i == @frames.length
+			@i = 1 if @i == 49
 			
 			@tick = 0
 		end
 		
-		@sprite = @frames[@i]
+		#~ @sprite = @frames[@i]
+		@sprite = load_sprite("Golem", "Walk", "North", @i)
 	end
 	
 	def draw
@@ -95,6 +111,18 @@ class Window < Gosu::Window
 	
 	def needs_cursor?
 		true
+	end
+	
+	private
+	
+	def load_sprite(entity, action, direction, frame)
+		filename = "/home/ravenskrag/Code/GameDev/Eternity/Renders/#{entity}/#{action}/#{direction}/Render1_"
+		filename << "%04i" % frame
+		filename << ".png"
+		
+		puts filename
+		
+		return Gosu::Image.new(self, filename, false)
 	end
 end
 
