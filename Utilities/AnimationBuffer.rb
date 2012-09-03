@@ -8,7 +8,9 @@
 # This cache stores only animation frames
 # Currently, the buffer and VRAM size is limited by 
 class AnimationBuffer
-	def initialize(active_size=60, cache_size=120)
+	def initialize(window, active_size=60, cache_size=120)
+		@window = window
+		
 		# All Ruby Hash objects are ordered by when keys are inserted
 		@active_sprites = Hash.new	# Gosu::Image objects; stored in VRAM
 		
