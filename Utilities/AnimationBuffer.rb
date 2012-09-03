@@ -41,18 +41,37 @@ class AnimationBuffer
 	def disk_to_buffer(entity, action, direction, frame_number)
 		if @frame_buffer.size == @max_buffer_size
 			# Maximum number of frames in buffer reached
-			
-		else
-			# Space available in buffer
-			
+			@frame_buffer.each do |key, image|
+				# Only perform one iteration. Just want to get the oldest object.
+				@frame_buffer.delete key
+				
+				break
+			end
 		end
+		
+		# There should now be at least one slot remaining in the buffer
+		file = "#{entity}_#{action}_#{direction}_" << ("%04i" % frame_number)
+		@temp = Gosu::Image.new @window, file, false
+		@frame_buffer[file] = @temp.to_blob # Must wrap in some class which implements #to_blob
 	end
 	
 	# Take blob data stored in DRAM and make a Gosu::Image with data in VARM
 	def buffer_to_vram(entity, action, direction, frame_number)
 		file = "#{entity}_#{action}_#{direction}_" << ("%04i" % frame_number)
 		
-		Gosu::Image.new @window, @cached_sprites[file], false
+		if @active_sprites.size == @max_active_size
+			# Maximum number of frames in VRAM reached.
+			
+			@active_sprites.each do |key, image|
+				# Only perform one iteration. Just want to get the oldest object.
+				@active_sprites.delete key
+				
+				break
+			end
+		end
+		
+		# There should now be room in VRAM for one more frame
+		@active_sprites[file] = Gosu::Image.new @window, @cached_sprites[file], false
 	end
 	
 	# Convert Gosu::Image objects stored in VRAM into blob data in DRAM
