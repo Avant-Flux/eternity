@@ -7,12 +7,7 @@ class LevelEditorInterface
 		@space = space
 		@font = font
 		
-		@temp_var = Entity.new @window
-		@temp_var.shape.collision_type = :none
-		@temp_var.body.p.x = @window.state_manager.top.spawn[0]
-		@temp_var.body.p.y = @window.state_manager.top.spawn[1]
-		@temp_var.body.pz = @window.state_manager.top.spawn[2]
-		@window.camera.followed_entity = @temp_var
+		@@camera_focus ||= camera_focus_singleton
 		
 		ui_input_state_name = :editor_menu
 		init_ui_inputs inpman, ui_input_state_name
@@ -56,6 +51,21 @@ class LevelEditorInterface
 	
 	private
 	
+	def camera_focus_singleton
+		focus = Entity.new @window
+		
+		focus.shape.collision_type = :none
+		
+		# Set starting position of focus
+		focus.body.p.x = @window.state_manager.top.spawn[0]
+		focus.body.p.y = @window.state_manager.top.spawn[1]
+		focus.body.pz = @window.state_manager.top.spawn[2]
+		
+		@window.camera.followed_entity = focus
+		
+		return focus
+	end
+	
 	def add_to_space(widget)
 		@space.add_static_shape widget.shape
 	end
@@ -75,9 +85,9 @@ class LevelEditorInterface
 			@cur_mouse = @window.state_manager.raycast @window.mouse_x,@window.mouse_y
 			dif_x = @cur_mouse.x - @old_mouse.x
 			dif_y = @cur_mouse.y - @old_mouse.y
-
-			@temp_var.body.p.x = @temp_var.body.p.x - dif_x
-			@temp_var.body.p.y = @temp_var.body.p.y - dif_y
+			
+			@@camera_focus.body.p.x = @@camera_focus.body.p.x - dif_x
+			@@camera_focus.body.p.y = @@camera_focus.body.p.y - dif_y
 		end
 		
 		inpman.new_action :select_object, :rising_edge do
