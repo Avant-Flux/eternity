@@ -91,21 +91,6 @@ class AnimationBuffer
 		return nil
 	end
 	
-	# Update the structure, expiring old elements as necessary
-	def update(key)
-		# Increment the head "pointer", but do not exceed the maximum index of the array
-		@buffer_head = (@buffer_head + 1) % @circular_buffer.length
-		
-		output = if @circular_buffer[@buffer_head]
-			# If there is already a value at the insertion point, prepare to return it
-			@circular_buffer[@buffer_head]
-		end
-		
-		@circular_buffer[@buffer_head] = key
-		
-		return output
-	end
-	
 	# Private class to wrap uncompressed image blob data
 	class ImageBlob
 		def initialize(image)
