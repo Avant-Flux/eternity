@@ -1,4 +1,10 @@
 class LevelEditorInterface
+	# TODO:	Refactor code so only one selected object exists across all interface states.
+	# 		Allows the ability to select an object once, and then perform various operations on it.
+	# TODO:	Refactor @old_mouse, @cur_mouse, @pos_mouse across this state and children.
+	# 		The names of these variables are too ambiguous, and not semantic enough.
+	# 		Rename them so the names are more semantic, and indicative of their function.
+	
 	attr_reader :mouse, :width
 	attr_reader :sidebar
 	
@@ -51,6 +57,8 @@ class LevelEditorInterface
 	
 	private
 	
+	# Does not guarantee that the created class is a singleton.
+	# Rather, the idea is that this method creates a camera focus which will be used as a singleton.
 	def camera_focus_singleton
 		focus = Entity.new @window
 		
