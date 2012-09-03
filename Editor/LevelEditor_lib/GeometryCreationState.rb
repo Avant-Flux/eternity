@@ -6,10 +6,12 @@ class GeometryCreationstate < LevelEditorInterface
 		#~ @new_rect = 
 		@pos1 = CP::Vec2.new 0,0
 		
-		#~ init_scene_inputs inpman, :editor
-		#~ bind_scene_inputs inpman, :editor
-
 		@pos2 = CP::Vec2.new 0,0
+		
+		init_scene_inputs inpman, :edit
+		bind_scene_inputs inpman, :edit
+
+		
 	end
 	
 	def update
@@ -131,7 +133,6 @@ class GeometryCreationstate < LevelEditorInterface
 
 	def init_scene_inputs(inpman, state_name)
 		super(inpman, state_name)
-		inpman.mode = :create
 		
 		inpman.new_action :start_rect, :rising_edge do
 			@pos1.x = @window.mouse_x
@@ -157,7 +158,7 @@ class GeometryCreationstate < LevelEditorInterface
 	def bind_scene_inputs(inpman, state_name)
 		super(inpman, state_name)
 		
-		inpman.bind_action :move_object, Gosu::MsLeft
+		#~ inpman.bind_action :move_object, Gosu::MsLeft
 		
 		#~ inpman.bind_action :place_cursor, Gosu::MsLeft
 	end

@@ -9,8 +9,8 @@ class PlacementState < LevelEditorInterface
 		init_widgets window
 		
 		
-		init_scene_inputs inpman, :editor
-		bind_scene_inputs inpman, :editor
+		init_scene_inputs inpman, :default
+		bind_scene_inputs inpman, :default
 		
 		@active_tab = :static
 	end

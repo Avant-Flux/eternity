@@ -14,8 +14,8 @@ class EditorStateManager
 		@selector_ui = StateSelector.new @window, @space, @font, inpman, self
 		
 		@states = {
-			:default => PlacementState.new(@window, @space, @font, inpman),
-			:create => GeometryCreationstate.new(@window, @space, @font, inpman)
+			:default => PlacementState.new(@window, @space, @font, inpman)
+			#~ :create => GeometryCreationstate.new(@window, @space, @font, inpman)
 		}
 		
 		@active = :default

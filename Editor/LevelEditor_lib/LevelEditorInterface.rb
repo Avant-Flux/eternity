@@ -14,8 +14,9 @@ class LevelEditorInterface
 		@temp_var.body.pz = @window.state_manager.top.spawn[2]
 		@window.camera.followed_entity = @temp_var
 		
-		init_ui_inputs inpman, :editor_menu
-		bind_ui_inputs inpman, :editor_menu
+		ui_input_state_name = :editor_menu
+		init_ui_inputs inpman, ui_input_state_name
+		bind_ui_inputs inpman, ui_input_state_name
 	end
 	
 	def update
@@ -101,8 +102,8 @@ class LevelEditorInterface
 	def bind_scene_inputs(inpman, state_name)
 		inpman.mode = state_name
 		
-		inpman.bind_action :pan, Gosu::MsMiddle
 		inpman.bind_action :set_pan, Gosu::MsMiddle
+		inpman.bind_action :pan, Gosu::MsMiddle
 		
 		inpman.bind_action :select_object, Gosu::MsLeft
 		
@@ -119,6 +120,7 @@ class LevelEditorInterface
 	
 	def bind_ui_inputs(inpman, state_name)
 		inpman.mode = state_name
+		
 		inpman.bind_action :menu_click, Gosu::MsLeft
 	end
 end
