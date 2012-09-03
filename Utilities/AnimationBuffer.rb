@@ -30,7 +30,7 @@ class AnimationBuffer
 			# Gosu::Image object already in VRAM
 		else # Cache miss
 			# Try to load from cache
-			@
+			
 		end
 	end
 	
@@ -54,7 +54,8 @@ class AnimationBuffer
 		# There should now be at least one slot remaining in the buffer
 		file = "#{entity}_#{action}_#{direction}_" << ("%04i" % frame_number)
 		@temp = Gosu::Image.new @window, file, false
-		@frame_buffer[file] = @temp.to_blob # Must wrap in some class which implements #to_blob
+		@frame_buffer[file] = ImageBlob.new(@temp)
+		@temp = nil
 	end
 	
 	# Take blob data stored in DRAM and make a Gosu::Image with data in VARM
@@ -103,5 +104,20 @@ class AnimationBuffer
 		@circular_buffer[@buffer_head] = key
 		
 		return output
+	end
+	
+	# Private class to wrap uncompressed image blob data
+	class ImageBlob
+		def initialize(image)
+			image = if image.respond_to? :to_blob
+				image.to_blob
+			end
+			
+			@data = binary_blob
+		end
+		
+		def to_blob
+			return @data
+		end
 	end
 end
