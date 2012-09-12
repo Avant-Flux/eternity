@@ -12,12 +12,6 @@ module Camera
 	# 
 	# All objects must implement z_index
 	class TrimetricCamera
-		#~ include Physics::TwoD_Support
-		#~ include Physics::TwoD_Support::Rect
-		#~ 
-		#~ attr_reader :shape, :queue
-		#~ attr_accessor :transparency_mode
-		
 		attr_accessor :followed_entity
 		
 		MAX_ZOOM = 10
@@ -46,26 +40,7 @@ module Camera
 			@zoom = zoom #Must be a percentage
 			@transparency_mode = transparency_mode # :selective, :always_on, :always_off
 			
-			#~ # Center of screen
-			#~ pos = [window.width.to_meters / @zoom / 2, window.height.to_meters / @zoom / 2]
-			#~ 
-			#~ init_physics	pos, window.width.to_meters / @zoom, window.height.to_meters / @zoom, 
-							#~ 50, :static, :camera, :centered
-			#~ 
-			#~ @shape.sensor = true
-			#~ 
-			#~ shape_metaclass = class << @shape; self; end
-			#~ [:add, :delete].each do |method|
-				#~ shape_metaclass.send :define_method, method do |gameobj|
-					#~ self.gameobj.queue[gameobj.layers].send method, gameobj
-				#~ end
-			#~ end
-			
 			@queue = []
-			
-			#~ @body = Physics::Body.new self, 10, CP::INFINITY
-			#~ @shape = Physics::Shape::Rect.new self, @body, window.width.to_meters, window.width.to_meters
-			#~ @shape.sensor = true
 		end
 		
 		def update
@@ -84,6 +59,7 @@ module Camera
 			center = @followed_entity.body.p - CP::Vec2.new(0,@followed_entity.body.pz.to_px).to_world
 			radius = @window.width.to_meters*4
 			
+			# TODO: Requires Chipmunk 6 - Consider using resizeable shape instead of a CP::BB
 			# l,b,r,t
 			bb = CP::BB.new	center.x - radius,		center.y - radius,
 							center.x + radius,		center.y + radius
@@ -102,8 +78,6 @@ module Camera
 				screen_pos_b = b.body.p.to_screen
 				
 				screen_pos_a.y <=> screen_pos_b.y
-				#~ screen_pos_b.y <=> screen_pos_a.y
-				#~ b.body.p.y <=> a.body.p.y
 			end
 			
 			position = @followed_entity.body.p.to_screen
