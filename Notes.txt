@@ -82,15 +82,6 @@ Quotes / Possible Dialogue
 		Life is inseparable from sin.  Let us purge the sin from this world.
 		Let The Gate shine once more.  Let the judgment of god resume once more."
 
-Sprite rendering and Chipmunk
-	The coordinate system is not what is expected of physics.
-		The CS coordinate system is used (or something similar)
-			Right is positive
-			Down is POSITIVE
-		HOWEVER
-			Use down as negative for the z direction
-			This allows for using the z axis for height as well as z index
-
 For stackable objects (physics)
 	All objects in the "stack" should have a pointer to the top item in the stack
 	
@@ -104,15 +95,6 @@ For gravity/force management
 		calculate the acceleration of the object.
 	This process only needs to be processed for the z-direction, as the xy plane should be handled
 		by the existing code in the Chipmunk engine.
-		
-For scaling
-	Try to monkey patch Gosu::Image in order to scale all draw commands automatically.
-	To do this, alias Gosu::Image#draw to something else, then overwrite the method to call the new
-		method, calling the correct parameters scaled appropriately.
-		
-Chipmunk Shape_3D function arguments
-	Take position and dimensions as an array marked by a hash tag
-	ie	:pos => [0,0,0], :dimensions => [0,0,0]
 
 Mac OSX Notes -- assumes installation though macports
 	ruby1.9
