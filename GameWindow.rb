@@ -2,29 +2,29 @@
 Dir.chdir File.dirname(__FILE__)
 
 require 'rubygems'
-require "bundler/setup"
+# require "bundler/setup"
 
-require 'gosu'
+require 'oni'
 require 'chipmunk'
 require 'algorithms'
 
 require 'require_all'
 #~ require 'profile'
 
-require_all './Utilities'
+# require_all './Utilities'
 
-require_all './Physics'
+# require_all './Physics'
 
-require_all './Combat'
-require_all './Drawing'
-require_all './Equipment'
-require_all './Stats'
-require_all './Titles'
+# require_all './Combat'
+# require_all './Drawing'
+# require_all './Equipment'
+# require_all './Stats'
+# require_all './Titles'
 
-require_all './GameObjects'
-require_all './GameStates'
+# require_all './GameObjects'
+# require_all './GameStates'
 
-require_all './UI'
+# require_all './UI'
 
 require 'gl'
 require 'glu'
@@ -35,184 +35,97 @@ include Glu
 include Glut
 
 
-class GameWindow < Gosu::Window
-	attr_accessor :camera, :show_fps
-	attr_reader :state_manager, :ui_state_manager
+class GameWindow < Oni::Window
+	# attr_accessor :camera, :show_fps
+	# attr_reader :state_manager, :ui_state_manager
 	
-	def initialize
-		@target_fps = 60
+	def setup
+		# @target_fps = 60
 		# Window should have a 16:9 aspect ratio
-		super(1280, 720, false, (1.0/@target_fps)*1000)
-		self.caption = "Eternity 0.11.5"
-		@show_fps = false
+		# super(1280, 720, false, (1.0/@target_fps)*1000)
+		# self.caption = "Eternity 0.11.5"
+		# @show_fps = false
 		
-		@tile_width = 5
-		@tile_height = 5
+		# @font = Gosu::Font.new self, "Trebuchet MS", 25
 		
-		@font = Gosu::Font.new self, "Trebuchet MS", 25
+		# @player = Player.new self
 		
-		@player = Player.new self
+		# @state_manager = StateManager.new self, @player
+		# @ui_state_manager = UI_StateManager.new self, @player, @state_manager
 		
-		@state_manager = StateManager.new self, @player
-		@ui_state_manager = UI_StateManager.new self, @player, @state_manager
+		# # Input manager holds the only other reference to the camera
+		# # other than this window.  Thus, if the camera get changed,
+		# # it will break the ability of the input to affect the camera.
+		# @inpman = EternityInput.new self, @player, @camera, @state_manager, @ui_state_manager
 		
-		# Input manager holds the only other reference to the camera
-		# other than this window.  Thus, if the camera get changed,
-		# it will break the ability of the input to affect the camera.
-		@inpman = EternityInput.new self, @player, @camera, @state_manager, @ui_state_manager
+		@camera = Oni::Camera.new(self, "main_camera", 0) # TODO: Make z_order=0 by default
+		
+		@camera.fov = 110
+		
+		scale = 1.5
+		
+		r = 3*scale
+		angle = 22.degrees
+		
+		x = r*Math.sin(angle)
+		z = r*Math.cos(angle)
+		@camera.position = [x,4*scale,z]
+
+		@camera.look_at [0,0,0]
+		@camera.near_clip_distance = 1
+		
+		
+		
+		@player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
+		@player.translate 0, 0, 0
+		
+		@player.base_animation = "my_animation"
+		# @player.base_animation = "walkywalky"
+		# @player.top_animation = "flippyfloppy"
 	end
 	
-	def update
-		# process_input
-		@inpman.update
+	def update(dt)
+		# # process_input
+		# @inpman.update
 		
-		#~ puts @player.body.p
-		#~ @player.body.reset_forces
-		@state_manager.update # Update the entities within the active state
+		# #~ puts @player.body.p
+		# #~ @player.body.reset_forces
+		# @state_manager.update # Update the entities within the active state
 		
-		@ui_state_manager.update
+		# @ui_state_manager.update
+		
+		@player.update dt
 	end
 	
 	def draw
-		# Draw gameworld state
-		@state_manager.draw
+		# # Draw gameworld state
+		# @state_manager.draw
 		
-		# Draw screen-relative "flat" elements (UI etc)
-		@ui_state_manager.draw
+		# # Draw screen-relative "flat" elements (UI etc)
+		# @ui_state_manager.draw
 		
-		if @show_fps
-			@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		end
+		# if @show_fps
+		# 	@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
+		# end
 	end
 	
 	def button_down(id)
-		# Part of the update loop, not event-driven
-		@inpman.button_down(id)
+		# # Part of the update loop, not event-driven
+		# @inpman.button_down(id)
 		
-		if id == Gosu::MsWheelDown
-			@state_manager.camera.zoom_out
-		elsif id == Gosu::MsWheelUp
-			@state_manager.camera.zoom_in
-		end
+		# if id == Gosu::MsWheelDown
+		# 	@state_manager.camera.zoom_out
+		# elsif id == Gosu::MsWheelUp
+		# 	@state_manager.camera.zoom_in
+		# end
 	end
 	
 	def button_up(id)
-		# Part of the update loop, not event-driven
-		@inpman.button_up(id)
+		# # Part of the update loop, not event-driven
+		# @inpman.button_up(id)
 	end
 	
-	def needs_cursor?
-		true
-	end
-	
-	# Define operations to be performed on window shutdown
-	def close
-		#~ @state_manager.clear # Clear will dump all states
-		
-		super()
-	end
-	
-	def draw_circle(x,y,z, r, color, options={})
-		options = {
-			:stroke_width => 1,	# Width of the line
-			:slices => 30, # Number of subdivisions around the z axis.
-			:loops => 1, # Number of concentric rings about the origin.
-			
-			:start_angle => 0,
-			:angle => 360,
-			
-			:alpha => 1 # Float value
-		}.merge! options
-		
-		self.gl z do
-			@quadric ||= gluNewQuadric()
-			
-			glEnable(GL_BLEND)
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-			#~ glBlendFunc(GL_SRC_ALPHA, GL_ONE)
-			
-			#~ puts color.red
-			
-			#~ puts color.red.to_f / 255
-			glColor4f(color.red / 255.to_f, color.green / 255.to_f, color.blue / 255.to_f, options[:alpha])
-			glTranslatef(x,y,0)
-			
-			# Given Gosu's coordinate system, 0deg is down, pos rotation is CCW
-			gluPartialDisk(@quadric, r-options[:stroke_width], r, 
-							options[:slices], options[:loops],
-							options[:start_angle], options[:angle])
-		end
-	end
-	
-	# Utilize OpenGL's stencil buffer to perform functionality similar to masks
-	# in Photoshop.
-	# Precondition:	Mask is a lambda which draws into the buffer
-	#				Z is the z-index of the calls.  Think more scheduling than depth test.
-	# 				The implicit block parameter is the code to be drawn "behind" the mask
-	def stencil(mask, z=0, &block)
-		# NOTE:	Super NOT threadsafe.  Entire method must be run at once, to insure proper 
-		# 		z-indexing.  Gosu is currently not threadsafe anyway, so this is not a problem.
-		# 		However, if the engine does become threadsafe, know that there needs to be 
-		# 		a barrier around this method, or similar.
-		#
-		# gl blocks introduce new context where Gosu calls can not be used.
-		# NOTE: This means that no Gosu calls can be used within this method
-		#~ puts "stencil buffer bitplanes: #{glGetIntegerv(GL_STENCIL_BITS)}"
-		no_planes = 0x0
-		# Generate bitvectory of the length of GL_STENCIL_BITS
-		#~ all_planes = 0x1
-		#~ (glGetIntegerv(GL_STENCIL_BITS)-1).times do
-			#~ all_planes >> 1
-			#~ all_planes += 0x1
-		#~ end
-		#~ puts all_planes.to_s 2
-		all_planes = 0xff
-		#~ puts all_planes.to_s 2
-		#~ all_planes = 0x7
-		
-		
-		
-		self.gl z do
-			# === Much code taken from the wikibooks OpenGl Stencil Buffer page
-			glutInitDisplayMode(GLUT_RGBA|GLUT_ALPHA|GLUT_DOUBLE|GLUT_DEPTH|GLUT_STENCIL)
-
-			glClear(GL_DEPTH_BUFFER_BIT)
-
-			# Enable stencil buffer
-			glEnable(GL_STENCIL_TEST)
-			
-			# Disable color and depth buffers
-			glColorMask(false, false, false, false)
-			glDepthMask(false)
-			
-			glStencilFunc(GL_NEVER, 1, all_planes)
-			glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP) # Draw 1s on test fail (always)
-			
-			# Draw stencil pattern
-			glStencilMask(all_planes)
-			glClear(GL_STENCIL_BUFFER_BIT)
-			
-			# ===== Draw mask
-			mask.call
-			
-			# Re-enable color and depth buffers
-			glColorMask(true, true, true, true)
-			glDepthMask(true)
-			glStencilMask(no_planes)
-			
-			# Draw where stencil's value is 0
-			glStencilFunc(GL_EQUAL, 0, all_planes)
-			## (nothing to draw)
-			
-			# Draw only where stencil's value is 1
-			glStencilFunc(GL_EQUAL, 1, all_planes)
-			
-			# ===== Draw the actual stuff
-			#~ mask.call
-			block.call
-			
-			# Turn stencil buffer off
-			glDisable(GL_STENCIL_TEST)
-		end
-	end
+	# def needs_cursor?
+	# 	true
+	# end
 end
