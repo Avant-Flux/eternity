@@ -1,0 +1,6 @@
+Code for Eternity licensed under the terms of the GPL.
+
+Oni is also licensed under GPL.
+
+Ogre3D is licensed under the MIT license.  Check the Ogre3D_License.txt file for more information.
+
