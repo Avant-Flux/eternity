@@ -105,12 +105,12 @@ class EternityInput < InputHandler
 			end
 		end
 		
-		# new_action :run, :rising_edge do
-		# 	@player.running = true
-		# end
-		# new_action :run, :falling_edge do
-		# 	@player.running = false
-		# end
+		new_action :run, :rising_edge do
+			@player.running = true
+		end
+		new_action :run, :falling_edge do
+			@player.running = false
+		end
 		
 		new_action :jump, :rising_edge do
 			@player.jump
@@ -168,7 +168,7 @@ class EternityInput < InputHandler
 		
 		bind_action :jump, 57 # Spacebar
 		
-		# bind_action :run, Gosu::KbLeftShift
+		bind_action :run, 42 # LeftShift
 		
 		# bind_action :reload_level, Gosu::KbF1
 		
