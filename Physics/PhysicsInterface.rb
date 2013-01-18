@@ -16,13 +16,13 @@ module PhysicsInterface
 		@jump_count = 0
 		@jump_limit = 20000000000000000
 		
-		@body.v_limit = 50
+		# @body.v_limit = 50
 		#~ @body.w_limit = 100 # Limit rotational velocity
 		
-		@shape.u = 1.7
+		@shape.u = 0.1
 		
 		@walk_force = 3000
-		@run_force = 9000
+		@run_force = 90000
 		
 		@running = false
 	end
@@ -50,7 +50,7 @@ module PhysicsInterface
 
 		end
 		
-		@body.a = vec.to_angle
+		@body.a = @body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
 		
 		vec *= case type
 			when :walk

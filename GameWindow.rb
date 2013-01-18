@@ -108,7 +108,6 @@ class GameWindow < Oni::Window
 		
 		@player.update dt
 		
-		# @camera.look_at [@player.body.p.x, @player.body.pz, -@player.body.p.y]
 		pos = @offset.clone
 		pos[0] += @player.body.p.x
 		pos[1] += @player.body.pz

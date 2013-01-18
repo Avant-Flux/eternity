@@ -10,10 +10,8 @@ module Physics
 			super()
 			
 			self.iterations = 10
-			#~ self.damping = 0.2
-			
-			@t_previous = Gosu.milliseconds
-			
+			# self.damping = 1.0
+						
 			@g = -9.8
 			@dt = 1
 			
@@ -47,22 +45,6 @@ module Physics
 		end
 		
 		private
-		
-		def timestep
-			# TODO: Add means of calculating timestep dynamically
-			# Assumption:	dt will only be called once.
-			# 				If this method is called more than once,
-			# 				there is no guarantee the results will
-			# 				be consistent between calls.
-			dt = Gosu.milliseconds - @t_previous
-			
-			# convert to seconds
-			dt /= 1000.0
-			
-			@t_previous = Gosu.milliseconds
-			
-			return dt
-		end
 		
 		def vertical_integration(body, dt)
 			# Iteration for third dimension
