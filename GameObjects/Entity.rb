@@ -43,6 +43,7 @@ class Entity
 	def update(dt)
 		@model.update dt
 		@model.position = [@body.p.x, @body.pz, -@body.p.y]
+		@model.rotation = @body.a + Math::PI/2
 		# @sprite = @spritesheet[compute_direction]
 	end
 	
