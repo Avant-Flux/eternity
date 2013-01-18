@@ -78,12 +78,12 @@ class InputHandler
 	end
 	
 	def button_down(id)
-		#~ puts "button #{id} down"
+		# puts "button #{id} down"
 		@buttons.add id
 	end
 	
 	def button_up(id)
-		#~ puts "button #{id} up"
+		# puts "button #{id} up"
 		@buttons.delete id
 	end
 	

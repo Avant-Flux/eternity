@@ -11,9 +11,9 @@ require 'algorithms'
 require 'require_all'
 #~ require 'profile'
 
-# require_all './Utilities'
+require_all './Utilities'
 
-# require_all './Physics'
+require_all './Physics'
 
 # require_all './Combat'
 # require_all './Drawing'
@@ -25,6 +25,8 @@ require 'require_all'
 # require_all './GameStates'
 
 # require_all './UI'
+
+require './GameObjects/Entity'
 
 require 'gl'
 require 'glu'
@@ -62,31 +64,41 @@ class GameWindow < Oni::Window
 		
 		@camera.fov = 110
 		
-		scale = 1.5
+		scale = 2
 		
 		r = 3*scale
 		angle = 22.degrees
 		
 		x = r*Math.sin(angle)
 		z = r*Math.cos(angle)
-		@camera.position = [x,4*scale,z]
+		
+		@offset = [x,4*scale,z]
+		@camera.position = @offset
 
 		@camera.look_at [0,0,0]
 		@camera.near_clip_distance = 1
 		
 		
 		
-		@player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
-		@player.translate 0, 0, 0
+		# @player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
+		@player = Entity.new self, "Human_Male", "Human_Male"
+		# @player.translate 0, 0, 0
 		
-		@player.base_animation = "my_animation"
+		@player.animation = "my_animation"
 		# @player.base_animation = "walkywalky"
 		# @player.top_animation = "flippyfloppy"
+		
+		
+		
+		@inpman = EternityInput.new self, @player, @camera
+		
+		@space = Physics::Space.new
+		@player.add_to @space
 	end
 	
 	def update(dt)
-		# # process_input
-		# @inpman.update
+		@space.update dt
+		@inpman.update # process_input
 		
 		# #~ puts @player.body.p
 		# #~ @player.body.reset_forces
@@ -95,6 +107,13 @@ class GameWindow < Oni::Window
 		# @ui_state_manager.update
 		
 		@player.update dt
+		
+		# @camera.look_at [@player.body.p.x, @player.body.pz, -@player.body.p.y]
+		pos = @offset.clone
+		pos[0] += @player.body.p.x
+		pos[1] += @player.body.pz
+		pos[2] += -@player.body.p.y
+		@camera.position = pos
 	end
 	
 	def draw
@@ -111,7 +130,7 @@ class GameWindow < Oni::Window
 	
 	def button_down(id)
 		# # Part of the update loop, not event-driven
-		# @inpman.button_down(id)
+		@inpman.button_down(id)
 		
 		# if id == Gosu::MsWheelDown
 		# 	@state_manager.camera.zoom_out
@@ -122,7 +141,7 @@ class GameWindow < Oni::Window
 	
 	def button_up(id)
 		# # Part of the update loop, not event-driven
-		# @inpman.button_up(id)
+		@inpman.button_up(id)
 	end
 	
 	# def needs_cursor?

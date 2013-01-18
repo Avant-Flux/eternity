@@ -24,22 +24,22 @@ module Physics
 			super(body)
 			
 			@bodies.add body
-			set_initial_elevation body
+			# set_initial_elevation body
 		end
 		
 		def add_shape(shape)
 			super(shape)
 		end
 		
-		def step
-			@dt = timestep()
+		def update(dt)
+			@dt = dt
 			
 			@bodies.each do |body|
 				vertical_integration body, @dt
 				apply_resistive_force body, @dt
 			end
 			
-			super(@dt) # Timestep in seconds
+			step(@dt) # Timestep in seconds
 			
 			@bodies.each do |body|
 				body.reset_forces
