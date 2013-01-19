@@ -1,6 +1,9 @@
+===== Libraries developed for or by Avant Flux
 Code for Eternity licensed under the terms of the GPL.
-
 Oni is also licensed under GPL.
 
+===== Other libraries
+Ruby bindings for Chipmunk have been created by Scott Lembeck, beoran, and BanisterFiend
+	https://github.com/beoran/chipmunk
 Ogre3D is licensed under the MIT license.  Check the Ogre3D_License.txt file for more information.
 
