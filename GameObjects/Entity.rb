@@ -41,10 +41,27 @@ class Entity
 	end
 	
 	def update(dt)
+		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
 		@model.position = [@body.p.x, @body.pz, -@body.p.y]
 		@model.rotation = @body.a + Math::PI/2
-		# @sprite = @spritesheet[compute_direction]
+		
+		# Walk speed modulation notes
+		# What is walk speed? (like, velocity)
+		# 	stride length, step time (time elapsed for one step)
+		# Should have a baseline walk speed, and then speed up or down from there
+		# 	How much can you scale without distorting?
+		# 	Better to speed up or slow down?
+		# Scale step rate linearly with velocity
+		
+		# This resets the animation every frame, resulting in no animations playing
+		if @body.v.length < 0.3
+			# Effectively still
+			@model.base_animation = "" if @model.base_animation != ""
+		else
+			# Moving
+			@model.base_animation = "my_animation" if @model.base_animation != "my_animation"
+		end
 	end
 	
 	def animation=(animation_name)

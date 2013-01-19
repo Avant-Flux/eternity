@@ -84,7 +84,7 @@ class GameWindow < Oni::Window
 		@player = Entity.new self, "Human_Male", "Human_Male"
 		# @player.translate 0, 0, 0
 		
-		@player.animation = "my_animation"
+		# @player.animation = "my_animation"
 		# @player.base_animation = "walkywalky"
 		# @player.top_animation = "flippyfloppy"
 		
