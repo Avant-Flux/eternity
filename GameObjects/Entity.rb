@@ -53,8 +53,8 @@ class Entity
 		# What is walk speed? (like, velocity)
 		# 	stride length, step time (time elapsed for one step)
 		# Should have a baseline walk speed, and then speed up or down from there
-		# 	How much can you scale without distorting?
-		# 	Better to speed up or slow down?
+		# 	How much can you scale without distorting? - no distortion
+		# 	Better to speed up or slow down? - shouldn't matter
 		# Scale step rate linearly with velocity
 		
 		# This resets the animation every frame, resulting in no animations playing
