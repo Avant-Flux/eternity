@@ -31,8 +31,11 @@ class Entity
 	def initialize(window, name, mesh_name)
 		# TODO: Allow setting mass and moment through constructor, or based on stats
 		init_physics	:entity, Physics::Shape::Circle.new(self, 
-						Physics::Body.new(self, 60, CP::INFINITY), 
+						Physics::Body.new(self, 70, CP::INFINITY), 
 						0.5)
+		# Weight should be between 70-90 kg
+		# Max speed should not exceed 64km/hr
+		# 	17 m / sec
 		
 		# init_stats
 		@level = 1
