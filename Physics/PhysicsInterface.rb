@@ -6,6 +6,8 @@ module PhysicsInterface
 	attr_reader :shape, :body, :height, :jump_count
 	attr_accessor :running
 	
+	MAX_MOVEMENT_SPEED = 12
+	
 	def init_physics(collision_type, shape)
 		@shape = shape
 		@body = shape.body
@@ -63,8 +65,8 @@ module PhysicsInterface
 		if @body.in_air?
 			vec *= 0.1
 		end
-		if body.v.length > 12
-			body.v = body.v.clamp 12
+		if body.v.length > PhysicsInterface::MAX_MOVEMENT_SPEED
+			body.v = body.v.clamp PhysicsInterface::MAX_MOVEMENT_SPEED
 		else
 			@body.apply_force vec, CP::ZERO_VEC_2
 		end
