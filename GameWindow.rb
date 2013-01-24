@@ -28,6 +28,7 @@ require_all './Physics'
 
 require './GameObjects/Entity'
 require './GameObjects/Components/Physics'
+require './GameObjects/Components/Movement'
 
 require 'gl'
 require 'glu'

@@ -34,16 +34,19 @@ class Entity
 		
 		@model = Oni::Agent.new window, name, "#{mesh_name}.mesh"
 		
+		# @model = 
+		@animation = nil
+		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
 		# Weight should be between 70-90 kg
 		# Max speed should not exceed 64km/hr
 		# 	17 m / sec
+		# TODO: Rename this component to Physics, and rename the Physics::Rect module
 		@physics = Component::Collider::Circle.new self, :radius => 0.5, :height => 2,
 						:mass => 70, :moment => CP::INFINITY, :collision_type => :entity
 		@physics.u = 0.1
 		
-		# @model = 
-		# @animation = 
+		@movement = Component::Movement.new @physics, @animation
 	end
 	
 	def update(dt)
@@ -80,12 +83,34 @@ class Entity
 		@physics.shape
 	end
 	
+	def jump(*args)
+		@movement.jump *args
+	end
+	
+	def move(*args)
+		@movement.move *args
+	end
+	
+	def running
+		# TODO: Depreciate method
+		@movement.running
+	end
+	
+	def running=(arg)
+		# TODO: Depreciate method
+		@movement.running = arg
+	end
+	
+	def jump_count
+		@movement.jump_count
+	end
+	
 	def animation=(animation_name)
 		@model.base_animation = animation_name
 	end
 	
 	def resolve_ground_collision
-		reset_jump
+		@movement.reset_jump
 	end
 	
 	def visible?
