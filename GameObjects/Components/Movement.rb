@@ -10,13 +10,19 @@ module Component
 			@physics = physics
 			@animation = animation
 			
+			# ===== Constraints =====
 			@max_movement_speed = opts[:max_movement_speed]
+			# Percentage of force to be applied in-air
+			@air_force_control = opts[:air_force_control]
 			
+			# ===== Constants ===== 
+			# --- mathematical sense, not programming sense
 			@walk_force = opts[:walk_force]
 			@run_force = opts[:run_force]
 			
 			@running = false
 			
+			@jump_velocity = opts[:jump_velocity]
 			@jump_count = 0
 			@jump_limit = opts[:jump_limit]
 		end
@@ -54,9 +60,12 @@ module Component
 			end
 			
 			# Reduce forces considerably if the Entity is in the air
+			# TODO: Implement air dash
 			if @physics.body.in_air?
-				vec *= 0.1
+				vec *= @air_force_control
 			end
+			
+			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
 			if @physics.body.v.length > @max_movement_speed
 				@physics.body.v = @physics.body.v.clamp @max_movement_speed
 			else
@@ -67,7 +76,7 @@ module Component
 		def jump
 			if @jump_count < @jump_limit #Do not exceed the jump count.
 				@jump_count += 1
-				@physics.body.vz = 5 #On jump, set the velocity in the z direction
+				@physics.body.vz = @jump_velocity #On jump, set the velocity in the z direction
 			end
 		end
 		

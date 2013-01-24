@@ -26,7 +26,7 @@ class Entity
 	# control			1
 	# flux			1
 	
-	attr_reader :physics
+	attr_reader :physics, :movement
 	
 	def initialize(window, name, mesh_name)
 		# init_stats
@@ -48,7 +48,11 @@ class Entity
 		
 		@movement = Component::Movement.new @physics, @animation,
 						:max_movement_speed => 12,
+						:air_force_control => 0.10,
+						
 						:walk_force => 2000, :run_force => 90000,
+						
+						:jump_velocity => 5,
 						:jump_limit => 20000000000000000
 	end
 	
