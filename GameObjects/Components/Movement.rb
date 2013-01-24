@@ -27,6 +27,26 @@ module Component
 			@jump_limit = opts[:jump_limit]
 		end
 		
+		def update(dt)
+			# Walk speed modulation notes
+			# What is walk speed? (like, velocity)
+			# 	stride length, step time (time elapsed for one step)
+			# Should have a baseline walk speed, and then speed up or down from there
+			# 	How much can you scale without distorting? - no distortion
+			# 	Better to speed up or slow down? - shouldn't matter
+			# Scale step rate linearly with velocity
+			
+			if @physics.body.v.length < 0.3
+				# Effectively still
+				# Don't reset the animation if it is already set
+				# Doing that every frame will make the animation loop the first frame
+				@animation.base_animation = "" if @animation.base_animation != ""
+			else
+				# Moving
+				@animation.base_animation = "my_animation" if @animation.base_animation != "my_animation"
+			end
+		end
+		
 		def move(direction, type)
 			#~ puts direction
 			

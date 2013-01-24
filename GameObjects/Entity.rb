@@ -33,9 +33,10 @@ class Entity
 		@level = 1
 		
 		@model = Oni::Agent.new window, name, "#{mesh_name}.mesh"
+		@animation = @model
 		
-		# @model = 
-		@animation = nil
+		# @model = Component::Model.new window, mesh_name
+		
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
 		# Weight should be between 70-90 kg
@@ -62,23 +63,7 @@ class Entity
 		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
 		@model.rotation = @physics.body.a + Math::PI/2
 		
-		# Walk speed modulation notes
-		# What is walk speed? (like, velocity)
-		# 	stride length, step time (time elapsed for one step)
-		# Should have a baseline walk speed, and then speed up or down from there
-		# 	How much can you scale without distorting? - no distortion
-		# 	Better to speed up or slow down? - shouldn't matter
-		# Scale step rate linearly with velocity
-		
-		if @physics.body.v.length < 0.3
-			# Effectively still
-			# Don't reset the animation if it is already set
-			# Doing that every frame will make the animation loop the first frame
-			@model.base_animation = "" if @model.base_animation != ""
-		else
-			# Moving
-			@model.base_animation = "my_animation" if @model.base_animation != "my_animation"
-		end
+		@movement.update dt
 	end
 	
 	def body
