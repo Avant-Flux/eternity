@@ -4,14 +4,9 @@
 class Entity
 	# include Statistics
 	
-	#~ include Physics::ThreeD_Support
-	#~ include Physics::ThreeD_Support::Cylinder
-	#~ include Physics::Movement::Entity
-	
 	#~ include Combative
 	
 	#~ attr_reader :name, :stats, :lvl, :element
-	#~ attr_reader  :moving, :move_constant, :movement_force
 	#~ attr_accessor :faction, :visible, :intense
 	#~ # Attributes:	Innate properties
 	#~ # Status:		Properties imposed by effects, like status effects
@@ -128,19 +123,5 @@ class Entity
 	def position
 		#TODO: Depreciate method
 		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
-	end
-	
-	private
-	
-	def compute_direction
-		#~ angle = @body.a
-		#~ puts angle
-		
-		# All angles are in CP space - thus, radians
-		#~ puts angle + Math::PI # 2PI is left, angle increases CCW
-		#~ puts ((angle + Math::PI)/(Math::PI*2))*8
-		
-		#~ return (((@body.a + Math::PI)/(Math::PI*2))*8).to_i - 1
-		return 4*@body.a/Math::PI + 3
 	end
 end
