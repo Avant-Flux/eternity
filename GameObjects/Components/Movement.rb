@@ -1,15 +1,16 @@
 module Component
 	class Movement
-		MAX_MOVEMENT_SPEED = 12
-		
 		attr_reader :jump_count
 		attr_accessor :running
 		
+		attr_accessor :max_movement_speed
 		attr_accessor :walk_force, :run_force
 		
 		def initialize(physics, animation, opts={})
 			@physics = physics
 			@animation = animation
+			
+			@max_movement_speed = opts[:max_movement_speed]
 			
 			@walk_force = opts[:walk_force]
 			@run_force = opts[:run_force]
@@ -56,8 +57,8 @@ module Component
 			if @physics.body.in_air?
 				vec *= 0.1
 			end
-			if @physics.body.v.length > MAX_MOVEMENT_SPEED
-				@physics.body.v = @physics.body.v.clamp MAX_MOVEMENT_SPEED
+			if @physics.body.v.length > @max_movement_speed
+				@physics.body.v = @physics.body.v.clamp @max_movement_speed
 			else
 				@physics.body.apply_force vec, CP::ZERO_VEC_2
 			end

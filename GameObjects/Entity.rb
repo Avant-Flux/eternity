@@ -47,6 +47,7 @@ class Entity
 		@physics.u = 0.1
 		
 		@movement = Component::Movement.new @physics, @animation,
+						:max_movement_speed => 12,
 						:walk_force => 2000, :run_force => 90000,
 						:jump_limit => 20000000000000000
 	end
@@ -136,6 +137,7 @@ class Entity
 	end
 	
 	def position
+		#TODO: Depreciate method
 		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
 	end
 	
