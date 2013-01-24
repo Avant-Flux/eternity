@@ -27,6 +27,7 @@ require_all './Physics'
 # require_all './UI'
 
 require './GameObjects/Entity'
+require './GameObjects/Components/Physics'
 
 require 'gl'
 require 'glu'
@@ -93,7 +94,8 @@ class GameWindow < Oni::Window
 		@inpman = EternityInput.new self, @player, @camera
 		
 		@space = Physics::Space.new
-		@player.add_to @space
+		@player.physics.add_to @space # TODO: Change interface
+		# @space.add @player
 	end
 	
 	def update(dt)
@@ -109,10 +111,13 @@ class GameWindow < Oni::Window
 		@player.update dt
 		
 		pos = @offset.clone
-		pos[0] += @player.body.p.x
-		pos[1] += @player.body.pz
-		pos[2] += -@player.body.p.y
+		pos[0] += @player.physics.body.p.x
+		pos[1] += @player.physics.body.pz
+		pos[2] += -@player.physics.body.p.y
 		@camera.position = pos
+		
+		
+		puts @player.physics.body.v.length
 	end
 	
 	def draw

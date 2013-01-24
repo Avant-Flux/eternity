@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 #Parent class of all Creatures, Fighting NPCs, and PCs
+
 class Entity
-	include PhysicsInterface
 	# include Statistics
 	
 	#~ include Physics::ThreeD_Support
@@ -17,7 +17,6 @@ class Entity
 	#~ # Status:		Properties imposed by effects, like status effects
 	#~ attr_reader :attributes, :status
 	
-	attr_accessor :body, :shape
 	attr_reader :level
 	
 	# strength		1
@@ -27,27 +26,31 @@ class Entity
 	# control			1
 	# flux			1
 	
-	#~ def initialize(window, animations, name, pos, mass, moment, lvl, element, faction=0)
+	attr_reader :physics
+	
 	def initialize(window, name, mesh_name)
-		# TODO: Allow setting mass and moment through constructor, or based on stats
-		init_physics	:entity, Physics::Shape::Circle.new(self, 
-						Physics::Body.new(self, 70, CP::INFINITY), 
-						0.5)
-		# Weight should be between 70-90 kg
-		# Max speed should not exceed 64km/hr
-		# 	17 m / sec
-		
 		# init_stats
 		@level = 1
 		
 		@model = Oni::Agent.new window, name, "#{mesh_name}.mesh"
+		
+		# TODO: Allow setting mass and moment through constructor, or based on stats
+		# Weight should be between 70-90 kg
+		# Max speed should not exceed 64km/hr
+		# 	17 m / sec
+		@physics = Component::Collider::Circle.new self, :radius => 0.5, :height => 2,
+						:mass => 70, :moment => CP::INFINITY, :collision_type => :entity
+		@physics.u = 0.1
+		
+		# @model = 
+		# @animation = 
 	end
 	
 	def update(dt)
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
-		@model.position = [@body.p.x, @body.pz, -@body.p.y]
-		@model.rotation = @body.a + Math::PI/2
+		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
+		@model.rotation = @physics.body.a + Math::PI/2
 		
 		# Walk speed modulation notes
 		# What is walk speed? (like, velocity)
@@ -58,13 +61,23 @@ class Entity
 		# Scale step rate linearly with velocity
 		
 		# This resets the animation every frame, resulting in no animations playing
-		if @body.v.length < 0.3
+		if @physics.body.v.length < 0.3
 			# Effectively still
 			@model.base_animation = "" if @model.base_animation != ""
 		else
 			# Moving
 			@model.base_animation = "my_animation" if @model.base_animation != "my_animation"
 		end
+	end
+	
+	def body
+		# TODO: Depreciate method
+		@physics.body
+	end
+	
+	def shape
+		# TODO: Depreciate method
+		@physics.shape
 	end
 	
 	def animation=(animation_name)
