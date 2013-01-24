@@ -1,11 +1,13 @@
 module Component
 	module Collider
 		class Base
+			attr_accessor :model
 			attr_reader :shape, :body, :height
 			
 			def initialize(gameobj, shape_type, collision_type, 
 						height, mass, moment, *args)
 				@gameobj = gameobj
+				@model = nil
 				
 				@body = Physics::Body.new gameobj, mass, moment
 				
@@ -16,6 +18,13 @@ module Component
 				
 				# @body.v_limit = 50
 				#~ @body.w_limit = 100 # Limit rotational velocity
+			end
+			
+			def update(dt)
+				if @model
+					@model.position = [@body.p.x, @body.pz, -@body.p.y]
+					@model.rotation = @body.a + Math::PI/2
+				end
 			end
 			
 			def warp(x,y,z)

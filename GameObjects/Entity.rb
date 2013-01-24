@@ -46,6 +46,7 @@ class Entity
 		@physics = Component::Collider::Circle.new self, :radius => 0.5, :height => 2,
 						:mass => 70, :moment => CP::INFINITY, :collision_type => :entity
 		@physics.u = 0.1
+		@physics.model = @model
 		
 		@movement = Component::Movement.new @physics, @animation,
 						:max_movement_speed => 12,
@@ -60,8 +61,7 @@ class Entity
 	def update(dt)
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
-		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
-		@model.rotation = @physics.body.a + Math::PI/2
+		@physics.update dt
 		
 		@movement.update dt
 	end
