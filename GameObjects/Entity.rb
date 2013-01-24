@@ -65,9 +65,10 @@ class Entity
 		# 	Better to speed up or slow down? - shouldn't matter
 		# Scale step rate linearly with velocity
 		
-		# This resets the animation every frame, resulting in no animations playing
 		if @physics.body.v.length < 0.3
 			# Effectively still
+			# Don't reset the animation if it is already set
+			# Doing that every frame will make the animation loop the first frame
 			@model.base_animation = "" if @model.base_animation != ""
 		else
 			# Moving
@@ -86,10 +87,12 @@ class Entity
 	end
 	
 	def jump(*args)
+		# TODO: Depreciate method
 		@movement.jump *args
 	end
 	
 	def move(*args)
+		# TODO: Depreciate method
 		@movement.move *args
 	end
 	
@@ -104,6 +107,7 @@ class Entity
 	end
 	
 	def jump_count
+		# TODO: Depreciate method
 		@movement.jump_count
 	end
 	
