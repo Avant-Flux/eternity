@@ -5,21 +5,21 @@ module Component
 		attr_reader :jump_count
 		attr_accessor :running
 		
-		def initialize(physics, animation)
+		attr_accessor :walk_force, :run_force
+		
+		def initialize(physics, animation, opts={})
 			@physics = physics
 			@animation = animation
 			
-			@walk_force = 2000
-			@run_force = 90000
+			@walk_force = opts[:walk_force]
+			@run_force = opts[:run_force]
 			
 			@running = false
 			
 			@jump_count = 0
-			@jump_limit = 20000000000000000
+			@jump_limit = opts[:jump_limit]
 		end
 		
-		
-		# From PhysicsInterface
 		def move(direction, type)
 			#~ puts direction
 			

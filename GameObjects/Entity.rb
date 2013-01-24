@@ -46,7 +46,9 @@ class Entity
 						:mass => 70, :moment => CP::INFINITY, :collision_type => :entity
 		@physics.u = 0.1
 		
-		@movement = Component::Movement.new @physics, @animation
+		@movement = Component::Movement.new @physics, @animation,
+						:walk_force => 2000, :run_force => 90000,
+						:jump_limit => 20000000000000000
 	end
 	
 	def update(dt)
