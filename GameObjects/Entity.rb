@@ -27,8 +27,8 @@ class Entity
 		# init_stats
 		@level = 1
 		
-		@model = Oni::Agent.new window, name, "#{mesh_name}.mesh"
-		@animation = @model
+		@model = Oni::Model.new window, name, "#{mesh_name}.mesh"
+		@animation = Oni::Animation.new @model
 		
 		# @model = Component::Model.new window, mesh_name
 		
@@ -56,6 +56,7 @@ class Entity
 	def update(dt)
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
+		@animation.update dt
 		@physics.update dt
 		
 		@movement.update dt
@@ -97,7 +98,7 @@ class Entity
 	end
 	
 	def animation=(animation_name)
-		@model.base_animation = animation_name
+		@animation.base_animation = animation_name
 	end
 	
 	def resolve_ground_collision
