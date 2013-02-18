@@ -29,6 +29,7 @@ require_all './Physics'
 require './GameObjects/Entity'
 require './GameObjects/Components/Physics'
 require './GameObjects/Components/Movement'
+require './GameObjects/Components/Model'
 
 require 'gl'
 require 'glu'
@@ -69,12 +70,12 @@ class GameWindow < Oni::Window
 		scale = 2
 		
 		r = 3*scale
-		angle = 22.degrees
+		angle = 17.degrees
 		
 		x = r*Math.sin(angle)
 		z = r*Math.cos(angle)
 		
-		@offset = [x,4*scale,z]
+		@offset = [x,3.5*scale,z]
 		@camera.position = @offset
 
 		@camera.look_at [0,0,0]
@@ -100,6 +101,8 @@ class GameWindow < Oni::Window
 	end
 	
 	def update(dt)
+		puts dt
+		
 		@space.update dt
 		@inpman.update # process_input
 		
