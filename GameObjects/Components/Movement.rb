@@ -6,7 +6,20 @@ module Component
 		attr_accessor :max_movement_speed
 		attr_accessor :walk_force, :run_force
 		
+		DEFAULT_OPTIONS = {
+			:max_movement_speed => 12,
+			:air_force_control => 1.0,
+			
+			:walk_force => 0,
+			:run_force => 0,
+			
+			:jump_velocity => 5,
+			:jump_limit => 1
+		}
+		
 		def initialize(physics, animation, opts={})
+			opts = DEFAULT_OPTIONS.merge opts
+			
 			@physics = physics
 			@animation = animation
 			
