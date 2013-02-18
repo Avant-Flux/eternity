@@ -49,14 +49,52 @@ module Component
 			# 	Better to speed up or slow down? - shouldn't matter
 			# Scale step rate linearly with velocity
 			
-			if @physics.body.v.length < 0.3
+			if @physics.body.v.length < 0.01
 				# Effectively still
 				# Don't reset the animation if it is already set
 				# Doing that every frame will make the animation loop the first frame
-				@animation.base_animation = "" if @animation.base_animation != ""
+				# @animation.base_animation = "" if @animation.base_animation != ""
+				@animation["my_animation"].enabled = false
 			else
 				# Moving
-				@animation.base_animation = "my_animation" if @animation.base_animation != "my_animation"
+				if !@animation["my_animation"].enabled?
+					@animation["my_animation"].enabled = true
+					# @animation["my_animation"].time = 0
+				end
+				
+				
+				# Set speed of animation relative to walk rate
+				
+				# stride_length = 1	# in meters
+				# stride_time = 0.4		# in seconds
+				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
+				
+				walk_speed = 2.8 # m / s
+				@animation["my_animation"].rate = @physics.body.v.length / walk_speed
+				
+				# Max influence
+				# @animation["my_animation"].weight = 1.5
+				# Min influence
+				# @animation["my_animation"].weight = 0.5
+				
+				# Range = 1.5 - 0.5 = 1.0
+				# @animation["my_animation"].weight = @physics.body.v.length / 12 + 0.5
+				
+				
+				
+				
+				# v = @physics.body.v.length
+				# if v > 5.0
+				# 	# Run
+				# 	walk_speed = 2.8 # m / s
+				# 	@animation["my_animation"].rate = @physics.body.v.length / walk_speed / 3.0
+				# else
+				# 	# Walk
+				# 	walk_speed = 2.8 # m / s
+				# 	@animation["my_animation"].rate = @physics.body.v.length / walk_speed
+					
+				# 	# @animation["my_animation"].weight = 0.8 * @physics.body.v.length / 12 + 0.5
+				# end
 			end
 		end
 		
