@@ -47,7 +47,7 @@ class Entity
 						:max_movement_speed => 12,
 						:air_force_control => 0.10,
 						
-						:walk_force => 2000, :run_force => 90000,
+						:walk_force => 1200, :run_force => 2000,
 						
 						:jump_velocity => 5,
 						:jump_limit => 20000000000000000

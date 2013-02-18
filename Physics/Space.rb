@@ -121,7 +121,7 @@ module Physics
 		end
 		
 		def friction(body, movement_direction)
-			u = 0.7# Coefficient of friction
+			u = 0.4# Coefficient of friction
 			# TODO: Calculate coefficient of friction by adding surface and entity components
 			
 			# Normal force
