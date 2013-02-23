@@ -51,50 +51,65 @@ module Component
 			
 			if @physics.body.v.length < 0.01
 				# Effectively still
-				# Don't reset the animation if it is already set
-				# Doing that every frame will make the animation loop the first frame
-				# @animation.base_animation = "" if @animation.base_animation != ""
-				@animation["my_animation"].enabled = false
+				@animation["walk_fast"].disable
+				@animation["run"].disable
+				
+				@animation["idle"].enable
 			else
 				# Moving
-				if !@animation["my_animation"].enabled?
-					@animation["my_animation"].enabled = true
-					# @animation["my_animation"].time = 0
-				end
-				
-				
-				# Set speed of animation relative to walk rate
-				
-				# stride_length = 1	# in meters
-				# stride_time = 0.4		# in seconds
-				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
-				
-				walk_speed = 2.8 # m / s
-				@animation["my_animation"].rate = @physics.body.v.length / walk_speed
+				# NOTE: Blending "idle" (breathing animation) with motion actually looks cool
+				@animation["idle"].disable
 				
 				# Max influence
-				# @animation["my_animation"].weight = 1.5
+				# @animation[animation_name].weight = 1.5
 				# Min influence
-				# @animation["my_animation"].weight = 0.5
+				# @animation[animation_name].weight = 0.5
 				
 				# Range = 1.5 - 0.5 = 1.0
-				# @animation["my_animation"].weight = @physics.body.v.length / 12 + 0.5
+				# @animation[animation_name].weight = @physics.body.v.length / 12 + 0.5
 				
+				run_speed_threshold = 6.5
 				
-				
-				
-				# v = @physics.body.v.length
-				# if v > 5.0
-				# 	# Run
-				# 	walk_speed = 2.8 # m / s
-				# 	@animation["my_animation"].rate = @physics.body.v.length / walk_speed / 3.0
-				# else
-				# 	# Walk
-				# 	walk_speed = 2.8 # m / s
-				# 	@animation["my_animation"].rate = @physics.body.v.length / walk_speed
+				v = @physics.body.v.length
+				if v > run_speed_threshold
+					# Run
+					# stride_length = 1		# in meters
+					# stride_time = 0.4		# in seconds
+					# run_speed = stride_length / stride_time	# Run rate at full speed playback
 					
-				# 	# @animation["my_animation"].weight = 0.8 * @physics.body.v.length / 12 + 0.5
-				# end
+					run_speed = 2.8 # m / s
+					# @animation["run"].rate = @physics.body.v.length / run_speed / 3.0
+					# @animation["run"].rate = 1.0
+					
+					# Transition into run
+					unless @animation["run"].enabled?
+						@animation["run"].enable
+						
+						@animation["walk_fast"].disable
+						# @animation["run"].weight = 1.0
+						# @animation["run"].time = 0
+					end
+				else
+					# Walk
+					# Set speed of animation relative to step rate
+					# stride_length = 1		# in meters
+					# stride_time = 0.4		# in seconds
+					# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
+					
+					# Transition from run
+					# if @animation["run"].enabled?
+						@animation["run"].disable
+					# end
+					
+					# unless @animation["walk_fast"].enabled?
+						# Transition into walk
+						@animation["walk_fast"].enable
+					# end
+					
+					# If walk is active
+					walk_speed = 2.8 # m / s
+					@animation["walk_fast"].rate = @physics.body.v.length / walk_speed
+				end
 			end
 		end
 		
