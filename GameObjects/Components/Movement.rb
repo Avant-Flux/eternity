@@ -51,49 +51,50 @@ module Component
 			# Blending "idle" (breathing animation) with motion actually looks cool
 			
 			# Max influence
-			# @animation[animation_name].weight = 1.5
+			# animation.weight = 1.5
 			# Min influence
-			# @animation[animation_name].weight = 0.5
+			# animation.weight = 0.5
 			
 			# Range = 1.5 - 0.5 = 1.0
-			# @animation[animation_name].weight = @physics.body.v.length / 12 + 0.5
+			# animation.weight = @physics.body.v.length / 12 + 0.5
 			
-			name = "run"
-			if speed > 6.5
+			speed = @physics.body.v.length
+			movement_threshold = 0.01
+			
+			whenever speed > 6.5, "run" do |animation|
 				# Run
 				# Some amount of run is playing
-				@animation[name].enable
 				
 				# stride_length = 1		# in meters
 				# stride_time = 0.4		# in seconds
 				# run_speed = stride_length / stride_time	# Run rate at full speed playback
 				
 				run_speed = 2.8 # m / s
-				# @animation[name].rate = speed / run_speed / 3.0
-				@animation[name].rate = 1.0
-			else
-				@animation[name].disable
+				# animation.rate = speed / run_speed / 3.0
+				animation.rate = 1.0
 			end
 			
-			
-			name = "walk_fast"
-			if speed > 0.01 && speed < 6.5
+			whenever speed > movement_threshold, "walk_fast" do |animation|
 				# Walk
-				# Some amount of run is playing
-				@animation[name].enable
+				# Some amount of walk is playing
+				
+				# stride_length = 1		# in meters
+				# stride_time = 0.4		# in seconds
+				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
 				
 				walk_speed = 2.8 # m / s
-				@animation[name].rate = speed / walk_speed
-			else
-				@animation[name].disable
+				animation.rate = speed / walk_speed
+				
+				if speed > 6.5
+					animation.weight = 0.0
+				else
+					animation.weight = 1.0
+				end
 			end
 			
-			
-			name = "idle"
-			if speed <= 0.01
+			whenever speed <= movement_threshold, "idle" do |animation|
 				# Idle
 				# Must be in this state
-				@animation[name].enable
 			end
 		end
 		
@@ -152,6 +153,21 @@ module Component
 		
 		def reset_jump
 			@jump_count = 0
+		end
+		
+		private
+		
+		# Enable an animation, and then modify it as it's running
+		# The name "whenever" makes it seem somewhere between
+		# a conditional and a loop, which it kinda is
+		def whenever(condition, animation_name, &block)
+			if condition
+				@animation[animation_name].enable
+				
+				block.call(@animation[animation_name])
+			else
+				@animation[animation_name].disable
+			end
 		end
 	end
 end
