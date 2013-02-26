@@ -102,7 +102,7 @@ class GameWindow < Oni::Window
 	end
 	
 	def update(dt)
-		puts dt
+		# puts dt
 		
 		@space.update dt
 		@inpman.update # process_input
@@ -122,7 +122,7 @@ class GameWindow < Oni::Window
 		@camera.position = pos
 		
 		
-		puts @player.physics.body.v.length
+		# puts @player.physics.body.v.length
 	end
 	
 	def draw
