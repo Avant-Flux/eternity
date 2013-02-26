@@ -83,7 +83,7 @@ class GameWindow < Oni::Window
 		@camera.near_clip_distance = 1
 		
 		
-		
+		@crab = Oni::Model.new(self, "Crab", "Crab.mesh")
 		# @player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
 		@player = Entity.new self, "Human_Male", "Human_Male"
 		# @player.translate 0, 0, 0
