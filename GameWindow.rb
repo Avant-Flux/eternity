@@ -30,6 +30,7 @@ require './GameObjects/Entity'
 require './GameObjects/Components/Physics'
 require './GameObjects/Components/Movement'
 require './GameObjects/Components/Model'
+require './GameObjects/Components/Combat'
 
 require 'gl'
 require 'glu'

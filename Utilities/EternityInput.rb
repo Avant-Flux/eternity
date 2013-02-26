@@ -116,6 +116,10 @@ class EternityInput < InputHandler
 			@player.jump
 		end
 		
+		new_action :attack, :rising_edge do
+			@player.attack
+		end
+		
 		# new_action :reload_level, :rising_edge do
 		# 	@state_manager.reload
 		# end
@@ -169,6 +173,8 @@ class EternityInput < InputHandler
 		bind_action :jump, 57 # Spacebar
 		
 		bind_action :run, 42 # LeftShift
+		
+		bind_action :attack, 29 # LeftControl
 		
 		# bind_action :reload_level, Gosu::KbF1
 		

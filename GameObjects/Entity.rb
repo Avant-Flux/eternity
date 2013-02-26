@@ -29,6 +29,7 @@ class Entity
 		
 		@model = Oni::Model.new window, name, "#{mesh_name}.mesh"
 		@animation = Oni::Animation.new @model
+		@combat = Component::Combat.new @animation
 		
 		# @model = Component::Model.new window, mesh_name
 		
@@ -57,9 +58,14 @@ class Entity
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
 		@animation.update dt
+		@combat.update dt
 		@physics.update dt
 		
 		@movement.update dt
+	end
+	
+	def attack
+		@combat.attack
 	end
 	
 	def body
