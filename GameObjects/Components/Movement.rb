@@ -1,3 +1,5 @@
+require 'tween'
+
 module Component
 	class Movement
 		attr_reader :jump_count
@@ -61,41 +63,13 @@ module Component
 			speed = @physics.body.v.length
 			movement_threshold = 0.01
 			
-			whenever speed > 6.5, "run" do |animation|
-				# Run
-				# Some amount of run is playing
-				
-				# stride_length = 1		# in meters
-				# stride_time = 0.4		# in seconds
-				# run_speed = stride_length / stride_time	# Run rate at full speed playback
-				
-				run_speed = 2.8 # m / s
-				# animation.rate = speed / run_speed / 3.0
-				animation.rate = 1.0
-			end
+			blend_run_animation		dt, speed, movement_threshold
+			blend_walk_animation	dt, speed, movement_threshold
+			blend_idle_animation	dt, speed, movement_threshold
 			
-			whenever speed > movement_threshold, "walk_fast" do |animation|
-				# Walk
-				# Some amount of walk is playing
-				
-				# stride_length = 1		# in meters
-				# stride_time = 0.4		# in seconds
-				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
-				
-				walk_speed = 2.8 # m / s
-				animation.rate = speed / walk_speed
-				
-				if speed > 6.5
-					animation.weight = 0.0
-				else
-					animation.weight = 1.0
-				end
-			end
-			
-			whenever speed <= movement_threshold, "idle" do |animation|
-				# Idle
-				# Must be in this state
-			end
+			# ["run", "walk", "idle"].each do |name|
+			# 	puts name if @animation[name].enabled?
+			# end
 		end
 		
 		def move(direction, type)
@@ -157,16 +131,126 @@ module Component
 		
 		private
 		
-		# Enable an animation, and then modify it as it's running
-		# The name "whenever" makes it seem somewhere between
-		# a conditional and a loop, which it kinda is
-		def whenever(condition, animation_name, &block)
-			if condition
-				@animation[animation_name].enable
+		def blend_run_animation(dt, speed, movement_threshold)
+			animation = @animation["run"]
+			
+			if speed > 6.5
+				animation.enable
 				
-				block.call(@animation[animation_name])
+				# Run
+				# Some amount of run is playing
+				
+				# stride_length = 1		# in meters
+				# stride_time = 0.4		# in seconds
+				# run_speed = stride_length / stride_time	# Run rate at full speed playback
+				
+				run_speed = 2.8 # m / s
+				# animation.rate = speed / run_speed / 3.0
+				animation.rate = 1.0
 			else
-				@animation[animation_name].disable
+				animation.disable
+			end
+		end
+		
+		def blend_walk_animation(dt, speed, movement_threshold)
+			animation = @animation["walk"]
+			
+			if speed > movement_threshold
+				animation.enable
+				@time = nil # Stop fade out, if any
+				
+				# Walk
+				# Some amount of walk is playing
+				
+				# stride_length = 1		# in meters
+				# stride_time = 0.4		# in seconds
+				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
+				
+				walk_speed = 2.8 # m / s
+				animation.rate = speed / walk_speed
+				
+				if speed > 6.5
+					animation.weight = 0.0
+				else
+					animation.weight = 1.0
+				end
+			else
+				# Blend out
+				# animation.weight = Oni::Animation::ease_in(x, t, b,c,d)
+				# a = 0.01 # lower bound
+				# b = 0.65 # upper bound
+				# Normalize
+				# x = (speed-a)/(b-a)
+				
+				# # Fade in				
+				# animation.weight = (animation.weight + dt * rate).clamp 0, 1
+				
+				# Fade out
+				# animation.weight = (animation.weight - dt * rate).clamp 0, 1
+				
+				# TODO: POLISH - Need first step and walk to neutral
+				# fade_in = 1
+				# fade_out = -1
+				# fade_type = fade_out
+				
+				# rate = 5.0 # weight per second
+				# # rate = 1.0
+				# animation.weight += fade_type * dt * rate
+				
+				if animation.enabled?
+					# Time varies from 0 to d
+					@time ||= 0
+					
+					if @time
+						@time += dt
+						b = 0.0 # starting value of property
+						c = 1.0 # change in value of property
+						d = 1.0 # duration of the tween
+						
+						# animation.weight = 1.0 - Tween::Linear.ease(@time, b,c,d)
+						animation.weight = 1.0 - Tween::Cubic::Out.ease(@time, b,c,d)
+						puts animation.weight
+						
+						if @time >= d
+							# Tween is done
+							@time = nil
+							animation.weight = 1.0
+							animation.disable
+							puts "OFF"
+						end
+					end
+				end
+				
+				
+				# animation.timer end_time, dt, do |time|
+				# 	# Block to set properties according
+				# 	animation.weight = 1.0 - Tween::Cubic::In.ease(time, 0.0,1.0,d)
+				# end
+				
+				# # Stop fading
+				# animation.cance_fade
+				# animation.cancel_fade_out
+				# animation.cance_fade_in
+				
+				# animation.tween :weight, 5.frames do |normalized|
+				# 	# value at the end of the block is the new influence
+				# 	normalized
+				# end
+			end
+		end
+		
+		def blend_idle_animation(dt, speed, movement_threshold)
+			animation = @animation["idle"]
+			
+			if speed <= movement_threshold
+				animation.enable
+				
+				# Idle
+				# Must be in this state
+				
+				# @animation["walk"].
+			else
+				animation.disable
 			end
 		end
 	end
