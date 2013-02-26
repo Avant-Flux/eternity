@@ -4,14 +4,18 @@ module Component
 			# TODO: Create better Model ID assigning algorithm
 			@animation = animation
 			
-			@attack_left = true # either swing sword to the left, or to the right
+			@attack_right = true # either swing sword to the left, or to the right
+			@animation["sword_r-l"].loop = false
+			@animation["sword_l-r"].loop = false
 		end
 		
 		def update(dt)
-			animation =	if @attack_left
-							@animation["sword_r-l"]
-						else
+			animation =	if @attack_right
+							puts "right"
 							@animation["sword_l-r"]
+						else
+							puts "left"
+							@animation["sword_r-l"]
 						end
 			
 			# Revert rate to normal when foot hits the ground
@@ -25,36 +29,37 @@ module Component
 			# 	but the rate of playback should be constant, and should override
 			# 	movement animations.
 			
-			# Turn it off if it's over
+			# Transition out
 			if animation.ended?
 				animation.disable
 				animation.time = 0.0
+				
+				# Attack from the other side next time
+				@attack_right = !@attack_right
 			end
 		end
 		
 		def attack
 			# puts "ATTACK"
-			@animation["sword_r-l"].disable
-			@animation["sword_l-r"].disable
 			
-			a =	if @attack_left
-					puts "left"
-					@animation["sword_r-l"]
-				else
+			a =	if @attack_right
 					puts "right"
+					@animation["sword_r-l"].disable
+					
 					@animation["sword_l-r"]
+				else
+					puts "left"
+					@animation["sword_l-r"].disable
+					
+					@animation["sword_r-l"]
 				end
-			@attack_left = !@attack_left
 			
-			
-			# p @animation.animations
 			a.enable
-			a.loop = false
 			
-			a.time = 0.0
 			
 			# Sync stepping portion of animation with the movement rate
-			
+			# a.time = 0.0
+			# a.rate = 1.0			
 		end
 	end
 end
