@@ -32,6 +32,8 @@ require './GameObjects/Components/Movement'
 require './GameObjects/Components/Model'
 require './GameObjects/Components/Combat'
 
+require './GameStates/LevelState'
+
 require 'gl'
 require 'glu'
 require 'glut'
@@ -99,6 +101,9 @@ class GameWindow < Oni::Window
 		@space = Physics::Space.new
 		@player.physics.add_to @space # TODO: Change interface
 		# @space.add @player
+		
+		
+		@level = LevelState.load self, @space, "Scrapyard" 
 	end
 	
 	def update(dt)

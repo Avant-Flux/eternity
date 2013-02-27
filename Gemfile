@@ -13,9 +13,10 @@ if RUBY_PLATFORM.downcase.include?("linux")
 		dependencies = {
 			"ruby dev" => "ruby1.9.1-dev",
 			"ruby opengl" => "libopengl-ruby1.9.1",
-			"gosu" => "build-essential freeglut3-dev libfreeimage-dev libgl1-mesa-dev libopenal-dev libpango1.0-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsndfile-dev libxinerama-dev"
+			# "gosu" => "build-essential freeglut3-dev libfreeimage-dev libgl1-mesa-dev libopenal-dev libpango1.0-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsndfile-dev libxinerama-dev"
 			#~ "texplay" => "libglut3-dev" # or use freeglut3-dev, probably a better choice on Ubuntu
 			#~ "rmagick (imagemagick)" => "libmagickcore-dev libmagickwand-dev"
+			"nokogiri" => "libxml2 libxml2-dev libxslt1.1 libxslt1-dev"
 		}
 		
 		install_command = "sudo apt-get install"
@@ -93,3 +94,6 @@ gem "chipmunk", "~>5.3.4.5"
 #~ gem "eventmachine", "~>0.12.10" # TODO: Fix so it builds on mingw, or precompile.
 gem "require_all"
 gem "algorithms", ">=0.5.0" # TODO: Precompile windows gem for this library
+# gem "state_machine", "~>1.1.2"
+# gem "nokogiri", "~>1.5.6"
+gem "xml-simple", "~>1.1.2"

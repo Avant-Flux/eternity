@@ -3,6 +3,9 @@
 require 'rubygems'
 require 'chipmunk'
 
+# require 'nokogiri'
+require 'xmlsimple'
+
 require 'set'
 
 # TODO: Remove @space from initialize, as it is not needed on init.
@@ -15,11 +18,8 @@ class LevelState #< GameState
 	path = path[0..(path.rindex(File::SEPARATOR))]
 	LEVEL_DIRECTORY = File.join path, "Levels"
 	
-	attr_reader :name
-	attr_accessor :spawn
 	
 	def initialize(window, space, name)
-		@window = window
 		@space = space
 		@name = name
 		#~ super(window, space, layers, name)
@@ -30,100 +30,97 @@ class LevelState #< GameState
 		
 		# TODO:  Free @static_objects if #update is not necessary
 		@static_objects = Array.new
-		
-		@magic_circle = GroundEffect.new window, space
 	end
 	
-	def update
-		@entities.each do |entity|
-			entity.update
-		end
+	def update(dt)
+		# @entities.each do |entity|
+		# 	entity.update
+		# end
 		
-		@static_objects.each do |static|
-			static.update
-		end
-		
-		@magic_circle.update
+		# @static_objects.each do |static|
+		# 	static.update
+		# end
 	end
 	
 	def draw
-		#~ draw_static_objects
-		#~ draw_shadows
-		#~ draw_ground_effects
-		#~ draw_entities
+		
 	end
 	
-	# Clean up the things managed by this state
-	# NOTE:	This method MUST be called when the state is cleared, or the
-	# 		collision geometry will remain in the space.
-	def finish
-		# Player is an entity, and will be removed with the rest of them.
-		# NOTE:	This implies that if player is in a sub-level (ie inside a building)
-		# 		the player will have to be re-added to the space
-		@entities.each do |entity|
-			entity.remove_from @space
-		end
-		
-		@static_objects.each do |obj|
-			obj.remove_from @space
-		end
+	def add_static_object(obj)
+		@static_objects << obj
 	end
 	
-	def each_static(*args, &block)
-		@static_objects.each *args, &block
-	end
+	# # Clean up the things managed by this state
+	# # NOTE:	This method MUST be called when the state is cleared, or the
+	# # 		collision geometry will remain in the space.
+	# def finish
+	# 	# Player is an entity, and will be removed with the rest of them.
+	# 	# NOTE:	This implies that if player is in a sub-level (ie inside a building)
+	# 	# 		the player will have to be re-added to the space
+	# 	@entities.each do |entity|
+	# 		entity.remove_from @space
+	# 	end
+		
+	# 	@static_objects.each do |obj|
+	# 		obj.remove_from @space
+	# 	end
+	# end
 	
-	def each_entity(*args, &block)
-		@entities.each *args, &block
-	end
+	# def each_static(*args, &block)
+	# 	@static_objects.each *args, &block
+	# end
 	
-	def add_gameobject(obj)
-		if obj.is_a? StaticObject
-			@static_objects << obj
-		else
-			@entities.add obj
-		end
-	end
+	# def each_entity(*args, &block)
+	# 	@entities.each *args, &block
+	# end
 	
-	def delete_gameobject(obj)
-		#~ super(obj)
-		#~ @queue.delete obj
-		
-		collection = if obj.is_a? StaticObject
-			@static_objects
-		else
-			@entities
-		end
-		
-		collection.delete obj
-		
-		obj.remove_from @space
-		
-		return obj
-	end
+	# def add_gameobject(obj)
+	# 	if obj.is_a? StaticObject
+	# 		@static_objects << obj
+	# 	else
+	# 		@entities.add obj
+	# 	end
+	# end
 	
-	def add_player(player)
-		@player = player
-		@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn
+	# def delete_gameobject(obj)
+	# 	#~ super(obj)
+	# 	#~ @queue.delete obj
 		
-		@player.add_to @space
-		@entities << @player
+	# 	collection = if obj.is_a? StaticObject
+	# 		@static_objects
+	# 	else
+	# 		@entities
+	# 	end
 		
-		return @spawn
-	end
+	# 	collection.delete obj
+		
+	# 	obj.remove_from @space
+		
+	# 	return obj
+	# end
 	
-	def add_to(space)
-		# Must add entities last, so they can have proper elevation
-		@space = space
+	# def add_player(player)
+	# 	@player = player
+	# 	@player.body.p.x, @player.body.p.y, @player.body.pz = @spawn
 		
-		@static_objects.each do |obj|
-			obj.add_to @space
-		end
+	# 	@player.add_to @space
+	# 	@entities << @player
 		
-		@entities.each do |entity|
-			entity.add_to @space
-		end
-	end
+	# 	return @spawn
+	# end
+	
+	# def add_to(space)
+	# 	# Must add entities last, so they can have proper elevation
+	# 	@space = space
+		
+	# 	@static_objects.each do |obj|
+	# 		obj.add_to @space
+	# 	end
+		
+	# 	@entities.each do |entity|
+	# 		entity.add_to @space
+	# 	end
+	# end
 	
 	# Save all elements of the level, but not the camera
 	def dump
@@ -209,74 +206,68 @@ class LevelState #< GameState
 	end
 	
 	class << self
-		def load(window, space, name)
-			# TODO: Throw exception if no spawn defined
-            
-            characters = {
-                             "GENERIC" => Character
-                         }
+		def load(window, space, state_name)
+			# dir = "/home/ravenskrag/Code/GameDev/Eternity/Development/Exported/Levels"
+			state = LevelState.new window, space, state_name
 			
-			level =	LevelState.new window, space, name
 			
-			path = File.join LEVEL_DIRECTORY, (name + ".txt")
+			filepath = File.join LEVEL_DIRECTORY, state_name, "#{state_name}.scene"
+			# xml = Nokogiri::XML::Document.parse(File.open(filepath))
 			
-			building_count = 0
-			
-			File.open(path, "r").each do |line|
-				args = line.split
+			# i = 0
+			# xml.xpath("//node").each do |node|
+			# 	model_name = 
+			# 	static = Oni::Model.new window, "#{state_name}_#{i}", "#{model_name}.mesh"
+			# 	i+=1
 				
-				# TODO: Strip leading whitespace, so indentation can be used in level format.
-				if args[0] && args[0][0] != "#" # Ignore empty lines, and commented out lines
-					# check the first letter of the first word
+			# 	state.add_static_object static
+			# end
+			
+			{"name"=>"Plane.010", "position"=>[{"y"=>"0.000000", "x"=>"4.000000", "z"=>"2.000000"}], "rotation"=>[{"qy"=>"0.000000", "qx"=>"0.000000", "qz"=>"-0.000000", "qw"=>"1.000000"}], "scale"=>[{"y"=>"1.000000", "x"=>"0.500000", "z"=>"1.010000"}], "game"=>[{"sensors"=>[{}], "actuators"=>[{}]}], "entity"=>[{"anisotropic_friction"=>"False", "lock_trans_y"=>"False", "damping_trans"=>"0.03999999910593033", "damping_rot"=>"0.10000000149011612", "inertia_tensor"=>"0.4000000059604645", "actor"=>"False", "velocity_min"=>"0.0", "lock_trans_z"=>"False", "physics_type"=>"STATIC", "lock_trans_x"=>"False", "meshFile"=>"Plane.012.mesh", "friction_y"=>"1.0", "friction_x"=>"1.0", "friction_z"=>"1.0", "velocity_max"=>"0.0", "ghost"=>"False", "name"=>"Plane.012", "mass_radius"=>"1.0", "mass"=>"1.0", "lock_rot_x"=>"False", "lock_rot_y"=>"False", "lock_rot_z"=>"False"}]}
+
+			
+			
+			xml = XmlSimple.xml_in File.open(filepath), 'KeyAttr' => 'node'
+			xml["nodes"][0]["node"].each do |node|
+				unless	node["name"] =~ /Lamp/ || node["name"] =~ /Camera/ ||
+						node["name"] =~ /Armature/
 					
-					game_object = case args[0] # Check the first parameter
-						when "Building"
-							building_count += 1
-							
-							args.shift
-                            
-                            6.times do |i|
-								args[i] = args[i].to_f
-                            end
-                            
-							Building.new window, *args
-						when "Slope"
-							building_count += 1
-							
-							args.shift
-                            
-                            7.times do |i|
-								args[i] = args[i].to_f
-                            end
-                            args[7] = args[7].to_sym
-                           
-                            p args
-                            
-							Slope.new window, *args
-						when "NPC"
-                            args.shift
-                            selected = characters[ args[0] ]
-                            if selected == nil
-                                #~ puts "Invalid NPC type '#{args[0]}'"
-                            else
-                                #~ puts "Creating new NPC #{args[0]} at #{args[1]},#{args[2]},#{args[3]}"
-                                selected.new window,
-                                             args[1].to_f, args[2].to_f, args[3].to_f
-                            end
-						when "Spawn"
-							level.spawn = [args[1].to_f, args[2].to_f, args[3].to_i]
-							nil # "Return nothing"
-						else
-							raise ArgumentError, "improper gameobject type: #{args[0]}"
-					end
+					mesh_file = node["entity"][0]["meshFile"]
+					node_name = node["name"]
 					
-					if game_object
-						level.add_gameobject game_object
-					end
+					position =	[
+									node["position"][0]["x"].to_f, 
+									node["position"][0]["y"].to_f,
+									node["position"][0]["z"].to_f
+								]
+					
+					rotation =	[
+									node["rotation"][0]["x"].to_f, 
+									node["rotation"][0]["y"].to_f,
+									node["rotation"][0]["z"].to_f
+								]
+					
+					scale =		[
+									node["scale"][0]["x"].to_f, 
+									node["scale"][0]["y"].to_f,
+									node["scale"][0]["z"].to_f
+								]
+					
+					
+					
+					puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
+					
+					model = Oni::Model.new window, node_name, mesh_file
+					# p model.methods
+					model.position = position
+					# model.rotation = rotation
+					# model.scale = scale
+					
+					state.add_static_object model
 				end
 			end
 			
-			return level
+			return state
 		end
 	end
 end
