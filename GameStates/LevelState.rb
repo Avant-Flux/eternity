@@ -269,22 +269,22 @@ class LevelState #< GameState
 			end
 			
 			position =	[
-							node["position"][0]["x"].to_f, 
-							node["position"][0]["y"].to_f,
-							node["position"][0]["z"].to_f
+							node["light"][0]["position"][0]["y"].to_f,
+							node["light"][0]["position"][0]["x"].to_f, 
+							node["light"][0]["position"][0]["z"].to_f
 						]
 			
-			rotation =	[
-							node["rotation"][0]["x"].to_f, 
-							node["rotation"][0]["y"].to_f,
-							node["rotation"][0]["z"].to_f
-						]
+			# rotation =	[
+			# 				node["rotation"][0]["x"].to_f, 
+			# 				node["rotation"][0]["y"].to_f,
+			# 				node["rotation"][0]["z"].to_f
+			# 			]
 			
-			scale =		[
-							node["scale"][0]["x"].to_f, 
-							node["scale"][0]["y"].to_f,
-							node["scale"][0]["z"].to_f
-						]
+			# scale =		[
+			# 				node["scale"][0]["x"].to_f, 
+			# 				node["scale"][0]["y"].to_f,
+			# 				node["scale"][0]["z"].to_f
+						# ]
 			
 			diffuse =	[
 							node["light"][0]["colourDiffuse"][0]["r"].to_f,
@@ -304,7 +304,7 @@ class LevelState #< GameState
 							node["light"][0]["colourShadow"][0]["b"].to_f
 						]
 			
-			puts "#{node["name"]} --> #{light_type}"
+			puts "#{node["name"]} --> #{light_type} #{position}"
 			
 			light = Oni::Light.new window, node_name
 			
@@ -314,7 +314,7 @@ class LevelState #< GameState
 			# light.rotation = rotation
 			# light.scale = scale # Don't think you can scale a light
 			
-			# light.diffuse = diffuse
+			light.diffuse = diffuse
 			light.specular = specular
 			# light.shadow = shadow
 			
