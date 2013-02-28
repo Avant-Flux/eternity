@@ -222,49 +222,53 @@ class LevelState #< GameState
 				
 			# 	state.add_static_object static
 			# end
-			
-			xml = XmlSimple.xml_in File.open(filepath), 'KeyAttr' => 'node'
-			xml["nodes"][0]["node"].each do |node|
-				if node["name"] =~ /Lamp/
-					
-				elsif node["name"] =~ /Camera/
-					# Ignore camera
-				elsif node["name"] =~ /Armature/
-					# Use this as spawn points
-					
-				else
-					mesh_file = node["entity"][0]["meshFile"]
-					node_name = node["name"]
-					
-					position =	[
-									node["position"][0]["x"].to_f, 
-									node["position"][0]["y"].to_f,
-									node["position"][0]["z"].to_f
-								]
-					
-					rotation =	[
-									node["rotation"][0]["x"].to_f, 
-									node["rotation"][0]["y"].to_f,
-									node["rotation"][0]["z"].to_f
-								]
-					
-					scale =		[
-									node["scale"][0]["x"].to_f, 
-									node["scale"][0]["y"].to_f,
-									node["scale"][0]["z"].to_f
-								]
-					
-					
-					
-					puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
-					
-					model = Oni::Model.new window, node_name, mesh_file
-					# p model.methods
-					model.position = position
-					# model.rotation = rotation
-					# model.scale = scale
-					
-					state.add_static_object model
+			File.open(filepath) do |file|
+				# TODO: Figure out how to phrase queries properly. Current method not scalable.
+				# TODO: Use Nokogiri to implement proper queries
+				
+				xml = XmlSimple.xml_in file, 'KeyAttr' => 'node'
+				xml["nodes"][0]["node"].each do |node|
+					if node["name"] =~ /Lamp/
+						# Set up lighting
+					elsif node["name"] =~ /Camera/
+						# Ignore camera
+					elsif node["name"] =~ /Armature/
+						# Use this as spawn points
+						
+					else
+						mesh_file = node["entity"][0]["meshFile"]
+						node_name = node["name"]
+						
+						position =	[
+										node["position"][0]["x"].to_f, 
+										node["position"][0]["y"].to_f,
+										node["position"][0]["z"].to_f
+									]
+						
+						rotation =	[
+										node["rotation"][0]["x"].to_f, 
+										node["rotation"][0]["y"].to_f,
+										node["rotation"][0]["z"].to_f
+									]
+						
+						scale =		[
+										node["scale"][0]["x"].to_f, 
+										node["scale"][0]["y"].to_f,
+										node["scale"][0]["z"].to_f
+									]
+						
+						
+						
+						puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
+						
+						model = Oni::Model.new window, node_name, mesh_file
+						# p model.methods
+						model.position = position
+						model.rotation_3D = rotation
+						model.scale = scale
+						
+						state.add_static_object model
+					end
 				end
 			end
 			
