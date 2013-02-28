@@ -234,45 +234,54 @@ class LevelState #< GameState
 						# Ignore camera
 					elsif node["name"] =~ /Armature/
 						# Use this as spawn points
+						# TODO: Maybe use some other object as a spawner, and have this as single-entity placement location?
 						
 					else
-						mesh_file = node["entity"][0]["meshFile"]
-						node_name = node["name"]
-						
-						position =	[
-										node["position"][0]["x"].to_f, 
-										node["position"][0]["y"].to_f,
-										node["position"][0]["z"].to_f
-									]
-						
-						rotation =	[
-										node["rotation"][0]["x"].to_f, 
-										node["rotation"][0]["y"].to_f,
-										node["rotation"][0]["z"].to_f
-									]
-						
-						scale =		[
-										node["scale"][0]["x"].to_f, 
-										node["scale"][0]["y"].to_f,
-										node["scale"][0]["z"].to_f
-									]
-						
-						
-						
-						puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
-						
-						model = Oni::Model.new window, node_name, mesh_file
-						# p model.methods
-						model.position = position
-						model.rotation_3D = rotation
-						model.scale = scale
-						
-						state.add_static_object model
+						# All other things must be statics
+						# Non-statics would be specified only as spawn points
+						load_static_object window, state, node
 					end
 				end
 			end
 			
 			return state
+		end
+		
+		private
+		
+		def load_static_object(window, state, node)
+			mesh_file = node["entity"][0]["meshFile"]
+			node_name = node["name"]
+			
+			position =	[
+							node["position"][0]["x"].to_f, 
+							node["position"][0]["y"].to_f,
+							node["position"][0]["z"].to_f
+						]
+			
+			rotation =	[
+							node["rotation"][0]["x"].to_f, 
+							node["rotation"][0]["y"].to_f,
+							node["rotation"][0]["z"].to_f
+						]
+			
+			scale =		[
+							node["scale"][0]["x"].to_f, 
+							node["scale"][0]["y"].to_f,
+							node["scale"][0]["z"].to_f
+						]
+			
+			
+			
+			puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
+			
+			model = Oni::Model.new window, node_name, mesh_file
+			# p model.methods
+			model.position = position
+			model.rotation_3D = rotation
+			model.scale = scale
+			
+			state.add_static_object model
 		end
 	end
 end
