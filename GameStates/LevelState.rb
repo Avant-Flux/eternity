@@ -223,15 +223,16 @@ class LevelState #< GameState
 			# 	state.add_static_object static
 			# end
 			
-			{"name"=>"Plane.010", "position"=>[{"y"=>"0.000000", "x"=>"4.000000", "z"=>"2.000000"}], "rotation"=>[{"qy"=>"0.000000", "qx"=>"0.000000", "qz"=>"-0.000000", "qw"=>"1.000000"}], "scale"=>[{"y"=>"1.000000", "x"=>"0.500000", "z"=>"1.010000"}], "game"=>[{"sensors"=>[{}], "actuators"=>[{}]}], "entity"=>[{"anisotropic_friction"=>"False", "lock_trans_y"=>"False", "damping_trans"=>"0.03999999910593033", "damping_rot"=>"0.10000000149011612", "inertia_tensor"=>"0.4000000059604645", "actor"=>"False", "velocity_min"=>"0.0", "lock_trans_z"=>"False", "physics_type"=>"STATIC", "lock_trans_x"=>"False", "meshFile"=>"Plane.012.mesh", "friction_y"=>"1.0", "friction_x"=>"1.0", "friction_z"=>"1.0", "velocity_max"=>"0.0", "ghost"=>"False", "name"=>"Plane.012", "mass_radius"=>"1.0", "mass"=>"1.0", "lock_rot_x"=>"False", "lock_rot_y"=>"False", "lock_rot_z"=>"False"}]}
-
-			
-			
 			xml = XmlSimple.xml_in File.open(filepath), 'KeyAttr' => 'node'
 			xml["nodes"][0]["node"].each do |node|
-				unless	node["name"] =~ /Lamp/ || node["name"] =~ /Camera/ ||
-						node["name"] =~ /Armature/
+				if node["name"] =~ /Lamp/
 					
+				elsif node["name"] =~ /Camera/
+					# Ignore camera
+				elsif node["name"] =~ /Armature/
+					# Use this as spawn points
+					
+				else
 					mesh_file = node["entity"][0]["meshFile"]
 					node_name = node["name"]
 					
