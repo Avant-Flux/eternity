@@ -1,5 +1,3 @@
-require 'tween'
-
 module Component
 	class Movement
 		attr_reader :jump_count
@@ -205,10 +203,12 @@ module Component
 						@time += dt
 						b = 0.0 # starting value of property
 						c = 1.0 # change in value of property
-						d = 1.0 # duration of the tween
+						d = 0.68 # duration of the tween
 						
 						# animation.weight = 1.0 - Tween::Linear.ease(@time, b,c,d)
-						animation.weight = 1.0 - Tween::Cubic::Out.ease(@time, b,c,d)
+						animation.weight = 1.0 - Oni::Animation::Ease.out_cubic(
+													animation.weight, @time, b,c,d
+												)
 						puts animation.weight
 						
 						if @time >= d
