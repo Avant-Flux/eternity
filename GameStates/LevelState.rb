@@ -28,7 +28,7 @@ class LevelState #< GameState
 		
 		@entities = Set.new
 		
-		# TODO:  Free @static_objects if #update is not necessary
+		@lights = Array.new
 		@static_objects = Array.new
 	end
 	
@@ -48,6 +48,10 @@ class LevelState #< GameState
 	
 	def add_static_object(obj)
 		@static_objects << obj
+	end
+	
+	def add_light(light)
+		@lights << light
 	end
 	
 	# # Clean up the things managed by this state
@@ -230,6 +234,7 @@ class LevelState #< GameState
 				xml["nodes"][0]["node"].each do |node|
 					if node["name"] =~ /Lamp/
 						# Set up lighting
+						load_light window, state, node
 					elsif node["name"] =~ /Camera/
 						# Ignore camera
 					elsif node["name"] =~ /Armature/
@@ -248,6 +253,38 @@ class LevelState #< GameState
 		end
 		
 		private
+		
+		def load_light(window, state, node)
+			node_name = node["name"]
+			
+			light_type = case node["light"][0]["type"]
+				when "point"
+					:point
+				when "directional"
+					:directional
+				when "spot"
+					:spotlight
+				when "radPoint"
+					:point
+			end
+			
+			puts "#{node["name"]} --> #{light_type}"
+			
+			light = Oni::Light.new window, node_name
+			
+			case light_type
+				when :point
+					
+				when :directional
+					
+				when :spotlight
+					
+				when :point
+					
+			end
+			
+			state.add_light light
+		end
 		
 		def load_static_object(window, state, node)
 			mesh_file = node["entity"][0]["meshFile"]
@@ -273,7 +310,7 @@ class LevelState #< GameState
 			
 			
 			
-			puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
+			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
 			model = Oni::Model.new window, node_name, mesh_file
 			# p model.methods
