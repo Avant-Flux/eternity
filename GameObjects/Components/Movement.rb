@@ -25,6 +25,13 @@ module Component
 			@physics = physics
 			@animation = animation
 			
+			# Timers for various properties.
+			# key:		symbol
+			# value:	double - time
+			@timers = {
+				:walk => Timer.new(0.68)
+			}
+			
 			# ===== Constraints =====
 			@max_movement_speed = opts[:max_movement_speed]
 			# Percentage of force to be applied in-air
@@ -156,8 +163,10 @@ module Component
 			animation = @animation["walk"]
 			
 			if speed > MOVEMENT_THRESHOLD
+				# Walk state
+				@state = :walk
+				@timers[:walk].reset
 				animation.enable
-				@time = nil # Stop fade out, if any
 				
 				# Walk
 				# Some amount of walk is playing
@@ -182,7 +191,7 @@ module Component
 				# Normalize
 				# x = (speed-a)/(b-a)
 				
-				# # Fade in				
+				# # Fade in
 				# animation.weight = (animation.weight + dt * rate).clamp 0, 1
 				
 				# Fade out
@@ -197,32 +206,41 @@ module Component
 				# # rate = 1.0
 				# animation.weight += fade_type * dt * rate
 				
+				
+				# Start timer if the animation is playing
+				# One time transition to new state
 				if animation.enabled?
 					# Time varies from 0 to d
-					@time ||= 0
-					
-					if @time
-						@time += dt
-						b = 0.0 # starting value of property
-						c = 1.0 # change in value of property
-						d = 0.68 # duration of the tween
-						
-						# animation.weight = 1.0 - Tween::Linear.ease(@time, b,c,d)
-						animation.weight = 1.0 - Oni::Animation::Ease.out_cubic(
-													animation.weight, @time, b,c,d
-												)
-						puts animation.weight
-						
-						if @time >= d
-							# Tween is done
-							@time = nil
-							animation.weight = 1.0
-							animation.disable
-							puts "OFF"
-						end
-					end
+					@state = :walk_out
 				end
 				
+				# Blend while the timer is active
+				# Blend-out state
+				if @state == :walk_out
+					@timers[:walk].update dt
+					
+					# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
+					b = 0.0							# starting value of property
+					c = 1.0-b						# change in value of property
+					d = @timers[:walk].duration		# duration of the tween
+					
+					animation.weight = 1.0 - Oni::Animation::Ease.out_cubic(
+												animation.weight, @timers[:walk].time, b,c,d
+											)
+					puts animation.weight
+					
+					if @timers[:walk].ended?
+						# Tween is done
+						# Transition to Idle state
+						@state = :idle
+						
+						@timers[:walk].reset
+						
+						animation.weight = 1.0
+						animation.disable
+						puts "OFF"
+					end
+				end
 				
 				# animation.timer end_time, dt, do |time|
 				# 	# Block to set properties according
@@ -253,6 +271,30 @@ module Component
 				# @animation["walk"].
 			else
 				animation.disable
+			end
+		end
+		
+		private
+		
+		class Timer
+			attr_reader :duration, :time
+			
+			def initialize(duration)
+				@duration = duration
+				
+				@time = 0.0
+			end
+			
+			def update(dt)
+				@time += dt
+			end
+			
+			def ended?
+				return @time >= @duration
+			end
+			
+			def reset
+				@time = 0.0
 			end
 		end
 	end
