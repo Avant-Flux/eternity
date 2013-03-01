@@ -94,6 +94,6 @@ gem "chipmunk", "~>5.3.4.5"
 #~ gem "eventmachine", "~>0.12.10" # TODO: Fix so it builds on mingw, or precompile.
 gem "require_all"
 gem "algorithms", ">=0.5.0" # TODO: Precompile windows gem for this library
-# gem "state_machine", "~>1.1.2"
+gem "state_machine", "~>1.1.2"
 # gem "nokogiri", "~>1.5.6"
 gem "xml-simple", "~>1.1.2"
