@@ -85,7 +85,7 @@ elsif RUBY_PLATFORM.downcase.include?("darwin")
 end
 
 gem "rake"
-gem "oni", "0.00.4", :path => './Dependencies/'
+gem "oni", "0.00.6", :path => './Dependencies/'
 gem "chipmunk", "~>5.3.4.5"
 # Texplay current version does not build on Windows, even with MinGW 
 # pre-compiled freeglut supplied
