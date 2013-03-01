@@ -17,6 +17,8 @@ module Component
 			:jump_limit => 1
 		}
 		
+		MOVEMENT_THRESHOLD = 0.01
+		
 		def initialize(physics, animation, opts={})
 			opts = DEFAULT_OPTIONS.merge opts
 			
@@ -59,11 +61,11 @@ module Component
 			# animation.weight = @physics.body.v.length / 12 + 0.5
 			
 			speed = @physics.body.v.length
-			movement_threshold = 0.01
 			
-			blend_run_animation		dt, speed, movement_threshold
-			blend_walk_animation	dt, speed, movement_threshold
-			blend_idle_animation	dt, speed, movement_threshold
+			
+			blend_run_animation		dt, speed
+			blend_walk_animation	dt, speed
+			blend_idle_animation	dt, speed
 			
 			# ["run", "walk", "idle"].each do |name|
 			# 	puts name if @animation[name].enabled?
@@ -129,7 +131,7 @@ module Component
 		
 		private
 		
-		def blend_run_animation(dt, speed, movement_threshold)
+		def blend_run_animation(dt, speed)
 			animation = @animation["run"]
 			
 			if speed > 6.5
@@ -150,10 +152,10 @@ module Component
 			end
 		end
 		
-		def blend_walk_animation(dt, speed, movement_threshold)
+		def blend_walk_animation(dt, speed)
 			animation = @animation["walk"]
 			
-			if speed > movement_threshold
+			if speed > MOVEMENT_THRESHOLD
 				animation.enable
 				@time = nil # Stop fade out, if any
 				
@@ -239,10 +241,10 @@ module Component
 			end
 		end
 		
-		def blend_idle_animation(dt, speed, movement_threshold)
+		def blend_idle_animation(dt, speed)
 			animation = @animation["idle"]
 			
-			if speed <= movement_threshold
+			if speed <= MOVEMENT_THRESHOLD
 				animation.enable
 				
 				# Idle
