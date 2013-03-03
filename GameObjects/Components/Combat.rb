@@ -11,10 +11,10 @@ module Component
 		
 		def update(dt)
 			animation =	if @attack_right
-							puts "right"
+							# puts "right"
 							@animation["sword_l-r"]
 						else
-							puts "left"
+							# puts "left"
 							@animation["sword_r-l"]
 						end
 			
@@ -42,6 +42,8 @@ module Component
 		def attack
 			# puts "ATTACK"
 			
+			# NOTE: Plays same animation multiple times if you attempt to cancel an attack into another attack
+			# Want to make it so you can't cancel attacks, to improve animation, but want to be able to attack again at the end of the attack animation to transition smoothly into another attack
 			a =	if @attack_right
 					puts "right"
 					@animation["sword_r-l"].disable
@@ -58,7 +60,7 @@ module Component
 			
 			
 			# Sync stepping portion of animation with the movement rate
-			# a.time = 0.0
+			a.time = 0.0
 			# a.rate = 1.0			
 		end
 	end
