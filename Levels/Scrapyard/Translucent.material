@@ -1,0 +1,30 @@
+// Translucent genrated by blender2ogre 0.5.8
+
+material Translucent 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Translucent
+        {
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write off
+            illumination_stage 
+            light_clip_planes on
+            light_scissor on
+            lighting on
+            normalise_normals on
+            polygon_mode solid
+            scene_blend one src_alpha
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
