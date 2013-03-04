@@ -88,13 +88,13 @@ module Component
 			speed = @physics.body.v.length
 			
 			
-			# blend_run_animation		dt, speed
-			# blend_walk_animation	dt, speed
-			# blend_idle_animation	dt, speed
+			blend_run_animation		dt, speed
+			blend_walk_animation	dt, speed
+			blend_idle_animation	dt, speed
 			
-			@idle.update dt, speed
-			@walk.update dt, speed
-			@run.update dt, speed
+			# @idle.update dt, speed
+			# @walk.update dt, speed
+			# @run.update dt, speed
 		end
 		
 		def move(direction, type)
@@ -161,17 +161,21 @@ module Component
 			
 			if speed > 6.5
 				animation.enable
+				# # Sync with walk playback
+				# animation.time = @animation["walk"].time
 				
 				# Run
 				# Some amount of run is playing
 				
-				# stride_length = 1		# in meters
-				# stride_time = 0.4		# in seconds
-				# run_speed = stride_length / stride_time	# Run rate at full speed playback
+				stride_length = 2.75		# in meters
+				stride_time = 48.frames		# in seconds
+				# walk_speed = stride_length / stride_time	# Walk rate at full speed 
+				run_speed = stride_length / animation.length * 2	# Run rate at full speed playback
 				
-				run_speed = 2.8 # m / s
+				# run_speed = 2.8 # m / s
 				# animation.rate = speed / run_speed / 3.0
-				animation.rate = 1.0
+				animation.rate = speed / run_speed
+				# animation.rate = 1.0
 			else
 				animation.disable
 			end
@@ -189,11 +193,12 @@ module Component
 				# Walk
 				# Some amount of walk is playing
 				
-				stride_length = 1			# in meters
-				stride_time = 48.frames		# in seconds
-				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
+				stride_length = 5.5/4			# in meters
+				# stride_time = 48.frames		# in seconds
+				# walk_speed = stride_length / stride_time	# Walk rate at full speed 
+				walk_speed = stride_length / animation.length * 2	# Walk rate at full speed playback
 				
-				walk_speed = 2.8 # m / s
+				# walk_speed = 2.8 # m / s
 				animation.rate = speed / walk_speed
 				
 				if speed > 6.5
