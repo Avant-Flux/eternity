@@ -45,12 +45,12 @@ module Component
 			# NOTE: Plays same animation multiple times if you attempt to cancel an attack into another attack
 			# Want to make it so you can't cancel attacks, to improve animation, but want to be able to attack again at the end of the attack animation to transition smoothly into another attack
 			a =	if @attack_right
-					puts "right"
+					# puts "right"
 					@animation["sword_r-l"].disable
 					
 					@animation["sword_l-r"]
 				else
-					puts "left"
+					# puts "left"
 					@animation["sword_l-r"].disable
 					
 					@animation["sword_r-l"]
