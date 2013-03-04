@@ -4,16 +4,17 @@ require 'set'
 
 module Physics
 	class Space < CP::Space
-		attr_reader :dt
 		
 		def initialize
 			super()
+			
+			@t_accumulator = 0.0
+			@dt = 1.0/60/4
 			
 			self.iterations = 10
 			# self.damping = 1.0
 						
 			@g = -9.8
-			@dt = 1
 			
 			@bodies = Set.new()
 		end
@@ -30,15 +31,41 @@ module Physics
 		end
 		
 		def update(dt)
-			@dt = dt
+			@t_accumulator += dt
 			
+			# Step multiple times
+			# update objects
+			# Calculate partial step
+			# update objects
+			# All objects should interpolate between those two states based on
+			# alpha = accumulator / dt
+			# OR
+			# increase number of physics ticks per game tick, as an alternative method of
+			# eliminating temporal aliasing
+			# 	Increasing resolution makes aliasing less of a big deal
+			
+			# Need to limit max number of physics ticks that can happen per
+			# game tick to eliminate the "spiral of death"
+			
+			# Add forces
 			@bodies.each do |body|
-				vertical_integration body, @dt
-				apply_resistive_force body, @dt
+				apply_resistive_force body
 			end
 			
-			step(@dt) # Timestep in seconds
+			# Integration
+			while @t_accumulator >= @dt do
+				# puts "step"
+				@bodies.each do |body|
+					vertical_integration body, @dt
+				end
+				
+				step(@dt) # Timestep in seconds
+				
+				@t_accumulator -= @dt
+			end
+			# puts @t_accumulator
 			
+			# Reset forces for next game tick
 			@bodies.each do |body|
 				body.reset_forces
 			end
@@ -68,7 +95,7 @@ module Physics
 			end
 		end
 		
-		def apply_resistive_force(body, dt)
+		def apply_resistive_force(body)
 			# Apply a resistive force in the opposite direction of the velocity
 			magnitude = body.v.length
 			#~ puts "v: #{body.v.length}  f: #{body.f.length}"
