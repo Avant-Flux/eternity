@@ -50,8 +50,9 @@ module Component
 			@jump_count = 0
 			@jump_limit = opts[:jump_limit]
 			
-			
-			@blender = WalkAnimationBlender.new @animation["walk"], 0.68
+			@idle = IdleAnimationBlender.new @animation["idle"], 0.0
+			@walk = WalkAnimationBlender.new @animation["walk"], 0.68
+			@run = RunAnimationBlender.new @animation["run"], 0.0
 		end
 		
 		def update(dt)
@@ -75,14 +76,13 @@ module Component
 			speed = @physics.body.v.length
 			
 			
-			blend_run_animation		dt, speed
-			@blender.update dt, speed
+			# blend_run_animation		dt, speed
 			# blend_walk_animation	dt, speed
-			blend_idle_animation	dt, speed
+			# blend_idle_animation	dt, speed
 			
-			# ["run", "walk", "idle"].each do |name|
-			# 	puts name if @animation[name].enabled?
-			# end
+			@idle.update dt, speed
+			@walk.update dt, speed
+			@run.update dt, speed
 		end
 		
 		def move(direction, type)
@@ -282,18 +282,98 @@ module Component
 		
 		private
 		
+		class RunAnimationBlender
+			# TODO: Fix bug which causes animation to revert to neutral for a bit on slow walk
+			
+			state_machine :walk_blending, :initial => :off do
+				state :blend_in do
+					def update(dt, speed)
+						unless speed > 6.5
+							self.ease_out
+							return
+						end
+						
+						@animation.enable
+						
+						# Run
+						# Some amount of run is playing
+						
+						# stride_length = 1		# in meters
+						# stride_time = 0.4		# in seconds
+						# run_speed = stride_length / stride_time	# Run rate at full speed playback
+						
+						run_speed = 2.8 # m / s
+						# animation.rate = speed / run_speed / 3.0
+						@animation.rate = 1.0
+					end
+				end
+				
+				state :blend_out do
+					def update(dt, speed)
+						self.disable
+					end
+				end
+				
+				state :off do
+					def update(dt, speed)
+						if speed > MOVEMENT_THRESHOLD
+							self.enable
+							
+							# If been in this state for a while, reset animation time to 0
+							# need to wait before reset so slow tapping allows for slow movement
+						end
+					end
+				end
+				
+				
+				after_transition any => :off, :do => :transition_to_off
+				
+				event :enable do
+					transition :off => :blend_in
+				end
+				
+				event :disable do
+					transition any => :off
+				end
+				
+				event :ease_out do
+					transition :blend_in => :blend_out
+				end
+			end
+			
+			def initialize(animation, blend_time)
+				@animation = animation
+				
+				# @timer = Timer.new(blend_time)
+				
+				super()
+			end
+			
+			private
+			
+			def transition_to_off
+				# Tween is done
+				# @timer.reset
+				
+				@animation.weight = 1.0
+				@animation.disable
+				puts "OFF"
+			end
+		end
+		
 		class WalkAnimationBlender
 			# TODO: Fix bug which causes animation to revert to neutral for a bit on slow walk
 			
 			state_machine :walk_blending, :initial => :off do
 				state :blend_in do
 					def update(dt, speed)
-						if speed < MOVEMENT_THRESHOLD
+						unless speed > MOVEMENT_THRESHOLD
 							self.ease_out
 							return
 						end
 						
 						# Walk state
+						@timer.reset
 						@animation.enable
 						
 						# Walk
@@ -306,6 +386,7 @@ module Component
 						walk_speed = 2.8 # m / s
 						@animation.rate = speed / walk_speed
 						
+						# TODO: Modulate weight at low speeds, probably with easing equations
 						if speed > 6.5
 							@animation.weight = 0.0
 						else
@@ -317,6 +398,10 @@ module Component
 				state :blend_out do
 					def update(dt, speed)
 						@timer.update dt
+						if @timer.ended?
+							self.disable
+							return
+						end
 						
 						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
 						b = 0.0		# starting value of property
@@ -328,16 +413,12 @@ module Component
 												)
 						puts @animation.weight
 						
-						if @timer.ended?
-							self.disable
-							return
-						end
 					end
 				end
 				
 				state :off do
 					def update(dt, speed)
-						if speed >= MOVEMENT_THRESHOLD
+						if speed > MOVEMENT_THRESHOLD
 							self.enable
 							
 							# If been in this state for a while, reset animation time to 0
@@ -369,6 +450,75 @@ module Component
 				
 				super()
 			end
+			
+			private
+			
+			def transition_to_off
+				# Tween is done
+				@timer.reset
+				
+				@animation.weight = 1.0
+				@animation.disable
+				puts "OFF"
+			end
+		end
+		
+		class IdleAnimationBlender
+			# TODO: Fix bug which causes animation to revert to neutral for a bit on slow walk
+			
+			state_machine :idle_blending, :initial => :off do
+				state :blending_in do
+					def update(dt, speed)
+						
+					end
+				end
+				
+				state :blending_out do
+					def update(dt, speed)
+						
+					end
+				end
+				
+				state :off do
+					def update(dt, speed)
+						if speed > MOVEMENT_THRESHOLD
+							self.enable
+							
+							# If been in this state for a while, reset animation time to 0
+							# need to wait before reset so slow tapping allows for slow movement
+						end
+					end
+				end
+				
+				
+				after_transition any => :off, :do => :transition_to_off
+				
+				event :enable do
+					transition :off => :blending_in
+				end
+				
+				event :disable do
+					transition any => :off
+				end
+				
+				event :ease_out do
+					transition :blending_in => :blending_out
+				end
+			end
+			
+			def initialize(animation, blend_time)
+				@animation = animation
+				
+				@timer = Timer.new(blend_time)
+				
+				super()
+			end
+			
+			# def update(dt, speed)
+			# 	unless off?
+					
+			# 	end
+			# end
 			
 			private
 			
