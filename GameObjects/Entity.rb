@@ -46,11 +46,11 @@ class Entity
 		
 		@movement = Component::Movement.new @physics, @animation,
 						:max_movement_speed => 12,
-						:air_force_control => 0.10,
+						:air_force_control => 0.30,
 						
 						:walk_force => 1200, :run_force => 2000,
 						
-						:jump_velocity => 5,
+						:jump_velocity => 4.3,
 						:jump_limit => 20000000000000000
 	end
 	
