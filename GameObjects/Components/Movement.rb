@@ -1,5 +1,17 @@
 require 'state_machine'
 
+class Numeric
+	# Convert from frames to seconds
+	def frames(framerate=60.hz)
+		return self*framerate
+	end
+	
+	# Convert to herts
+	def hz
+		return 1.0/self
+	end
+end
+
 module Component
 	class Movement
 		attr_reader :jump_count
@@ -177,8 +189,8 @@ module Component
 				# Walk
 				# Some amount of walk is playing
 				
-				# stride_length = 1		# in meters
-				# stride_time = 0.4		# in seconds
+				stride_length = 1			# in meters
+				stride_time = 48.frames		# in seconds
 				# walk_speed = stride_length / stride_time	# Walk rate at full speed playback
 				
 				walk_speed = 2.8 # m / s
