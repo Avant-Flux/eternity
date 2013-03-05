@@ -46,6 +46,20 @@ class LevelState #< GameState
 		
 	end
 	
+	# Add all objects managed by this state into the supplied state
+	def add_to(space)
+		[@entities, @static_objects].each do |collection|
+			collection.each do |object|
+				object.physics.add_to space
+			end
+		end
+	end
+	
+	# Remove all objects managed by this state into the supplied state
+	def remove_from(space)
+		
+	end
+	
 	def add_static_object(obj)
 		@static_objects << obj
 	end
@@ -343,17 +357,27 @@ class LevelState #< GameState
 							node["scale"][0]["z"].to_f
 						]
 			
-			
+			if mesh_file == "Plane.026" || node_name == "Plane.026"
+				print "================="
+				p position 
+			end
 			
 			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
-			model = Oni::Model.new window, node_name, mesh_file
-			# p model.methods
-			model.position = position
-			model.rotation_3D = rotation
-			model.scale = scale
+			# NOTE: Currently, collision volume specified only by bounding box
+			obj = StaticObject.new	window, node_name, mesh_file,
+									:offset => :centered
+			obj.model.position = position
+			obj.model.rotation_3D = rotation
+			obj.model.scale = scale
 			
-			state.add_static_object model
+			# From Physics component
+			# [@body.p.x, @body.pz, -@body.p.y]
+			obj.physics.body.p.x = position[0]
+			obj.physics.body.p.y = -position[2]
+			obj.physics.body.pz = position[1]
+						
+			state.add_static_object obj
 		end
 	end
 end

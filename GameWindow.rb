@@ -27,10 +27,11 @@ require_all './Physics'
 # require_all './UI'
 
 require './GameObjects/Entity'
-require './GameObjects/Components/Physics'
-require './GameObjects/Components/Movement'
-require './GameObjects/Components/Model'
-require './GameObjects/Components/Combat'
+require './GameObjects/StaticObject'
+	require './GameObjects/Components/Physics'
+	require './GameObjects/Components/Movement'
+	require './GameObjects/Components/Model'
+	require './GameObjects/Components/Combat'
 
 require './GameStates/LevelState'
 
@@ -99,11 +100,17 @@ class GameWindow < Oni::Window
 		@inpman = EternityInput.new self, @player, @camera
 		
 		@space = Physics::Space.new
+		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
+		# @space.add_collision_func :entity, :static do
+		# 	true
+		# end
+		
 		@player.physics.add_to @space # TODO: Change interface
 		# @space.add @player
 		
 		
 		@level = LevelState.load self, @space, "Scrapyard" 
+		@level.add_to @space
 	end
 	
 	def update(dt)
