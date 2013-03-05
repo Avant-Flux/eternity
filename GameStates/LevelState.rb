@@ -346,9 +346,10 @@ class LevelState #< GameState
 						]
 			
 			rotation =	[
-							node["rotation"][0]["x"].to_f, 
-							node["rotation"][0]["y"].to_f,
-							node["rotation"][0]["z"].to_f
+							node["rotation"][0]["qw"].to_f,
+							node["rotation"][0]["qx"].to_f,
+							node["rotation"][0]["qy"].to_f, 
+							node["rotation"][0]["qz"].to_f,
 						]
 			
 			scale =		[
@@ -365,8 +366,7 @@ class LevelState #< GameState
 			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
 			# NOTE: Currently, collision volume specified only by bounding box
-			obj = StaticObject.new	window, node_name, mesh_file,
-									:offset => :centered
+			obj = StaticObject.new	window, node_name, mesh_file, :offset => :centered
 			obj.model.position = position
 			obj.model.rotation_3D = rotation
 			obj.model.scale = scale
