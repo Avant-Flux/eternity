@@ -64,7 +64,7 @@ module Component
 			}
 			
 			def initialize(gameobj, opts={})
-				DEFAULT_OPTIONS.merge opts
+				opts = DEFAULT_OPTIONS.merge opts
 				
 				super(gameobj, :Circle, opts[:collision_type], 
 					opts[:height], opts[:mass], opts[:moment],
@@ -85,7 +85,7 @@ module Component
 			}
 			
 			def initialize(gameobj, opts={})
-				DEFAULT_OPTIONS.merge opts
+				opts = DEFAULT_OPTIONS.merge opts
 				
 				super(gameobj, :Poly, opts[:collision_type], 
 					opts[:height], opts[:mass], opts[:moment],
@@ -103,15 +103,15 @@ module Component
 				:collision_type => nil,
 				
 				:width => 1,
-				:height => 1
+				:depth => 1
 			}
 			
 			def initialize(gameobj, opts={})
-				DEFAULT_OPTIONS.merge opts
+				opts = DEFAULT_OPTIONS.merge opts
 				
 				super(gameobj, :Rect, opts[:collision_type], 
 					opts[:height], opts[:mass], opts[:moment],
-					opts[:width], opts[:height], opts[:offset])
+					opts[:width], opts[:depth], opts[:offset])
 			end
 		end
 	end
