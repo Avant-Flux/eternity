@@ -1,12 +1,12 @@
-// Ground genrated by blender2ogre 0.5.9
+// Material genrated by blender2ogre 0.5.8
 
-material Ground 
+material Material 
 {
     receive_shadows on 
 
     technique
     {
-        pass Ground
+        pass Material
         {
             ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
             diffuse 0.6400000190734865 0.6400000190734865 0.6400000190734865 1.0
