@@ -9,7 +9,7 @@ require 'xmlsimple'
 require 'set'
 
 # TODO: Remove @space from initialize, as it is not needed on init.
-class LevelState #< GameState
+class LevelState
 	include Comparable
 	
 	# Defines the behavior for a slice of a level.
@@ -22,8 +22,6 @@ class LevelState #< GameState
 	def initialize(window, space, name)
 		@space = space
 		@name = name
-		#~ super(window, space, layers, name)
-		
 		#~ @queue = render_queue
 		
 		@entities = Set.new
