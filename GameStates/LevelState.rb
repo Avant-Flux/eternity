@@ -228,19 +228,24 @@ class LevelState
 				
 				xml = XmlSimple.xml_in file, 'KeyAttr' => 'node'
 				xml["nodes"][0]["node"].each do |node|
-					if node["name"] =~ /Lamp/
-						# Set up lighting
-						load_light window, state, node
-					elsif node["name"] =~ /Camera/
+					if node["name"] =~ /Camera/
 						# Ignore camera
 					elsif node["name"] =~ /Armature/
 						# Use this as spawn points
 						# TODO: Maybe use some other object as a spawner, and have this as single-entity placement location?
+					elsif node["entity"]
+						# Make sure it has mesh properties
 						
-					else
 						# All other things must be statics
 						# Non-statics would be specified only as spawn points
 						load_static_object window, state, node
+					end
+					
+					if node["light"]
+						# If the node has a light attached to it, create it
+						# NOTE: Don't pick up objects with "Lamp" in the name, just Lamp
+						# Set up lighting
+						load_light window, state, node
 					end
 				end
 			end
