@@ -9,7 +9,11 @@ module Component
 				@gameobj = gameobj
 				@model = nil
 				
-				@body = Physics::Body.new gameobj, mass, moment
+				@body =	if mass == CP::INFINITY
+							Physics::StaticBody.new gameobj
+						else
+							Physics::Body.new gameobj, mass, moment
+						end
 				
 				@shape = Physics::Shape.const_get(shape_type).new gameobj, @body, *args
 				@shape.collision_type = collision_type
@@ -34,7 +38,12 @@ module Component
 			end
 			
 			def add_to(space)
-				space.add_shape @shape
+				if @body.is_a? Physics::StaticBody
+					space.add_static_shape @shape
+				else
+					space.add_shape @shape
+				end
+				
 				space.add_body @body
 				
 				# TODO:	Perform initial raycast when adding entity to space to determine
@@ -42,7 +51,12 @@ module Component
 			end
 			
 			def remove_from(space)
-				space.remove_shape @shape
+				if @body.is_a? Physics::StaticBody
+					space.remove_static_shape @shape
+				else
+					space.remove_shape @shape
+				end
+				
 				space.remove_body @body
 			end
 			

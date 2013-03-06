@@ -22,7 +22,7 @@ module Physics
 		def add_body(body)
 			super(body)
 			
-			@bodies.add body unless body.m == CP::INFINITY
+			@bodies.add body unless body.is_a? Physics::StaticBody
 			# set_initial_elevation body
 		end
 		

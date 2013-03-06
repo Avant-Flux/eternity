@@ -11,27 +11,27 @@ module CollisionHandler
 			entity_shape = arbiter.a
 			env_shape = arbiter.b
 			
-			entity_body = entity_shape.body
-			env_body = env_shape.body
-			
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
+			puts "COLLIDE"
+			return true
+			
 			#Process actions involving what to do when on top, as well as side collisions
-			if entity_body.pz >= (elevation = env.height + env_body.pz)
+			if entity.physics.body.pz >= (elevation = env.physics.height + env.physics.body.pz)
 				# On top of the environment
-				entity_body.elevation_queue.add env
+				entity.physics.body.elevation_queue.add env
 				
 				return false
 			else
 				# Feet are beneath elevation level
-				if entity_body.pz < env_body.pz
+				if entity.physics.body.pz < env.physics.body.pz
 					# Feet are beneath the z of the static object
-					if entity_body.pz + entity.height > env_body.pz
+					if entity.physics.body.pz + entity.physics.height > env.physics.body.pz
 						# Head is inside the static object (ie, colliding)
-						entity_body.pz = env_body.pz - entity.height
-						entity_body.vz = 0
-						entity_body.az = 0
+						entity.physics.body.pz = env.physics.body.pz - entity.physics.height
+						entity.physics.body.vz = 0
+						entity.physics.body.az = 0
 						return false
 					else
 						# Entity is below the static object

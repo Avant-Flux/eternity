@@ -48,13 +48,14 @@ module Physics
 			max_elevation = 0
 			
 			@elevation_queue.each do |env|
-				new_elevation = if env.is_a? Slope
-					env.height_at(self.p.x, self.p.y)
-				else
-					env.height
-				end
+				# new_elevation = if env.is_a? Slope
+				# 	env.height_at(self.p.x, self.p.y)
+				# else
+				# 	env.height
+				# end
+				new_elevation = env.physics.height
 				
-				new_elevation += env.body.pz
+				new_elevation += env.physics.body.pz
 				
 				if new_elevation > max_elevation
 					max_elevation = new_elevation
@@ -69,16 +70,16 @@ module Physics
 		end
 	end
 	
-	class StaticBody < CP::Body
+	class StaticBody < CP::StaticBody
 		attr_reader :gameobject
 		attr_accessor :pz
 		
-		#~ def initialize(gameobject)
-		def initialize()
-			super(CP::INFINITY, CP::INFINITY)
+		def initialize(gameobject, *args)
+			super(*args)
 			# Beoran's C bindings of Chipmunk also set this property:
 			# body->node.idleTime = (cpFloat)INFINITY;
 			
+			@gameobject = gameobject
 			@pz = 0
 		end
 	end

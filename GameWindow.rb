@@ -101,15 +101,15 @@ class GameWindow < Oni::Window
 		
 		@space = Physics::Space.new
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
-		# @space.add_collision_func :entity, :static do
-		# 	true
-		# end
 		
+		
+		@player.physics.body.p = CP::Vec2.new(-10,0) # Origin is occupied by colliding objects
 		@player.physics.add_to @space # TODO: Change interface
 		# @space.add @player
 		
 		
 		@level = LevelState.load self, @space, "Scrapyard" 
+		# @level = LevelState.load self, @space, "Room" 
 		@level.add_to @space
 	end
 	
@@ -124,6 +124,7 @@ class GameWindow < Oni::Window
 		# @state_manager.update # Update the entities within the active state
 		
 		# @ui_state_manager.update
+		@level.update dt
 		
 		@player.update dt
 		

@@ -138,7 +138,13 @@ Monster Types
 	aqua tentacle thing(like morpha for OoT), kappa, phoenix, rabbit,
 	
 	Draw influence from the 5 elements, nature as well as fantasy
-	
+
+TODO: Consider using one coordinate system for rendering and physics
+Note: Physics and rendering use two different coordinate systems
+	Physics
+		Chipmunk (extended)		--- 	z-pos = up into the sky
+	Rendering
+		Ogre style				---		z-pos = out the screen
 	
 Wiki Notes
 SIDEBAR FILES

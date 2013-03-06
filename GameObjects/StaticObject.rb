@@ -23,6 +23,13 @@ class StaticObject
 	end
 	
 	def update(dt)
+		# Physics#update was created for non-statics, so it also updates angle to compensate
+		# for characters being modeled facing down Ogre's Z-Axis (pos-z = out the screen)
+		# for static objects, that is both unwanted, and unnecessary
+		#
+		# Also note that Physics#update is intended to be called every frame, 
+		# but StaticObject#update is not. (because STATIC object)
 		
+		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
 	end
 end

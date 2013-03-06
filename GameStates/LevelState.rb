@@ -34,12 +34,12 @@ class LevelState #< GameState
 	
 	def update(dt)
 		# @entities.each do |entity|
-		# 	entity.update
+		# 	entity.update dt
 		# end
 		
-		# @static_objects.each do |static|
-		# 	static.update
-		# end
+		@static_objects.each do |static|
+			static.update dt
+		end
 	end
 	
 	def draw
@@ -367,7 +367,7 @@ class LevelState #< GameState
 			
 			# NOTE: Currently, collision volume specified only by bounding box
 			obj = StaticObject.new	window, node_name, mesh_file, :offset => :centered
-			obj.model.position = position
+			# obj.model.position = position
 			obj.model.rotation_3D = rotation
 			obj.model.scale = scale
 			
