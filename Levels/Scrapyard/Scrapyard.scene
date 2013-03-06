@@ -1,9 +1,39 @@
-<scene exported_by="ravenskrag" formatVersion="1.0.1" previous_export_time="1362324108.244753" export_time="1362327546.491408" >
+<scene exported_by="ravenskrag" formatVersion="1.0.1" previous_export_time="1362572987.827925" export_time="1362573099.309849" >
   <nodes >
-    <node name="Plane.025" >
-      <position y="2.000000" x="11.750000" z="-0.000000" />
+    <node name="Plane.028" >
+      <position y="0.000000" x="-8.535305" z="44.908188" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="0.500000" z="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.027.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.027" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Plane.027" >
+      <position y="0.000000" x="11.717445" z="44.562557" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.013.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.013" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Plane.026" >
+      <position y="0.000000" x="3.717445" z="43.900520" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Plane.025" >
+      <position y="3.500000" x="12.500000" z="-1.000000" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -21,9 +51,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.026.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.026" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.023" >
-      <position y="0.000000" x="38.001350" z="1.600662" />
+      <position y="2.500000" x="38.001350" z="1.600662" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="1.400000" z="1.400000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -33,7 +63,7 @@
     <node name="Plane.022" >
       <position y="0.000000" x="157.001343" z="-27.399342" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="6.000000" x="6.000000" z="6.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -41,7 +71,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.024.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.024" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.021" >
-      <position y="4.000000" x="13.000000" z="5.000000" />
+      <position y="3.000000" x="13.000000" z="5.000000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
@@ -61,7 +91,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.022.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.022" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.019" >
-      <position y="1.000000" x="18.000000" z="15.500000" />
+      <position y="1.000000" x="18.000000" z="11.500000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
@@ -91,7 +121,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.019.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.019" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.016" >
-      <position y="1.000000" x="8.500000" z="-6.500000" />
+      <position y="4.500000" x="8.500000" z="-7.500000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
@@ -101,7 +131,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.018.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.018" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.011" >
-      <position y="1.500000" x="6.500000" z="-3.000000" />
+      <position y="3.500000" x="6.500000" z="-3.000000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
@@ -121,9 +151,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.002.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.002" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.014" >
-      <position y="2.000000" x="9.750000" z="-0.000000" />
+      <position y="2.000000" x="10.250000" z="-0.000000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="0.500000" z="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -151,9 +181,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Plane.014.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Plane.014" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Plane.010" >
-      <position y="0.500000" x="7.250000" z="-0.030000" />
+      <position y="0.500000" x="7.750000" z="-0.030000" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="0.500000" z="1.010000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
