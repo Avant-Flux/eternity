@@ -46,18 +46,15 @@ class LevelState #< GameState
 		
 	end
 	
-	# Add all objects managed by this state into the supplied state
-	def add_to(space)
-		[@entities, @static_objects].each do |collection|
-			collection.each do |object|
-				object.physics.add_to space
+	# Manage if the objects in this state are in a Physics::Space or not
+	[:add_to, :remove_from].each do |method|
+		define_method method do |space|
+			[@entities, @static_objects].each do |collection|
+				collection.each do |object|
+					object.physics.send method, space
+				end
 			end
 		end
-	end
-	
-	# Remove all objects managed by this state into the supplied state
-	def remove_from(space)
-		
 	end
 	
 	def add_static_object(obj)
@@ -125,19 +122,6 @@ class LevelState #< GameState
 	# 	@entities << @player
 		
 	# 	return @spawn
-	# end
-	
-	# def add_to(space)
-	# 	# Must add entities last, so they can have proper elevation
-	# 	@space = space
-		
-	# 	@static_objects.each do |obj|
-	# 		obj.add_to @space
-	# 	end
-		
-	# 	@entities.each do |entity|
-	# 		entity.add_to @space
-	# 	end
 	# end
 	
 	# Save all elements of the level, but not the camera
