@@ -39,7 +39,7 @@ class Entity
 		# Max speed should not exceed 64km/hr
 		# 	17 m / sec
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
-		@physics = Component::Collider::Circle.new self, :radius => 0.5, :height => 2,
+		@physics = Component::Collider::Circle.new self, :radius => 0.4, :height => 2,
 						:mass => 72.5, :moment => CP::INFINITY, :collision_type => :entity
 		@physics.u = 0.1
 		@physics.model = @model

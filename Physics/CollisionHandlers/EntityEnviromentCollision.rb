@@ -14,12 +14,11 @@ module CollisionHandler
 			entity = entity_shape.gameobject
 			env = env_shape.gameobject
 			
-			puts "COLLIDE"
-			return true
-			
 			#Process actions involving what to do when on top, as well as side collisions
 			if entity.physics.body.pz >= (elevation = env.physics.height + env.physics.body.pz)
 				# On top of the environment
+				# TODO: Remove environment object from queue based on smaller foot area
+					# IDEA: Tie second sensor shape to the same body?
 				entity.physics.body.elevation_queue.add env
 				
 				return false
