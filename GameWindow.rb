@@ -103,7 +103,6 @@ class GameWindow < Oni::Window
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		
 		
-		@player.physics.body.p = CP::Vec2.new(-10,0) # Origin is occupied by colliding objects
 		@player.physics.add_to @space # TODO: Change interface
 		# @space.add @player
 		

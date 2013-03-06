@@ -18,6 +18,7 @@ class LevelState
 	path = path[0..(path.rindex(File::SEPARATOR))]
 	LEVEL_DIRECTORY = File.join path, "Levels"
 	
+	attr_reader :static_objects
 	
 	def initialize(window, space, name)
 		@space = space
@@ -34,10 +35,6 @@ class LevelState
 		# @entities.each do |entity|
 		# 	entity.update dt
 		# end
-		
-		@static_objects.each do |static|
-			static.update dt
-		end
 	end
 	
 	def draw
@@ -353,8 +350,7 @@ class LevelState
 			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
 			# NOTE: Currently, collision volume specified only by bounding box
-			obj = StaticObject.new	window, node_name, mesh_file, :offset => :centered
-			# obj.model.position = position
+			obj = StaticObject.new	window, node_name, mesh_file
 			obj.model.rotation_3D = rotation
 			obj.model.scale = scale
 			
@@ -363,7 +359,9 @@ class LevelState
 			obj.physics.body.p.x = position[0]
 			obj.physics.body.p.y = -position[2]
 			obj.physics.body.pz = position[1]
-						
+			
+			obj.update
+			
 			state.add_static_object obj
 		end
 	end
