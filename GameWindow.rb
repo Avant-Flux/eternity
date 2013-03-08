@@ -107,8 +107,10 @@ class GameWindow < Oni::Window
 		# @space.add @player
 		
 		
-		@level = LevelState.load self, @space, "Scrapyard" 
+		# @level = LevelState.load self, @space, "Scrapyard" 
 		# @level = LevelState.load self, @space, "Room" 
+		# @level = LevelState.load self, @space, "FireTown"
+		@level = LevelState.load self, @space, "Museum"
 		@level.add_to @space
 	end
 	
