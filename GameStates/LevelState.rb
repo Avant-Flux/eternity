@@ -284,23 +284,35 @@ class LevelState
 			# 				node["scale"][0]["z"].to_f
 						# ]
 			
-			diffuse =	[
-							node["light"][0]["colourDiffuse"][0]["r"].to_f,
-							node["light"][0]["colourDiffuse"][0]["g"].to_f,
-							node["light"][0]["colourDiffuse"][0]["b"].to_f
-						]
+			diffuse =	if node["light"][0]["colourDiffuse"]
+							[
+								node["light"][0]["colourDiffuse"][0]["r"].to_f,
+								node["light"][0]["colourDiffuse"][0]["g"].to_f,
+								node["light"][0]["colourDiffuse"][0]["b"].to_f
+							]
+						else
+							nil
+						end
 			
-			specular =	[
-							node["light"][0]["colourSpecular"][0]["r"].to_f,
-							node["light"][0]["colourSpecular"][0]["g"].to_f,
-							node["light"][0]["colourSpecular"][0]["b"].to_f
-						]
+			specular =	if node["light"][0]["colourSpecular"]
+							[
+								node["light"][0]["colourSpecular"][0]["r"].to_f,
+								node["light"][0]["colourSpecular"][0]["g"].to_f,
+								node["light"][0]["colourSpecular"][0]["b"].to_f
+							]
+						else
+							nil
+						end
 			
-			shadow =	[
-							node["light"][0]["colourShadow"][0]["r"].to_f,
-							node["light"][0]["colourShadow"][0]["g"].to_f,
-							node["light"][0]["colourShadow"][0]["b"].to_f
-						]
+			shadow =	if node["light"][0]["colourShadow"]
+							[
+								node["light"][0]["colourShadow"][0]["r"].to_f,
+								node["light"][0]["colourShadow"][0]["g"].to_f,
+								node["light"][0]["colourShadow"][0]["b"].to_f
+							]
+						else
+							nil
+						end
 			
 			puts "#{node["name"]} --> #{light_type} #{position}"
 			
@@ -312,9 +324,9 @@ class LevelState
 			# light.rotation = rotation
 			# light.scale = scale # Don't think you can scale a light
 			
-			light.diffuse = diffuse
-			light.specular = specular
-			# light.shadow = shadow
+			light.diffuse = diffuse if diffuse
+			light.specular = specular if specular
+			# light.shadow = shadow if shadow
 			
 			state.add_light light
 		end
