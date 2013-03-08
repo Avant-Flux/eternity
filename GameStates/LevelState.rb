@@ -356,15 +356,16 @@ class LevelState
 			
 			if mesh_file == "Plane.026" || node_name == "Plane.026"
 				print "================="
-				p position 
+				p position
 			end
 			
 			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
 			# NOTE: Currently, collision volume specified only by bounding box
-			obj = StaticObject.new	window, node_name, mesh_file
-			obj.model.rotation_3D = rotation
-			obj.model.scale = scale
+			obj = StaticObject.new	window, node_name, mesh_file,
+									:position => position, 
+									:rotation => rotation,
+									:scale => scale
 			
 			# From Physics component
 			# [@body.p.x, @body.pz, -@body.p.y]

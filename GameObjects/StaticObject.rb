@@ -6,6 +6,10 @@ class StaticObject
 	DEFAULT_OPTIONS = {
 		:collision_type => :static,
 		
+		:position => [0,0,0],
+		:rotation => [1,0,0,0], # Rotation as a Quaternion
+		:scale => [1,1,1],
+		
 		:width => nil,
 		:depth => nil,
 		:height => nil
@@ -13,17 +17,20 @@ class StaticObject
 	
 	def initialize(window, name, mesh_name, opts={})
 		@model = Oni::Model.new window, name, mesh_name
+		@model.rotation_3D = opts[:rotation]
+		@model.scale = opts[:scale]
 		
 		opts[:mass] = CP::INFINITY
 		opts[:moment] = CP::INFINITY
 		opts[:offset] = :centered
 		
-		opts[:width] = model.bb_width
-		opts[:depth] = model.bb_depth
-		opts[:height] = model.bb_height
+		opts[:width] = model.bb_width * opts[:scale][0]
+		opts[:depth] = model.bb_depth * opts[:scale][1]
+		opts[:height] = model.bb_height * opts[:scale][2]
 		
 		opts = DEFAULT_OPTIONS.merge opts
 		@physics = Component::Collider::Rect.new self, opts
+		@physics.body.a = @model.rotation
 	end
 	
 	def update
