@@ -1,3 +1,4 @@
+Gemfile.lock
 Graphics/*
 Ogre.log
 *.cfg
@@ -166,4 +167,3 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
-/Gemfile.lock
