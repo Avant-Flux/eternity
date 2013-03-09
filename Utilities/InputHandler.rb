@@ -14,7 +14,7 @@ begin
 rescue LoadError
   # In case you don't.
 end
-require 'gosu'
+# require 'gosu'
 
 require 'set'
 

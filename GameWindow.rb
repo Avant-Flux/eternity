@@ -2,7 +2,7 @@
 Dir.chdir File.dirname(__FILE__)
 
 require 'rubygems'
-# require "bundler/setup"
+require "bundler/setup"
 
 require 'oni'
 require 'chipmunk'

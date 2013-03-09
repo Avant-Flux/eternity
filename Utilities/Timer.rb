@@ -3,7 +3,7 @@
 # Inspired by Chingu, specifically Chingu::Traits::Timer.
 
 require 'rubygems'
-require 'gosu'
+# require 'gosu'
 
 module Timer
 	# Note about timers:
