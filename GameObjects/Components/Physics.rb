@@ -4,10 +4,11 @@ module Component
 			attr_accessor :model
 			attr_reader :shape, :body, :height
 			
-			def initialize(gameobj, shape_type, collision_type, 
+			def initialize(gameobj, model, shape_type, collision_type, friction,
 						height, mass, moment, *args)
 				@gameobj = gameobj
-				@model = nil
+				@model = model
+				@height = height
 				
 				@body =	if mass == CP::INFINITY
 							Physics::StaticBody.new gameobj
@@ -18,7 +19,7 @@ module Component
 				@shape = Physics::Shape.const_get(shape_type).new gameobj, @body, *args
 				@shape.collision_type = collision_type
 				
-				@height = height
+				@shape.u = friction
 				
 				# @body.v_limit = 50
 				#~ @body.w_limit = 100 # Limit rotational velocity
@@ -74,13 +75,16 @@ module Component
 				:moment => CP::INFINITY,
 				:collision_type => nil,
 				
-				:radius => 1
+				:radius => 1,
+				
+				:friction => 0.0,
+				:model => nil
 			}
 			
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
 				
-				super(gameobj, :Circle, opts[:collision_type], 
+				super(gameobj, opts[:model], :Circle, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:radius], opts[:offset])
 			end
@@ -95,13 +99,16 @@ module Component
 				:moment => CP::INFINITY,
 				:collision_type => nil,
 				
-				:verts => 0
+				:verts => 0,
+				
+				:friction => 0.0,
+				:model => nil
 			}
 			
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
 				
-				super(gameobj, :Poly, opts[:collision_type], 
+				super(gameobj, opts[:model], :Poly, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:verts], opts[:offset])
 			end
@@ -117,13 +124,16 @@ module Component
 				:collision_type => nil,
 				
 				:width => 1,
-				:depth => 1
+				:depth => 1,
+				
+				:friction => 0.0,
+				:model => nil
 			}
 			
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
 				
-				super(gameobj, :Rect, opts[:collision_type], 
+				super(gameobj, opts[:model], :Rect, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:width], opts[:depth], opts[:offset])
 			end
