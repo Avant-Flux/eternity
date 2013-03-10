@@ -67,12 +67,16 @@ class Entity
 		# TODO: Figure out what order components should update in
 		# If physics is always updated first, perhaps it should be updated as a system
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
-		@model.update dt
-		@animation.update dt
-		@combat.update dt
-		@physics.update dt
+		[@model, @animation, @combat, @physics, @movement].each do |component|
+			component.update dt
+		end
 		
-		@movement.update dt
+		# @model.update dt
+		# @animation.update dt
+		# @combat.update dt
+		# @physics.update dt
+		
+		# @movement.update dt
 	end
 	
 	def attack
