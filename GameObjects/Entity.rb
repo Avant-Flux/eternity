@@ -99,20 +99,18 @@ class Entity
 		@model.visible?
 	end
 	
-	def create
-		
-	end
-	
-	def load
-		
+	def position
+		#TODO: Depreciate method
+		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
 	end
 	
 	def save
 		
 	end
 	
-	def position
-		#TODO: Depreciate method
-		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
+	class << self
+		def load
+			
+		end
 	end
 end
