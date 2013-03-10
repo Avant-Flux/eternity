@@ -11,7 +11,7 @@ class Crab
 		# 	17 m / sec
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
 		@physics = Component::Collider::Rect.new self, :width => 2, :depth => 4, :height => 1.75,
-						:mass => 72.5, :moment => CP::INFINITY, :friction => 0.0,
+						:mass => 72.5, :moment => 2, :friction => 0.0,
 						:offset => :centered, :collision_type => :entity, :model => @model
 		
 		# @movement = Component::Movement.new @physics, @animation,
