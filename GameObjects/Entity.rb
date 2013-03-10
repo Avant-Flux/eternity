@@ -99,11 +99,6 @@ class Entity
 		@model.visible?
 	end
 	
-	def position
-		#TODO: Depreciate method
-		"#{@name}: #{px}, #{py}, #{pz}, elevation: #{elevation}"
-	end
-	
 	def save
 		
 	end
