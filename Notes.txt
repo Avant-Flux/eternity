@@ -112,6 +112,8 @@ Due to rounding in the storage for level elements,
 nothing in a level should be placed in increments less than
 one scale centimeter
 
+TODO: Fix Segfault when attempting to create animation for object with no animations
+
 Dvorak Keyboard Button ID's for Gosu in Ubuntu 64-bit 
 49 50 51 52 53 54 55 56 57 48 91 93
 39 44 46 112 121 102 103 99 114 108 47 61 92

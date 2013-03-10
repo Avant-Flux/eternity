@@ -1,5 +1,8 @@
 module Component
 	module Collider
+		# TODO: Rename Collider to Physics
+		# Requires renaming the current Physics module to something else to avoid symbol collision
+		
 		class Base
 			attr_accessor :model
 			attr_reader :shape, :body, :height

@@ -2,16 +2,22 @@ module CollisionHandler
 	#Control collisions between multiple Entity objects
 	class Entity
 		def begin(arbiter)
-			return false
+			return true
 		end
 		
-		def pre(arbiter) #Determine whether to process collision or not
+		def pre_solve(arbiter) #Determine whether to process collision or not
 			#Process actions involving what to do when on top, as well as side collisions
-			physics_a = arbiter.a.physics_obj
-			physics_b = arbiter.b.physics_obj
+			a_shape = arbiter.a
+			b_shape = arbiter.b
+			
+			a_obj = a_shape.gameobject
+			b_obj = b_shape.gameobject
+			
+			physics_a = a_obj.physics
+			physics_b = b_obj.physics
 			
 			#First, determine which one is higher
-			case physics_a.pz <=> physics_b.pz
+			case physics_a.body.pz <=> physics_b.body.pz
 				when -1
 					lower = physics_a
 					higher = physics_b
@@ -23,7 +29,7 @@ module CollisionHandler
 			end
 			
 			#See if the higher one is high enough to pass over the lower one
-			if higher.pz < lower.height + lower.pz
+			if higher.body.pz < lower.height + lower.body.pz
 				#The higher of the two is not high enough to clear the other one
 				return true
 			else

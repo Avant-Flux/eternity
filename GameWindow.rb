@@ -26,12 +26,14 @@ require_all './Physics'
 
 # require_all './UI'
 
+
 require './GameObjects/Entity'
 require './GameObjects/StaticObject'
 	require './GameObjects/Components/Physics'
 	require './GameObjects/Components/Movement'
 	require './GameObjects/Components/Model'
 	require './GameObjects/Components/Combat'
+require './GameObjects/Creatures/Crab'
 
 require './GameStates/LevelState'
 
@@ -86,7 +88,7 @@ class GameWindow < Oni::Window
 		@camera.near_clip_distance = 1
 		
 		
-		@crab = Oni::Model.new(self, "Crab", "Crab.mesh")
+		@crab = Crab.new self
 		# @player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
 		@player = Entity.new self, "Human_Male", "Human_Male"
 		# @player.translate 0, 0, 0
@@ -101,9 +103,11 @@ class GameWindow < Oni::Window
 		
 		@space = Physics::Space.new
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
+		@space.add_collision_handler :entity, :entity, CollisionHandler::Entity.new
 		
 		
 		@player.physics.add_to @space # TODO: Change interface
+		@crab.physics.add_to @space
 		# @space.add @player
 		
 		
@@ -128,6 +132,7 @@ class GameWindow < Oni::Window
 		@level.update dt
 		
 		@player.update dt
+		@crab.update dt
 		
 		pos = @offset.clone
 		pos[0] += @player.physics.body.p.x
