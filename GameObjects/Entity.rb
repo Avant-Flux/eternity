@@ -68,16 +68,6 @@ class Entity
 		@combat.attack
 	end
 	
-	def body
-		# TODO: Depreciate method
-		@physics.body
-	end
-	
-	def shape
-		# TODO: Depreciate method
-		@physics.shape
-	end
-	
 	def jump(*args)
 		# TODO: Depreciate method
 		@movement.jump *args
@@ -96,11 +86,6 @@ class Entity
 	def running=(arg)
 		# TODO: Depreciate method
 		@movement.running = arg
-	end
-	
-	def jump_count
-		# TODO: Depreciate method
-		@movement.jump_count
 	end
 	
 	def animation=(animation_name)
