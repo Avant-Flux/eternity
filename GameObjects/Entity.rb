@@ -29,10 +29,6 @@ class Entity
 		
 		@model = Oni::Model.new window, name, "#{mesh_name}.mesh"
 		@animation = Oni::Animation.new @model
-		@combat = Component::Combat.new @animation
-		
-		# @model = Component::Model.new window, mesh_name
-		
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
 		# Weight should be between 70-90 kg
@@ -51,9 +47,25 @@ class Entity
 						
 						:jump_velocity => 4.3,
 						:jump_limit => 20000000000000000
+		
+		# @stats = Component::Stats.new do
+		# 	strength		1
+		# 	constitution	1
+		# 	dexterity		1
+		# 	power			1
+		# 	control			1
+		# 	flux			1
+		# end
+		
+		# @stats.strength
+		# @stats.strength = 1
+		
+		@combat = Component::Combat.new @animation
 	end
 	
 	def update(dt)
+		# TODO: Figure out what order components should update in
+		# If physics is always updated first, perhaps it should be updated as a system
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		@model.update dt
 		@animation.update dt
