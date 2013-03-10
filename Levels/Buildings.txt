@@ -1,6 +1,0 @@
-buildingA   50 50 0     $texture_1$ $texture_2$
-buildingB   10 10 2     $texture_1$ $texture_2$
-buildingC   30 10 3     $texture_1$ $texture_2$
-buildingD   30 10 6     $texture_1$ $texture_2$
-buildingE   15 15 1     $texture_1$ $texture_2$
-buildingF   15 15 3     $texture_1$ $texture_2$
