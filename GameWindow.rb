@@ -123,8 +123,6 @@ class GameWindow < Oni::Window
 		@space.update dt
 		@inpman.update # process_input
 		
-		# #~ puts @player.body.p
-		# #~ @player.body.reset_forces
 		# @state_manager.update # Update the entities within the active state
 		
 		# @ui_state_manager.update
