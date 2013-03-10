@@ -316,7 +316,7 @@ class LevelState
 			
 			puts "#{node["name"]} --> #{light_type} #{position}"
 			
-			light = Oni::Light.new window, node_name
+			light = Oni::Light.new window, "#{state}_#{node_name}"
 			
 			light.type = light_type
 			
@@ -362,7 +362,7 @@ class LevelState
 			# puts "#{name} --- #{mesh_file}: #{position}, #{rotation}, #{scale}"
 			
 			# NOTE: Currently, collision volume specified only by bounding box
-			obj = StaticObject.new	window, node_name, mesh_file,
+			obj = StaticObject.new	window, "#{state}_#{node_name}", mesh_file,
 									:position => position, 
 									:rotation => rotation,
 									:scale => scale
