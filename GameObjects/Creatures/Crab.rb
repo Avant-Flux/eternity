@@ -30,4 +30,8 @@ class Crab
 			component.update dt
 		end
 	end
+	
+	def resolve_ground_collision
+		
+	end
 end
