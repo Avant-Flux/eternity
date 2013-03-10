@@ -105,8 +105,7 @@ class GameWindow < Oni::Window
 		@space.add_collision_handler :entity, :static, CollisionHandler::EntityEnv.new
 		@space.add_collision_handler :entity, :entity, CollisionHandler::Entity.new
 		
-		
-		# @player.physics.add_to @space # TODO: Change interface
+		# @player.physics.add_to @space # This works too
 		@space.add @player
 		@space.add @crab
 		
