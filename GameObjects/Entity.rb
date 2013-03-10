@@ -87,10 +87,6 @@ class Entity
 		@movement.running = arg
 	end
 	
-	def animation=(animation_name)
-		@animation.base_animation = animation_name
-	end
-	
 	def resolve_ground_collision
 		@movement.reset_jump
 	end
