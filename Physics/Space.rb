@@ -19,6 +19,10 @@ module Physics
 			@bodies = Set.new()
 		end
 		
+		def add(obj)
+			obj.physics.add_to self
+		end
+		
 		def add_body(body)
 			super(body)
 			

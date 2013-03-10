@@ -106,9 +106,9 @@ class GameWindow < Oni::Window
 		@space.add_collision_handler :entity, :entity, CollisionHandler::Entity.new
 		
 		
-		@player.physics.add_to @space # TODO: Change interface
-		@crab.physics.add_to @space
-		# @space.add @player
+		# @player.physics.add_to @space # TODO: Change interface
+		@space.add @player
+		@space.add @crab
 		
 		
 		# @level = LevelState.load self, @space, "Scrapyard" 
