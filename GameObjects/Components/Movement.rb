@@ -179,7 +179,7 @@ module Component
 			if speed > in_speed # Some degree of Run active
 				unless animation.enabled?
 					animation.enable
-					# # Sync with walk playback
+					# Sync with walk playback
 					animation.time = @animation["walk"].time
 				end
 				
@@ -258,6 +258,19 @@ module Component
 											out_speed - in_speed
 										)
 					animation.weight = influence
+					
+					
+					
+					
+					# Sync speed with Run speed
+					stride_length = 2.75		# in meters
+					stride_time = 48.frames		# in seconds
+					# walk_speed = stride_length / stride_time	# Walk rate at full speed 
+					run_speed = stride_length / animation.length * 2	# Run rate at full speed playback
+					
+					# run_speed = 2.8 # m / s
+					# animation.rate = speed / run_speed / 3.0
+					animation.rate = speed / run_speed
 				else
 					# Totally in
 					animation.weight = 1.0
