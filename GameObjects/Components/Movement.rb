@@ -157,7 +157,7 @@ module Component
 			if speed > 12
 				710 # Counteract friction
 			elsif speed > 5
-				710
+				800
 			else
 				1400
 			end
