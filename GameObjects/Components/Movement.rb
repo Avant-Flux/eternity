@@ -92,7 +92,7 @@ module Component
 			blend_walk_animation	dt, speed
 			blend_idle_animation	dt, speed
 			
-			p speed
+			# p speed
 			
 			# @idle.update dt, speed
 			# @walk.update dt, speed
@@ -170,7 +170,13 @@ module Component
 		def blend_run_animation(dt, speed)
 			animation = @animation["run"]
 			
-			if speed > 6.5
+			in_speed = 5
+			out_speed = 6.5
+			
+			b = 0.0							# starting value of property
+			c = 1.0-b						# change in value of property
+			
+			if speed > in_speed # Some degree of Run active
 				animation.enable
 				# # Sync with walk playback
 				# animation.time = @animation["walk"].time
@@ -187,6 +193,27 @@ module Component
 				# animation.rate = speed / run_speed / 3.0
 				animation.rate = speed / run_speed
 				# animation.rate = 1.0
+				
+				
+				
+				if speed > out_speed
+					# Full on
+					animation.weight = 1.0
+				elsif speed > in_speed
+					# Some on
+					
+					influence = Oni::Animation::Ease.in_quad(
+											animation.weight, speed-in_speed,
+											b,
+											c,
+											out_speed - in_speed
+										)
+					influence = 0.0 if influence < 0.0
+					animation.weight = influence
+				else
+					# Full off
+					animation.weight = 0.0
+				end
 			else
 				animation.disable
 			end
@@ -212,9 +239,14 @@ module Component
 				# walk_speed = 2.8 # m / s
 				animation.rate = speed / walk_speed
 				
-				if speed > 6.5
+				if speed > 6
+					# Totally out
+					animation.weight = 0.0
+				elsif speed > 5
+					# Transition
 					animation.weight = 0.0
 				else
+					# Totally in
 					animation.weight = 1.0
 				end
 			else
