@@ -559,109 +559,108 @@ module Component
 				puts state
 				
 				# Play animation based on current state
-				play
+				play(dt, speed)
 			end
 			
 			state_machine :state, :initial => :idling do
 				state :idling do
-					def play
+					def play(dt, speed)
 						@idle_animation.enable						
 					end
 				end
 				
 				state :crossfading_idle_walk do
-					def play
-						@idle_animation.disable
+					def play(dt, speed)
+						# Starting to walk
+						
+						
+						@idle_animation.enable
+						
+						@timers[:walk].update dt
+						
+						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
+						
+						easing = Oni::Animation::Ease.in_out_cubic(
+									@walk_animation.weight,
+									@timers[:walk].time,
+									b = 0.0,					# starting value of property
+									c = 1.0-b,					# change in value of property
+									@timers[:walk].duration		# duration of the tween
+								)
+						@idle_animation.weight = easing
+						@walk_animation.weight = 1.0 - easing
+						puts @walk_animation.weight
 					end
-					# Starting to walk
-					
-					
-					# idle.enable
-					
-					# @timers[:walk].update dt
-					
-					# # TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
-					
-					# easing = Oni::Animation::Ease.in_out_cubic(
-					# 			walk.weight,
-					# 			@timers[:walk].time,
-					# 			b = 0.0,					# starting value of property
-					# 			c = 1.0-b,					# change in value of property
-					# 			@timers[:walk].duration		# duration of the tween
-					# 		)
-					# idle.weight = easing
-					# walk.weight = 1.0 - easing
-					# puts walk.weight
 				end
 				
 				state :crossfading_walk_idle do
-					def play
-						# # Stopping walk and transitioning to standstill
-						# @idle_animation.enable
+					def play(dt, speed)
+						# Stopping walk and transitioning to standstill
+						@idle_animation.enable
 						
-						# @timers[:walk].update dt
+						@timers[:walk].update dt
 						
-						# # TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
+						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
 						
-						# easing = Oni::Animation::Ease.in_out_cubic(
-						# 			@walk_animation.weight,
-						# 			@timers[:walk].time,
-						# 			b = 0.0,					# starting value of property
-						# 			c = 1.0-b,					# change in value of property
-						# 			@timers[:walk].duration		# duration of the tween
-						# 		)
-						# @idle_animation.weight = easing
-						# @walk_animation.weight = 1.0 - easing
-						# puts @walk_animation.weight
+						easing = Oni::Animation::Ease.in_out_cubic(
+									@walk_animation.weight,
+									@timers[:walk].time,
+									b = 0.0,					# starting value of property
+									c = 1.0-b,					# change in value of property
+									@timers[:walk].duration		# duration of the tween
+								)
+						@idle_animation.weight = easing
+						@walk_animation.weight = 1.0 - easing
+						puts @walk_animation.weight
 					end
 				end
 				
 				state :walking do
-					def play
-						# @walk_animation.enable
+					def play(dt, speed)
+						@walk_animation.enable
 						
-						# @walk_animation.rate = speed / @walk_animation_speed
+						@walk_animation.rate = speed / @walk_speed
 						
-						# # thus, no run
-						# @run_animation.disable
-						# @run_animation.weight = 0.0
+						# thus, no run
+						@run_animation.disable
+						@run_animation.weight = 0.0
 						
-						# # and no idle
-						# @idle_animation.disable
+						# and no idle
+						@idle_animation.disable
 					end
 				end
 				
 				state :crossfading_walk_run do
-					def play
-						# # walk.rate = speed / @walk_speed
-						# # run.rate = walk.rate
+					def play(dt, speed)
+						# walk.rate = speed / @walk_speed
+						# run.rate = walk.rate
 						
-						# @run_animation.rate = speed / @run_speed
-						# @walk_animation.rate = run.rate
+						@run_animation.rate = speed / @run_speed
+						@walk_animation.rate = @run_animation.rate
 						
-						# easing = Oni::Animation::Ease.in_quad(
-						# 				@run_animation.weight, speed - @in_speed,
-						# 				@b,
-						# 				@c,
-						# 				@out_speed - @in_speed
-						# 			)
+						easing = Oni::Animation::Ease.in_quad(
+										@run_animation.weight, speed - @in_speed,
+										@b,
+										@c,
+										@out_speed - @in_speed
+									)
 						
-						# @run_animation.weight = easing
-						# @walk_animation.weight = 1.0 - easing
+						@run_animation.weight = easing
+						@walk_animation.weight = 1.0 - easing
 					end
 				end
 				
 				state :running do
-					def play
-						# @run_animation.enable
+					def play(dt, speed)
+						@run_animation.enable
 						
-						# # Full run
-						# @run_animation.weight = 1.0
-						# @run_animation.rate = speed / @run_speed
+						# Full run
+						@run_animation.weight = 1.0
+						@run_animation.rate = speed / @run_speed
 						
-						# # thus, no walk
-						# @walk_animation.disable
-						# @walk_animation.weight = 0.0
+						# thus, no walk
+						@walk_animation.disable
+						@walk_animation.weight = 0.0
 					end
 				end
 				
