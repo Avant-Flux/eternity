@@ -93,20 +93,11 @@ module Component
 			# animation.weight = 1.5
 			# Min influence
 			# animation.weight = 0.5
-			
 			# Range = 1.5 - 0.5 = 1.0
-			# animation.weight = @physics.body.v.length / 12 + 0.5
 			
 			speed = @physics.body.v.length
 			
-			
-			# blend_run_animation		dt, speed
-			# blend_walk_animation	dt, speed
-			# blend_idle_animation	dt, speed
-			
-			
 			# locomotion_blending(dt, speed)
-			
 			
 			@blender.update dt, speed
 			
@@ -311,205 +302,6 @@ module Component
 			end
 		end
 		
-		def blend_run_animation(dt, speed)
-			animation = @animation["run"]
-			
-			in_speed = 5
-			out_speed = 6
-			
-			b = 0.0				# starting value of property
-			c = 1.0-b			# change in value of property
-			
-			if speed > in_speed # Some degree of Run active
-				unless animation.enabled?
-					animation.enable
-					# Sync with walk playback
-					animation.time = @animation["walk"].time
-				end
-				
-				# Run
-				# Some amount of run is playing
-				
-				stride_length = 2.75		# in meters
-				stride_time = 48.frames		# in seconds
-				# walk_speed = stride_length / stride_time	# Walk rate at full speed 
-				run_speed = stride_length / animation.length * 2	# Run rate at full speed playback
-				
-				# run_speed = 2.8 # m / s
-				# animation.rate = speed / run_speed / 3.0
-				animation.rate = speed / run_speed
-				# animation.rate = 1.0
-				
-				
-				
-				if speed > out_speed
-					# Full on
-					animation.weight = 1.0
-				elsif speed > in_speed
-					# Some on
-					
-					influence = Oni::Animation::Ease.in_quad(
-											animation.weight, speed-in_speed,
-											b,
-											c,
-											out_speed - in_speed
-										)
-					animation.weight = influence
-				else
-					# Full off
-					animation.weight = 0.0
-				end
-			else
-				animation.disable
-			end
-		end
-		
-		def blend_walk_animation(dt, speed)
-			animation = @animation["walk"]
-			
-			in_speed = 5
-			out_speed = 6
-			
-			b = 0.0				# starting value of property
-			c = 1.0-b			# change in value of property
-			
-			if speed > MOVEMENT_THRESHOLD
-				# Walk state
-				@state = :walk
-				@timers[:walk].reset
-				animation.enable
-				
-				# Walk
-				# Some amount of walk is playing
-				
-				stride_length = 5.5/4			# in meters
-				# stride_time = 48.frames		# in seconds
-				# walk_speed = stride_length / stride_time	# Walk rate at full speed 
-				walk_speed = stride_length / animation.length * 2	# Walk rate at full speed playback
-				
-				# walk_speed = 2.8 # m / s
-				animation.rate = speed / walk_speed
-				
-				if speed > out_speed
-					# Totally out
-					animation.weight = 0.0
-				elsif speed > in_speed
-					# Transition
-					influence = 1.0-Oni::Animation::Ease.in_quad(
-											animation.weight, speed-in_speed,
-											b,
-											c,
-											out_speed - in_speed
-										)
-					animation.weight = influence
-					
-					
-					
-					
-					# Sync speed with Run speed
-					stride_length = 2.75		# in meters
-					stride_time = 48.frames		# in seconds
-					# walk_speed = stride_length / stride_time	# Walk rate at full speed 
-					run_speed = stride_length / animation.length * 2	# Run rate at full speed playback
-					
-					# run_speed = 2.8 # m / s
-					# animation.rate = speed / run_speed / 3.0
-					animation.rate = speed / run_speed
-				else
-					# Totally in
-					animation.weight = 1.0
-				end
-			else
-				# Blend out
-				# animation.weight = Oni::Animation::ease_in(x, t, b,c,d)
-				# a = 0.01 # lower bound
-				# b = 0.65 # upper bound
-				# Normalize
-				# x = (speed-a)/(b-a)
-				
-				# # Fade in
-				# animation.weight = (animation.weight + dt * rate).clamp 0, 1
-				
-				# Fade out
-				# animation.weight = (animation.weight - dt * rate).clamp 0, 1
-				
-				# TODO: POLISH - Need first step and walk to neutral
-				# fade_in = 1
-				# fade_out = -1
-				# fade_type = fade_out
-				
-				# rate = 5.0 # weight per second
-				# # rate = 1.0
-				# animation.weight += fade_type * dt * rate
-				
-				
-				# Start timer if the animation is playing
-				# One time transition to new state
-				if animation.enabled?
-					# Time varies from 0 to d
-					@state = :walk_out
-				end
-				
-				# Blend while the timer is active
-				# Blend-out state
-				if @state == :walk_out
-					@timers[:walk].update dt
-					
-					# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
-					b = 0.0							# starting value of property
-					c = 1.0-b						# change in value of property
-					d = @timers[:walk].duration		# duration of the tween
-					
-					animation.weight = 1.0 - Oni::Animation::Ease.out_cubic(
-												animation.weight, @timers[:walk].time, b,c,d
-											)
-					puts animation.weight
-					
-					if @timers[:walk].ended?
-						# Tween is done
-						# Transition to Idle state
-						@state = :idle
-						
-						@timers[:walk].reset
-						
-						animation.weight = 1.0
-						animation.disable
-						puts "OFF"
-					end
-				end
-				
-				# animation.timer end_time, dt, do |time|
-				# 	# Block to set properties according
-				# 	animation.weight = 1.0 - Tween::Cubic::In.ease(time, 0.0,1.0,d)
-				# end
-				
-				# # Stop fading
-				# animation.cance_fade
-				# animation.cancel_fade_out
-				# animation.cance_fade_in
-				
-				# animation.tween :weight, 5.frames do |normalized|
-				# 	# value at the end of the block is the new influence
-				# 	normalized
-				# end
-			end
-		end
-		
-		def blend_idle_animation(dt, speed)
-			animation = @animation["idle"]
-			
-			if speed <= MOVEMENT_THRESHOLD
-				animation.enable
-				
-				# Idle
-				# Must be in this state
-				
-				# @animation["walk"].
-			else
-				animation.disable
-			end
-		end
-		
 		class LocomotionBlender
 			attr_reader :idle_animation, :walk_animation, :run_animation
 			attr_reader :timers
@@ -540,6 +332,10 @@ module Component
 				# walk_stride_time = 48.frames		# in seconds
 				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed 
 			end
+			
+			# TODO: Clean up code
+			# TODO: Sync the feet
+			# TODO: Generalize to n-way crossfader
 			
 			def update(dt, speed)
 				# puts state
@@ -572,6 +368,8 @@ module Component
 				play(dt, speed)
 			end
 			
+			# TODO: POLISH - Need first step and walk to neutral
+			
 			state_machine :state, :initial => :idling do
 				state :idling do
 					def play(dt, speed)
@@ -594,6 +392,7 @@ module Component
 						
 						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
 						
+						# Crossfade animations
 						easing = Oni::Animation::Ease.in_out_cubic(
 									@walk_animation.weight,
 									@timers[:walk].time,
@@ -604,6 +403,7 @@ module Component
 						@idle_animation.weight = easing
 						@walk_animation.weight = 1.0 - easing
 						
+						# Clamp values
 						@idle_animation.weight = @idle_animation.weight.clamp(0.0, 1.0)
 						@walk_animation.weight = @walk_animation.weight.clamp(0.0, 1.0)
 						
@@ -635,9 +435,11 @@ module Component
 						# walk.rate = speed / @walk_speed
 						# run.rate = walk.rate
 						
+						# Sync locomotion rates so blending works correctly
 						@run_animation.rate = speed / @run_speed
 						@walk_animation.rate = @run_animation.rate
 						
+						# Crossfade animations
 						easing = Oni::Animation::Ease.in_quad(
 										@run_animation.weight, speed - @in_speed,
 										@b,
