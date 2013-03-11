@@ -61,6 +61,12 @@ module Component
 			@jump_velocity = opts[:jump_velocity]
 			@jump_count = 0
 			@jump_limit = opts[:jump_limit]
+			
+			
+			
+			@blender = LocomotionBlender.new	@animation["idle"], 
+												@animation["walk"],
+												@animation["run"]
 		end
 		
 		def update(dt)
@@ -89,7 +95,85 @@ module Component
 			# blend_idle_animation	dt, speed
 			
 			
+			# locomotion_blending(dt, speed)
 			
+			
+			@blender.update dt, speed
+			
+			
+			
+			# p speed
+		end
+		
+		def move(direction, type)
+			#~ puts direction
+			
+			vec = case direction
+				when :up
+					CP::Vec2.new(0,1)
+				when :down
+					CP::Vec2.new(0,-1)
+				when :left
+					CP::Vec2.new(-1,0)
+				when :right
+					CP::Vec2.new(1,0)
+				when :up_right
+					CP::Vec2.new(1,1).normalize!
+				when :up_left
+					CP::Vec2.new(-1,1).normalize!
+				when :down_right
+					CP::Vec2.new(1,-1).normalize!
+				when :down_left
+					CP::Vec2.new(-1,-1).normalize!
+
+			end
+			
+			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
+			
+			vec *= move_force
+			
+			# Reduce forces considerably if the Entity is in the air
+			# TODO: Implement air dash
+			if @physics.body.in_air?
+				vec *= @air_force_control
+			end
+			
+			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
+			if @physics.body.v.length > @max_movement_speed
+				@physics.body.v = @physics.body.v.clamp @max_movement_speed
+			else
+				@physics.body.apply_force vec, CP::ZERO_VEC_2
+			end
+		end
+		
+		def jump
+			if @jump_count < @jump_limit #Do not exceed the jump count.
+				@jump_count += 1
+				@physics.body.vz = @jump_velocity #On jump, set the velocity in the z direction
+			end
+		end
+		
+		def reset_jump
+			@jump_count = 0
+		end
+		
+		def move_force
+			speed = @physics.body.v.length
+			
+			if speed > 9
+				710 # Counteract friction
+			elsif speed > 7
+				1200
+			elsif speed > 3
+				1000
+			else
+				1700
+			end
+		end
+		
+		private
+		
+		def locomotion_blending(dt, speed)
 			run = @animation["run"]
 			walk = @animation["walk"]
 			idle = @animation["idle"]
@@ -215,77 +299,7 @@ module Component
 					idle.enable
 				end
 			end
-			
-			# p speed
 		end
-		
-		def move(direction, type)
-			#~ puts direction
-			
-			vec = case direction
-				when :up
-					CP::Vec2.new(0,1)
-				when :down
-					CP::Vec2.new(0,-1)
-				when :left
-					CP::Vec2.new(-1,0)
-				when :right
-					CP::Vec2.new(1,0)
-				when :up_right
-					CP::Vec2.new(1,1).normalize!
-				when :up_left
-					CP::Vec2.new(-1,1).normalize!
-				when :down_right
-					CP::Vec2.new(1,-1).normalize!
-				when :down_left
-					CP::Vec2.new(-1,-1).normalize!
-
-			end
-			
-			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
-			
-			vec *= move_force
-			
-			# Reduce forces considerably if the Entity is in the air
-			# TODO: Implement air dash
-			if @physics.body.in_air?
-				vec *= @air_force_control
-			end
-			
-			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
-			if @physics.body.v.length > @max_movement_speed
-				@physics.body.v = @physics.body.v.clamp @max_movement_speed
-			else
-				@physics.body.apply_force vec, CP::ZERO_VEC_2
-			end
-		end
-		
-		def jump
-			if @jump_count < @jump_limit #Do not exceed the jump count.
-				@jump_count += 1
-				@physics.body.vz = @jump_velocity #On jump, set the velocity in the z direction
-			end
-		end
-		
-		def reset_jump
-			@jump_count = 0
-		end
-		
-		def move_force
-			speed = @physics.body.v.length
-			
-			if speed > 9
-				710 # Counteract friction
-			elsif speed > 7
-				1200
-			elsif speed > 3
-				1000
-			else
-				1700
-			end
-		end
-		
-		private
 		
 		def blend_run_animation(dt, speed)
 			animation = @animation["run"]
@@ -486,7 +500,232 @@ module Component
 			end
 		end
 		
-		private
+		class LocomotionBlender
+			attr_reader :idle_animation, :walk_animation, :run_animation
+			attr_reader :timers
+			
+			MOVEMENT_THRESHOLD = 0.01
+			
+			def initialize(idle, walk, run)
+				super()
+				
+				@idle_animation = idle
+				@walk_animation = walk
+				@run_animation = run
+				
+				@timers = {
+					:walk => Timer.new(0.68)
+				}
+				
+				
+				@in_speed = 4
+				@out_speed = 6
+				
+				@b = 0.0				# starting value of property
+				@c = 1.0-@b			# change in value of property
+				
+				run_stride_length = 2.75		# in meters
+				# run_stride_time = 48.frames		# in seconds
+				@run_speed = run_stride_length / @run_animation.length * 2	# Run rate at full speed playback
+				
+				walk_stride_length = 5.5/4		# in meters
+				# walk_stride_time = 48.frames		# in seconds
+				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed 
+				
+			end
+			
+			def update(dt, speed)
+				# puts state
+				
+				# Handle state transitions
+				if speed >= @out_speed
+					puts "transition to RUN"
+					run
+				elsif speed > @in_speed
+					puts "transition to walk/run blend"
+					walk_to_run
+				elsif speed > MOVEMENT_THRESHOLD + 1.5
+					puts "transition to walk"
+					walk
+				elsif speed > MOVEMENT_THRESHOLD
+					puts "blending idle and walk"
+					# Only one of these should fire, determined by the state machine
+					# walk_to_idle
+					idle_to_walk
+				else
+					idle
+				end
+				
+				puts state
+				
+				# Play animation based on current state
+				play
+			end
+			
+			state_machine :state, :initial => :idling do
+				state :idling do
+					def play
+						@idle_animation.enable						
+					end
+				end
+				
+				state :crossfading_idle_walk do
+					def play
+						@idle_animation.disable
+					end
+					# Starting to walk
+					
+					
+					# idle.enable
+					
+					# @timers[:walk].update dt
+					
+					# # TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
+					
+					# easing = Oni::Animation::Ease.in_out_cubic(
+					# 			walk.weight,
+					# 			@timers[:walk].time,
+					# 			b = 0.0,					# starting value of property
+					# 			c = 1.0-b,					# change in value of property
+					# 			@timers[:walk].duration		# duration of the tween
+					# 		)
+					# idle.weight = easing
+					# walk.weight = 1.0 - easing
+					# puts walk.weight
+				end
+				
+				state :crossfading_walk_idle do
+					def play
+						# # Stopping walk and transitioning to standstill
+						# @idle_animation.enable
+						
+						# @timers[:walk].update dt
+						
+						# # TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
+						
+						# easing = Oni::Animation::Ease.in_out_cubic(
+						# 			@walk_animation.weight,
+						# 			@timers[:walk].time,
+						# 			b = 0.0,					# starting value of property
+						# 			c = 1.0-b,					# change in value of property
+						# 			@timers[:walk].duration		# duration of the tween
+						# 		)
+						# @idle_animation.weight = easing
+						# @walk_animation.weight = 1.0 - easing
+						# puts @walk_animation.weight
+					end
+				end
+				
+				state :walking do
+					def play
+						# @walk_animation.enable
+						
+						# @walk_animation.rate = speed / @walk_animation_speed
+						
+						# # thus, no run
+						# @run_animation.disable
+						# @run_animation.weight = 0.0
+						
+						# # and no idle
+						# @idle_animation.disable
+					end
+				end
+				
+				state :crossfading_walk_run do
+					def play
+						# # walk.rate = speed / @walk_speed
+						# # run.rate = walk.rate
+						
+						# @run_animation.rate = speed / @run_speed
+						# @walk_animation.rate = run.rate
+						
+						# easing = Oni::Animation::Ease.in_quad(
+						# 				@run_animation.weight, speed - @in_speed,
+						# 				@b,
+						# 				@c,
+						# 				@out_speed - @in_speed
+						# 			)
+						
+						# @run_animation.weight = easing
+						# @walk_animation.weight = 1.0 - easing
+					end
+				end
+				
+				state :running do
+					def play
+						# @run_animation.enable
+						
+						# # Full run
+						# @run_animation.weight = 1.0
+						# @run_animation.rate = speed / @run_speed
+						
+						# # thus, no walk
+						# @walk_animation.disable
+						# @walk_animation.weight = 0.0
+					end
+				end
+				
+				
+				
+				
+				before_transition any => :crossfading_idle_walk do |blender|
+					blender.timers[:walk].reset # Timer tracks time left in crossfade from walk to idle
+				end
+				
+				# TODO: Perhaps use before_transition here? Not sure what the difference is
+				after_transition :crossfading_idle_walk => :idling do |blender|
+					# Tween is done
+					# Transition to Idle state
+					
+					blender.walk_animation.weight = 1.0
+					blender.walk_animation.disable
+					puts "OFF"
+				end
+				
+				before_transition :crossfading_idle_walk => :walking do |blender|
+					# On transition to walking
+					blender.walk_animation.enable
+					blender.walk_animation.weight = 1.0
+					
+					blender.walk_animation.time = 0
+				end
+				
+				before_transition :walking => :crossfading_walk_run do |blender|
+					# ===== Transition into run
+					blender.run_animation.enable
+					# Sync with walk playback
+					# walk.time = run.time
+					blender.run_animation.time = blender.walk_animation.time
+				end
+				
+				
+				
+				
+				event :idle do
+					transition [:crossfading_walk_idle, :crossfading_idle_walk] => :idling
+				end
+				
+				event :idle_to_walk do
+					transition :idling => :crossfading_idle_walk
+				end
+				
+				event :walk_to_idle do
+					transition :walking => :crossfading_walk_idle
+				end
+				
+				event :walk do
+					transition :crossfading_idle_walk => :walking
+				end
+				
+				event :walk_to_run do
+					transition :walking => :crossfading_walk_run
+				end
+				
+				event :run do
+					transition :crossfading_walk_run => :running
+				end
+			end
+		end
 		
 		class Timer
 			attr_reader :duration, :time
