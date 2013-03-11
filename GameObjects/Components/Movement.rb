@@ -154,10 +154,12 @@ module Component
 		def move_force
 			speed = @physics.body.v.length
 			
-			if speed > 12
+			if speed > 8
 				710 # Counteract friction
 			elsif speed > 5
-				800
+				900
+			elsif speed > 3
+				1200
 			else
 				1400
 			end
