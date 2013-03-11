@@ -539,24 +539,26 @@ module Component
 				
 				# Handle state transitions
 				if speed >= @out_speed
-					puts "transition to RUN"
 					run
 				elsif speed > @in_speed
-					puts "transition to walk/run blend"
 					walk_to_run
+					run_to_walk
 				elsif speed > MOVEMENT_THRESHOLD + 1.5
-					puts "transition to walk"
 					walk
 				elsif speed > MOVEMENT_THRESHOLD
-					puts "blending idle and walk"
 					# Only one of these should fire, determined by the state machine
-					# walk_to_idle
+					walk_to_idle
 					idle_to_walk
 				else
 					idle
 				end
 				
-				puts state
+				# puts state
+				puts "===== #{state}"
+				puts "idle: #{@idle_animation.enabled?}"
+				puts "walk: #{@walk_animation.enabled?}"
+				puts "run: #{@run_animation.enabled?}"
+				puts "=========="
 				
 				# Play animation based on current state
 				play(dt, speed)
@@ -565,16 +567,18 @@ module Component
 			state_machine :state, :initial => :idling do
 				state :idling do
 					def play(dt, speed)
-						@idle_animation.enable						
+						@idle_animation.enable
+						@walk_animation.disable
+						@run_animation.disable
 					end
 				end
 				
 				state :crossfading_idle_walk do
 					def play(dt, speed)
 						# Starting to walk
-						
-						
 						@idle_animation.enable
+						@walk_animation.enable
+						@run_animation.disable
 						
 						@timers[:walk].update dt
 						
@@ -597,6 +601,8 @@ module Component
 					def play(dt, speed)
 						# Stopping walk and transitioning to standstill
 						@idle_animation.enable
+						@walk_animation.enable
+						@run_animation.disable
 						
 						@timers[:walk].update dt
 						
@@ -617,21 +623,26 @@ module Component
 				
 				state :walking do
 					def play(dt, speed)
+						@idle_animation.disable
 						@walk_animation.enable
+						@run_animation.disable
+						
 						
 						@walk_animation.rate = speed / @walk_speed
 						
 						# thus, no run
-						@run_animation.disable
 						@run_animation.weight = 0.0
 						
 						# and no idle
-						@idle_animation.disable
 					end
 				end
 				
 				state :crossfading_walk_run do
 					def play(dt, speed)
+						@idle_animation.disable
+						@walk_animation.enable
+						@run_animation.enable
+						
 						# walk.rate = speed / @walk_speed
 						# run.rate = walk.rate
 						
@@ -652,50 +663,84 @@ module Component
 				
 				state :running do
 					def play(dt, speed)
+						@idle_animation.disable
+						@walk_animation.disable
 						@run_animation.enable
 						
 						# Full run
-						@run_animation.weight = 1.0
 						@run_animation.rate = speed / @run_speed
 						
 						# thus, no walk
-						@walk_animation.disable
-						@walk_animation.weight = 0.0
 					end
 				end
 				
 				
 				
-				
-				before_transition any => :crossfading_idle_walk do |blender|
-					blender.timers[:walk].reset # Timer tracks time left in crossfade from walk to idle
-				end
-				
-				# TODO: Perhaps use before_transition here? Not sure what the difference is
-				after_transition :crossfading_idle_walk => :idling do |blender|
-					# Tween is done
-					# Transition to Idle state
+				# before_transition any => :idling do |blender|
+				# 	blender.idle_animation.enable
 					
-					blender.walk_animation.weight = 1.0
-					blender.walk_animation.disable
-					puts "OFF"
-				end
+				# 	blender.walk_animation.disable
+				# 	blender.run_animation.disable
+				# end
 				
-				before_transition :crossfading_idle_walk => :walking do |blender|
-					# On transition to walking
-					blender.walk_animation.enable
-					blender.walk_animation.weight = 1.0
+				
+				# before_transition any => :walking do |blender|
+				# 	blender.walk_animation.enable
 					
-					blender.walk_animation.time = 0
-				end
+				# 	blender.run_animation.disable
+				# 	blender.idle_animation.disable
+				# end
 				
-				before_transition :walking => :crossfading_walk_run do |blender|
-					# ===== Transition into run
-					blender.run_animation.enable
-					# Sync with walk playback
-					# walk.time = run.time
-					blender.run_animation.time = blender.walk_animation.time
-				end
+				# before_transition any => :crossfading_idle_walk do |blender|
+				# 	blender.timers[:walk].reset # Timer tracks time left in crossfade from walk to idle
+				# end
+				
+				# # TODO: Perhaps use before_transition here? Not sure what the difference is
+				# after_transition :crossfading_idle_walk => :idling do |blender|
+				# 	# Tween is done
+				# 	# Transition to Idle state
+					
+				# 	blender.walk_animation.weight = 1.0
+				# 	blender.walk_animation.disable
+				# 	puts "OFF"
+				# end
+				
+				# before_transition :crossfading_idle_walk => :walking do |blender|
+				# 	# On transition to walking
+				# 	blender.walk_animation.enable
+				# 	blender.walk_animation.weight = 1.0
+					
+				# 	blender.walk_animation.time = 0
+				# end
+				
+				# before_transition :walking => :crossfading_walk_run do |blender|
+				# 	# ===== Transition into run
+				# 	blender.run_animation.enable
+				# 	# Sync with walk playback
+				# 	# walk.time = run.time
+				# 	blender.run_animation.time = blender.walk_animation.time
+				# end
+				
+				# after_transition :crossfading_walk_run => :walking do |blender|
+				# 	# On transition to walking
+				# 	blender.run_animation.disable
+					
+				# 	blender.walk_animation.enable
+				# 	blender.walk_animation.weight = 1.0
+					
+				# 	blender.walk_animation.time = 0
+				# end
+				
+				# after_transition :crossfading_walk_run => :running do |blender|
+				# 	# On transition to running
+				# 	blender.run_animation.enable
+				# 	blender.run_animation.weight = 1.0
+					
+				# 	blender.walk_animation.disable
+				# 	blender.walk_animation.weight = 0.0
+					
+				# 	blender.walk_animation.time = 0
+				# end
 				
 				
 				
@@ -713,11 +758,15 @@ module Component
 				end
 				
 				event :walk do
-					transition :crossfading_idle_walk => :walking
+					transition [:crossfading_idle_walk, :crossfading_walk_run] => :walking
 				end
 				
 				event :walk_to_run do
 					transition :walking => :crossfading_walk_run
+				end
+				
+				event :run_to_walk do
+					transition :running => :crossfading_walk_run
 				end
 				
 				event :run do
