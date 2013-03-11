@@ -92,6 +92,8 @@ module Component
 			blend_walk_animation	dt, speed
 			blend_idle_animation	dt, speed
 			
+			p speed
+			
 			# @idle.update dt, speed
 			# @walk.update dt, speed
 			# @run.update dt, speed
@@ -122,12 +124,7 @@ module Component
 			
 			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
 			
-			vec *= case type
-				when :walk
-					@walk_force
-				when :run
-					@run_force
-			end
+			vec *= move_force
 			
 			# Reduce forces considerably if the Entity is in the air
 			# TODO: Implement air dash
@@ -152,6 +149,18 @@ module Component
 		
 		def reset_jump
 			@jump_count = 0
+		end
+		
+		def move_force
+			speed = @physics.body.v.length
+			
+			if speed > 12
+				710 # Counteract friction
+			elsif speed > 5
+				710
+			else
+				1400
+			end
 		end
 		
 		private
