@@ -183,17 +183,21 @@ module Component
 				# Blend while the timer is active
 				# Blend-out state
 				if @state == :walk_out
+					idle.enable
+					
 					@timers[:walk].update dt
 					
 					# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
-					b = 0.0							# starting value of property
-					c = 1.0-b						# change in value of property
-					d = @timers[:walk].duration		# duration of the tween
 					
-					idle.enable
-					walk.weight = 1.0 - Oni::Animation::Ease.in_out_cubic(
-												walk.weight, @timers[:walk].time, b,c,d
-											)
+					easing = Oni::Animation::Ease.in_out_cubic(
+								walk.weight,
+								@timers[:walk].time,
+								b = 0.0,					# starting value of property
+								c = 1.0-b,					# change in value of property
+								@timers[:walk].duration		# duration of the tween
+							)
+					idle.weight = easing
+					walk.weight = 1.0 - easing
 					puts walk.weight
 					
 					if @timers[:walk].ended?
@@ -212,17 +216,7 @@ module Component
 				end
 			end
 			
-			
-			
-			
-			
-			
-			
 			# p speed
-			
-			# @idle.update dt, speed
-			# @walk.update dt, speed
-			# @run.update dt, speed
 		end
 		
 		def move(direction, type)
