@@ -96,14 +96,12 @@ module Component
 			# Range = 1.5 - 0.5 = 1.0
 			
 			speed = @physics.body.v.length
+			# p speed
 			
 			# locomotion_blending(dt, speed)
 			
 			@blender.update dt, speed
 			
-			
-			
-			# p speed
 		end
 		
 		def move(direction, type)
@@ -318,7 +316,7 @@ module Component
 				}
 				
 				
-				@in_speed = 5
+				@in_speed = 4
 				@out_speed = 6
 				
 				@b = 0.0				# starting value of property
@@ -365,7 +363,7 @@ module Component
 				puts "=========="
 				
 				# Play animation based on current state
-				play(dt, speed)
+				play dt, speed
 			end
 			
 			# TODO: POLISH - Need first step and walk to neutral
@@ -422,7 +420,7 @@ module Component
 						@walk_animation.weight = 1.0
 						# @run_animation.weight = 0.0
 						
-						@walk_animation.rate = speed / @walk_speed						
+						@walk_animation.rate = speed / @walk_speed			
 					end
 				end
 				
@@ -432,8 +430,8 @@ module Component
 						@walk_animation.enable
 						@run_animation.enable
 						
-						# walk.rate = speed / @walk_speed
-						# run.rate = walk.rate
+						# @walk_animation.rate = speed / @walk_speed
+						# @run_animation.rate = @walk_animation.rate
 						
 						# Sync locomotion rates so blending works correctly
 						@run_animation.rate = speed / @run_speed
@@ -449,6 +447,35 @@ module Component
 						
 						@run_animation.weight = easing
 						@walk_animation.weight = 1.0 - easing
+					end
+				end
+				
+				state :crossfading_run_walk do
+					def play(dt, speed)
+						@idle_animation.disable
+						@walk_animation.enable
+						@run_animation.enable
+						
+						@walk_animation.rate = speed / @walk_speed
+						@run_animation.rate = @walk_animation.rate
+						
+						# Sync locomotion rates so blending works correctly
+						# @run_animation.rate = speed / @run_speed
+						# @walk_animation.rate = @run_animation.rate
+						
+						# Crossfade animations
+						easing = Oni::Animation::Ease.in_quad(
+										@run_animation.weight, speed - @in_speed,
+										@b,
+										@c,
+										@out_speed - @in_speed
+									)
+						
+						@run_animation.weight =  easing
+						@walk_animation.weight = 1.0 - easing
+						
+						@idle_animation.weight = @idle_animation.weight.clamp(0.0, 1.0)
+						@walk_animation.weight = @walk_animation.weight.clamp(0.0, 1.0)
 					end
 				end
 				
@@ -473,69 +500,29 @@ module Component
 				# 	blender.run_animation.disable
 				# end
 				
-				
-				# before_transition any => :walking do |blender|
-				# 	blender.walk_animation.enable
-					
-				# 	blender.run_animation.disable
-				# 	blender.idle_animation.disable
-				# end
-				
 				before_transition any => :crossfading_idle_walk do |blender|
 					# Timer tracks time left in crossfade from walk to idle
 					blender.timers[:walk].reset
 				end
 				
-				# # TODO: Perhaps use before_transition here? Not sure what the difference is
-				# after_transition :crossfading_idle_walk => :idling do |blender|
-				# 	# Tween is done
-				# 	# Transition to Idle state
-					
-				# 	blender.walk_animation.weight = 1.0
-				# 	blender.walk_animation.disable
-				# 	puts "OFF"
-				# end
+				before_transition :walking => :crossfading_walk_run do |blender|
+					# ===== Transition into run
+					blender.run_animation.enable
+					# Sync walk and run playback
+					# Currently walking, that should drive the blend
+					blender.run_animation.time = blender.walk_animation.time
+				end
 				
-				# before_transition :crossfading_idle_walk => :walking do |blender|
-				# 	# On transition to walking
-				# 	blender.walk_animation.enable
-				# 	blender.walk_animation.weight = 1.0
-					
-				# 	blender.walk_animation.time = 0
-				# end
-				
-				# before_transition :walking => :crossfading_walk_run do |blender|
-				# 	# ===== Transition into run
-				# 	blender.run_animation.enable
-				# 	# Sync with walk playback
-				# 	# walk.time = run.time
-				# 	blender.run_animation.time = blender.walk_animation.time
-				# end
-				
-				# after_transition :crossfading_walk_run => :walking do |blender|
-				# 	# On transition to walking
-				# 	blender.run_animation.disable
-					
-				# 	blender.walk_animation.enable
-				# 	blender.walk_animation.weight = 1.0
-					
-				# 	blender.walk_animation.time = 0
-				# end
-				
-				# after_transition :crossfading_walk_run => :running do |blender|
-				# 	# On transition to running
-				# 	blender.run_animation.enable
-				# 	blender.run_animation.weight = 1.0
-					
-				# 	blender.walk_animation.disable
-				# 	blender.walk_animation.weight = 0.0
-					
-				# 	blender.walk_animation.time = 0
-				# end
+				before_transition :running => :crossfading_run_walk do |blender|
+					blender.walk_animation.enable
+					# Sync walk and run playback
+					# Currently running, that should drive the blend
+					blender.walk_animation.time = blender.run_animation.time
+				end
 				
 				
 				
-				
+				# TODO: Need to be able to transition back to idle on sudden stop - ie hitting wall
 				event :idle do
 					transition :crossfading_idle_walk => :idling
 				end
@@ -549,7 +536,7 @@ module Component
 				end
 				
 				event :walk do
-					transition [:crossfading_idle_walk, :crossfading_walk_run] => :walking
+					transition [:crossfading_idle_walk, :crossfading_walk_run, :crossfading_run_walk] => :walking
 				end
 				
 				event :walk_to_run do
@@ -557,11 +544,11 @@ module Component
 				end
 				
 				event :run_to_walk do
-					transition :running => :crossfading_walk_run
+					transition :running => :crossfading_run_walk
 				end
 				
 				event :run do
-					transition :crossfading_walk_run => :running
+					transition [:crossfading_walk_run, :crossfading_run_walk] => :running
 				end
 			end
 		end
