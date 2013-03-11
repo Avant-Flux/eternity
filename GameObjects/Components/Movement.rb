@@ -171,15 +171,17 @@ module Component
 			animation = @animation["run"]
 			
 			in_speed = 5
-			out_speed = 6.5
+			out_speed = 6
 			
 			b = 0.0				# starting value of property
 			c = 1.0-b			# change in value of property
 			
 			if speed > in_speed # Some degree of Run active
-				animation.enable
-				# # Sync with walk playback
-				# animation.time = @animation["walk"].time
+				unless animation.enabled?
+					animation.enable
+					# # Sync with walk playback
+					animation.time = @animation["walk"].time
+				end
 				
 				# Run
 				# Some amount of run is playing
