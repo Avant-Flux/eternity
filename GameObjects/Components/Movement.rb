@@ -160,7 +160,8 @@ module Component
 			speed = @physics.body.v.length
 			
 			if speed > 9
-				710 # Counteract friction
+				# 710 # Counteract friction
+				720
 			elsif speed > 7
 				1200
 			elsif speed > 3
