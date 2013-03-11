@@ -173,8 +173,8 @@ module Component
 			in_speed = 5
 			out_speed = 6.5
 			
-			b = 0.0							# starting value of property
-			c = 1.0-b						# change in value of property
+			b = 0.0				# starting value of property
+			c = 1.0-b			# change in value of property
 			
 			if speed > in_speed # Some degree of Run active
 				animation.enable
@@ -208,7 +208,6 @@ module Component
 											c,
 											out_speed - in_speed
 										)
-					influence = 0.0 if influence < 0.0
 					animation.weight = influence
 				else
 					# Full off
@@ -221,6 +220,12 @@ module Component
 		
 		def blend_walk_animation(dt, speed)
 			animation = @animation["walk"]
+			
+			in_speed = 5
+			out_speed = 6
+			
+			b = 0.0				# starting value of property
+			c = 1.0-b			# change in value of property
 			
 			if speed > MOVEMENT_THRESHOLD
 				# Walk state
@@ -239,12 +244,18 @@ module Component
 				# walk_speed = 2.8 # m / s
 				animation.rate = speed / walk_speed
 				
-				if speed > 6
+				if speed > out_speed
 					# Totally out
 					animation.weight = 0.0
-				elsif speed > 5
+				elsif speed > in_speed
 					# Transition
-					animation.weight = 0.0
+					influence = 1.0-Oni::Animation::Ease.in_quad(
+											animation.weight, speed-in_speed,
+											b,
+											c,
+											out_speed - in_speed
+										)
+					animation.weight = influence
 				else
 					# Totally in
 					animation.weight = 1.0
