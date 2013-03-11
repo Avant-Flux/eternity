@@ -504,8 +504,6 @@ module Component
 			attr_reader :idle_animation, :walk_animation, :run_animation
 			attr_reader :timers
 			
-			MOVEMENT_THRESHOLD = 0.01
-			
 			def initialize(idle, walk, run)
 				super()
 				
@@ -531,14 +529,13 @@ module Component
 				walk_stride_length = 5.5/4		# in meters
 				# walk_stride_time = 48.frames		# in seconds
 				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed 
-				
 			end
 			
 			def update(dt, speed)
 				# puts state
 				
 				# Handle state transitions
-				if speed >= @out_speed
+				if speed > @out_speed
 					run
 				elsif speed > @in_speed
 					walk_to_run
@@ -550,7 +547,8 @@ module Component
 					walk_to_idle
 					idle_to_walk
 				else
-					idle
+					# transition to idle if walk is done blending out
+					idle if @walk_animation.weight == 0.0
 				end
 				
 				# puts state
@@ -570,6 +568,8 @@ module Component
 						@idle_animation.enable
 						@walk_animation.disable
 						@run_animation.disable
+						
+						@idle_animation.weight = 1.0
 					end
 				end
 				
@@ -593,30 +593,10 @@ module Component
 								)
 						@idle_animation.weight = easing
 						@walk_animation.weight = 1.0 - easing
-						puts @walk_animation.weight
-					end
-				end
-				
-				state :crossfading_walk_idle do
-					def play(dt, speed)
-						# Stopping walk and transitioning to standstill
-						@idle_animation.enable
-						@walk_animation.enable
-						@run_animation.disable
 						
-						@timers[:walk].update dt
+						@idle_animation.weight = 1.0 if @idle_animation.weight > 1.0
+						@walk_animation.weight = 0.0 if @walk_animation.weight < 0.0
 						
-						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
-						
-						easing = Oni::Animation::Ease.in_out_cubic(
-									@walk_animation.weight,
-									@timers[:walk].time,
-									b = 0.0,					# starting value of property
-									c = 1.0-b,					# change in value of property
-									@timers[:walk].duration		# duration of the tween
-								)
-						@idle_animation.weight = easing
-						@walk_animation.weight = 1.0 - easing
 						puts @walk_animation.weight
 					end
 				end
@@ -627,13 +607,10 @@ module Component
 						@walk_animation.enable
 						@run_animation.disable
 						
+						@walk_animation.weight = 1.0
+						# @run_animation.weight = 0.0
 						
-						@walk_animation.rate = speed / @walk_speed
-						
-						# thus, no run
-						@run_animation.weight = 0.0
-						
-						# and no idle
+						@walk_animation.rate = speed / @walk_speed						
 					end
 				end
 				
@@ -667,10 +644,9 @@ module Component
 						@walk_animation.disable
 						@run_animation.enable
 						
-						# Full run
-						@run_animation.rate = speed / @run_speed
+						@run_animation.weight = 1.0
 						
-						# thus, no walk
+						@run_animation.rate = speed / @run_speed
 					end
 				end
 				
@@ -746,7 +722,7 @@ module Component
 				
 				
 				event :idle do
-					transition [:crossfading_walk_idle, :crossfading_idle_walk] => :idling
+					transition :crossfading_idle_walk => :idling
 				end
 				
 				event :idle_to_walk do
@@ -754,7 +730,7 @@ module Component
 				end
 				
 				event :walk_to_idle do
-					transition :walking => :crossfading_walk_idle
+					transition :walking => :crossfading_idle_walk
 				end
 				
 				event :walk do
