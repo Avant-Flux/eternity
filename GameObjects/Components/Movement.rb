@@ -10,6 +10,16 @@ class Numeric
 	def hz
 		return 1.0/self
 	end
+	
+	def clamp(min, max)
+		if self < min
+		  return min
+		elsif max < self
+		  return max
+		else
+		 	return self
+		end
+	end
 end
 
 module Component
@@ -516,7 +526,7 @@ module Component
 				}
 				
 				
-				@in_speed = 4
+				@in_speed = 5
 				@out_speed = 6
 				
 				@b = 0.0				# starting value of property
@@ -548,7 +558,7 @@ module Component
 					idle_to_walk
 				else
 					# transition to idle if walk is done blending out
-					idle if @walk_animation.weight == 0.0
+					idle unless @walk_animation.enabled?
 				end
 				
 				# puts state
@@ -594,10 +604,12 @@ module Component
 						@idle_animation.weight = easing
 						@walk_animation.weight = 1.0 - easing
 						
-						@idle_animation.weight = 1.0 if @idle_animation.weight > 1.0
-						@walk_animation.weight = 0.0 if @walk_animation.weight < 0.0
+						@idle_animation.weight = @idle_animation.weight.clamp(0.0, 1.0)
+						@walk_animation.weight = @walk_animation.weight.clamp(0.0, 1.0)
 						
 						puts @walk_animation.weight
+						
+						@walk_animation.disable if @timers[:walk].ended?
 					end
 				end
 				
@@ -667,9 +679,10 @@ module Component
 				# 	blender.idle_animation.disable
 				# end
 				
-				# before_transition any => :crossfading_idle_walk do |blender|
-				# 	blender.timers[:walk].reset # Timer tracks time left in crossfade from walk to idle
-				# end
+				before_transition any => :crossfading_idle_walk do |blender|
+					# Timer tracks time left in crossfade from walk to idle
+					blender.timers[:walk].reset
+				end
 				
 				# # TODO: Perhaps use before_transition here? Not sure what the difference is
 				# after_transition :crossfading_idle_walk => :idling do |blender|
