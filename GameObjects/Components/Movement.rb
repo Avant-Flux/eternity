@@ -186,9 +186,10 @@ module Component
 					:walk => Timer.new(0.68)
 				}
 				
-				
-				@in_speed = 4
-				@out_speed = 6
+				# Note: It is advised to not exceed 50% distortion
+				# less distortion results in a smoother blend
+				# but 0% distortion assumes infinitesimal samples (too smooth of a blend)
+				allowed_distortion = 0.3
 				
 				@b = 0.0				# starting value of property
 				@c = 1.0-@b			# change in value of property
@@ -199,11 +200,24 @@ module Component
 				
 				walk_stride_length = 5.5/4		# in meters
 				# walk_stride_time = 48.frames		# in seconds
-				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed 
+				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed
+				
+				
+				# TODO: Raise exception if in_speed in higher than out_speed, warning of distortion threshold being too high
+				
+				# rate = speed / @animation_speed
+				# 1.5 = target_speed / @animation_speed
+				# target_speed = 1.5 * @animation_speed
+				
+				target_rate = 1.0 + allowed_distortion
+				target_speed = target_rate * @walk_speed
+				puts "TARGET === #{target_speed} ----- #{@run_speed}"
+				
+				@in_speed = target_speed
+				@out_speed = @run_speed
 			end
 			
-			# TODO: Clean up code
-			# TODO: Sync the feet
+			# TODO: First step of blend (from idle to walk) should be distortion dependent
 			# TODO: Generalize to n-way crossfader
 			
 			def update(dt, speed)
@@ -301,9 +315,6 @@ module Component
 						@walk_animation.enable
 						@run_animation.enable
 						
-						# @walk_animation.rate = speed / @walk_speed
-						# @run_animation.rate = @walk_animation.rate
-						
 						# Sync locomotion rates so blending works correctly
 						@run_animation.rate = speed / @run_speed
 						@walk_animation.rate = @run_animation.rate
@@ -327,12 +338,9 @@ module Component
 						@walk_animation.enable
 						@run_animation.enable
 						
+						# Sync locomotion rates so blending works correctly
 						@walk_animation.rate = speed / @walk_speed
 						@run_animation.rate = @walk_animation.rate
-						
-						# Sync locomotion rates so blending works correctly
-						# @run_animation.rate = speed / @run_speed
-						# @walk_animation.rate = @run_animation.rate
 						
 						# Crossfade animations
 						easing = Oni::Animation::Ease.in_quad(
