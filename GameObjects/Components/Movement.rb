@@ -49,13 +49,6 @@ module Component
 			@physics = physics
 			@animation = animation
 			
-			# Timers for various properties.
-			# key:		symbol
-			# value:	double - time
-			@timers = {
-				:walk => Timer.new(0.68)
-			}
-			
 			# ===== Constraints =====
 			@max_movement_speed = opts[:max_movement_speed]
 			# Percentage of force to be applied in-air
@@ -98,10 +91,7 @@ module Component
 			speed = @physics.body.v.length
 			# p speed
 			
-			# locomotion_blending(dt, speed)
-			
 			@blender.update dt, speed
-			
 		end
 		
 		def move(direction, type)

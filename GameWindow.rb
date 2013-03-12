@@ -47,9 +47,6 @@ include Glut
 
 
 class GameWindow < Oni::Window
-	# attr_accessor :camera, :show_fps
-	# attr_reader :state_manager, :ui_state_manager
-	
 	def setup
 		# @target_fps = 60
 		# Window should have a 16:9 aspect ratio
@@ -57,17 +54,8 @@ class GameWindow < Oni::Window
 		# self.caption = "Eternity 0.11.5"
 		# @show_fps = false
 		
-		# @font = Gosu::Font.new self, "Trebuchet MS", 25
-		
-		# @player = Player.new self
-		
 		# @state_manager = StateManager.new self, @player
 		# @ui_state_manager = UI_StateManager.new self, @player, @state_manager
-		
-		# # Input manager holds the only other reference to the camera
-		# # other than this window.  Thus, if the camera get changed,
-		# # it will break the ability of the input to affect the camera.
-		# @inpman = EternityInput.new self, @player, @camera, @state_manager, @ui_state_manager
 		
 		@camera = Oni::Camera.new(self, "main_camera", 0) # TODO: Make z_order=0 by default
 		
@@ -89,16 +77,11 @@ class GameWindow < Oni::Window
 		
 		
 		@crab = Crab.new self
-		# @player = Oni::Agent.new(self, "Human_Male", "Human_Male.mesh")
 		@player = Entity.new self, "Human_Male", "Human_Male"
-		# @player.translate 0, 0, 0
 		
-		# @player.animation = "my_animation"
-		# @player.base_animation = "walkywalky"
-		# @player.top_animation = "flippyfloppy"
-		
-		
-		
+		# Input manager holds the only other reference to the camera
+		# other than this window.  Thus, if the camera get changed,
+		# it will break the ability of the input to affect the camera.
 		@inpman = EternityInput.new self, @player, @camera
 		
 		@space = Physics::Space.new
@@ -142,15 +125,7 @@ class GameWindow < Oni::Window
 	end
 	
 	def draw
-		# # Draw gameworld state
-		# @state_manager.draw
 		
-		# # Draw screen-relative "flat" elements (UI etc)
-		# @ui_state_manager.draw
-		
-		# if @show_fps
-		# 	@font.draw "FPS: #{Gosu::fps}", 10,10,10, 1,1, Gosu::Color::FUCHSIA
-		# end
 	end
 	
 	def button_down(id)
