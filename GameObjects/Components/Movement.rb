@@ -208,6 +208,7 @@ module Component
 			end
 			
 			# TODO: First step of blend (from idle to walk) should be distortion dependent
+			# actually, probably not, because the distortion effects the in speed, which for idle->walk should be as low as possible. (ideally zero, but floating point precision problems)
 			# TODO: Generalize to n-way crossfader
 			
 			def update(dt, speed)
@@ -219,7 +220,7 @@ module Component
 				elsif speed > @in_speed
 					walk_to_run
 					run_to_walk
-				elsif speed > MOVEMENT_THRESHOLD + 1.5
+				elsif speed > @walk_speed
 					walk
 				elsif speed > MOVEMENT_THRESHOLD
 					# Only one of these should fire, determined by the state machine
@@ -227,7 +228,7 @@ module Component
 					idle_to_walk
 				else
 					# transition to idle if walk is done blending out
-					idle unless @walk_animation.enabled?
+					idle
 				end
 				
 				# puts state
@@ -261,20 +262,19 @@ module Component
 						@walk_animation.enable
 						@run_animation.disable
 						
-						@timers[:walk].update dt
-						
 						# TODO: Alter starting weight to match position in step.  Always take the same amount of time to blend.
 						
 						# Crossfade animations
-						easing = Oni::Animation::Ease.in_out_cubic(
-									@walk_animation.weight,
-									@timers[:walk].time,
-									b = 0.0,					# starting value of property
-									c = 1.0-b,					# change in value of property
-									@timers[:walk].duration		# duration of the tween
-								)
-						@idle_animation.weight = easing
-						@walk_animation.weight = 1.0 - easing
+						easing = Oni::Animation::Ease.in_quad(
+										@walk_animation.weight,
+										speed - MOVEMENT_THRESHOLD,
+										b = 0.2,
+										c = 1.0 - b,
+										@walk_speed - MOVEMENT_THRESHOLD
+									)
+						
+						@idle_animation.weight = 1.0 - easing
+						@walk_animation.weight = easing
 						
 						# Clamp values
 						@idle_animation.weight = @idle_animation.weight.clamp(0.0, 1.0)
@@ -282,7 +282,7 @@ module Component
 						
 						puts @walk_animation.weight
 						
-						@walk_animation.disable if @timers[:walk].ended?
+						@walk_animation.rate = speed / @walk_speed
 					end
 				end
 				
@@ -295,7 +295,7 @@ module Component
 						@walk_animation.weight = 1.0
 						# @run_animation.weight = 0.0
 						
-						@walk_animation.rate = speed / @walk_speed			
+						@walk_animation.rate = speed / @walk_speed
 					end
 				end
 				
