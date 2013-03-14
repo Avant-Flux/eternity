@@ -47,33 +47,26 @@ class EternityInput < InputHandler
 		#~ puts @movement_dir.inspect
 		
 		unless @movement_dir.empty?
-			move_direction = ""
+			move_direction = CP::Vec2.new(0,0)
+			
 			if @movement_dir.include? :up
-				if move_direction == ""
-					move_direction += "up"
-				end
-			end	
+				move_direction += CP::Vec2.new(0,1)
+			end
+			
 			if @movement_dir.include? :down
-				if move_direction == ""
-					move_direction += "down"
-				end
+				move_direction += CP::Vec2.new(0,-1)
 			end
 			
 			if @movement_dir.include? :left
-				unless move_direction == ""
-					move_direction += "_"
-				end
-				
-				move_direction += "left"
-			elsif @movement_dir.include? :right
-				unless move_direction == ""
-					move_direction += "_"
-				end
-				
-				move_direction += "right"
+				move_direction += CP::Vec2.new(-1,0)
 			end
 			
-			move_direction = move_direction.to_sym
+			if @movement_dir.include? :right
+				move_direction += CP::Vec2.new(1,0)
+			end
+			
+			# Normalize will return (-nan, -nan) if magnitude is zero
+			move_direction.normalize! unless move_direction == CP::ZERO_VEC_2
 			
 			if @player.running
 				@player.move move_direction, :run

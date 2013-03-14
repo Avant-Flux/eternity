@@ -89,7 +89,6 @@ module Component
 			# Range = 1.5 - 0.5 = 1.0
 			
 			speed = @physics.body.v.length
-			# p speed
 			
 			@blender.update dt, speed
 		end
@@ -97,25 +96,7 @@ module Component
 		def move(direction, type)
 			#~ puts direction
 			
-			vec = case direction
-				when :up
-					CP::Vec2.new(0,1)
-				when :down
-					CP::Vec2.new(0,-1)
-				when :left
-					CP::Vec2.new(-1,0)
-				when :right
-					CP::Vec2.new(1,0)
-				when :up_right
-					CP::Vec2.new(1,1).normalize!
-				when :up_left
-					CP::Vec2.new(-1,1).normalize!
-				when :down_right
-					CP::Vec2.new(1,-1).normalize!
-				when :down_left
-					CP::Vec2.new(-1,-1).normalize!
-
-			end
+			vec = direction
 			
 			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
 			
@@ -128,17 +109,50 @@ module Component
 			end
 			
 			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
+			# TODO: Consider using force to counter friction for movement instead of clamping speed
 			if @physics.body.v.length > @max_movement_speed
 				@physics.body.v = @physics.body.v.clamp @max_movement_speed
 			else
 				@physics.body.apply_force vec, CP::ZERO_VEC_2
 			end
+			
+			puts "MOVE"
 		end
 		
 		def jump
+			puts "JUMP"
 			if @jump_count < @jump_limit #Do not exceed the jump count.
 				@jump_count += 1
 				@physics.body.vz = @jump_velocity #On jump, set the velocity in the z direction
+				
+				
+				# -- Air jumps propel in desired direction, allowing for fast change of direction
+				# NOTE: Will also effect when body is being pushed
+				# If currently in air
+				# and If there is a force on body (trying to move)
+				# add a bunch of velocity in that direction on jump
+				# 
+				# Velocity added should be related to move force in some way
+				# or more properly, move acceleration?
+				# Don't want characters to jump considerably faster than walking
+				# 	or do you? might be good to present movement through air as effortless and fast
+				# 	may be better to just limit air jump time
+				# 	hints at abilities of Wind/Storm characters, and how fun it could be
+				# 	
+				# 	increased helplessness after double jump?
+				# 		reduce ability to change jump arc after the first in-air jump
+				if @physics.body.in_air?
+					if @physics.body.f.length > 0.0
+						direction = @physics.body.f.normalize
+						puts "force: #{@physics.body.f}"
+						puts direction.class
+						p direction
+						direction *= 5
+						p direction
+						@physics.body.v += direction
+						p @physics.body.v
+					end
+				end
 			end
 		end
 		
@@ -181,8 +195,8 @@ module Component
 				# but 0% distortion assumes infinitesimal samples (too smooth of a blend)
 				allowed_distortion = 0.3
 				
-				@b = 0.0				# starting value of property
-				@c = 1.0-@b			# change in value of property
+				@b = 0.0				# starting value of property - weight of run/walk
+				@c = 1.0-@b			# change in value of property - weight of run/walk
 				
 				run_stride_length = 2.75		# in meters
 				# run_stride_time = 48.frames		# in seconds
@@ -193,7 +207,8 @@ module Component
 				@walk_speed = walk_stride_length / @walk_animation.length * 2	# Walk rate at full speed
 				
 				
-				# TODO: Raise exception if in_speed in higher than out_speed, warning of distortion threshold being too high
+				# TODO: Raise exception if in_speed is higher than out_speed, warning of distortion threshold being too high
+				# TODO: Raise exception for in_speed lower than @walk_speed (prev tier in speed)
 				
 				# rate = speed / @animation_speed
 				# 1.5 = target_speed / @animation_speed
@@ -212,8 +227,6 @@ module Component
 			# TODO: Generalize to n-way crossfader
 			
 			def update(dt, speed)
-				# puts state
-				
 				# Handle state transitions
 				if speed > @out_speed
 					run
@@ -231,18 +244,17 @@ module Component
 					idle
 				end
 				
-				# puts state
-				puts "===== #{state}"
-				puts "idle: #{@idle_animation.enabled?}"
-				puts "walk: #{@walk_animation.enabled?}"
-				puts "run: #{@run_animation.enabled?}"
-				puts "=========="
+				# puts "===== #{state}"
+				# puts "idle: #{@idle_animation.enabled?}"
+				# puts "walk: #{@walk_animation.enabled?}"
+				# puts "run: #{@run_animation.enabled?}"
+				# puts "=========="
 				
 				# Play animation based on current state
 				play dt, speed
 			end
 			
-			# TODO: POLISH - Need first step and walk to neutral
+			# TODO: POLISH - Need sneaking animation
 			
 			state_machine :state, :initial => :idling do
 				state :idling do
