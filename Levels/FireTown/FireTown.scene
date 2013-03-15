@@ -1,84 +1,160 @@
-<scene exported_by="ravenskrag" formatVersion="1.0.1" previous_export_time="1362784684.089033" export_time="1362784764.28579" >
+<scene exported_by="ravenskrag" formatVersion="1.0.1" previous_export_time="1363381010.404444" export_time="1363387131.835864" >
   <nodes >
-    <node name="House.001_proxy.007" >
-      <position y="3.811623" x="9.207397" z="-14.720253" />
-      <rotation qy="-0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+    <node name="Road.002" >
+      <position y="1.049560" x="-77.693237" z="89.106537" />
+      <rotation qy="-0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="2.400000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.013" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Road.002.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Road.002" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
-    <node name="House.001_proxy.006" >
-      <position y="3.811623" x="9.207397" z="-4.720254" />
-      <rotation qy="-0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+    <node name="Road.001" >
+      <position y="1.049560" x="83.306763" z="-37.893463" />
+      <rotation qy="0.173648" qx="0.000000" qz="-0.000000" qw="0.984808" />
+      <scale y="1.000000" x="2.400000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.012" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Road.001.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Road.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
-    <node name="House.001_proxy.005" >
-      <position y="3.811623" x="9.207397" z="6.279746" />
-      <rotation qy="-0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+    <node name="Lamp_post_proxy.003" >
+      <position y="1.078476" x="29.674953" z="40.851231" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="0.250000" x="0.250000" z="0.250000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.011" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Lamp_post.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Lamp_post" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
-    <node name="House.001_proxy.004" >
-      <position y="3.811623" x="9.207397" z="17.279747" />
-      <rotation qy="-0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+    <node name="Lamp_post_proxy.002" >
+      <position y="1.078476" x="80.674957" z="46.851231" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="0.250000" x="0.250000" z="0.250000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.010" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Lamp_post.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Lamp_post" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Lamp_post_proxy.001" >
+      <position y="1.078476" x="62.674953" z="46.851231" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="0.250000" x="0.250000" z="0.250000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Lamp_post.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Lamp_post" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Point.001" >
+      <position y="13.348986" x="100.463829" z="98.461685" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light shadow="true" type="point" name="Point.001" powerScale="1.0" >
+        <position y="13.348986" x="100.463829" z="98.461685" />
+        <lightAttenuation range="5000" quadratic="0.0" constant="1.0" linear="0.04" />
+        <colourDiffuse r="1.0" b="1.0" g="1.0" />
+        <colourSpecular r="1.0" b="1.0" g="1.0" />
+        <colourShadow r="1.0" b="1.0" g="1.0" />
+      </light>
+    </node>
+    <node name="Jail" >
+      <position y="3.599593" x="91.593826" z="45.258255" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Jail.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Jail" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Weapon_Store" >
+      <position y="3.599593" x="54.239563" z="43.644161" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Weapon_Store.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Weapon_Store" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="General_Store" >
+      <position y="3.599593" x="72.965218" z="43.644161" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="General_Store.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="General_Store" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Pawn_Shop" >
+      <position y="3.078654" x="-59.336426" z="55.581989" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Pawn_Shop.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Pawn_Shop" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="House.001_proxy.003" >
-      <position y="3.811623" x="-12.792603" z="17.279747" />
-      <rotation qy="0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+      <position y="3.811623" x="4.207397" z="95.279747" />
+      <rotation qy="1.000000" qx="0.000000" qz="-0.000000" qw="0.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.009" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.001.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="House.001_proxy.002" >
-      <position y="3.811623" x="-12.792603" z="6.279746" />
-      <rotation qy="0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+      <position y="3.811623" x="-11.792603" z="95.279747" />
+      <rotation qy="1.000000" qx="0.000000" qz="-0.000000" qw="0.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.008" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.001.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+    </node>
+    <node name="Road" >
+      <position y="1.049560" x="81.306763" z="66.106537" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="2.400000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Road.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Road" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="House.001_proxy.001" >
-      <position y="3.811623" x="-12.792603" z="-4.720254" />
-      <rotation qy="0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+      <position y="3.811623" x="4.207397" z="66.279747" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.007" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.001.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="House.001_proxy" >
-      <position y="3.811623" x="-12.792603" z="-14.720253" />
-      <rotation qy="0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
-      <scale y="0.500000" x="0.500000" z="0.500000" />
+      <position y="3.811623" x="-11.792603" z="66.279747" />
+      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
+      <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="House.001.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="House.001" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Point" >
       <position y="13.348984" x="-2.515845" z="43.168686" />
@@ -97,9 +173,9 @@
       </light>
     </node>
     <node name="Inn" >
-      <position y="1.000000" x="47.491825" z="56.216888" />
+      <position y="3.599593" x="32.537628" z="21.335436" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="12.500000" z="12.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -107,9 +183,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Inn.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Inn" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Town_Hall" >
-      <position y="1.000000" x="-2.508173" z="71.216888" />
-      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="25.000000" z="15.000000" />
+      <position y="7.048714" x="-37.293167" z="11.216888" />
+      <rotation qy="0.707107" qx="0.000000" qz="-0.000000" qw="0.707107" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -117,9 +193,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Town_Hall.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Town_Hall" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Museum" >
-      <position y="1.000000" x="1.298063" z="-52.039814" />
-      <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="25.000000" z="15.000000" />
+      <position y="1.000000" x="-4.133798" z="-50.507191" />
+      <rotation qy="0.300706" qx="0.000000" qz="-0.000000" qw="0.953717" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -127,9 +203,9 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Museum.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Museum" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Statue" >
-      <position y="3.500000" x="-0.065622" z="31.492928" />
+      <position y="3.500000" x="-0.065622" z="2.477818" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
-      <scale y="1.000000" x="5.000000" z="1.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
         <sensors />
         <actuators />
@@ -153,7 +229,7 @@
       </light>
     </node>
     <node name="Lamp_post_proxy" >
-      <position y="1.078476" x="-7.283783" z="-9.149586" />
+      <position y="1.078476" x="-20.325047" z="-21.148769" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="0.250000" x="0.250000" z="0.250000" />
       <game >
@@ -163,7 +239,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Lamp_post.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Lamp_post" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Ground" >
-      <position y="0.000000" x="0.000000" z="-0.000000" />
+      <position y="0.000000" x="19.848343" z="84.898140" />
       <rotation qy="0.000000" qx="0.000000" qz="-0.000000" qw="1.000000" />
       <scale y="1.000000" x="50.000000" z="50.000000" />
       <game >
@@ -173,7 +249,7 @@
       <entity anisotropic_friction="False" lock_trans_y="False" damping_trans="0.03999999910593033" damping_rot="0.10000000149011612" inertia_tensor="0.4000000059604645" actor="False" velocity_min="0.0" lock_trans_z="False" physics_type="STATIC" lock_trans_x="False" meshFile="Ground.mesh" friction_y="1.0" friction_x="1.0" friction_z="1.0" velocity_max="0.0" ghost="False" name="Ground" mass_radius="1.0" mass="1.0" lock_rot_x="False" lock_rot_y="False" lock_rot_z="False" />
     </node>
     <node name="Camera" >
-      <position y="5.343665" x="7.481132" z="6.507640" />
+      <position y="35.343666" x="81.481133" z="97.507637" />
       <rotation qy="0.334251" qx="0.481707" qz="-0.212922" qw="0.781600" />
       <scale y="1.000000" x="1.000000" z="1.000000" />
       <game >
@@ -187,10 +263,13 @@
   </nodes>
   <externals >
     <item type="material" >
-      <file name="/home/ravenskrag/Code/GameDev/Eternity/Code/Levels/FireTown/Material__.._Models_Environment_House1.blend.material" />
+      <file name="/home/ravenskrag/Code/GameDev/Eternity/Code/Levels/FireTown/Material__.._Models_Environment_Lamp_Post.blend.material" />
     </item>
     <item type="material" >
-      <file name="/home/ravenskrag/Code/GameDev/Eternity/Code/Levels/FireTown/Material__.._Models_Environment_Lamp_Post.blend.material" />
+      <file name="/home/ravenskrag/Code/GameDev/Eternity/Code/Levels/FireTown/Material.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/ravenskrag/Code/GameDev/Eternity/Code/Levels/FireTown/Material__.._Models_Environment_House1.blend.material" />
     </item>
   </externals>
   <environment >
