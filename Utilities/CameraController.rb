@@ -1,20 +1,12 @@
 require 'state_machine'
 
 class CameraController
-	# TODO: Create private classes for separate properties (ie, machines) so instance_varible_get does not have to be used.  May want to implement delegation first.
-	
-	# property :zoom, :in, :out
-	# property :pitch, :up, :down
-	
-	s = Struct.new "Machine", :value, :increase, :decrease, :increase_binding, :decrease_binding
-	machines = [
-		s.new(:zoom, :out, :in, :kb_pgdown, :kb_pgup), # increase in zoom factor causes camera to get further away
-		s.new(:pitch, :up, :down, :kb_home, :kb_end),
-		s.new(:property, :in, :out, :kb_insert, :kb_delete)
-	]
-	
 	def initialize(camera)
 		super()
+		
+		# zoom: 1.9600000000000106
+		# pitch: 0.8945329251994334
+		# property: 5.2299999999999525
 		
 		Machine.new(:zoom, 2.5, 0.01,
 						:kb_pgdown, :kb_pgup) # increase in zoom factor causes camera to get further away
@@ -24,7 +16,7 @@ class CameraController
 						:kb_insert, :kb_delete)
 		
 		@camera = camera
-				
+		
 		camera_offset
 	end
 	
