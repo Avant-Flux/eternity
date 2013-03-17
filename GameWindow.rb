@@ -59,19 +59,24 @@ class GameWindow < Oni::Window
 		
 		@camera.fov = 110
 		
-		scale = 2
+		@scale = 2.5
 		
-		r = 3*scale
+		r = 3*@scale
 		angle = 17.degrees
 		
 		x = r*Math.sin(angle)
 		z = r*Math.cos(angle)
 		
-		@offset = [x,3.5*scale,z]
+		@angle = 10.degrees
+		r = 3.5*@scale
+		y = r*Math.sin(@angle)
+		@offset = [x,y,z]
 		@camera.position = @offset
 		
 		@camera.look_at [0,0,0]
 		@camera.near_clip_distance = 1
+		
+		@camera_controller = CameraController.new @camera
 		
 		
 		@crab = Crab.new self
@@ -97,6 +102,9 @@ class GameWindow < Oni::Window
 	def update(dt)
 		# puts dt
 		
+		@camera_controller.update dt, @player
+		
+		
 		@space.update dt
 		@inpman.update # process_input
 		
@@ -108,11 +116,11 @@ class GameWindow < Oni::Window
 		@player.update dt
 		@crab.update dt
 		
-		pos = @offset.clone
-		pos[0] += @player.physics.body.p.x
-		pos[1] += @player.physics.body.pz
-		pos[2] += -@player.physics.body.p.y
-		@camera.position = pos
+		# pos = @offset.clone
+		# pos[0] += @player.physics.body.p.x
+		# pos[1] += @player.physics.body.pz
+		# pos[2] += -@player.physics.body.p.y
+		# @camera.position = pos
 		
 		
 		# puts @player.physics.body.v.length
@@ -123,7 +131,9 @@ class GameWindow < Oni::Window
 	end
 	
 	def button_down(id)
-		# # Part of the update loop, not event-driven
+		sym = button_id_to_sym(id)
+		
+		# Part of the update loop, not event-driven
 		@inpman.button_down(id)
 		
 		# if id == Gosu::MsWheelDown
@@ -132,21 +142,27 @@ class GameWindow < Oni::Window
 		# 	@state_manager.camera.zoom_in
 		# end
 		
-		case id
-			when 2 # Button 1
+		case sym
+			when :kb_1
 				@level_stack.load @space, "Scrapyard"
-			when 3 # Button 2
+			when :kb_2
 				@level_stack.load @space, "Room"
-			when 4 # Button 3
+			when :kb_3
 				@level_stack.load @space, "FireTown"
-			when 5 # Button 4
+			when :kb_4
 				@level_stack.load @space, "Museum"
 		end
+		
+		@camera_controller.button_down(sym)
 	end
 	
 	def button_up(id)
+		sym = button_id_to_sym(id)
+		
 		# # Part of the update loop, not event-driven
 		@inpman.button_up(id)
+		
+		@camera_controller.button_up(sym)
 	end
 	
 	# def needs_cursor?
