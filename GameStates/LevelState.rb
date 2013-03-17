@@ -52,6 +52,12 @@ class LevelState
 		end
 	end
 	
+	def hide
+		@lights.each do |l|
+			l.visible = false
+		end
+	end
+	
 	def add_static_object(obj)
 		@static_objects << obj
 	end
