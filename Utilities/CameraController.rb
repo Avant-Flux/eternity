@@ -16,53 +16,26 @@ class CameraController
 	def initialize(camera)
 		super()
 		
+		Machine.new(:zoom, 2.5, 0.01,
+						:kb_pgdown, :kb_pgup) # increase in zoom factor causes camera to get further away
+		Machine.new(:pitch, 10.degrees, 0.01,
+						:kb_home, :kb_end)
+		Machine.new(:property, 3, 0.01,
+						:kb_insert, :kb_delete)
+		
 		@camera = camera
-		
-		@zoom = 2.5			# coefficient of distance
-		@pitch = 10.degrees	# stored in radians
-		@property = 3
-		
-		@zoom_factor = 0.01
-		@pitch_factor = 0.01
-		@property_factor = 0.01
-		
+				
 		camera_offset
 	end
 	
-	def camera_offset
-		puts "=======OFFSET"
-		
-		r = 3*@zoom*Math.cos(@pitch)
-		# r = @property*@zoom*Math.cos(@pitch)
-		angle = 17.degrees
-		
-		x = r*Math.sin(angle)
-		z = r*Math.cos(angle)
-		
-		# @pitch = 10.degrees
-		r = 3.5*@zoom
-		y = r*Math.sin(@pitch)
-		
-		@offset = [x,y,z]
-	end
-	
-	def set_offset(player_pos)
-		# Set camera offset
-		pos = @offset.clone
-		[0,1,2].each do |i|
-			pos[i] += player_pos[i]
-		end
-		@camera.position = pos
-	end
-	
 	# Metacode dependent on the machines array defined above
-	define_method :update do |dt, player|
+	def update(dt, player)
 		# Compute camera offset
 		needs_update = false
-		machines.each do |machine|
-			needs_update ||= send "update_#{machine.value}"
+		Machine.all.each do |name, machine|
+			needs_update ||= machine.update
 			
-			puts "#{machine.value}: #{instance_variable_get "@#{machine.value}"}"
+			puts "#{name}: #{machine.value}"
 		end
 		
 		puts "UPDATING" if needs_update
@@ -81,81 +54,129 @@ class CameraController
 		set_offset player_pos
 	end
 	
-	# Raise or lower value value as appropriate when specified keys are depressed
-	define_method :button_down do |sym|
-		machines.each do |machine|
-			if sym == machine.increase_binding
-				send "#{machine.value}_#{machine.increase}"
-			elsif sym == machine.decrease_binding
-				send "#{machine.value}_#{machine.decrease}"
+	[:button_down, :button_up].each do |method_name|
+		define_method method_name do |sym|
+			Machine.all.each do |name, machine|
+				machine.send method_name, sym
 			end
 		end
 	end
 	
-	# Reset values when corresponding buttons are released
-	define_method :button_up do |sym|
-		machines.each do |machine|
-			if sym == machine.increase_binding || sym == machine.decrease_binding
-				send "#{machine.value}_reset"
-			end
-		end
-	end
-	
-	machines.each do |machine|
-		attr_accessor "#{machine.value}_factor".to_sym
+	def camera_offset
+		puts "=======OFFSET"
 		
-		state_machine "#{machine.value}_machine", :initial => :none do
-			state :none do
-				define_method "update_#{machine.value}" do
-					value = instance_variable_get "@#{machine.value}"
+		zoom =Machine.all[:zoom].value
+		pitch = Machine.all[:pitch].value
+		property = Machine.all[:property].value
+		
+		# r = 3*zoom*Math.cos(pitch)
+		r = property*zoom*Math.cos(pitch)
+		angle = 17.degrees
+		
+		x = r*Math.sin(angle)
+		z = r*Math.cos(angle)
+		
+		# pitch = 10.degrees
+		r = 3.5*zoom
+		y = r*Math.sin(pitch)
+		
+		@offset = [x,y,z]
+	end
+	
+	def set_offset(player_pos)
+		# Set camera offset
+		pos = @offset.clone
+		[0,1,2].each do |i|
+			pos[i] += player_pos[i]
+		end
+		@camera.position = pos
+	end
+	
+	
+	private
+	
+	class Machine
+		attr_reader :name
+		attr_accessor :value, :factor
+		
+		def initialize(name, property_value, growth_factor, increase_binding, decrease_binding)
+			super()
+			@name = name
+			
+			@value = property_value
+			@factor = growth_factor
+			
+			# Key bindings to trigger increase and decrease events
+			@increase_binding = increase_binding
+			@decrease_binding = decrease_binding
+			
+			@@all ||= Hash.new
+			@@all[@name] = self
+		end
+		
+		class << self
+			def all
+				@@all
+			end
+		end
+		
+		def button_down(sym)
+			if sym == @increase_binding
+				increase
+			elsif sym == @decrease_binding
+				decrease
+			end
+		end
+		
+		def button_up(sym)
+			if sym == @increase_binding || sym == @decrease_binding
+				reset
+			end
+		end
+		
+		state_machine :state, :initial => :idle do
+			state :idle do
+				define_method :update do
+					@value
 					
 					return false
 				end
 			end
 			
-			[machine.increase, machine.decrease].each do |value_change_state|
-				operator =	if value_change_state == machine.increase
-								:+
-							else# value_change_state == machine.decrease
-								:-
-							end
-				
-				
-				state value_change_state do
-					define_method "update_#{machine.value}" do
-						var_name = "@#{machine.value}"
-						
-						# Increment or decrement the value depending on value of "operator"
-						# Operations performed LISP-style
-						instance_variable_set(
-							var_name,
-							
-							instance_variable_get(var_name).send(
-								operator,
-								instance_variable_get("@#{machine.value}_factor")
-							)
-						)
-						
-						puts "UPDATE #{machine.value} #{operator}"
-						
-						return true
-					end
+			state :increasing do
+				define_method :update do
+					@value += @factor
+					
+					puts "INCREASE #{@name}: #{@value}"
+					
+					return true
 				end
 			end
+			
+			state :decreasing do
+				define_method :update do
+					@value -= @factor
+					
+					puts "DECREASE #{@name}: #{@value}"
+					
+					return true
+				end
+			end
+			
 			
 			# transition callbacks here
 			
 			
-			event "#{machine.value}_#{machine.increase}".to_sym do
-				transition any => machine.increase
+			event :increase do
+				transition any => :increasing
 			end
 			
-			event "#{machine.value}_#{machine.decrease}".to_sym do
-				transition any => machine.decrease
+			event :decrease do
+				transition any => :decreasing
 			end
 			
-			event "#{machine.value}_reset".to_sym do
-				transition any => :none
+			event :reset do
+				transition any => :idle
 			end
 		end
 	end
