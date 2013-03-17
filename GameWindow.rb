@@ -32,6 +32,7 @@ require './GameObjects/Entity'
 require './GameObjects/Creatures/Crab'
 	require_all './GameObjects/Components'
 
+require './GameStates/LevelStateManager'
 require './GameStates/LevelState'
 
 require 'gl'
@@ -89,10 +90,8 @@ class GameWindow < Oni::Window
 		@space.add @player
 		@space.add @crab
 		
-
-		@level_stack = []
-		@level_stack << LevelState.load(self, @space, "Scrapyard")
-		@level_stack.last.add_to @space
+		@level_stack = LevelStateManager.new self
+		@level_stack.load @space, "Scrapyard"
 	end
 	
 	def update(dt)
@@ -104,9 +103,7 @@ class GameWindow < Oni::Window
 		# @state_manager.update # Update the entities within the active state
 		
 		# @ui_state_manager.update
-		@level_stack.each do |state|
-			state.update dt
-		end
+		@level_stack.update dt
 		
 		@player.update dt
 		@crab.update dt
@@ -137,21 +134,13 @@ class GameWindow < Oni::Window
 		
 		case id
 			when 2 # Button 1
-				@level_stack.pop.remove_from @space
-				@level_stack << LevelState.load(self, @space, "Scrapyard")
-				@level_stack.last.add_to @space
+				@level_stack.load @space, "Scrapyard"
 			when 3 # Button 2
-				@level_stack.pop.remove_from @space
-				@level_stack << LevelState.load(self, @space, "Room")
-				@level_stack.last.add_to @space
+				@level_stack.load @space, "Room"
 			when 4 # Button 3
-				@level_stack.pop.remove_from @space
-				@level_stack << LevelState.load(self, @space, "FireTown")
-				@level_stack.last.add_to @space
+				@level_stack.load @space, "FireTown"
 			when 5 # Button 4
-				@level_stack.pop.remove_from @space
-				@level_stack << LevelState.load(self, @space, "Museum")
-				@level_stack.last.add_to @space
+				@level_stack.load @space, "Museum"
 		end
 	end
 	
