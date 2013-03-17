@@ -27,13 +27,10 @@ require_all './Physics'
 # require_all './UI'
 
 
-require './GameObjects/Entity'
 require './GameObjects/StaticObject'
-	require './GameObjects/Components/Physics'
-	require './GameObjects/Components/Movement'
-	require './GameObjects/Components/Model'
-	require './GameObjects/Components/Combat'
+require './GameObjects/Entity'
 require './GameObjects/Creatures/Crab'
+	require_all './GameObjects/Components'
 
 require './GameStates/LevelState'
 
@@ -71,7 +68,7 @@ class GameWindow < Oni::Window
 		
 		@offset = [x,3.5*scale,z]
 		@camera.position = @offset
-
+		
 		@camera.look_at [0,0,0]
 		@camera.near_clip_distance = 1
 		
