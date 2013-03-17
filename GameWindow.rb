@@ -77,7 +77,7 @@ class GameWindow < Oni::Window
 		
 		
 		@crab = Crab.new self
-		@player = Entity.new self, "Human_Male", "Human_Male"
+		@player = Entity.new self, "Human_Male"
 		
 		# Input manager holds the only other reference to the camera
 		# other than this window.  Thus, if the camera get changed,

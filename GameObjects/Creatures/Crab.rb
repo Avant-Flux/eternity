@@ -2,7 +2,7 @@ class Crab
 	attr_reader :physics
 	
 	def initialize(window)
-		@model = Oni::Model.new window, "Crab", "Crab.mesh"
+		@model = Component::Model.new window, "Crab"
 		# @animation = Oni::Animation.new @model
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats

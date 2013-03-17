@@ -23,11 +23,11 @@ class Entity
 	
 	attr_reader :physics, :movement
 	
-	def initialize(window, name, mesh_name)
+	def initialize(window, name)
 		# init_stats
 		@level = 1
 		
-		@model = Oni::Model.new window, name, "#{mesh_name}.mesh"
+		@model = Component::Model.new window, name
 		@animation = Oni::Animation.new @model
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
