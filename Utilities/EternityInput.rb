@@ -153,16 +153,16 @@ class EternityInput < InputHandler
 		# bind_action :close, Gosu::KbEscape
 		# bind_action :show_fps, @window.char_to_button_id("f")
 		
-		bind_action :up, 200
-		bind_action :down, 208
-		bind_action :left, 203
-		bind_action :right, 205
+		bind_action :up, :kb_up
+		bind_action :down, :kb_down
+		bind_action :left, :kb_left
+		bind_action :right, :kb_right
 		
-		bind_action :jump, 57 # Spacebar
+		bind_action :jump, :kb_space
 		
-		bind_action :run, 42 # LeftShift
+		bind_action :run, :kb_lshift
 		
-		bind_action :attack, 29 # LeftControl
+		bind_action :attack, :kb_lcontrol
 		
 		# bind_action :reload_level, Gosu::KbF1
 		

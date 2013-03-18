@@ -55,19 +55,19 @@ class InputHandler
 		@event_handlers[@mode][event].duration
 	end
 	
-	def button_down(id)
-		puts "button #{id} down"
-		# @buttons.add id
+	def button_down(sym)
+		puts "button #{sym} down"
+		# @buttons.add sym
 		@actions.each do |name, action|
-			action.button_down id
+			action.button_down sym
 		end
 	end
 	
-	def button_up(id)
-		puts "button #{id} up"
-		# @buttons.delete id
+	def button_up(sym)
+		puts "button #{sym} up"
+		# @buttons.delete sym
 		@actions.each do |name, action|
-			action.button_up id
+			action.button_up sym
 		end
 	end
 	

@@ -135,7 +135,11 @@ class GameWindow < Oni::Window
 		sym = button_id_to_sym(id)
 		
 		# Part of the update loop, not event-driven
+<<<<<<< HEAD
 		@inpman.button_down(id)
+=======
+		@inpman.button_down(sym)
+>>>>>>> Input handler now uses symbols instead of key IDs.
 		
 		# if id == Gosu::MsWheelDown
 		# 	@state_manager.camera.zoom_out
@@ -161,7 +165,7 @@ class GameWindow < Oni::Window
 		sym = button_id_to_sym(id)
 		
 		# # Part of the update loop, not event-driven
-		@inpman.button_up(id)
+		@inpman.button_up(sym)
 		
 		@camera_controller.button_up(sym)
 	end
