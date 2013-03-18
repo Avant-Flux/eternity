@@ -1,35 +1,119 @@
-module InputType
+require 'state_machine'
+
+class InputHandler
+	private # The contents of this file are a part of the InputHandler composite
+	
 	#Hold methods common to all classes under the InputType module
 	class BasicInput
-		attr_accessor :functions, :active
-		attr_reader :buttons
+		attr_reader :name
 		
-		def initialize(inputs, buttons, functions={})
-			# Hash of all inputs within the same mode as this one
-			@inputs = inputs
-			# Set of currently depressed button ids
-			@buttons = buttons
+		def initialize(name, &block)
+			super()
 			
-			# Store the functions to be called on 
-			# rising edge, falling edge, active and idle
-			@functions = functions
+			# Only necessary if name identifier must be contained in this class
+			# If instance of this class will always be managed by an external class, then this may be unnecessary
+			@name = name
 			
-			@active = false
+			# Define callbacks in DSL
+			# instace_eval &block if block_given?
+			# yield self
+			block.call self
+			
+			# puts "============INIT"
+			# p @active_callback
+			# p @inactive_callback
+			# p @rising_edge_callback
+			# p @falling_edge_callback
+			# puts "=============="
+			
+			# Use blank lambdas as null objects
+			@active_callback ||= lambda {}
+			@inactive_callback ||= lambda {}
+			@rising_edge_callback ||= lambda {}
+			@falling_edge_callback ||= lambda {}
 		end
 		
-		def active?
-			@active
+		def button_down(id)
+			# If a button is depressed, check if it pertains to this action
+			
+			if id == @trigger
+				self.activate
+			end
 		end
 		
-		# Update the state of the handler.  The next signal
-		# argument determines the state after the transition
-		def update
-			# Ideally #update would be a dynamically defined singleton
-			# In that singleton method, the appropriate blocks would be
-			# called if they had been defined on initialization
-			state = next_state
-			transition_to state
-			@active = state
+		def button_up(id)
+			# If any of the inputs being tracked deactivates, reset
+			if id == @trigger
+				self.deactivate
+			end
+		end
+		
+		# private :while_active, :while_idle, :on_rising_edge, :on_falling_edge
+		def while_active(&block)
+			@active_callback = block
+		end
+		
+		def while_idle(&block)
+			@inactive_callback = block
+		end
+		
+		def on_rising_edge(&block)
+			puts "def callback"
+			@rising_edge_callback = block
+		end
+		
+		def on_falling_edge(&block)
+			@falling_edge_callback = block
+		end
+		
+		# Return true when required inputs have been activated
+		def complete(id)
+			return id == @trigger
+		end
+		
+		
+		state_machine :state, :initial => :inactive do
+			# Waiting to be triggered
+			state :inactive do
+				def update
+					puts "INACTIVE"
+					@inactive_callback.call
+				end
+			end
+			
+			# Triggered
+			state :active do
+				def update
+					puts "ACTIVE"
+					@active_callback.call
+				end
+			end
+			
+			# Will not be triggered
+			state :disabled do
+				def update
+					nil # DO NOTHING
+				end
+			end
+			
+			
+			before_transition :inactive => :active, :do => :rising_edge
+			before_transition :active => :inactive, :do => :falling_edge
+			
+			after_transition :disabled => :inactive, :do => :reset
+			
+			
+			event :activate do
+				transition :inactive => :active
+			end
+			
+			event :deactivate do
+				transition :active => :inactive
+			end
+			
+			event :disable do
+				transition any => :disabled
+			end
 		end
 		
 		def bound?
@@ -63,61 +147,37 @@ module InputType
 		
 		private
 		
-		def next_state
-			if @trigger.is_a? Fixnum # aka Gosu::KbA.class
-				return @buttons.include? @trigger
-			else # Assume this is the name of another event
-				@inputs.each_value do |input|
-					if input.include? @trigger
-						return input[@trigger].active?
-					end
-				end
-			end
+		def rising_edge
+			@rising_edge_callback.call
 		end
 		
-		def transition_to(next_state)
-			if @active
-				if next_state
-					# Active and still active
-					@functions[:active].call if @functions[:active]
-				else
-					# Falling edge
-					@functions[:falling_edge].call if @functions[:falling_edge]
-				end
-			else
-				if next_state
-					# Rising edge
-					@functions[:rising_edge].call if @functions[:rising_edge]
-				else
-					# Nothing of importance
-					@functions[:idle].call if @functions[:idle]
-				end
-			end
+		def falling_edge
+			@falling_edge_callback.call
 		end
 	end
 	
+	# An action can be mapped to multiple inputs.
+	# If any one input is activated, the action should fire.
 	class Action < BasicInput
-		def initialize(inputs, buttons, functions={})
-			super inputs, buttons, functions
+		def initialize(name, &block)
+			super(name, &block)
 		end
 		
-		def update
-			#~ puts Gosu::milliseconds
-			super
-			
-			#~ super set
-			#~ super @trigger, :action
-			#~ super bool
-		end
+		# def update
+		# 	if 
+		# 		super
+		# 	end
+		# end
 		
-		def deactivate
-			@active = false
-			@buttons.delete @trigger
-		end
+		# def deactivate
+		# 	@active = false
+		# 	@buttons.delete @trigger
+		# end
 	end
 	
 	
-	
+	# Common ancestor of all input processing classes which require multiple inputs to activate.
+	# Should NEVER be instantiated. Only exists to house common code.
 	class MultiButtonInput < BasicInput
 		def initialize(inputs, buttons, functions={})
 			super inputs, buttons, functions
@@ -182,6 +242,9 @@ module InputType
 		end
 	end
 	
+	# Sequences require multiple inputs to activate.
+	# Inputs must be activated with a certain spacing between each input.
+	# Sequences are only active momentarily, starting when the final input is processed.
 	class Sequence < MultiButtonInput
 		def initialize(inputs, buttons, functions={})
 			super inputs, buttons, functions
@@ -238,6 +301,8 @@ module InputType
 		end
 	end
 	
+	# Chords require multiple inputs to activate.
+	# Chords should only be active while ALL inputs are active.
 	class Chord < MultiButtonInput
 		def initialize(inputs, buttons, functions={})
 			super inputs, buttons, functions

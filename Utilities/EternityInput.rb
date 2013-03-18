@@ -23,8 +23,6 @@ class EternityInput < InputHandler
 		
 		# init_map_inputs
 		# bind_map_inputs
-		
-		self.mode = :gameplay
 	end
 	
 	def update
@@ -40,12 +38,15 @@ class EternityInput < InputHandler
 	end
 	
 	private
+	# TODO: Make move have priority over jump - ie, move is evaluated first
+	# actually could be interesting if behavior is order-dependent
+	# 	move -> jump => more horizontal
+	# 	jump -> move => more vertical
+	#
+	# ideally want this processed in some component, not the input handler, so that the AI functions the same way as the player
 	
 	def move_player
-		# NOTE:	Currently favors movement left and up
-		# 		Thus, if both up and down are pressed, the player will move up
-		#~ puts @movement_dir.inspect
-		
+		# TODO: Consider moving this into a Component, so that the game does not allow AIs to move with full 360 degree freedom when players are constrained to 8-way movement
 		unless @movement_dir.empty?
 			move_direction = CP::Vec2.new(0,0)
 			
@@ -78,7 +79,6 @@ class EternityInput < InputHandler
 	
 	def init_gameplay_inputs
 		# Create actions
-		self.mode = :gameplay
 		
 		# new_action :close, :rising_edge do
 		# 	@window.close
@@ -87,30 +87,42 @@ class EternityInput < InputHandler
 		# new_action :show_fps, :rising_edge do
 		# 	@window.show_fps = !@window.show_fps
 		# end
+		puts "INIT INPUTS"
 		
 		[:up, :down, :left, :right].each do |direction|
-			new_action direction, :rising_edge do
-				@movement_dir.add direction
+			add_action direction do |action|
+				action.on_rising_edge do
+					@movement_dir.add direction
+				end
+				
+				action.on_falling_edge do
+					@movement_dir.delete direction
+				end
+			end
+		end
+		
+		add_action :run do |action|
+			action.on_rising_edge do
+				@player.running = true							
 			end
 			
-			new_action direction, :falling_edge do
-				@movement_dir.delete direction
+			action.on_falling_edge do
+				@player.running = false			
 			end
 		end
 		
-		new_action :run, :rising_edge do
-			@player.running = true
-		end
-		new_action :run, :falling_edge do
-			@player.running = false
-		end
-		
-		new_action :jump, :rising_edge do
-			@player.jump
+		add_action :jump do |action|
+			action.on_rising_edge do
+				@player.jump
+				
+				# Change behavior if holding down movement buttons				
+			end
 		end
 		
-		new_action :attack, :rising_edge do
-			@player.attack
+		add_action :attack do |action|
+			action.on_rising_edge do
+				@player.attack
+			end
 		end
 		
 		# new_action :reload_level, :rising_edge do
@@ -131,23 +143,6 @@ class EternityInput < InputHandler
 		# new_action :open_map, :rising_edge do
 		# 	@ui_state_manager.open_map
 		# 	self.mode = :map
-		# end
-	end
-	
-	def init_map_inputs
-		# self.mode = :map
-		
-		# new_action :close_map, :rising_edge do
-		# 	@ui_state_manager.pop Map
-		# 	self.mode = :gameplay
-		# end
-		
-		# new_action :zoom_in, :active do
-		# 	@ui_state_manager.current.camera.zoom_in
-		# end
-		
-		# new_action :zoom_out, :active do
-		# 	@ui_state_manager.current.camera.zoom_out
 		# end
 	end
 	
@@ -176,6 +171,23 @@ class EternityInput < InputHandler
 		# bind_action :zoom_reset, Gosu::Kb0
 		
 		# bind_action :open_map, Gosu::KbTab
+	end
+	
+	def init_map_inputs
+		# self.mode = :map
+		
+		# new_action :close_map, :rising_edge do
+		# 	@ui_state_manager.pop Map
+		# 	self.mode = :gameplay
+		# end
+		
+		# new_action :zoom_in, :active do
+		# 	@ui_state_manager.current.camera.zoom_in
+		# end
+		
+		# new_action :zoom_out, :active do
+		# 	@ui_state_manager.current.camera.zoom_out
+		# end
 	end
 	
 	def bind_map_inputs

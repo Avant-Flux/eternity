@@ -17,59 +17,37 @@ end
 # require 'gosu'
 
 require 'set'
+require 'state_machine'
 
-require './Utilities/InputType'
+require './Utilities/InputAction'
 
 class InputHandler
+	# InputHandler passes inputs to various InputType objects, which perform the heavy lifting
 	# Make sure that the input handlers can not be accessed outside of this class
 	
 	def initialize
 		# Map event names to functions
 		# Map keys to event names
-		@modes = {}
-		
-		# The current mode
-		@mode = nil
 		
 		# Set of buttons which are currently being pressed
 		@buttons = Set.new
-	end
-	
-	def mode=(mode)
-		# Set the current input mode.
-		# If the mode does not currently exist, create it.
 		
-		if @modes[mode]
-			# If the mode already exists, make sure to mark relevant input types as active
-			# Currently only marks actions
-			# TODO: Update other input types as well
-			@modes[mode][:action].each do |name, handler|
-				handler.buttons.each do |button|
-					if @buttons.include? button
-						handler.active = true
-						break
-					end
-				end
-				 
-			end
-		else
-			@modes[mode] = {:sequence => {}, :chord => {}, :flag => {}, :action => {}}
-		end
-		@mode = @modes[mode]
-		#~ @modes.each do |key, mode|
-			#~ puts "#{key} --> #{mode}"
-		#~ end
-		#~ puts mode
+		# Hold all InputAction instances managed by this handler
+		@actions = Hash.new
 	end
-	
+		
 	def update
 		#~ # puts
-		@mode.each do |type, events|
-			# puts type
-			events.each do |name, handler|
-				# puts "eval: #{name}"
-				handler.update
-			end
+		# @mode.each do |type, events|
+		# 	# puts type
+		# 	events.each do |name, handler|
+		# 		# puts "eval: #{name}"
+		# 		handler.update
+		# 	end
+		# end
+		
+		@actions.each do |name, action|
+			action.update
 		end
 	end
 	
@@ -79,35 +57,33 @@ class InputHandler
 	
 	def button_down(id)
 		puts "button #{id} down"
-		@buttons.add id
+		# @buttons.add id
+		@actions.each do |name, action|
+			action.button_down id
+		end
 	end
 	
 	def button_up(id)
 		puts "button #{id} up"
-		@buttons.delete id
+		# @buttons.delete id
+		@actions.each do |name, action|
+			action.button_up id
+		end
 	end
 	
-	[:action, :chord, :sequence].each do |input_type|
-		define_method "new_#{input_type}".to_sym do |name, type, &block|
-			if @mode[input_type][name]
-				@mode[input_type][name].functions[type] = block
-			else
-				klass = eval "InputType::#{input_type.capitalize}"
-				@mode[input_type][name] = klass.new(@mode, @buttons, type => block)
-			end
-		end
+	def add_action(name, &block)
+		action = Action.new name, &block
 		
-		define_method "bind_#{input_type}".to_sym do |name, trigger|
-			@mode[input_type][name].bind trigger
-		end
-		
-		define_method "unbind_#{input_type}".to_sym do |name|
-			@mode[input_type][name].unbind
-		end
-		
-		define_method "rebind_#{input_type}".to_sym do |name, trigger|
-			@mode[input_type][name].rebind trigger
-		end
+		@actions[action.name] = action
+	end
+	
+	def bind_action(name, binding)
+		@actions[name].bind binding
+	end
+	
+	# get action
+	def [](action_name)
+		@actions[action_name]
 	end
 	
 	def new_flag
@@ -144,10 +120,4 @@ class InputHandler
 		
 		return output
 	end
-	
-	#~ private
-	#~ 
-	#~ def process_input
-		#~ 
-	#~ end
 end
