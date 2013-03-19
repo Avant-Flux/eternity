@@ -163,13 +163,8 @@ module Component
 				if @physics.body.in_air?
 					if @physics.body.f.length > 0.0
 						direction = @physics.body.f.normalize
-						puts "force: #{@physics.body.f}"
-						puts direction.class
-						p direction
 						direction *= 5
-						p direction
-						@physics.body.v += direction
-						p @physics.body.v
+						@physics.body.v = direction
 					end
 				end
 			end
