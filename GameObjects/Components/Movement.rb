@@ -94,9 +94,31 @@ module Component
 		end
 		
 		def move(direction, type)
-			#~ puts direction
+			# Input specifies intent of heading
+			# Rotate towards heading
+				# use torque to rotate towards heading?
+			# always accelerate in direction of heading
+			# with this system, it is easy to increase forces if heading in opposite direction of current movement, or similar 
+			#
+			# should be allowed to specify right and up in separate move calls
+			# and still behave as expected
 			
-			vec = direction
+			
+			# create new heading vector
+			# create new half-way-to-heading vector
+			# torque torwards heading
+			# 	speed up until half way, then start to slow down
+			
+			vec = case direction
+				when :up
+					CP::Vec2.new(0,1)
+				when :down
+					CP::Vec2.new(0,-1)
+				when :left
+					CP::Vec2.new(-1,0)
+				when :right
+					CP::Vec2.new(1,0)
+			end
 			
 			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
 			
@@ -115,12 +137,9 @@ module Component
 			else
 				@physics.body.apply_force vec, CP::ZERO_VEC_2
 			end
-			
-			puts "MOVE"
 		end
 		
 		def jump
-			puts "JUMP"
 			if @jump_count < @jump_limit #Do not exceed the jump count.
 				@jump_count += 1
 				@physics.body.vz = @jump_velocity #On jump, set the velocity in the z direction

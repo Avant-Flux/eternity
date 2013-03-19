@@ -76,7 +76,6 @@ class InputHandler
 			# Waiting to be triggered
 			state :inactive do
 				def update
-					puts "INACTIVE"
 					@inactive_callback.call
 				end
 			end
@@ -84,7 +83,6 @@ class InputHandler
 			# Triggered
 			state :active do
 				def update
-					puts "ACTIVE"
 					@active_callback.call
 				end
 			end

@@ -27,8 +27,6 @@ class EternityInput < InputHandler
 	
 	def update
 		super()
-		
-		move_player
 	end
 	
 	def bind_input(action, key)
@@ -45,38 +43,6 @@ class EternityInput < InputHandler
 	#
 	# ideally want this processed in some component, not the input handler, so that the AI functions the same way as the player
 	
-	def move_player
-		# TODO: Consider moving this into a Component, so that the game does not allow AIs to move with full 360 degree freedom when players are constrained to 8-way movement
-		unless @movement_dir.empty?
-			move_direction = CP::Vec2.new(0,0)
-			
-			if @movement_dir.include? :up
-				move_direction += CP::Vec2.new(0,1)
-			end
-			
-			if @movement_dir.include? :down
-				move_direction += CP::Vec2.new(0,-1)
-			end
-			
-			if @movement_dir.include? :left
-				move_direction += CP::Vec2.new(-1,0)
-			end
-			
-			if @movement_dir.include? :right
-				move_direction += CP::Vec2.new(1,0)
-			end
-			
-			# Normalize will return (-nan, -nan) if magnitude is zero
-			move_direction.normalize! unless move_direction == CP::ZERO_VEC_2
-			
-			if @player.running
-				@player.move move_direction, :run
-			else
-				@player.move move_direction, :walk
-			end
-		end
-	end
-	
 	def init_gameplay_inputs
 		# Create actions
 		
@@ -91,12 +57,14 @@ class EternityInput < InputHandler
 		
 		[:up, :down, :left, :right].each do |direction|
 			add_action direction do |action|
-				action.on_rising_edge do
-					@movement_dir.add direction
-				end
-				
-				action.on_falling_edge do
-					@movement_dir.delete direction
+				action.while_active do
+					# NOTE: This method causes the player to move faster at a diagonal
+					
+					if @player.running
+						@player.move direction, :run
+					else
+						@player.move direction, :walk
+					end
 				end
 			end
 		end
