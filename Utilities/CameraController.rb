@@ -30,25 +30,23 @@ class CameraController
 			# puts "#{name}: #{machine.value}"
 		end
 		
-		# puts "UPDATING" if needs_update
-		player_pos = [
-			player.physics.body.p.x,
-			player.physics.body.pz,
-			-player.physics.body.p.y
-		]
-		player_pos.collect! do |i|
-			i.round 1
-		end
-		
-		p player_pos
-		
 		if needs_update
+			# puts "UPDATING"
+			
 			camera_offset
 			
 			# Orient camera towards the player
 			# NOTE: Oni::Camera#look_at can cause unexpected camera shake, due to problems with floating point precision used for position.  Best to not call every frame.
 			# may want to create Oni::Camera#set_auto_tracking instead
 			#  -- Ogre defines setAutoTracking to turn towards the tracked entity every frame
+			player_pos = [
+				player.physics.body.p.x,
+				player.physics.body.pz,
+				-player.physics.body.p.y
+			]
+			player_pos.collect! do |i|
+				i.round 1
+			end
 			@camera.look_at player_pos
 		end
 		
@@ -94,7 +92,6 @@ class CameraController
 		# Set camera offset
 		
 	end
-	
 	
 	private
 	
