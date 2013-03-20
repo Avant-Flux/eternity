@@ -102,9 +102,6 @@ class GameWindow < Oni::Window
 	def update(dt)
 		# puts dt
 		
-		@camera_controller.update dt, @player
-		
-		
 		@space.update dt
 		@inpman.update # process_input
 		
@@ -116,6 +113,7 @@ class GameWindow < Oni::Window
 		@player.update dt
 		@crab.update dt
 		
+		@camera_controller.update dt, @player
 		# pos = @offset.clone
 		# pos[0] += @player.physics.body.p.x
 		# pos[1] += @player.physics.body.pz

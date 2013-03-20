@@ -13,7 +13,7 @@ module Physics
 			
 			self.iterations = 10
 			# self.damping = 1.0
-						
+			
 			@g = -9.8
 			
 			@bodies = Set.new()
@@ -36,6 +36,10 @@ module Physics
 		
 		def update(dt)
 			@t_accumulator += dt
+			# t_cap = 0.2
+			# @t_accumulator = t_cap if @t_accumulator > t_cap
+			
+			# puts "tick ==== #{dt}"
 			
 			# Step multiple times
 			# update objects
@@ -58,15 +62,22 @@ module Physics
 			
 			# Integration
 			while @t_accumulator >= @dt do
-				# puts "step"
+				@t_accumulator -= @dt
+				# puts "tock #{@t_accumulator}"
+				
 				@bodies.each do |body|
 					vertical_integration body, @dt
 				end
 				
 				step(@dt) # Timestep in seconds
-				
-				@t_accumulator -= @dt
 			end
+			# @bodies.each do |body|
+			# 	vertical_integration body, @t_accumulator
+			# end
+			
+			# step(@t_accumulator) # Timestep in seconds
+			# @t_accumulator = 0
+			
 			# puts @t_accumulator
 			
 			# Reset forces for next game tick

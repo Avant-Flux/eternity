@@ -27,23 +27,38 @@ class CameraController
 		Machine.all.each do |name, machine|
 			needs_update ||= machine.update
 			
-			puts "#{name}: #{machine.value}"
+			# puts "#{name}: #{machine.value}"
 		end
 		
-		puts "UPDATING" if needs_update
-		
-		camera_offset if needs_update
-		
+		# puts "UPDATING" if needs_update
 		player_pos = [
 			player.physics.body.p.x,
 			player.physics.body.pz,
-			-player.physics.body.p.y		
+			-player.physics.body.p.y
 		]
+		player_pos.collect! do |i|
+			i.round 1
+		end
 		
-		# Orient camera towards the player
-		@camera.look_at player_pos
+		p player_pos
 		
-		set_offset player_pos
+		if needs_update
+			camera_offset
+			
+			# Orient camera towards the player
+			# NOTE: Oni::Camera#look_at can cause unexpected camera shake, due to problems with floating point precision used for position.  Best to not call every frame.
+			# may want to create Oni::Camera#set_auto_tracking instead
+			#  -- Ogre defines setAutoTracking to turn towards the tracked entity every frame
+			@camera.look_at player_pos
+		end
+		
+		
+		pos = @offset.clone
+		pos[0] += player.physics.body.p.x
+		pos[1] += player.physics.body.pz
+		pos[2] += -player.physics.body.p.y
+		
+		@camera.position = pos
 	end
 	
 	[:button_down, :button_up].each do |method_name|
@@ -55,7 +70,7 @@ class CameraController
 	end
 	
 	def camera_offset
-		puts "=======OFFSET"
+		# puts "=======OFFSET"
 		
 		zoom =Machine.all[:zoom].value
 		pitch = Machine.all[:pitch].value
@@ -77,11 +92,7 @@ class CameraController
 	
 	def set_offset(player_pos)
 		# Set camera offset
-		pos = @offset.clone
-		[0,1,2].each do |i|
-			pos[i] += player_pos[i]
-		end
-		@camera.position = pos
+		
 	end
 	
 	
