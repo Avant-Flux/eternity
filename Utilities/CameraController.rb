@@ -88,11 +88,6 @@ class CameraController
 		@offset = [x,y,z]
 	end
 	
-	def set_offset(player_pos)
-		# Set camera offset
-		
-	end
-	
 	private
 	
 	class Machine
