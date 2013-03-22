@@ -36,7 +36,7 @@ class Entity
 		# 	17 m / sec
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
 		@physics = Component::Collider::Circle.new self, :radius => 0.4, :height => 1.75,
-						:mass => 72.5, :moment => CP::INFINITY, :friction => 0.0,
+						:mass => 72.5, :friction => 0.0,
 						:collision_type => :entity, :model => @model
 		
 		@movement = Component::Movement.new @physics, @animation,

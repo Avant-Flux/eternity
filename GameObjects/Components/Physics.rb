@@ -75,7 +75,6 @@ module Component
 				
 				:height => 1,
 				:mass => 1,
-				:moment => CP::INFINITY,
 				:collision_type => nil,
 				
 				:radius => 1,
@@ -86,6 +85,7 @@ module Component
 			
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
+				opts[:moment] ||= (opts[:mass]*(opts[:radius]**2))/2
 				
 				super(gameobj, opts[:model], :Circle, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
@@ -123,7 +123,6 @@ module Component
 				
 				:height => 1,
 				:mass => 1,
-				:moment => CP::INFINITY,
 				:collision_type => nil,
 				
 				:width => 1,
@@ -135,6 +134,7 @@ module Component
 			
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
+				opts[:moment] ||= (opts[:mass]*(opts[:width]**2 + opts[:depth]**2))/12
 				
 				super(gameobj, opts[:model], :Rect, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
