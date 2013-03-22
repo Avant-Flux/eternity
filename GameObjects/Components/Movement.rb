@@ -160,8 +160,10 @@ module Component
 				# 	
 				# 	increased helplessness after double jump?
 				# 		reduce ability to change jump arc after the first in-air jump
+				# perhaps reduced verticality when pressing direction and jumping?
+				# 	essentially, long jump instead of high jump
 				if @physics.body.in_air?
-					if @physics.body.f.length > 0.0
+					if @physics.body.f.length > 0.0 # perhaps use heading instead?
 						direction = @physics.body.f.normalize
 						direction *= 5
 						@physics.body.v = direction
