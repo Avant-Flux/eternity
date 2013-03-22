@@ -58,6 +58,7 @@ module Physics
 			# Add forces
 			@bodies.each do |body|
 				apply_resistive_force body
+				apply_friction_about_axis body
 			end
 			
 			# Integration
@@ -83,6 +84,7 @@ module Physics
 			# Reset forces for next game tick
 			@bodies.each do |body|
 				body.reset_forces
+				body.torque = 0.0
 			end
 		end
 		
@@ -136,6 +138,53 @@ module Physics
 				
 				body.v.x = 0
 				body.v.y = 0
+			end
+		end
+		
+		def apply_friction_about_axis(body)
+			# counter torque - similar to resistive forces
+			# force essentially needs to go cw to generate cw torque
+			# cw torque will counter ccw angular motion
+			
+			# Apply angular acceleration in the reverse direction of motion
+			# acceleration should be relative to the moment of inertia
+			
+			# NOTE: In real physics, forces induce torque
+			# the only way to get rotation without translation, is to counter the force without countering the torque on the object
+				# apply one force for torque
+				# apply a second force at the axis
+					# this will modify the net force, without affecting torque
+			rotation = nil
+			
+			magnitude = body.w
+			rotation_threshold = 0.04
+			
+			if magnitude > rotation_threshold # Only apply resistive forces if object is in motion
+				#~ puts "spinning"
+				puts "CCW"
+				
+				rotation = 1
+			elsif magnitude < -rotation_threshold
+				puts "CW"
+				
+				rotation = -1
+			else
+				# If velocity is below a certain threshold, set it to zero.
+				# Used to combat inaccuracies with floats.
+				
+				body.w = 0.0
+			end
+			
+			if rotation
+				# should be applying "negative" torque
+				# opposite the current rotation
+				
+				# varying radius of force can be a neat way to simulate conservation of angular momentum
+				u = 0.2 # friction about axis can, and should, be different than surface friction
+				force = CP::Vec2.new(rotation * -1*body.m*@g * u, 0)
+				radius = CP::Vec2.new(0,1)
+				
+				body.torque += radius.cross force
 			end
 		end
 		
