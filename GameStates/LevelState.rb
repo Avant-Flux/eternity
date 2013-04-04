@@ -290,6 +290,17 @@ class LevelState
 			# 				node["scale"][0]["z"].to_f
 						# ]
 			
+			attenuation =	if node["light"][0]["lightAttenuation"]
+								[
+									node["light"][0]["colourDiffuse"][0]["range"].to_f,
+									node["light"][0]["colourDiffuse"][0]["constant"].to_f,
+									node["light"][0]["colourDiffuse"][0]["linear"].to_f,
+									node["light"][0]["colourDiffuse"][0]["quadratic"].to_f
+								]
+							else
+								nil
+							end
+			
 			diffuse =	if node["light"][0]["colourDiffuse"]
 							[
 								node["light"][0]["colourDiffuse"][0]["r"].to_f,
@@ -323,12 +334,13 @@ class LevelState
 			puts "#{node["name"]} --> #{light_type} #{position}"
 			
 			light = Oni::Light.new window, "#{state}_#{node_name}"
-			
+			p light.methods
 			light.type = light_type
 			
 			light.position = position
 			# light.rotation = rotation
 			# light.scale = scale # Don't think you can scale a light
+			light.attenuation = attenuation if attenuation
 			
 			light.diffuse = diffuse if diffuse
 			light.specular = specular if specular
