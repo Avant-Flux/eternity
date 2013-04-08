@@ -290,12 +290,18 @@ class LevelState
 			# 				node["scale"][0]["z"].to_f
 						# ]
 			
+			power_scale =	if node["light"][0]["powerScale"]
+								node["light"][0]["powerScale"].to_f
+							else
+								nil
+							end
+			
 			attenuation =	if node["light"][0]["lightAttenuation"]
 								[
-									node["light"][0]["colourDiffuse"][0]["range"].to_f,
-									node["light"][0]["colourDiffuse"][0]["constant"].to_f,
-									node["light"][0]["colourDiffuse"][0]["linear"].to_f,
-									node["light"][0]["colourDiffuse"][0]["quadratic"].to_f
+									node["light"][0]["lightAttenuation"][0]["range"].to_f,
+									node["light"][0]["lightAttenuation"][0]["constant"].to_f,
+									node["light"][0]["lightAttenuation"][0]["linear"].to_f,
+									node["light"][0]["lightAttenuation"][0]["quadratic"].to_f
 								]
 							else
 								nil
@@ -340,6 +346,7 @@ class LevelState
 			light.position = position
 			# light.rotation = rotation
 			# light.scale = scale # Don't think you can scale a light
+			light.power_scale = power_scale
 			light.attenuation = attenuation if attenuation
 			
 			light.diffuse = diffuse if diffuse
