@@ -68,7 +68,7 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 	#~ puts "Installing texplay"
 	#~ %x[gem install texplay --platform mswin32 --version 0.3.5]
 	
-	oni_version = "0.00.7"
+	oni_version = "0.00.8"
 	puts "Installing Oni game engine"
 	path_to_gem = File.join BASEPATH, "Dependencies", "oni-#{oni_version}-x86-mingw32.gem"
 	%x[gem install --local "#{path_to_gem}"]
