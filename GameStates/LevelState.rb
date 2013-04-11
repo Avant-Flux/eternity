@@ -246,8 +246,6 @@ class LevelState
 					
 					if node["light"]
 						# If the node has a light attached to it, create it
-						# NOTE: Don't pick up objects with "Lamp" in the name, just Lamp
-						# Set up lighting
 						load_light window, state, node
 					end
 				end
