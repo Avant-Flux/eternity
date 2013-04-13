@@ -66,6 +66,11 @@ module Component
 			@jump_limit = opts[:jump_limit]
 			
 			
+			# Variables to track rotation of the character
+			@heading = CP::Vec2.new(0,0) # direction the player is trying to go
+			@heading_halfway = CP::Vec2.new(0,0) # # halfway to the heading. this is so the code can track when to stop speeding up the rotation and start to slow down
+			@rotation = :none # :ccw, :cw, :none
+			
 			
 			@blender = LocomotionBlender.new	@animation["idle"], 
 												@animation["walk"],
@@ -91,6 +96,15 @@ module Component
 			speed = @physics.body.v.length
 			
 			@blender.update dt, speed
+			
+			
+			apply_movement_force
+			
+			
+			
+			# Reset heading vector
+			@heading.x = 0
+			@heading.y = 0
 		end
 		
 		def move(direction, type)
@@ -120,23 +134,25 @@ module Component
 					CP::Vec2.new(1,0)
 			end
 			
-			@physics.body.a = @physics.body.v.to_angle # NOTE: Not quite sure why checking for zero is unnecessary
+			@heading += vec
+			@heading.normalize! unless @heading == CP::ZERO_VEC_2
+			# puts "heading: #{@heading}"
 			
-			vec *= move_force
+			# vec *= move_force
 			
-			# Reduce forces considerably if the Entity is in the air
-			# TODO: Implement air dash
-			if @physics.body.in_air?
-				vec *= @air_force_control
-			end
+			# # Reduce forces considerably if the Entity is in the air
+			# # TODO: Implement air dash
+			# if @physics.body.in_air?
+			# 	vec *= @air_force_control
+			# end
 			
-			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
-			# TODO: Consider using force to counter friction for movement instead of clamping speed
-			if @physics.body.v.length > @max_movement_speed
-				@physics.body.v = @physics.body.v.clamp @max_movement_speed
-			else
-				@physics.body.apply_force vec, CP::ZERO_VEC_2
-			end
+			# # TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
+			# # TODO: Consider using force to counter friction for movement instead of clamping speed
+			# if @physics.body.v.length > @max_movement_speed
+			# 	@physics.body.v = @physics.body.v.clamp @max_movement_speed
+			# else
+			# 	@physics.body.apply_force vec, CP::ZERO_VEC_2
+			# end
 		end
 		
 		def jump
@@ -188,6 +204,104 @@ module Component
 				1000
 			else
 				1700
+			end
+		end
+		
+		private
+		
+		def apply_movement_force
+			# Process movement in #update, as movement forces should only be applied once per frame
+			# Rotational motion:
+			# tau = dL/dt			(change in angular momentum over time)
+			# tau_net = I*alpha
+			# -- similar to F = ma
+			
+			# chipmunk has no "apply_torque" function, so it may be better to just figure out how to apply forces to the body properly to generate the required angular acceleration
+			
+			# @physics.body.a = @physics.body.v.to_angle # vec(0,0) points down pos x axis
+			
+			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
+			# TODO: Consider using force to counter friction for movement instead of clamping speed
+			if @physics.body.v.length > @max_movement_speed
+				@physics.body.v = @physics.body.v.clamp @max_movement_speed
+			else
+				unless @heading == CP::ZERO_VEC_2
+					# simplified: 2 multiplications, one addition, and sqrt
+					# actually: 4 multiplications, 2 additions, 1 sqrt
+					# cos is closer to 1 as velocity gets closer to heading
+					cos = @heading.dot @physics.body.v.normalize
+					cos = 1.0 if cos >= 0.99 # snap to 1.0 if close enough
+						# More mathematically sound variant for 3+ dimensions
+						# sin(theta) = |u x v|/(|u| * |v|)
+						# cross_mag = @heading.cross @physics.body.v
+						# simplified: 2 sqrt, 1 division
+						# actually: 4 multiplications, 2 additions, 1 division, 1 sqrt
+						# sin = (cross_mag)/(@heading.length * @physics.body.v.length)
+					
+					# Using this method, cw is pos, ccw is negative
+					# 	cw means heading x velocity = positive
+					# 	this would only happen if velocity is ccw relative to heading
+					# 	thus, the perceived "flip"
+					cross = @heading.cross @physics.body.v
+					sign = if cross > 0.0
+						# sign is positive
+						-1
+					elsif cross < 0.0
+						# sign is negative
+						1
+					else
+						0
+					end
+					
+					
+					puts "cos #{cos}"
+					puts "sign #{sign}"
+					
+					
+					
+					
+					
+					# nan = 0.0/0.0
+					# unless cos.nan? || cos == 0.0 # if the cosine is usable
+						# Turn towards the target direction: @heading
+						sin = 1-cos
+						t = 10 * sin
+						
+						
+						
+						# if @rotation == :ccw
+						# 	# Angle is increasing
+						# 	if @physics.body.a > heading_halfway.to_angle
+						# 		# Slow down
+						# 		sign *= -1
+						# 	else
+						# 		# Speed up
+						# 		sign *= 1
+						# 	end
+						# elsif @rotation == :cw
+						# 	# Angle is decreasing
+						# 	if @physics.body.a < heading_halfway.to_angle
+						# 		# Slow down
+						# 		sign *= -1
+						# 	else
+						# 		# Speed up
+						# 		sign *= 1
+						# 	end
+						# end
+						
+						
+						
+						
+						
+						@physics.body.torque += sign * 200
+					# end
+					
+					
+					
+					# Apply force in the direction the character is currently visually facing
+					angle = @physics.body.a
+					@physics.body.apply_force angle.radians_to_vec2 * move_force, CP::ZERO_VEC_2
+				end
 			end
 		end
 		
