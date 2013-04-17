@@ -35,13 +35,13 @@ require './GameObjects/Creatures/Crab'
 require './GameStates/LevelStateManager'
 require './GameStates/LevelState'
 
-require 'gl'
-require 'glu'
-require 'glut'
+# require 'gl'
+# require 'glu'
+# require 'glut'
 
-include Gl
-include Glu
-include Glut
+# include Gl
+# include Glu
+# include Glut
 
 
 class GameWindow < Oni::Window
