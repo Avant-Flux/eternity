@@ -4,6 +4,8 @@ require 'set'
 
 module Physics
 	class Space < CP::Space
+		attr_accessor :u
+		
 		
 		def initialize
 			super()
@@ -15,6 +17,7 @@ module Physics
 			# self.damping = 1.0
 			
 			@g = -9.8
+			@u = 0.5
 			
 			@bodies = Set.new()
 		end
@@ -125,9 +128,10 @@ module Physics
 				
 				# TODO: Implement the following block as a true function
 				resistive_force = if body.in_air?
-					air_resistance body, direction_vector
+					body.air_resistance
 				else
-					friction body, direction_vector
+					
+					body.friction @u, @g
 				end
 				
 				body.apply_force resistive_force, CP::ZERO_VEC_2
@@ -180,7 +184,7 @@ module Physics
 			end
 			
 			if rotation
-				body.torque += resistive_torque
+				body.torque += body.resistive_torque @g
 			end
 		end
 		
@@ -201,35 +205,6 @@ module Physics
 			end
 			
 			body.pz = body.elevation
-		end
-		
-		def air_resistance(body, movement_direction)
-			return CP::ZERO_VEC_2
-		end
-		
-		def friction(body, movement_direction)
-			u = 0.5# Coefficient of friction
-			# TODO: Calculate coefficient of friction by adding surface and entity components
-			
-			# Normal force
-			# Currently assuming that all terrain is flat
-			# TODO:	Update normal force to take account of terrain
-			# 		Normal = mg*cos(theta)
-			normal = body.m * @g
-			
-			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
-		end
-		
-		def resistive_torque(body)
-			# should be applying "negative" torque
-			# opposite the current rotation
-			
-			# varying radius of force can be a neat way to simulate conservation of angular momentum
-			u = 0.2 # friction about axis can, and should, be different than surface friction
-			force = CP::Vec2.new(rotation * -1*body.m*@g * u, 0)
-			radius = CP::Vec2.new(0,1)
-			
-			return radius.cross force
 		end
 	end
 end
