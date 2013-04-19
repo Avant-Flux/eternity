@@ -196,7 +196,8 @@ module Component
 			speed = @physics.body.v.length
 			
 			if speed > 9
-				# 710 # Counteract friction
+				# @physics.body.friction(@g, @u) # Counteract friction
+				# NOTE: This will cause slight acceleration in air because there is no friction.
 				720
 			elsif speed > 7
 				1200
