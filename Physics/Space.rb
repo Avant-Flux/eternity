@@ -131,7 +131,7 @@ module Physics
 					body.air_resistance
 				else
 					
-					body.friction @u, @g
+					body.friction @g, @u
 				end
 				
 				body.apply_force resistive_force, CP::ZERO_VEC_2

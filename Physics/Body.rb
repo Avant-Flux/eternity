@@ -83,7 +83,7 @@ module Physics
 			return CP::ZERO_VEC_2
 		end
 		
-		def friction(space_u, g)
+		def friction(g, space_u)
 			movement_direction = self.v.normalize
 			
 			u = space_u + @u # Total friction coefficient accounts for both space and this object
