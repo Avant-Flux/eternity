@@ -151,9 +151,13 @@ module Physics
 			
 			# NOTE: In real physics, forces induce torque
 			# the only way to get rotation without translation, is to counter the force without countering the torque on the object
-				# apply one force for torque
-				# apply a second force at the axis
-					# this will modify the net force, without affecting torque
+			# 	apply one force for torque
+			# 	apply a second force at the axis
+			# 		this will modify the net force, without affecting torque
+			# 
+			# In a program, this is rather inefficient
+			# 	Why add a value just to subtract it back out?
+			# 	Instead, just apply a torque, rather than worrying about applying a force to make torque, and then another force to even out net force on the body.
 			rotation = nil
 			
 			magnitude = body.w
@@ -176,15 +180,7 @@ module Physics
 			end
 			
 			if rotation
-				# should be applying "negative" torque
-				# opposite the current rotation
-				
-				# varying radius of force can be a neat way to simulate conservation of angular momentum
-				u = 0.2 # friction about axis can, and should, be different than surface friction
-				force = CP::Vec2.new(rotation * -1*body.m*@g * u, 0)
-				radius = CP::Vec2.new(0,1)
-				
-				body.torque += radius.cross force
+				body.torque += resistive_torque
 			end
 		end
 		
@@ -222,6 +218,18 @@ module Physics
 			normal = body.m * @g
 			
 			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
+		end
+		
+		def resistive_torque(body)
+			# should be applying "negative" torque
+			# opposite the current rotation
+			
+			# varying radius of force can be a neat way to simulate conservation of angular momentum
+			u = 0.2 # friction about axis can, and should, be different than surface friction
+			force = CP::Vec2.new(rotation * -1*body.m*@g * u, 0)
+			radius = CP::Vec2.new(0,1)
+			
+			return radius.cross force
 		end
 	end
 end
