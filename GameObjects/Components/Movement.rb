@@ -198,7 +198,7 @@ module Component
 			if speed > 9
 				# @physics.body.friction(@g, @u) # Counteract friction (currently 710)
 				# NOTE: This ^ will cause slight acceleration in air because there is no friction.
-				720
+				710
 			elsif speed > 7
 				1200
 			elsif speed > 3
@@ -222,7 +222,7 @@ module Component
 				if w > (2*Math::PI * 2)
 					@physics.body.resistive_torque(-9.8) # Counteract friction
 				else
-					600
+					300
 				end
 			else
 				# On the ground
@@ -266,117 +266,21 @@ module Component
 			
 			# Move "forward" - in the direction the character is currently facing
 			# Apply force in the direction the character is currently visually facing
-			angle = @physics.body.a
-			@physics.body.apply_force angle.radians_to_vec2 * move_force, CP::ZERO_VEC_2
+			@physics.body.apply_force @physics.body.a.radians_to_vec2 * move_force, CP::ZERO_VEC_2
 		end
 		
 		def rotate_to_heading
-			# Rotate body towards heading
-			angle_bound = 0.1
-			angle = @heading.to_angle
+			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
 			
-			# puts "angle: #{@physics.body.a}"
-			# puts "w: #{@physics.body.w}"
-			# puts "f: #{@physics.body.f}"
+			dot = @physics.body.a.radians_to_vec2.dot heading_normal
 			
-			
-			# if @physics.body.a > Math::PI * 2
-			# 	@physics.body.a = Math::PI * 2
-			# elsif @physics.body.a < 0
-			# 	@physics.body.a = 0
-			# end
-			
-			# @physics.body.a %= Math::PI * 2
-			
-			
-			# If close enough to heading, lock at heading (double imprecision)
-			# Make sure to check if we have already overshot the heading
-			on_course =	if @physics.body.a.between? angle - angle_bound, angle + angle_bound
-							true
-						else
-							# Check if the target angle has been overshot
-							if @sign
-								if @sign > 0
-									# Positive
-									if @physics.body.a > angle + angle_bound
-										true # overshot, lock to "on course" position
-									else
-										false # good
-									end
-								elsif @sign < 0
-									# Negative
-									if @physics.body.a < angle - angle_bound
-										true # overshot, lock to "on course" position
-									else
-										false # good
-									end
-								end
-							else
-								false
-							end
-						end
-			
-			
-			
-			if on_course
-				# The body is headed in the target direction
-				puts "ON COURSE"
-				# @physics.body.w = 0
-				@physics.body.a = angle
+			rotation = if dot > 0
+				-1 # CW
 			else
-				# Not headed in the target direction
-			
-				# simplified: 2 multiplications, one addition, and sqrt
-				# actually: 4 multiplications, 2 additions, 1 sqrt
-				# cos is closer to 1 as velocity gets closer to heading
-				cos = @heading.dot @physics.body.v.normalize
-				cos = 1.0 if cos >= 0.99 # snap to 1.0 if close enough
-					# More mathematically sound variant for 3+ dimensions
-					# sin(theta) = |u x v|/(|u| * |v|)
-					# cross_mag = @heading.cross @physics.body.v
-					# simplified: 2 sqrt, 1 division
-					# actually: 4 multiplications, 2 additions, 1 division, 1 sqrt
-					# sin = (cross_mag)/(@heading.length * @physics.body.v.length)
-				
-				# Using this method, cw is pos, ccw is negative
-				# 	cw means heading x velocity = positive
-				# 	this would only happen if velocity is ccw relative to heading
-				# 	thus, the perceived "flip"
-				cross = @heading.cross @physics.body.v
-				@sign = if cross > 0.0
-					# sign is positive
-					-1
-				elsif cross < 0.0
-					# sign is negative
-					1
-				else
-					nil
-				end
-				
-				# puts "cos #{cos}"
-				# puts "sign #{sign}"
-				
-				# for a given target X, what A must be applied to reach that X in time T?
-				# 1/2*at^2 + vt + x = x_target
-				# acceleration is thus dependent on current velocity, as well as distance to target
-				
-				# Given:
-				#  current rotation
-				#  current torque
-				#  target rotation
-				# what torque must be applied to counter the torque before the destination?
-				#
-				# basically, what A will counter A_current before a target value of X?
-				#  at that point, acceleration and velocity must be 0
-				#  x == target
-				
-				# Key the torque the same way the move force is keyed
-				
-				# Negative is CW
-				# Positive is CCW
-				# @physics.body.torque += sign * 200
-				@physics.body.torque += @sign * move_torque if @sign
+				1 # CCW
 			end
+			
+			@physics.body.torque += rotation * move_torque				
 		end
 		
 		class LocomotionBlender
