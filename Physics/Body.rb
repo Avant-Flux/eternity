@@ -29,7 +29,7 @@ module Physics
 			
 			# Friction for this object.
 			# Will be added to Space friction to get coefficient of friction
-			@u = 0.0
+			@u = 0.4
 			@u_axis = 0.2 # friction about axis can, and should, be different than surface friction
 		end
 		
@@ -94,7 +94,7 @@ module Physics
 			# 		Normal = mg*cos(theta)
 			normal = self.m * g
 			
-			movement_direction*u*normal*2 # g is negative, so the direction will be reversed
+			movement_direction*u*normal # g is negative, so the direction will be reversed
 			# TODO: Figure out what the magic "2" is for (i think it's just a scaling factor to account for the unrealistic character proportion)
 		end
 		
