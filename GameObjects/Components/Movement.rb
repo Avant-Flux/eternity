@@ -280,7 +280,7 @@ module Component
 				1 # CCW
 			end
 			
-			@physics.body.torque += rotation * move_torque				
+			@physics.body.torque += rotation * move_torque
 		end
 		
 		class LocomotionBlender
