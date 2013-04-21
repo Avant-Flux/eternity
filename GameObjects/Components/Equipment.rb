@@ -1,9 +1,14 @@
 module Component
 	class Equipment
 		DEFAULT_OPTIONS = {
+			:head => nil,
+			
 			:body => nil,
 			:legs => nil,
-			:feet => nil
+			:feet => nil,
+			
+			:weapon_right => nil,
+			:weapon_left => nil
 		}
 		
 		def initialize(window, physics, base_model, base_animation, opts)
@@ -23,7 +28,12 @@ module Component
 			[:weapon_right].each do |weapon|
 				mesh_name = opts[weapon]
 				model = Component::Model.new window, mesh_name
-				@base_model.attach_object_to_bone "hand.R", model
+				
+				if :weapon_right
+					@base_model.attach_object_to_bone "hand.R", model
+				else # :weapon_left
+					@base_model.attach_object_to_bone "hand.L", model
+				end
 				
 				model.position = [0,0,0]
 				model.rotation = 0
@@ -35,9 +45,7 @@ module Component
 			
 			# Configure everything else
 			opts.each do |equipment_type, mesh_name|
-				unless mesh_name
-					next
-				end
+				next unless mesh_name
 				
 				@models[equipment_type] = Component::Model.new(window, mesh_name)
 				

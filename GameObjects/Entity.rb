@@ -49,13 +49,14 @@ class Entity
 						:jump_limit => 20000000000000000
 		
 		@equipment = Component::Equipment.new( window, @physics, @model, @animation,
-			:body => "jacket_weight",
-			:legs => "pants_weight",
-			:feet => "shoes_weight",
+			:head => "Hair",
+			
+			:body => "jacket",
+			:legs => "pants",
+			:feet => "shoes",
 			
 			:weapon_right => "Falchion"
 		)
-		
 		
 		# @stats = Component::Stats.new do
 		# 	strength		1
