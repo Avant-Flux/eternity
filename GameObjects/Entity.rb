@@ -48,10 +48,12 @@ class Entity
 						:jump_velocity => 4.3,
 						:jump_limit => 20000000000000000
 		
-		@equipment = Component::Equipment.new( window, @physics, @animation,
+		@equipment = Component::Equipment.new( window, @physics, @model, @animation,
 			:body => "jacket_weight",
 			:legs => "pants_weight",
-			:feet => "shoes_weight"
+			:feet => "shoes_weight",
+			
+			:weapon_right => "Falchion"
 		)
 		
 		

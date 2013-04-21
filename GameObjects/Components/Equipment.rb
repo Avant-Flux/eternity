@@ -6,15 +6,39 @@ module Component
 			:feet => nil
 		}
 		
-		def initialize(window, physics, base_animation, opts)
+		def initialize(window, physics, base_model, base_animation, opts)
 			opts = DEFAULT_OPTIONS.merge opts
 			
 			@physics = physics
+			@base_model = base_model
 			@base_animation = base_animation
 			
 			@models = Hash.new
 			@animations = Hash.new
+			
+			@weapon_models = Hash.new
+			
+			
+			# Configure weapons
+			[:weapon_right].each do |weapon|
+				mesh_name = opts[weapon]
+				model = Component::Model.new window, mesh_name
+				@base_model.attach_object_to_bone "hand.R", model
+				
+				model.position = [0,0,0]
+				model.rotation = 0
+				
+				opts.delete weapon
+				
+				@weapon_models[mesh_name] = model
+			end
+			
+			# Configure everything else
 			opts.each do |equipment_type, mesh_name|
+				unless mesh_name
+					next
+				end
+				
 				@models[equipment_type] = Component::Model.new(window, mesh_name)
 				
 				@animations[equipment_type] = Oni::Animation.new @models[equipment_type]
