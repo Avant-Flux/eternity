@@ -26,6 +26,8 @@ require_all './Physics'
 
 # require_all './UI'
 
+require_all './Equipment'
+
 
 require './GameObjects/StaticObject'
 require './GameObjects/Entity'

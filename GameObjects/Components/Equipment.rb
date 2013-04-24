@@ -1,82 +1,56 @@
 module Component
 	class Equipment
-		DEFAULT_OPTIONS = {
-			:head => nil,
-			
-			:body => nil,
-			:legs => nil,
-			:feet => nil,
-			:hands => nil,
-			
-			:weapon_right => nil,
-			:weapon_left => nil
-		}
+		BODY_SLOTS = [:head, :body, :legs, :feet, :hands]
+		WEAPON_SLOTS = [:weapon_right, :weapon_left]
 		
 		def initialize(window, physics, base_model, base_animation, opts)
-			opts = DEFAULT_OPTIONS.merge opts
-			
 			@physics = physics
 			@base_model = base_model
 			@base_animation = base_animation
 			
-			@models = Hash.new
 			@animations = Hash.new
 			
-			@weapon_models = Hash.new
-			
+			# TODO: Rename variable
+			@items = Hash.new
 			
 			# Configure weapons
-			[:weapon_right].each do |weapon|
-				mesh_name = opts[weapon]
-				model = Component::Model.new window, mesh_name
+			WEAPON_SLOTS.each do |slot|
+				item_name = opts[slot]
+				next unless item_name
 				
-				if :weapon_right
-					@base_model.attach_object_to_bone "hand.R", model
-				else # :weapon_left
-					@base_model.attach_object_to_bone "hand.L", model
+				item = Item::Weapon.new window, item_name, @base_model, [0,0,0], [0,0,0,0]
+				item.equip_to case slot
+					when :weapon_right
+						:right
+					when :weapon_left
+						:left
+					else
+						raise "Weapon must go in either right or left hand"
 				end
 				
-				model.position = [0,0,0]
-				model.rotation = 0
+				@items[slot] = item
 				
-				opts.delete weapon
-				
-				@weapon_models[mesh_name] = model
+				opts.delete slot
 			end
 			
 			# Configure everything else
-			opts.each do |equipment_type, mesh_name|
-				next unless mesh_name
+			BODY_SLOTS.each do |slot|
+				item_name = opts[slot]
+				next unless item_name
 				
-				@models[equipment_type] = Component::Model.new(window, mesh_name)
+				# These are non-weapons, items which have the Armor interface
+				klass = Item.const_get slot.to_s.capitalize.to_sym
 				
-				@animations[equipment_type] = Oni::Animation.new @models[equipment_type]
+				@items[slot] = klass.new window, item_name, @physics
 			end
 		end
 		
 		def update(dt)
-			@models.each_value do |m|
-				m.update dt
+			@items.each_value do |i|
+				i.update dt
 				
-				# Copied from Component::Collider::Base in Compnents/Physics.rb
-				m.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
-				m.rotation = @physics.body.a + Math::PI/2
-			end
-			
-			@animations.each_value do |a|
-				# Set the equipment model to match the animation for the body
-				a.animations.each do |animation_name|
-					if @base_animation[animation_name].enabled?
-						a[animation_name].enable
-						
-						# Copy state from base
-						a[animation_name].weight = @base_animation[animation_name].weight
-						a[animation_name].time = @base_animation[animation_name].time
-						a[animation_name].loop = @base_animation[animation_name].loop
-						a[animation_name].rate = @base_animation[animation_name].rate
-					else
-						a[animation_name].disable
-					end
+				if i.respond_to? :sync_animation
+					i.sync_animation @base_animation
 				end
 			end
 		end

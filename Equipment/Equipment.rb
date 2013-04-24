@@ -1,153 +1,147 @@
-#!/usr/bin/ruby
-module Equipable
-	def apply_effect(player)
-		player
-	end
-	
-	def remove_effect(player)
-		player
-	end
-end
-
-
-module Headgear
-	include Equipable
-	
-	class Hat
-		attr_reader :defence
+module Item # must be in module so that constants can be searched
+	class Equipment
+		attr_reader :model
 		
-		def initialize
-			@defence = 1
+		def initialize(window, name)
+			@model = Component::Model.new window, name
 		end
-	end
-	
-	class Helmet
 		
-	end
-	
-	class Mask
-		
-	end
-end
-
-module Upper
-	include Equipable
-	
-	class Shirt
-		attr_reader :defence
-		
-		def initialize
-			@defence = 1
-		end
-	end
-	
-	class Armor
-		
-	end
-end
-
-module Lower
-	include Equipable
-	
-	class Pants
-		attr_reader :defence
-		
-		def initialize
-			@defence = 1
-		end
-	end
-	
-	class Skirt
-		
-	end
-end
-
-module OuterWear
-	class Trenchcoat
-		attr_reader :defence
-		
-		def initialize
-			@defence = 1
-		end
-	end
-end
-
-module Footgear
-	include Equipable
-	
-	class Shoes
-		attr_reader :defence
-		
-		def initialize
-			@defence = 1
-		end
-	end
-	
-	class Sandals
-		
-	end
-	
-	class Boots
-		
-	end
-end
-
-module Weapons
-	module Axes
-		
-	end
-	
-	module Swords
-		class Scimitar
-			attr_accessor :durability, :charge_time, :charge
-			attr_reader :attack
+		# Apply effect
+		def equip
 			
-			def initialize
-				@durability = {:current => 100, :max => 100}
-				@charge_time = 2000
-				@charge = false
-				
-				@attack = 2
+		end
+		
+		# Remove effect
+		def unequip
+			
+		end
+	end
+
+	class Armor < Equipment
+		attr_reader :animation
+		
+		def initialize(window, name, physics)
+			super(window, name)
+			
+			@physics = physics
+			
+			@animation = Oni::Animation.new @model
+			
+			
+			# It complains that the skeletons are different...?
+			# @animation.share_skeleton_with @base_animation, 1.0
+		end
+		
+		def update(dt)
+			@model.update dt
+			
+			# Copied from Component::Collider::Base in Compnents/Physics.rb
+			# TODO: Depreciate this section when the skeleton is shared.  Failing that, make sure the entire Entity uses the same transforms so that this becomes unnecessary
+			@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
+			@model.rotation = @physics.body.a + Math::PI/2
+		end
+		
+		def equip
+			
+			
+			super
+		end
+		
+		def unequip
+			
+			
+			super
+		end
+		
+		# Sync with the base animation
+		# This should probably be depreciated in favor of setting the correct values for all parts only as necessary
+		def sync_animation(other_animation)
+			@animation.animations.each do |animation_name|
+				if other_animation[animation_name].enabled?
+					@animation[animation_name].enable
+					
+					# Copy state from base
+					@animation[animation_name].weight = other_animation[animation_name].weight
+					@animation[animation_name].time = other_animation[animation_name].time
+					@animation[animation_name].loop = other_animation[animation_name].loop
+					@animation[animation_name].rate = other_animation[animation_name].rate
+				else
+					@animation[animation_name].disable
+				end
 			end
 		end
 	end
-	
-	module Daggers
-		
+
+	class Head < Armor
+		def initialize(window, name, physics)
+			super(window, name, physics)
+		end
 	end
-	
-	module Maces
-		
+
+	class Body < Armor
+		def initialize(window, name, physics)
+			super(window, name, physics)
+		end
 	end
-	
-	module Clubs
-		
+
+	class Legs < Armor
+		def initialize(window, name, physics)
+			super(window, name, physics)
+		end
 	end
-	
-	module Knuckles
-		
+
+	class Feet < Armor
+		def initialize(window, name, physics)
+			super(window, name, physics)
+		end
 	end
-	
-	module Guns
-		class Handgun
-			attr_accessor :durability, :charge_time, :charge
-			attr_reader :attack
+
+	class Hands < Armor
+		def initialize(window, name, physics)
+			super(window, name, physics)
+		end
+	end
+
+	class Weapon < Equipment
+		RIGHT_HAND_BONE_NAME = "hand.R"
+		LEFT_HAND_BONE_NAME = "hand.L"
+		
+		def initialize(window, name, base_model, position, rotation)
+			super(window, name)
 			
-			def initialize
-				@durability = {:current => 100, :max => 100}
-				@charge_time = 2000
-				@charge = false
-				
-				@attack = 3
+			@base_model = base_model
+			
+			@position = position
+			@rotation = rotation
+		end
+		
+		def update(dt)
+			
+		end
+		
+		private :equip
+		def equip_to(hand)
+			case hand
+				when :right
+					@base_model.attach_object_to_bone RIGHT_HAND_BONE_NAME, @model
+				when :left
+					@base_model.attach_object_to_bone LEFT_HAND_BONE_NAME, @model
+				else
+					raise "Weapon must be placed in either the left or right hand."
 			end
+			
+			# @model.position = [0,0,0]
+			# @model.rotation_3D = [0,0,0,0]
+			@model.position = @position
+			# @model.rotation_3D = @rotation
+			
+			equip()
 		end
 		
-		class Revolver
+		def unequip
+			@base_model.remove_object_from_bone @model
 			
-		end
-		
-		class Shotgun
-			
+			super
 		end
 	end
 end
