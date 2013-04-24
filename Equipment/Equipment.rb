@@ -139,7 +139,7 @@ module Item # must be in module so that constants can be searched
 		end
 		
 		def unequip
-			@base_model.remove_object_from_bone @model
+			@base_model.detach_object_from_bone @model
 			
 			super
 		end
