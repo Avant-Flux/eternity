@@ -6,6 +6,7 @@ module Component
 			:body => nil,
 			:legs => nil,
 			:feet => nil,
+			:hands => nil,
 			
 			:weapon_right => nil,
 			:weapon_left => nil
