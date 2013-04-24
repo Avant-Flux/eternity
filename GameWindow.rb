@@ -26,6 +26,8 @@ require_all './Physics'
 
 # require_all './UI'
 
+require_all './Equipment'
+
 
 require './GameObjects/StaticObject'
 require './GameObjects/Entity'
@@ -45,7 +47,8 @@ require './GameStates/LevelState'
 
 
 class GameWindow < Oni::Window
-	def setup
+	def initialize
+		super("Eternity")
 		# @target_fps = 60
 		# Window should have a 16:9 aspect ratio
 		# super(1280, 720, false, (1.0/@target_fps)*1000)

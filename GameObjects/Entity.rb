@@ -48,6 +48,16 @@ class Entity
 						:jump_velocity => 4.3,
 						:jump_limit => 20000000000000000
 		
+		@equipment = Component::Equipment.new( window, @physics, @model, @animation,
+			:head => "Hair",
+			
+			:body => "jacket",
+			:legs => "pants",
+			:feet => "shoes",
+			
+			:weapon_right => "Falchion"
+		)
+		
 		# @stats = Component::Stats.new do
 		# 	strength		1
 		# 	constitution	1
@@ -67,16 +77,9 @@ class Entity
 		# TODO: Figure out what order components should update in
 		# If physics is always updated first, perhaps it should be updated as a system
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
-		[@model, @animation, @combat, @physics, @movement].each do |component|
+		[@model, @animation, @combat, @physics, @movement, @equipment].each do |component|
 			component.update dt
 		end
-		
-		# @model.update dt
-		# @animation.update dt
-		# @combat.update dt
-		# @physics.update dt
-		
-		# @movement.update dt
 	end
 	
 	def attack

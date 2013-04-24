@@ -35,7 +35,7 @@ if RUBY_PLATFORM.downcase.include?("linux")
 	
 	#~ gem "texplay", "~>0.4.2"
 	
-	oni_version = "0.00.8"
+	oni_version = "0.02.1"
 	gem "oni", oni_version
 	# gem "oni", oni_version, :github => "Avant-Flux/eternity", :branch => "master", :tag => oni_version
 elsif RUBY_PLATFORM.downcase.include?("mswin32")
