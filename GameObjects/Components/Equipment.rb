@@ -41,6 +41,7 @@ module Component
 				item = Item::Weapon.new	window, item_name, @base_model, 
 										[px, pz, -py],
 										[-88.683, 175.399, -78.193]
+				
 				item.equip_to case slot
 					when :weapon_right
 						:right
