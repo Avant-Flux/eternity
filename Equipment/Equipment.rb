@@ -1,5 +1,7 @@
 module Item # must be in module so that constants can be searched
 	class Equipment
+		ORIENTATION_CORRECTION = [0.707, 0.707, 0, 0] # w,x,y,z
+		
 		attr_reader :model
 		
 		def initialize(window, name)
@@ -26,7 +28,7 @@ module Item # must be in module so that constants can be searched
 			@physics = physics
 			
 			@position = [0,0,0]
-			@rotation = [1,0,0,0]
+			@rotation = [0,0,0]
 		end
 		
 		def update(dt)
@@ -42,6 +44,22 @@ module Item # must be in module so that constants can be searched
 			@base_model.attach_object_to_bone "head", @model
 			# @model.position = @position
 			# @model.rotate_3D @rotation
+			
+			# Blender positions objects relative to the tip of the bone
+			# Ogre positions objects relative to the base of the bone
+			# @position[1] += 
+			@model.position = @position # 3D vector: [0,0,0]
+			
+			
+			@model.reset_orientation
+			
+			# compensate for differences between Blender and Ogre
+			@model.rotate_3D ORIENTATION_CORRECTION
+			
+			# pitch, yaw, roll
+			# @model.pitch @rotation[0].to_rad
+			# @model.yaw @rotation[1].to_rad
+			# @model.roll -@rotation[2].to_rad
 			
 			super
 		end
@@ -138,7 +156,6 @@ module Item # must be in module so that constants can be searched
 		LEFT_HAND_BONE_NAME = "hand.L"
 		
 		HAND_BONE_LENGTH = 7.22612/100
-		ORIENTATION_CORRECTION = [0.707, 0.707, 0, 0] # w,x,y,z
 		
 		def initialize(window, name, base_model, position, rotation)
 			super(window, name)
