@@ -119,12 +119,12 @@ module Physics
 			
 			
 			if self.w > ROTATION_THRESHOLD # Only apply resistive forces if object is in motion
-				#~ puts "spinning"
-				puts "CCW"
+				# puts "spinning"
+				# puts "CCW"
 				
 				rotation = 1
 			elsif self.w < -ROTATION_THRESHOLD
-				puts "CW"
+				# puts "CW"
 				
 				rotation = -1
 			else
