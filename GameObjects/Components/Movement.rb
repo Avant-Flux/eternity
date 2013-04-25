@@ -267,6 +267,26 @@ module Component
 			# Move "forward" - in the direction the character is currently facing
 			# Apply force in the direction the character is currently visually facing
 			@physics.body.apply_force @physics.body.a.radians_to_vec2 * move_force, CP::ZERO_VEC_2
+			
+			
+			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
+			
+			# apply additional centripetal force for tighter turning
+			r = nil
+			if @physics.body.torque > 0
+				# CCW
+				# Go left
+				a_vec = @physics.body.a.radians_to_vec2
+				r = CP::Vec2.new(-a_vec.y, a_vec.x) # perpendicular vector
+			elsif @physics.body.torque < 0
+				# CW
+				# Go right
+				a_vec = @physics.body.a.radians_to_vec2
+				r = CP::Vec2.new(a_vec.y, -a_vec.x) # perpendicular vector
+			end
+			if r
+				@physics.body.apply_force r * move_force*0.5, CP::ZERO_VEC_2
+			end
 		end
 		
 		def rotate_to_heading
