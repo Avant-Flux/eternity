@@ -162,30 +162,8 @@ module Physics
 			# In a program, this is rather inefficient
 			# 	Why add a value just to subtract it back out?
 			# 	Instead, just apply a torque, rather than worrying about applying a force to make torque, and then another force to even out net force on the body.
-			rotation = nil
 			
-			magnitude = body.w
-			rotation_threshold = 0.04
-			
-			if magnitude > rotation_threshold # Only apply resistive forces if object is in motion
-				#~ puts "spinning"
-				puts "CCW"
-				
-				rotation = 1
-			elsif magnitude < -rotation_threshold
-				puts "CW"
-				
-				rotation = -1
-			else
-				# If velocity is below a certain threshold, set it to zero.
-				# Used to combat inaccuracies with floats.
-				
-				body.w = 0.0
-			end
-			
-			if rotation
-				body.torque += body.resistive_torque @g
-			end
+			body.torque += body.resistive_torque @g
 		end
 		
 		def set_initial_elevation(body, layers=CP::ALL_LAYERS, group=CP::NO_GROUP)
