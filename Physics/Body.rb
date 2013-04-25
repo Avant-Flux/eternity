@@ -152,7 +152,6 @@ module Physics
 			
 			# TODO: Eliminate need to multiply by -1
 			
-			u = 0.2 # friction about axis can, and should, be different than surface friction
 			force = CP::Vec2.new(rotation * -1*self.m*g * @u_axis, 0)
 			radius = CP::Vec2.new(0,1) # TODO: Optimize - 
 			
