@@ -17,6 +17,43 @@ module Item # must be in module so that constants can be searched
 		end
 	end
 
+	class Head < Equipment
+		def initialize(window, name, base_model, physics)
+			super(window, name)
+			
+			@base_model = base_model
+			
+			@physics = physics
+			
+			@position = [0,0,0]
+			@rotation = [1,0,0,0]
+		end
+		
+		def update(dt)
+			@model.update dt
+			
+			# Copied from Component::Collider::Base in Compnents/Physics.rb
+			# TODO: Depreciate this section when the skeleton is shared.  Failing that, make sure the entire Entity uses the same transforms so that this becomes unnecessary
+			# @model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
+			@model.rotation = @physics.body.a + Math::PI/2
+		end
+		
+		def equip
+			@base_model.attach_object_to_bone "head", @model
+			# @model.position = @position
+			# @model.rotate_3D @rotation
+			
+			super
+		end
+		
+		def unequip
+			@base_model.detach_object_from_bone @model
+			
+			super
+		end
+	end
+  
+
 	class Armor < Equipment
 		attr_reader :animation
 		
@@ -72,12 +109,6 @@ module Item # must be in module so that constants can be searched
 		end
 	end
 
-	class Head < Armor
-		def initialize(window, name, physics)
-			super(window, name, physics)
-		end
-	end
-
 	class Body < Armor
 		def initialize(window, name, physics)
 			super(window, name, physics)
@@ -106,6 +137,9 @@ module Item # must be in module so that constants can be searched
 		RIGHT_HAND_BONE_NAME = "hand.R"
 		LEFT_HAND_BONE_NAME = "hand.L"
 		
+		HAND_BONE_LENGTH = 7.22612/100
+		ORIENTATION_CORRECTION = [0.707, 0.707, 0, 0] # w,x,y,z
+		
 		def initialize(window, name, base_model, position, rotation)
 			super(window, name)
 			
@@ -130,10 +164,21 @@ module Item # must be in module so that constants can be searched
 					raise "Weapon must be placed in either the left or right hand."
 			end
 			
-			# @model.position = [0,0,0]
-			# @model.rotation_3D = [0,0,0,0]
-			@model.position = @position
-			# @model.rotation_3D = @rotation
+			# Blender positions objects relative to the tip of the bone
+			# Ogre positions objects relative to the base of the bone
+			@position[1] += HAND_BONE_LENGTH
+			@model.position = @position # 3D vector: [0,0,0]
+			
+			
+			@model.reset_orientation
+			
+			# compensate for differences between Blender and Ogre
+			@model.rotate_3D ORIENTATION_CORRECTION
+			
+			# pitch, yaw, roll
+			@model.pitch @rotation[0].to_rad
+			@model.yaw @rotation[1].to_rad
+			@model.roll -@rotation[2].to_rad
 			
 			equip()
 		end

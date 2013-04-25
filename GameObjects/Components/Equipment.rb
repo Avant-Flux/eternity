@@ -1,6 +1,7 @@
 module Component
 	class Equipment
-		BODY_SLOTS = [:head, :body, :legs, :feet, :hands]
+		HEAD_SLOTS = [:head]
+		BODY_SLOTS = [:body, :legs, :feet, :hands]
 		WEAPON_SLOTS = [:weapon_right, :weapon_left]
 		
 		def initialize(window, physics, base_model, base_animation, opts)
@@ -13,12 +14,33 @@ module Component
 			# TODO: Rename variable
 			@items = Hash.new
 			
-			# Configure weapons
+			HEAD_SLOTS.each do |slot|
+				item_name = opts[slot]
+				next unless item_name
+				
+				item = Item::Head.new window, item_name, @base_model, @physics
+				item.equip
+				
+				@items[slot] = item
+			end
+			
 			WEAPON_SLOTS.each do |slot|
 				item_name = opts[slot]
 				next unless item_name
 				
-				item = Item::Weapon.new window, item_name, @base_model, [0,0,0], [0,0,0,0]
+				# Blender: z up
+				# Ogre: z out, y up
+				# px = 0 # Off to one side of character
+				# py = 0 # Down the arm
+				# pz = 1 # Out
+				
+				px = -0.247874/100
+				py = -1.15424/100
+				pz = 1.13644/100
+				
+				item = Item::Weapon.new	window, item_name, @base_model, 
+										[px, pz, -py],
+										[-88.683, 175.399, -78.193]
 				item.equip_to case slot
 					when :weapon_right
 						:right
@@ -33,7 +55,6 @@ module Component
 				opts.delete slot
 			end
 			
-			# Configure everything else
 			BODY_SLOTS.each do |slot|
 				item_name = opts[slot]
 				next unless item_name
