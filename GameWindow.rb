@@ -31,7 +31,8 @@ require_all './Equipment'
 
 require './GameObjects/StaticObject'
 require './GameObjects/Entity'
-require './GameObjects/Creatures/Crab'
+# require './GameObjects/Creatures/Crab'
+require './GameObjects/Creatures/Lizard'
 	require_all './GameObjects/Components'
 
 require './GameStates/LevelStateManager'
@@ -82,7 +83,10 @@ class GameWindow < Oni::Window
 		@camera_controller = CameraController.new @camera
 		
 		
-		@crab = Crab.new self
+		# @crab = Crab.new self
+		@enemies = [
+			Lizard.new(self)
+		]
 		@player = Entity.new self, "Human_Male"
 		
 		# Input manager holds the only other reference to the camera
@@ -96,7 +100,9 @@ class GameWindow < Oni::Window
 		
 		# @player.physics.add_to @space # This works too
 		@space.add @player
-		@space.add @crab
+		@enemies.each do |e|
+			@space.add e
+		end
 		
 		@level_stack = LevelStateManager.new self
 		@level_stack.load @space, "Scrapyard"
@@ -114,7 +120,9 @@ class GameWindow < Oni::Window
 		@level_stack.update dt
 		
 		@player.update dt
-		@crab.update dt
+		@enemies.each do |e|
+			e.update dt
+		end
 		
 		@camera_controller.update dt, @player
 		# pos = @offset.clone

@@ -1,13 +1,18 @@
-// rockman.001 genrated by blender2ogre 0.5.9
+// bathroom genrated by blender2ogre 0.5.9
 
-material rockman.001 
+material bathroom 
 {
     receive_shadows on 
 
     technique
     {
-        pass rockman.001
+        pass bathroom
         {
+            ambient 0.800000011920929 0.7786666750907898 0.7786666750907898 1.0
+            diffuse 0.6400000190734865 0.622933349355062 0.622933349355062 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
             alpha_to_coverage off
             colour_write on
             cull_hardware clockwise
@@ -27,9 +32,10 @@ material rockman.001
 
             texture_unit 
             {
-                texture grayrock_seamless.jpg
+                texture bathroom2.jpg
                 tex_address_mode wrap
                 scale 1.0 1.0
+                tex_coord_set 0
                 colour_op modulate
             }
         }

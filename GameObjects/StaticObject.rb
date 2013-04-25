@@ -17,7 +17,7 @@ class StaticObject
 	
 	def initialize(window, name, mesh_name, opts={})
 		@model = Oni::Model.new window, name, mesh_name
-		@model.rotation_3D = opts[:rotation]
+		@model.rotate_3D opts[:rotation]
 		@model.scale = opts[:scale]
 		
 		opts[:mass] = CP::INFINITY
