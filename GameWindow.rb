@@ -28,12 +28,13 @@ require_all './Physics'
 
 require_all './Equipment'
 
+require_all './Animation'
+require_all './GameObjects/Components'
 
 require './GameObjects/StaticObject'
 require './GameObjects/Entity'
 # require './GameObjects/Creatures/Crab'
 require './GameObjects/Creatures/Lizard'
-	require_all './GameObjects/Components'
 
 require './GameStates/LevelStateManager'
 require './GameStates/LevelState'
