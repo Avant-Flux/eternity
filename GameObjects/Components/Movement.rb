@@ -257,6 +257,13 @@ module Component
 			
 			# Orient body relative to velocity
 			@physics.body.a = @physics.body.v.to_angle
+			# Snap to heading angle if close enough to remove stutter
+			heading_angle = @heading.to_angle
+			angle_error_bound = 2*Math::PI * 1/1000 # in radians
+			if @physics.body.a < heading_angle + angle_error_bound and
+			   @physics.body.a > heading_angle - angle_error_bound
+				@physics.body.a = heading_angle
+			end
 			
 			
 			# Forces applied relative to direction of the body
