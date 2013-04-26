@@ -141,14 +141,6 @@ module Component
 			# if @physics.body.in_air?
 			# 	vec *= @air_force_control
 			# end
-			
-			# # TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
-			# # TODO: Consider using force to counter friction for movement instead of clamping speed
-			# if @physics.body.v.length > @max_movement_speed
-			# 	@physics.body.v = @physics.body.v.clamp @max_movement_speed
-			# else
-			# 	@physics.body.apply_force vec, CP::ZERO_VEC_2
-			# end
 		end
 		
 		def jump
