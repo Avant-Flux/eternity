@@ -289,27 +289,28 @@ module Component
 			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
 			
 			dot = @physics.body.a.radians_to_vec2.dot heading_normal
-			
-			rotation = if dot > 0
-				:right # CW, aka turn RIGHT
-			else
-				:left # CCW, aka turn LEFT
-			end
-			
-			rotation_force_direction = case rotation
-				when :right
-					-heading_normal
-				when :left
-					heading_normal
-			end
+			puts dot
 			
 			
 			# Compute magnitude of rotation force
 			rotation_force = 1200
 			
-			
-			
-			@physics.body.apply_force rotation_force_direction * rotation_force, CP::ZERO_VEC_2
+			# Computer direction of rotation
+			# Apply rotation force if necessary
+			rotation = if dot == 1 || dot == -1
+				# Either go straight, or do a 180
+				# puts "180"
+			else
+				rotation_force_direction = if dot > 0
+					# CW, aka turn RIGHT
+					-heading_normal
+				else
+					# CCW, aka turn LEFT
+					heading_normal
+				end
+				
+				@physics.body.apply_force rotation_force_direction * rotation_force, CP::ZERO_VEC_2
+			end
 			
 			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
 		end
