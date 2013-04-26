@@ -47,8 +47,14 @@ module Item # must be in module so that constants can be searched
 			
 			# Blender positions objects relative to the tip of the bone
 			# Ogre positions objects relative to the base of the bone
-			# @position[1] += 
-			@model.position = @position # 3D vector: [0,0,0]
+			bone_head = [0, -1.869/100, 1.348]
+			bone_tail = [0, -3.281/100, 1.739]
+			bone_delta = [ bone_tail, bone_head ].transpose.collect {|x| x.reduce(:-)}
+			# convert from Blender coords to Ogre coords
+			bone_delta = [bone_delta[0], bone_delta[2], -bone_delta[1]]
+			
+			
+			@model.position = [ @position, bone_delta ].transpose.collect {|x| x.reduce(:+)}
 			
 			
 			@model.reset_orientation
