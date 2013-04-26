@@ -18,8 +18,10 @@ module Item # must be in module so that constants can be searched
 			
 		end
 	end
-
+	
 	class Head < Equipment
+		HEAD_BONE_NAME = "head"
+		
 		def initialize(window, name, base_model, physics)
 			super(window, name)
 			
@@ -41,7 +43,7 @@ module Item # must be in module so that constants can be searched
 		end
 		
 		def equip
-			@base_model.attach_object_to_bone "head", @model
+			@base_model.attach_object_to_bone HEAD_BONE_NAME, @model
 			# @model.position = @position
 			# @model.rotate_3D @rotation
 			
