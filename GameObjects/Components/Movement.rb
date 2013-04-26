@@ -196,33 +196,12 @@ module Component
 			end
 		end
 		
-		def move_torque
-			w = @physics.body.w
-			w *= -1 if w < 0.0 # insure value is positive
+		# def rotation_force
+		# 	# Dependent on current velocity
+		# 	# Dependent on angle to turn through?
+		#	# ie, angle between current body angle and specified heading
 			
-			# Rotation speed should be proportional to movement speed
-				# or is it movement force?
-				# point is, overall momentum should be altered more drastically at higher velocity
-			
-			
-			if @physics.body.in_air?
-				# Spin faster if airborne
-				if w > (2*Math::PI * 2)
-					@physics.body.resistive_torque(-9.8) # Counteract friction
-				else
-					300
-				end
-			else
-				# On the ground
-				
-				# Accelerate to particular rotational velocity, then hold that velocity
-				if w > (2*Math::PI * 1/2)
-					@physics.body.resistive_torque(-9.8) # Counteract friction
-				else
-					200
-				end
-			end
-		end
+		# end
 		
 		private
 		
@@ -250,45 +229,82 @@ module Component
 				@physics.body.v = @physics.body.v.clamp @max_movement_speed
 			end
 			
-			rotate_to_heading
-			
-			# Move "forward" - in the direction the character is currently facing
-			# Apply force in the direction the character is currently visually facing
-			@physics.body.apply_force @physics.body.a.radians_to_vec2 * move_force, CP::ZERO_VEC_2
 			
 			
-			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
 			
-			# apply additional centripetal force for tighter turning
-			r = nil
-			if @physics.body.torque > 0
-				# CCW
-				# Go left
-				a_vec = @physics.body.a.radians_to_vec2
-				r = CP::Vec2.new(-a_vec.y, a_vec.x) # perpendicular vector
-			elsif @physics.body.torque < 0
-				# CW
-				# Go right
-				a_vec = @physics.body.a.radians_to_vec2
-				r = CP::Vec2.new(a_vec.y, -a_vec.x) # perpendicular vector
+			# Instead of trying to point the angle of the body at the heading,
+			# work to point the velocity in that direction instead.
+			# The body should only turn when the Entity would turn.
+				# ex) 180 turn
+					# maybe actually > 90 deg turn?
+						# trigger turn animation
+					# for ~180 need another flip-around turn animation
+						# kinda a special case of the first turning thing
+			# 
+			# 
+			# Need to watch out for when the body is being pushed, without character intent
+			# ie) character gets shoved backwards
+				# in this case, need to display character facing OPPOSITE direction of velocity
+				# show some sort of "getting shoved" animation
+				# use the block animation?
+			# this case is really unlike the other cases anyway, because it results in the character getting shoved backwards, with little to no control over their own movement, other than maybe being able to stop faster.
+			
+			
+			# Need to decide on applying force at some angle to the velocity, or simply using a forward component and a sideways component
+				# separation allows to easily adjust turn radius versus linear / tangential acceleration
+			
+			
+			
+			# Orient body relative to velocity
+			@physics.body.a = @physics.body.v.to_angle
+			
+			
+			# Forces applied relative to direction of the body
+			# Should be consistent with the direction the character is visually facing
+			# (in most cases)
+			
+			# Apply movement force forward
+			# Unless player wants to go backwards, then go that way?
+			dot = @physics.body.a.radians_to_vec2.dot @heading
+			direction = if dot > 0
+				# Forward
+				1
+			else
+				# Backwards
+				-1
 			end
-			if r
-				@physics.body.apply_force r * move_force*0.5, CP::ZERO_VEC_2
-			end
-		end
-		
-		def rotate_to_heading
+			
+			@physics.body.apply_force	@physics.body.a.radians_to_vec2 * direction * move_force,
+										CP::ZERO_VEC_2
+			
+			# Apply turn force orthogonal to movement
+			# should be directed towards heading
 			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
 			
 			dot = @physics.body.a.radians_to_vec2.dot heading_normal
 			
 			rotation = if dot > 0
-				-1 # CW
+				:right # CW, aka turn RIGHT
 			else
-				1 # CCW
+				:left # CCW, aka turn LEFT
 			end
 			
-			@physics.body.torque += rotation * move_torque
+			rotation_force_direction = case rotation
+				when :right
+					-heading_normal
+				when :left
+					heading_normal
+			end
+			
+			
+			# Compute magnitude of rotation force
+			rotation_force = 1200
+			
+			
+			
+			@physics.body.apply_force rotation_force_direction * rotation_force, CP::ZERO_VEC_2
+			
+			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
 		end
 	end
 end
