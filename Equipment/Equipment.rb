@@ -39,13 +39,11 @@ module Item # must be in module so that constants can be searched
 			# Copied from Component::Collider::Base in Compnents/Physics.rb
 			# TODO: Depreciate this section when the skeleton is shared.  Failing that, make sure the entire Entity uses the same transforms so that this becomes unnecessary
 			# @model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
-			@model.rotation = @physics.body.a + Math::PI/2
+			# @model.rotation = @physics.body.a + Math::PI/2
 		end
 		
 		def equip
 			@base_model.attach_object_to_bone HEAD_BONE_NAME, @model
-			# @model.position = @position
-			# @model.rotate_3D @rotation
 			
 			# Blender positions objects relative to the tip of the bone
 			# Ogre positions objects relative to the base of the bone
