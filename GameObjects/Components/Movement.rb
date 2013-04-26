@@ -293,6 +293,10 @@ module Component
 		end
 		
 		def radial_force
+			# Should NOT be related to both angle to heading and current velocity.
+			# Angle is related to the current velocity, so this will result in a doubling-up, which may cause unexpected results
+			# (most likely, rapid acceleration)
+			
 			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
 			
 			dot = @physics.body.a.radians_to_vec2.dot heading_normal
