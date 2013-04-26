@@ -267,11 +267,17 @@ module Component
 				@physics.body.a = heading_angle
 			end
 			
-			
 			# Forces applied relative to direction of the body
 			# Should be consistent with the direction the character is visually facing
 			# (in most cases)
 			
+			@physics.body.apply_force tangential_force, CP::ZERO_VEC_2
+			@physics.body.apply_force radial_force, CP::ZERO_VEC_2
+			
+			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
+		end
+		
+		def tangential_force
 			# Apply movement force forward
 			# Unless player wants to go backwards, then go that way?
 			dot = @physics.body.a.radians_to_vec2.dot @heading
@@ -283,11 +289,10 @@ module Component
 				-1
 			end
 			
-			@physics.body.apply_force	@physics.body.a.radians_to_vec2 * direction * move_force,
-										CP::ZERO_VEC_2
-			
-			# Apply turn force orthogonal to movement
-			# should be directed towards heading
+			return @physics.body.a.radians_to_vec2 * direction * move_force
+		end
+		
+		def radial_force
 			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
 			
 			dot = @physics.body.a.radians_to_vec2.dot heading_normal
@@ -296,9 +301,10 @@ module Component
 			
 			# Computer direction of rotation
 			# Apply rotation force if necessary
-			rotation = if dot == 1 || dot == -1
+			if dot == 1 || dot == -1
 				# Either go straight, or do a 180
 				# puts "180"
+				return CP::ZERO_VEC_2
 			else
 				rotation_force_direction = if dot > 0
 					# CW, aka turn RIGHT
@@ -308,10 +314,8 @@ module Component
 					heading_normal
 				end
 				
-				@physics.body.apply_force rotation_force_direction * rotation_force, CP::ZERO_VEC_2
+				return rotation_force_direction * rotation_force
 			end
-			
-			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
 		end
 	end
 end
