@@ -18,37 +18,6 @@ module Item # must be in module so that constants can be searched
 			
 		end
 	end
-	
-	class Head < Equipment
-		def initialize(window, name, base_model, physics)
-			super(window, name)
-			
-			@base_model = base_model
-			
-			@physics = physics
-		end
-		
-		def update(dt)
-			@model.update dt
-			
-			# Copied from Component::Collider::Base in Compnents/Physics.rb
-			# TODO: Depreciate this section when the skeleton is shared.  Failing that, make sure the entire Entity uses the same transforms so that this becomes unnecessary
-			@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
-			@model.rotation = @physics.body.a + Math::PI/2
-		end
-		
-		def equip
-			@base_model.detach_object_from_bone @model
-			
-			super
-		end
-		
-		def unequip
-			
-			
-			super
-		end
-	end
 
 	class Head < Equipment
 		def initialize(window, name, base_model, physics)
