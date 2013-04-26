@@ -196,12 +196,13 @@ module Component
 			end
 		end
 		
-		# def rotation_force
-		# 	# Dependent on current velocity
-		# 	# Dependent on angle to turn through?
-		#	# ie, angle between current body angle and specified heading
+		def rotation_force
+			# Dependent on current velocity
+			# Dependent on angle to turn through?
+			# ie, angle between current body angle and specified heading
 			
-		# end
+			1200
+		end
 		
 		private
 		
@@ -291,9 +292,6 @@ module Component
 			dot = @physics.body.a.radians_to_vec2.dot heading_normal
 			puts dot
 			
-			
-			# Compute magnitude of rotation force
-			rotation_force = 1200
 			
 			# Computer direction of rotation
 			# Apply rotation force if necessary
