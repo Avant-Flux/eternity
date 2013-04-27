@@ -3,7 +3,11 @@ class Lizard
 	
 	def initialize(window)
 		@model = Component::Model.new window, "Lizard"
-		# @animation = Oni::Animation.new @model
+		
+		scale = 0.2
+		@model.scale scale, scale, scale
+		
+		@animation = Oni::Animation.new @model
 		
 		# TODO: Allow setting mass and moment through constructor, or based on stats
 		# Weight should be between 70-90 kg
@@ -26,7 +30,7 @@ class Lizard
 	
 	def update(dt)
 		# [@model, @animation, @physics, @movement].each do |component|
-		[@model, @physics].each do |component|
+		[@model, @animation, @physics].each do |component|
 			component.update dt
 		end
 	end
