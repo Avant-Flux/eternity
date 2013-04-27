@@ -1,6 +1,7 @@
 source "http://gemcutter.org"
 
 BASEPATH = File.absolute_path(File.dirname(__FILE__))
+ONI_VERSION = "0.02.3"
 
 if RUBY_PLATFORM.downcase.include?("linux")
 	# Check for existence of Gemfile.lock to determine if installer has been run before
@@ -35,8 +36,7 @@ if RUBY_PLATFORM.downcase.include?("linux")
 	
 	#~ gem "texplay", "~>0.4.2"
 	
-	oni_version = "0.02.3"
-	gem "oni", oni_version
+	gem "oni", ONI_VERSION
 	# gem "oni", oni_version, :github => "Avant-Flux/eternity", :branch => "master", :tag => oni_version
 elsif RUBY_PLATFORM.downcase.include?("mswin32")
 	puts "Installing for windows"
@@ -68,11 +68,10 @@ elsif RUBY_PLATFORM.downcase.include?("mingw")
 	#~ puts "Installing texplay"
 	#~ %x[gem install texplay --platform mswin32 --version 0.3.5]
 	
-	oni_version = "0.00.8"
 	puts "Installing Oni game engine"
-	path_to_gem = File.join BASEPATH, "Dependencies", "oni-#{oni_version}-x86-mingw32.gem"
+	path_to_gem = File.join BASEPATH, "Dependencies", "oni-#{ONI_VERSION}-x86-mingw32.gem"
 	%x[gem install --local "#{path_to_gem}"]
-	gem "oni", oni_version
+	gem "oni", ONI_VERSION
 elsif RUBY_PLATFORM.downcase.include?("darwin")
 	puts "Installing for OSX"
 	
