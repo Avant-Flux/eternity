@@ -121,13 +121,13 @@ module Component
 			
 			vec = case direction
 				when :up
-					CP::Vec2.new(0,1)
+					Physics::NORTH
 				when :down
-					CP::Vec2.new(0,-1)
+					Physics::SOUTH
 				when :left
-					CP::Vec2.new(-1,0)
+					Physics::WEST
 				when :right
-					CP::Vec2.new(1,0)
+					Physics::EAST
 			end
 			
 			@heading += vec
