@@ -200,8 +200,15 @@ module Component
 			# Dependent on current velocity
 			# Dependent on angle to turn through?
 			# ie, angle between current body angle and specified heading
+			speed = @physics.body.v.length
 			
-			1200
+			if speed > 7
+				1200
+			elsif speed > 3
+				1200
+			else
+				2000
+			end
 		end
 		
 		private
