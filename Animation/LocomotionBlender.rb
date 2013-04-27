@@ -1,8 +1,6 @@
 require 'state_machine'
 
 class LocomotionBlender
-	MOVEMENT_THRESHOLD = 0.01
-	
 	attr_reader :idle_animation, :walk_animation, :run_animation
 	attr_reader :timers
 	
@@ -62,7 +60,7 @@ class LocomotionBlender
 			run_to_walk
 		elsif speed > @walk_speed
 			walk
-		elsif speed > MOVEMENT_THRESHOLD
+		elsif speed > Physics::MOVEMENT_THRESHOLD
 			# Only one of these should fire, determined by the state machine
 			walk_to_idle
 			idle_to_walk
@@ -106,10 +104,10 @@ class LocomotionBlender
 				# Crossfade animations
 				easing = Oni::Animation::Ease.in_quad(
 								@walk_animation.weight,
-								speed - MOVEMENT_THRESHOLD,
+								speed - Physics::MOVEMENT_THRESHOLD,
 								b = 0.2,
 								c = 1.0 - b,
-								@walk_speed - MOVEMENT_THRESHOLD
+								@walk_speed - Physics::MOVEMENT_THRESHOLD
 							)
 				
 				@idle_animation.weight = 1.0 - easing
