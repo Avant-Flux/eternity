@@ -204,7 +204,7 @@ module Component
 			if speed > 7
 				1200
 			elsif speed > 3
-				1200
+				2000
 			else
 				2000
 			end
