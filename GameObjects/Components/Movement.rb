@@ -288,6 +288,28 @@ module Component
 			
 			
 			
+			# Turn characteristics
+				# Character faces the direction of momentum
+				
+				# Should not be able to make a 90 deg turn super fast when moving super fast
+				# should be able to make turns quickly while moving slowly
+				# should be able to make small turns (< 45) while moving fast
+				# should be able to make 90 turns while moving quickly
+				
+				# maintain constant tangential velocity while turning?
+			
+			# consider if this is even possible at all
+				# maybe it's not doable with digital inputs
+				# might need at least a "move quickly" modifier
+				# can "move quickly" be conflated with another command?
+					# dodge?
+					# "high profile" as in Assassin's Creed?
+			
+			
+			# should probably visualize on a polar graph, if it ends up being a "relative to angle" problem.  Would be easiest to show turn radius that way, I think?
+			
+			
+			
 			# Orient body relative to velocity
 			@physics.body.a = @physics.body.v.to_angle
 			
