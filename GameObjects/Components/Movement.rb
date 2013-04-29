@@ -54,7 +54,7 @@ module Component
 			@walk_force = opts[:walk_force]
 			@run_force = opts[:run_force]
 			
-			@running = false
+			@move_type = :walk
 			
 			@jump_velocity = opts[:jump_velocity]
 			@jump_count = 0
@@ -86,6 +86,7 @@ module Component
 			# Range = 1.5 - 0.5 = 1.0
 			
 			speed = @physics.body.v.length
+			puts speed
 			
 			@blender.update dt, speed
 			
@@ -102,18 +103,13 @@ module Component
 		def move(direction, type)
 			# Input specifies intent of heading
 			# Rotate towards heading
-				# use torque to rotate towards heading?
 			# always accelerate in direction of heading
 			# with this system, it is easy to increase forces if heading in opposite direction of current movement, or similar 
 			#
 			# should be allowed to specify right and up in separate move calls
 			# and still behave as expected
 			
-			
-			# create new heading vector
-			# create new half-way-to-heading vector
-			# torque torwards heading
-			# 	speed up until half way, then start to slow down
+			@move_type = type
 			
 			vec = case direction
 				when :up
@@ -163,10 +159,9 @@ module Component
 				# perhaps reduced verticality when pressing direction and jumping?
 				# 	essentially, long jump instead of high jump
 				if @physics.body.in_air?
-					if @physics.body.f.length > 0.0 # perhaps use heading instead?
-						direction = @physics.body.f.normalize
-						direction *= 5
-						@physics.body.v = direction
+					if @physics.body.v.length > 0.0 # perhaps use heading instead?
+						puts "JUMP"
+						@physics.body.v = @physics.body.f.normalize * @physics.body.v.length
 					end
 				end
 			end
@@ -179,58 +174,41 @@ module Component
 		def move_force
 			speed = @physics.body.v.length
 			
-			if speed > 9
-				# @physics.body.friction(@g, @u) # Counteract friction (currently 710)
-				# NOTE: This ^ will cause slight acceleration in air because there is no friction.
-				710
-			elsif speed > 7
-				1200
-			elsif speed > 3
-				1000
-			else
-				1700
+			force = case @move_type
+				when :walk
+					puts "walk"
+					if speed > 9
+						# Currently in run-level speed
+						# Slow down
+						@physics.body.friction(9.8, 0.5).length / 100 # fraction of force of friction
+					elsif speed > 6.5
+						# Outside of normal walking speed,
+						# but acceptable range for slowing down after run
+						@physics.body.friction(9.8, 0.5).length # counter friction
+					elsif speed > 6
+						# @physics.body.friction(@g, @u) # Counteract friction (currently 710)
+						# NOTE: This ^ will cause slight acceleration in air because there is no friction.
+						# 710
+						@physics.body.friction(9.8, 0.5).length
+					elsif speed > 3
+						1000
+					else
+						1700
+					end
+				when :run
+					puts "run"
+					if speed > 9
+						@physics.body.friction(9.8, 0.5).length # negate friction
+					else
+						1300
+					end
 			end
-		end
-		
-		def rotation_radius
-			speed = @physics.body.v.length
 			
-			if speed > Physics::MOVEMENT_THRESHOLD
-				return Oni::Animation::Ease.in_quad(
-					0,
-					speed - Physics::MOVEMENT_THRESHOLD,
-					0.4,
-					5,
-					@max_movement_speed
-				)
+			if @physics.body.in_air?
+				return force * @air_force_control
 			else
-				# radius is used as the denominator for rotation force
-				# thus, return identity of division
-				return 1
+				return force
 			end
-		end
-		
-		def rotation_force
-			# Dependent on current velocity
-			# Dependent on angle to turn through?
-			# ie, angle between current body angle and specified heading
-			speed = @physics.body.v.length
-			
-			# if speed > 7
-			# 	1200
-			# elsif speed > 3
-			# 	2000
-			# else
-			# 	2000
-			# end
-			
-			
-			# f = ma			2nd law
-			# f= m (v^2/r)		acceleration which causes circular motion
-			# f = m*(v**2/r)
-			v_sq = speed ** 2
-			
-			@physics.body.m * v_sq / rotation_radius
 		end
 		
 		private
@@ -307,65 +285,20 @@ module Component
 			
 			
 			
+			# Consider that perhaps angle shouldn't lock to velocity direction when there are no forces being applied by the entity to the body
+				# ie, the body will rotate freely when subjected to only outside stimuli
+			
+			
 			# Orient body relative to velocity
 			@physics.body.a = @physics.body.v.to_angle
 			
 			# Snap to heading angle if close enough to remove stutter
-			@physics.body.a = @physics.body.a.snap @heading.to_angle, 2*Math::PI * 1/720
+			# @physics.body.a = @physics.body.a.snap @heading.to_angle, 2*Math::PI * 1/720
 			
-			# Forces applied relative to direction of the body
-			# Should be consistent with the direction the character is visually facing
-			# (in most cases)
 			
-			@physics.body.apply_force tangential_force, CP::ZERO_VEC_2
-			@physics.body.apply_force radial_force, CP::ZERO_VEC_2
+			@physics.body.apply_force @heading * move_force, CP::ZERO_VEC_2
 			
 			# TODO: Fix bug which causes character to do a 360 spin before hitting destination angle. Only seems to occur at certain velocities.  May have to do with extra centripetal force.
-		end
-		
-		def tangential_force
-			# Apply movement force forward
-			# Unless player wants to go backwards, then go that way?
-			dot = @physics.body.a.radians_to_vec2.dot @heading
-			direction = if dot > 0
-				# Forward
-				1
-			else
-				# Backwards
-				-1
-			end
-			
-			return @physics.body.a.radians_to_vec2 * direction * move_force
-		end
-		
-		def radial_force
-			# Should NOT be related to both angle to heading and current velocity.
-			# Angle is related to the current velocity, so this will result in a doubling-up, which may cause unexpected results
-			# (most likely, rapid acceleration)
-			
-			heading_normal = CP::Vec2.new(-@heading.y, @heading.x)
-			
-			dot = @physics.body.a.radians_to_vec2.dot heading_normal
-			puts dot
-			
-			
-			# Computer direction of rotation
-			# Apply rotation force if necessary
-			if dot == 1 || dot == -1
-				# Either go straight, or do a 180
-				# puts "180"
-				return CP::ZERO_VEC_2
-			else
-				rotation_force_direction = if dot > 0
-					# CW, aka turn RIGHT
-					-heading_normal
-				else
-					# CCW, aka turn LEFT
-					heading_normal
-				end
-				
-				return rotation_force_direction * rotation_force
-			end
 		end
 	end
 end
