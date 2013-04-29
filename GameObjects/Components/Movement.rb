@@ -195,19 +195,45 @@ module Component
 			end
 		end
 		
+		def rotation_radius
+			speed = @physics.body.v.length
+			
+			if speed > Physics::MOVEMENT_THRESHOLD
+				return Oni::Animation::Ease.in_quad(
+					0,
+					speed - Physics::MOVEMENT_THRESHOLD,
+					0.4,
+					5,
+					@max_movement_speed
+				)
+			else
+				# radius is used as the denominator for rotation force
+				# thus, return identity of division
+				return 1
+			end
+		end
+		
 		def rotation_force
 			# Dependent on current velocity
 			# Dependent on angle to turn through?
 			# ie, angle between current body angle and specified heading
 			speed = @physics.body.v.length
 			
-			if speed > 7
-				1200
-			elsif speed > 3
-				2000
-			else
-				2000
-			end
+			# if speed > 7
+			# 	1200
+			# elsif speed > 3
+			# 	2000
+			# else
+			# 	2000
+			# end
+			
+			
+			# f = ma			2nd law
+			# f= m (v^2/r)		acceleration which causes circular motion
+			# f = m*(v**2/r)
+			v_sq = speed ** 2
+			
+			@physics.body.m * v_sq / rotation_radius
 		end
 		
 		private
