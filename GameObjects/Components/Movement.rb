@@ -63,9 +63,6 @@ module Component
 			
 			# Variables to track rotation of the character
 			@heading = CP::Vec2.new(0,0) # direction the player is trying to go
-			@heading_halfway = CP::Vec2.new(0,0) # # halfway to the heading. this is so the code can track when to stop speeding up the rotation and start to slow down
-			@rotation = :none # :ccw, :cw, :none
-			
 			
 			@blender = LocomotionBlender.new	@animation["idle"], 
 												@animation["walk"],
