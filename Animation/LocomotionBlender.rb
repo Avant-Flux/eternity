@@ -18,7 +18,7 @@ class LocomotionBlender
 		# Note: It is advised to not exceed 50% distortion
 		# less distortion results in a smoother blend
 		# but 0% distortion assumes infinitesimal samples (too smooth of a blend)
-		allowed_distortion = 0.3
+		allowed_distortion = 0.05
 		
 		@b = 0.0				# starting value of property - weight of run/walk
 		@c = 1.0-@b			# change in value of property - weight of run/walk
