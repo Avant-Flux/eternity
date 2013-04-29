@@ -37,7 +37,14 @@ module Physics
 			super(shape)
 		end
 		
-		def update(dt)
+		def apply_resistive_forces
+			@bodies.each do |body|
+				apply_resistive_force body
+				apply_friction_about_axis body
+			end
+		end
+		
+		def step(dt)
 			@t_accumulator += dt
 			# t_cap = 0.2
 			# @t_accumulator = t_cap if @t_accumulator > t_cap
@@ -58,11 +65,6 @@ module Physics
 			# Need to limit max number of physics ticks that can happen per
 			# game tick to eliminate the "spiral of death"
 			
-			# Add forces
-			@bodies.each do |body|
-				apply_resistive_force body
-				apply_friction_about_axis body
-			end
 			
 			# Integration
 			while @t_accumulator >= @dt do
@@ -73,7 +75,7 @@ module Physics
 					vertical_integration body, @dt
 				end
 				
-				step(@dt) # Timestep in seconds
+				super(@dt) # Timestep in seconds
 			end
 			# @bodies.each do |body|
 			# 	vertical_integration body, @t_accumulator
@@ -83,7 +85,9 @@ module Physics
 			# @t_accumulator = 0
 			
 			# puts @t_accumulator
-			
+		end
+		
+		def reset_forces
 			# Reset forces for next game tick
 			@bodies.each do |body|
 				body.reset_forces
@@ -124,7 +128,6 @@ module Physics
 				
 				# Friction should be in the opposite direction of velocity
 				# Parallel, but opposite sign
-				direction_vector = body.v / magnitude
 				
 				# TODO: Implement the following block as a true function
 				resistive_force = if body.in_air?

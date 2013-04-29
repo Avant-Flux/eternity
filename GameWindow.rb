@@ -111,19 +111,27 @@ class GameWindow < Oni::Window
 	
 	def update(dt)
 		# puts dt
+		@space.apply_resistive_forces
 		
-		@space.update dt
 		@inpman.update # process_input
+		
+		@player.movement.update dt
+		# @enemies.each do |e|
+		# 	e.movement.update dt
+		# end
+		
+		@space.step dt
+		
+		@player.update dt
+		@enemies.each do |e|
+			e.update dt
+		end
 		
 		# @state_manager.update # Update the entities within the active state
 		
 		# @ui_state_manager.update
 		@level_stack.update dt
 		
-		@player.update dt
-		@enemies.each do |e|
-			e.update dt
-		end
 		
 		@camera_controller.update dt, @player
 		# pos = @offset.clone
@@ -134,6 +142,8 @@ class GameWindow < Oni::Window
 		
 		
 		# puts @player.physics.body.v.length
+		
+		@space.reset_forces
 	end
 	
 	def draw
