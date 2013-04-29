@@ -54,15 +54,13 @@ module Component
 			@walk_force = opts[:walk_force]
 			@run_force = opts[:run_force]
 			
-			@move_type = :walk
-			
 			@jump_velocity = opts[:jump_velocity]
 			@jump_count = 0
 			@jump_limit = opts[:jump_limit]
 			
 			
-			# Variables to track rotation of the character
 			@heading = CP::Vec2.new(0,0) # direction the player is trying to go
+			@move_type = :walk # :walk, :run (specifies rate of motion)
 			
 			@blender = LocomotionBlender.new	@animation["idle"], 
 												@animation["walk"],
@@ -92,8 +90,6 @@ module Component
 			
 			
 			apply_movement_force
-			
-			
 			
 			# Reset heading vector
 			@heading.x = 0
@@ -125,14 +121,6 @@ module Component
 			@heading += vec
 			@heading.normalize! unless @heading == CP::ZERO_VEC_2
 			# puts "heading: #{@heading}"
-			
-			# vec *= move_force
-			
-			# # Reduce forces considerably if the Entity is in the air
-			# # TODO: Implement air dash
-			# if @physics.body.in_air?
-			# 	vec *= @air_force_control
-			# end
 		end
 		
 		def jump
@@ -160,7 +148,7 @@ module Component
 				# 	essentially, long jump instead of high jump
 				if @physics.body.in_air?
 					if @physics.body.v.length > 0.0 # perhaps use heading instead?
-						puts "JUMP"
+						# puts "JUMP"
 						@physics.body.v = @physics.body.f.normalize * @physics.body.v.length
 					end
 				end
@@ -176,7 +164,7 @@ module Component
 			
 			force = case @move_type
 				when :walk
-					puts "walk"
+					# puts "walk"
 					if speed > 9
 						# Currently in run-level speed
 						# Slow down
@@ -196,7 +184,7 @@ module Component
 						1700
 					end
 				when :run
-					puts "run"
+					# puts "run"
 					if speed > 9
 						@physics.body.friction(9.8, 0.5).length # negate friction
 					else
@@ -220,15 +208,18 @@ module Component
 			# tau_net = I*alpha
 			# -- similar to F = ma
 			
-			# chipmunk has no "apply_torque" function, so it may be better to just figure out how to apply forces to the body properly to generate the required angular acceleration
+			# Movement rules are different in air
+			# when in air, the character should have limited movement in the horizontal plane
+			# character rotates exponentially towards the direction specified by heading, in order to allow the player to turn for a backwards attack, or a mid-air jump
+				# exponential rotation allows for easily making close-to-current angle jumps (slow)
+				# or jumps in the target direction (locked limit of rotation)
 			
-			# @physics.body.a = @physics.body.v.to_angle # vec(0,0) points down pos x axis
+			# chipmunk has no "apply_torque" function, so it may be better to just figure out how to apply forces to the body properly to generate the required angular acceleration
 			
 			# If the body is supposed to move, it should have a heading
 			if @heading == CP::ZERO_VEC_2
 				return # just exit the method, nothing to see here
 			end
-			
 			
 			# Clamp movement speed at maximum possible speed (speed of light-style speed limit)
 			# TODO: Differentiate between trying to accelerate past max speed, and trying to move against momentum
@@ -237,64 +228,10 @@ module Component
 				@physics.body.v = @physics.body.v.clamp @max_movement_speed
 			end
 			
-			
-			
-			
-			# Instead of trying to point the angle of the body at the heading,
-			# work to point the velocity in that direction instead.
-			# The body should only turn when the Entity would turn.
-				# ex) 180 turn
-					# maybe actually > 90 deg turn?
-						# trigger turn animation
-					# for ~180 need another flip-around turn animation
-						# kinda a special case of the first turning thing
-			# 
-			# 
-			# Need to watch out for when the body is being pushed, without character intent
-			# ie) character gets shoved backwards
-				# in this case, need to display character facing OPPOSITE direction of velocity
-				# show some sort of "getting shoved" animation
-				# use the block animation?
-			# this case is really unlike the other cases anyway, because it results in the character getting shoved backwards, with little to no control over their own movement, other than maybe being able to stop faster.
-			
-			
-			# Need to decide on applying force at some angle to the velocity, or simply using a forward component and a sideways component
-				# separation allows to easily adjust turn radius versus linear / tangential acceleration
-			
-			
-			
-			# Turn characteristics
-				# Character faces the direction of momentum
-				
-				# Should not be able to make a 90 deg turn super fast when moving super fast
-				# should be able to make turns quickly while moving slowly
-				# should be able to make small turns (< 45) while moving fast
-				# should be able to make 90 turns while moving quickly
-				
-				# maintain constant tangential velocity while turning?
-			
-			# consider if this is even possible at all
-				# maybe it's not doable with digital inputs
-				# might need at least a "move quickly" modifier
-				# can "move quickly" be conflated with another command?
-					# dodge?
-					# "high profile" as in Assassin's Creed?
-			
-			
-			# should probably visualize on a polar graph, if it ends up being a "relative to angle" problem.  Would be easiest to show turn radius that way, I think?
-			
-			
-			
-			# Consider that perhaps angle shouldn't lock to velocity direction when there are no forces being applied by the entity to the body
-				# ie, the body will rotate freely when subjected to only outside stimuli
-			
-			
-			# Orient body relative to velocity
 			@physics.body.a = @physics.body.v.to_angle
 			
 			# Snap to heading angle if close enough to remove stutter
 			# @physics.body.a = @physics.body.a.snap @heading.to_angle, 2*Math::PI * 1/720
-			
 			
 			@physics.body.apply_force @heading * move_force, CP::ZERO_VEC_2
 			
