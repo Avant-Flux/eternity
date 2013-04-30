@@ -37,7 +37,7 @@ class Entity
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
 		@physics = Component::Collider::Circle.new self, :radius => 0.4, :height => 1.75,
 						:mass => 72.5, :friction => 0.0,
-						:collision_type => :entity, :model => @model
+						:collision_type => :entity
 		
 		@movement = Component::Movement.new @physics, @animation,
 						:max_movement_speed => 12,
@@ -48,10 +48,12 @@ class Entity
 						:jump_velocity => 4.3,
 						:jump_limit => 20000000000000000
 		
+		# TODO: Remove dependency on physics (share skeleton, or at least transform node)
 		@equipment = Component::Equipment.new( window, @physics, @model, @animation,
 			:head => "Hair",
 			
 			:body => "jacket",
+			:hands => nil,
 			:legs => "pants",
 			:feet => "shoes",
 			
@@ -79,9 +81,13 @@ class Entity
 		# TODO: Optimization - Update rotation of model only when the angle of the body is changed
 		
 		# NOTE: Do not update Movement component here, as it needs to updated BEFORE the physics step, while everything in this update should be evaluated AFTER
+		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
+		@model.rotation = @physics.body.a + Math::PI/2
+		
 		[@model, @animation, @combat, @physics, @equipment].each do |component|
 			component.update dt
 		end
+		
 	end
 	
 	def attack

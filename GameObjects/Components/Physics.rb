@@ -4,13 +4,11 @@ module Component
 		# Requires renaming the current Physics module to something else to avoid symbol collision
 		
 		class Base
-			attr_accessor :model
 			attr_reader :shape, :body, :height
 			
-			def initialize(gameobj, model, shape_type, collision_type, friction,
+			def initialize(gameobj, shape_type, collision_type, friction,
 						height, mass, moment, *args)
 				@gameobj = gameobj
-				@model = model
 				@height = height
 				
 				@body =	if mass == CP::INFINITY
@@ -29,10 +27,7 @@ module Component
 			end
 			
 			def update(dt)
-				if @model
-					@model.position = [@body.p.x, @body.pz, -@body.p.y]
-					@model.rotation = @body.a + Math::PI/2
-				end
+				
 			end
 			
 			def warp(x,y,z)
@@ -87,7 +82,7 @@ module Component
 				opts = DEFAULT_OPTIONS.merge opts
 				opts[:moment] ||= (opts[:mass]*(opts[:radius]**2))/2
 				
-				super(gameobj, opts[:model], :Circle, opts[:collision_type], opts[:friction],
+				super(gameobj, :Circle, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:radius], opts[:offset])
 			end
@@ -111,7 +106,7 @@ module Component
 			def initialize(gameobj, opts={})
 				opts = DEFAULT_OPTIONS.merge opts
 				
-				super(gameobj, opts[:model], :Poly, opts[:collision_type], opts[:friction],
+				super(gameobj, :Poly, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:verts], opts[:offset])
 			end
@@ -136,7 +131,7 @@ module Component
 				opts = DEFAULT_OPTIONS.merge opts
 				opts[:moment] ||= (opts[:mass]*(opts[:width]**2 + opts[:depth]**2))/12
 				
-				super(gameobj, opts[:model], :Rect, opts[:collision_type], opts[:friction],
+				super(gameobj, :Rect, opts[:collision_type], opts[:friction],
 					opts[:height], opts[:mass], opts[:moment],
 					opts[:width], opts[:depth], opts[:offset])
 			end
