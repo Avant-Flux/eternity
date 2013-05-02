@@ -27,6 +27,8 @@ module Component
 		attr_accessor :max_movement_speed
 		attr_accessor :walk_force, :run_force
 		
+		attr_reader :locomotion
+		
 		DEFAULT_OPTIONS = {
 			:max_movement_speed => 12,
 			:air_force_control => 1.0,
@@ -62,7 +64,7 @@ module Component
 			@heading = CP::Vec2.new(0,0) # direction the player is trying to go
 			@move_type = :walk # :walk, :run (specifies rate of motion)
 			
-			@blender = LocomotionBlender.new	@animation["idle"], 
+			@locomotion = LocomotionBlender.new	@animation["idle"], 
 												@animation["walk"],
 												@animation["run"]
 		end
@@ -86,7 +88,7 @@ module Component
 			speed = @physics.body.v.length
 			puts speed
 			
-			@blender.update dt, speed
+			@locomotion.update dt, speed
 			
 			
 			apply_movement_force
