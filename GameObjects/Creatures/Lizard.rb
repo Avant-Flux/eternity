@@ -14,7 +14,10 @@ class Lizard
 		# Max speed should not exceed 64km/hr
 		# 	17 m / sec
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
-		@physics = Component::Collider::Rect.new self, :width => 2, :depth => 4, :height => 1.75,
+		@physics = Component::Collider::Rect.new self, 
+						:width => @model.bb_depth*scale,
+						:depth => @model.bb_width*scale,
+						:height => @model.bb_height*scale,
 						:mass => 72.5, :moment => 2, :friction => 0.0,
 						:offset => :centered, :collision_type => :entity
 		
