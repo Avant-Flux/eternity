@@ -16,7 +16,7 @@ class Lizard
 		# TODO: Rename this component to Physics, and rename the Physics::Rect module
 		@physics = Component::Collider::Rect.new self, :width => 2, :depth => 4, :height => 1.75,
 						:mass => 72.5, :moment => 2, :friction => 0.0,
-						:offset => :centered, :collision_type => :entity, :model => @model
+						:offset => :centered, :collision_type => :entity
 		
 		# @movement = Component::Movement.new @physics, @animation,
 		# 				:max_movement_speed => 12,
@@ -29,6 +29,9 @@ class Lizard
 	end
 	
 	def update(dt)
+		@model.position = [@physics.body.p.x, @physics.body.pz, -@physics.body.p.y]
+		@model.rotation = @physics.body.a + Math::PI/2
+		
 		# [@model, @animation, @physics, @movement].each do |component|
 		[@model, @animation, @physics].each do |component|
 			component.update dt
