@@ -1,7 +1,9 @@
 module Component
 	class Combat
-		def initialize(animation)
-			# TODO: Create better Model ID assigning algorithm
+		attr_accessor :handedness
+		
+		def initialize(animation, locomotion)
+			# TODO: Take only two attack animations as input, not the entire animation component
 			@animation = animation
 			
 			@attack_right = true # either swing sword to the left, or to the right

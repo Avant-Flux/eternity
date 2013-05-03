@@ -72,7 +72,7 @@ class Entity
 		# @stats.strength
 		# @stats.strength = 1
 		
-		@combat = Component::Combat.new @animation
+		@combat = Component::Combat.new @animation, @movement.locomotion
 	end
 	
 	def update(dt)
