@@ -79,6 +79,46 @@ class LocomotionBlender
 		play dt, speed
 	end
 	
+	# Should only be querying enabled animations
+	# [:enable, :disable, :weight, :weight=, :rate, :rate=, :time, :time=].each do |method|
+	# 	define_method method do |*args|
+	# 		[@idle_animation, @walk_animation, @run_animation].each do |animation|
+	# 			return animation.send method, *args if animation.enabled?
+	# 		end
+	# 	end
+	# end
+	[:enable, :disable].each do |method|
+		define_method method do |*args|
+			[@idle_animation, @walk_animation, @run_animation].each do |animation|
+				animation.send method
+			end
+			
+			return nil
+		end
+	end
+	
+	# Set weight for locomotion as a whole
+	def weight=(influence)
+		# Basically, idle, walk, and run add to make a whole animation, called locomotion
+		# the weight of locomotion as a whole needs to be set
+		# to set the weight of locomotion, set the weights of components proportionally
+		animations = [@idle_animation, @walk_animation, @run_animation]
+		
+		total = 0
+		animations.each {|a| total += a.weight if a.enabled?}
+		# total = animation.collect{|a| a.enabled? ? a.weight : 0}.reduce(:+)
+		
+		animations.each do |a|
+			next unless a.enabled?
+			
+			a.weight = a.weight / total
+			
+			a.weight *= influence
+		end
+		
+	end
+	
+	
 	# TODO: POLISH - Need sneaking animation
 	
 	state_machine :state, :initial => :idling do
